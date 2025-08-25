@@ -1,4 +1,6 @@
 ## VISUAL STUDIO
+
+
 # User-specific files
 *.rsuser
 *.suo
@@ -418,9 +420,11 @@ FodyWeavers.xsd
 
 
 
-## RIDER
+## JETBRAINS RIDER
+
 
 # User-specific stuff
+.idea/
 .idea/**/workspace.xml
 .idea/**/tasks.xml
 .idea/**/usage.statistics.xml
