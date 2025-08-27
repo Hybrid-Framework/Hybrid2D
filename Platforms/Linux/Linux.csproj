@@ -13,15 +13,30 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <Content Include="..\..\Engine\Assets\**\*">
+            <Link>.Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <TargetPath>Assets\%(RecursiveDir)%(Filename)%(Extension)</TargetPath>
+        </Content>
+        
         <Compile Include="..\..\Engine\**\*.cs" Exclude="..\**\bin\**;..\**\obj\**">
             <Link>.Engine\%(RecursiveDir)%(Filename)%(Extension)</Link>
         </Compile>
-    </ItemGroup>
 
-    <ItemGroup>
         <Compile Include="..\..\App\**\*.cs" Exclude="..\**\bin\**;..\**\obj\**">
             <Link>.App\%(RecursiveDir)%(Filename)%(Extension)</Link>
         </Compile>
+    </ItemGroup>
+
+    <PropertyGroup>
+        <Architecture Condition="'$(RuntimeIdentifier)' == ''">$(NETCoreSdkRuntimeIdentifier)</Architecture>
+        <Architecture Condition="'$(RuntimeIdentifier)' != ''">$(RuntimeIdentifier)</Architecture>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Content Include="..\..\Natives\$(Architecture)\**\*.so">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
 </Project>
