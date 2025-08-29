@@ -1,6 +1,5 @@
 using Android.Content.PM;
 using Org.Libsdl.App;
-using SDL = SDL2.SDL;
 
 [Activity(Label = "Android", 
     Exported = true,
@@ -8,13 +7,14 @@ using SDL = SDL2.SDL;
     HardwareAccelerated = true,
     AlwaysRetainTaskState = true,
     LaunchMode = LaunchMode.SingleInstance,
-    Theme = "@android:style/Theme.NoTitleBar.Fullscreen"
+    Theme = "@android:style/Theme.NoTitleBar.Fullscreen",
+    ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize
     )]
 public class MainActivity : SDLActivity
 {
     protected override void Entry()
     {
-        using (var app = new Engine.Game("Hello", 800, 600, SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN))
+        using (var app = new Engine.Tests("Hello", 800, 600, SDL2.SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN | SDL2.SDL.SDL_WindowFlags.SDL_WINDOW_RESIZABLE))
         {
             while (app.Update())
             {

@@ -111,7 +111,7 @@ namespace Engine
                     return false;
                 }
 
-                if (e.type == SDL_EventType.SDL_MOUSEBUTTONDOWN || e.type == SDL_EventType.SDL_FINGERDOWN)
+                if (e.type == SDL_EventType.SDL_MOUSEBUTTONDOWN)
                 {
                     test++;
                     if (test > 5) test = 0;

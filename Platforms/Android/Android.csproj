@@ -23,6 +23,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <AndroidAsset Include="..\..\Engine\Assets\**\*">
+            <LogicalName>Assets/%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+        </AndroidAsset>
+
         <Compile Include="..\..\Engine\**\*.cs" Exclude="..\**\bin\**;..\**\obj\**">
             <Link>.Engine\%(RecursiveDir)%(Filename)%(Extension)</Link>
         </Compile>
