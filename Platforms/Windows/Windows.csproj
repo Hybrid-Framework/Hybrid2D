@@ -34,7 +34,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Content Include="..\..\Natives\$(Architecture)\**\*.dll">
+        <Content Include="..\..\Natives\Windows\$(Architecture)\**\*.dll">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
     </ItemGroup>

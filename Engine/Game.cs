@@ -1,7 +1,4 @@
-﻿using static SDL2.SDL_image;
-using static SDL2.SDL_mixer;
-using static SDL2.SDL_ttf;
-using static SDL2.SDL;
+﻿using static SDL2.SDL;
 using System;
 
 namespace Engine
@@ -14,20 +11,12 @@ namespace Engine
         
         public Game(string title, int width, int height, SDL_WindowFlags flags)
         {
-            if (TTF_Init() < 0) throw new Exception($"SDL TTF: {TTF_GetError()}");
-            
-            if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) throw new Exception($"SDL: {SDL_GetError()}");
-            
-            if (IMG_Init(IMG_InitFlags.IMG_INIT_JPG | IMG_InitFlags.IMG_INIT_PNG) < 0) throw new Exception($"SDL IMAGE: {IMG_GetError()}");
-
-            if (Mix_Init(MIX_InitFlags.MIX_INIT_MP3 | MIX_InitFlags.MIX_INIT_OGG) < 0) throw new Exception($"SDL MIXER: {Mix_GetError()}");
-            
-            if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) throw new Exception($"SDL MIXER: {Mix_GetError()}");
+            if (SDL_Init(SDL_INIT_VIDEO) < 0) throw new Exception($"SDL: {SDL_GetError()}");
 
             window = SDL_CreateWindow(title, width, height, flags);
             if (window == IntPtr.Zero) throw new Exception($"SDL: {SDL_GetError()}");
 
-            renderer = SDL_CreateRenderer(window, -1, SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
+            renderer = SDL_CreateRenderer(window, -1, SDL_RendererFlags.SDL_RENDERER_ACCELERATED | SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC);
             if(renderer == IntPtr.Zero) throw new Exception($"SDL: {SDL_GetError()}");
             
             FPSCounter.Start();
@@ -63,9 +52,6 @@ namespace Engine
         {
             SDL_DestroyRenderer(renderer);
             SDL_DestroyWindow(window);
-            TTF_Quit();
-            Mix_Quit();
-            IMG_Quit();
             SDL_Quit();
         }
     }

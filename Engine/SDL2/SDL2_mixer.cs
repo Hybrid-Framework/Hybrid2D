@@ -36,8 +36,7 @@ namespace SDL2
 	public static class SDL_mixer
 	{
 		#region SDL2# Variables
-
-		/* Used by DllImport to load the native library. */
+		
 		private const string nativeLibName = "SDL2_mixer";
 
 		#endregion

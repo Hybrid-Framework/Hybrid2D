@@ -1,14 +1,26 @@
-﻿using System;
+using System.Runtime.InteropServices.JavaScript;
+using Engine;
 
-public static class Program
+public static partial class Program
 {
-    public static void Main()
+    [JSImport("setMainLoop", "main.js")]
+    private static partial void SetMainLoop([JSMarshalAs<JSType.Function>] Action cb);
+    private static Tests? Game = null;
+    private static void Main() { }
+
+    [JSExport]
+    private static void Entry()
     {
-        using (var app = new Engine.Game("Hello", 800, 600, SDL2.SDL.SDL_WindowFlags.SDL_WINDOW_NOFLAGS))
+        if (Game == null)
         {
-            while (app.Update())
+            Game = new Tests($"Hello", 1280, 768, SDL2.SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN);
+        }
+        else
+        {
+            if (!Game.Update())
             {
-                
+                Game.Dispose();
+                Game = null;
             }
         }
     }

@@ -169,7 +169,7 @@ for ARCH in "${ARCHS[@]}"; do
     DEST_SUBDIR="${ARCH_MAP[$ARCH]}"
     [[ -n "$DEST_SUBDIR" ]] || { echo "Unknown arch $ARCH"; continue; }
 
-    DEST_DIR="$BASE_DIR/../Natives/$DEST_SUBDIR"
+    DEST_DIR="$BASE_DIR/../Natives/Windows/$DEST_SUBDIR"
     mkdir -p "$DEST_DIR"
     echo "Copying DLLs for $ARCH to $DEST_DIR"
 

@@ -41,7 +41,7 @@ namespace SDL2
 	public static class SDL
 	{
 		#region SDL2# Variables
-
+		
 		private const string nativeLibName = "SDL2";
 
 		#endregion

@@ -41,36 +41,63 @@ namespace Engine
             window = SDL_CreateWindow(title, width, height, flags);
             if (window == IntPtr.Zero) throw new Exception($"SDL: {SDL_GetError()}");
 
-            renderer = SDL_CreateRenderer(window, -1, SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
+            renderer = SDL_CreateRenderer(window, -1, SDL_RendererFlags.SDL_RENDERER_ACCELERATED | SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC);
             if(renderer == IntPtr.Zero) throw new Exception($"SDL: {SDL_GetError()}");
             
+            FileSystem();
             Initialize();
+        }
+
+        public void FileSystem()
+        {
+            string currentDirectory = Directory.GetCurrentDirectory();
+
+            // Build the path to the Assets folder
+            string assetsPath = Path.Combine(currentDirectory, "Assets");
+
+            // Check if the Assets folder exists
+            if (Directory.Exists(assetsPath))
+            {
+                Console.WriteLine("Files in Assets folder:\n");
+
+                // Get all files in the Assets folder
+                string[] files = Directory.GetFiles(assetsPath);
+
+                foreach (string file in files)
+                {
+                    Console.WriteLine(Path.GetFileName(file));
+                }
+            }
+            else
+            {
+                Console.WriteLine("The Assets folder does not exist in the current directory.");
+            }
         }
 
         public void Initialize()
         {
             FPSCounter.Start();
             
-            font = TTF_OpenFont("Assets/Font.ttf", 24);
+            font = TTF_OpenFont($"{Assets.GetPath()}/Font.ttf", 24);
             if (font == IntPtr.Zero) throw new Exception($"SDL TTF: {TTF_GetError()}");
             
-            png = IMG_LoadTexture(renderer, "Assets/Image.png");
+            png = IMG_LoadTexture(renderer, $"{Assets.GetPath()}/Image.png");
             if (png == IntPtr.Zero) throw new Exception($"SDL IMAGE: {IMG_GetError()}");
             
-            jpg = IMG_LoadTexture(renderer, "Assets/Image.jpg");
-            if (png == IntPtr.Zero) throw new Exception($"SDL IMAGE: {IMG_GetError()}");
+            jpg = IMG_LoadTexture(renderer, $"{Assets.GetPath()}/Image.jpg");
+            if (jpg == IntPtr.Zero) throw new Exception($"SDL IMAGE: {IMG_GetError()}");
             
-            bmp = IMG_LoadTexture(renderer, "Assets/Image.bmp");
-            if (png == IntPtr.Zero) throw new Exception($"SDL IMAGE: {IMG_GetError()}");
+            bmp = IMG_LoadTexture(renderer, $"{Assets.GetPath()}/Image.bmp");
+            if (bmp == IntPtr.Zero) throw new Exception($"SDL IMAGE: {IMG_GetError()}");
             
-            mp3 = Mix_LoadWAV("Assets/Sound.mp3");
+            mp3 = Mix_LoadWAV($"{Assets.GetPath()}/Sound.mp3");
             if (mp3 == IntPtr.Zero) throw new Exception($"SDL MIXER: {Mix_GetError()}");
             
-            wav = Mix_LoadWAV("Assets/Sound.wav");
-            if (mp3 == IntPtr.Zero) throw new Exception($"SDL MIXER: {Mix_GetError()}");
+            wav = Mix_LoadWAV($"{Assets.GetPath()}/Sound.wav");
+            if (wav == IntPtr.Zero) throw new Exception($"SDL MIXER: {Mix_GetError()}");
             
-            ogg = Mix_LoadWAV("Assets/Sound.ogg");
-            if (mp3 == IntPtr.Zero) throw new Exception($"SDL MIXER: {Mix_GetError()}");
+            ogg = Mix_LoadWAV($"{Assets.GetPath()}/Sound.ogg");
+            if (ogg == IntPtr.Zero) throw new Exception($"SDL MIXER: {Mix_GetError()}");
         }
         
         public bool Update()
