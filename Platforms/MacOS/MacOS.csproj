@@ -15,6 +15,7 @@
     <ItemGroup>
         <Content Include="..\..\Engine\Assets\**\*">
             <Link>.Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <TargetPath>Assets\%(RecursiveDir)%(Filename)%(Extension)</TargetPath>
         </Content>
@@ -35,7 +36,9 @@
 
     <ItemGroup>
         <Content Include="..\..\Natives\$(Architecture)\**\*.dylib">
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Visible>false</Visible>
         </Content>
     </ItemGroup>
 
