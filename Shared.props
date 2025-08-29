@@ -1,0 +1,18 @@
+<Project>
+    
+    <PropertyGroup>
+        <AndroidSdkDirectory>$(LOCALAPPDATA)\Android\Sdk</AndroidSdkDirectory>
+        <JavaSdkDirectory>C:\Program Files\Android\Android Studio\jbr</JavaSdkDirectory>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="..\..\Engine\**\*.cs" Exclude="..\**\bin\**;..\**\obj\**">
+            <Link>.Engine\%(RecursiveDir)%(Filename)%(Extension)</Link>
+        </Compile>
+
+        <Compile Include="..\..\App\**\*.cs" Exclude="..\**\bin\**;..\**\obj\**">
+            <Link>.App\%(RecursiveDir)%(Filename)%(Extension)</Link>
+        </Compile>
+    </ItemGroup>
+    
+</Project>

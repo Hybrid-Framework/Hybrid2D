@@ -19,14 +19,12 @@
         </EmccExtraLDFlags>
     </PropertyGroup>
 
+    <Import Project="..\..\Shared.props" />
+    
     <ItemGroup>
-        <Compile Include="..\..\Engine\**\*.cs" Exclude="..\**\bin\**;..\**\obj\**">
-            <Link>.Engine\%(RecursiveDir)%(Filename)%(Extension)</Link>
-        </Compile>
-
-        <Compile Include="..\..\App\**\*.cs" Exclude="..\**\bin\**;..\**\obj\**">
-            <Link>.App\%(RecursiveDir)%(Filename)%(Extension)</Link>
-        </Compile>
+        <None Include="..\..\Engine\Assets\**\*">
+            <Link>.Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
+        </None>
     </ItemGroup>
 
     <ItemGroup>

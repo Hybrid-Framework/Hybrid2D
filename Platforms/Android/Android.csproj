@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <DefineConstants>MOBILE;ANDROID</DefineConstants>
+        <DefineConstants>ANDROID</DefineConstants>
     </PropertyGroup>
     
     <PropertyGroup>
@@ -16,42 +16,38 @@
         <OutputType>Exe</OutputType>
         <Nullable>enable</Nullable>
     </PropertyGroup>
-    
-    <PropertyGroup>
-        <AndroidSdkDirectory>$(LOCALAPPDATA)\Android\Sdk</AndroidSdkDirectory>
-        <JavaSdkDirectory>C:\Program Files\Android\Android Studio\jbr</JavaSdkDirectory>
-    </PropertyGroup>
+
+    <Import Project="..\..\Shared.props" />
 
     <ItemGroup>
         <AndroidAsset Include="..\..\Engine\Assets\**\*">
             <LogicalName>Assets/%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+            <Link>.Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
         </AndroidAsset>
-
-        <Compile Include="..\..\Engine\**\*.cs" Exclude="..\**\bin\**;..\**\obj\**">
-            <Link>.Engine\%(RecursiveDir)%(Filename)%(Extension)</Link>
-        </Compile>
-
-        <Compile Include="..\..\App\**\*.cs" Exclude="..\**\bin\**;..\**\obj\**">
-            <Link>.App\%(RecursiveDir)%(Filename)%(Extension)</Link>
-        </Compile>
     </ItemGroup>
 
     <ItemGroup>
-        <EmbeddedJar Include="Jars\SDLActivity.jar"/>
+        <EmbeddedJar Include="Jars\SDLActivity.jar">
+            <Visible>false</Visible>
+        </EmbeddedJar>
         
         <AndroidNativeLibrary Include="..\..\Natives\Android\android-armeabi-v7a\*.so">
+            <Visible>false</Visible>
             <Abi>armeabi-v7a</Abi>
         </AndroidNativeLibrary>
         
         <AndroidNativeLibrary Include="..\..\Natives\Android\android-arm64-v8a\*.so">
+            <Visible>false</Visible>
             <Abi>arm64-v8a</Abi>
         </AndroidNativeLibrary>
         
         <AndroidNativeLibrary Include="..\..\Natives\Android\android-x86_64\*.so">
+            <Visible>false</Visible>
             <Abi>x86_64</Abi>
         </AndroidNativeLibrary>
         
         <AndroidNativeLibrary Include="..\..\Natives\Android\android-x86\*.so">
+            <Visible>false</Visible>
             <Abi>x86</Abi>
         </AndroidNativeLibrary>
     </ItemGroup>

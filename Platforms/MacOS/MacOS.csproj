@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <DefineConstants>DESKTOP;MACOS</DefineConstants>
+        <DefineConstants>MACOS</DefineConstants>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -12,21 +12,15 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <Import Project="..\..\Shared.props" />
+
     <ItemGroup>
         <Content Include="..\..\Engine\Assets\**\*">
-            <Link>.Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
+            <TargetPath>Assets\%(RecursiveDir)%(Filename)%(Extension)</TargetPath>
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <TargetPath>Assets\%(RecursiveDir)%(Filename)%(Extension)</TargetPath>
+            <Link>.Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
         </Content>
-
-        <Compile Include="..\..\Engine\**\*.cs" Exclude="..\**\bin\**;..\**\obj\**">
-            <Link>.Engine\%(RecursiveDir)%(Filename)%(Extension)</Link>
-        </Compile>
-
-        <Compile Include="..\..\App\**\*.cs" Exclude="..\**\bin\**;..\**\obj\**">
-            <Link>.App\%(RecursiveDir)%(Filename)%(Extension)</Link>
-        </Compile>
     </ItemGroup>
 
     <PropertyGroup>
