@@ -1,13 +1,25 @@
-namespace Android;
+using Android.Content.PM;
+using Org.Libsdl.App;
+using SDL = SDL2.SDL;
 
-[Activity(Label = "@string/app_name", MainLauncher = true)]
-public class MainActivity : Activity
+[Activity(Label = "Android", 
+    Exported = true,
+    MainLauncher = true,
+    HardwareAccelerated = true,
+    AlwaysRetainTaskState = true,
+    LaunchMode = LaunchMode.SingleInstance,
+    Theme = "@android:style/Theme.NoTitleBar.Fullscreen"
+    )]
+public class MainActivity : SDLActivity
 {
-    protected override void OnCreate(Bundle? savedInstanceState)
+    protected override void Entry()
     {
-        base.OnCreate(savedInstanceState);
-
-        // Set our view from the "main" layout resource
-        SetContentView(Resource.Layout.activity_main);
+        using (var app = new Engine.Game("Hello", 800, 600, SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN))
+        {
+            while (app.Update())
+            {
+                
+            }
+        }
     }
 }

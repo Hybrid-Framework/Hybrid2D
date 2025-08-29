@@ -9,6 +9,7 @@
         <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
         <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
         <ApplicationId>com.companyname.Android</ApplicationId>
+        <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
         <ApplicationVersion>1</ApplicationVersion>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <ImplicitUsings>enable</ImplicitUsings>
@@ -29,6 +30,26 @@
         <Compile Include="..\..\App\**\*.cs" Exclude="..\**\bin\**;..\**\obj\**">
             <Link>.App\%(RecursiveDir)%(Filename)%(Extension)</Link>
         </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedJar Include="Jars\SDLActivity.jar"/>
+        
+        <AndroidNativeLibrary Include="..\..\Natives\Android\android-armeabi-v7a\*.so">
+            <Abi>armeabi-v7a</Abi>
+        </AndroidNativeLibrary>
+        
+        <AndroidNativeLibrary Include="..\..\Natives\Android\android-arm64-v8a\*.so">
+            <Abi>arm64-v8a</Abi>
+        </AndroidNativeLibrary>
+        
+        <AndroidNativeLibrary Include="..\..\Natives\Android\android-x86_64\*.so">
+            <Abi>x86_64</Abi>
+        </AndroidNativeLibrary>
+        
+        <AndroidNativeLibrary Include="..\..\Natives\Android\android-x86\*.so">
+            <Abi>x86</Abi>
+        </AndroidNativeLibrary>
     </ItemGroup>
     
 </Project>
