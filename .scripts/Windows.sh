@@ -12,6 +12,9 @@ set -e
 shopt -s extglob
 
 
+# Base
+BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 # Install
 source ./Dependencies/Install.sh
 
@@ -162,7 +165,6 @@ done
 
 
 # Move Files
-BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 declare -A ARCH_MAP=( [x64]=win-x64 [win32]=win-x86 [arm64]=win-arm64 )
 
 for ARCH in "${ARCHS[@]}"; do
@@ -171,7 +173,7 @@ for ARCH in "${ARCHS[@]}"; do
 
     DEST_DIR="$BASE_DIR/../Natives/Windows/$DEST_SUBDIR"
     mkdir -p "$DEST_DIR"
-    echo "Copying DLLs for $ARCH to $DEST_DIR"
+    echo "Copying files for $ARCH to $DEST_DIR"
 
     for MODULE in SDL IMAGE MIXER TTF; do
         MOD_SRC="$BASE_DIR/$MODULE/install_win-$ARCH/bin"
@@ -180,9 +182,6 @@ for ARCH in "${ARCHS[@]}"; do
     done
 done
 
-
-# Remove Folders
-rm -rf SDL IMAGE MIXER TTF
 
 # Complete
 read -p "Build complete."

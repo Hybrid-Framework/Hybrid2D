@@ -1,7 +1,14 @@
+## PROJECT
+.scripts/**/SDL/
+.scripts/**/MIXER/
+.scripts/**/IMAGE/
+.scripts/**/TTF/
+
+
+
+
+
 ## VISUAL STUDIO
-
-
-# User-specific files
 *.rsuser
 *.suo
 *.user
@@ -421,9 +428,6 @@ FodyWeavers.xsd
 
 
 ## JETBRAINS RIDER
-
-
-# User-specific stuff
 .idea/**/workspace.xml
 .idea/**/tasks.xml
 .idea/**/usage.statistics.xml
