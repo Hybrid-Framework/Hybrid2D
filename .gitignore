@@ -3,7 +3,7 @@
 .scripts/**/MIXER/
 .scripts/**/IMAGE/
 .scripts/**/TTF/
-
+*.DS_Store
 
 
 
