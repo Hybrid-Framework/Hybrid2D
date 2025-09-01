@@ -3,6 +3,8 @@
 .scripts/**/MIXER/
 .scripts/**/IMAGE/
 .scripts/**/TTF/
+.scripts/**/FREETYPE/
+.scripts/**/LIBPNG/
 *.DS_Store
 
 

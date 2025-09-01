@@ -29,10 +29,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Content Include="..\..\Natives\$(Architecture)\**\*.dylib">
+        <Content Include="..\..\Natives\MacOS\$(Architecture)\**\*.dylib">
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <Visible>false</Visible>
+            <Visible>true</Visible>
         </Content>
     </ItemGroup>
 
