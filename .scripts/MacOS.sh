@@ -22,7 +22,7 @@ error_handler() {
 }
 trap error_handler ERR
 
-# Architectures
+# Architectures ARCHS=("x86_64" "arm64")
 ARCHS=("x86_64" "arm64")
 
 cd $BASE_DIR
@@ -42,13 +42,11 @@ for ARCH in "${ARCHS[@]}"; do
     [[ -d "$INSTALLPATH" ]] && rm -rf "$INSTALLPATH"
     mkdir -p "$BUILDPATH" "$INSTALLPATH"
     cd "$BUILDPATH" || exit
-    
+
     cmake .. -G "Unix Makefiles" \
     	-DSDL_SHARED=ON \
     	-DSDL_STATIC=OFF \
     	-DCMAKE_OSX_ARCHITECTURES=$ARCH \
-    	-DCMAKE_C_FLAGS="-Wno-deprecated-declarations" \
-      -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" \
       -DCMAKE_INSTALL_PREFIX="$INSTALLPATH"
 
     cmake --build . --config Release
@@ -91,7 +89,7 @@ for ARCH in "${ARCHS[@]}"; do
         -DSDL2IMAGE_SAMPLES=OFF \
         -DCMAKE_OSX_ARCHITECTURES=$ARCH \
         -DCMAKE_INSTALL_PREFIX="$INSTALLPATH" \
-        -DCMAKE_C_FLAGS="-Wno-deprecated-declarations" \
+    	  -DCMAKE_C_FLAGS="-Wno-deprecated-declarations" \
         -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" \
         -DSDL2_INCLUDE_DIR="$BASE_DIR/SDL/install_mac-$ARCH/include/SDL2" \
         -DSDL2_LIBRARY="$BASE_DIR/SDL/install_mac-$ARCH/lib/libSDL2.dylib"
@@ -127,8 +125,6 @@ for ARCH in "${ARCHS[@]}"; do
         -DSDL2MIXER_SAMPLES=OFF \
         -DCMAKE_OSX_ARCHITECTURES=$ARCH \
         -DCMAKE_INSTALL_PREFIX="$INSTALLPATH" \
-        -DCMAKE_C_FLAGS="-Wno-deprecated-declarations" \
-        -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" \
         -DSDL2_INCLUDE_DIR="$BASE_DIR/SDL/install_mac-$ARCH/include/SDL2" \
         -DSDL2_LIBRARY="$BASE_DIR/SDL/install_mac-$ARCH/lib/libSDL2.dylib"
 
@@ -155,8 +151,6 @@ for ARCH in "${ARCHS[@]}"; do
         -DSDL2TTF_SAMPLES=OFF \
         -DCMAKE_OSX_ARCHITECTURES=$ARCH \
         -DCMAKE_INSTALL_PREFIX="$INSTALLPATH" \
-        -DCMAKE_C_FLAGS="-Wno-deprecated-declarations" \
-        -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" \
         -DSDL2_INCLUDE_DIR="$BASE_DIR/SDL/install_mac-$ARCH/include/SDL2" \
         -DSDL2_LIBRARY="$BASE_DIR/SDL/install_mac-$ARCH/lib/libSDL2.dylib"
 
@@ -166,13 +160,18 @@ for ARCH in "${ARCHS[@]}"; do
 
 done
 
+echo "Transfering Files"...
 
-# Move Files ARCHS=("x86_64" "arm64")
-declare -A ARCH_MAP=( [x86_64]=mac-x86_64 [arm64]=mac-arm64 )
-
+# Move Files
 for ARCH in "${ARCHS[@]}"; do
-    DEST_SUBDIR="${ARCH_MAP[$ARCH]}"
-    [[ -n "$DEST_SUBDIR" ]] || { echo "Unknown arch $ARCH"; continue; }
+    if [ "$ARCH" = "x86_64" ]; then
+        DEST_SUBDIR="mac-x86_64"
+    elif [ "$ARCH" = "arm64" ]; then
+        DEST_SUBDIR="mac-arm64"
+    else
+        echo "Unknown arch $ARCH"
+        continue
+    fi
 
     DEST_DIR="$BASE_DIR/../Natives/MacOS/$DEST_SUBDIR"
     mkdir -p "$DEST_DIR"
@@ -180,11 +179,12 @@ for ARCH in "${ARCHS[@]}"; do
 
     for MODULE in SDL IMAGE MIXER TTF; do
         MOD_SRC="$BASE_DIR/$MODULE/install_mac-$ARCH/lib"
-        [[ -d "$MOD_SRC" ]] || continue
-        cp "$MOD_SRC"/*.dylib "$DEST_DIR"/ 2>/dev/null || true
+        if [ -d "$MOD_SRC" ]; then
+            cp "$MOD_SRC"/*.dylib "$DEST_DIR"/ 2>/dev/null || true
+        fi
     done
 done
 
-
 # Complete
 read -p "Build complete."
+
