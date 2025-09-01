@@ -31,22 +31,22 @@
             <Visible>false</Visible>
         </EmbeddedJar>
         
-        <AndroidNativeLibrary Include="..\..\Natives\Android\android-armeabi-v7a\*.so">
+        <AndroidNativeLibrary Include="..\..\Natives\Android\armeabi-v7a\*.so">
             <Visible>false</Visible>
             <Abi>armeabi-v7a</Abi>
         </AndroidNativeLibrary>
         
-        <AndroidNativeLibrary Include="..\..\Natives\Android\android-arm64-v8a\*.so">
+        <AndroidNativeLibrary Include="..\..\Natives\Android\arm64-v8a\*.so">
             <Visible>false</Visible>
             <Abi>arm64-v8a</Abi>
         </AndroidNativeLibrary>
         
-        <AndroidNativeLibrary Include="..\..\Natives\Android\android-x86_64\*.so">
+        <AndroidNativeLibrary Include="..\..\Natives\Android\x86_64\*.so">
             <Visible>false</Visible>
             <Abi>x86_64</Abi>
         </AndroidNativeLibrary>
         
-        <AndroidNativeLibrary Include="..\..\Natives\Android\android-x86\*.so">
+        <AndroidNativeLibrary Include="..\..\Natives\Android\x86\*.so">
             <Visible>false</Visible>
             <Abi>x86</Abi>
         </AndroidNativeLibrary>
