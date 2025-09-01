@@ -46,6 +46,8 @@ for ARCH in "${ARCHS[@]}"; do
     cmake .. -G "Unix Makefiles" \
     	-DSDL_SHARED=ON \
     	-DSDL_STATIC=OFF \
+      -DCMAKE_C_FLAGS="-Wno-deprecated-declarations" \
+      -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" \
     	-DCMAKE_OSX_ARCHITECTURES=$ARCH \
       -DCMAKE_INSTALL_PREFIX="$INSTALLPATH"
 
@@ -125,6 +127,8 @@ for ARCH in "${ARCHS[@]}"; do
         -DSDL2MIXER_SAMPLES=OFF \
         -DCMAKE_OSX_ARCHITECTURES=$ARCH \
         -DCMAKE_INSTALL_PREFIX="$INSTALLPATH" \
+    	  -DCMAKE_C_FLAGS="-Wno-deprecated-declarations" \
+        -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" \
         -DSDL2_INCLUDE_DIR="$BASE_DIR/SDL/install_mac-$ARCH/include/SDL2" \
         -DSDL2_LIBRARY="$BASE_DIR/SDL/install_mac-$ARCH/lib/libSDL2.dylib"
 
@@ -151,6 +155,8 @@ for ARCH in "${ARCHS[@]}"; do
         -DSDL2TTF_SAMPLES=OFF \
         -DCMAKE_OSX_ARCHITECTURES=$ARCH \
         -DCMAKE_INSTALL_PREFIX="$INSTALLPATH" \
+    	  -DCMAKE_C_FLAGS="-Wno-deprecated-declarations" \
+        -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" \
         -DSDL2_INCLUDE_DIR="$BASE_DIR/SDL/install_mac-$ARCH/include/SDL2" \
         -DSDL2_LIBRARY="$BASE_DIR/SDL/install_mac-$ARCH/lib/libSDL2.dylib"
 
