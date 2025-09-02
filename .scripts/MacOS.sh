@@ -1,6 +1,5 @@
 # Dependencies
 # XCode
-# Freetype (Universal) (Build using cmake from git)
 # Cmake (3.5 or above)
 
 #!/bin/bash
@@ -10,10 +9,10 @@ BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Properties
 PLATFORM="MacOS"
-LIB_NAMES=("libSDL2.dylib" "libSDL2_ttf.dylib")
-MODULES=("SDL" "TTF")
-RIDS=("osx-arm64")
-ARCHS=("arm64")
+LIB_NAMES=("libSDL2.dylib" "libSDL2_image.dylib" "libSDL2_mixer.dylib" "libSDL2_ttf.dylib")
+MODULES=("SDL" "IMAGE" "MIXER" "TTF")
+RIDS=("osx-x64" "osx-arm64")
+ARCHS=("x86_64" "arm64")
 LIB_LOCATION="lib"
 
 
@@ -43,6 +42,7 @@ for ai in "${!ARCHS[@]}"; do
 
   make -j$(sysctl -n hw.logicalcpu)
 done
+
 
 # Build Freetype (Universal)
 FREETYPEINSTALLPATH="$BASE_DIR/FREETYPE"
@@ -79,7 +79,6 @@ SDL()
     -DSDL_STATIC=OFF \
     -DCMAKE_OSX_ARCHITECTURES=$ARCH \
     -DCMAKE_C_FLAGS="-Wno-deprecated-declarations" \
-    -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" \
     -DCMAKE_INSTALL_PREFIX=$INSTALLPATH
     
     cmake --build . --config Release
@@ -110,7 +109,6 @@ IMAGE()
     -DSDL2IMAGE_SAMPLES=OFF \
     -DCMAKE_OSX_ARCHITECTURES=$ARCH \
     -DCMAKE_C_FLAGS="-Wno-deprecated-declarations" \
-    -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" \
     -DCMAKE_INSTALL_PREFIX=$INSTALLPATH \
     -DSDL2_INCLUDE_DIR=$SDLINSTALLPATH/include/SDL2 \
     -DSDL2_LIBRARY=$SDLINSTALLPATH/lib/libSDL2.dylib
@@ -134,7 +132,6 @@ MIXER()
     -DSDL2MIXER_SAMPLES=OFF \
     -DCMAKE_OSX_ARCHITECTURES=$ARCH \
     -DCMAKE_C_FLAGS="-Wno-deprecated-declarations" \
-    -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" \
     -DCMAKE_INSTALL_PREFIX=$INSTALLPATH \
     -DSDL2_INCLUDE_DIR=$SDLINSTALLPATH/include/SDL2 \
     -DSDL2_LIBRARY=$SDLINSTALLPATH/lib/libSDL2.dylib
@@ -150,20 +147,16 @@ TTF()
     -DSDL2TTF_SAMPLES=OFF \
     -DCMAKE_OSX_ARCHITECTURES=$ARCH \
     -DCMAKE_C_FLAGS="-Wno-deprecated-declarations" \
-    -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" \
     -DCMAKE_INSTALL_PREFIX=$INSTALLPATH \
     -DSDL2_INCLUDE_DIR=$SDLINSTALLPATH/include/SDL2 \
     -DSDL2_LIBRARY=$SDLINSTALLPATH/lib/libSDL2.dylib \
     -DFREETYPE_LIBRARY="$FREETYPEINSTALLPATH/build_$ARCH/libfreetype.a" \
     -DFREETYPE_INCLUDE_DIRS="$FREETYPEINSTALLPATH/build_$ARCH/include" \
-    -DCMAKE_SHARED_LINKER_FLAGS="-lz -lbz2 -lpng"
-
+    -DCMAKE_SHARED_LINKER_FLAGS="-lz -lbz2 $LIBPNGINSTALLPATH/build_$ARCH/libpng16.a"
+  
   cmake --build . --config Release
   cmake --install . --config Release
 }
-
-
-
 
 # Run
 source "$BASE_DIR/Dependencies/Build.sh"
