@@ -1,127 +1,112 @@
-# Dependencies
-# Install Android Studio (https://developer.android.com/studio#get-android-studio)
-# Install Ninja.exe (https://github.com/ninja-build/ninja/releases)
-# Install SDK (Android Studio > SDK Tools (36.0 or 34.0 API)
-# Install NDK (Android Studio > SDK Tools > NDK (Side by side) (21.4.7075529)
-# Install CMAKE (https://cmake.org/download)
-# Cmake (3.5 or above)
+#!/usr/bin/env bash
+set -euo pipefail
 
-#!/bin/bash
-ANDROID_NDK=$HOME/AppData/Local/Android/Sdk/ndk/21.4.7075529
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-set -e
+source "$BASE_DIR/Dependencies/Modules.sh"
 
-# Properties
+# PROPERTIES
+LOCATION="lib"
 PLATFORM="Android"
-LIB_NAMES=("libSDL2.so" "libSDL2_image.so" "libSDL2_mixer.so" "libSDL2_ttf.so")
 ARCHS=("armeabi-v7a" "arm64-v8a" "x86" "x86_64")
 RIDS=("armeabi-v7a" "arm64-v8a" "x86" "x86_64")
-MODULES=("SDL" "IMAGE" "MIXER" "TTF")
-LIB_LOCATION="lib"
+ANDROID_NDK="$HOME/AppData/Local/Android/Sdk/ndk/21.4.7075529/build/cmake/android.toolchain.cmake"
 
 
+# SDL
+module SDL \
+LIB="libSDL2.so" \
+VERSION="release-2.32.8" \
+GITHUB="https://github.com/libsdl-org/SDL.git" \
+CMAKE='cmake .. -G Ninja -Wno-dev \
+-DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK" \
+-DANDROID_ABI=$ARCH \
+-DANDROID_PLATFORM=android-21 \
+-DSDL_SHARED=ON \
+-DSDL_STATIC=OFF \
+-DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
+-DCMAKE_C_FLAGS="-Wno-deprecated-declarations" \
+-DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations"'
 
-SDL()
-{
-  cmake .. -G Ninja -Wno-dev \
-    -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK/build/cmake/android.toolchain.cmake" \
-    -DANDROID_ABI=$ARCH \
-    -DANDROID_PLATFORM=android-21 \
-    -DSDL_SHARED=ON \
-    -DSDL_STATIC=OFF \
-    -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
-    -DCMAKE_C_FLAGS="-Wno-deprecated-declarations" \
-    -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" \
-    -DCMAKE_INSTALL_PREFIX=$INSTALLPATH
-    
-    cmake --build . --config Release
-    cmake --install . --config Release
-}
 
-IMAGE()
-{
-  cmake .. -G Ninja -Wno-dev \
-    -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK/build/cmake/android.toolchain.cmake" \
-    -DANDROID_ABI=$ARCH \
-    -DANDROID_PLATFORM=android-21 \
-    -DSDL2IMAGE_BMP=ON \
-    -DSDL2IMAGE_PNG=ON \
-    -DSDL2IMAGE_JPG=ON \
-    -DSDL2IMAGE_AVIF=OFF \
-    -DSDL2IMAGE_WEBP=OFF \
-    -DSDL2IMAGE_GIF=OFF \
-    -DSDL2IMAGE_TIF=OFF \
-    -DSDL2IMAGE_TGA=OFF \
-    -DSDL2IMAGE_XCF=OFF \
-    -DSDL2IMAGE_XPM=OFF \
-    -DSDL2IMAGE_XV=OFF \
-    -DSDL2IMAGE_LBM=OFF \
-    -DSDL2IMAGE_PCX=OFF \
-    -DSDL2IMAGE_PNM=OFF \
-    -DSDL2IMAGE_QOI=OFF \
-    -DSDL2IMAGE_SVG=OFF \
-    -DSDL2IMAGE_JXL=OFF \
-    -DBUILD_SHARED_LIBS=ON \
-    -DSDL2IMAGE_SAMPLES=OFF \
-    -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
-    -DCMAKE_C_FLAGS="-Wno-deprecated-declarations" \
-    -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" \
-    -DCMAKE_INSTALL_PREFIX=$INSTALLPATH \
-    -DSDL2_INCLUDE_DIR=$SDL_PATH/include/SDL2 \
-    -DSDL2_LIBRARY=$SDL_PATH/lib/libSDL2.so
-    
-    cmake --build . --config Release
-    cmake --install . --config Release
-}
+# IMAGE
+module IMAGE \
+LIB="libSDL2_image.so" \
+VERSION="release-2.8.8" \
+GITHUB="https://github.com/libsdl-org/SDL_image.git" \
+CMAKE='cmake .. -G Ninja -Wno-dev \
+-DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK" \
+-DANDROID_ABI=$ARCH \
+-DANDROID_PLATFORM=android-21 \
+-DSDL2IMAGE_BMP=ON \
+-DSDL2IMAGE_PNG=ON \
+-DSDL2IMAGE_JPG=ON \
+-DSDL2IMAGE_AVIF=OFF \
+-DSDL2IMAGE_WEBP=OFF \
+-DSDL2IMAGE_GIF=OFF \
+-DSDL2IMAGE_TIF=OFF \
+-DSDL2IMAGE_TGA=OFF \
+-DSDL2IMAGE_XCF=OFF \
+-DSDL2IMAGE_XPM=OFF \
+-DSDL2IMAGE_XV=OFF \
+-DSDL2IMAGE_LBM=OFF \
+-DSDL2IMAGE_PCX=OFF \
+-DSDL2IMAGE_PNM=OFF \
+-DSDL2IMAGE_QOI=OFF \
+-DSDL2IMAGE_SVG=OFF \
+-DSDL2IMAGE_JXL=OFF \
+-DBUILD_SHARED_LIBS=ON \
+-DSDL2IMAGE_SAMPLES=OFF \
+-DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
+-DCMAKE_C_FLAGS="-Wno-deprecated-declarations" \
+-DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" \
+-DSDL2_INCLUDE_DIR=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/include/SDL2 \
+-DSDL2_LIBRARY=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/lib/libSDL2.so'
 
-MIXER()
-{
-  cmake .. -G Ninja -Wno-dev \
-    -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK/build/cmake/android.toolchain.cmake" \
-    -DANDROID_ABI=$ARCH \
-    -DANDROID_PLATFORM=android-21 \
-    -DSDL2MIXER_WAVE=ON \
-    -DSDL2MIXER_MP3=ON \
-    -DSDL2MIXER_OGG=ON \
-    -DSDL2MIXER_OPUS=OFF \
-    -DSDL2MIXER_FLAC=OFF \
-    -DSDL2MIXER_MOD=OFF \
-    -DSDL2MIXER_MIDI=OFF \
-    -DSDL2MIXER_WAVPACK=OFF \
-    -DBUILD_SHARED_LIBS=ON \
-    -DSDL2MIXER_SAMPLES=OFF \
-    -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
-    -DCMAKE_C_FLAGS="-Wno-deprecated-declarations" \
-    -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" \
-    -DCMAKE_INSTALL_PREFIX=$INSTALLPATH \
-    -DSDL2_INCLUDE_DIR=$SDL_PATH/include/SDL2 \
-    -DSDL2_LIBRARY=$SDL_PATH/lib/libSDL2.so
-    
-    cmake --build . --config Release
-    cmake --install . --config Release
-}
 
-TTF()
-{
-  cmake .. -G Ninja -Wno-dev \
-    -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK/build/cmake/android.toolchain.cmake" \
-    -DANDROID_ABI=$ARCH \
-    -DANDROID_PLATFORM=android-21 \
-    -DBUILD_SHARED_LIBS=ON \
-    -DSDL2TTF_SAMPLES=OFF \
-    -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
-    -DCMAKE_C_FLAGS="-Wno-deprecated-declarations" \
-    -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" \
-    -DCMAKE_INSTALL_PREFIX=$INSTALLPATH \
-    -DSDL2_INCLUDE_DIR=$SDL_PATH/include/SDL2 \
-    -DSDL2_LIBRARY=$SDL_PATH/lib/libSDL2.so
-    
-    cmake --build . --config Release
-    cmake --install . --config Release
-}
+# MIXER
+module MIXER \
+LIB="libSDL2_mixer.so" \
+VERSION="release-2.8.1" \
+GITHUB="https://github.com/libsdl-org/SDL_mixer.git" \
+CMAKE='cmake .. -G Ninja -Wno-dev \
+-DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK" \
+-DANDROID_ABI=$ARCH \
+-DANDROID_PLATFORM=android-21 \
+-DSDL2MIXER_WAVE=ON \
+-DSDL2MIXER_MP3=ON \
+-DSDL2MIXER_OGG=ON \
+-DSDL2MIXER_OPUS=OFF \
+-DSDL2MIXER_FLAC=OFF \
+-DSDL2MIXER_MOD=OFF \
+-DSDL2MIXER_MIDI=OFF \
+-DSDL2MIXER_WAVPACK=OFF \
+-DBUILD_SHARED_LIBS=ON \
+-DSDL2MIXER_SAMPLES=OFF \
+-DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
+-DCMAKE_C_FLAGS="-Wno-deprecated-declarations" \
+-DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" \
+-DSDL2_INCLUDE_DIR=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/include/SDL2 \
+-DSDL2_LIBRARY=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/lib/libSDL2.so'
 
-# Run
+
+# TTF
+module TTF \
+LIB="libSDL2_ttf.so" \
+VERSION="release-2.24.0" \
+GITHUB="https://github.com/libsdl-org/SDL_ttf.git" \
+CMAKE='cmake .. -G Ninja -Wno-dev \
+-DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK" \
+-DANDROID_ABI=$ARCH \
+-DANDROID_PLATFORM=android-21 \
+-DBUILD_SHARED_LIBS=ON \
+-DSDL2TTF_SAMPLES=OFF \
+-DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
+-DCMAKE_C_FLAGS="-Wno-deprecated-declarations" \
+-DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" \
+-DSDL2_INCLUDE_DIR=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/include/SDL2 \
+-DSDL2_LIBRARY=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/lib/libSDL2.so'
+
+
+# RUN
 source "$BASE_DIR/Dependencies/Build.sh"
-
-# Complete
 read -p "Build complete."

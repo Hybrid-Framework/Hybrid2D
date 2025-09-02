@@ -1,10 +1,5 @@
 ## PROJECT
-.scripts/**/SDL/
-.scripts/**/MIXER/
-.scripts/**/IMAGE/
-.scripts/**/TTF/
-.scripts/**/FREETYPE/
-.scripts/**/LIBPNG/
+.scripts/Dependencies/Modules/**/*
 *.DS_Store
 
 

@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+
+MODULES_DIR="$BASE_DIR/Dependencies/Modules"
+
+if [[ ! -d "$MODULES_DIR" ]]; then
+    mkdir -p "$MODULES_DIR"
+fi
+
 MODULES=()
 
 module() {

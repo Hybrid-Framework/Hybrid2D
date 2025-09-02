@@ -14,10 +14,10 @@ for i in "${!ARCHS[@]}"; do
         echo
 
         # Download module if not found
-        if [ ! -d "$BASE_DIR/$MODULE" ]; then
+        if [ ! -d "$MODULES_DIR/$MODULE" ]; then
             echo "$MODULE ${MOD[VERSION]} [Downloading]"
-            git clone "${MOD[GITHUB]}" "$BASE_DIR/$MODULE"
-            cd "$BASE_DIR/$MODULE"
+            git clone "${MOD[GITHUB]}" "$MODULES_DIR/$MODULE"
+            cd "$MODULES_DIR/$MODULE"
             git checkout "${MOD[VERSION]}"
             git submodule update --init --recursive
         else
@@ -25,9 +25,9 @@ for i in "${!ARCHS[@]}"; do
         fi
 
         # Directories
-        cd "$BASE_DIR/$MODULE"
-        BUILDPATH="$BASE_DIR/$MODULE/build_${PLATFORM}-$ARCH"
-        INSTALLPATH="$BASE_DIR/$MODULE/install_${PLATFORM}-$ARCH"
+        cd "$MODULES_DIR/$MODULE"
+        BUILDPATH="$MODULES_DIR/$MODULE/build_${PLATFORM}-$ARCH"
+        INSTALLPATH="$MODULES_DIR/$MODULE/install_${PLATFORM}-$ARCH"
         rm -rf "$BUILDPATH" "$INSTALLPATH"
         mkdir -p "$BUILDPATH" "$INSTALLPATH"
         cd "$BUILDPATH"
@@ -50,7 +50,7 @@ for i in "${!ARCHS[@]}"; do
     for MODULE in "${MODULES[@]}"; do
         declare -n MOD="$MODULE"
 
-        LIB_SRC="$BASE_DIR/$MODULE/install_${PLATFORM}-$ARCH/$LOCATION"
+        LIB_SRC="$MODULES_DIR/$MODULE/install_${PLATFORM}-$ARCH/$LOCATION"
 
         if [ -f "$LIB_SRC/${MOD[LIB]}" ]; then
             echo "Copying ${MOD[LIB]} from $LIB_SRC to $DEST_DIR"
