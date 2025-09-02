@@ -1,59 +1,62 @@
-#!/bin/bash
-set -e
+#!/usr/bin/env bash
+set -euo pipefail
 
-# Install
-source "$BASE_DIR/Dependencies/Install.sh"
+# Build
+for i in "${!ARCHS[@]}"; do
+    ARCH="${ARCHS[$i]}"
+    RID="${RIDS[$i]}"
 
-## Architectures
-for ai in "${!ARCHS[@]}"; do
+    for MODULE in "${MODULES[@]}"; do
+        declare -n MOD="$MODULE"
 
-  ARCH="${ARCHS[$ai]}"
-  
-  # Modules
-  for MODULE in "${MODULES[@]}"; do
+        echo
+        echo "$MODULE [$PLATFORM $ARCH]"
+        echo
 
-    echo
-    echo "Building $MODULE $PLATFORM [$ARCH]"
-    echo
+        # Download module if not found
+        if [ ! -d "$BASE_DIR/$MODULE" ]; then
+            echo "$MODULE ${MOD[VERSION]} [Downloading]"
+            git clone "${MOD[GITHUB]}" "$BASE_DIR/$MODULE"
+            cd "$BASE_DIR/$MODULE"
+            git checkout "${MOD[VERSION]}"
+            git submodule update --init --recursive
+        else
+            echo "$MODULE ${MOD[VERSION]} [Found]"
+        fi
 
-    # Directory
-    cd "$BASE_DIR/$MODULE" || exit
-    BUILDPATH="$BASE_DIR/$MODULE/build_$PLATFORM-$ARCH"
-    INSTALLPATH="$BASE_DIR/$MODULE/install_$PLATFORM-$ARCH"
-    rm -rf "$BUILDPATH" "$INSTALLPATH"
-    mkdir -p "$BUILDPATH" "$INSTALLPATH"
-    cd "$BUILDPATH" || exit
+        # Directories
+        cd "$BASE_DIR/$MODULE"
+        BUILDPATH="$BASE_DIR/$MODULE/build_${PLATFORM}-$ARCH"
+        INSTALLPATH="$BASE_DIR/$MODULE/install_${PLATFORM}-$ARCH"
+        rm -rf "$BUILDPATH" "$INSTALLPATH"
+        mkdir -p "$BUILDPATH" "$INSTALLPATH"
+        cd "$BUILDPATH"
 
-    # Run Module Commands
-    if declare -f "$MODULE" > /dev/null; then
-      "$MODULE"
-    fi
-
-  done
-
+        # Build
+        eval "${MOD[CMAKE]} -DCMAKE_INSTALL_PREFIX=$INSTALLPATH"
+        cmake --build . --config Release
+        cmake --install . --config Release
+    done
 done
 
 # Transfer
-for ai in "${!ARCHS[@]}"; do
-    ARCH="${ARCHS[$ai]}"
-    RID="${RIDS[$ai]}"
+for i in "${!ARCHS[@]}"; do
+    ARCH="${ARCHS[$i]}"
+    RID="${RIDS[$i]}"
 
     DEST_DIR="$BASE_DIR/../Natives/$PLATFORM/$RID"
     mkdir -p "$DEST_DIR"
 
-    for mi in "${!MODULES[@]}"; do
-        MODULE="${MODULES[$mi]}"
-        LIB_NAME="${LIB_NAMES[$mi]}"
+    for MODULE in "${MODULES[@]}"; do
+        declare -n MOD="$MODULE"
 
-        LIB_SRC="$BASE_DIR/$MODULE/install_$PLATFORM-$ARCH/$LIB_LOCATION"
-        
-        if [ -d "$LIB_SRC" ]; then
-            echo "Copying files for $LIB_SRC to $DEST_DIR"
-            cp "$LIB_SRC/$LIB_NAME" "$DEST_DIR"/ 2>/dev/null || true
+        LIB_SRC="$BASE_DIR/$MODULE/install_${PLATFORM}-$ARCH/$LOCATION"
+
+        if [ -f "$LIB_SRC/${MOD[LIB]}" ]; then
+            echo "Copying ${MOD[LIB]} from $LIB_SRC to $DEST_DIR"
+            cp "$LIB_SRC/${MOD[LIB]}" "$DEST_DIR/"
+        else
+            echo "Warning: ${MOD[LIB]} not found in $LIB_SRC"
         fi
     done
 done
-
-# Complete
-read -p "Build complete."
-
