@@ -6,6 +6,7 @@
 # Cmake (3.5 or above)
 
 #!/bin/bash
+BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 set -e
 
 # Properties
@@ -16,17 +17,13 @@ MODULES=("SDL" "IMAGE" "MIXER" "TTF")
 ARCHS=("x64" "win32" "arm64")
 LIB_LOCATION="bin"
 
+
 SDL()
 {
-  EXTRAFLAGS=""
-  if [ "$ARCH" == "arm64" ]; then
-      EXTRAFLAGS="-forceInterlockedFunctions-"
-  fi
-  
   cmake .. -G "Visual Studio 17 2022" -A $ARCH -Wno-dev \
     -DSDL_SHARED=ON \
     -DSDL_STATIC=OFF \
-    -DCMAKE_C_FLAGS=$EXTRAFLAGS \
+    -DCMAKE_C_FLAGS="-forceInterlockedFunctions-" \
     -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
     -DCMAKE_INSTALL_PREFIX=$INSTALLPATH
 
@@ -58,8 +55,8 @@ IMAGE()
     -DSDL2IMAGE_SAMPLES=OFF \
     -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
     -DCMAKE_INSTALL_PREFIX=$INSTALLPATH \
-    -DSDL2_INCLUDE_DIR=$SDLINSTALLPATH/include/SDL2 \
-    -DSDL2_LIBRARY=$SDLINSTALLPATH/lib/SDL2.lib
+    -DSDL2_INCLUDE_DIR=$SDL_PATH/include/SDL2 \
+    -DSDL2_LIBRARY=$SDL_PATH/lib/SDL2.lib
     
   cmake --build . --config Release
   cmake --install . --config Release
@@ -80,8 +77,8 @@ MIXER()
       -DSDL2MIXER_SAMPLES=OFF \
       -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
       -DCMAKE_INSTALL_PREFIX=$INSTALLPATH \
-      -DSDL2_INCLUDE_DIR=$SDLINSTALLPATH/include/SDL2 \
-      -DSDL2_LIBRARY=$SDLINSTALLPATH/lib/SDL2.lib
+      -DSDL2_INCLUDE_DIR=$SDL_PATH/include/SDL2 \
+      -DSDL2_LIBRARY=$SDL_PATH/lib/SDL2.lib
 
   cmake --build . --config Release
   cmake --install . --config Release
@@ -94,15 +91,14 @@ TTF()
       -DSDL2TTF_SAMPLES=OFF \
       -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
       -DCMAKE_INSTALL_PREFIX=$INSTALLPATH \
-      -DSDL2_INCLUDE_DIR=$SDLINSTALLPATH/include/SDL2 \
-      -DSDL2_LIBRARY=$SDLINSTALLPATH/lib/SDL2.lib
+      -DSDL2_INCLUDE_DIR=$SDL_PATH/include/SDL2 \
+      -DSDL2_LIBRARY=$SDL_PATH/lib/SDL2.lib
 
   cmake --build . --config Release
   cmake --install . --config Release
 }
 
 # Run
-BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$BASE_DIR/Dependencies/Build.sh"
 
 # Complete

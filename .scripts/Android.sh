@@ -7,16 +7,19 @@
 # Cmake (3.5 or above)
 
 #!/bin/bash
+ANDROID_NDK=$HOME/AppData/Local/Android/Sdk/ndk/21.4.7075529
+BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 set -e
 
 # Properties
 PLATFORM="Android"
 LIB_NAMES=("libSDL2.so" "libSDL2_image.so" "libSDL2_mixer.so" "libSDL2_ttf.so")
-ANDROID_NDK=$HOME/AppData/Local/Android/Sdk/ndk/21.4.7075529
 ARCHS=("armeabi-v7a" "arm64-v8a" "x86" "x86_64")
 RIDS=("armeabi-v7a" "arm64-v8a" "x86" "x86_64")
 MODULES=("SDL" "IMAGE" "MIXER" "TTF")
 LIB_LOCATION="lib"
+
+
 
 SDL()
 {
@@ -64,8 +67,8 @@ IMAGE()
     -DCMAKE_C_FLAGS="-Wno-deprecated-declarations" \
     -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" \
     -DCMAKE_INSTALL_PREFIX=$INSTALLPATH \
-    -DSDL2_INCLUDE_DIR=$SDLINSTALLPATH/include/SDL2 \
-    -DSDL2_LIBRARY=$SDLINSTALLPATH/lib/libSDL2.so
+    -DSDL2_INCLUDE_DIR=$SDL_PATH/include/SDL2 \
+    -DSDL2_LIBRARY=$SDL_PATH/lib/libSDL2.so
     
     cmake --build . --config Release
     cmake --install . --config Release
@@ -91,8 +94,8 @@ MIXER()
     -DCMAKE_C_FLAGS="-Wno-deprecated-declarations" \
     -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" \
     -DCMAKE_INSTALL_PREFIX=$INSTALLPATH \
-    -DSDL2_INCLUDE_DIR=$SDLINSTALLPATH/include/SDL2 \
-    -DSDL2_LIBRARY=$SDLINSTALLPATH/lib/libSDL2.so
+    -DSDL2_INCLUDE_DIR=$SDL_PATH/include/SDL2 \
+    -DSDL2_LIBRARY=$SDL_PATH/lib/libSDL2.so
     
     cmake --build . --config Release
     cmake --install . --config Release
@@ -110,15 +113,14 @@ TTF()
     -DCMAKE_C_FLAGS="-Wno-deprecated-declarations" \
     -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" \
     -DCMAKE_INSTALL_PREFIX=$INSTALLPATH \
-    -DSDL2_INCLUDE_DIR=$SDLINSTALLPATH/include/SDL2 \
-    -DSDL2_LIBRARY=$SDLINSTALLPATH/lib/libSDL2.so
+    -DSDL2_INCLUDE_DIR=$SDL_PATH/include/SDL2 \
+    -DSDL2_LIBRARY=$SDL_PATH/lib/libSDL2.so
     
     cmake --build . --config Release
     cmake --install . --config Release
 }
 
 # Run
-BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$BASE_DIR/Dependencies/Build.sh"
 
 # Complete

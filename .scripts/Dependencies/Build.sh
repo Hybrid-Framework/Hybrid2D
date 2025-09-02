@@ -8,7 +8,6 @@ source "$BASE_DIR/Dependencies/Install.sh"
 for ai in "${!ARCHS[@]}"; do
 
   ARCH="${ARCHS[$ai]}"
-  SDLINSTALLPATH="$BASE_DIR/SDL/install_$PLATFORM-$ARCH"
   
   # Modules
   for MODULE in "${MODULES[@]}"; do
@@ -25,12 +24,9 @@ for ai in "${!ARCHS[@]}"; do
     mkdir -p "$BUILDPATH" "$INSTALLPATH"
     cd "$BUILDPATH" || exit
 
-    # Call function named after module
+    # Run Module Commands
     if declare -f "$MODULE" > /dev/null; then
       "$MODULE"
-    else
-      echo "No build function defined for $MODULE"
-      exit 1
     fi
 
   done
@@ -54,8 +50,6 @@ for ai in "${!ARCHS[@]}"; do
         if [ -d "$LIB_SRC" ]; then
             echo "Copying files for $LIB_SRC to $DEST_DIR"
             cp "$LIB_SRC/$LIB_NAME" "$DEST_DIR"/ 2>/dev/null || true
-        else
-            echo "Not Found: $LIB_SRC or $DEST_DIR"
         fi
     done
 done
