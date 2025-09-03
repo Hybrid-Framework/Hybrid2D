@@ -4,6 +4,7 @@ set -euo pipefail
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$BASE_DIR/Dependencies/Modules.sh"
 
+
 # PROPERTIES
 LOCATION="lib"
 PLATFORM="MacOS"
@@ -14,8 +15,8 @@ RIDS=("osx-x64" "osx-arm64")
 # LIBPNG
 module LIBPNG \
 LIB="" \
-VERSION="v1.6.9" \
-GITHUB="https://github.com/glennrp/libpng.git" \
+VERSION="v1.6.50" \
+GITHUB="https://github.com/libsdl-org/libpng.git" \
 CMAKE='cmake .. \
 -DCMAKE_BUILD_TYPE=Release \
 -DBUILD_SHARED_LIBS=OFF \
@@ -28,15 +29,15 @@ CMAKE='cmake .. \
 # FREETYPE
 module FREETYPE \
 LIB="" \
-VERSION="VER-2-13-2" \
-GITHUB="https://gitlab.freedesktop.org/freetype/freetype.git" \
+VERSION="VER-2-13-3" \
+GITHUB="https://github.com/libsdl-org/freetype.git" \
 CMAKE='cmake .. \
 -DCMAKE_BUILD_TYPE=Release \
 -DBUILD_SHARED_LIBS=OFF \
 -DCMAKE_OSX_ARCHITECTURES=$ARCH \
 -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
--DPNG_PNG_INCLUDE_DIR="$MODULES_DIR/LIBPNG/build_$ARCH" \
--DPNG_LIBRARY="$MODULES_DIR/LIBPNG/build_$ARCH/libpng16.a"'
+-DPNG_PNG_INCLUDE_DIR="$MODULES_DIR/LIBPNG/install_$PLATFORM-$ARCH" \
+-DPNG_LIBRARY="$MODULES_DIR/LIBPNG/install_$PLATFORM-$ARCH/lib/libpng16.a"'
 
 
 # SDL
@@ -116,9 +117,9 @@ CMAKE='cmake .. -G "Unix Makefiles" \
 -DCMAKE_C_FLAGS="-Wno-deprecated-declarations" \
 -DSDL2_INCLUDE_DIR=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/include/SDL2 \
 -DSDL2_LIBRARY=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/lib/libSDL2.dylib \
--DFREETYPE_LIBRARY="$MODULES_DIR/FREETYPE/build_$ARCH/libfreetype.a" \
--DFREETYPE_INCLUDE_DIRS="$MODULES_DIR/FREETYPE/build_$ARCH/include" \
--DCMAKE_SHARED_LINKER_FLAGS="-lz -lbz2 $MODULES_DIR/LIBPNG/build_$ARCH/libpng16.a"'
+-DFREETYPE_INCLUDE_DIRS="$MODULES_DIR/FREETYPE/install_$PLATFORM-$ARCH/include" \
+-DFREETYPE_LIBRARY="$MODULES_DIR/FREETYPE/install_$PLATFORM-$ARCH/lib/libfreetype.a" \
+-DCMAKE_SHARED_LINKER_FLAGS="-lz -lbz2 $MODULES_DIR/LIBPNG/install_$PLATFORM-$ARCH/lib/libpng16.a"'
 
 
 # RUN
