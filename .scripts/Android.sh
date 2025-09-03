@@ -17,6 +17,8 @@ module SDL \
 LIB="libSDL2.so" \
 VERSION="release-2.32.8" \
 GITHUB="https://github.com/libsdl-org/SDL.git" \
+BUILD="cmake --build . --config Release" \
+INSTALL="cmake --install . --config Release" \
 CMAKE='cmake .. -G Ninja -Wno-dev \
 -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK" \
 -DANDROID_ABI=$ARCH \
@@ -33,6 +35,8 @@ module IMAGE \
 LIB="libSDL2_image.so" \
 VERSION="release-2.8.8" \
 GITHUB="https://github.com/libsdl-org/SDL_image.git" \
+BUILD="cmake --build . --config Release" \
+INSTALL="cmake --install . --config Release" \
 CMAKE='cmake .. -G Ninja -Wno-dev \
 -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK" \
 -DANDROID_ABI=$ARCH \
@@ -68,6 +72,8 @@ module MIXER \
 LIB="libSDL2_mixer.so" \
 VERSION="release-2.8.1" \
 GITHUB="https://github.com/libsdl-org/SDL_mixer.git" \
+BUILD="cmake --build . --config Release" \
+INSTALL="cmake --install . --config Release" \
 CMAKE='cmake .. -G Ninja -Wno-dev \
 -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK" \
 -DANDROID_ABI=$ARCH \
@@ -94,6 +100,8 @@ module TTF \
 LIB="libSDL2_ttf.so" \
 VERSION="release-2.24.0" \
 GITHUB="https://github.com/libsdl-org/SDL_ttf.git" \
+BUILD="cmake --build . --config Release" \
+INSTALL="cmake --install . --config Release" \
 CMAKE='cmake .. -G Ninja -Wno-dev \
 -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK" \
 -DANDROID_ABI=$ARCH \

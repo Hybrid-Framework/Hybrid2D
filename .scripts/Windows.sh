@@ -16,6 +16,8 @@ module SDL \
 LIB="SDL2.dll" \
 VERSION="release-2.32.8" \
 GITHUB="https://github.com/libsdl-org/SDL.git" \
+BUILD="cmake --build . --config Release" \
+INSTALL="cmake --install . --config Release" \
 CMAKE='cmake .. -G "Visual Studio 17 2022" -A $ARCH -Wno-dev \
 -DSDL_SHARED=ON \
 -DSDL_STATIC=OFF \
@@ -28,6 +30,8 @@ module IMAGE \
 LIB="SDL2_image.dll" \
 VERSION="release-2.8.8" \
 GITHUB="https://github.com/libsdl-org/SDL_image.git" \
+BUILD="cmake --build . --config Release" \
+INSTALL="cmake --install . --config Release" \
 CMAKE='cmake .. -G "Visual Studio 17 2022" -A $ARCH -Wno-dev \
 -DSDL2IMAGE_BMP=ON \
 -DSDL2IMAGE_PNG=ON \
@@ -58,6 +62,8 @@ module MIXER \
 LIB="SDL2_mixer.dll" \
 VERSION="release-2.8.1" \
 GITHUB="https://github.com/libsdl-org/SDL_mixer.git" \
+BUILD="cmake --build . --config Release" \
+INSTALL="cmake --install . --config Release" \
 CMAKE='cmake .. -G "Visual Studio 17 2022" -A $ARCH -Wno-dev \
 -DSDL2MIXER_WAVE=ON \
 -DSDL2MIXER_MP3=ON \
@@ -79,6 +85,8 @@ module TTF \
 LIB="SDL2_ttf.dll" \
 VERSION="release-2.24.0" \
 GITHUB="https://github.com/libsdl-org/SDL_ttf.git" \
+BUILD="cmake --build . --config Release" \
+INSTALL="cmake --install . --config Release" \
 CMAKE='cmake .. -G "Visual Studio 17 2022" -A $ARCH -Wno-dev \
 -DBUILD_SHARED_LIBS=ON \
 -DSDL2TTF_SAMPLES=OFF \

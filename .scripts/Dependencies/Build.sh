@@ -13,18 +13,26 @@ for i in "${!ARCHS[@]}"; do
         echo "$MODULE [$PLATFORM $ARCH]"
         echo
 
-        # Download module if not found
+        # DOWNLOAD
         if [ ! -d "$MODULES_DIR/$MODULE" ]; then
+          
+            # CLONE
             echo "$MODULE ${MOD[VERSION]} [Downloading]"
             git clone "${MOD[GITHUB]}" "$MODULES_DIR/$MODULE"
             cd "$MODULES_DIR/$MODULE"
-            git checkout "${MOD[VERSION]}"
+            
+            # CHECKOUT
+            if [ -n "${MOD[VERSION]}" ]; then
+                git checkout "${MOD[VERSION]}"
+            fi
+            
+            # SUB MODULES
             git submodule update --init --recursive
         else
             echo "$MODULE ${MOD[VERSION]} [Found]"
         fi
 
-        # Directories
+        # REQUIREMENTS
         cd "$MODULES_DIR/$MODULE"
         BUILDPATH="$MODULES_DIR/$MODULE/build_${PLATFORM}-$ARCH"
         INSTALLPATH="$MODULES_DIR/$MODULE/install_${PLATFORM}-$ARCH"
@@ -32,10 +40,21 @@ for i in "${!ARCHS[@]}"; do
         mkdir -p "$BUILDPATH" "$INSTALLPATH"
         cd "$BUILDPATH"
 
-        # Build
-        eval "${MOD[CMAKE]} -DCMAKE_INSTALL_PREFIX=$INSTALLPATH"
-        cmake --build . --config Release
-        cmake --install . --config Release
+        # GENERATE
+        if [ -n "${MOD[CMAKE]}" ]; then
+            eval "${MOD[CMAKE]} -DCMAKE_INSTALL_PREFIX=$INSTALLPATH"
+        fi
+        
+        # BUILD
+        if [ -n "${MOD[BUILD]}" ]; then
+            eval "${MOD[BUILD]}"
+        fi
+        
+        # INSTALL
+        if [ -n "${MOD[INSTALL]}" ]; then
+            eval "${MOD[INSTALL]}"
+        fi
+
     done
 done
 

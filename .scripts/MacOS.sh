@@ -17,6 +17,8 @@ module LIBPNG \
 LIB="" \
 VERSION="v1.6.50" \
 GITHUB="https://github.com/libsdl-org/libpng.git" \
+BUILD="cmake --build . --config Release" \
+INSTALL="cmake --install . --config Release" \
 CMAKE='cmake .. \
 -DCMAKE_BUILD_TYPE=Release \
 -DBUILD_SHARED_LIBS=OFF \
@@ -31,6 +33,8 @@ module FREETYPE \
 LIB="" \
 VERSION="VER-2-13-3" \
 GITHUB="https://github.com/libsdl-org/freetype.git" \
+BUILD="cmake --build . --config Release" \
+INSTALL="cmake --install . --config Release" \
 CMAKE='cmake .. \
 -DCMAKE_BUILD_TYPE=Release \
 -DBUILD_SHARED_LIBS=OFF \
@@ -45,6 +49,8 @@ module SDL \
 LIB="libSDL2.dylib" \
 VERSION="release-2.32.8" \
 GITHUB="https://github.com/libsdl-org/SDL.git" \
+BUILD="cmake --build . --config Release" \
+INSTALL="cmake --install . --config Release" \
 CMAKE='cmake .. -G "Unix Makefiles" \
 -DSDL_SHARED=ON \
 -DSDL_STATIC=OFF \
@@ -57,6 +63,8 @@ module IMAGE \
 LIB="libSDL2_image.dylib" \
 VERSION="release-2.8.8" \
 GITHUB="https://github.com/libsdl-org/SDL_image.git" \
+BUILD="cmake --build . --config Release" \
+INSTALL="cmake --install . --config Release" \
 CMAKE='cmake .. -G "Unix Makefiles" \
 -DSDL2IMAGE_BMP=ON \
 -DSDL2IMAGE_PNG=ON \
@@ -88,6 +96,8 @@ module MIXER \
 LIB="libSDL2_mixer.dylib" \
 VERSION="release-2.8.1" \
 GITHUB="https://github.com/libsdl-org/SDL_mixer.git" \
+BUILD="cmake --build . --config Release" \
+INSTALL="cmake --install . --config Release" \
 CMAKE='cmake .. -G "Unix Makefiles" \
 -DSDL2MIXER_WAVE=ON \
 -DSDL2MIXER_MP3=ON \
@@ -110,6 +120,8 @@ module TTF \
 LIB="libSDL2_ttf.dylib" \
 VERSION="release-2.24.0" \
 GITHUB="https://github.com/libsdl-org/SDL_ttf.git" \
+BUILD="cmake --build . --config Release" \
+INSTALL="cmake --install . --config Release" \
 CMAKE='cmake .. -G "Unix Makefiles" \
 -DBUILD_SHARED_LIBS=ON \
 -DSDL2TTF_SAMPLES=OFF \
