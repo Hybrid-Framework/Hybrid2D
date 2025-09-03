@@ -51,20 +51,19 @@ module SDL \
 LIB="SDL2.framework" \
 VERSION="release-2.32.8" \
 GITHUB="https://github.com/libsdl-org/SDL.git" \
-BUILD='xcodebuild -project "$MODULES_DIR/SDL/build_IOS-'$ARCH'/SDL.xcodeproj" -scheme SDL -configuration Release -sdk iphoneos -arch '$ARCH' build' \
+BUILD="" \
 INSTALL="" \
-CMAKE='cmake .. -G Xcode -Wno-dev \
--DSDL_SHARED=OFF \
--DSDL_STATIC=ON \
--DCMAKE_SYSTEM_NAME=iOS \
--DCMAKE_OSX_DEPLOYMENT_TARGET=13.0 \
--DCMAKE_OSX_ARCHITECTURES=arm64 \
--DCMAKE_OSX_SYSROOT=iphoneos \
--DCMAKE_C_FLAGS="-Wno-deprecated-declarations" \
--DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations"'
+CMAKE='xcodebuild -project "$MODULES_DIR/SDL/Xcode/SDL/SDL.xcodeproj"' \
+-scheme Framework-iOS \
+-configuration Release \
+-sdk iphoneos \
+-arch arm64 \
+CODE_SIGNING_ALLOWED=NO \
+CODE_SIGNING_REQUIRED=NO \
+build'
 
 
-#
+
 ## SDL2_image
 #module IMAGE \
 #LIB="SDL2_image.framework" \
