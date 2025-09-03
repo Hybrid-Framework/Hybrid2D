@@ -15,5 +15,4 @@ for ai in "${!ARCHS[@]}"; do
     done
 done
 
-
-read -p "Build complete."
+COMPLETE

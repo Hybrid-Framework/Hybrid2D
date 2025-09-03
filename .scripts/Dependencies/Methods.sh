@@ -59,3 +59,17 @@ Transfer()
     fi
 }
 
+Rename()
+{
+    local SRC="$1"   # Full path to source file
+    local DEST="$2"  # Full path to destination file (including new name)
+
+    if [[ -f "$SRC" ]]; then
+        echo "Renaming $SRC → $DEST"
+        mv "$SRC" "$DEST"
+    else
+        echo "Warning: Source file $SRC does not exist, cannot rename"
+        return 1
+    fi
+}
+
