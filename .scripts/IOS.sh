@@ -10,7 +10,7 @@ PLATFORM="IOS"
 ARCHS=("arm64" "x86_64" "arm64")
 SDKS=("iphoneos" "iphonesimulator" "iphonesimulator")
 RIDS=("ios-arm64" "iossimulator-x64" "iossimulator-arm64")
-MODULES=("SDL2")
+MODULES=("SDL2" "SDL2_image" "SDL2_mixer" "SDL2_ttf")
 
 IOS_DEPLOYMENT_TARGET=13.0
 
@@ -39,34 +39,6 @@ SDL2()
     OTHER_CFLAGS="-Wno-shorten-64-to-32 -Wdeprecated-declarations -DGLES_SILENCE_DEPRECATION" \
     build
 }
-
-COMPLETE()
-{
-    # Create the universal simulator folder
-    UNIVERSAL_DIR="$MODULES_DIR/SDL2/build_IOS-iossimulator-universal/SDL2.framework"
-    mkdir -p "$UNIVERSAL_DIR"
-
-    # Copy framework metadata (Info.plist, Headers) from one of the simulators
-    cp -R "$MODULES_DIR/SDL2/build_IOS-iossimulator-arm64/SDL2.framework/"* "$UNIVERSAL_DIR"
-
-    # Replace the binary with a lipo fat binary
-    lipo -create \
-      "$MODULES_DIR/SDL2/build_IOS-iossimulator-x64/SDL2.framework/SDL2" \
-      "$MODULES_DIR/SDL2/build_IOS-iossimulator-arm64/SDL2.framework/SDL2" \
-      -output "$UNIVERSAL_DIR/SDL2"
-
-    # Create the XCFramework
-    xcodebuild -create-xcframework \
-      -framework "$MODULES_DIR/SDL2/build_IOS-ios-arm64/SDL2.framework" \
-      -framework "$UNIVERSAL_DIR" \
-      -output "$BASE_DIR/../Natives/IOS/SDL2.xcframework"
-
-    read -p "Build complete."
-}
-
-
-source "$BASE_DIR/Dependencies/Build.sh"
-
 
 
 SDL2_image()
@@ -167,3 +139,36 @@ SDL2_ttf()
     OTHER_CFLAGS="-Wno-shorten-64-to-32 -Wdeprecated-declarations -DGLES_SILENCE_DEPRECATION" \
     build
 }
+
+COMPLETE()
+{
+    for MODULE in "${MODULES[@]}"; do
+
+        UNIVERSAL_DIR="$MODULES_DIR/$MODULE/build_IOS-iossimulator-universal/$MODULE.framework"
+        XCFRAMEWORK="$BASE_DIR/../Natives/IOS/$MODULE.xcframework"
+        mkdir -p "$UNIVERSAL_DIR"
+        
+        cp -R "$MODULES_DIR/$MODULE/build_IOS-iossimulator-arm64/$MODULE.framework/"* "$UNIVERSAL_DIR"
+
+        lipo -create \
+          "$MODULES_DIR/$MODULE/build_IOS-iossimulator-x64/$MODULE.framework/$MODULE" \
+          "$MODULES_DIR/$MODULE/build_IOS-iossimulator-arm64/$MODULE.framework/$MODULE" \
+          -output "$UNIVERSAL_DIR/$MODULE"
+
+        xcodebuild -create-xcframework \
+          -framework "$MODULES_DIR/$MODULE/build_IOS-ios-arm64/$MODULE.framework" \
+          -framework "$UNIVERSAL_DIR" \
+          -output "$XCFRAMEWORK"
+        
+        # CLEAN UP
+        find "$XCFRAMEWORK" -type f ! -name "Info.plist" ! -name "$MODULE" -exec rm -f "{}" \;
+        find "$XCFRAMEWORK" -type d -empty -delete
+
+    done
+
+    read -p "Build complete."
+}
+
+
+
+source "$BASE_DIR/Dependencies/Build.sh"

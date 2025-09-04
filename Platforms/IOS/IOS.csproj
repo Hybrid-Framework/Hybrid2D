@@ -17,7 +17,17 @@
     <Import Project="..\..\Shared.props" />
 
     <ItemGroup>
+        <BundleResource Include="..\..\Engine\Assets\**\*">
+            <LogicalName>Assets/%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+            <Link>.Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
+        </BundleResource>
+    </ItemGroup>
+
+    <ItemGroup>
         <NativeReference Include="..\..\Natives\IOS\SDL2.xcframework" />
+        <NativeReference Include="..\..\Natives\IOS\SDL2_image.xcframework" />
+        <NativeReference Include="..\..\Natives\IOS\SDL2_mixer.xcframework" />
+        <NativeReference Include="..\..\Natives\IOS\SDL2_ttf.xcframework" />
     </ItemGroup>
 
 </Project>
