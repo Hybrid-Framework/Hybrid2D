@@ -15,5 +15,9 @@
     </PropertyGroup>
 
     <Import Project="..\..\Shared.props" />
-    
+
+    <ItemGroup>
+        <NativeReference Include="..\..\Natives\IOS\SDL2.xcframework" />
+    </ItemGroup>
+
 </Project>
