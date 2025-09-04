@@ -1,23 +1,15 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <DefineConstants>IOS</DefineConstants>
-    </PropertyGroup>
-
-    <PropertyGroup>
+        <TargetFramework>net8.0-ios</TargetFramework>
         <OutputType>Exe</OutputType>
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <TargetFramework>net8.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <ImplicitUsings>true</ImplicitUsings>
+        <SupportedOSPlatformVersion>13.0</SupportedOSPlatformVersion>
     </PropertyGroup>
-
-    <Import Project="..\..\Shared.props" />
-
-    <ItemGroup>
-        <None Include="..\..\Engine\Assets\**\*">
-            <Link>.Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
-        </None>
-    </ItemGroup>
-
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <CodesignKey>iPhone Developer</CodesignKey>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <CodesignKey>iPhone Developer</CodesignKey>
+    </PropertyGroup>
 </Project>
