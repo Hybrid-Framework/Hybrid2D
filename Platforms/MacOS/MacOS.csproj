@@ -21,12 +21,6 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <Link>.Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
         </Content>
-        <Content Update="..\..\Natives\MacOS\libSDL2_ttf.dylib">
-          <Link>.Assets\libSDL2_ttf.dylib</Link>
-        </Content>
-        <Content Update="..\..\Natives\MacOS\libSDL2_ttf.dylib">
-          <Link>libSDL2_ttf.dylib</Link>
-        </Content>
     </ItemGroup>
 
     <PropertyGroup>
