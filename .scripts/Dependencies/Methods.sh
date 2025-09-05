@@ -61,15 +61,22 @@ Transfer()
 
 Rename()
 {
-    local SRC="$1"   # Full path to source file
-    local DEST="$2"  # Full path to destination file (including new name)
+    local PATTERN="$1"
+    local DEST="$2"
 
-    if [[ -f "$SRC" ]]; then
+    shopt -s nullglob
+    local FILES=($PATTERN)
+
+    if [[ ${#FILES[@]} -eq 0 ]]; then
+        echo "Warning: No files match $PATTERN — skipping"
+        return 0
+    fi
+
+    for SRC in "${FILES[@]}"; do
         echo "Renaming $SRC → $DEST"
         mv "$SRC" "$DEST"
-    else
-        echo "Warning: Source file $SRC does not exist, cannot rename"
-        return 1
-    fi
+        break
+    done
 }
+
 
