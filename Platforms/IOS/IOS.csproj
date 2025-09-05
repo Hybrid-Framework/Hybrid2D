@@ -1,15 +1,33 @@
 <Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <DefineConstants>IOS</DefineConstants>
+    </PropertyGroup>
+
     <PropertyGroup>
         <TargetFramework>net8.0-ios</TargetFramework>
+        <SupportedOSPlatformVersion>13.0</SupportedOSPlatformVersion>
+        <CodesignKey>iPhone Developer</CodesignKey>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <ImplicitUsings>true</ImplicitUsings>
         <OutputType>Exe</OutputType>
         <Nullable>enable</Nullable>
-        <ImplicitUsings>true</ImplicitUsings>
-        <SupportedOSPlatformVersion>13.0</SupportedOSPlatformVersion>
     </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-      <CodesignKey>iPhone Developer</CodesignKey>
-    </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-      <CodesignKey>iPhone Developer</CodesignKey>
-    </PropertyGroup>
+
+    <Import Project="..\..\Shared.props" />
+
+    <ItemGroup>
+        <BundleResource Include="..\..\Engine\Assets\**\*">
+            <LogicalName>Assets/%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+            <Link>.Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
+        </BundleResource>
+    </ItemGroup>
+
+    <ItemGroup>
+        <NativeReference Include="..\..\Natives\IOS\SDL2.xcframework" />
+        <NativeReference Include="..\..\Natives\IOS\SDL2_image.xcframework" />
+        <NativeReference Include="..\..\Natives\IOS\SDL2_mixer.xcframework" />
+        <NativeReference Include="..\..\Natives\IOS\SDL2_ttf.xcframework" />
+    </ItemGroup>
+
 </Project>

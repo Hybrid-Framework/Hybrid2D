@@ -11,7 +11,6 @@ ARCHS=("arm64" "x86_64" "arm64")
 SDKS=("iphoneos" "iphonesimulator" "iphonesimulator")
 RIDS=("ios-arm64" "iossimulator-x64" "iossimulator-arm64")
 MODULES=("SDL2" "SDL2_image" "SDL2_mixer" "SDL2_ttf")
-
 IOS_DEPLOYMENT_TARGET=13.0
 
 SDL2()
@@ -142,31 +141,30 @@ SDL2_ttf()
 
 COMPLETE()
 {
-    for MODULE in "${MODULES[@]}"; do
+  for MODULE in "${MODULES[@]}"; do
 
-        UNIVERSAL_DIR="$MODULES_DIR/$MODULE/build_IOS-iossimulator-universal/$MODULE.framework"
-        XCFRAMEWORK="$BASE_DIR/../Natives/IOS/$MODULE.xcframework"
-        mkdir -p "$UNIVERSAL_DIR"
-        
-        cp -R "$MODULES_DIR/$MODULE/build_IOS-iossimulator-arm64/$MODULE.framework/"* "$UNIVERSAL_DIR"
+    UNIVERSAL_DIR="$MODULES_DIR/$MODULE/build_IOS-iossimulator-universal/$MODULE.framework"
+    XCFRAMEWORK="$BASE_DIR/../Natives/IOS/$MODULE.xcframework"
+    mkdir -p "$UNIVERSAL_DIR"
+    
+    cp -R "$MODULES_DIR/$MODULE/build_IOS-iossimulator-arm64/$MODULE.framework/"* "$UNIVERSAL_DIR"
+  
+    lipo -create \
+      "$MODULES_DIR/$MODULE/build_IOS-iossimulator-x64/$MODULE.framework/$MODULE" \
+      "$MODULES_DIR/$MODULE/build_IOS-iossimulator-arm64/$MODULE.framework/$MODULE" \
+      -output "$UNIVERSAL_DIR/$MODULE"
+  
+    xcodebuild -create-xcframework \
+      -framework "$MODULES_DIR/$MODULE/build_IOS-ios-arm64/$MODULE.framework" \
+      -framework "$UNIVERSAL_DIR" \
+      -output "$XCFRAMEWORK"
+    
+    find "$XCFRAMEWORK" -type f ! -name "Info.plist" ! -name "$MODULE" -exec rm -f "{}" \;
+    find "$XCFRAMEWORK" -type d -empty -delete
 
-        lipo -create \
-          "$MODULES_DIR/$MODULE/build_IOS-iossimulator-x64/$MODULE.framework/$MODULE" \
-          "$MODULES_DIR/$MODULE/build_IOS-iossimulator-arm64/$MODULE.framework/$MODULE" \
-          -output "$UNIVERSAL_DIR/$MODULE"
+  done
 
-        xcodebuild -create-xcframework \
-          -framework "$MODULES_DIR/$MODULE/build_IOS-ios-arm64/$MODULE.framework" \
-          -framework "$UNIVERSAL_DIR" \
-          -output "$XCFRAMEWORK"
-        
-        # CLEAN UP
-        find "$XCFRAMEWORK" -type f ! -name "Info.plist" ! -name "$MODULE" -exec rm -f "{}" \;
-        find "$XCFRAMEWORK" -type d -empty -delete
-
-    done
-
-    read -p "Build complete."
+  read -p "Build complete."
 }
 
 
