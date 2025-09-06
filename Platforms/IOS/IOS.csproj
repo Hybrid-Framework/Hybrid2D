@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <DefineConstants>ANDROID</DefineConstants>
+        <DefineConstants>IOS</DefineConstants>
     </PropertyGroup>
     
     <PropertyGroup>
@@ -21,6 +21,13 @@
             <LogicalName>Assets/%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
             <Link>.Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
         </BundleResource>
+    </ItemGroup>
+
+    <ItemGroup>
+        <NativeReference Include="..\..\Natives\IOS\SDL2.xcframework"/>
+        <NativeReference Include="..\..\Natives\IOS\SDL2_image.xcframework"/>
+        <NativeReference Include="..\..\Natives\IOS\SDL2_ttf.xcframework"/>
+        <NativeReference Include="..\..\Natives\IOS\SDL2_mixer.xcframework"/>
     </ItemGroup>
 
 </Project>
