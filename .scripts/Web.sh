@@ -10,7 +10,7 @@ source "$DEPENDENCIES_DIR/Methods.sh"
 
 
 PLATFORM="Web"
-MODULES=("Emscripten")
+MODULES=("Emscripten" "SDL2" "LIBPNG")
 ARCHS=("Any")
 
 Emscripten()
@@ -25,13 +25,20 @@ Emscripten()
   ./emsdk activate "$VERSION"
   source ./emsdk_env.sh
 
-  cd "$MODULES_DIR/$MODULE" || exit
-  BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM"
+  export EM_CACHE="$MODULES_DIR/$MODULE/build_$PLATFORM"
+}
+
+SDL2()
+{
+  local INDEX="$1"
+  local VERSION="3.1.34"
+  
+  cd "$MODULES_DIR/Emscripten" || exit
+  BUILDPATH="$MODULES_DIR/Emscripten/build_$PLATFORM"
   rm -rf "$BUILDPATH"
   mkdir -p "$BUILDPATH"
   cd "$BUILDPATH" || exit
-
-  export EM_CACHE="$MODULES_DIR/$MODULE/build_$PLATFORM"
+  
   echo 'int main() { return 0; }' > test.c
 
   emcc test.c \
@@ -42,10 +49,36 @@ Emscripten()
     -o test.html
 }
 
+LIBPNG()
+{
+  local INDEX="$1"
+  local VERSION="v1.6.50"
+
+  Install "LIBPNG" "https://github.com/libsdl-org/libpng" "$VERSION"
+
+  cd "$MODULES_DIR/$MODULE" || exit
+  BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM"
+  rm -rf "$BUILDPATH"
+  mkdir -p "$BUILDPATH"
+  cd "$BUILDPATH" || exit
+
+  emconfigure ../configure \
+    --host=wasm32-emscripten \
+    --prefix="$BUILDPATH/sysroot" \
+    --with-zlib-prefix="$MODULES_DIR/Emscripten/build_$PLATFORM/sysroot" \
+    --enable-static \
+    --disable-shared
+
+  emmake make -j$(nproc)
+  
+  rm -rf "$MODULES_DIR/Emscripten/build_$PLATFORM/sysroot/lib/wasm32-emscripten/libpng.a"
+  Rename "$MODULES_DIR/$MODULE/build_$PLATFORM/.libs/libpng16.a" "$MODULES_DIR/Emscripten/build_$PLATFORM/sysroot/lib/wasm32-emscripten/libpng.a"
+}
+
 
 COMPLETE()
 {
-  local LIBPATH="$MODULES_DIR/$MODULE/build_$PLATFORM/sysroot/lib/wasm32-emscripten"
+  local LIBPATH="$MODULES_DIR/Emscripten/build_$PLATFORM/sysroot/lib/wasm32-emscripten"
   local TARGETPATH="$BASE_DIR/../Natives/$PLATFORM"
   
   Rename "$LIBPATH/libSDL2_image*.a" "$LIBPATH/SDL2_image.a"
@@ -60,9 +93,9 @@ COMPLETE()
   Transfer "$LIBPATH/libfreetype.a" "$TARGETPATH"
   Transfer "$LIBPATH/libharfbuzz.a" "$TARGETPATH"
   Transfer "$LIBPATH/libjpeg.a" "$TARGETPATH"
+  Transfer "$LIBPATH/libpng.a" "$TARGETPATH"
   Transfer "$LIBPATH/libmpg123.a" "$TARGETPATH"
   Transfer "$LIBPATH/libogg.a" "$TARGETPATH"
-  Transfer "$LIBPATH/libpng.a" "$TARGETPATH"
   Transfer "$LIBPATH/libvorbis.a" "$TARGETPATH"
   Transfer "$LIBPATH/libz.a" "$TARGETPATH"
   
