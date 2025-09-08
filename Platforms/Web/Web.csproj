@@ -28,7 +28,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <NativeFileReference Include="..\..\Natives\Web\**\*.a">
+        <NativeFileReference Include="..\..\Natives\Web\Universal\**\*.a">
             <Visible>false</Visible>
         </NativeFileReference>
         

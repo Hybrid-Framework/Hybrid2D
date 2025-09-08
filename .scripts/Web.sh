@@ -1,5 +1,3 @@
-# Web.sh
-
 #!/usr/bin/env bash
 set -euo pipefail
 
@@ -8,10 +6,9 @@ MODULES_DIR="$BASE_DIR/Dependencies/Modules"
 DEPENDENCIES_DIR="$BASE_DIR/Dependencies"
 source "$DEPENDENCIES_DIR/Methods.sh"
 
-
 PLATFORM="Web"
-MODULES=("Emscripten" "SDL2" "LIBPNG")
-ARCHS=("Any")
+MODULES=("Emscripten")
+ARCHS=("Browser")
 
 Emscripten()
 {
@@ -24,14 +21,6 @@ Emscripten()
   ./emsdk install "$VERSION"
   ./emsdk activate "$VERSION"
   source ./emsdk_env.sh
-
-  export EM_CACHE="$MODULES_DIR/$MODULE/build_$PLATFORM"
-}
-
-SDL2()
-{
-  local INDEX="$1"
-  local VERSION="3.1.34"
   
   cd "$MODULES_DIR/Emscripten" || exit
   BUILDPATH="$MODULES_DIR/Emscripten/build_$PLATFORM"
@@ -39,66 +28,15 @@ SDL2()
   mkdir -p "$BUILDPATH"
   cd "$BUILDPATH" || exit
   
+  export EM_CACHE="$MODULES_DIR/$MODULE/build_$PLATFORM"
   echo 'int main() { return 0; }' > test.c
-
-  emcc test.c \
-    -s USE_SDL=2 \
-    -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='["png","jpg","bmp"]' \
-    -s USE_SDL_MIXER=2 -s SDL2_MIXER_FORMATS='["ogg","wav","mp3"]' \
-    -s USE_SDL_TTF=2 \
-    -o test.html
-}
-
-LIBPNG()
-{
-  local INDEX="$1"
-  local VERSION="v1.6.50"
-
-  Install "LIBPNG" "https://github.com/libsdl-org/libpng" "$VERSION"
-
-  cd "$MODULES_DIR/$MODULE" || exit
-  BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM"
-  rm -rf "$BUILDPATH"
-  mkdir -p "$BUILDPATH"
-  cd "$BUILDPATH" || exit
-
-  emconfigure ../configure \
-    --host=wasm32-emscripten \
-    --prefix="$BUILDPATH/sysroot" \
-    --with-zlib-prefix="$MODULES_DIR/Emscripten/build_$PLATFORM/sysroot" \
-    --enable-static \
-    --disable-shared
-
-  emmake make -j$(nproc)
+  emcc test.c -s USE_SDL=2 -o test.html
   
-  rm -rf "$MODULES_DIR/Emscripten/build_$PLATFORM/sysroot/lib/wasm32-emscripten/libpng.a"
-  Rename "$MODULES_DIR/$MODULE/build_$PLATFORM/.libs/libpng16.a" "$MODULES_DIR/Emscripten/build_$PLATFORM/sysroot/lib/wasm32-emscripten/libpng.a"
+  Transfer "$BUILDPATH/sysroot/lib/wasm32-emscripten/libSDL2.a" "$BASE_DIR/../Natives/$PLATFORM/Universal/SDL2.a"
 }
-
 
 COMPLETE()
 {
-  local LIBPATH="$MODULES_DIR/Emscripten/build_$PLATFORM/sysroot/lib/wasm32-emscripten"
-  local TARGETPATH="$BASE_DIR/../Natives/$PLATFORM"
-  
-  Rename "$LIBPATH/libSDL2_image*.a" "$LIBPATH/SDL2_image.a"
-  Rename "$LIBPATH/libSDL2_mixer*.a" "$LIBPATH/SDL2_mixer.a"
-  Rename "$LIBPATH/libSDL2_ttf*.a" "$LIBPATH/SDL2_ttf.a"
-  Rename "$LIBPATH/libSDL2*.a" "$LIBPATH/SDL2.a"
-  
-  Transfer "$LIBPATH/SDL2.a" "$TARGETPATH"
-  Transfer "$LIBPATH/SDL2_image.a" "$TARGETPATH"
-  Transfer "$LIBPATH/SDL2_mixer.a" "$TARGETPATH"
-  Transfer "$LIBPATH/SDL2_ttf.a" "$TARGETPATH"
-  Transfer "$LIBPATH/libfreetype.a" "$TARGETPATH"
-  Transfer "$LIBPATH/libharfbuzz.a" "$TARGETPATH"
-  Transfer "$LIBPATH/libjpeg.a" "$TARGETPATH"
-  Transfer "$LIBPATH/libpng.a" "$TARGETPATH"
-  Transfer "$LIBPATH/libmpg123.a" "$TARGETPATH"
-  Transfer "$LIBPATH/libogg.a" "$TARGETPATH"
-  Transfer "$LIBPATH/libvorbis.a" "$TARGETPATH"
-  Transfer "$LIBPATH/libz.a" "$TARGETPATH"
-  
   read -p "Build complete."
 }
 
