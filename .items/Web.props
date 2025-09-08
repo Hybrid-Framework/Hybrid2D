@@ -1,0 +1,39 @@
+<Project>
+    
+<!-- Settings -->
+    <PropertyGroup>
+        <Scheme>WEB</Scheme>
+        <DefineConstants>$(Platform)</DefineConstants>
+        <EmccExtraLDFlags>
+            -sDEFAULT_LIBRARY_FUNCS_TO_INCLUDE=$autoResumeAudioContext,$dynCall
+            --embed-file ../../Engine/Assets@Assets
+            -sALLOW_MEMORY_GROWTH=1
+        </EmccExtraLDFlags>
+    </PropertyGroup>
+
+<!-- Includes -->
+    <ItemGroup>
+        <Compile Include="..\..\Engine\**\*.cs" Exclude="..\**\bin\** ; ..\**\obj\** ; ..\**\Platform\**">
+            <Link>.Engine\%(RecursiveDir)%(Filename)%(Extension)</Link>
+        </Compile>
+
+        <Compile Include="..\..\Engine\Platform\$(Scheme)\**\*.cs">
+            <Link>.Engine\Platform\$(Scheme)\%(RecursiveDir)%(Filename)%(Extension)</Link>
+        </Compile>
+    </ItemGroup>
+    
+<!-- Assets -->
+    <ItemGroup>
+        <None Include="..\..\Engine\Assets\**\*">
+            <Link>.Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
+        </None>
+    </ItemGroup>
+
+<!-- Natives -->
+    <ItemGroup>
+        <NativeFileReference Include="..\..\Natives\Web\browser\**\*.a"/>
+        <EmccExportedRuntimeMethod Include="setMainLoop"/>
+        <EmccExportedRuntimeMethod Include="SDL"/>
+    </ItemGroup>
+
+</Project>

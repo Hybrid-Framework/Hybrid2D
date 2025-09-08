@@ -1,10 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <DefineConstants>IOS</DefineConstants>
-    </PropertyGroup>
-    
-    <PropertyGroup>
         <TargetFramework>net8.0-ios</TargetFramework>
         <SupportedOSPlatformVersion>13.0</SupportedOSPlatformVersion>
         <CodesignKey>iPhone Developer</CodesignKey>
@@ -14,18 +10,7 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-    <Import Project="..\..\Shared.props" />
-
-    <ItemGroup>
-        <BundleResource Include="..\..\Engine\Assets\**\*">
-            <LogicalName>Assets/%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-            <Link>.Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
-        </BundleResource>
-    </ItemGroup>
-
-    <ItemGroup>
-        <NativeReference Include="..\..\Natives\IOS\SDL2.xcframework"/>
-        <NativeReference Include="..\..\Natives\IOS\SDL2_mixer.xcframework"/>
-    </ItemGroup>
+    <Import Project="..\..\.items\Shared.props" />
+    <Import Project="..\..\.items\IOS.props" />
 
 </Project>

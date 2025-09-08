@@ -1,52 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk.WebAssembly">
 
     <PropertyGroup>
-        <DefineConstants>WEB</DefineConstants>
-    </PropertyGroup>
-    
-    <PropertyGroup>
         <WasmAllowUndefinedSymbols>true</WasmAllowUndefinedSymbols>
         <WasmEmitSymbolMap>true</WasmEmitSymbolMap>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-
-        <EmccExtraLDFlags>
-            -sDEFAULT_LIBRARY_FUNCS_TO_INCLUDE=$autoResumeAudioContext,$dynCall
-            --embed-file ../../Engine/Assets@Assets
-            -sALLOW_MEMORY_GROWTH=1
-        </EmccExtraLDFlags>
     </PropertyGroup>
 
-    <Import Project="..\..\Shared.props" />
+    <Import Project="..\..\.items\Shared.props" />
+    <Import Project="..\..\.items\Web.props" />
     
-    <ItemGroup>
-        <None Include="..\..\Engine\Assets\**\*">
-            <Link>.Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
-        </None>
-    </ItemGroup>
-
-    <ItemGroup>
-        <NativeFileReference Include="..\..\Natives\Web\browser\**\*.a">
-            <Visible>false</Visible>
-        </NativeFileReference>
-        
-        <EmccExportedRuntimeMethod Include="SDL">
-            <Visible>false</Visible>
-        </EmccExportedRuntimeMethod>
-        
-        <EmccExportedRuntimeMethod Include="setMainLoop">
-            <Visible>false</Visible>
-        </EmccExportedRuntimeMethod>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Content Update="wwwroot\index.html">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
-        <Content Update="wwwroot\main.js">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
-    </ItemGroup>
 </Project>

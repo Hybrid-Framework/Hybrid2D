@@ -8,7 +8,6 @@ namespace Engine
         public FPSCounter FPSCounter = new FPSCounter();
         public IntPtr renderer;
         public IntPtr window;
-        public IntPtr texture;
         
         public Game(string title, int width, int height, SDL_WindowFlags flags)
         {
@@ -19,8 +18,6 @@ namespace Engine
 
             renderer = SDL_CreateRenderer(window, -1, SDL_RendererFlags.SDL_RENDERER_ACCELERATED | SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC);
             if(renderer == IntPtr.Zero) throw new Exception($"SDL: {SDL_GetError()}");
-            
-            texture = Imager.LoadTexture(renderer, $"{Assets.GetPath()}/Image.png");
             
             FPSCounter.Start();
         }
@@ -46,8 +43,6 @@ namespace Engine
             
             SDL_SetRenderDrawColor(renderer, r, g, b, 255);
             SDL_RenderClear(renderer);
-
-            SDL_RenderCopy(renderer, texture, IntPtr.Zero, IntPtr.Zero);
             
             SDL_RenderPresent(renderer);
             return true;

@@ -1,0 +1,49 @@
+<Project>
+    
+<!-- Settings -->
+    <PropertyGroup>
+        <Scheme>ANDROID</Scheme>
+        <DefineConstants>$(Platform)</DefineConstants>
+    </PropertyGroup>
+    
+<!-- Includes -->
+    <ItemGroup>
+        <Compile Include="..\..\Engine\**\*.cs" Exclude="..\**\bin\** ; ..\**\obj\** ; ..\**\Platform\**">
+            <Link>.Engine\%(RecursiveDir)%(Filename)%(Extension)</Link>
+        </Compile>
+
+        <Compile Include="..\..\Engine\Platform\$(Scheme)\**\*.cs">
+            <Link>.Engine\Platform\$(Scheme)\%(RecursiveDir)%(Filename)%(Extension)</Link>
+        </Compile>
+    </ItemGroup>
+    
+<!-- Assets -->
+    <ItemGroup>
+        <AndroidAsset Include="..\..\Engine\Assets\**\*">
+            <LogicalName>Assets/%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+            <Link>.Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
+        </AndroidAsset>
+    </ItemGroup>
+    
+<!-- Natives -->
+    <ItemGroup>
+        <EmbeddedJar Include="Jars\SDLActivity.jar"/>
+
+        <AndroidNativeLibrary Include="..\..\Natives\Android\armeabi-v7a\*.so">
+            <Abi>armeabi-v7a</Abi>
+        </AndroidNativeLibrary>
+
+        <AndroidNativeLibrary Include="..\..\Natives\Android\arm64-v8a\*.so">
+            <Abi>arm64-v8a</Abi>
+        </AndroidNativeLibrary>
+
+        <AndroidNativeLibrary Include="..\..\Natives\Android\x86_64\*.so">
+            <Abi>x86_64</Abi>
+        </AndroidNativeLibrary>
+
+        <AndroidNativeLibrary Include="..\..\Natives\Android\x86\*.so">
+            <Abi>x86</Abi>
+        </AndroidNativeLibrary>
+    </ItemGroup>
+
+</Project>

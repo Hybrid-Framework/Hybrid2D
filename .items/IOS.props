@@ -1,0 +1,34 @@
+<Project>
+
+<!-- Settings -->
+    <PropertyGroup>
+        <Scheme>IOS</Scheme>
+        <DefineConstants>$(Platform)</DefineConstants>
+    </PropertyGroup>
+
+<!-- Includes -->
+    <ItemGroup>
+        <Compile Include="..\..\Engine\**\*.cs" Exclude="..\**\bin\** ; ..\**\obj\** ; ..\**\Platform\**">
+            <Link>.Engine\%(RecursiveDir)%(Filename)%(Extension)</Link>
+        </Compile>
+
+        <Compile Include="..\..\Engine\Platform\$(Scheme)\**\*.cs">
+            <Link>.Engine\Platform\$(Scheme)\%(RecursiveDir)%(Filename)%(Extension)</Link>
+        </Compile>
+    </ItemGroup>
+
+<!-- Assets -->
+    <ItemGroup>
+        <BundleResource Include="..\..\Engine\Assets\**\*">
+            <LogicalName>Assets/%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+            <Link>.Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
+        </BundleResource>
+    </ItemGroup>
+    
+<!-- Natives -->
+    <ItemGroup>
+        <NativeReference Include="..\..\Natives\IOS\SDL2.xcframework"/>
+        <NativeReference Include="..\..\Natives\IOS\SDL2_mixer.xcframework"/>
+    </ItemGroup>
+
+</Project>

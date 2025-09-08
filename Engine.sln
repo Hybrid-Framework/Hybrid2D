@@ -1,14 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App", "App\App.csproj", "{AB787AB5-2A40-4D32-87B8-40BBC208A111}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine", "Engine\Engine.csproj", "{0BCEFE08-C88E-474C-B1E7-32F0457884B0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Windows", "Platforms\Windows\Windows.csproj", "{841075BD-8ACB-4755-9E2D-D18AC2C0B829}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Linux", "Platforms\Linux\Linux.csproj", "{E99633D8-F2D4-45C9-AC2C-2109394B0FFE}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{EA806E73-0B64-4526-93F3-0B37ADA4E2CE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Engine", "Engine", "{F09E69BA-3F65-4A4E-98CC-F05560403CC1}"
 EndProject
@@ -26,12 +22,22 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Android", "Platforms\Androi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Items", ".Items", "{84BB581D-7441-4AAC-8847-C4B07CD47C36}"
 	ProjectSection(SolutionItems) = preProject
-		Shared.props = Shared.props
+		.items\Android.props = .items\Android.props
+		.items\IOS.props = .items\IOS.props
+		.items\Linux.props = .items\Linux.props
+		.items\MacOS.props = .items\MacOS.props
+		.items\Web.props = .items\Web.props
+		.items\Windows.props = .items\Windows.props
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IOS", "Platforms\IOS\IOS.csproj", "{882684D4-BBAF-4804-A977-C21E8D500D7F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MacOS", "Platforms\MacOS\MacOS.csproj", "{F10890B0-2C0E-49C6-9845-4FB8171EADC6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{FC78912A-0449-42CF-A673-F76C9A3AF4D6}"
+	ProjectSection(SolutionItems) = preProject
+		.items\Shared.props = .items\Shared.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,10 +45,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AB787AB5-2A40-4D32-87B8-40BBC208A111}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AB787AB5-2A40-4D32-87B8-40BBC208A111}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AB787AB5-2A40-4D32-87B8-40BBC208A111}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AB787AB5-2A40-4D32-87B8-40BBC208A111}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0BCEFE08-C88E-474C-B1E7-32F0457884B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0BCEFE08-C88E-474C-B1E7-32F0457884B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0BCEFE08-C88E-474C-B1E7-32F0457884B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -78,11 +80,11 @@ Global
 		{648265A5-D3EE-4B27-B873-135124FF5034} = {574E6364-206B-4DDA-8895-08F9AF815EAE}
 		{E99633D8-F2D4-45C9-AC2C-2109394B0FFE} = {A03D66E8-4962-49FF-9AE1-0687033EBDB6}
 		{841075BD-8ACB-4755-9E2D-D18AC2C0B829} = {A03D66E8-4962-49FF-9AE1-0687033EBDB6}
-		{AB787AB5-2A40-4D32-87B8-40BBC208A111} = {EA806E73-0B64-4526-93F3-0B37ADA4E2CE}
 		{0BCEFE08-C88E-474C-B1E7-32F0457884B0} = {F09E69BA-3F65-4A4E-98CC-F05560403CC1}
 		{FD74C97F-7636-413D-9919-1910A7ABDA9B} = {648265A5-D3EE-4B27-B873-135124FF5034}
 		{838974AA-31F8-466C-940D-C749041D776D} = {2927F6CE-0EC9-4BBD-B09F-6A41212127A5}
 		{882684D4-BBAF-4804-A977-C21E8D500D7F} = {2927F6CE-0EC9-4BBD-B09F-6A41212127A5}
 		{F10890B0-2C0E-49C6-9845-4FB8171EADC6} = {A03D66E8-4962-49FF-9AE1-0687033EBDB6}
+		{FC78912A-0449-42CF-A673-F76C9A3AF4D6} = {84BB581D-7441-4AAC-8847-C4B07CD47C36}
 	EndGlobalSection
 EndGlobal

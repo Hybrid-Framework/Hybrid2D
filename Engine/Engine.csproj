@@ -7,10 +7,4 @@
         <Nullable>disable</Nullable>
     </PropertyGroup>
 
-    <ItemGroup>
-        <Compile Include="..\App\**\*.cs" Exclude="..\**\bin\**;..\**\obj\**">
-            <Visible>false</Visible>
-        </Compile>
-    </ItemGroup>
-
 </Project>

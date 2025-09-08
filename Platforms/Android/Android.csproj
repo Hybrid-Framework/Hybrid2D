@@ -1,10 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <DefineConstants>ANDROID</DefineConstants>
-    </PropertyGroup>
-    
-    <PropertyGroup>
         <TargetFramework>net8.0-android</TargetFramework>
         <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
         <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
@@ -17,39 +13,7 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-    <Import Project="..\..\Shared.props" />
-
-    <ItemGroup>
-        <AndroidAsset Include="..\..\Engine\Assets\**\*">
-            <LogicalName>Assets/%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-            <Link>.Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
-        </AndroidAsset>
-    </ItemGroup>
-
-    <ItemGroup>
-        <EmbeddedJar Include="Jars\SDLActivity.jar">
-            <Visible>false</Visible>
-        </EmbeddedJar>
-        
-        <AndroidNativeLibrary Include="..\..\Natives\Android\armeabi-v7a\*.so">
-            <Visible>false</Visible>
-            <Abi>armeabi-v7a</Abi>
-        </AndroidNativeLibrary>
-        
-        <AndroidNativeLibrary Include="..\..\Natives\Android\arm64-v8a\*.so">
-            <Visible>false</Visible>
-            <Abi>arm64-v8a</Abi>
-        </AndroidNativeLibrary>
-        
-        <AndroidNativeLibrary Include="..\..\Natives\Android\x86_64\*.so">
-            <Visible>false</Visible>
-            <Abi>x86_64</Abi>
-        </AndroidNativeLibrary>
-        
-        <AndroidNativeLibrary Include="..\..\Natives\Android\x86\*.so">
-            <Visible>false</Visible>
-            <Abi>x86</Abi>
-        </AndroidNativeLibrary>
-    </ItemGroup>
+    <Import Project="..\..\.items\Shared.props" />
+    <Import Project="..\..\.items\Android.props" />
     
 </Project>
