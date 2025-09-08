@@ -13,9 +13,4 @@
         </Compile>
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Internal\STB\Image\" />
-      <Folder Include="Internal\STB\Write\" />
-    </ItemGroup>
-
 </Project>
