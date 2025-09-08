@@ -24,7 +24,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <NativeReference Include="..\..\Natives\IOS\**\*.xcframework"/>
+        <NativeReference Include="..\..\Natives\IOS\SDL2.xcframework">
+            <Visible>false</Visible>
+        </NativeReference>
     </ItemGroup>
 
 </Project>

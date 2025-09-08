@@ -5,7 +5,7 @@ public static partial class Program
 {
     [JSImport("setMainLoop", "main.js")]
     private static partial void SetMainLoop([JSMarshalAs<JSType.Function>] Action cb);
-    private static Tests? Game = null;
+    private static Game? Game = null;
     private static void Main() { }
 
     [JSExport]
@@ -13,7 +13,7 @@ public static partial class Program
     {
         if (Game == null)
         {
-            Game = new Tests($"Hello", 1280, 768, SDL2.SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN);
+            Game = new Game($"Hello", 1280, 768, SDL2.SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN);
         }
         else
         {

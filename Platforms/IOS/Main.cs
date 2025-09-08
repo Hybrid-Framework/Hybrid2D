@@ -5,19 +5,7 @@ public static class Program
 {
     public static void Main(string[] args)
     {
-        var assembly = typeof(SDL).Assembly;
-
-        NativeLibrary.SetDllImportResolver(assembly, (library, asm, path) =>
-        {
-            return library switch
-            {
-                "SDL2_image" => NativeLibrary.Load("@rpath/SDL2_image.framework/SDL2_image", asm, path),
-                "SDL2_mixer" => NativeLibrary.Load("@rpath/SDL2_mixer.framework/SDL2_mixer", asm, path),
-                "SDL2_ttf" => NativeLibrary.Load("@rpath/SDL2_ttf.framework/SDL2_ttf", asm, path),
-                "SDL2" => NativeLibrary.Load("@rpath/SDL2.framework/SDL2", asm, path),
-                _ => IntPtr.Zero
-            };
-        });
+        NativeLibrary.SetDllImportResolver(typeof(SDL).Assembly, (_, assembly, path) => NativeLibrary.Load("@rpath/SDL2.framework/SDL2", assembly, path));
 
         SDL.SDL_main_func entry = Entry;
         SDL.SDL_UIKitRunApp(0, IntPtr.Zero, entry);
@@ -25,7 +13,7 @@ public static class Program
 
     private static int Entry(int argc, IntPtr argv)
     {
-        using var app = new Engine.Tests("Hello", 800, 600, SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN | SDL.SDL_WindowFlags.SDL_WINDOW_RESIZABLE);
+        using var app = new Engine.Game("Hello", 800, 600, SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN | SDL.SDL_WindowFlags.SDL_WINDOW_RESIZABLE);
 
         while (app.Update())
         {
