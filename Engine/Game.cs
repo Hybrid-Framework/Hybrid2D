@@ -8,6 +8,7 @@ namespace Engine
         public FPSCounter FPSCounter = new FPSCounter();
         public IntPtr renderer;
         public IntPtr window;
+        public IntPtr texture;
         
         public Game(string title, int width, int height, SDL_WindowFlags flags)
         {
