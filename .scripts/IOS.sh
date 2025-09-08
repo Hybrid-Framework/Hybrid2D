@@ -11,7 +11,7 @@ PLATFORM="IOS"
 ARCHS=("arm64" "x86_64" "arm64")
 SDKS=("iphoneos" "iphonesimulator" "iphonesimulator")
 RIDS=("ios-arm64" "iossimulator-x64" "iossimulator-arm64")
-MODULES=("SDL2")
+MODULES=("SDL2" "SDL2_mixer")
 
 SDL2()
 {
@@ -35,6 +35,39 @@ SDL2()
     -sdk "$SDK" \
     IPHONEOS_DEPLOYMENT_TARGET=$IOS_DEPLOYMENT_TARGET \
     CONFIGURATION_BUILD_DIR="$BUILDPATH" \
+    OTHER_CFLAGS="-Wno-shorten-64-to-32 -Wdeprecated-declarations -DGLES_SILENCE_DEPRECATION" \
+    build
+}
+
+SDL2_mixer()
+{
+  local INDEX="$1"
+  local ARCH="${ARCHS[$INDEX]}"
+  local SDK="${SDKS[$INDEX]}"
+  local RID="${RIDS[$INDEX]}"
+
+  Install "SDL2_mixer" "https://github.com/libsdl-org/SDL_mixer.git" "release-2.8.1"
+
+  cd "$MODULES_DIR/$MODULE" || exit
+  BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$RID"
+  rm -rf "$BUILDPATH"
+  mkdir -p "$BUILDPATH"
+
+  SDL_BUILD="$MODULES_DIR/SDL2/build_$PLATFORM-$RID"
+  SDL_FRAMEWORK="$SDL_BUILD/SDL2.framework"
+  SDL_INCLUDE="$SDL_FRAMEWORK/Headers"
+
+  xcodebuild \
+    -project "$MODULES_DIR/SDL2_mixer/Xcode/SDL_mixer.xcodeproj" \
+    -scheme "Framework" \
+    -configuration Release \
+    -arch "$ARCH" \
+    -sdk "$SDK" \
+    IPHONEOS_DEPLOYMENT_TARGET=$IOS_DEPLOYMENT_TARGET \
+    CONFIGURATION_BUILD_DIR="$BUILDPATH" \
+    HEADER_SEARCH_PATHS="$SDL_INCLUDE" \
+    FRAMEWORK_SEARCH_PATHS="$SDL_BUILD" \
+    OTHER_LDFLAGS="-framework SDL2" \
     OTHER_CFLAGS="-Wno-shorten-64-to-32 -Wdeprecated-declarations -DGLES_SILENCE_DEPRECATION" \
     build
 }

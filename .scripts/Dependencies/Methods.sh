@@ -41,26 +41,40 @@ Transfer()
     local SRC="$1"
     local DEST="$2"
 
-    # Ensure SRC exists
-    if [ ! -e "$SRC" ]; then
-        echo "Error: Source $SRC does not exist"
+    if [ -f "$SRC" ]; then
+        # SRC is a file
+        mkdir -p "$DEST"
+        echo "Copying file $SRC → $DEST/"
+        cp "$SRC" "$DEST/"
+
+    elif [ -d "$SRC" ]; then
+        # SRC is a directory
+        mkdir -p "$DEST"
+        echo "Copying directory $SRC → $DEST/"
+        cp -r "$SRC/." "$DEST/"
+
+    else
+        echo "Warning: Source $SRC does not exist"
         return 1
     fi
-
-    if [ -d "$DEST" ]; then
-        # If DEST is a directory, append filename
-        mkdir -p "$DEST"
-        DEST="$DEST/$(basename "$SRC")"
-    else
-        # Ensure parent directory exists
-        mkdir -p "$(dirname "$DEST")"
-    fi
-
-    echo "Moving $SRC → $DEST"
-    mv "$SRC" "$DEST"
 }
 
+Rename()
+{
+    local PATTERN="$1"
+    local DEST="$2"
 
+    shopt -s nullglob
+    local FILES=($PATTERN)
 
+    if [[ ${#FILES[@]} -eq 0 ]]; then
+        echo "Warning: No files match $PATTERN — skipping"
+        return 0
+    fi
 
-
+    for SRC in "${FILES[@]}"; do
+        echo "Renaming $SRC → $DEST"
+        mv "$SRC" "$DEST"
+        break
+    done
+}

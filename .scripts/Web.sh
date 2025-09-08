@@ -30,9 +30,23 @@ Emscripten()
   
   export EM_CACHE="$MODULES_DIR/$MODULE/build_$PLATFORM"
   echo 'int main() { return 0; }' > test.c
-  emcc test.c -s USE_SDL=2 -o test.html
   
-  Transfer "$BUILDPATH/sysroot/lib/wasm32-emscripten/libSDL2.a" "$BASE_DIR/../Natives/$PLATFORM/Universal/SDL2.a"
+  emcc test.c \
+      -s USE_SDL=2 \
+      -s USE_SDL_MIXER=2 -s SDL2_MIXER_FORMATS='["ogg","wav","mp3"]' \
+      -o test.html
+  
+  local LIBPATH="$MODULES_DIR/$MODULE/build_$PLATFORM/sysroot/lib/wasm32-emscripten"
+  local TARGETPATH="$BASE_DIR/../Natives/$PLATFORM/browser"
+  
+  Rename "$LIBPATH/libSDL2_mixer*.a" "$LIBPATH/SDL2_mixer.a"
+  Rename "$LIBPATH/libSDL2*.a" "$LIBPATH/SDL2.a"
+  
+  Transfer "$LIBPATH/SDL2.a" "$TARGETPATH"
+  Transfer "$LIBPATH/SDL2_mixer.a" "$TARGETPATH"
+  Transfer "$LIBPATH/libmpg123.a" "$TARGETPATH"
+  Transfer "$LIBPATH/libogg.a" "$TARGETPATH"
+  Transfer "$LIBPATH/libvorbis.a" "$TARGETPATH"
 }
 
 COMPLETE()
