@@ -1,36 +1,27 @@
-﻿using System;
+﻿using Engine.Internal.SDL2;
+using System;
 
 namespace Engine
 {
-    public interface IPlatform
+    public abstract partial class Platform
     {
-        public Device Device { get; set; }
-        
-        public IFileSystem FileSystem { get; set; }
-        public IDebug Debug { get; set; }
-    }
-    
-    public static class Platform
-    {
-        public static IPlatform Current;
+        public static Platform Current;
 
-        public static void Create(IPlatform platform)
+        public static void Create(Platform platform)
         {
+            if(Current != null) return;
             Current = platform;
         }
-
-        public static Device GetDevice()
-        {
-            return Current.Device;
-        }
     }
-
-    public enum Device
+    
+    public abstract partial class Platform
     {
-        Unknown,
-        Desktop,
-        Android,
-        IOS,
-        Web
+        public abstract Game Game { get; set; }
+        public abstract IDevice Device { get; set; }
+        
+        public abstract IFileSystem FileSystem { get; set; }
+        public abstract IDebug Debug { get; set; }
+
+        public abstract void Run();
     }
 }

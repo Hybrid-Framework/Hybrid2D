@@ -1,12 +1,31 @@
-﻿using System;
+﻿using static Engine.Internal.SDL2.SDL;
+using System;
 
 namespace Engine.Platforms
 {
-    public class PlatformWeb : IPlatform
+    public class PlatformWeb : Platform
     {
-        public Device Device { get; set; } = Device.Web;
+        public override Game Game { get; set; }
+        public override IDevice Device { get; set; } = IDevice.Web;
         
-        public IFileSystem FileSystem { get; set; } = new FileSystemWeb();
-        public IDebug Debug { get; set; } = new DebugWeb();
+        public override IFileSystem FileSystem { get; set; } = new FileSystemWeb();
+        public override IDebug Debug { get; set; } = new DebugWeb();
+        
+        
+        public PlatformWeb(Game game)
+        {
+            Game = game;
+            Game.Init("Engine", 1280, 768, SDL_WindowFlags.SDL_WINDOW_SHOWN);
+        }
+
+        public override void Run()
+        {
+            if (Game.Update())
+            {
+                return;
+            }
+            
+            Game.Dispose();
+        }
     }
 }

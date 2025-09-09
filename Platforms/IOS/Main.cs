@@ -1,8 +1,12 @@
 using System.Runtime.InteropServices;
 using static Engine.Internal.SDL2.SDL;
+using Engine.Platforms;
+using Engine;
 
 public static class Program
 {
+    private static bool Initialized = false;
+    
     public static void Main(string[] args)
     {
         var assembly = typeof(Engine.Internal.SDL2.SDL).Assembly;
@@ -23,13 +27,13 @@ public static class Program
 
     private static int Entry(int argc, IntPtr argv)
     {
-        using var app = new Engine.Game("Hello", 800, 600, SDL_WindowFlags.SDL_WINDOW_FULLSCREEN | SDL_WindowFlags.SDL_WINDOW_RESIZABLE);
-
-        while (app.Update())
+        if (!Initialized)
         {
-            // Game loop
+            Platform.Create(new PlatformIOS(new Game()));
+            Initialized = true;
         }
-
+        
+        Platform.Current.Run();
         return 0;
     }
 }

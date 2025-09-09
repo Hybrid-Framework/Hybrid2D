@@ -1,6 +1,8 @@
 using static Engine.Internal.SDL2.SDL;
 using Android.Content.PM;
+using Engine.Platforms;
 using Org.Libsdl.App;
+using Engine;
 
 [Activity(Label = "Android", 
     Exported = true,
@@ -13,16 +15,18 @@ using Org.Libsdl.App;
     )]
 public class MainActivity : SDLActivity
 {
+    private static bool Initialized = false;
+    
     protected override string[] GetLibraries() => ["SDL2", "SDL2_mixer"];
     
     protected override void Entry()
     {
-        using (var app = new Engine.Game("Hello", 800, 600, SDL_WindowFlags.SDL_WINDOW_FULLSCREEN | SDL_WindowFlags.SDL_WINDOW_RESIZABLE))
+        if (!Initialized)
         {
-            while (app.Update())
-            {
-                
-            }
+            Platform.Create(new PlatformAndroid(new Game()));
+            Initialized = true;
         }
+        
+        Platform.Current.Run();
     }
 }

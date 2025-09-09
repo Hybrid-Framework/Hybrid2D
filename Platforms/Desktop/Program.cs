@@ -1,16 +1,20 @@
 ﻿using static Engine.Internal.SDL2.SDL;
 using System;
+using Engine;
+using Engine.Platforms;
 
 public static class Program
 {
+    private static bool Initialized;
+    
     public static void Main()
     {
-        using (var app = new Engine.Game("Hello", 800, 600, SDL_WindowFlags.SDL_WINDOW_SHOWN))
+        if (!Initialized)
         {
-            while (app.Update())
-            {
-                
-            }
+            Platform.Create(new PlatformDesktop(new Game()));
+            Initialized = true;
         }
+        
+        Platform.Current.Run();
     }
 }

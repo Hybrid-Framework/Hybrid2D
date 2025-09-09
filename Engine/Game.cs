@@ -9,7 +9,7 @@ namespace Engine
         public IntPtr renderer;
         public IntPtr window;
         
-        public Game(string title, int width, int height, SDL_WindowFlags flags)
+        public void Init(string title, int width, int height, SDL_WindowFlags flags)
         {
             if (SDL_Init(SDL_INIT_VIDEO) < 0) throw new Exception($"SDL: {SDL_GetError()}");
 

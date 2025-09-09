@@ -9,11 +9,11 @@
 <!-- Includes -->
     <ItemGroup>
         <Compile Include="..\..\Engine\**\*.cs" Exclude="..\**\bin\** ; ..\**\obj\** ; ..\**\Platforms\**">
-            <Link>.Engine\%(RecursiveDir)%(Filename)%(Extension)</Link>
+            <Link>.Engine\.%(RecursiveDir).%(Filename)%(Extension)</Link>
         </Compile>
 
         <Compile Include="..\..\Engine\Platforms\$(Scheme)\**\*.cs">
-            <Link>.Engine\Platforms\$(Scheme)\%(RecursiveDir)%(Filename)%(Extension)</Link>
+            <Link>.Engine\.Platforms\.$(Scheme)\.%(RecursiveDir)%(Filename)%(Extension)</Link>
         </Compile>
     </ItemGroup>
     
