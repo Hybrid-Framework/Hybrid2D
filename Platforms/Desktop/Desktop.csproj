@@ -1,5 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    
+
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -9,6 +9,6 @@
     </PropertyGroup>
 
     <Import Project="..\..\.items\Shared.props" />
-    <Import Project="..\..\.items\Linux.props" />
+    <Import Project="..\..\.items\Desktop.props" />
 
 </Project>

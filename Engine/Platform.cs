@@ -1,6 +1,6 @@
 ﻿namespace Engine
 {
-    public static partial class Platform
+    public partial class Platform
     {
         
     }

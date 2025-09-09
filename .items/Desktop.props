@@ -2,7 +2,7 @@
 
 <!-- Settings -->
     <PropertyGroup>
-        <Scheme>WINDOWS</Scheme>
+        <Scheme>DESKTOP</Scheme>
         <DefineConstants>$(Platform)</DefineConstants>
     </PropertyGroup>
 
@@ -21,6 +21,7 @@
     <ItemGroup>
         <Content Include="..\..\Engine\Assets\**\*">
             <TargetPath>Assets\%(RecursiveDir)%(Filename)%(Extension)</TargetPath>
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <Link>.Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
         </Content>
@@ -33,7 +34,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Content Include="..\..\Natives\Windows\$(Architecture)\**\*.dll">
+        <Content Include="..\..\Natives\Desktop\$(Architecture)\**\*">
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <Visible>false</Visible>
