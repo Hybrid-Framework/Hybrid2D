@@ -36,8 +36,8 @@ SDL2()
     OTHER_CFLAGS="-Wno-shorten-64-to-32 -Wdeprecated-declarations -DGLES_SILENCE_DEPRECATION" \
     build
     
-  Transfer "$BUILDPATH/$MODULE.framework/$MODULE" "$BASE_DIR/../Natives/$PLATFORM/$RID"
-  Rename "$BASE_DIR/../Natives/$PLATFORM/$RID/$MODULE" "$BASE_DIR/../Natives/$PLATFORM/$RID/lib$MODULE.dylib"
+  Transfer "$BUILDPATH/$MODULE.framework/$MODULE" "$BASE_DIR/../Natives/Desktop/$RID"
+  Rename "$BASE_DIR/../Natives/Desktop/$RID/$MODULE" "$BASE_DIR/../Natives/Desktop/$RID/lib$MODULE.dylib"
 }
 
 SDL2_mixer()
@@ -71,8 +71,8 @@ SDL2_mixer()
     OTHER_CFLAGS="-Wno-shorten-64-to-32 -Wdeprecated-declarations -DGLES_SILENCE_DEPRECATION" \
     build
     
-  Transfer "$BUILDPATH/$MODULE.framework/$MODULE" "$BASE_DIR/../Natives/$PLATFORM/$RID"
-  Rename "$BASE_DIR/../Natives/$PLATFORM/$RID/$MODULE" "$BASE_DIR/../Natives/$PLATFORM/$RID/lib$MODULE.dylib"
+  Transfer "$BUILDPATH/$MODULE.framework/$MODULE" "$BASE_DIR/../Natives/Desktop/$RID"
+  Rename "$BASE_DIR/../Natives/Desktop/$RID/$MODULE" "$BASE_DIR/../Natives/Desktop/$RID/lib$MODULE.dylib"
 }
 
 COMPLETE()

@@ -41,7 +41,7 @@ SDL2()
   cmake --build . --config Release
   cmake --install . --config Release
   
-  Transfer "$MODULES_DIR/$MODULE/install_${PLATFORM}-$ARCH/bin/$MODULE.dll" "$BASE_DIR/../Natives/$PLATFORM/$RID"
+  Transfer "$MODULES_DIR/$MODULE/install_${PLATFORM}-$ARCH/bin/$MODULE.dll" "$BASE_DIR/../Natives/Desktop/$RID"
 }
 
 SDL2_mixer()
@@ -78,7 +78,7 @@ SDL2_mixer()
   cmake --build . --config Release
   cmake --install . --config Release
   
-  Transfer "$MODULES_DIR/$MODULE/install_${PLATFORM}-$ARCH/bin/$MODULE.dll" "$BASE_DIR/../Natives/$PLATFORM/$RID"
+  Transfer "$MODULES_DIR/$MODULE/install_${PLATFORM}-$ARCH/bin/$MODULE.dll" "$BASE_DIR/../Natives/Desktop/$RID"
 }
 
 COMPLETE()
