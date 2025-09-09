@@ -7,4 +7,8 @@
         <Nullable>disable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Folder Include="Internal\SDL\" />
+    </ItemGroup>
+
 </Project>

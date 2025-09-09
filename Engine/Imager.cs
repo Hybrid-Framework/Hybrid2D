@@ -27,11 +27,11 @@ namespace Engine
                     image.Width,
                     image.Height,
                     32,
-                    image.Width * 4,        // pitch = width * bytes per pixel
-                    0x000000FF,             // R mask
-                    0x0000FF00,             // G mask
-                    0x00FF0000,             // B mask
-                    unchecked((uint)0xFF000000)              // A mask
+                    image.Width * 4,                // pitch = width * bytes per pixel
+                    0x000000FF,                     // R mask
+                    0x0000FF00,                     // G mask
+                    0x00FF0000,                     // B mask
+                    unchecked((uint)0xFF000000)     // A mask
                 );
 
                 texture = SDL_CreateTextureFromSurface(renderer, surface);

@@ -31,7 +31,7 @@
 
 <!-- Natives -->
     <ItemGroup>
-        <NativeFileReference Include="..\..\Natives\Web\browser\**\*.a"/>
+        <NativeFileReference Include="..\..\Natives\Web\**\*.a"/>
         <EmccExportedRuntimeMethod Include="setMainLoop"/>
         <EmccExportedRuntimeMethod Include="SDL"/>
     </ItemGroup>
