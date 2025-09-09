@@ -1,11 +1,11 @@
 using System.Runtime.InteropServices;
-using SDL2;
+using static Engine.Internal.SDL2.SDL;
 
 public static class Program
 {
     public static void Main(string[] args)
     {
-        var assembly = typeof(SDL).Assembly;
+        var assembly = typeof(Engine.Internal.SDL2.SDL).Assembly;
 
         NativeLibrary.SetDllImportResolver(assembly, (library, asm, path) =>
         {
@@ -17,13 +17,13 @@ public static class Program
             };
         });
 
-        SDL.SDL_main_func entry = Entry;
-        SDL.SDL_UIKitRunApp(0, IntPtr.Zero, entry);
+        SDL_main_func entry = Entry;
+        SDL_UIKitRunApp(0, IntPtr.Zero, entry);
     }
 
     private static int Entry(int argc, IntPtr argv)
     {
-        using var app = new Engine.Game("Hello", 800, 600, SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN | SDL.SDL_WindowFlags.SDL_WINDOW_RESIZABLE);
+        using var app = new Engine.Game("Hello", 800, 600, SDL_WindowFlags.SDL_WINDOW_FULLSCREEN | SDL_WindowFlags.SDL_WINDOW_RESIZABLE);
 
         while (app.Update())
         {

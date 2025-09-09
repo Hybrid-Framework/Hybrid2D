@@ -1,3 +1,4 @@
+using static Engine.Internal.SDL2.SDL;
 using Android.Content.PM;
 using Org.Libsdl.App;
 
@@ -16,7 +17,7 @@ public class MainActivity : SDLActivity
     
     protected override void Entry()
     {
-        using (var app = new Engine.Game("Hello", 800, 600, SDL2.SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN | SDL2.SDL.SDL_WindowFlags.SDL_WINDOW_RESIZABLE))
+        using (var app = new Engine.Game("Hello", 800, 600, SDL_WindowFlags.SDL_WINDOW_FULLSCREEN | SDL_WindowFlags.SDL_WINDOW_RESIZABLE))
         {
             while (app.Update())
             {

@@ -1,4 +1,4 @@
-﻿using static SDL2.SDL;
+﻿using static Engine.Internal.SDL2.SDL;
 
 namespace Engine
 {

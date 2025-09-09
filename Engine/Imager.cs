@@ -1,5 +1,5 @@
-﻿using StbImageSharp;
-using SDL2;
+﻿using static Engine.Internal.SDL2.SDL;
+using StbImageSharp;
 
 namespace Engine
 {
@@ -21,7 +21,7 @@ namespace Engine
             
             fixed (byte* pixels = image.Data)
             {
-                IntPtr surface = SDL.SDL_CreateRGBSurfaceFrom
+                IntPtr surface = SDL_CreateRGBSurfaceFrom
                 (
                     (IntPtr)pixels,
                     image.Width,
@@ -34,8 +34,8 @@ namespace Engine
                     unchecked((uint)0xFF000000)              // A mask
                 );
 
-                texture = SDL.SDL_CreateTextureFromSurface(renderer, surface);
-                SDL.SDL_FreeSurface(surface);
+                texture = SDL_CreateTextureFromSurface(renderer, surface);
+                SDL_FreeSurface(surface);
             }
 
             return texture;

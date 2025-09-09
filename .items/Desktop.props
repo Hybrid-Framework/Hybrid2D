@@ -2,18 +2,18 @@
 
 <!-- Settings -->
     <PropertyGroup>
-        <Scheme>DESKTOP</Scheme>
-        <DefineConstants>$(Platform)</DefineConstants>
+        <Scheme>Desktop</Scheme>
+        <DefineConstants>$(Scheme)</DefineConstants>
     </PropertyGroup>
 
 <!-- Includes -->
     <ItemGroup>
-        <Compile Include="..\..\Engine\**\*.cs" Exclude="..\**\bin\** ; ..\**\obj\** ; ..\**\Platform\**">
+        <Compile Include="..\..\Engine\**\*.cs" Exclude="..\**\bin\** ; ..\**\obj\** ; ..\**\Platforms\**">
             <Link>.Engine\%(RecursiveDir)%(Filename)%(Extension)</Link>
         </Compile>
 
-        <Compile Include="..\..\Engine\Platform\$(Scheme)\**\*.cs">
-            <Link>.Engine\Platform\$(Scheme)\%(RecursiveDir)%(Filename)%(Extension)</Link>
+        <Compile Include="..\..\Engine\Platforms\$(Scheme)\**\*.cs">
+            <Link>.Engine\Platforms\$(Scheme)\%(RecursiveDir)%(Filename)%(Extension)</Link>
         </Compile>
     </ItemGroup>
 
