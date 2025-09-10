@@ -10,7 +10,8 @@ PLATFORM="Linux"
 ARCHS=("x86_64" "x86" "aarch64" "arm")
 RIDS=("linux-x64" "linux-x86" "linux-arm64" "linux-arm")
 MODULES=("SDL2" "SDL2_image" "SDL2_mixer" "SDL2_ttf")
-COMPILERS=("gcc-13" "i686-linux-gnu-gcc-13" "aarch64-linux-gnu-gcc-13" "arm-linux-gnueabihf-gcc-13")
+COMPILERS=("gcc-13" "gcc-13" "aarch64-linux-gnu-gcc-13" "arm-linux-gnueabihf-gcc-13")
+CFLAGS=("" "-m32" "" "")
 
 SDL2()
 {
@@ -18,6 +19,7 @@ SDL2()
   local ARCH="${ARCHS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
   local COMPILER="${COMPILERS[$INDEX]}"
+  local FLAGS="${CFLAGS[$INDEX]}"
   
   Install "SDL2" "https://github.com/libsdl-org/SDL.git" "release-2.32.10"
   
@@ -29,12 +31,13 @@ SDL2()
   cd "$BUILDPATH" || exit
   
   cmake .. -G Ninja -Wno-dev \
+    -DCMAKE_SYSTEM_NAME=Linux \
     -DCMAKE_SYSTEM_PROCESSOR=$ARCH \
     -DCMAKE_C_COMPILER=$COMPILER \
+    -DCMAKE_C_FLAGS="$FLAGS -Wno-int-to-pointer-cast -Wno-pointer-to-int-cast" \
+    -DSDL_TESTS=OFF \
     -DSDL_SHARED=ON \
     -DSDL_STATIC=OFF \
-    -DSDL_LIBSAMPLERATE=OFF \
-    -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
     -DCMAKE_INSTALL_PREFIX=$INSTALLPATH
 
   cmake --build . --config Release
@@ -48,6 +51,8 @@ SDL2_image()
   local INDEX="$1"
   local ARCH="${ARCHS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
+  local COMPILER="${COMPILERS[$INDEX]}"
+  local FLAGS="${CFLAGS[$INDEX]}"
   
   Install "SDL2_image" "https://github.com/libsdl-org/SDL_image.git" "release-2.8.8"
   
@@ -59,8 +64,10 @@ SDL2_image()
   cd "$BUILDPATH" || exit
   
   cmake .. -G Ninja -Wno-dev \
+    -DCMAKE_SYSTEM_NAME=Linux \
     -DCMAKE_SYSTEM_PROCESSOR=$ARCH \
     -DCMAKE_C_COMPILER=$COMPILER \
+    -DCMAKE_C_FLAGS="$FLAGS -Wno-int-to-pointer-cast -Wno-pointer-to-int-cast" \
     -DSDL2IMAGE_BMP=ON \
     -DSDL2IMAGE_PNG=ON \
     -DSDL2IMAGE_JPG=ON \
@@ -80,7 +87,6 @@ SDL2_image()
     -DSDL2IMAGE_JXL=OFF \
     -DBUILD_SHARED_LIBS=ON \
     -DSDL2IMAGE_SAMPLES=OFF \
-    -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
     -DCMAKE_INSTALL_PREFIX=$INSTALLPATH \
     -DSDL2_INCLUDE_DIR=$MODULES_DIR/SDL2/install_$PLATFORM-$ARCH/include/SDL2 \
     -DSDL2_LIBRARY=$MODULES_DIR/SDL2/install_$PLATFORM-$ARCH/lib/libSDL2.so
@@ -96,6 +102,8 @@ SDL2_mixer()
   local INDEX="$1"
   local ARCH="${ARCHS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
+  local COMPILER="${COMPILERS[$INDEX]}"
+  local FLAGS="${CFLAGS[$INDEX]}"
   
   Install "SDL2_mixer" "https://github.com/libsdl-org/SDL_mixer.git" "release-2.8.1"
   
@@ -107,8 +115,10 @@ SDL2_mixer()
   cd "$BUILDPATH" || exit
   
   cmake .. -G Ninja -Wno-dev \
+    -DCMAKE_SYSTEM_NAME=Linux \
     -DCMAKE_SYSTEM_PROCESSOR=$ARCH \
     -DCMAKE_C_COMPILER=$COMPILER \
+    -DCMAKE_C_FLAGS="$FLAGS -Wno-int-to-pointer-cast -Wno-pointer-to-int-cast" \
     -DSDL2MIXER_WAVE=ON \
     -DSDL2MIXER_MP3=ON \
     -DSDL2MIXER_OGG=ON \
@@ -119,7 +129,6 @@ SDL2_mixer()
     -DSDL2MIXER_WAVPACK=OFF \
     -DBUILD_SHARED_LIBS=ON \
     -DSDL2MIXER_SAMPLES=OFF \
-    -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
     -DCMAKE_INSTALL_PREFIX=$INSTALLPATH \
     -DSDL2_INCLUDE_DIR=$MODULES_DIR/SDL2/install_$PLATFORM-$ARCH/include/SDL2 \
     -DSDL2_LIBRARY=$MODULES_DIR/SDL2/install_$PLATFORM-$ARCH/lib/libSDL2.so
@@ -135,6 +144,8 @@ SDL2_ttf()
   local INDEX="$1"
   local ARCH="${ARCHS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
+  local COMPILER="${COMPILERS[$INDEX]}"
+  local FLAGS="${CFLAGS[$INDEX]}"
   
   Install "SDL2_ttf" "https://github.com/libsdl-org/SDL_ttf.git" "release-2.24.0"
   
@@ -146,11 +157,15 @@ SDL2_ttf()
   cd "$BUILDPATH" || exit
   
   cmake .. -G Ninja -Wno-dev \
+    -DCMAKE_SYSTEM_NAME=Linux \
     -DCMAKE_SYSTEM_PROCESSOR=$ARCH \
     -DCMAKE_C_COMPILER=$COMPILER \
+    -DCMAKE_C_FLAGS="$FLAGS -Wno-int-to-pointer-cast -Wno-pointer-to-int-cast" \
     -DBUILD_SHARED_LIBS=ON \
     -DSDL2TTF_SAMPLES=OFF \
-    -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
+    -DSDL2TTF_VENDORED=ON \
+    -DSDL2TTF_FREETYPE=ON \
+    -DSDL2TTF_FREETYPE_VENDORED=ON \
     -DCMAKE_INSTALL_PREFIX=$INSTALLPATH \
     -DSDL2_INCLUDE_DIR=$MODULES_DIR/SDL2/install_$PLATFORM-$ARCH/include/SDL2 \
     -DSDL2_LIBRARY=$MODULES_DIR/SDL2/install_$PLATFORM-$ARCH/lib/libSDL2.so
