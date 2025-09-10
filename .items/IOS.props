@@ -27,8 +27,10 @@
     
 <!-- Natives -->
     <ItemGroup>
-        <NativeReference Include="..\..\Natives\IOS\SDL2.xcframework"/>
+        <NativeReference Include="..\..\Natives\IOS\SDL2_image.xcframework"/>
         <NativeReference Include="..\..\Natives\IOS\SDL2_mixer.xcframework"/>
+        <NativeReference Include="..\..\Natives\IOS\SDL2_ttf.xcframework"/>
+        <NativeReference Include="..\..\Natives\IOS\SDL2.xcframework"/>
     </ItemGroup>
 
 </Project>

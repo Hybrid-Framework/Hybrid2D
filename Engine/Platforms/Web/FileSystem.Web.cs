@@ -6,7 +6,7 @@ namespace Engine.Platforms
     {
         public string GetPath()
         {
-            return "/Assets";
+            return "/Assets/";
         }
         
         public void LoadAsset()

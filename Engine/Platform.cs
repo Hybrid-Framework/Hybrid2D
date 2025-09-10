@@ -9,8 +9,9 @@ namespace Engine
 
         public static void Create(Platform platform)
         {
-            if(Current != null) return;
             Current = platform;
+            
+            Current.Init();
         }
     }
     
@@ -22,6 +23,7 @@ namespace Engine
         public abstract IFileSystem FileSystem { get; set; }
         public abstract IDebug Debug { get; set; }
 
+        public abstract void Init();
         public abstract void Run();
     }
 }

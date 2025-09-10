@@ -1,4 +1,5 @@
 ﻿using static Engine.Internal.SDL2.SDL;
+using static Engine.Internal.SDL2.SDL_image;
 using System;
 
 namespace Engine
@@ -8,16 +9,21 @@ namespace Engine
         public FPSCounter FPSCounter = new FPSCounter();
         public IntPtr renderer;
         public IntPtr window;
+        public IntPtr texutre;
         
         public void Init(string title, int width, int height, SDL_WindowFlags flags)
         {
             if (SDL_Init(SDL_INIT_VIDEO) < 0) throw new Exception($"SDL: {SDL_GetError()}");
+            
+            if (IMG_Init(IMG_InitFlags.IMG_INIT_JPG | IMG_InitFlags.IMG_INIT_PNG) < 0) throw new Exception($"SDL IMAGE: {IMG_GetError()}");
 
             window = SDL_CreateWindow(title, width, height, flags);
             if (window == IntPtr.Zero) throw new Exception($"SDL: {SDL_GetError()}");
 
             renderer = SDL_CreateRenderer(window, -1, SDL_RendererFlags.SDL_RENDERER_ACCELERATED | SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC);
             if(renderer == IntPtr.Zero) throw new Exception($"SDL: {SDL_GetError()}");
+            
+            texutre = IMG_LoadTexture(renderer, FileSystem.GetPath() + "Image.png");
             
             FPSCounter.Start();
         }
@@ -43,6 +49,8 @@ namespace Engine
             
             SDL_SetRenderDrawColor(renderer, r, g, b, 255);
             SDL_RenderClear(renderer);
+
+            SDL_RenderCopy(renderer, texutre, IntPtr.Zero, IntPtr.Zero);
             
             SDL_RenderPresent(renderer);
             return true;
@@ -51,6 +59,7 @@ namespace Engine
         public void Dispose()
         {
             SDL_DestroyRenderer(renderer);
+            SDL_DestroyTexture(texutre);
             SDL_DestroyWindow(window);
             SDL_Quit();
         }

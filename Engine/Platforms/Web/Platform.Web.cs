@@ -15,6 +15,10 @@ namespace Engine.Platforms
         public PlatformWeb(Game game)
         {
             Game = game;
+        }
+
+        public override void Init()
+        {
             Game.Init("Engine", 1280, 768, SDL_WindowFlags.SDL_WINDOW_SHOWN);
         }
 
@@ -22,6 +26,7 @@ namespace Engine.Platforms
         {
             if (Game.Update())
             {
+                // Main Loop
                 return;
             }
             

@@ -5,16 +5,9 @@ using Engine.Platforms;
 
 public static class Program
 {
-    private static bool Initialized;
-    
     public static void Main()
     {
-        if (!Initialized)
-        {
-            Platform.Create(new PlatformDesktop(new Game()));
-            Initialized = true;
-        }
-        
+        Platform.Create(new PlatformDesktop(new Game()));
         Platform.Current.Run();
     }
 }

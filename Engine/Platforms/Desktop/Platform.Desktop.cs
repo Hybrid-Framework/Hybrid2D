@@ -15,14 +15,18 @@ namespace Engine.Platforms
         public PlatformDesktop(Game game)
         {
             Game = game;
-            Game.Init("Engine", 800, 600, SDL_WindowFlags.SDL_WINDOW_SHOWN);
         }
 
+        public override void Init()
+        {
+            Game.Init("Engine", 800, 600, SDL_WindowFlags.SDL_WINDOW_SHOWN);
+        }
+        
         public override void Run()
         {
             while (Game.Update())
             {
-                
+                // Main Loop
             }
             
             Game.Dispose();

@@ -15,6 +15,10 @@ namespace Engine.Platforms
         public PlatformAndroid(Game game)
         {
             Game = game;
+        }
+
+        public override void Init()
+        {
             Game.Init("Engine", 800, 600, SDL_WindowFlags.SDL_WINDOW_FULLSCREEN | SDL_WindowFlags.SDL_WINDOW_RESIZABLE);
         }
 
@@ -22,7 +26,7 @@ namespace Engine.Platforms
         {
             while (Game.Update())
             {
-                
+                // Main Loop
             }
             
             Game.Dispose();

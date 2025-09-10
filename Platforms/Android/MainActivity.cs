@@ -15,18 +15,9 @@ using Engine;
     )]
 public class MainActivity : SDLActivity
 {
-    private static bool Initialized = false;
-    
-    protected override string[] GetLibraries() => ["SDL2", "SDL2_mixer"];
-    
     protected override void Entry()
     {
-        if (!Initialized)
-        {
-            Platform.Create(new PlatformAndroid(new Game()));
-            Initialized = true;
-        }
-        
+        Platform.Create(new PlatformAndroid(new Game()));
         Platform.Current.Run();
     }
 }
