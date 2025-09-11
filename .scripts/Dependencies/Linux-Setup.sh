@@ -104,7 +104,8 @@ libmpg123-dev:amd64 \
 libvorbis-dev:amd64 \
 libogg-dev:amd64 \
 libfreetype6-dev:amd64 \
-libasound2-dev:amd64
+libasound2-dev:amd64 \
+libharfbuzz-dev:amd64
 
 sudo apt install -y \
 libx11-dev:i386 \
@@ -129,7 +130,8 @@ libmpg123-dev:i386 \
 libvorbis-dev:i386 \
 libogg-dev:i386 \
 libfreetype6-dev:i386 \
-libasound2-dev:i386
+libasound2-dev:i386 \
+libharfbuzz-dev:i386
 
 sudo apt install -y \
 libx11-dev:arm64 \
@@ -154,4 +156,5 @@ libmpg123-dev:arm64 \
 libvorbis-dev:arm64 \
 libogg-dev:arm64 \
 libfreetype6-dev:arm64 \
-libasound2-dev:arm64
+libasound2-dev:arm64 \
+libharfbuzz-dev:arm64
