@@ -12,18 +12,7 @@ namespace Engine
         
         public void Init(string title, int width, int height, SDL_WindowFlags flags)
         {
-            Environment.SetEnvironmentVariable("SDL_VIDEODRIVER", "x11");
-
-            Console.WriteLine($"DISPLAY={Environment.GetEnvironmentVariable("DISPLAY")}");
-            Console.WriteLine($"SDL_VIDEODRIVER={Environment.GetEnvironmentVariable("SDL_VIDEODRIVER")}");
-
             if (SDL_Init(SDL_INIT_VIDEO) < 0) throw new Exception($"SDL: {SDL_GetError()}");
-
-            Console.WriteLine($"DISPLAY={Environment.GetEnvironmentVariable("DISPLAY")}");
-            Console.WriteLine($"SDL_VIDEODRIVER={Environment.GetEnvironmentVariable("SDL_VIDEODRIVER")}");
-
-            
-            
             
             window = SDL_CreateWindow(title, width, height, flags);
             if (window == IntPtr.Zero) throw new Exception($"SDL: {SDL_GetError()}");
