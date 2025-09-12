@@ -48,7 +48,6 @@ SDL2()
 
 COMPLETE()
 {
-  local LLVMPATH="$MODULES_DIR/Emscripten/upstream/bin/llvm-nm.exe"
   local LIBPATH="$MODULES_DIR/Emscripten/build_$PLATFORM/sysroot/lib/wasm32-emscripten"
   local TARGETPATH="$BASE_DIR/../Natives/$PLATFORM"
   
@@ -56,7 +55,7 @@ COMPLETE()
   Rename "$LIBPATH/libSDL2_mixer*.a" "$LIBPATH/SDL2_mixer.a"
   Rename "$LIBPATH/libSDL2_ttf*.a" "$LIBPATH/SDL2_ttf.a"
   Rename "$LIBPATH/libSDL2*.a" "$LIBPATH/SDL2.a"
-  
+
   Transfer "$LIBPATH/SDL2.a" "$TARGETPATH"
   Transfer "$LIBPATH/SDL2_image.a" "$TARGETPATH"
   Transfer "$LIBPATH/SDL2_mixer.a" "$TARGETPATH"
@@ -71,11 +70,24 @@ COMPLETE()
   Transfer "$LIBPATH/libz.a" "$TARGETPATH"
   
   echo
-  echo "Checking for longjmp & exceptions"
+  echo "Checking for invoke_"
+  echo "We can't support these functions you must manually build module with flags"
+  echo "-fwasm-exceptions -sSUPPORT_LONGJMP=wasm"
   echo
   
-  # Check here
+  LLVMPATH="$MODULES_DIR/Emscripten/upstream/bin/llvm-nm.exe"
   
+  for lib in "$TARGETPATH"/*.a; do
+      symbols=$("$LLVMPATH" "$lib" 2>/dev/null | grep "invoke_" || true)
+      
+      if [ -n "$symbols" ]; then
+          echo "❌ $lib"
+          echo "$symbols"
+      else
+          echo "✅ $lib"
+      fi
+  done
+
   read -p "Build complete."
 }
 
