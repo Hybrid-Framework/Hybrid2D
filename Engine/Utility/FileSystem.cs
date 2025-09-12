@@ -4,13 +4,16 @@ namespace Engine
 {
     public interface IFileSystem
     {
-        string GetPath();
-        void LoadAsset();
+        string GetBasePath();
     }
     
-    public class FileSystem
+    public static class FileSystem
     {
-        public static string GetPath() => Platform.Current.FileSystem.GetPath();
-        public static void LoadAsset() => Platform.Current.FileSystem.LoadAsset();
+        public static string GetBasePath() => Platform.Current.FileSystem.GetBasePath();
+
+        public static string LoadAsset(string asset)
+        {
+            return GetBasePath() + asset;
+        }
     }
 }

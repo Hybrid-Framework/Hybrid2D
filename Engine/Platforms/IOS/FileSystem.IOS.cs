@@ -4,14 +4,9 @@ namespace Engine.Platforms
 {
     public class FileSystemIOS : IFileSystem
     {
-        public string GetPath()
+        public string GetBasePath()
         {
             return "Assets/";
-        }
-        
-        public void LoadAsset()
-        {
-            
         }
     }
 }

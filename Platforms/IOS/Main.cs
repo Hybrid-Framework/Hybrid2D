@@ -1,5 +1,4 @@
 using System.Runtime.InteropServices;
-using static Engine.Internal.SDL2.SDL;
 using Engine.Platforms;
 using Engine;
 
@@ -21,13 +20,13 @@ public static class Program
             };
         });
 
-        SDL_main_func entry = Entry;
-        SDL_UIKitRunApp(0, IntPtr.Zero, entry);
+        Engine.Internal.SDL2.SDL.SDL_main_func entry = Entry;
+        Engine.Internal.SDL2.SDL.SDL_UIKitRunApp(0, IntPtr.Zero, entry);
     }
 
     private static int Entry(int argc, IntPtr argv)
     {
-        Platform.Create(new PlatformIOS(new Game()));
+        Platform.Create(new PlatformIOS(new Game2()));
         Platform.Current.Run();
         return 0;
     }

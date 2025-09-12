@@ -1,4 +1,3 @@
-using static Engine.Internal.SDL2.SDL;
 using Android.Content.PM;
 using Engine.Platforms;
 using Org.Libsdl.App;
@@ -17,7 +16,7 @@ public class MainActivity : SDLActivity
 {
     protected override void Entry()
     {
-        Platform.Create(new PlatformAndroid(new Game()));
+        Platform.Create(new PlatformAndroid(new Game2()));
         Platform.Current.Run();
     }
 }
