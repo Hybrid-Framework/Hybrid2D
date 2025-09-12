@@ -39,10 +39,10 @@ SDL2()
   mkdir -p "$BUILDPATH"
   cd "$BUILDPATH" || exit
   
+  echo 'int main() { return 0; }' > test.c
+  
   emcc --clear-cache
   
-  echo 'int main() { return 0; }' > test.c
-
   emcc test.c \
     -s USE_SDL=2 \
     -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='["png","jpg","bmp"]' \

@@ -14,17 +14,18 @@ MODULES=("SDL2" "SDL2_image" "SDL2_mixer" "SDL2_ttf")
 
 echo
 echo "WARNING!"
-echo "Linux.sh is about to call a submodule (Dependencies/Linux-Setup.sh)"
-echo "This will change add system architectures and download compilers & libraries"
-echo "This will apply changes to the /etc/apt/sources.list file for accessing ports for external files for other architectures"
 echo
-read -p "Do you wish to run Linux-Setup? (y/n): " choice
+echo "Linux.sh is about to call a submodule (Dependencies/System/Linux/Environment.sh)"
+echo "This will add system architectures, compilers, libraries and append changes to /etc/apt/sources.list for accessing ports for other architectures"
+echo
+
+read -p "Do you wish to run Linux Environment Setup? (y/n): " choice
 
 case "$choice" in
   y|Y|yes|YES|Yes)
     echo
     echo "Running Linux-Setup"
-    source "$DEPENDENCIES_DIR/Linux-Setup.sh"
+    source "$DEPENDENCIES_DIR/System/Linux/Environment.sh"
     echo
     ;;
   n|N|no|NO|No)
