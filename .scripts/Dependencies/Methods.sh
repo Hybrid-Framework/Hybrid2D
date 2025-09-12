@@ -41,21 +41,19 @@ Transfer()
     local SRC="$1"
     local DEST="$2"
 
+    # Do nothing if SRC does not exist
     if [ -f "$SRC" ]; then
         # SRC is a file
         mkdir -p "$DEST"
         echo "Copying file $SRC → $DEST/"
         cp "$SRC" "$DEST/"
-
     elif [ -d "$SRC" ]; then
         # SRC is a directory
         mkdir -p "$DEST"
         echo "Copying directory $SRC → $DEST/"
         cp -r "$SRC/." "$DEST/"
-
     else
-        echo "Warning: Source $SRC does not exist"
-        return 1
+        echo "Skipping: Source $SRC does not exist"
     fi
 }
 
@@ -68,13 +66,13 @@ Rename()
     local FILES=($PATTERN)
 
     if [[ ${#FILES[@]} -eq 0 ]]; then
-        echo "Warning: No files match $PATTERN — skipping"
-        return 0
+        echo "Skipping: No files match $PATTERN"
+        return 0  # always return success
     fi
 
     for SRC in "${FILES[@]}"; do
         echo "Renaming $SRC → $DEST"
         mv "$SRC" "$DEST"
-        break
+        break  # only rename the first match
     done
 }
