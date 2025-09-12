@@ -10,6 +10,9 @@ PLATFORM="Web"
 MODULES=("Emscripten" "SDL2")
 ARCHS=("Any")
 
+LIBPATH="$MODULES_DIR/Emscripten/build_$PLATFORM/sysroot/lib/wasm32-emscripten"
+TARGETPATH="$BASE_DIR/../Natives/$PLATFORM"
+
 Emscripten()
 {
   local INDEX="$1"
@@ -36,6 +39,8 @@ SDL2()
   mkdir -p "$BUILDPATH"
   cd "$BUILDPATH" || exit
   
+  emcc --clear-cache
+  
   echo 'int main() { return 0; }' > test.c
 
   emcc test.c \
@@ -48,9 +53,6 @@ SDL2()
 
 COMPLETE()
 {
-  local LIBPATH="$MODULES_DIR/Emscripten/build_$PLATFORM/sysroot/lib/wasm32-emscripten"
-  local TARGETPATH="$BASE_DIR/../Natives/$PLATFORM"
-  
   Rename "$LIBPATH/libSDL2_image*.a" "$LIBPATH/SDL2_image.a"
   Rename "$LIBPATH/libSDL2_mixer*.a" "$LIBPATH/SDL2_mixer.a"
   Rename "$LIBPATH/libSDL2_ttf*.a" "$LIBPATH/SDL2_ttf.a"
@@ -71,8 +73,6 @@ COMPLETE()
   
   echo
   echo "Checking for invoke_"
-  echo "We can't support these functions you must manually build module with flags"
-  echo "-fwasm-exceptions -sSUPPORT_LONGJMP=wasm"
   echo
   
   LLVMPATH="$MODULES_DIR/Emscripten/upstream/bin/llvm-nm.exe"
