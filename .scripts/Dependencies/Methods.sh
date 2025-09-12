@@ -1,7 +1,5 @@
-# Install.sh
-
 #!/usr/bin/env bash
-set -euo pipefail
+set +e
 
 Install()
 {
@@ -36,43 +34,52 @@ Install()
     fi
 }
 
-Transfer()
-{
-    local SRC="$1"
-    local DEST="$2"
+Transfer() {
+    local SRC="${1:-}"   # default empty string if undefined
+    local DEST="${2:-}"  # default empty string if undefined
 
-    # Do nothing if SRC does not exist
-    if [ -f "$SRC" ]; then
-        # SRC is a file
+    # Check if SRC is non-empty
+    if [[ -z "$SRC" || -z "$DEST" ]]; then
+        echo "Skipping transfer: Source or destination is empty"
+        return 0
+    fi
+
+    if [[ -f "$SRC" ]]; then
         mkdir -p "$DEST"
         echo "Copying file $SRC → $DEST/"
         cp "$SRC" "$DEST/"
-    elif [ -d "$SRC" ]; then
-        # SRC is a directory
+    elif [[ -d "$SRC" ]]; then
         mkdir -p "$DEST"
         echo "Copying directory $SRC → $DEST/"
         cp -r "$SRC/." "$DEST/"
     else
-        echo "Skipping: Source $SRC does not exist"
+        echo "Skipping transfer: Source $SRC does not exist"
     fi
 }
 
-Rename()
-{
-    local PATTERN="$1"
-    local DEST="$2"
+
+Rename() {
+    local PATTERN="${1:-}"  # default empty string if undefined
+    local DEST="${2:-}"     # default empty string if undefined
+
+    # Skip if PATTERN or DEST is empty
+    if [[ -z "$PATTERN" || -z "$DEST" ]]; then
+        echo "Skipping rename: Pattern or destination is empty"
+        return 0
+    fi
 
     shopt -s nullglob
     local FILES=($PATTERN)
+    shopt -u nullglob
 
     if [[ ${#FILES[@]} -eq 0 ]]; then
-        echo "Skipping: No files match $PATTERN"
-        return 0  # always return success
+        echo "Skipping rename: No files match $PATTERN"
+        return 0
     fi
 
-    for SRC in "${FILES[@]}"; do
-        echo "Renaming $SRC → $DEST"
-        mv "$SRC" "$DEST"
-        break  # only rename the first match
-    done
+    mkdir -p "$(dirname "$DEST")"  # ensure destination directory exists
+    echo "Renaming ${FILES[0]} → $DEST"
+    mv "${FILES[0]}" "$DEST"
 }
+
+

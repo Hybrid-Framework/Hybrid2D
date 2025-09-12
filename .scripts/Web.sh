@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set +e
 
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MODULES_DIR="$BASE_DIR/Dependencies/Modules"
@@ -7,7 +7,7 @@ DEPENDENCIES_DIR="$BASE_DIR/Dependencies"
 source "$DEPENDENCIES_DIR/Methods.sh"
 
 PLATFORM="Web"
-MODULES=("Emscripten" "SDL2" "LIBPNG")
+MODULES=("Emscripten" "SDL2")
 ARCHS=("Any")
 
 Emscripten()
@@ -46,35 +46,9 @@ SDL2()
     -o test.html
 }
 
-LIBPNG()
-{
-  local INDEX="$1"
-  local VERSION="v1.6.50"
-
-  Install "LIBPNG" "https://github.com/libsdl-org/libpng" "$VERSION"
-
-  cd "$MODULES_DIR/$MODULE" || exit
-  BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM"
-  rm -rf "$BUILDPATH"
-  mkdir -p "$BUILDPATH"
-  cd "$BUILDPATH" || exit
-
-  emconfigure ../configure \
-    --host=wasm32-emscripten \
-    --prefix="$BUILDPATH/sysroot" \
-    --with-zlib-prefix="$MODULES_DIR/Emscripten/build_$PLATFORM/sysroot" \
-    --enable-static \
-    --disable-shared
-
-  emmake make -j$(nproc)
-  
-  rm -rf "$MODULES_DIR/Emscripten/build_$PLATFORM/sysroot/lib/wasm32-emscripten/libpng.a"
-  Rename "$MODULES_DIR/$MODULE/build_$PLATFORM/.libs/libpng16.a" "$MODULES_DIR/Emscripten/build_$PLATFORM/sysroot/lib/wasm32-emscripten/libpng.a"
-}
-
-
 COMPLETE()
 {
+  local LLVMPATH="$MODULES_DIR/Emscripten/upstream/bin/llvm-nm.exe"
   local LIBPATH="$MODULES_DIR/Emscripten/build_$PLATFORM/sysroot/lib/wasm32-emscripten"
   local TARGETPATH="$BASE_DIR/../Natives/$PLATFORM"
   
@@ -95,6 +69,12 @@ COMPLETE()
   Transfer "$LIBPATH/libogg.a" "$TARGETPATH"
   Transfer "$LIBPATH/libvorbis.a" "$TARGETPATH"
   Transfer "$LIBPATH/libz.a" "$TARGETPATH"
+  
+  echo
+  echo "Checking for longjmp & exceptions"
+  echo
+  
+  # Check here
   
   read -p "Build complete."
 }
