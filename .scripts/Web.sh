@@ -7,7 +7,7 @@ DEPENDENCIES_DIR="$BASE_DIR/Dependencies"
 source "$DEPENDENCIES_DIR/Methods.sh"
 
 PLATFORM="Web"
-MODULES=("Emscripten" "SDL2")
+MODULES=("Emscripten")
 ARCHS=("Any")
 
 LIBPATH="$MODULES_DIR/Emscripten/build_$PLATFORM/sysroot/lib/wasm32-emscripten"
@@ -39,7 +39,6 @@ SDL2()
   mkdir -p "$BUILDPATH"
   cd "$BUILDPATH" || exit
   
-  emcc --clear-cache
   echo 'int main() { return 0; }' > test.c
   
   emcc test.c \
