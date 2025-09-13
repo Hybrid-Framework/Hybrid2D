@@ -57,18 +57,18 @@ COMPLETE()
   Rename "$LIBPATH/libSDL2_ttf*.a" "$LIBPATH/SDL2_ttf.a"
   Rename "$LIBPATH/libSDL2*.a" "$LIBPATH/SDL2.a"
 
-  Transfer "$LIBPATH/SDL2.a" "$TARGETPATH"
+  Transfer "$LIBPATH/Dependencies/libfreetype.a" "$TARGETPATH"
+  Transfer "$LIBPATH/Dependencies/libharfbuzz.a" "$TARGETPATH"
+  Transfer "$LIBPATH/Dependencies/libjpeg.a" "$TARGETPATH"
+  Transfer "$LIBPATH/Dependencies/libpng.a" "$TARGETPATH"
+  Transfer "$LIBPATH/Dependencies/libmpg123.a" "$TARGETPATH"
+  Transfer "$LIBPATH/Dependencies/libogg.a" "$TARGETPATH"
+  Transfer "$LIBPATH/Dependencies/libvorbis.a" "$TARGETPATH"
+  Transfer "$LIBPATH/Dependencies/libz.a" "$TARGETPATH"
   Transfer "$LIBPATH/SDL2_image.a" "$TARGETPATH"
   Transfer "$LIBPATH/SDL2_mixer.a" "$TARGETPATH"
   Transfer "$LIBPATH/SDL2_ttf.a" "$TARGETPATH"
-  Transfer "$LIBPATH/libfreetype.a" "$TARGETPATH"
-  Transfer "$LIBPATH/libharfbuzz.a" "$TARGETPATH"
-  Transfer "$LIBPATH/libjpeg.a" "$TARGETPATH"
-  Transfer "$LIBPATH/libpng.a" "$TARGETPATH"
-  Transfer "$LIBPATH/libmpg123.a" "$TARGETPATH"
-  Transfer "$LIBPATH/libogg.a" "$TARGETPATH"
-  Transfer "$LIBPATH/libvorbis.a" "$TARGETPATH"
-  Transfer "$LIBPATH/libz.a" "$TARGETPATH"
+  Transfer "$LIBPATH/SDL2.a" "$TARGETPATH"
   
   echo
   echo "Checking for invoke_"
@@ -76,15 +76,18 @@ COMPLETE()
   
   LLVMPATH="$MODULES_DIR/Emscripten/upstream/bin/llvm-nm.exe"
   
-  for lib in "$TARGETPATH"/*.a; do
-      symbols=$("$LLVMPATH" "$lib" 2>/dev/null | grep "invoke_" || true)
-      
-      if [ -n "$symbols" ]; then
-          echo "❌ $lib"
-          echo "$symbols"
-      else
-          echo "✅ $lib"
-      fi
+  for lib in "$TARGETPATH"/*.a "$TARGETPATH"/Dependencies/*.a; do
+    
+    [ -e "$lib" ] || continue
+
+    symbols=$("$LLVMPATH" "$lib" 2>/dev/null | grep "invoke_" || true)
+
+    if [ -n "$symbols" ]; then
+        echo "❌ $lib"
+        echo "$symbols"
+    else
+        echo "✅ $lib"
+    fi
   done
 
   read -p "Build complete."
