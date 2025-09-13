@@ -36,7 +36,19 @@ def get(ports, settings, shared):
     if settings.PTHREADS:
       flags += ['-pthread']
 
-    ports.build_port(source_path, final, 'libpng', flags=flags, exclude_files=['pngtest'], exclude_dirs=['scripts', 'contrib'])
+    ports.build_port
+    (
+        source_path,
+        final,
+        'libpng',
+        flags=flags,
+        srcs=
+        [
+            'png.c', 'pngerror.c', 'pngget.c', 'pngmem.c', 'pngpread.c', 
+            'pngread.c', 'pngrio.c', 'pngrtran.c', 'pngrutil.c', 'pngset.c', 
+            'pngtrans.c', 'pngwio.c', 'pngwrite.c', 'pngwtran.c', 'pngwutil.c'
+        ]
+    )
 
   return [shared.cache.get_lib(get_lib_name(settings), create, what='port')]
 

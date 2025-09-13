@@ -35,7 +35,7 @@ SDL2()
   local VERSION="3.1.34"
   
   # Transfer custom port files
-  for file in "$DEPENDENCIES_DIR/System/Web/"*.py; do
+  for file in "$DEPENDENCIES_DIR/System/Emscripten/"*.py; do
     [ -e "$file" ] || continue
     Transfer "$file" "$PORTPATH"
   done
