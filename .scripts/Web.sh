@@ -63,6 +63,7 @@ COMPLETE()
   Rename "$LIBPATH/libSDL2_ttf*.a" "$LIBPATH/SDL2_ttf.a"
   Rename "$LIBPATH/libSDL2*.a" "$LIBPATH/SDL2.a"
 
+  # Transfer specific files for our build to keep size low
   Transfer "$LIBPATH/libfreetype.a" "$TARGETPATH/Dependencies"
   Transfer "$LIBPATH/libharfbuzz.a" "$TARGETPATH/Dependencies"
   Transfer "$LIBPATH/libjpeg.a" "$TARGETPATH/Dependencies"
@@ -76,6 +77,9 @@ COMPLETE()
   Transfer "$LIBPATH/SDL2_ttf.a" "$TARGETPATH"
   Transfer "$LIBPATH/SDL2.a" "$TARGETPATH"
   
+  # Check for invoke_ (Bad for net 8 wasm)
+  # If build show assertion exceptions and longjmp are both disabled
+  # Build that module with (-fwasm-exceptions -sSUPPORT_LONGJMP=wasm) to resolve
   LLVMPATH="$MODULES_DIR/Emscripten/upstream/bin/llvm-nm.exe"
   
   for lib in "$TARGETPATH"/*.a "$TARGETPATH"/Dependencies/*.a; do

@@ -36,14 +36,12 @@ def get(ports, settings, shared):
     if settings.PTHREADS:
       flags += ['-pthread']
 
-    ports.build_port
-    (
+    ports.build_port(
         source_path,
         final,
         'libpng',
         flags=flags,
-        srcs=
-        [
+        srcs=[
             'png.c', 'pngerror.c', 'pngget.c', 'pngmem.c', 'pngpread.c', 
             'pngread.c', 'pngrio.c', 'pngrtran.c', 'pngrutil.c', 'pngset.c', 
             'pngtrans.c', 'pngwio.c', 'pngwrite.c', 'pngwtran.c', 'pngwutil.c'
