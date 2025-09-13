@@ -32,7 +32,7 @@ def get(ports, settings, shared):
     ports.write_file(os.path.join(source_path, 'pnglibconf.h'), pnglibconf_h)
     ports.install_headers(source_path)
 
-    flags = ['-sUSE_ZLIB']
+    flags = ['-sUSE_ZLIB', '-fwasm-exceptions', '-sSUPPORT_LONGJMP=wasm']
     if settings.PTHREADS:
       flags += ['-pthread']
 

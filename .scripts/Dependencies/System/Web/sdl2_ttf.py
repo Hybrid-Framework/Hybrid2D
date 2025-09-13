@@ -8,7 +8,7 @@ import os
 TAG = 'release-2.20.2' # Latest as of 21 February 2023
 HASH = '8a625d29bef2ab7cbfe2143136a303c0fdb066ecd802d6c725de1b73ad8b056908cb524fe58f38eaee9f105471d2af50bbcb17911d46506dbcf573db218b3685'
 
-deps = ['freetype', 'sdl2', 'harfbuzz']
+deps = ['freetype', 'sdl2']
 
 
 def needed(settings):
@@ -21,7 +21,7 @@ def get(ports, settings, shared):
   def create(final):
     src_root = os.path.join(ports.get_dir(), 'sdl2_ttf', 'SDL_ttf-' + TAG)
     ports.install_headers(src_root, target='SDL2')
-    flags = ['-DTTF_USE_HARFBUZZ=1', '-sUSE_SDL=2', '-sUSE_FREETYPE', '-sUSE_HARFBUZZ']
+    flags = ['-DTTF_USE_HARFBUZZ=0', '-sUSE_SDL=2', '-sUSE_FREETYPE']
     ports.build_port(src_root, final, 'sdl2_ttf', flags=flags, srcs=['SDL_ttf.c'])
 
   return [shared.cache.get_lib('libSDL2_ttf.a', create, what='port')]
@@ -34,11 +34,11 @@ def clear(ports, settings, shared):
 def process_dependencies(settings):
   settings.USE_SDL = 2
   settings.USE_FREETYPE = 1
-  settings.USE_HARFBUZZ = 1
+  settings.USE_HARFBUZZ = 0
 
 
 def process_args(ports):
-  return ['-DTTF_USE_HARFBUZZ=1']
+  return ['-DTTF_USE_HARFBUZZ=0']
 
 
 def show():
