@@ -12,33 +12,30 @@ Install()
       
         if [ -n "$GITHUB" ]; then
           
-            # GITHUB
             echo "$NAME $VERSION [Downloading from $GITHUB]"
             git clone "$GITHUB" "$MODULE_DIR"
             cd "$MODULE_DIR"
 
-            # CHECKOUT
             if [ -n "$VERSION" ]; then
                 git checkout "$VERSION"
             fi
 
-            # MODULES
             git submodule update --init --recursive
         else
             echo "Error: No GitHub URL provided for $NAME"
             return 1
         fi
     else
-        # ALREADY FOUND
+        
         echo "$NAME $VERSION [Already Installed]"
     fi
 }
 
-Transfer() {
-    local SRC="${1:-}"   # default empty string if undefined
-    local DEST="${2:-}"  # default empty string if undefined
+Transfer()
+{
+    local SRC="${1:-}"
+    local DEST="${2:-}"
 
-    # Check if SRC is non-empty
     if [[ -z "$SRC" || -z "$DEST" ]]; then
         echo "Skipping transfer: Source or destination is empty"
         return 0
@@ -57,12 +54,11 @@ Transfer() {
     fi
 }
 
+Rename()
+{
+    local PATTERN="${1:-}"
+    local DEST="${2:-}"
 
-Rename() {
-    local PATTERN="${1:-}"  # default empty string if undefined
-    local DEST="${2:-}"     # default empty string if undefined
-
-    # Skip if PATTERN or DEST is empty
     if [[ -z "$PATTERN" || -z "$DEST" ]]; then
         echo "Skipping rename: Pattern or destination is empty"
         return 0
@@ -77,7 +73,7 @@ Rename() {
         return 0
     fi
 
-    mkdir -p "$(dirname "$DEST")"  # ensure destination directory exists
+    mkdir -p "$(dirname "$DEST")"
     echo "Renaming ${FILES[0]} → $DEST"
     mv "${FILES[0]}" "$DEST"
 }

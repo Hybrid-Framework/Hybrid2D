@@ -7,9 +7,10 @@ DEPENDENCIES_DIR="$BASE_DIR/Dependencies"
 source "$DEPENDENCIES_DIR/Methods.sh"
 
 PLATFORM="Web"
-MODULES=("Emscripten")
+MODULES=("Emscripten" "SDL2")
 ARCHS=("Any")
 
+PORTPATH="$MODULES_DIR/Emscripten/upstream/emscripten/tools/ports"
 LIBPATH="$MODULES_DIR/Emscripten/build_$PLATFORM/sysroot/lib/wasm32-emscripten"
 TARGETPATH="$BASE_DIR/../Natives/$PLATFORM"
 
@@ -32,6 +33,12 @@ SDL2()
 {
   local INDEX="$1"
   local VERSION="3.1.34"
+  
+  # Transfer custom port files
+  for file in "$DEPENDENCIES_DIR/System/Web/"*.py; do
+    [ -e "$file" ] || continue
+    Transfer "$file" "$PORTPATH"
+  done
   
   cd "$MODULES_DIR/Emscripten" || exit
   BUILDPATH="$MODULES_DIR/Emscripten/build_$PLATFORM"
@@ -56,22 +63,18 @@ COMPLETE()
   Rename "$LIBPATH/libSDL2_ttf*.a" "$LIBPATH/SDL2_ttf.a"
   Rename "$LIBPATH/libSDL2*.a" "$LIBPATH/SDL2.a"
 
-  Transfer "$LIBPATH/Dependencies/libfreetype.a" "$TARGETPATH"
-  Transfer "$LIBPATH/Dependencies/libharfbuzz.a" "$TARGETPATH"
-  Transfer "$LIBPATH/Dependencies/libjpeg.a" "$TARGETPATH"
-  Transfer "$LIBPATH/Dependencies/libpng.a" "$TARGETPATH"
-  Transfer "$LIBPATH/Dependencies/libmpg123.a" "$TARGETPATH"
-  Transfer "$LIBPATH/Dependencies/libogg.a" "$TARGETPATH"
-  Transfer "$LIBPATH/Dependencies/libvorbis.a" "$TARGETPATH"
-  Transfer "$LIBPATH/Dependencies/libz.a" "$TARGETPATH"
+  Transfer "$LIBPATH/libfreetype.a" "$TARGETPATH/Dependencies"
+  Transfer "$LIBPATH/libharfbuzz.a" "$TARGETPATH/Dependencies"
+  Transfer "$LIBPATH/libjpeg.a" "$TARGETPATH/Dependencies"
+  Transfer "$LIBPATH/libpng.a" "$TARGETPATH/Dependencies"
+  Transfer "$LIBPATH/libmpg123.a" "$TARGETPATH/Dependencies"
+  Transfer "$LIBPATH/libogg.a" "$TARGETPATH/Dependencies"
+  Transfer "$LIBPATH/libvorbis.a" "$TARGETPATH/Dependencies"
+  Transfer "$LIBPATH/libz.a" "$TARGETPATH/Dependencies"
   Transfer "$LIBPATH/SDL2_image.a" "$TARGETPATH"
   Transfer "$LIBPATH/SDL2_mixer.a" "$TARGETPATH"
   Transfer "$LIBPATH/SDL2_ttf.a" "$TARGETPATH"
   Transfer "$LIBPATH/SDL2.a" "$TARGETPATH"
-  
-  echo
-  echo "Checking for invoke_"
-  echo
   
   LLVMPATH="$MODULES_DIR/Emscripten/upstream/bin/llvm-nm.exe"
   
