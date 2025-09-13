@@ -39,9 +39,8 @@ SDL2()
   mkdir -p "$BUILDPATH"
   cd "$BUILDPATH" || exit
   
-  echo 'int main() { return 0; }' > test.c
-  
   emcc --clear-cache
+  echo 'int main() { return 0; }' > test.c
   
   emcc test.c \
     -s USE_SDL=2 \
