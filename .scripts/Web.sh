@@ -27,6 +27,7 @@ Emscripten()
   source ./emsdk_env.sh
 
   export EM_CACHE="$MODULES_DIR/$MODULE/build_$PLATFORM"
+  read -p "Emscripten installed... continue to build?"
 }
 
 SDL2()
