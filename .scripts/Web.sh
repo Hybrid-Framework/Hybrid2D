@@ -17,7 +17,7 @@ TARGETPATH="$BASE_DIR/../Natives/$PLATFORM"
 Emscripten()
 {
   local INDEX="$1"
-  local VERSION="3.1.34"
+  local VERSION="3.1.56"
 
   Install "Emscripten" "https://github.com/emscripten-core/emsdk.git" "$VERSION"
 
@@ -32,7 +32,6 @@ Emscripten()
 SDL2()
 {
   local INDEX="$1"
-  local VERSION="3.1.34"
   
   # Transfer custom port files
   for file in "$DEPENDENCIES_DIR/System/Emscripten/"*.py; do
@@ -58,6 +57,7 @@ SDL2()
 
 COMPLETE()
 {
+  # Rename libs for consistent pinvoke across platforms
   Rename "$LIBPATH/libSDL2_image*.a" "$LIBPATH/SDL2_image.a"
   Rename "$LIBPATH/libSDL2_mixer*.a" "$LIBPATH/SDL2_mixer.a"
   Rename "$LIBPATH/libSDL2_ttf*.a" "$LIBPATH/SDL2_ttf.a"
@@ -77,9 +77,7 @@ COMPLETE()
   Transfer "$LIBPATH/SDL2_ttf.a" "$TARGETPATH"
   Transfer "$LIBPATH/SDL2.a" "$TARGETPATH"
   
-  # Check for invoke_ (Bad for net 8 wasm)
-  # If build show assertion exceptions and longjmp are both disabled
-  # Build that module with (-fwasm-exceptions -sSUPPORT_LONGJMP=wasm) to resolve
+  # Check for bad invoke_ symbols
   LLVMPATH="$MODULES_DIR/Emscripten/upstream/bin/llvm-nm.exe"
   
   for lib in "$TARGETPATH"/*.a "$TARGETPATH"/Dependencies/*.a; do

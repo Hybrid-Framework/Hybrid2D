@@ -4,7 +4,7 @@
         <WasmAllowUndefinedSymbols>true</WasmAllowUndefinedSymbols>
         <WasmEmitSymbolMap>true</WasmEmitSymbolMap>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
