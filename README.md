@@ -25,7 +25,7 @@ Hybrid is a lightweight cross-platform 2D Game Framework written in C#
 Full source code is available here from GitHub:
 
 * Clone the source: `git clone https://github.com/LloydJHowarth/Engine.git`
-* Engine.sln includes engine source and platform templates.
+* Hybrid.sln includes engine source and platform templates.
 
 
 <h2 id="platforms">🖥️ Platforms</h2>
