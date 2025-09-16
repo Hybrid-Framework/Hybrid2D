@@ -6,8 +6,8 @@
 import os
 import logging
 
-TAG = '1.6.37'
-HASH = '2ce2b855af307ca92a6e053f521f5d262c36eb836b4810cb53c809aa3ea2dcc08f834aee0ffd66137768a54397e28e92804534a74abb6fc9f6f3127f14c9c338'
+TAG = '1.6.39'
+HASH = '19851afffbe2ffde62d918f7e9017dec778a7ce9c60c75cdc65072f086e6cdc9d9895eb7b207535a84cb5f4ead77ebc2aa9d80025f153662903023e1f7ab9bae'
 
 deps = ['zlib']
 variants = {'libpng-mt': {'PTHREADS': 1}}
@@ -36,17 +36,7 @@ def get(ports, settings, shared):
     if settings.PTHREADS:
       flags += ['-pthread']
 
-    ports.build_port(
-        source_path,
-        final,
-        'libpng',
-        flags=flags,
-        srcs=[
-            'png.c', 'pngerror.c', 'pngget.c', 'pngmem.c', 'pngpread.c', 
-            'pngread.c', 'pngrio.c', 'pngrtran.c', 'pngrutil.c', 'pngset.c', 
-            'pngtrans.c', 'pngwio.c', 'pngwrite.c', 'pngwtran.c', 'pngwutil.c'
-        ]
-    )
+    ports.build_port(source_path, final, 'libpng', flags=flags, exclude_files=['pngtest'], exclude_dirs=['scripts', 'contrib'])
 
   return [shared.cache.get_lib(get_lib_name(settings), create, what='port')]
 
