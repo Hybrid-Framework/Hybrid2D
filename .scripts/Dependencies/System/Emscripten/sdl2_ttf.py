@@ -5,8 +5,8 @@
 
 import os
 
-TAG = 'release-2.20.2' # Latest as of 21 February 2023
-HASH = '8a625d29bef2ab7cbfe2143136a303c0fdb066ecd802d6c725de1b73ad8b056908cb524fe58f38eaee9f105471d2af50bbcb17911d46506dbcf573db218b3685'
+TAG = 'release-2.24.0' # Latest as of 21 February 2023
+HASH = 'fd7c3ae30764a5382fc64385c36899bcba860de1a204a1bf5e5cb2e19c2338c38432cfa9a0f9fad4b4917a368ad55eae0026e1d73b8b5424091745f7668202b3'
 
 deps = ['freetype', 'sdl2']
 
