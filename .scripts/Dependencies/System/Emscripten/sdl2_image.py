@@ -5,8 +5,8 @@
 
 import os
 
-TAG = 'version_4'
-HASH = '30a7b04652239bccff3cb1fa7cd8ae602791b5f502a96df39585c13ebc4bb2b64ba1598c0d1f5382028d94e04a5ca02185ea06bf7f4b3520f6df4cc253f9dd24'
+TAG = 'release-2.8.8'
+HASH = 'e40fec8ae38b36111b213841ac457e4e19ddd5df67158429f64b39a2b279fd63d60529d4118a012c408927af31be73ac3cc0fa833f06ad7723c7adcb992f5268'
 
 deps = ['sdl2']
 variants = {
@@ -32,14 +32,18 @@ def get_lib_name(settings):
 def get(ports, settings, shared):
   sdl_build = os.path.join(ports.get_build_dir(), 'sdl2')
   assert os.path.exists(sdl_build), 'You must use SDL2 to use SDL2_image'
-  ports.fetch_project('sdl2_image', f'https://github.com/emscripten-ports/SDL2_image/archive/{TAG}.zip', sha512hash=HASH)
+  ports.fetch_project('sdl2_image', f'https://github.com/libsdl-org/SDL_image/archive/{TAG}.zip', sha512hash=HASH)
   libname = get_lib_name(settings)
 
   def create(final):
-    src_dir = os.path.join(ports.get_dir(), 'sdl2_image', 'SDL2_image-' + TAG)
-    ports.install_headers(src_dir, target='SDL2')
+    src_dir = os.path.join(ports.get_dir(), 'sdl2_image', 'SDL_image-' + TAG)
+    ports.install_headers(os.path.join(src_dir, 'include'), target='SDL2')
+
     srcs = '''IMG.c IMG_bmp.c IMG_gif.c IMG_jpg.c IMG_lbm.c IMG_pcx.c IMG_png.c IMG_pnm.c IMG_tga.c
-              IMG_tif.c IMG_xcf.c IMG_xpm.c IMG_xv.c IMG_webp.c IMG_ImageIO.m'''.split()
+              IMG_tif.c IMG_xcf.c IMG_xpm.c IMG_xv.c IMG_webp.c IMG_ImageIO.m
+              IMG_avif.c IMG_jxl.c IMG_svg.c IMG_qoi.c'''.split()
+    
+    srcs = [os.path.join('src', f) for f in srcs]
 
     defs = ['-O2', '-sUSE_SDL=2', '-Wno-format-security', '-fwasm-exceptions', '-sSUPPORT_LONGJMP=wasm']
 
