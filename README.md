@@ -40,7 +40,7 @@ Currently supports these platforms:
 
 Currently using these dependencies:
   * [Emscripten](https://github.com/emscripten-core/emscripten) is a complete compiler toolchain to WebAssembly for Web support.
-  * [Net 8.0](https://github.com/dotnet/runtime) is a cross-platform runtime for Desktop, Mobile & Web applications.
+  * [Net 9.0](https://github.com/dotnet/runtime) is a cross-platform runtime for Desktop, Mobile & Web applications.
   * [SDL](https://github.com/libsdl-org/SDL) is a simple direct media abstraction layer.
 
 
