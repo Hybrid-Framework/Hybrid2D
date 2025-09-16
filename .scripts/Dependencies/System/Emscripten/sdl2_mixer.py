@@ -5,8 +5,8 @@
 
 import os
 
-TAG = 'release-2.8.0'
-HASH = '494ccd74540f74e717f7e4f1dc7f96398c0f4b1883ab00c4a76b0c7239bd2c185cb4358a35ef47819c49e7c14dac7c37b98a29c7b5237478121571f5e7ac4dfc'
+TAG = 'release-2.8.1'
+HASH = 'fcdb7e764ba3669141a0ccda581ae112af306dedcf9f87b845858916b3faed5c1fe228216eee485b6322b64df288b6158c70f1a66729a0189aed79d79d870dc5'
 
 deps = ['sdl2']
 variants = {
