@@ -5,8 +5,8 @@
 
 import os
 
-TAG = 'release-2.28.4'
-HASH = '8dd593fd7d8660efdeb53b7d1706f5743eb68491a29eb0cf0c028d8f8b8a7945c0dc5bf1117b5e4e871d7622be277c0838d08cc6eabdecb563000dfcc0c94639'
+TAG = 'release-2.32.10'
+HASH = '001738b610b42a8f8badfd6af3402f0a1a8601034adef0b8c702dd2b1951dc1b71b733a6779d97499b6f7314d226ec0c8dcffeb753f35a5c51e995ca20bdd459'
 SUBDIR = 'SDL-' + TAG
 
 variants = {'sdl2-mt': {'PTHREADS': 1}}
@@ -35,9 +35,11 @@ def get(ports, settings, shared):
     SDL_utils.c atomic/SDL_atomic.c atomic/SDL_spinlock.c audio/SDL_audio.c audio/SDL_audiocvt.c
     audio/SDL_audiodev.c audio/SDL_audiotypecvt.c audio/SDL_mixer.c audio/SDL_wave.c cpuinfo/SDL_cpuinfo.c
     dynapi/SDL_dynapi.c events/SDL_clipboardevents.c events/SDL_displayevents.c events/SDL_dropevents.c
-    events/SDL_events.c events/SDL_gesture.c events/SDL_keyboard.c events/SDL_mouse.c events/SDL_quit.c
+    events/SDL_events.c events/SDL_gesture.c events/SDL_keyboard.c events/SDL_keysym_to_scancode.c
+    events/SDL_scancode_tables.c events/SDL_mouse.c events/SDL_quit.c
     events/SDL_touch.c events/SDL_windowevents.c file/SDL_rwops.c haptic/SDL_haptic.c
     joystick/controller_type.c joystick/SDL_gamecontroller.c joystick/SDL_joystick.c
+    joystick/SDL_steam_virtual_gamepad.c
     power/SDL_power.c render/SDL_d3dmath.c render/SDL_render.c
     render/SDL_yuv_sw.c render/direct3d/SDL_render_d3d.c render/direct3d11/SDL_render_d3d11.c
     render/opengl/SDL_render_gl.c render/opengl/SDL_shaders_gl.c render/opengles/SDL_render_gles.c
@@ -57,7 +59,7 @@ def get(ports, settings, shared):
     video/emscripten/SDL_emscriptenframebuffer.c video/emscripten/SDL_emscriptenmouse.c
     video/emscripten/SDL_emscriptenopengles.c video/emscripten/SDL_emscriptenvideo.c
     audio/emscripten/SDL_emscriptenaudio.c video/dummy/SDL_nullevents.c
-    video/dummy/SDL_nullframebuffer.c video/dummy/SDL_nullvideo.c video/yuv2rgb/yuv_rgb.c
+    video/dummy/SDL_nullframebuffer.c video/dummy/SDL_nullvideo.c video/yuv2rgb/yuv_rgb_std.c
     audio/disk/SDL_diskaudio.c audio/dummy/SDL_dummyaudio.c loadso/dlopen/SDL_sysloadso.c
     power/emscripten/SDL_syspower.c joystick/emscripten/SDL_sysjoystick.c
     filesystem/emscripten/SDL_sysfilesystem.c timer/unix/SDL_systimer.c haptic/dummy/SDL_syshaptic.c
@@ -68,6 +70,7 @@ def get(ports, settings, shared):
     srcs += ['thread/%s/%s' % (thread_backend, s) for s in thread_srcs]
 
     srcs = [os.path.join(src_dir, 'src', s) for s in srcs]
+    # TODO: Remove fwrapv when we update to a version which includes https://github.com/libsdl-org/SDL/pull/12581
     flags = ['-sUSE_SDL=0']
     includes = [ports.get_include_dir('SDL2')]
     if settings.PTHREADS:
