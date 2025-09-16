@@ -41,18 +41,27 @@ Transfer()
         return 0
     fi
 
-    if [[ -f "$SRC" ]]; then
-        mkdir -p "$DEST"
-        echo "Copying file $SRC → $DEST/"
-        cp "$SRC" "$DEST/"
-    elif [[ -d "$SRC" ]]; then
-        mkdir -p "$DEST"
-        echo "Copying directory $SRC → $DEST/"
-        cp -r "$SRC/." "$DEST/"
-    else
-        echo "Skipping transfer: Source $SRC does not exist"
+    shopt -s nullglob
+    local FILES=($SRC)
+    shopt -u nullglob
+
+    if [[ ${#FILES[@]} -eq 0 ]]; then
+        echo "Skipping transfer: No files match $SRC"
+        return 0
     fi
+
+    mkdir -p "$DEST"
+    for FILE in "${FILES[@]}"; do
+        if [[ -f "$FILE" ]]; then
+            echo "Copying file $FILE → $DEST/"
+            cp "$FILE" "$DEST/"
+        elif [[ -d "$FILE" ]]; then
+            echo "Copying directory $FILE → $DEST/"
+            cp -r "$FILE/." "$DEST/"
+        fi
+    done
 }
+
 
 Rename()
 {
@@ -76,6 +85,51 @@ Rename()
     mkdir -p "$(dirname "$DEST")"
     echo "Renaming ${FILES[0]} → $DEST"
     mv "${FILES[0]}" "$DEST"
+}
+
+Hash()
+{
+    local URL="$1"
+    local VERSION="$2"
+    local ZIPFILE
+
+    if [[ -z "$URL" ]]; then
+        echo "Error: URL is required for Hash()"
+        return 1
+    fi
+
+    # Replace {VERSION} placeholder in URL if present
+    if [[ -n "$VERSION" ]]; then
+        URL="${URL//\{VERSION\}/$VERSION}"
+        ZIPFILE="$(basename "$URL")"
+    else
+        ZIPFILE="$(basename "$URL")"
+    fi
+
+    echo "Downloading $ZIPFILE from $URL..."
+    curl -L -o "$ZIPFILE" "$URL"
+
+    if [[ ! -f "$ZIPFILE" ]]; then
+        echo "Error: Failed to download $ZIPFILE"
+        return 1
+    fi
+
+    echo "Computing SHA-512 hash for $ZIPFILE..."
+
+    local HASH=""
+    if command -v sha512sum >/dev/null 2>&1; then
+        HASH=$(sha512sum "$ZIPFILE" | awk '{print $1}')
+    elif command -v openssl >/dev/null 2>&1; then
+        HASH=$(openssl dgst -sha512 "$ZIPFILE" | awk '{print $2}')
+    else
+        echo "Error: Neither sha512sum nor openssl found."
+        return 1
+    fi
+
+    echo 
+    echo "SHA-512 hash for $ZIPFILE:"
+    echo "$HASH"
+    echo 
 }
 
 
