@@ -12,35 +12,6 @@ RIDS=("linux-x64" "linux-x86" "linux-arm64")
 COMPILERS=("x86_64-linux-gnu-gcc" "i686-linux-gnu-gcc" "aarch64-linux-gnu-gcc")
 MODULES=("SDL2" "SDL2_image" "SDL2_mixer" "SDL2_ttf")
 
-echo
-echo "WARNING!"
-echo
-echo "Linux.sh is about to call a submodule (Dependencies/System/Linux/Environment.sh)"
-echo "This will add system architectures, compilers, libraries and append changes to /etc/apt/sources.list for accessing ports for other architectures"
-echo
-
-read -p "Do you wish to run Linux Environment Setup? (y/n): " choice
-
-case "$choice" in
-  y|Y|yes|YES|Yes)
-    echo
-    echo "Running Linux-Setup"
-    source "$DEPENDENCIES_DIR/System/Linux/Environment.sh"
-    echo
-    ;;
-  n|N|no|NO|No)
-    echo
-    echo "Skipping Linux-Setup"
-    echo "If you have issues with the build I recommend running Linux-Setup!"
-    echo
-    ;;
-  *)
-    echo "⚠️ Invalid choice. Please enter y or n."
-    exit 1
-    ;;
-esac
-
-
 SDL2()
 {
   local INDEX="$1"
