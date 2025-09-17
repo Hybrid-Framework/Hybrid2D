@@ -173,6 +173,54 @@ SDL2_ttf()
 
 COMPLETE()
 {
+  # Dirty Patch SDLActivity...
+  # This patch may break in future releases..
+  # This patch is fixed in SDL3 so it's no longer needed there
+  local PATCHFILE="$MODULES_DIR/SDL2/android-project/app/src/main/java/org/libsdl\app/SDLActivity.java"
+  
+  # Patch 1
+  local SEARCH="class SDLActivity"
+  local INSERT="protected void main() {}"
+  
+  if ! grep -qF "$INSERT" "$PATCHFILE"; then
+  
+      LINENUM=$(grep -n "$SEARCH" "$PATCHFILE" | cut -d: -f1)
+  
+      if [[ -n "$LINENUM" ]]; then
+          LINENUM=$((LINENUM + 1))
+          sed -i "${LINENUM}i $INSERT" "$PATCHFILE"
+      fi
+  fi
+  
+  # Patch 2
+  local SEARCH="SDLActivity.nativeRunMain"
+  local INSERT="SDLActivity.mSingleton.main();"
+  
+  if ! grep -qF "$INSERT" "$PATCHFILE"; then
+  
+      LINENUM=$(grep -n "$SEARCH" "$PATCHFILE" | cut -d: -f1)
+  
+      if [[ -n "$LINENUM" ]]; then
+          LINENUM=$((LINENUM + 1))
+          sed -i "${LINENUM}i $INSERT" "$PATCHFILE"
+      fi
+  fi
+  
+  # Build SDLActivity.jar
+  export PATH="$PATH:/c/Program Files/Android/Android Studio/jbr/bin"
+  local ANDROID_JAR="$HOME/AppData/Local/Android/Sdk/platforms/android-36/android.jar"
+  cd $MODULES_DIR/SDL2/android-project/app/src/main/java || exit 1
+  mkdir -p out
+  JAVA_FILES=$(find . -name "*.java")
+  javac -source 1.8 -target 1.8 -classpath "$ANDROID_JAR" -d out $JAVA_FILES
+  jar cf SDLActivity.jar -C out .
+  jar tf SDLActivity.jar
+  
+  # Move Files
+  mkdir -p "$BASE_DIR/../Platforms/Android/Jars"
+  cp SDLActivity.jar "$BASE_DIR/../Platforms/Android/Jars"
+  
+  # Complete
   read -p "Build complete."
 }
 

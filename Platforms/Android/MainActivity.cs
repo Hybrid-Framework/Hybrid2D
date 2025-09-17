@@ -14,7 +14,9 @@ using Engine;
     )]
 public class MainActivity : SDLActivity
 {
-    protected override void Entry()
+    protected override string[] GetLibraries() => ["SDL2", "SDL2_image", "SDL2_mixer", "SDL2_ttf"];
+    
+    protected override void Main()
     {
         Platform.Create(new PlatformAndroid(new Game2()));
         Platform.Current.Run();
