@@ -26,7 +26,7 @@ Getting started...
 
 * 🌐 1. Clone the source: `git clone https://github.com/LloydJHowarth/Hybrid.git`
 * 📂 2. Open 'Hybrid.sln' in your favourite IDE such as [Rider](https://www.jetbrains.com/rider) or [Visual Studio](https://visualstudio.microsoft.com)
-* 🎮 3. Develop your game in the 'App' project template provided to you
+* 🎮 3. Develop in the 'App' project provided to you
 * 🎯 4. Build your target platform
 * 🚀 5. Launch your game
 
