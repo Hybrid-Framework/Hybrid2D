@@ -17,7 +17,7 @@ namespace Engine
     
     public abstract partial class Platform
     {
-        public abstract Game Game { get; set; }
+        public abstract GameBehaviour GameBehaviour { get; set; }
         public abstract IDevice Device { get; set; }
         
         public abstract IFileSystem FileSystem { get; set; }

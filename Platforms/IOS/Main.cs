@@ -1,6 +1,7 @@
 using System.Runtime.InteropServices;
 using Engine.Platforms;
 using Engine;
+using App;
 
 public static class Program
 {
@@ -26,7 +27,7 @@ public static class Program
 
     private static int Entry(int argc, IntPtr argv)
     {
-        Platform.Create(new PlatformIOS(new Game2()));
+        Platform.Create(new PlatformIOS(new Game()));
         Platform.Current.Run();
         return 0;
     }

@@ -1,7 +1,7 @@
 using System.Runtime.InteropServices.JavaScript;
-using static Engine.Internal.SDL2.SDL;
-using Engine;
 using Engine.Platforms;
+using Engine;
+using App;
 
 public static partial class Program
 {
@@ -14,7 +14,7 @@ public static partial class Program
     {
         if (!Initialized)
         {
-            Platform.Create(new PlatformWeb(new Game2()));
+            Platform.Create(new PlatformWeb(new Game()));
             Initialized = true;
         }
         

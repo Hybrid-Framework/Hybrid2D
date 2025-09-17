@@ -1,7 +1,8 @@
 using Android.Content.PM;
-using Engine.Platforms;
 using Org.Libsdl.App;
+using Engine.Platforms;
 using Engine;
+using App;
 
 [Activity(Label = "Android", 
     Exported = true,
@@ -18,7 +19,7 @@ public class MainActivity : SDLActivity
     
     protected override void Main()
     {
-        Platform.Create(new PlatformAndroid(new Game2()));
+        Platform.Create(new PlatformAndroid(new Game()));
         Platform.Current.Run();
     }
 }

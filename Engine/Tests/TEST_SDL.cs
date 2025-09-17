@@ -3,7 +3,7 @@ using System;
 
 namespace Engine
 {
-    public class TEST_SDL : Game
+    public class TEST_SDL : GameBehaviour
     {
         public FPSCounter FPSCounter = new FPSCounter();
         public IntPtr renderer;

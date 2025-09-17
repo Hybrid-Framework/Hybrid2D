@@ -4,23 +4,15 @@
     <PropertyGroup>
         <Scheme>Web</Scheme>
         <DefineConstants>$(Scheme)</DefineConstants>
+    </PropertyGroup>
+
+    <PropertyGroup>
         <EmccExtraLDFlags>
             -sDEFAULT_LIBRARY_FUNCS_TO_INCLUDE=$autoResumeAudioContext,$dynCall
             --embed-file ../../Engine/Assets@Assets
             -sALLOW_MEMORY_GROWTH=1
         </EmccExtraLDFlags>
     </PropertyGroup>
-
-<!-- Includes -->
-    <ItemGroup>
-        <Compile Include="..\..\Engine\**\*.cs" Exclude="..\**\bin\** ; ..\**\obj\** ; ..\**\Platforms\**">
-            <Link>.Engine\.%(RecursiveDir).%(Filename)%(Extension)</Link>
-        </Compile>
-
-        <Compile Include="..\..\Engine\Platforms\$(Scheme)\**\*.cs">
-            <Link>.Engine\.Platforms\.$(Scheme)\.%(RecursiveDir)%(Filename)%(Extension)</Link>
-        </Compile>
-    </ItemGroup>
     
 <!-- Assets -->
     <ItemGroup>

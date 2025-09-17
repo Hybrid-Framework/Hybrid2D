@@ -4,7 +4,7 @@ using System;
 
 namespace Engine
 {
-    public class TEST_TTF : Game
+    public class TEST_TTF : GameBehaviour
     {
         public FPSCounter FPSCounter = new FPSCounter();
         public IntPtr renderer;

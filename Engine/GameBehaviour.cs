@@ -3,7 +3,7 @@ using System;
 
 namespace Engine
 {
-    public class Game : IDisposable
+    public class GameBehaviour : IDisposable
     {
         public virtual void Init(string title, int width, int height, SDL_WindowFlags flags)
         {

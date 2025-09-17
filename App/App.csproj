@@ -1,18 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <OutputType>Exe</OutputType>
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <TargetFramework>net9.0</TargetFramework>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\App\App.csproj" />
+      <ProjectReference Include="..\Engine\Engine.csproj" />
     </ItemGroup>
-
-    <Import Project="..\..\.items\Shared.props" />
-    <Import Project="..\..\.items\Desktop.props" />
 
 </Project>

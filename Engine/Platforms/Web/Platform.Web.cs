@@ -5,32 +5,32 @@ namespace Engine.Platforms
 {
     public class PlatformWeb : Platform
     {
-        public override Game Game { get; set; }
+        public override GameBehaviour GameBehaviour { get; set; }
         public override IDevice Device { get; set; } = IDevice.Web;
         
         public override IFileSystem FileSystem { get; set; } = new FileSystemWeb();
         public override IDebug Debug { get; set; } = new DebugWeb();
         
         
-        public PlatformWeb(Game game)
+        public PlatformWeb(GameBehaviour behaviour)
         {
-            Game = game;
+            GameBehaviour = behaviour;
         }
 
         public override void Init()
         {
-            Game.Init("Engine", 1280, 768, SDL_WindowFlags.SDL_WINDOW_SHOWN);
+            GameBehaviour.Init("Engine", 1280, 768, SDL_WindowFlags.SDL_WINDOW_SHOWN);
         }
 
         public override void Run()
         {
-            if (Game.Update())
+            if (GameBehaviour.Update())
             {
                 // Main Loop
                 return;
             }
             
-            Game.Dispose();
+            GameBehaviour.Dispose();
         }
     }
 }

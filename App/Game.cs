@@ -2,11 +2,11 @@
 using static Engine.Internal.SDL2.SDL_mixer;
 using static Engine.Internal.SDL2.SDL_ttf;
 using static Engine.Internal.SDL2.SDL;
-using System;
+using Engine;
 
-namespace Engine
+namespace App
 {
-    public class Game2 : Game
+    public class Game : GameBehaviour
     {
         public FPSCounter FPSCounter = new FPSCounter();
         public IntPtr renderer;
