@@ -8,7 +8,7 @@
 
 <!-- Assets -->
     <ItemGroup>
-        <BundleResource Include="..\..\Engine\Assets\**\*">
+        <BundleResource Include="..\..\App\Assets\**\*">
             <LogicalName>Assets/%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
             <Link>.Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
         </BundleResource>

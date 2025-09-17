@@ -8,7 +8,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Engine\Engine.csproj" />
+        <ProjectReference Include="..\Engine\Engine.csproj" />
     </ItemGroup>
+
+    <Import Project="..\.items\Shared.props" />
 
 </Project>

@@ -5,10 +5,10 @@
         <Scheme>Desktop</Scheme>
         <DefineConstants>$(Scheme)</DefineConstants>
     </PropertyGroup>
-
+    
 <!-- Assets -->
     <ItemGroup>
-        <Content Include="..\..\Engine\Assets\**\*">
+        <Content Include="..\..\App\Assets\**\*">
             <TargetPath>Assets\%(RecursiveDir)%(Filename)%(Extension)</TargetPath>
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
