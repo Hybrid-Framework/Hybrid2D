@@ -8,10 +8,9 @@ public static partial class Program
     [JSImport("setMainLoop", "main.js")]
     private static partial void SetMainLoop([JSMarshalAs<JSType.Function>] Action cb);
     private static bool Initialized;
-    private static void Main() { }
 
     [JSExport]
-    private static void Entry()
+    private static void Main()
     {
         if (!Initialized)
         {
