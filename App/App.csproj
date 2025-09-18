@@ -7,10 +7,10 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <Import Project="..\.items\Shared.props" />
+
     <ItemGroup>
         <ProjectReference Include="..\Engine\Engine.csproj" />
     </ItemGroup>
-
-    <Import Project="..\.items\Shared.props" />
 
 </Project>

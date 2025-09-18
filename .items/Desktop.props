@@ -13,6 +13,7 @@
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <Link>.Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
+            <Visible>false</Visible>
         </Content>
     </ItemGroup>
     

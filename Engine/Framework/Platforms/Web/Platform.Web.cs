@@ -5,18 +5,18 @@ namespace Hybrid.Platforms
 {
     public class PlatformWeb : Platform
     {
-        public PlatformWeb(GameBehaviour behaviour) => GameBehaviour = behaviour;
+        public PlatformWeb(Behaviour behaviour) => Behaviour = behaviour;
         
-        internal override GameBehaviour GameBehaviour { get; set; }
+        internal override Behaviour Behaviour { get; set; }
         internal override IFileSystem FileSystem { get; set; } = new FileSystemWeb();
         internal override IDebug Debug { get; set; } = new DebugWeb();
 
         public override void Init()
         {
             // Init
-            GameBehaviour.Init();
+            Behaviour.Init();
             
-            // Force Settings
+            // Platform Specifics
             if (Window.GetWindow() != IntPtr.Zero)
             {
                 Window.Vsync(true);
@@ -35,8 +35,8 @@ namespace Hybrid.Platforms
                 }
 
                 // Loop
-                GameBehaviour.Update();
-                GameBehaviour.Render();
+                Behaviour.Update();
+                Behaviour.Render();
             }
             else
             {

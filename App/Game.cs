@@ -2,7 +2,7 @@
 
 namespace App
 {
-    public class Game : GameBehaviour
+    public class Game : Behaviour
     {
         public override void Init()
         {

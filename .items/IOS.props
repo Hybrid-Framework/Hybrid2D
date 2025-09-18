@@ -11,6 +11,7 @@
         <BundleResource Include="..\..\App\Assets\**\*">
             <LogicalName>Assets/%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
             <Link>.Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
+            <Visible>false</Visible>
         </BundleResource>
     </ItemGroup>
     

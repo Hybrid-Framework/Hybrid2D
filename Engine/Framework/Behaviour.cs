@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    public abstract class GameBehaviour
+    public abstract class Behaviour
     {
         public virtual void Init()
         {

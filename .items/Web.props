@@ -16,6 +16,7 @@
     <ItemGroup>
         <None Include="..\..\App\Assets\**\*">
             <Link>.Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
+            <Visible>false</Visible>
         </None>
     </ItemGroup>
 

@@ -5,16 +5,18 @@ namespace Hybrid.Platforms
 {
     public class PlatformDesktop : Platform
     {
-        public PlatformDesktop(GameBehaviour behaviour) => GameBehaviour = behaviour;
+        public PlatformDesktop(Behaviour behaviour) => Behaviour = behaviour;
         
-        internal override GameBehaviour GameBehaviour { get; set; }
+        internal override Behaviour Behaviour { get; set; }
         internal override IFileSystem FileSystem { get; set; } = new FileSystemDesktop();
         internal override IDebug Debug { get; set; } = new DebugDesktop();
 
         public override void Init()
         {
             // Init
-            GameBehaviour.Init();
+            Behaviour.Init();
+            
+            // Platform Specifics
         }
         
         public override void Run()
@@ -29,8 +31,8 @@ namespace Hybrid.Platforms
                 }
 
                 // Loop
-                GameBehaviour.Update();
-                GameBehaviour.Render();
+                Behaviour.Update();
+                Behaviour.Render();
             }
             
             // Dispose

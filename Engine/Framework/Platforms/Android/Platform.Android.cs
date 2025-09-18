@@ -5,18 +5,18 @@ namespace Hybrid.Platforms
 {
     public class PlatformAndroid : Platform
     {
-        public PlatformAndroid(GameBehaviour behaviour) => GameBehaviour = behaviour;
+        public PlatformAndroid(Behaviour behaviour) => Behaviour = behaviour;
         
-        internal override GameBehaviour GameBehaviour { get; set; }
+        internal override Behaviour Behaviour { get; set; }
         internal override IFileSystem FileSystem { get; set; } = new FileSystemAndroid();
         internal override IDebug Debug { get; set; } = new DebugAndroid();
 
         public override void Init()
         {
             // Init
-            GameBehaviour.Init();
+            Behaviour.Init();
             
-            // Force Settings
+            // Platform Specifics
             if (Window.GetWindow() != IntPtr.Zero)
             {
                 Window.Fullscreen(true);
@@ -36,8 +36,8 @@ namespace Hybrid.Platforms
                 }
 
                 // Loop
-                GameBehaviour.Update();
-                GameBehaviour.Render();
+                Behaviour.Update();
+                Behaviour.Render();
             }
             
             // Dispose
