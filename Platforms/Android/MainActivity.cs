@@ -1,7 +1,7 @@
 using Android.Content.PM;
 using Org.Libsdl.App;
-using Engine.Platforms;
-using Engine;
+using Hybrid.Platforms;
+using Hybrid;
 using App;
 
 [Activity(Label = "Android", 

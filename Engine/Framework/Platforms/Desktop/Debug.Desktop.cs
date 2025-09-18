@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Engine.Platforms
+namespace Hybrid.Platforms
 {
     public class DebugDesktop : IDebug
     {

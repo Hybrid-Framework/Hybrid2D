@@ -1,9 +1,8 @@
-﻿using static Engine.SDL2.SDL;
-using System;
+﻿using System;
 
-namespace Engine
+namespace Hybrid
 {
-    public class GameBehaviour : IDisposable
+    public abstract class GameBehaviour
     {
         public virtual void Init()
         {
@@ -18,11 +17,6 @@ namespace Engine
         public virtual void Render()
         {
             
-        }
-
-        public virtual void Dispose()
-        {
-            // Do all disposing here behind the scenes
         }
     }
 }

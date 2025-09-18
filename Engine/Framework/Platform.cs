@@ -1,6 +1,7 @@
 ﻿using System;
+using Hybrid.SDL2;
 
-namespace Engine
+namespace Hybrid
 {
     public abstract partial class Platform
     {
@@ -9,7 +10,7 @@ namespace Engine
         public static void Create(Platform platform)
         {
             Current = platform;
-            Current.Run();
+            Current.Init();
         }
     }
     
@@ -21,7 +22,14 @@ namespace Engine
         internal virtual GameBehaviour GameBehaviour { get; set; }
         internal virtual IFileSystem FileSystem { get; set; }
         internal virtual IDebug Debug { get; set; }
-
-        internal virtual void Run() {}
+        
+        public virtual void Init() {}
+        public virtual void Run() {}
+        
+        internal virtual void Dispose()
+        {
+            // Dispose
+            Window.CloseWindow();
+        }
     }
 }

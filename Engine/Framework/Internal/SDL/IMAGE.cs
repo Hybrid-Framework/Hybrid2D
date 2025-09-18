@@ -31,7 +31,7 @@ using System;
 using System.Runtime.InteropServices;
 #endregion
 
-namespace Engine.SDL2
+namespace Hybrid.SDL2
 {
 	public static class SDL_image
 	{

@@ -1,7 +1,7 @@
-﻿using static Engine.SDL2.SDL;
+﻿using static Hybrid.SDL2.SDL;
 using System;
 
-namespace Engine.Platforms
+namespace Hybrid.Platforms
 {
     public class PlatformIOS : Platform
     {
@@ -10,26 +10,31 @@ namespace Engine.Platforms
         internal override GameBehaviour GameBehaviour { get; set; }
         internal override IFileSystem FileSystem { get; set; } = new FileSystemIOS();
         internal override IDebug Debug { get; set; } = new DebugIOS();
-        
-        
-        internal override void Run()
+
+        public override void Init()
         {
-            if (!Initialized)
-            {
-                // Init
-                Initialized = true;
-                GameBehaviour.Init();
-            }
-            
+            // Init
+            GameBehaviour.Init();
+        }
+        
+        public override void Run()
+        {
+            // Main Loop
             while (IsRunning)
             {
+                // Events
+                while (SDL_PollEvent(out SDL_Event e) == 1)
+                {
+                    Events.Process(e);
+                }
+
                 // Loop
                 GameBehaviour.Update();
                 GameBehaviour.Render();
             }
             
             // Dispose
-            GameBehaviour.Dispose();
+            Dispose();
         }
     }
 }

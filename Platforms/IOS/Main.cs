@@ -1,13 +1,13 @@
 using System.Runtime.InteropServices;
-using Engine.Platforms;
-using Engine;
+using Hybrid.Platforms;
+using Hybrid;
 using App;
 
 public static class Program
 {
     public static void Main(string[] args)
     {
-        var assembly = typeof(Engine.SDL2.SDL).Assembly;
+        var assembly = typeof(Hybrid.SDL2.SDL).Assembly;
 
         NativeLibrary.SetDllImportResolver(assembly, (library, asm, path) =>
         {
@@ -21,8 +21,8 @@ public static class Program
             };
         });
 
-        Engine.SDL2.SDL.SDL_main_func entry = Entry;
-        Engine.SDL2.SDL.SDL_UIKitRunApp(0, IntPtr.Zero, entry);
+        Hybrid.SDL2.SDL.SDL_main_func entry = Entry;
+        Hybrid.SDL2.SDL.SDL_UIKitRunApp(0, IntPtr.Zero, entry);
     }
 
     private static int Entry(int argc, IntPtr argv)

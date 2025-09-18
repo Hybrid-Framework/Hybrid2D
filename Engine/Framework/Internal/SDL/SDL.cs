@@ -36,7 +36,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 #endregion
 
-namespace Engine.SDL2
+namespace Hybrid.SDL2
 {
 	public static class SDL
 	{
@@ -1529,7 +1529,7 @@ namespace Engine.SDL2
 		[Flags]
 		public enum SDL_WindowFlags : uint
 		{
-			SDL_WINDOW_NOFLAGS = 0x00000000,
+			SDL_WINDOW_NONE = 0x00000000,
 			SDL_WINDOW_FULLSCREEN =		0x00000001,
 			SDL_WINDOW_OPENGL =		0x00000002,
 			SDL_WINDOW_SHOWN =		0x00000004,
@@ -2504,6 +2504,7 @@ namespace Engine.SDL2
 		[Flags]
 		public enum SDL_RendererFlags : uint
 		{
+			SDL_RENDERER_NONE = 0x00000000,
 			SDL_RENDERER_SOFTWARE =		0x00000001,
 			SDL_RENDERER_ACCELERATED =	0x00000002,
 			SDL_RENDERER_PRESENTVSYNC =	0x00000004,

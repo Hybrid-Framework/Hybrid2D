@@ -1,5 +1,5 @@
-﻿using Engine.Platforms;
-using Engine;
+﻿using Hybrid.Platforms;
+using Hybrid;
 using App;
 
 public static class Program
@@ -7,5 +7,6 @@ public static class Program
     public static void Main()
     {
         Platform.Create(new PlatformDesktop(new Game()));
+        Platform.Current.Run();
     }
 }

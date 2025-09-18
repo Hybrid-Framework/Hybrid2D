@@ -1,5 +1,4 @@
-﻿using static Engine.SDL2.SDL;
-using Engine;
+﻿using Hybrid;
 
 namespace App
 {
@@ -7,27 +6,19 @@ namespace App
     {
         public override void Init()
         {
-            Console.WriteLine("Platform Init");
-            // Window.Create(Hello World, 1280, 768);
-            // Window.isFullscreen = false;
-            // Window.vsync = false;
-            // Window.fps = 60;
+            Window.CreateWindow("Hello World", 800, 600);
         }
         
         public override void Update()
         {
-            Console.WriteLine("Platform Update");
-            // Input.GetKeyDown(Key.Space);
+            // Here
         }
         
         public override void Render()
         {
-            Console.WriteLine("Platform Render");
-            // Graphics.Begin();
-            
-            // Graphics.DrawSprite(10, 10, name);
-            
-            // Graphics.End();
+            Graphics.ClearColor(255, 128, 128, 128);
+            Graphics.Begin();
+            Graphics.End();
         }
     }
 }
