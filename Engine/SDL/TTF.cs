@@ -31,7 +31,7 @@ using System;
 using System.Runtime.InteropServices;
 #endregion
 
-namespace Engine.Internal.SDL2
+namespace Engine.SDL2
 {
 	public static class SDL_ttf
 	{

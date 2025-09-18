@@ -1,5 +1,5 @@
-﻿using static Engine.Internal.SDL2.SDL_image;
-using static Engine.Internal.SDL2.SDL;
+﻿using static Engine.SDL2.SDL_image;
+using static Engine.SDL2.SDL;
 using System;
 
 namespace Engine
