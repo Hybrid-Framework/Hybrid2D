@@ -5,19 +5,24 @@ namespace Engine
 {
     public class GameBehaviour : IDisposable
     {
-        public virtual void Init(string title, int width, int height, SDL_WindowFlags flags)
+        public virtual void Init()
         {
             
         }
 
-        public virtual bool Update()
+        public virtual void Update()
         {
-            return false;
+            
+        }
+        
+        public virtual void Render()
+        {
+            
         }
 
         public virtual void Dispose()
         {
-            
+            // Do all disposing here behind the scenes
         }
     }
 }

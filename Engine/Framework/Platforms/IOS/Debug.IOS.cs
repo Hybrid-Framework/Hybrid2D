@@ -6,17 +6,17 @@ namespace Engine.Platforms
     {
         public void Log(string message)
         {
-            Console.WriteLine($"{Platform.Current.Device} LOG: {message} ");
+            Console.WriteLine($"LOG: {message} ");
         }
         
         public void Warn(string message)
         {
-            Console.WriteLine($"{Platform.Current.Device} WARNING: {message} ");
+            Console.WriteLine($"WARNING: {message} ");
         }
         
         public void Error(string message)
         {
-            throw new Exception($"{Platform.Current.Device} ERROR: {message} ");
+            throw new Exception($"ERROR: {message} ");
         }
     }
 }

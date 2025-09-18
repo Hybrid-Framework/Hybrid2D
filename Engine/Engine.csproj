@@ -13,6 +13,9 @@
             <Link>.Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
         </Content>
     </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Framework\Internal\" />
+    </ItemGroup>
 
     <Import Project="..\.items\Shared.props" />
     
