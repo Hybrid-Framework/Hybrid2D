@@ -13,6 +13,6 @@
     </ItemGroup>
 
     <Import Project="..\..\.items\Shared.props" />
-    <Import Project="..\..\.items\Desktop.props" />
+    <Import Project="..\..\.items\Windows.props" />
 
 </Project>

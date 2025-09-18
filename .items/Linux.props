@@ -2,7 +2,7 @@
 
 <!-- Settings -->
     <PropertyGroup>
-        <Scheme>Desktop</Scheme>
+        <Scheme>Linux</Scheme>
         <DefineConstants>$(Scheme)</DefineConstants>
     </PropertyGroup>
     
@@ -24,7 +24,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Content Include="..\..\Natives\Desktop\$(Architecture)\**\*">
+        <Content Include="..\..\Natives\Linux\$(Architecture)\**\*">
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <Visible>false</Visible>

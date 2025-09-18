@@ -1,0 +1,34 @@
+<Project>
+
+<!-- Settings -->
+    <PropertyGroup>
+        <Scheme>MacOS</Scheme>
+        <DefineConstants>$(Scheme)</DefineConstants>
+    </PropertyGroup>
+    
+<!-- Assets -->
+    <ItemGroup>
+        <Content Include="..\..\App\Assets\**\*">
+            <TargetPath>Assets\%(RecursiveDir)%(Filename)%(Extension)</TargetPath>
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Link>.Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
+            <Visible>false</Visible>
+        </Content>
+    </ItemGroup>
+    
+<!-- Natives -->
+    <PropertyGroup>
+        <Architecture Condition="'$(RuntimeIdentifier)' == ''">$(NETCoreSdkRuntimeIdentifier)</Architecture>
+        <Architecture Condition="'$(RuntimeIdentifier)' != ''">$(RuntimeIdentifier)</Architecture>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Content Include="..\..\Natives\MacOS\$(Architecture)\**\*">
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Visible>false</Visible>
+        </Content>
+    </ItemGroup>
+
+</Project>
