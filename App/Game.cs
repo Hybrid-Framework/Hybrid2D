@@ -6,7 +6,7 @@ namespace App
     {
         public override void Init()
         {
-            Window.CreateWindow("Hello World", 800, 600);
+            Window.CreateWindow("Hybrid", 800, 600);
         }
         
         public override void Update()
