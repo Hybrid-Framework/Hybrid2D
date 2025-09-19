@@ -8,7 +8,6 @@ source "$DEPENDENCIES_DIR/Methods.sh"
 
 PLATFORM="Web"
 MODULES=("Emscripten" "SDL2")
-ARCHS=("Any")
 
 PORTPATH="$MODULES_DIR/Emscripten/upstream/emscripten/tools/ports"
 LIBPATH="$MODULES_DIR/Emscripten/build_$PLATFORM/sysroot/lib/wasm32-emscripten"
@@ -34,7 +33,6 @@ SDL2()
 {
   local INDEX="$1"
   
-  # Transfer custom port files
   for file in "$DEPENDENCIES_DIR/System/Emscripten/"*.py; do
     [ -e "$file" ] || continue
     Transfer "$file" "$PORTPATH"
@@ -78,23 +76,6 @@ COMPLETE()
   Transfer "$LIBPATH/SDL2_ttf*.a" "$TARGETPATH"
   Transfer "$LIBPATH/SDL2.a*" "$TARGETPATH"
   
-  # Check for bad invoke_ symbols
-  LLVMPATH="$MODULES_DIR/Emscripten/upstream/bin/llvm-nm.exe"
-  
-  for lib in "$TARGETPATH"/*.a "$TARGETPATH"/Dependencies/*.a; do
-    
-    [ -e "$lib" ] || continue
-
-    symbols=$("$LLVMPATH" "$lib" 2>/dev/null | grep "invoke_" || true)
-
-    if [ -n "$symbols" ]; then
-        echo "❌ $lib"
-        echo "$symbols"
-    else
-        echo "✅ $lib"
-    fi
-  done
-
   read -p "Build complete."
 }
 
