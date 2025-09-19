@@ -57,7 +57,6 @@ SDL2()
       "${EXEC[@]}"
       
   done
-
 }
 
 COMPLETE()

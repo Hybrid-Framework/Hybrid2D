@@ -1,8 +1,7 @@
 ## PROJECT
 .scripts/Dependencies/Modules/**/*
+.scripts/Generated/**/*
 *.DS_Store
-
-
 
 
 ## VISUAL STUDIO
@@ -416,10 +415,6 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
-
-
-
-
 
 
 ## JETBRAINS RIDER
