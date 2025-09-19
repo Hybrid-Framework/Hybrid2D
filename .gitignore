@@ -1,5 +1,6 @@
 ## PROJECT
 .scripts/Dependencies/Modules/**/*
+.scripts/Generated/**/*
 *.DS_Store
 
 
