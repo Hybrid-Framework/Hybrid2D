@@ -2,13 +2,17 @@
 set +e
 
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-MODULES_DIR="$BASE_DIR/Dependencies/Modules"
-DEPENDENCIES_DIR="$BASE_DIR/Dependencies"
+MODULES_DIR="$BASE_DIR/../Dependencies/Modules"
+DEPENDENCIES_DIR="$BASE_DIR/../Dependencies"
+PROJECT_DIR="$BASE_DIR/Bindings"
 source "$DEPENDENCIES_DIR/Methods.sh"
 
 PLATFORM="Bindings"
 MODULES=("CLANG" "SDL2" "SDL2_image" "SDL2_mixer" "SDL2_ttf")
 SDLINCLUDE="$MODULES_DIR/SDL2/Include"
+
+rm -rf "$PROJECT_DIR/Include"
+mkdir -p "$PROJECT_DIR/Include"
 
 CLANG()
 {
@@ -69,7 +73,7 @@ SDL2()
           -m $MODULE
           -I "$SDLINCLUDE"
           -f "$INCLUDE/$file"
-          -o "$BASE_DIR/Generated/$MODULE/${file%.h}.cs"
+          -o "$PROJECT_DIR/Include/$MODULE/${file%.h}.h"
       )
   
       echo "Generating bindings for $file..."
@@ -102,7 +106,7 @@ SDL2_image()
           -m $MODULE
           -I "$SDLINCLUDE"
           -f "$INCLUDE/$file"
-          -o "$BASE_DIR/Generated/$MODULE/${file%.h}.cs"
+          -o "$PROJECT_DIR/Include/$MODULE/${file%.h}.h"
       )
   
       echo "Generating bindings for $file..."
@@ -135,7 +139,7 @@ SDL2_mixer()
           -m $MODULE
           -I "$SDLINCLUDE"
           -f "$INCLUDE/$file"
-          -o "$BASE_DIR/Generated/$MODULE/${file%.h}.cs"
+          -o "$PROJECT_DIR/Include/$MODULE/${file%.h}.h"
       )
   
       echo "Generating bindings for $file..."
@@ -168,7 +172,7 @@ SDL2_ttf()
           -m $MODULE
           -I "$SDLINCLUDE"
           -f "$INCLUDE/$file"
-          -o "$BASE_DIR/Generated/$MODULE/${file%.h}.cs"
+          -o "$PROJECT_DIR/Include/$MODULE/${file%.h}.h"
       )
   
       echo "Generating bindings for $file..."
@@ -185,7 +189,15 @@ SDL2_ttf()
 
 COMPLETE()
 {
+  echo
+  echo "Running C to C# Parsing"
+  echo
+  
+  dotnet run --project "$PROJECT_DIR/Bindings.csproj"
+  
+  echo
   read -p "Bindings Generated."
+  echo
 }
 
-source "$BASE_DIR/Dependencies/Build.sh"
+source "$DEPENDENCIES_DIR/Build.sh"
