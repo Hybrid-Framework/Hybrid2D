@@ -5,14 +5,37 @@ BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MODULES_DIR="$BASE_DIR/../Dependencies/Modules"
 DEPENDENCIES_DIR="$BASE_DIR/../Dependencies"
 PROJECT_DIR="$BASE_DIR/Bindings"
+OUTPUT_DIR="$BASE_DIR/Generated"
 source "$DEPENDENCIES_DIR/Methods.sh"
 
 PLATFORM="Bindings"
 MODULES=("CLANG" "SDL2" "SDL2_image" "SDL2_mixer" "SDL2_ttf")
 SDLINCLUDE="$MODULES_DIR/SDL2/Include"
+EXTENSION=".cs"
 
-rm -rf "$PROJECT_DIR/Include"
-mkdir -p "$PROJECT_DIR/Include"
+rm -rf "$OUTPUT_DIR"
+mkdir -p "$OUTPUT_DIR"
+
+BASE_COMMANDS=(
+  -n SDL2
+  --config latest-codegen
+  
+  --remap "SDL_Window*=IntPtr"
+  --remap "SDL_Texture*=IntPtr"
+  --remap "SDL_Renderer*=IntPtr"
+  
+  --remap "void*=IntPtr"
+  --remap "char=byte"
+  --remap "wchar_t *=IntPtr"
+  --remap "bool=SDLBool"
+  --remap "__va_list=byte*"
+  --remap "__va_list_tag=byte"
+  --remap "Sint64=long"
+  --remap "Uint64=ulong"
+  
+  --with-type "*=int"
+  --nativeTypeNamesToStrip "unsigned int"
+)
 
 CLANG()
 {
@@ -68,12 +91,12 @@ SDL2()
     
       local EXEC=(
           "$CLANGSHARP"
-          -l SDL
-          -n SDL
+          "${BASE_COMMANDS[@]}"
+          -l $MODULE
           -m $MODULE
           -I "$SDLINCLUDE"
           -f "$INCLUDE/$file"
-          -o "$PROJECT_DIR/Include/$MODULE/${file%.h}.h"
+          -o "$OUTPUT_DIR/${file%.h}$EXTENSION"
       )
   
       echo "Generating bindings for $file..."
@@ -101,12 +124,12 @@ SDL2_image()
     
       local EXEC=(
           "$CLANGSHARP"
-          -l SDL
-          -n SDL
+          "${BASE_COMMANDS[@]}"
+          -l $MODULE
           -m $MODULE
           -I "$SDLINCLUDE"
           -f "$INCLUDE/$file"
-          -o "$PROJECT_DIR/Include/$MODULE/${file%.h}.h"
+          -o "$OUTPUT_DIR/${file%.h}$EXTENSION"
       )
   
       echo "Generating bindings for $file..."
@@ -134,12 +157,12 @@ SDL2_mixer()
     
       local EXEC=(
           "$CLANGSHARP"
-          -l SDL
-          -n SDL
+          "${BASE_COMMANDS[@]}"
+          -l $MODULE
           -m $MODULE
           -I "$SDLINCLUDE"
           -f "$INCLUDE/$file"
-          -o "$PROJECT_DIR/Include/$MODULE/${file%.h}.h"
+          -o "$OUTPUT_DIR/${file%.h}$EXTENSION"
       )
   
       echo "Generating bindings for $file..."
@@ -167,12 +190,12 @@ SDL2_ttf()
     
       local EXEC=(
           "$CLANGSHARP"
-          -l SDL
-          -n SDL
+          "${BASE_COMMANDS[@]}"
+          -l $MODULE
           -m $MODULE
           -I "$SDLINCLUDE"
           -f "$INCLUDE/$file"
-          -o "$PROJECT_DIR/Include/$MODULE/${file%.h}.h"
+          -o "$OUTPUT_DIR/${file%.h}$EXTENSION"
       )
   
       echo "Generating bindings for $file..."
@@ -189,11 +212,11 @@ SDL2_ttf()
 
 COMPLETE()
 {
-  echo
-  echo "Running C to C# Parsing"
-  echo
-  
-  dotnet run --project "$PROJECT_DIR/Bindings.csproj"
+#  echo
+#  echo "Running C to C# Parsing"
+#  echo
+#  
+#  dotnet run --project "$PROJECT_DIR/Bindings.csproj"
   
   echo
   read -p "Bindings Generated."
