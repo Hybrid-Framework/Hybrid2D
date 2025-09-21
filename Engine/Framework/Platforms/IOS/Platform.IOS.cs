@@ -27,7 +27,7 @@ namespace Hybrid.Platforms
                 // Events
                 while (SDL_PollEvent(out SDL_Event e) == 1)
                 {
-                    Events.Process(e);
+                    Behaviour.Events(e);
                 }
 
                 // Loop

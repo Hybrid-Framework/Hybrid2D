@@ -1,4 +1,5 @@
 ﻿using System;
+using Hybrid.SDL2;
 
 namespace Hybrid
 {
@@ -9,14 +10,15 @@ namespace Hybrid
         public static void Create(Platform platform)
         {
             Current = platform;
+            SDL_init.Init();
             Current.Init();
         }
     }
     
     public abstract partial class Platform
     {
-        internal virtual bool IsRunning { get; set; } = true;
-        internal virtual bool Initialized { get; set; } = false;
+        public virtual bool IsRunning { get; set; } = true;
+        public virtual bool Initialized { get; set; } = false;
 
         internal virtual Behaviour Behaviour { get; set; }
         internal virtual IFileSystem FileSystem { get; set; }

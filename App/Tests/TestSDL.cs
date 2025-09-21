@@ -3,7 +3,7 @@ using Hybrid;
 
 namespace App
 {
-    public class Game : Behaviour
+    public class TestSDL : Behaviour
     {
         public override void Init()
         {
@@ -17,11 +17,6 @@ namespace App
                 Platform.Current.IsRunning = false;
                 return;
             }
-        }
-        
-        public override void Update()
-        {
-            // Here
         }
         
         public override void Render()
