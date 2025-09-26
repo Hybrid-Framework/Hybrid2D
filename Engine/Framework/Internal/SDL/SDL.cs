@@ -42,7 +42,7 @@ namespace Hybrid.SDL2
 	{
 		#region SDL2# Variables
 		
-		private const string nativeLibName = "SDL";
+		private const string nativeLibName = "SDL2";
 
 		#endregion
 

@@ -37,7 +37,7 @@ namespace Hybrid.SDL2
 	{
 		#region SDL2# Variables
 		
-		private const string nativeLibName = "MIXER";
+		private const string nativeLibName = "SDL2_mixer";
 
 		#endregion
 
