@@ -6,7 +6,7 @@ public static class Program
 {
     public static void Main()
     {
-        Platform.Create(new PlatformDesktop(new Game()));
+        Platform.Create(new PlatformDesktop(new TestSDL()));
         Platform.Current.Run();
     }
 }

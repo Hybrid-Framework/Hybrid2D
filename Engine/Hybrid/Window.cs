@@ -10,19 +10,21 @@ namespace Hybrid
         
         public static void CreateWindow(string title, int width, int height)
         {
-            window = SDL_CreateWindow(title, width, height, SDL_WindowFlags.SDL_WINDOW_NONE);
+            window = SDL_CreateWindow(title, width, height, SDL_WindowFlags.SDL_WINDOW_ALLOW_HIGHDPI);
             
             if (GetWindow() == IntPtr.Zero)
             {
                 throw new Exception(SDL_GetError());
             }
 
-            renderer = SDL_CreateRenderer(GetWindow(), -1, SDL_RendererFlags.SDL_RENDERER_NONE);
+            renderer = SDL_CreateRenderer(GetWindow(), -1, SDL_RendererFlags.SDL_RENDERER_ACCELERATED | SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC);
             
             if (GetRenderer() == IntPtr.Zero)
             {
                 throw new Exception(SDL_GetError());
             }
+
+            SDL_RenderSetLogicalSize(renderer, 1920, 1080);
         }
 
         public static void CloseWindow()

@@ -19,7 +19,7 @@ public class MainActivity : SDLActivity
     
     protected override void Main()
     {
-        Platform.Create(new PlatformAndroid(new TestTTF()));
+        Platform.Create(new PlatformAndroid(new TestSDL()));
         Platform.Current.Run();
     }
 }

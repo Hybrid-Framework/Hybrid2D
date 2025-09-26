@@ -9,6 +9,11 @@ namespace Hybrid.SDL2
     {
         public static void Init()
         {
+            SDL_SetHint(SDL_HINT_VIDEO_HIGHDPI_DISABLED, "0");
+            SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
+            SDL_SetHint(SDL_HINT_WINDOWS_DPI_AWARENESS, "permonitor");
+            SDL_SetHint(SDL_HINT_WINDOWS_DPI_SCALING, "0");
+            
             if (TTF_Init() < 0) throw new Exception($"SDL TTF: {TTF_GetError()}");
             
             if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) throw new Exception($"SDL: {SDL_GetError()}");

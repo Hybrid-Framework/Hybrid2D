@@ -805,6 +805,10 @@ namespace Hybrid.SDL2
 			"SDL_X11_WINDOW_TYPE";
 		public const string SDL_HINT_QUIT_ON_LAST_WINDOW_CLOSE =
 			"SDL_QUIT_ON_LAST_WINDOW_CLOSE";
+		public const string SDL_HINT_WINDOWS_DPI_AWARENESS =
+			"SDL_WINDOWS_DPI_AWARENESS";
+		public const string SDL_HINT_WINDOWS_DPI_SCALING =
+			"SDL_WINDOWS_DPI_SCALING";
 
 		public enum SDL_HintPriority
 		{

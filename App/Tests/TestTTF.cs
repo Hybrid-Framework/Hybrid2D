@@ -6,7 +6,7 @@ namespace App
 {
     public class TestTTF : Behaviour
     {
-        private string teststring = "Testing ttf";
+        private string teststring = "World!";
         public IntPtr fontTexture;
         public IntPtr font;
         
@@ -14,7 +14,7 @@ namespace App
         {
             Window.CreateWindow("Hybrid", 800, 600);
             
-            font = TTF_OpenFont(FileSystem.LoadAsset("Font.ttf"), 24);
+            font = TTF_OpenFont(FileSystem.LoadAsset("Font.ttf"), 256);
             if (font == IntPtr.Zero) throw new Exception($"SDL TTF: {TTF_GetError()}");
         }
 

@@ -7,7 +7,9 @@ DEPENDENCIES_DIR="$BASE_DIR/Dependencies"
 source "$DEPENDENCIES_DIR/Methods.sh"
 
 PLATFORM="Web"
-MODULES=("Emscripten" "SDL2")
+ARCHS=("Emscripten")
+RIDS=("Emscripten")
+MODULES=("Emscripten" "SDL")
 
 PORTPATH="$MODULES_DIR/Emscripten/upstream/emscripten/tools/ports"
 LIBPATH="$MODULES_DIR/Emscripten/build_$PLATFORM/sysroot/lib/wasm32-emscripten"
@@ -18,18 +20,15 @@ Emscripten()
   local INDEX="$1"
   local VERSION="3.1.56"
 
-  Install "Emscripten" "https://github.com/emscripten-core/emsdk.git" "$VERSION"
+  Install "$MODULE" "https://github.com/emscripten-core/emsdk.git" "$VERSION"
 
   cd "$MODULES_DIR/$MODULE"
   ./emsdk install "$VERSION"
   ./emsdk activate "$VERSION"
   source ./emsdk_env.sh
-
-  export EM_CACHE="$MODULES_DIR/$MODULE/build_$PLATFORM"
-  read -p "Emscripten installed... continue to build?"
 }
 
-SDL2()
+SDL()
 {
   local INDEX="$1"
   
@@ -43,6 +42,8 @@ SDL2()
   rm -rf "$BUILDPATH"
   mkdir -p "$BUILDPATH"
   cd "$BUILDPATH" || exit
+  
+  export EM_CACHE="$BUILDPATH"
   
   echo 'int main() { return 0; }' > test.c
   
@@ -63,18 +64,35 @@ COMPLETE()
   Rename "$LIBPATH/libSDL2*.a" "$LIBPATH/SDL2.a"
 
   # Transfer specific files for our build to keep size low
-  Transfer "$LIBPATH/libfreetype*.a" "$TARGETPATH/Dependencies"
-  Transfer "$LIBPATH/libharfbuzz*.a" "$TARGETPATH/Dependencies"
-  Transfer "$LIBPATH/libjpeg*.a" "$TARGETPATH/Dependencies"
-  Transfer "$LIBPATH/libpng*.a" "$TARGETPATH/Dependencies"
-  Transfer "$LIBPATH/libmpg123*.a" "$TARGETPATH/Dependencies"
-  Transfer "$LIBPATH/libogg*.a" "$TARGETPATH/Dependencies"
-  Transfer "$LIBPATH/libvorbis*.a" "$TARGETPATH/Dependencies"
-  Transfer "$LIBPATH/libz*.a" "$TARGETPATH/Dependencies"
-  Transfer "$LIBPATH/SDL2_image*.a" "$TARGETPATH"
-  Transfer "$LIBPATH/SDL2_mixer*.a" "$TARGETPATH"
-  Transfer "$LIBPATH/SDL2_ttf*.a" "$TARGETPATH"
-  Transfer "$LIBPATH/SDL2.a*" "$TARGETPATH"
+  Transfer "$LIBPATH/libfreetype*.a" "$TARGETPATH/Dependencies/"
+  Transfer "$LIBPATH/libharfbuzz*.a" "$TARGETPATH/Dependencies/"
+  Transfer "$LIBPATH/libjpeg*.a" "$TARGETPATH/Dependencies/"
+  Transfer "$LIBPATH/libpng*.a" "$TARGETPATH/Dependencies/"
+  Transfer "$LIBPATH/libmpg123*.a" "$TARGETPATH/Dependencies/"
+  Transfer "$LIBPATH/libogg*.a" "$TARGETPATH/Dependencies/"
+  Transfer "$LIBPATH/libvorbis*.a" "$TARGETPATH/Dependencies/"
+  Transfer "$LIBPATH/libz*.a" "$TARGETPATH/Dependencies/"
+  Transfer "$LIBPATH/SDL2_image*.a" "$TARGETPATH/"
+  Transfer "$LIBPATH/SDL2_mixer*.a" "$TARGETPATH/"
+  Transfer "$LIBPATH/SDL2_ttf*.a" "$TARGETPATH/"
+  Transfer "$LIBPATH/SDL2.a*" "$TARGETPATH/"
+  
+   # Check for bad invoke_ symbols
+  LLVMPATH="$MODULES_DIR/Emscripten/upstream/bin/llvm-nm.exe"
+  
+  for lib in "$TARGETPATH"/*.a "$TARGETPATH"/Dependencies/*.a; do
+    
+    [ -e "$lib" ] || continue
+
+    symbols=$("$LLVMPATH" "$lib" 2>/dev/null | grep "invoke_" || true)
+
+    if [ -n "$symbols" ]; then
+        echo "❌ $lib"
+        echo "$symbols"
+    else
+        echo "✅ $lib"
+    fi
+  done
   
   read -p "Build complete."
 }
