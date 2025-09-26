@@ -10,15 +10,15 @@ source "$DEPENDENCIES_DIR/Methods.sh"
 PLATFORM="Android"
 ARCHS=("armeabi-v7a" "arm64-v8a" "x86" "x86_64")
 RIDS=("armeabi-v7a" "arm64-v8a" "x86" "x86_64")
-MODULES=("SDL2" "SDL2_image" "SDL2_mixer" "SDL2_ttf")
+MODULES=("SDL" "IMAGE" "MIXER" "TTF")
 
-SDL2()
+SDL()
 {
   local INDEX="$1"
   local ARCH="${ARCHS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
   
-  Install "SDL2" "https://github.com/libsdl-org/SDL.git" "release-2.32.10"
+  Install "$MODULE" "https://github.com/libsdl-org/SDL.git" "release-2.32.10"
   
   cd "$MODULES_DIR/$MODULE" || exit
   BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
@@ -41,16 +41,16 @@ SDL2()
   cmake --build . --config Release
   cmake --install . --config Release
   
-  Transfer "$MODULES_DIR/$MODULE/install_${PLATFORM}-$ARCH/lib/lib$MODULE.so" "$BASE_DIR/../Natives/$PLATFORM/$RID"
+  Transfer "$INSTALLPATH/lib/libSDL2.so" "$BASE_DIR/../Natives/$PLATFORM/$RID/"
 }
 
-SDL2_image()
+IMAGE()
 {
   local INDEX="$1"
   local ARCH="${ARCHS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
   
-  Install "SDL2_image" "https://github.com/libsdl-org/SDL_image.git" "release-2.8.8"
+  Install "$MODULE" "https://github.com/libsdl-org/SDL_image.git" "release-2.8.8"
   
   cd "$MODULES_DIR/$MODULE" || exit
   BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
@@ -66,8 +66,8 @@ SDL2_image()
     -DSDL2IMAGE_BMP=ON \
     -DSDL2IMAGE_PNG=ON \
     -DSDL2IMAGE_JPG=ON \
+    -DSDL2IMAGE_WEBP=ON \
     -DSDL2IMAGE_AVIF=OFF \
-    -DSDL2IMAGE_WEBP=OFF \
     -DSDL2IMAGE_GIF=OFF \
     -DSDL2IMAGE_TIF=OFF \
     -DSDL2IMAGE_TGA=OFF \
@@ -80,28 +80,31 @@ SDL2_image()
     -DSDL2IMAGE_QOI=OFF \
     -DSDL2IMAGE_SVG=OFF \
     -DSDL2IMAGE_JXL=OFF \
-    -DBUILD_SHARED_LIBS=ON \
+    -DSDL2IMAGE_TESTS=OFF \
     -DSDL2IMAGE_SAMPLES=OFF \
+    -DBUILD_SHARED_LIBS=ON \
+    -DSDL2IMAGE_VENDORED=ON \
+    -DSDL2IMAGE_DEPS_SHARED=OFF \
     -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
     -DCMAKE_INSTALL_PREFIX=$INSTALLPATH \
     -DCMAKE_C_FLAGS="-Wno-deprecated-declarations" \
     -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" \
-    -DSDL2_INCLUDE_DIR=$MODULES_DIR/SDL2/install_$PLATFORM-$ARCH/include/SDL2 \
-    -DSDL2_LIBRARY=$MODULES_DIR/SDL2/install_$PLATFORM-$ARCH/lib/libSDL2.so
+    -DSDL2_INCLUDE_DIR=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/include/SDL2 \
+    -DSDL2_LIBRARY=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/lib/libSDL2.so
 
   cmake --build . --config Release
   cmake --install . --config Release
   
-  Transfer "$MODULES_DIR/$MODULE/install_${PLATFORM}-$ARCH/lib/lib$MODULE.so" "$BASE_DIR/../Natives/$PLATFORM/$RID"
+  Transfer "$INSTALLPATH/lib/libSDL2_image.so" "$BASE_DIR/../Natives/$PLATFORM/$RID/"
 }
 
-SDL2_mixer()
+MIXER()
 {
   local INDEX="$1"
   local ARCH="${ARCHS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
   
-  Install "SDL2_mixer" "https://github.com/libsdl-org/SDL_mixer.git" "release-2.8.1"
+  Install "$MODULE" "https://github.com/libsdl-org/SDL_mixer.git" "release-2.8.1"
   
   cd "$MODULES_DIR/$MODULE" || exit
   BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
@@ -124,26 +127,28 @@ SDL2_mixer()
     -DSDL2MIXER_WAVPACK=OFF \
     -DBUILD_SHARED_LIBS=ON \
     -DSDL2MIXER_SAMPLES=OFF \
+    -DSDL2MIXER_VENDORED=ON \
+    -DSDL2MIXER_DEPS_SHARED=OFF \
     -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
     -DCMAKE_INSTALL_PREFIX=$INSTALLPATH \
     -DCMAKE_C_FLAGS="-Wno-deprecated-declarations" \
     -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" \
-    -DSDL2_INCLUDE_DIR=$MODULES_DIR/SDL2/install_$PLATFORM-$ARCH/include/SDL2 \
-    -DSDL2_LIBRARY=$MODULES_DIR/SDL2/install_$PLATFORM-$ARCH/lib/libSDL2.so
+    -DSDL2_INCLUDE_DIR=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/include/SDL2 \
+    -DSDL2_LIBRARY=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/lib/libSDL2.so
 
   cmake --build . --config Release
   cmake --install . --config Release
   
-  Transfer "$MODULES_DIR/$MODULE/install_${PLATFORM}-$ARCH/lib/lib$MODULE.so" "$BASE_DIR/../Natives/$PLATFORM/$RID"
+  Transfer "$INSTALLPATH/lib/libSDL2_mixer.so" "$BASE_DIR/../Natives/$PLATFORM/$RID/"
 }
 
-SDL2_ttf()
+TTF()
 {
   local INDEX="$1"
   local ARCH="${ARCHS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
   
-  Install "SDL2_ttf" "https://github.com/libsdl-org/SDL_ttf.git" "release-2.24.0"
+  Install "$MODULE" "https://github.com/libsdl-org/SDL_ttf.git" "release-2.24.0"
   
   cd "$MODULES_DIR/$MODULE" || exit
   BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
@@ -154,29 +159,31 @@ SDL2_ttf()
   
   cmake .. -G Ninja -Wno-dev \
     -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK" \
-    -DANDROID_ABI=$ARCH \
     -DANDROID_PLATFORM=android-21 \
+    -DANDROID_ABI=$ARCH \
     -DBUILD_SHARED_LIBS=ON \
+    -DSDL2TTF_VENDORED=ON \
     -DSDL2TTF_SAMPLES=OFF \
     -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
     -DCMAKE_INSTALL_PREFIX=$INSTALLPATH \
     -DCMAKE_C_FLAGS="-Wno-deprecated-declarations" \
     -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" \
-    -DSDL2_INCLUDE_DIR=$MODULES_DIR/SDL2/install_$PLATFORM-$ARCH/include/SDL2 \
-    -DSDL2_LIBRARY=$MODULES_DIR/SDL2/install_$PLATFORM-$ARCH/lib/libSDL2.so
+    -DSDL2_INCLUDE_DIR=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/include/SDL2 \
+    -DSDL2_LIBRARY=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/lib/libSDL2.so
 
   cmake --build . --config Release
   cmake --install . --config Release
   
-  Transfer "$MODULES_DIR/$MODULE/install_${PLATFORM}-$ARCH/lib/lib$MODULE.so" "$BASE_DIR/../Natives/$PLATFORM/$RID"
+  Transfer "$INSTALLPATH/lib/libSDL2_ttf.so" "$BASE_DIR/../Natives/$PLATFORM/$RID/"
 }
 
 COMPLETE()
 {
   # Dirty Patch SDLActivity...
   # This patch may break in future releases..
-  # This patch is fixed in SDL3 so it's no longer needed there
-  local PATCHFILE="$MODULES_DIR/SDL2/android-project/app/src/main/java/org/libsdl\app/SDLActivity.java"
+  local PATCHFILE="$MODULES_DIR/SDL/android-project/app/src/main/java/org/libsdl/app/SDLActivity.java"
+  
+  echo "$PATCHFILE"
   
   # Patch 1
   local SEARCH="class SDLActivity"
@@ -209,7 +216,7 @@ COMPLETE()
   # Build SDLActivity.jar
   export PATH="$PATH:/c/Program Files/Android/Android Studio/jbr/bin"
   local ANDROID_JAR="$HOME/AppData/Local/Android/Sdk/platforms/android-36/android.jar"
-  cd $MODULES_DIR/SDL2/android-project/app/src/main/java || exit 1
+  cd $MODULES_DIR/SDL/android-project/app/src/main/java || exit 1
   mkdir -p out
   JAVA_FILES=$(find . -name "*.java")
   javac -source 1.8 -target 1.8 -classpath "$ANDROID_JAR" -d out $JAVA_FILES
@@ -224,4 +231,4 @@ COMPLETE()
   read -p "Build complete."
 }
 
-source "$BASE_DIR/Dependencies/Build.sh"
+source "$DEPENDENCIES_DIR/Build.sh"
