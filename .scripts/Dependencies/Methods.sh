@@ -41,27 +41,37 @@ Transfer()
         return 0
     fi
 
-    shopt -s nullglob
-    local FILES=($SRC)
-    shopt -u nullglob
-
-    if [[ ${#FILES[@]} -eq 0 ]]; then
-        echo "Skipping transfer: No files match $SRC"
+    if [[ ! -e "$SRC" ]]; then
+        echo "Skipping transfer: Source does not exist: $SRC"
         return 0
     fi
 
-    mkdir -p "$DEST"
-    for FILE in "${FILES[@]}"; do
-        if [[ -f "$FILE" ]]; then
-            echo "Copying file $FILE → $DEST/"
-            cp "$FILE" "$DEST/"
-        elif [[ -d "$FILE" ]]; then
-            echo "Copying directory $FILE → $DEST/"
-            cp -r "$FILE/." "$DEST/"
-        fi
-    done
-}
+    # Determine if DEST is a directory (ends with /) or a file
+    local DEST_DIR
+    local DEST_FILE
+    if [[ -d "$DEST" || "${DEST: -1}" == "/" ]]; then
+        DEST_DIR="$DEST"
+        DEST_FILE=""
+    else
+        DEST_DIR=$(dirname "$DEST")
+        DEST_FILE=$(basename "$DEST")
+    fi
 
+    mkdir -p "$DEST_DIR"
+
+    if [[ -f "$SRC" ]]; then
+        if [[ -n "$DEST_FILE" ]]; then
+            echo "Copying file $SRC → $DEST_DIR/$DEST_FILE"
+            cp "$SRC" "$DEST_DIR/$DEST_FILE"
+        else
+            echo "Copying file $SRC → $DEST_DIR/"
+            cp "$SRC" "$DEST_DIR/"
+        fi
+    elif [[ -d "$SRC" ]]; then
+        echo "Copying directory $SRC → $DEST_DIR/"
+        cp -r "$SRC/." "$DEST_DIR/"
+    fi
+}
 
 Rename()
 {

@@ -11,6 +11,7 @@ namespace App
         public IntPtr png;
         public IntPtr bmp;
         public IntPtr jpg;
+        public IntPtr webp;
 
         
         public override void Init()
@@ -25,6 +26,9 @@ namespace App
             
             bmp = IMG_LoadTexture(Window.GetRenderer(), FileSystem.LoadAsset("Image.bmp"));
             if (bmp == IntPtr.Zero) throw new Exception($"SDL IMAGE: {IMG_GetError()}");
+            
+            webp = IMG_LoadTexture(Window.GetRenderer(), FileSystem.LoadAsset("Image.webp"));
+            if (webp == IntPtr.Zero) throw new Exception($"SDL IMAGE: {IMG_GetError()}");
         }
 
         public override void Events(SDL_Event e)
@@ -37,7 +41,7 @@ namespace App
             
             if (e.type == SDL_EventType.SDL_MOUSEBUTTONDOWN)
             {
-                test++; if (test > 2) test = 0;
+                test++; if (test > 3) test = 0;
                 testimage = IntPtr.Zero;
 
                 if (test == 0)
@@ -51,6 +55,10 @@ namespace App
                 else if (test == 2)
                 {
                     testimage = bmp;
+                }
+                else if (test == 3)
+                {
+                    testimage = webp;
                 }
             }
         }
