@@ -27,7 +27,7 @@ public static class Program
 
     private static int Entry(int argc, IntPtr argv)
     {
-        Platform.Create(new PlatformIOS(new TestSDL()));
+        Platform.Create(new PlatformIOS(new TestTTF()));
         Platform.Current.Run();
         return 0;
     }

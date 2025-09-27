@@ -10,7 +10,7 @@ namespace Hybrid
         
         public static void CreateWindow(string title, int width, int height)
         {
-            window = SDL_CreateWindow(title, width, height, SDL_WindowFlags.SDL_WINDOW_ALLOW_HIGHDPI);
+            window = SDL_CreateWindow(title, width, height, SDL_WindowFlags.SDL_WINDOW_ALLOW_HIGHDPI | SDL_WindowFlags.SDL_WINDOW_RESIZABLE);
             
             if (GetWindow() == IntPtr.Zero)
             {

@@ -10,17 +10,17 @@ PLATFORM="IOS"
 ARCHS=("arm64" "x86_64" "arm64")
 SDKS=("iphoneos" "iphonesimulator" "iphonesimulator")
 RIDS=("ios-arm64" "iossimulator-x64" "iossimulator-arm64")
-MODULES=("SDL2" "SDL2_image" "SDL2_mixer" "SDL2_ttf")
+MODULES=("SDL" "IMAGE" "MIXER" "TTF")
 IOS_DEPLOYMENT_TARGET=13.0
 
-SDL2()
+SDL()
 {
   local INDEX="$1"
   local ARCH="${ARCHS[$INDEX]}"
   local SDK="${SDKS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
 
-  Install "SDL2" "https://github.com/libsdl-org/SDL.git" "release-2.32.10"
+  Install "$MODULE" "https://github.com/libsdl-org/SDL.git" "release-2.32.10"
 
   cd "$MODULES_DIR/$MODULE" || exit
   BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$RID"
@@ -28,37 +28,35 @@ SDL2()
   mkdir -p "$BUILDPATH"
 
   xcodebuild \
-    -project "$MODULES_DIR/SDL2/Xcode/SDL/SDL.xcodeproj" \
+    -project "$MODULES_DIR/$MODULE/Xcode/SDL/SDL.xcodeproj" \
     -scheme "Framework-iOS" \
     -configuration Release \
     -arch "$ARCH" \
     -sdk "$SDK" \
     IPHONEOS_DEPLOYMENT_TARGET=$IOS_DEPLOYMENT_TARGET \
-    CONFIGURATION_BUILD_DIR="$BUILDPATH" \
-    OTHER_CFLAGS="-Wno-shorten-64-to-32 -Wdeprecated-declarations -DGLES_SILENCE_DEPRECATION" \
-    build
+    CONFIGURATION_BUILD_DIR="$BUILDPATH"
 }
 
-SDL2_image()
+IMAGE()
 {
   local INDEX="$1"
   local ARCH="${ARCHS[$INDEX]}"
   local SDK="${SDKS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
 
-  Install "SDL2_image" "https://github.com/libsdl-org/SDL_image.git" "release-2.8.8"
+  Install "$MODULE" "https://github.com/libsdl-org/SDL_image.git" "release-2.8.8"
 
   cd "$MODULES_DIR/$MODULE" || exit
   BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$RID"
   rm -rf "$BUILDPATH"
   mkdir -p "$BUILDPATH"
 
-  SDL_BUILD="$MODULES_DIR/SDL2/build_$PLATFORM-$RID"
+  SDL_BUILD="$MODULES_DIR/SDL/build_$PLATFORM-$RID"
   SDL_FRAMEWORK="$SDL_BUILD/SDL2.framework"
   SDL_INCLUDE="$SDL_FRAMEWORK/Headers"
 
   xcodebuild \
-    -project "$MODULES_DIR/SDL2_image/Xcode/SDL_image.xcodeproj" \
+    -project "$MODULES_DIR/$MODULE/Xcode/SDL_image.xcodeproj" \
     -scheme "Framework" \
     -configuration Release \
     -arch "$ARCH" \
@@ -66,32 +64,29 @@ SDL2_image()
     IPHONEOS_DEPLOYMENT_TARGET=$IOS_DEPLOYMENT_TARGET \
     CONFIGURATION_BUILD_DIR="$BUILDPATH" \
     HEADER_SEARCH_PATHS="$SDL_INCLUDE" \
-    FRAMEWORK_SEARCH_PATHS="$SDL_BUILD" \
-    OTHER_LDFLAGS="-framework SDL2" \
-    OTHER_CFLAGS="-Wno-shorten-64-to-32 -Wdeprecated-declarations -DGLES_SILENCE_DEPRECATION" \
-    build
+    FRAMEWORK_SEARCH_PATHS="$SDL_BUILD"
 }
 
-SDL2_mixer()
+MIXER()
 {
   local INDEX="$1"
   local ARCH="${ARCHS[$INDEX]}"
   local SDK="${SDKS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
 
-  Install "SDL2_mixer" "https://github.com/libsdl-org/SDL_mixer.git" "release-2.8.1"
+  Install "$MODULE" "https://github.com/libsdl-org/SDL_mixer.git" "release-2.8.1"
 
   cd "$MODULES_DIR/$MODULE" || exit
   BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$RID"
   rm -rf "$BUILDPATH"
   mkdir -p "$BUILDPATH"
 
-  SDL_BUILD="$MODULES_DIR/SDL2/build_$PLATFORM-$RID"
+  SDL_BUILD="$MODULES_DIR/SDL/build_$PLATFORM-$RID"
   SDL_FRAMEWORK="$SDL_BUILD/SDL2.framework"
   SDL_INCLUDE="$SDL_FRAMEWORK/Headers"
 
   xcodebuild \
-    -project "$MODULES_DIR/SDL2_mixer/Xcode/SDL_mixer.xcodeproj" \
+    -project "$MODULES_DIR/$MODULE/Xcode/SDL_mixer.xcodeproj" \
     -scheme "Framework" \
     -configuration Release \
     -arch "$ARCH" \
@@ -99,32 +94,29 @@ SDL2_mixer()
     IPHONEOS_DEPLOYMENT_TARGET=$IOS_DEPLOYMENT_TARGET \
     CONFIGURATION_BUILD_DIR="$BUILDPATH" \
     HEADER_SEARCH_PATHS="$SDL_INCLUDE" \
-    FRAMEWORK_SEARCH_PATHS="$SDL_BUILD" \
-    OTHER_LDFLAGS="-framework SDL2" \
-    OTHER_CFLAGS="-Wno-shorten-64-to-32 -Wdeprecated-declarations -DGLES_SILENCE_DEPRECATION" \
-    build
+    FRAMEWORK_SEARCH_PATHS="$SDL_BUILD"
 }
 
-SDL2_ttf()
+TTF()
 {
   local INDEX="$1"
   local ARCH="${ARCHS[$INDEX]}"
   local SDK="${SDKS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
 
-  Install "SDL2_ttf" "https://github.com/libsdl-org/SDL_ttf.git" "release-2.24.0"
+  Install "$MODULE" "https://github.com/libsdl-org/SDL_ttf.git" "release-2.24.0"
 
   cd "$MODULES_DIR/$MODULE" || exit
   BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$RID"
   rm -rf "$BUILDPATH"
   mkdir -p "$BUILDPATH"
 
-  SDL_BUILD="$MODULES_DIR/SDL2/build_$PLATFORM-$RID"
+  SDL_BUILD="$MODULES_DIR/SDL/build_$PLATFORM-$RID"
   SDL_FRAMEWORK="$SDL_BUILD/SDL2.framework"
   SDL_INCLUDE="$SDL_FRAMEWORK/Headers"
 
   xcodebuild \
-    -project "$MODULES_DIR/SDL2_ttf/Xcode/SDL_ttf.xcodeproj" \
+    -project "$MODULES_DIR/$MODULE/Xcode/SDL_ttf.xcodeproj" \
     -scheme "Framework" \
     -configuration Release \
     -arch "$ARCH" \
@@ -132,33 +124,38 @@ SDL2_ttf()
     IPHONEOS_DEPLOYMENT_TARGET=$IOS_DEPLOYMENT_TARGET \
     CONFIGURATION_BUILD_DIR="$BUILDPATH" \
     HEADER_SEARCH_PATHS="$SDL_INCLUDE" \
-    FRAMEWORK_SEARCH_PATHS="$SDL_BUILD" \
-    OTHER_LDFLAGS="-framework SDL2" \
-    OTHER_CFLAGS="-Wno-shorten-64-to-32 -Wdeprecated-declarations -DGLES_SILENCE_DEPRECATION" \
-    build
+    FRAMEWORK_SEARCH_PATHS="$SDL_BUILD"
 }
 
 COMPLETE()
 {
   for MODULE in "${MODULES[@]}"; do
-
-    UNIVERSAL_DIR="$MODULES_DIR/$MODULE/build_IOS-iossimulator-universal/$MODULE.framework"
-    XCFRAMEWORK="$BASE_DIR/../Natives/IOS/$MODULE.xcframework"
+    
+    local FRAMEWORK_NAME=""
+    
+    if [[ "$MODULE" == "SDL" ]]; then
+      FRAMEWORK_NAME="SDL2"
+    else
+      FRAMEWORK_NAME="SDL2_${MODULE,,}"
+    fi
+    
+    UNIVERSAL_DIR="$MODULES_DIR/$MODULE/build_IOS-iossimulator-universal/$FRAMEWORK_NAME.framework"
+    XCFRAMEWORK="$BASE_DIR/../Natives/IOS/$FRAMEWORK_NAME.xcframework"
     mkdir -p "$UNIVERSAL_DIR"
     
-    cp -R "$MODULES_DIR/$MODULE/build_IOS-iossimulator-arm64/$MODULE.framework/"* "$UNIVERSAL_DIR"
+    cp -R "$MODULES_DIR/$MODULE/build_IOS-iossimulator-arm64/$FRAMEWORK_NAME.framework/"* "$UNIVERSAL_DIR"
   
     lipo -create \
-      "$MODULES_DIR/$MODULE/build_IOS-iossimulator-x64/$MODULE.framework/$MODULE" \
-      "$MODULES_DIR/$MODULE/build_IOS-iossimulator-arm64/$MODULE.framework/$MODULE" \
-      -output "$UNIVERSAL_DIR/$MODULE"
+      "$MODULES_DIR/$MODULE/build_IOS-iossimulator-x64/$FRAMEWORK_NAME.framework/$FRAMEWORK_NAME" \
+      "$MODULES_DIR/$MODULE/build_IOS-iossimulator-arm64/$FRAMEWORK_NAME.framework/$FRAMEWORK_NAME" \
+      -output "$UNIVERSAL_DIR/$FRAMEWORK_NAME"
   
     xcodebuild -create-xcframework \
-      -framework "$MODULES_DIR/$MODULE/build_IOS-ios-arm64/$MODULE.framework" \
+      -framework "$MODULES_DIR/$MODULE/build_IOS-ios-arm64/$FRAMEWORK_NAME.framework" \
       -framework "$UNIVERSAL_DIR" \
       -output "$XCFRAMEWORK"
     
-    find "$XCFRAMEWORK" -type f ! -name "Info.plist" ! -name "$MODULE" -exec rm -f "{}" \;
+    find "$XCFRAMEWORK" -type f ! -name "Info.plist" ! -name "$FRAMEWORK_NAME" -exec rm -f "{}" \;
     find "$XCFRAMEWORK" -type d -empty -delete
 
   done
@@ -166,4 +163,4 @@ COMPLETE()
   read -p "Build complete."
 }
 
-source "$BASE_DIR/Dependencies/Build.sh"
+source "$DEPENDENCIES_DIR/Build.sh"
