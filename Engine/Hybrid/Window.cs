@@ -24,7 +24,7 @@ namespace Hybrid
                 throw new Exception(SDL_GetError());
             }
 
-            SDL_RenderSetLogicalSize(renderer, 1920, 1080);
+            // SDL_RenderSetLogicalSize(renderer, 1920, 1080);
         }
 
         public static void CloseWindow()

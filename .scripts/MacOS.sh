@@ -9,140 +9,152 @@ source "$DEPENDENCIES_DIR/Methods.sh"
 PLATFORM="MacOS"
 ARCHS=("x86_64" "arm64")
 RIDS=("osx-x64" "osx-arm64")
-MODULES=("SDL2" "SDL2_image" "SDL2_mixer" "SDL2_ttf")
-MACOSX_DEPLOYMENT_TARGET=10.13
+MODULES=("SDL" "IMAGE" "MIXER" "TTF")
 
-SDL2()
+SDL()
 {
   local INDEX="$1"
   local ARCH="${ARCHS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
   
-  Install "SDL2" "https://github.com/libsdl-org/SDL.git" "release-2.32.10"
+  Install "$MODULE" "https://github.com/libsdl-org/SDL.git" "release-2.32.10"
   
   cd "$MODULES_DIR/$MODULE" || exit
   BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
-  rm -rf "$BUILDPATH"
-  mkdir -p "$BUILDPATH"
+  INSTALLPATH="$MODULES_DIR/$MODULE/install_$PLATFORM-$ARCH"
+  rm -rf "$BUILDPATH" "$INSTALLPATH"
+  mkdir -p "$BUILDPATH" "$INSTALLPATH"
+  cd "$BUILDPATH" || exit
+
+  cmake .. -G Ninja -Wno-dev \
+    -DSDL_SHARED=ON \
+    -DSDL_STATIC=OFF \
+    -DCMAKE_OSX_ARCHITECTURES=$ARCH \
+    -DCMAKE_INSTALL_PREFIX=$INSTALLPATH
+
+  cmake --build . --config Release
+  cmake --install . --config Release
   
-  xcodebuild \
-    -project "$MODULES_DIR/SDL2/Xcode/SDL/SDL.xcodeproj" \
-    -scheme "Framework" \
-    -configuration Release \
-    -arch "$ARCH" \
-    -sdk macosx \
-    MACOSX_DEPLOYMENT_TARGET=$MACOSX_DEPLOYMENT_TARGET \
-    CONFIGURATION_BUILD_DIR="$BUILDPATH" \
-    OTHER_CFLAGS="-Wno-shorten-64-to-32 -Wdeprecated-declarations -DGLES_SILENCE_DEPRECATION" \
-    build
-    
-  Rename "$BUILDPATH/$MODULE.framework/$MODULE" "$BUILDPATH/$MODULE.framework/lib$MODULE.dylib"
-  Transfer "$BUILDPATH/$MODULE.framework/lib$MODULE.dylib" "$BASE_DIR/../Natives/MacOS/$RID"
+  Transfer "$INSTALLPATH/lib/libSDL2.dylib" "$BASE_DIR/../Natives/MacOS/$RID/"
 }
 
-SDL2_image()
+IMAGE()
 {
   local INDEX="$1"
   local ARCH="${ARCHS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
   
-  Install "SDL2_image" "https://github.com/libsdl-org/SDL_image.git" "release-2.8.8"
+  Install "$MODULE" "https://github.com/libsdl-org/SDL_image.git" "release-2.8.8"
   
   cd "$MODULES_DIR/$MODULE" || exit
   BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
-  rm -rf "$BUILDPATH"
-  mkdir -p "$BUILDPATH"
-  
-  SDL_BUILD="$MODULES_DIR/SDL2/build_$PLATFORM-$ARCH"
-  SDL_FRAMEWORK="$SDL_BUILD/SDL2.framework"
-  SDL_INCLUDE="$SDL_FRAMEWORK/Headers"
+  INSTALLPATH="$MODULES_DIR/$MODULE/install_$PLATFORM-$ARCH"
+  rm -rf "$BUILDPATH" "$INSTALLPATH"
+  mkdir -p "$BUILDPATH" "$INSTALLPATH"
+  cd "$BUILDPATH" || exit
 
-  xcodebuild \
-    -project "$MODULES_DIR/SDL2_image/Xcode/SDL_image.xcodeproj" \
-    -scheme "Framework" \
-    -configuration Release \
-    -arch "$ARCH" \
-    -sdk macosx \
-    MACOSX_DEPLOYMENT_TARGET=$MACOSX_DEPLOYMENT_TARGET \
-    CONFIGURATION_BUILD_DIR="$BUILDPATH" \
-    HEADER_SEARCH_PATHS="$SDL_INCLUDE" \
-    FRAMEWORK_SEARCH_PATHS="$SDL_BUILD" \
-    OTHER_LDFLAGS="-framework SDL2" \
-    OTHER_CFLAGS="-Wno-shorten-64-to-32 -Wdeprecated-declarations -DGLES_SILENCE_DEPRECATION" \
-    build
-    
-  Rename "$BUILDPATH/$MODULE.framework/$MODULE" "$BUILDPATH/$MODULE.framework/lib$MODULE.dylib"
-    Transfer "$BUILDPATH/$MODULE.framework/lib$MODULE.dylib" "$BASE_DIR/../Natives/MacOS/$RID"
+  cmake .. -G Ninja -Wno-dev \
+    -DSDL2IMAGE_BMP=ON \
+    -DSDL2IMAGE_PNG=ON \
+    -DSDL2IMAGE_JPG=ON \
+    -DSDL2IMAGE_WEBP=OFF \
+    -DSDL2IMAGE_AVIF=OFF \
+    -DSDL2IMAGE_GIF=OFF \
+    -DSDL2IMAGE_TIF=OFF \
+    -DSDL2IMAGE_TGA=OFF \
+    -DSDL2IMAGE_XCF=OFF \
+    -DSDL2IMAGE_XPM=OFF \
+    -DSDL2IMAGE_XV=OFF \
+    -DSDL2IMAGE_LBM=OFF \
+    -DSDL2IMAGE_PCX=OFF \
+    -DSDL2IMAGE_PNM=OFF \
+    -DSDL2IMAGE_QOI=OFF \
+    -DSDL2IMAGE_SVG=OFF \
+    -DSDL2IMAGE_JXL=OFF \
+    -DSDL2IMAGE_TESTS=OFF \
+    -DSDL2IMAGE_SAMPLES=OFF \
+    -DBUILD_SHARED_LIBS=ON \
+    -DSDL2IMAGE_VENDORED=ON \
+    -DSDL2IMAGE_DEPS_SHARED=OFF \
+    -DCMAKE_OSX_ARCHITECTURES=$ARCH \
+    -DCMAKE_INSTALL_PREFIX=$INSTALLPATH \
+    -DSDL2_INCLUDE_DIR=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/include/SDL2 \
+    -DSDL2_LIBRARY=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/lib/libSDL2.dylib
+
+  cmake --build . --config Release
+  cmake --install . --config Release
+
+  Transfer "$INSTALLPATH/lib/libSDL2_image.dylib" "$BASE_DIR/../Natives/MacOS/$RID/"
 }
 
-SDL2_mixer()
+MIXER()
 {
   local INDEX="$1"
   local ARCH="${ARCHS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
   
-  Install "SDL2_mixer" "https://github.com/libsdl-org/SDL_mixer.git" "release-2.8.1"
+  Install "$MODULE" "https://github.com/libsdl-org/SDL_mixer.git" "release-2.8.1"
   
   cd "$MODULES_DIR/$MODULE" || exit
   BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
-  rm -rf "$BUILDPATH"
-  mkdir -p "$BUILDPATH"
-  
-  SDL_BUILD="$MODULES_DIR/SDL2/build_$PLATFORM-$ARCH"
-  SDL_FRAMEWORK="$SDL_BUILD/SDL2.framework"
-  SDL_INCLUDE="$SDL_FRAMEWORK/Headers"
+  INSTALLPATH="$MODULES_DIR/$MODULE/install_$PLATFORM-$ARCH"
+  rm -rf "$BUILDPATH" "$INSTALLPATH"
+  mkdir -p "$BUILDPATH" "$INSTALLPATH"
+  cd "$BUILDPATH" || exit
 
-  xcodebuild \
-    -project "$MODULES_DIR/SDL2_mixer/Xcode/SDL_mixer.xcodeproj" \
-    -scheme "Framework" \
-    -configuration Release \
-    -arch "$ARCH" \
-    -sdk macosx \
-    MACOSX_DEPLOYMENT_TARGET=$MACOSX_DEPLOYMENT_TARGET \
-    CONFIGURATION_BUILD_DIR="$BUILDPATH" \
-    HEADER_SEARCH_PATHS="$SDL_INCLUDE" \
-    FRAMEWORK_SEARCH_PATHS="$SDL_BUILD" \
-    OTHER_LDFLAGS="-framework SDL2" \
-    OTHER_CFLAGS="-Wno-shorten-64-to-32 -Wdeprecated-declarations -DGLES_SILENCE_DEPRECATION" \
-    build
-    
-  Rename "$BUILDPATH/$MODULE.framework/$MODULE" "$BUILDPATH/$MODULE.framework/lib$MODULE.dylib"
-  Transfer "$BUILDPATH/$MODULE.framework/lib$MODULE.dylib" "$BASE_DIR/../Natives/MacOS/$RID"
+  cmake .. -G Ninja -Wno-dev \
+    -DSDL2MIXER_WAVE=ON \
+    -DSDL2MIXER_MP3=ON \
+    -DSDL2MIXER_OGG=ON \
+    -DSDL2MIXER_OPUS=OFF \
+    -DSDL2MIXER_FLAC=OFF \
+    -DSDL2MIXER_MOD=OFF \
+    -DSDL2MIXER_MIDI=OFF \
+    -DSDL2MIXER_WAVPACK=OFF \
+    -DBUILD_SHARED_LIBS=ON \
+    -DSDL2MIXER_SAMPLES=OFF \
+    -DSDL2MIXER_VENDORED=ON \
+    -DSDL2MIXER_DEPS_SHARED=OFF \
+    -DCMAKE_OSX_ARCHITECTURES=$ARCH \
+    -DCMAKE_INSTALL_PREFIX=$INSTALLPATH \
+    -DSDL2_INCLUDE_DIR=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/include/SDL2 \
+    -DSDL2_LIBRARY=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/lib/libSDL2.dylib
+
+  cmake --build . --config Release
+  cmake --install . --config Release
+
+  Transfer "$INSTALLPATH/lib/libSDL2_mixer.dylib" "$BASE_DIR/../Natives/MacOS/$RID/"
 }
 
-SDL2_ttf()
+TTF()
 {
   local INDEX="$1"
   local ARCH="${ARCHS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
   
-  Install "SDL2_ttf" "https://github.com/libsdl-org/SDL_ttf.git" "release-2.24.0"
+  Install "$MODULE" "https://github.com/libsdl-org/SDL_ttf.git" "release-2.24.0"
   
   cd "$MODULES_DIR/$MODULE" || exit
   BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
-  rm -rf "$BUILDPATH"
-  mkdir -p "$BUILDPATH"
-  
-  SDL_BUILD="$MODULES_DIR/SDL2/build_$PLATFORM-$ARCH"
-  SDL_FRAMEWORK="$SDL_BUILD/SDL2.framework"
-  SDL_INCLUDE="$SDL_FRAMEWORK/Headers"
+  INSTALLPATH="$MODULES_DIR/$MODULE/install_$PLATFORM-$ARCH"
+  rm -rf "$BUILDPATH" "$INSTALLPATH"
+  mkdir -p "$BUILDPATH" "$INSTALLPATH"
+  cd "$BUILDPATH" || exit
 
-  xcodebuild \
-    -project "$MODULES_DIR/SDL2_ttf/Xcode/SDL_ttf.xcodeproj" \
-    -scheme "Framework" \
-    -configuration Release \
-    -arch "$ARCH" \
-    -sdk macosx \
-    MACOSX_DEPLOYMENT_TARGET=$MACOSX_DEPLOYMENT_TARGET \
-    CONFIGURATION_BUILD_DIR="$BUILDPATH" \
-    HEADER_SEARCH_PATHS="$SDL_INCLUDE" \
-    FRAMEWORK_SEARCH_PATHS="$SDL_BUILD" \
-    OTHER_LDFLAGS="-framework SDL2" \
-    OTHER_CFLAGS="-Wno-shorten-64-to-32 -Wdeprecated-declarations -DGLES_SILENCE_DEPRECATION" \
-    build
-    
-  Rename "$BUILDPATH/$MODULE.framework/$MODULE" "$BUILDPATH/$MODULE.framework/lib$MODULE.dylib"
-  Transfer "$BUILDPATH/$MODULE.framework/lib$MODULE.dylib" "$BASE_DIR/../Natives/MacOS/$RID"
+  cmake .. -G Ninja -Wno-dev \
+    -DBUILD_SHARED_LIBS=ON \
+    -DSDL2TTF_VENDORED=ON \
+    -DSDL2TTF_SAMPLES=OFF \
+    -DCMAKE_OSX_ARCHITECTURES=$ARCH \
+    -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
+    -DCMAKE_INSTALL_PREFIX=$INSTALLPATH \
+    -DSDL2_INCLUDE_DIR=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/include/SDL2 \
+    -DSDL2_LIBRARY=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/lib/libSDL2.dylib
+
+  cmake --build . --config Release
+  cmake --install . --config Release
+
+  Transfer "$INSTALLPATH/lib/libSDL2_ttf.dylib" "$BASE_DIR/../Natives/MacOS/$RID/"
 }
 
 COMPLETE()
@@ -150,4 +162,4 @@ COMPLETE()
   read -p "Build complete."
 }
 
-source "$BASE_DIR/Dependencies/Build.sh"
+source "$DEPENDENCIES_DIR/Build.sh"
