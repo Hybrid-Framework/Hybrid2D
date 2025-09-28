@@ -7,7 +7,6 @@ public static partial class Program
 {
     [JSImport("setMainLoop", "main.js")]
     private static partial void SetMainLoop([JSMarshalAs<JSType.Function>] Action cb);
-    
     private static bool Initialized;
 
     [JSExport]
@@ -15,7 +14,7 @@ public static partial class Program
     {
         if (!Initialized)
         {
-            Platform.Create(new PlatformWeb(new TestSDL()));
+            Platform.Create(new PlatformWeb(new TestTTF()));
             Initialized = true;
         }
         

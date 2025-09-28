@@ -41,7 +41,7 @@ SDL()
   cmake --build . --config Release
   cmake --install . --config Release
 
-  Transfer "$INSTALLPATH/bin/SDL2.dll" "$BASE_DIR/../Natives/Windows/$RID/"
+  Transfer "$INSTALLPATH/bin/SDL2.dll" "$BASE_DIR/../Natives/Windows/$RID/SDL2.dll"
 }
 
 IMAGE()
@@ -90,7 +90,7 @@ IMAGE()
   cmake --build . --config Release
   cmake --install . --config Release
 
-  Transfer "$INSTALLPATH/bin/SDL2_image.dll" "$BASE_DIR/../Natives/Windows/$RID/"
+  Transfer "$INSTALLPATH/bin/SDL2_image.dll" "$BASE_DIR/../Natives/Windows/$RID/IMAGE.dll"
 }
 
 MIXER()
@@ -129,7 +129,7 @@ MIXER()
   cmake --build . --config Release
   cmake --install . --config Release
 
-  Transfer "$INSTALLPATH/bin/SDL2_mixer.dll" "$BASE_DIR/../Natives/Windows/$RID/"
+  Transfer "$INSTALLPATH/bin/SDL2_mixer.dll" "$BASE_DIR/../Natives/Windows/$RID/MIXER.dll"
 }
 
 TTF()
@@ -159,7 +159,7 @@ TTF()
   cmake --build . --config Release
   cmake --install . --config Release
 
-  Transfer "$INSTALLPATH/bin/SDL2_ttf.dll" "$BASE_DIR/../Natives/Windows/$RID/"
+  Transfer "$INSTALLPATH/bin/SDL2_ttf.dll" "$BASE_DIR/../Natives/Windows/$RID/TTF.dll"
 }
 
 COMPLETE()

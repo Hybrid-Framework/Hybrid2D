@@ -41,7 +41,7 @@ SDL()
   cmake --build . --config Release
   cmake --install . --config Release
   
-  Transfer "$INSTALLPATH/lib/libSDL2.so" "$BASE_DIR/../Natives/$PLATFORM/$RID/"
+  Transfer "$INSTALLPATH/lib/libSDL2.so" "$BASE_DIR/../Natives/$PLATFORM/$RID/libSDL2.so"
 }
 
 IMAGE()
@@ -95,7 +95,7 @@ IMAGE()
   cmake --build . --config Release
   cmake --install . --config Release
   
-  Transfer "$INSTALLPATH/lib/libSDL2_image.so" "$BASE_DIR/../Natives/$PLATFORM/$RID/"
+  Transfer "$INSTALLPATH/lib/libSDL2_image.so" "$BASE_DIR/../Natives/$PLATFORM/$RID/libIMAGE.so"
 }
 
 MIXER()
@@ -139,7 +139,7 @@ MIXER()
   cmake --build . --config Release
   cmake --install . --config Release
   
-  Transfer "$INSTALLPATH/lib/libSDL2_mixer.so" "$BASE_DIR/../Natives/$PLATFORM/$RID/"
+  Transfer "$INSTALLPATH/lib/libSDL2_mixer.so" "$BASE_DIR/../Natives/$PLATFORM/$RID/libMIXER.so"
 }
 
 TTF()
@@ -174,7 +174,7 @@ TTF()
   cmake --build . --config Release
   cmake --install . --config Release
   
-  Transfer "$INSTALLPATH/lib/libSDL2_ttf.so" "$BASE_DIR/../Natives/$PLATFORM/$RID/"
+  Transfer "$INSTALLPATH/lib/libSDL2_ttf.so" "$BASE_DIR/../Natives/$PLATFORM/$RID/libTTF.so"
 }
 
 COMPLETE()

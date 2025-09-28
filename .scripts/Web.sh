@@ -7,12 +7,12 @@ DEPENDENCIES_DIR="$BASE_DIR/Dependencies"
 source "$DEPENDENCIES_DIR/Methods.sh"
 
 PLATFORM="Web"
-ARCHS=("Emscripten")
 RIDS=("Emscripten")
+ARCHS=("Emscripten")
 MODULES=("Emscripten" "SDL")
 
-PORTPATH="$MODULES_DIR/Emscripten/upstream/emscripten/tools/ports"
 LIBPATH="$MODULES_DIR/Emscripten/build_$PLATFORM/sysroot/lib/wasm32-emscripten"
+PORTPATH="$MODULES_DIR/Emscripten/upstream/emscripten/tools/ports"
 TARGETPATH="$BASE_DIR/../Natives/$PLATFORM"
 
 Emscripten()
@@ -44,7 +44,6 @@ SDL()
   cd "$BUILDPATH" || exit
   
   export EM_CACHE="$BUILDPATH"
-  
   echo 'int main() { return 0; }' > test.c
   
   emcc test.c \
@@ -57,44 +56,41 @@ SDL()
 
 COMPLETE()
 {
-  # Rename libs for consistent pinvoke across platforms
-  Rename "$LIBPATH/libSDL2_image*.a" "$LIBPATH/SDL2_image.a"
-  Rename "$LIBPATH/libSDL2_mixer*.a" "$LIBPATH/SDL2_mixer.a"
-  Rename "$LIBPATH/libSDL2_ttf*.a" "$LIBPATH/SDL2_ttf.a"
-  Rename "$LIBPATH/libSDL2*.a" "$LIBPATH/SDL2.a"
-
-  # Transfer specific files for our build to keep size low
-  Transfer "$LIBPATH/libfreetype*.a" "$TARGETPATH/Dependencies/"
-  Transfer "$LIBPATH/libharfbuzz*.a" "$TARGETPATH/Dependencies/"
-  Transfer "$LIBPATH/libjpeg*.a" "$TARGETPATH/Dependencies/"
-  Transfer "$LIBPATH/libpng*.a" "$TARGETPATH/Dependencies/"
-  Transfer "$LIBPATH/libmpg123*.a" "$TARGETPATH/Dependencies/"
-  Transfer "$LIBPATH/libogg*.a" "$TARGETPATH/Dependencies/"
-  Transfer "$LIBPATH/libvorbis*.a" "$TARGETPATH/Dependencies/"
-  Transfer "$LIBPATH/libz*.a" "$TARGETPATH/Dependencies/"
-  Transfer "$LIBPATH/SDL2_image*.a" "$TARGETPATH/"
-  Transfer "$LIBPATH/SDL2_mixer*.a" "$TARGETPATH/"
-  Transfer "$LIBPATH/SDL2_ttf*.a" "$TARGETPATH/"
-  Transfer "$LIBPATH/SDL2.a*" "$TARGETPATH/"
+  # Merge TTF
+  cd "$LIBPATH" || exit
+  rm -f TTF.a
+  emar x libSDL2_ttf.a
+  emar x libfreetype.a
+  emar rcs TTF.a *.o
+  rm -f *.o
+  Transfer "$LIBPATH/TTF.a" "$TARGETPATH/TTF.a"
   
-   # Check for bad invoke_ symbols
-  LLVMPATH="$MODULES_DIR/Emscripten/upstream/bin/llvm-nm.exe"
+  # Merge IMAGE
+  cd "$LIBPATH" || exit
+  rm -f IMAGE.a
+  emar x libSDL2_image_bmp-jpg-png.a
+  emar x libz.a
+  emar x libpng.a
+  emar x libjpeg.a
+  emar rcs IMAGE.a *.o
+  rm -f *.o
+  Transfer "$LIBPATH/IMAGE.a" "$TARGETPATH/IMAGE.a"
   
-  for lib in "$TARGETPATH"/*.a "$TARGETPATH"/Dependencies/*.a; do
-    
-    [ -e "$lib" ] || continue
-
-    symbols=$("$LLVMPATH" "$lib" 2>/dev/null | grep "invoke_" || true)
-
-    if [ -n "$symbols" ]; then
-        echo "❌ $lib"
-        echo "$symbols"
-    else
-        echo "✅ $lib"
-    fi
-  done
+  # Merge MIXER
+  cd "$LIBPATH" || exit
+  rm -f MIXER.a
+  emar x libSDL2_mixer_mp3-ogg-wav.a
+  emar x libmpg123.a
+  emar x libvorbis.a
+  emar x libogg.a
+  emar rcs MIXER.a *.o
+  rm -f *.o
+  Transfer "$LIBPATH/MIXER.a" "$TARGETPATH/MIXER.a"
+  
+  # Merge SDL
+  Transfer "$LIBPATH/libSDL2.a" "$TARGETPATH/SDL2.a"
   
   read -p "Build complete."
 }
 
-source "$BASE_DIR/Dependencies/Build.sh"
+source "$DEPENDENCIES_DIR/Build.sh"

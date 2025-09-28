@@ -37,7 +37,7 @@ namespace Hybrid.SDL2
 	{
 		#region SDL2# Variables
 		
-		private const string nativeLibName = "SDL2_image";
+		private const string nativeLibName = "IMAGE";
 
 		#endregion
 
