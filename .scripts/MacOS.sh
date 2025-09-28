@@ -36,7 +36,7 @@ SDL()
   cmake --build . --config Release
   cmake --install . --config Release
   
-  Transfer "$INSTALLPATH/lib/libSDL2.dylib" "$BASE_DIR/../Natives/MacOS/$RID/"
+  Transfer "$INSTALLPATH/lib/libSDL2.dylib" "$BASE_DIR/../Natives/MacOS/$RID/libSDL2.dylib"
 }
 
 IMAGE()
@@ -86,7 +86,7 @@ IMAGE()
   cmake --build . --config Release
   cmake --install . --config Release
 
-  Transfer "$INSTALLPATH/lib/libSDL2_image.dylib" "$BASE_DIR/../Natives/MacOS/$RID/"
+  Transfer "$INSTALLPATH/lib/libSDL2_image.dylib" "$BASE_DIR/../Natives/MacOS/$RID/libIMAGE.dylib"
 }
 
 MIXER()
@@ -126,7 +126,7 @@ MIXER()
   cmake --build . --config Release
   cmake --install . --config Release
 
-  Transfer "$INSTALLPATH/lib/libSDL2_mixer.dylib" "$BASE_DIR/../Natives/MacOS/$RID/"
+  Transfer "$INSTALLPATH/lib/libSDL2_mixer.dylib" "$BASE_DIR/../Natives/MacOS/$RID/libMIXER.dylib"
 }
 
 TTF()
@@ -158,7 +158,7 @@ TTF()
   cmake --build . --config Release
   cmake --install . --config Release
 
-  Transfer "$INSTALLPATH/lib/libSDL2_ttf.dylib" "$BASE_DIR/../Natives/MacOS/$RID/"
+  Transfer "$INSTALLPATH/lib/libSDL2_ttf.dylib" "$BASE_DIR/../Natives/MacOS/$RID/libTTF.dylib"
 }
 
 COMPLETE()
