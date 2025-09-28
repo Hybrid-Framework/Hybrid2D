@@ -6,7 +6,7 @@ public static class Program
 {
     public static void Main()
     {
-        Platform.Create(new PlatformDesktop(new TestSDL()));
+        Platform.Create(new PlatformDesktop(new TestTTF()));
         Platform.Current.Run();
     }
 }

@@ -14,7 +14,7 @@ namespace App
         {
             Window.CreateWindow("Hybrid", 800, 600);
             
-            font = TTF_OpenFont(FileSystem.LoadAsset("Font.ttf"), 32);
+            font = TTF_OpenFont(FileSystem.LoadAsset("Font.ttf"), 256);
             if (font == IntPtr.Zero) throw new Exception($"SDL TTF: {TTF_GetError()}");
         }
 
