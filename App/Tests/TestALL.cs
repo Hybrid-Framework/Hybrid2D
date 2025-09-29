@@ -1,114 +1,105 @@
-﻿using System.Text;
-using Hybrid;
-using SDL;
+﻿using Hybrid;
+using SDL3;
 
 namespace App
 {
-    public unsafe class TestALL : Behaviour
+    public class TestALL : Behaviour
     {
-        private SDL_Window* window;
-        private SDL_Renderer* renderer;
+        private IntPtr window;
+        private IntPtr renderer;
         
         private string teststring = "Hello World!";
-        public SDL_Texture* fontTexture;
-        public TTF_Font* font;
+        public IntPtr fontTexture;
+        public IntPtr font;
         
-        public MIX_Mixer* mixer;
-        public MIX_Audio* mp3;
-        public MIX_Audio* wav;
-        public MIX_Audio* ogg;
+        public IntPtr image;
+        public IntPtr png;
+        public IntPtr bmp;
+        public IntPtr jpg;
         
-        public SDL_Texture* image;
-        public SDL_Texture* png;
-        public SDL_Texture* bmp;
-        public SDL_Texture* jpg;
+        public IntPtr mixer;
+        public IntPtr mp3;
+        public IntPtr wav;
+        public IntPtr ogg;
+        
         private int test = -1;
         
         public override void Init()
         {
-            if (!SDL3.SDL_Init(SDL_InitFlags.SDL_INIT_VIDEO | SDL_InitFlags.SDL_INIT_VIDEO))
+            if (!SDL.SDL_Init(SDL.SDL_InitFlags.SDL_INIT_VIDEO | SDL.SDL_InitFlags.SDL_INIT_VIDEO))
             {
-                throw new Exception($"SDL failed to initialize: {SDL3.SDL_GetError()}");
+                throw new Exception($"SDL failed to initialize: {SDL.SDL_GetError()}");
             }
             
-            if (!SDL3_mixer.MIX_Init())
+            if (!MIXER.MIX_Init())
             {
-                throw new Exception($"SDL failed to initialize mixer: {SDL3.SDL_GetError()}");
+                throw new Exception($"SDL failed to initialize mixer: {SDL.SDL_GetError()}");
             }
             
-            if (!SDL3_ttf.TTF_Init())
+            if (!TTF.TTF_Init())
             {
-                throw new Exception($"SDL failed to initialize ttf: {SDL3.SDL_GetError()}");
-            }
-
-            window = SDL3.SDL_CreateWindow("SDL3", 800, 600, SDL_WindowFlags.SDL_WINDOW_HIGH_PIXEL_DENSITY);
-            if (window == null)
-            {
-                throw new Exception($"SDL failed create window: {SDL3.SDL_GetError()}");
+                throw new Exception($"SDL failed to initialize ttf: {SDL.SDL_GetError()}");
             }
 
-            renderer = SDL3.SDL_CreateRenderer(window, (Utf8String)null);
-            if (renderer == null)
+            window = SDL.SDL_CreateWindow("SDL3", 800, 600, SDL.SDL_WindowFlags.SDL_WINDOW_HIGH_PIXEL_DENSITY);
+            if (window == IntPtr.Zero)
             {
-                throw new Exception($"SDL failed create renderer: {SDL3.SDL_GetError()}");
+                throw new Exception($"SDL failed create window: {SDL.SDL_GetError()}");
+            }
+
+            renderer = SDL.SDL_CreateRenderer(window, null);
+            if (renderer == IntPtr.Zero)
+            {
+                throw new Exception($"SDL failed create renderer: {SDL.SDL_GetError()}");
             }
             
-            png = SDL3_image.IMG_LoadTexture(renderer, FileSystem.LoadAsset("Image.png"));
-            if (png == null) throw new Exception($"SDL failed load png: {SDL3.SDL_GetError()}");
-            SDL3.SDL_SetTextureScaleMode(png, SDL_ScaleMode.SDL_SCALEMODE_PIXELART);
-            
-            jpg = SDL3_image.IMG_LoadTexture(renderer, FileSystem.LoadAsset("Image.jpg"));
-            if (jpg == null) throw new Exception($"SDL failed load jpg: {SDL3.SDL_GetError()}");
-            SDL3.SDL_SetTextureScaleMode(jpg, SDL_ScaleMode.SDL_SCALEMODE_PIXELART);
-            
-            bmp = SDL3_image.IMG_LoadTexture(renderer, FileSystem.LoadAsset("Image.bmp"));
-            if (bmp == null) throw new Exception($"SDL failed load bmp: {SDL3.SDL_GetError()}");
-            SDL3.SDL_SetTextureScaleMode(bmp, SDL_ScaleMode.SDL_SCALEMODE_PIXELART);
-            
-            SDL_AudioSpec audioSpec = new SDL_AudioSpec()
+            SDL.SDL_AudioSpec audioSpec = new SDL.SDL_AudioSpec()
             {
-                format = SDL3_mixer.MIX_DEFAULT_FORMAT,
+                format = SDL.SDL_AudioFormat.SDL_AUDIO_S32,
                 freq = 44100,
                 channels = 2
             };
 
-            mixer = SDL3_mixer.MIX_CreateMixerDevice(SDL3.SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &audioSpec);
-            if(mixer == null) throw new Exception($"SDL failed create mixer: {SDL3.SDL_GetError()}");
+            mixer = MIXER.MIX_CreateMixerDevice(MIXER.SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, ref audioSpec);
+            if(mixer == IntPtr.Zero) throw new Exception($"SDL failed create mixer: {SDL.SDL_GetError()}");
             
-            fixed (byte* ptr = Encoding.UTF8.GetBytes(FileSystem.LoadAsset("Sound.mp3") + '\0'))
-            {
-                mp3 = SDL3_mixer.MIX_LoadAudio(mixer, ptr, false);
-                if (mp3 == null) throw new Exception($"SDL failed load mp3: {SDL3.SDL_GetError()}");
-            }
+            mp3 = MIXER.MIX_LoadAudio(mixer, FileSystem.LoadAsset("Sound.mp3"), false);
+            if (mp3 == IntPtr.Zero) throw new Exception($"SDL failed load mp3: {SDL.SDL_GetError()}");
             
-            fixed (byte* ptr = Encoding.UTF8.GetBytes(FileSystem.LoadAsset("Sound.wav") + '\0'))
-            {
-                wav = SDL3_mixer.MIX_LoadAudio(mixer, ptr, false);
-                if (wav == null) throw new Exception($"SDL failed load wav: {SDL3.SDL_GetError()}");
-            }
+            wav = MIXER.MIX_LoadAudio(mixer, FileSystem.LoadAsset("Sound.wav"), false);
+            if (wav == IntPtr.Zero) throw new Exception($"SDL failed load wav: {SDL.SDL_GetError()}");
             
-            fixed (byte* ptr = Encoding.UTF8.GetBytes(FileSystem.LoadAsset("Sound.ogg") + '\0'))
-            {
-                ogg = SDL3_mixer.MIX_LoadAudio(mixer, ptr, false);
-                if (ogg == null) throw new Exception($"SDL failed load ogg: {SDL3.SDL_GetError()}");
-            }
+            ogg = MIXER.MIX_LoadAudio(mixer, FileSystem.LoadAsset("Sound.ogg"), false);
+            if (ogg == IntPtr.Zero) throw new Exception($"SDL failed load ogg: {SDL.SDL_GetError()}");
             
-            font = SDL3_ttf.TTF_OpenFont(FileSystem.LoadAsset("Font.ttf"), 128);
-            if (font == null) throw new Exception($"SDL failed to load Font.ttf: {SDL3.SDL_GetError()}");
+            png = IMAGE.IMG_LoadTexture(renderer, FileSystem.LoadAsset("Image.png"));
+            if (png == IntPtr.Zero) throw new Exception($"SDL failed load png: {SDL.SDL_GetError()}");
+            SDL.SDL_SetTextureScaleMode(png, SDL.SDL_ScaleMode.SDL_SCALEMODE_NEAREST);
+            
+            jpg = IMAGE.IMG_LoadTexture(renderer, FileSystem.LoadAsset("Image.jpg"));
+            if (jpg == IntPtr.Zero) throw new Exception($"SDL failed load jpg: {SDL.SDL_GetError()}");
+            SDL.SDL_SetTextureScaleMode(jpg, SDL.SDL_ScaleMode.SDL_SCALEMODE_NEAREST);
+            
+            bmp = IMAGE.IMG_LoadTexture(renderer, FileSystem.LoadAsset("Image.bmp"));
+            if (bmp == IntPtr.Zero) throw new Exception($"SDL failed load bmp: {SDL.SDL_GetError()}");
+            SDL.SDL_SetTextureScaleMode(bmp, SDL.SDL_ScaleMode.SDL_SCALEMODE_NEAREST);
+            
+            font = TTF.TTF_OpenFont(FileSystem.LoadAsset("Font.ttf"), 128);
+            if (font == IntPtr.Zero) throw new Exception($"SDL failed to load Font.ttf: {SDL.SDL_GetError()}");
         }
         
-        public override void Update(SDL_Event @event)
+        public override void Update(SDL.SDL_Event @event)
         {
-            var e = (SDL_EventType)@event.type;
+            var e = (SDL.SDL_EventType)@event.type;
             Console.WriteLine($"SDL Event: {e}");
 
-            if (e == SDL_EventType.SDL_EVENT_QUIT)
+            if (e == SDL.SDL_EventType.SDL_EVENT_QUIT)
             {
                 Platform.Current.IsRunning = false;
                 return;
             }
             
-            if (e == SDL_EventType.SDL_EVENT_MOUSE_BUTTON_DOWN)
+            if (e == SDL.SDL_EventType.SDL_EVENT_MOUSE_BUTTON_DOWN)
             {
                 test++; if (test > 5) test = 0;
 
@@ -130,49 +121,46 @@ namespace App
                 else if (test == 3)
                 {
                     teststring = "MP3";
-                    SDL3_mixer.MIX_PlayAudio(mixer, mp3);
+                    MIXER.MIX_PlayAudio(mixer, mp3);
                 }
                 else if (test == 4)
                 {
                     teststring = "WAV";
-                    SDL3_mixer.MIX_PlayAudio(mixer, wav);
+                    MIXER.MIX_PlayAudio(mixer, wav);
                 }
                 else if (test == 5)
                 {
                     teststring = "OGG";
-                    SDL3_mixer.MIX_PlayAudio(mixer, ogg);
+                    MIXER.MIX_PlayAudio(mixer, ogg);
                 }
             }
         }
         
         public override void Render()
         {
-            SDL3.SDL_SetRenderDrawColor(renderer, 255, 128, 128, 255);
-            SDL3.SDL_RenderClear(renderer);
+            SDL.SDL_SetRenderDrawColor(renderer, 255, 128, 128, 255);
+            SDL.SDL_RenderClear(renderer);
             
-            var src = new SDL_FRect() { x = 0, y = 0, w = 800, h = 600};
-            var dst = new SDL_FRect() { x = 0, y = 0, w = 800, h = 600};
-            SDL3.SDL_RenderTexture(renderer, image, &src, &dst);
+            var src = new SDL.SDL_FRect() { x = 0, y = 0, w = 800, h = 600};
+            var dst = new SDL.SDL_FRect() { x = 0, y = 0, w = 800, h = 600};
+            SDL.SDL_RenderTexture(renderer, image, ref src, ref dst);
             
-            var fontSurface = SDL3_ttf.TTF_RenderText_Solid(font, teststring, 0, new SDL_Color { r = 255, g = 255, b = 255, a = 255 });
+            var fontSurface = TTF.TTF_RenderText_Solid(font, teststring, 0, new SDL.SDL_Color { r = 255, g = 255, b = 255, a = 255 });
             
-            if (fontSurface != null)
+            if (fontSurface != IntPtr.Zero)
             {
-                fontTexture = SDL3.SDL_CreateTextureFromSurface(renderer, fontSurface);
-                SDL3.SDL_SetTextureScaleMode(fontTexture, SDL_ScaleMode.SDL_SCALEMODE_PIXELART);
-                
-                SDL3.SDL_DestroySurface(fontSurface);
+                fontTexture = SDL.SDL_CreateTextureFromSurface(renderer, fontSurface);
+                SDL.SDL_DestroySurface(fontSurface);
 
-                float w = 0, h = 0;
-                SDL3.SDL_GetTextureSize(fontTexture, &w, &h);
+                SDL.SDL_GetTextureSize(fontTexture, out var w, out var h);
                 
-                SDL_FRect srcRect = new SDL_FRect { x = 0, y = 0, w = w, h = h };
-                SDL_FRect dstRect = new SDL_FRect { x = 20, y = 20, w = w, h = h };
-                SDL3.SDL_RenderTexture(renderer, fontTexture, &srcRect, &dstRect);
+                SDL.SDL_FRect srcRect = new SDL.SDL_FRect { x = 0, y = 0, w = w, h = h };
+                SDL.SDL_FRect dstRect = new SDL.SDL_FRect { x = 20, y = 20, w = w, h = h };
+                SDL.SDL_RenderTexture(renderer, fontTexture, ref srcRect, ref dstRect);
             }
 
-            SDL3.SDL_RenderPresent(renderer);
-            SDL3.SDL_DestroyTexture(fontTexture);
+            SDL.SDL_RenderPresent(renderer);
+            SDL.SDL_DestroyTexture(fontTexture);
         }
     }
 }

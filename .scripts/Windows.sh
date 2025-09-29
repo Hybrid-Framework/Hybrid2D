@@ -43,8 +43,9 @@ SDL()
   cmake .. -G "Visual Studio 17 2022" -A $ARCH -Wno-dev \
     -DSDL_SHARED=ON \
     -DSDL_STATIC=OFF \
+    -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
-    -DCMAKE_INSTALL_PREFIX=$INSTALLPATH
+    -DCMAKE_INSTALL_PREFIX="$INSTALLPATH"
 
   cmake --build . --config Release
   cmake --install . --config Release
@@ -88,9 +89,10 @@ IMAGE()
     -DSDLIMAGE_VENDORED=ON \
     -DSDLIMAGE_DEPS_SHARED=OFF \
     -DBUILD_SHARED_LIBS=ON \
+    -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
-    -DCMAKE_INSTALL_PREFIX=$INSTALLPATH \
-    -DCMAKE_PREFIX_PATH=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH
+    -DCMAKE_INSTALL_PREFIX="$INSTALLPATH" \
+    -DSDL3_DIR="$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/cmake"
 
   cmake --build . --config Release
   cmake --install . --config Release
@@ -134,9 +136,10 @@ MIXER()
     -DSDLMIXER_VENDORED=ON \
     -DSDLMIXER_DEPS_SHARED=OFF \
     -DBUILD_SHARED_LIBS=ON \
+    -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
-    -DCMAKE_INSTALL_PREFIX=$INSTALLPATH \
-    -DCMAKE_PREFIX_PATH=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH
+    -DCMAKE_INSTALL_PREFIX="$INSTALLPATH" \
+    -DSDL3_DIR="$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/cmake"
 
   cmake --build . --config Release
   cmake --install . --config Release
@@ -164,9 +167,10 @@ TTF()
     -DSDLTTF_PLUTOSVG=OFF \
     -DSDLTTF_VENDORED=ON \
     -DBUILD_SHARED_LIBS=ON \
+    -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
-    -DCMAKE_INSTALL_PREFIX=$INSTALLPATH \
-    -DCMAKE_PREFIX_PATH=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH
+    -DCMAKE_INSTALL_PREFIX="$INSTALLPATH" \
+    -DSDL3_DIR="$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/cmake"
 
   cmake --build . --config Release
   cmake --install . --config Release

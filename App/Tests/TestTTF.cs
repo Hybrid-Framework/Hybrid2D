@@ -1,51 +1,51 @@
 ﻿using Hybrid;
-using SDL;
+using SDL3;
 
 namespace App
 {
-    public unsafe class TestTTF : Behaviour
+    public class TestTTF : Behaviour
     {
-        private SDL_Window* window;
-        private SDL_Renderer* renderer;
+        private IntPtr window;
+        private IntPtr renderer;
         
         private string teststring = "Hello World!";
-        public SDL_Texture* fontTexture;
-        public TTF_Font* font;
+        public IntPtr fontTexture;
+        public IntPtr font;
         
         public override void Init()
         {
-            if (!SDL3.SDL_Init(SDL_InitFlags.SDL_INIT_VIDEO | SDL_InitFlags.SDL_INIT_VIDEO))
+            if (!SDL.SDL_Init(SDL.SDL_InitFlags.SDL_INIT_VIDEO | SDL.SDL_InitFlags.SDL_INIT_VIDEO))
             {
-                throw new Exception($"SDL failed to initialize: {SDL3.SDL_GetError()}");
-            }
-
-            if (!SDL3_ttf.TTF_Init())
-            {
-                throw new Exception($"SDL failed to initialize ttf: {SDL3.SDL_GetError()}");
-            }
-
-            window = SDL3.SDL_CreateWindow("SDL3", 800, 600, SDL_WindowFlags.SDL_WINDOW_HIGH_PIXEL_DENSITY);
-            if (window == null)
-            {
-                throw new Exception($"SDL failed create window: {SDL3.SDL_GetError()}");
-            }
-
-            renderer = SDL3.SDL_CreateRenderer(window, (Utf8String)null);
-            if (renderer == null)
-            {
-                throw new Exception($"SDL failed create renderer: {SDL3.SDL_GetError()}");
+                throw new Exception($"SDL failed to initialize: {SDL.SDL_GetError()}");
             }
             
-            font = SDL3_ttf.TTF_OpenFont(FileSystem.LoadAsset("Font.ttf"), 128);
-            if (font == null) throw new Exception($"SDL failed to load Font.ttf: {SDL3.SDL_GetError()}");
+            if (!TTF.TTF_Init())
+            {
+                throw new Exception($"SDL failed to initialize ttf: {SDL.SDL_GetError()}");
+            }
+
+            window = SDL.SDL_CreateWindow("SDL3", 800, 600, SDL.SDL_WindowFlags.SDL_WINDOW_HIGH_PIXEL_DENSITY);
+            if (window == IntPtr.Zero)
+            {
+                throw new Exception($"SDL failed create window: {SDL.SDL_GetError()}");
+            }
+
+            renderer = SDL.SDL_CreateRenderer(window, null);
+            if (renderer == IntPtr.Zero)
+            {
+                throw new Exception($"SDL failed create renderer: {SDL.SDL_GetError()}");
+            }
+            
+            font = TTF.TTF_OpenFont(FileSystem.LoadAsset("Font.ttf"), 128);
+            if (font == IntPtr.Zero) throw new Exception($"SDL failed to load Font.ttf: {SDL.SDL_GetError()}");
         }
         
-        public override void Update(SDL_Event @event)
+        public override void Update(SDL.SDL_Event @event)
         {
-            var e = (SDL_EventType)@event.type;
+            var e = (SDL.SDL_EventType)@event.type;
             Console.WriteLine($"SDL Event: {e}");
 
-            if (e == SDL_EventType.SDL_EVENT_QUIT)
+            if (e == SDL.SDL_EventType.SDL_EVENT_QUIT)
             {
                 Platform.Current.IsRunning = false;
                 return;
@@ -54,26 +54,25 @@ namespace App
         
         public override void Render()
         {
-            SDL3.SDL_SetRenderDrawColor(renderer, 255, 128, 128, 255);
-            SDL3.SDL_RenderClear(renderer);
+            SDL.SDL_SetRenderDrawColor(renderer, 255, 128, 128, 255);
+            SDL.SDL_RenderClear(renderer);
             
-            var fontSurface = SDL3_ttf.TTF_RenderText_Solid(font, teststring, 0, new SDL_Color { r = 255, g = 255, b = 255, a = 255 });
+            var fontSurface = TTF.TTF_RenderText_Solid(font, teststring, 0, new SDL.SDL_Color { r = 255, g = 255, b = 255, a = 255 });
             
-            if (fontSurface != null)
+            if (fontSurface != IntPtr.Zero)
             {
-                fontTexture = SDL3.SDL_CreateTextureFromSurface(renderer, fontSurface);
-                SDL3.SDL_DestroySurface(fontSurface);
+                fontTexture = SDL.SDL_CreateTextureFromSurface(renderer, fontSurface);
+                SDL.SDL_DestroySurface(fontSurface);
 
-                float w = 0, h = 0;
-                SDL3.SDL_GetTextureSize(fontTexture, &w, &h);
+                SDL.SDL_GetTextureSize(fontTexture, out var w, out var h);
                 
-                SDL_FRect srcRect = new SDL_FRect { x = 0, y = 0, w = w, h = h };
-                SDL_FRect dstRect = new SDL_FRect { x = 0, y = 0, w = w, h = h };
-                SDL3.SDL_RenderTexture(renderer, fontTexture, &srcRect, &dstRect);
+                SDL.SDL_FRect srcRect = new SDL.SDL_FRect { x = 0, y = 0, w = w, h = h };
+                SDL.SDL_FRect dstRect = new SDL.SDL_FRect { x = 20, y = 20, w = w, h = h };
+                SDL.SDL_RenderTexture(renderer, fontTexture, ref srcRect, ref dstRect);
             }
 
-            SDL3.SDL_RenderPresent(renderer);
-            SDL3.SDL_DestroyTexture(fontTexture);
+            SDL.SDL_RenderPresent(renderer);
+            SDL.SDL_DestroyTexture(fontTexture);
         }
     }
 }

@@ -1,63 +1,63 @@
 ﻿using Hybrid;
-using SDL;
+using SDL3;
 
 namespace App
 {
-    public unsafe class TestIMAGE : Behaviour
+    public class TestIMAGE : Behaviour
     {
-        private SDL_Window* window;
-        private SDL_Renderer* renderer;
+        private IntPtr window;
+        private IntPtr renderer;
         
-        public SDL_Texture* image;
-        public SDL_Texture* png;
-        public SDL_Texture* bmp;
-        public SDL_Texture* jpg;
+        public IntPtr image;
+        public IntPtr png;
+        public IntPtr bmp;
+        public IntPtr jpg;
         private int test = -1;
         
         public override void Init()
         {
-            if (!SDL3.SDL_Init(SDL_InitFlags.SDL_INIT_VIDEO | SDL_InitFlags.SDL_INIT_VIDEO))
+            if (!SDL.SDL_Init(SDL.SDL_InitFlags.SDL_INIT_VIDEO | SDL.SDL_InitFlags.SDL_INIT_VIDEO))
             {
-                throw new Exception($"SDL failed to initialize: {SDL3.SDL_GetError()}");
+                throw new Exception($"SDL failed to initialize: {SDL.SDL_GetError()}");
             }
 
-            window = SDL3.SDL_CreateWindow("SDL3", 800, 600, SDL_WindowFlags.SDL_WINDOW_HIGH_PIXEL_DENSITY);
-            if (window == null)
+            window = SDL.SDL_CreateWindow("SDL3", 800, 600, SDL.SDL_WindowFlags.SDL_WINDOW_HIGH_PIXEL_DENSITY);
+            if (window == IntPtr.Zero)
             {
-                throw new Exception($"SDL failed create window: {SDL3.SDL_GetError()}");
+                throw new Exception($"SDL failed create window: {SDL.SDL_GetError()}");
             }
 
-            renderer = SDL3.SDL_CreateRenderer(window, (Utf8String)null);
-            if (renderer == null)
+            renderer = SDL.SDL_CreateRenderer(window, null);
+            if (renderer == IntPtr.Zero)
             {
-                throw new Exception($"SDL failed create renderer: {SDL3.SDL_GetError()}");
+                throw new Exception($"SDL failed create renderer: {SDL.SDL_GetError()}");
             }
             
-            png = SDL3_image.IMG_LoadTexture(renderer, FileSystem.LoadAsset("Image.png"));
-            if (png == null) throw new Exception($"SDL failed load png: {SDL3.SDL_GetError()}");
-            SDL3.SDL_SetTextureScaleMode(png, SDL_ScaleMode.SDL_SCALEMODE_PIXELART);
+            png = IMAGE.IMG_LoadTexture(renderer, FileSystem.LoadAsset("Image.png"));
+            if (png == IntPtr.Zero) throw new Exception($"SDL failed load png: {SDL.SDL_GetError()}");
+            SDL.SDL_SetTextureScaleMode(png, SDL.SDL_ScaleMode.SDL_SCALEMODE_NEAREST);
             
-            jpg = SDL3_image.IMG_LoadTexture(renderer, FileSystem.LoadAsset("Image.jpg"));
-            if (jpg == null) throw new Exception($"SDL failed load jpg: {SDL3.SDL_GetError()}");
-            SDL3.SDL_SetTextureScaleMode(jpg, SDL_ScaleMode.SDL_SCALEMODE_PIXELART);
+            jpg = IMAGE.IMG_LoadTexture(renderer, FileSystem.LoadAsset("Image.jpg"));
+            if (jpg == IntPtr.Zero) throw new Exception($"SDL failed load jpg: {SDL.SDL_GetError()}");
+            SDL.SDL_SetTextureScaleMode(jpg, SDL.SDL_ScaleMode.SDL_SCALEMODE_NEAREST);
             
-            bmp = SDL3_image.IMG_LoadTexture(renderer, FileSystem.LoadAsset("Image.bmp"));
-            if (bmp == null) throw new Exception($"SDL failed load bmp: {SDL3.SDL_GetError()}");
-            SDL3.SDL_SetTextureScaleMode(bmp, SDL_ScaleMode.SDL_SCALEMODE_PIXELART);
+            bmp = IMAGE.IMG_LoadTexture(renderer, FileSystem.LoadAsset("Image.bmp"));
+            if (bmp == IntPtr.Zero) throw new Exception($"SDL failed load bmp: {SDL.SDL_GetError()}");
+            SDL.SDL_SetTextureScaleMode(bmp, SDL.SDL_ScaleMode.SDL_SCALEMODE_NEAREST);
         }
         
-        public override void Update(SDL_Event @event)
+        public override void Update(SDL.SDL_Event @event)
         {
-            var e = (SDL_EventType)@event.type;
+            var e = (SDL.SDL_EventType)@event.type;
             Console.WriteLine($"SDL Event: {e}");
 
-            if (e == SDL_EventType.SDL_EVENT_QUIT)
+            if (e == SDL.SDL_EventType.SDL_EVENT_QUIT)
             {
                 Platform.Current.IsRunning = false;
                 return;
             }
             
-            if (e == SDL_EventType.SDL_EVENT_MOUSE_BUTTON_DOWN)
+            if (e == SDL.SDL_EventType.SDL_EVENT_MOUSE_BUTTON_DOWN)
             {
                 test++; if (test > 2) test = 0;
 
@@ -78,15 +78,15 @@ namespace App
         
         public override void Render()
         {
-            SDL3.SDL_SetRenderDrawColor(renderer, 255, 128, 128, 255);
-            SDL3.SDL_RenderClear(renderer);
+            SDL.SDL_SetRenderDrawColor(renderer, 255, 128, 128, 255);
+            SDL.SDL_RenderClear(renderer);
             
             // Draw Code Here
-            var src = new SDL_FRect() { x = 0, y = 0, w = 800, h = 600};
-            var dst = new SDL_FRect() { x = 0, y = 0, w = 800, h = 600};
-            SDL3.SDL_RenderTexture(renderer, image, &src, &dst);
+            var src = new SDL.SDL_FRect() { x = 0, y = 0, w = 800, h = 600};
+            var dst = new SDL.SDL_FRect() { x = 0, y = 0, w = 800, h = 600};
+            SDL.SDL_RenderTexture(renderer, image, ref src, ref dst);
 
-            SDL3.SDL_RenderPresent(renderer);
+            SDL.SDL_RenderPresent(renderer);
         }
     }
 }

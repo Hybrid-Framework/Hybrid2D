@@ -1,4 +1,5 @@
 ﻿using System;
+using SDL3;
 
 namespace Hybrid.Platforms
 {
@@ -23,8 +24,12 @@ namespace Hybrid.Platforms
             // Main Loop
             while (IsRunning)
             {
+                while (SDL.SDL_PollEvent(out var e))
+                {
+                    Behaviour.Update(e);
+                }
+                
                 // Loop
-                PollEvents();
                 Behaviour.Render();
             }
             
