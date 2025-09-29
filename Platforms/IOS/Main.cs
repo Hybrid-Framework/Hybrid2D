@@ -27,7 +27,7 @@ public static class Program
 
     private static int Entry(int argc, IntPtr argv)
     {
-        Platform.Create(new PlatformIOS(new TestTTF()));
+        Platform.Create(new PlatformIOS(new TestMIXER()));
         Platform.Current.Run();
         return 0;
     }
