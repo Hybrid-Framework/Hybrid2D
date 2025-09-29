@@ -12,6 +12,9 @@ ARCHS=("armeabi-v7a" "arm64-v8a" "x86" "x86_64")
 RIDS=("armeabi-v7a" "arm64-v8a" "x86" "x86_64")
 MODULES=("SDL" "IMAGE" "MIXER" "TTF")
 
+NATIVES_DIR="$BASE_DIR/../Natives/$PLATFORM"
+rm -rf "$NATIVES_DIR"
+
 SDL()
 {
   local INDEX="$1"
@@ -41,7 +44,7 @@ SDL()
   cmake --build . --config Release
   cmake --install . --config Release
   
-  Transfer "$INSTALLPATH/lib/libSDL2.so" "$BASE_DIR/../Natives/$PLATFORM/$RID/libSDL2.so"
+  Transfer "$INSTALLPATH/lib/libSDL2.so" "$NATIVES_DIR/$RID/libSDL2.so"
 }
 
 IMAGE()
@@ -95,7 +98,7 @@ IMAGE()
   cmake --build . --config Release
   cmake --install . --config Release
   
-  Transfer "$INSTALLPATH/lib/libSDL2_image.so" "$BASE_DIR/../Natives/$PLATFORM/$RID/libIMAGE.so"
+  Transfer "$INSTALLPATH/lib/libSDL2_image.so" "$NATIVES_DIR/$RID/libIMAGE.so"
 }
 
 MIXER()
@@ -139,7 +142,7 @@ MIXER()
   cmake --build . --config Release
   cmake --install . --config Release
   
-  Transfer "$INSTALLPATH/lib/libSDL2_mixer.so" "$BASE_DIR/../Natives/$PLATFORM/$RID/libMIXER.so"
+  Transfer "$INSTALLPATH/lib/libSDL2_mixer.so" "$NATIVES_DIR/$RID/libMIXER.so"
 }
 
 TTF()
@@ -174,7 +177,7 @@ TTF()
   cmake --build . --config Release
   cmake --install . --config Release
   
-  Transfer "$INSTALLPATH/lib/libSDL2_ttf.so" "$BASE_DIR/../Natives/$PLATFORM/$RID/libTTF.so"
+  Transfer "$INSTALLPATH/lib/libSDL2_ttf.so" "$NATIVES_DIR/$RID/libTTF.so"
 }
 
 COMPLETE()
@@ -182,8 +185,6 @@ COMPLETE()
   # Dirty Patch SDLActivity...
   # This patch may break in future releases..
   local PATCHFILE="$MODULES_DIR/SDL/android-project/app/src/main/java/org/libsdl/app/SDLActivity.java"
-  
-  echo "$PATCHFILE"
   
   # Patch 1
   local SEARCH="class SDLActivity"
@@ -222,10 +223,8 @@ COMPLETE()
   javac -source 1.8 -target 1.8 -classpath "$ANDROID_JAR" -d out $JAVA_FILES
   jar cf SDLActivity.jar -C out .
   jar tf SDLActivity.jar
-  
-  # Move Files
-  mkdir -p "$BASE_DIR/../Platforms/Android/Jars"
-  cp SDLActivity.jar "$BASE_DIR/../Platforms/Android/Jars"
+  mkdir -p "$BASE_DIR/../Platforms/$PLATFORM/Jars"
+  cp SDLActivity.jar "$BASE_DIR/../Platforms/$PLATFORM/Jars"
   
   # Complete
   read -p "Build complete."

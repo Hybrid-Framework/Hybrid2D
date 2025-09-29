@@ -4,7 +4,6 @@ set -euo pipefail
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MODULES_DIR="$BASE_DIR/Dependencies/Modules"
 DEPENDENCIES_DIR="$BASE_DIR/Dependencies"
-NATIVES_DIR="$BASE_DIR/../Natives/IOS"
 source "$DEPENDENCIES_DIR/Methods.sh"
 
 PLATFORM="IOS"
@@ -14,6 +13,7 @@ RIDS=("ios-arm64" "iossimulator-x64" "iossimulator-arm64")
 MODULES=("SDL2" "IMAGE" "MIXER" "TTF")
 IOS_DEPLOYMENT_TARGET=13.0
 
+NATIVES_DIR="$BASE_DIR/../Natives/$PLATFORM"
 rm -rf "$NATIVES_DIR"
 
 SDL2()

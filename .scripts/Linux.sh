@@ -12,6 +12,9 @@ RIDS=("linux-x64" "linux-x86" "linux-arm64")
 COMPILERS=("x86_64-linux-gnu-gcc" "i686-linux-gnu-gcc" "aarch64-linux-gnu-gcc")
 MODULES=("SDL" "IMAGE" "MIXER" "TTF")
 
+NATIVES_DIR="$BASE_DIR/../Natives/$PLATFORM"
+rm -rf "$NATIVES_DIR"
+
 SDL()
 {
   local INDEX="$1"
@@ -40,7 +43,7 @@ SDL()
   cmake --build . --config Release
   cmake --install . --config Release
 
-  Transfer "$INSTALLPATH/lib/libSDL2.so" "$BASE_DIR/../Natives/Linux/$RID/libSDL2.so"
+  Transfer "$INSTALLPATH/lib/libSDL2.so" "$NATIVES_DIR/$RID/libSDL2.so"
 }
 
 IMAGE()
@@ -93,7 +96,7 @@ IMAGE()
   cmake --build . --config Release
   cmake --install . --config Release
 
-  Transfer "$INSTALLPATH/lib/libSDL2_image.so" "$BASE_DIR/../Natives/Linux/$RID/libIMAGE.so"
+  Transfer "$INSTALLPATH/lib/libSDL2_image.so" "$NATIVES_DIR/$RID/libIMAGE.so"
 }
 
 MIXER()
@@ -136,7 +139,7 @@ MIXER()
   cmake --build . --config Release
   cmake --install . --config Release
 
-  Transfer "$INSTALLPATH/lib/libSDL2_mixer.so" "$BASE_DIR/../Natives/Linux/$RID/libMIXER.so"
+  Transfer "$INSTALLPATH/lib/libSDL2_mixer.so" "$NATIVES_DIR/$RID/libMIXER.so"
 }
 
 TTF()
@@ -170,7 +173,7 @@ TTF()
   cmake --build . --config Release
   cmake --install . --config Release
 
-  Transfer "$INSTALLPATH/lib/libSDL2_ttf.so" "$BASE_DIR/../Natives/Linux/$RID/libTTF.so"
+  Transfer "$INSTALLPATH/lib/libSDL2_ttf.so" "$NATIVES_DIR/$RID/libTTF.so"
 }
 
 COMPLETE()

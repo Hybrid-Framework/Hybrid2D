@@ -13,7 +13,8 @@ MODULES=("Emscripten" "SDL")
 
 LIBPATH="$MODULES_DIR/Emscripten/build_$PLATFORM/sysroot/lib/wasm32-emscripten"
 PORTPATH="$MODULES_DIR/Emscripten/upstream/emscripten/tools/ports"
-TARGETPATH="$BASE_DIR/../Natives/$PLATFORM"
+NATIVES_DIR="$BASE_DIR/../Natives/$PLATFORM"
+rm -rf "$NATIVES_DIR"
 
 Emscripten()
 {
@@ -63,7 +64,7 @@ COMPLETE()
   emar x libfreetype.a
   emar rcs TTF.a *.o
   rm -f *.o
-  Transfer "$LIBPATH/TTF.a" "$TARGETPATH/TTF.a"
+  Transfer "$LIBPATH/TTF.a" "$NATIVES_DIR/TTF.a"
   
   # Merge IMAGE
   cd "$LIBPATH" || exit
@@ -74,7 +75,7 @@ COMPLETE()
   emar x libjpeg.a
   emar rcs IMAGE.a *.o
   rm -f *.o
-  Transfer "$LIBPATH/IMAGE.a" "$TARGETPATH/IMAGE.a"
+  Transfer "$LIBPATH/IMAGE.a" "$NATIVES_DIR/IMAGE.a"
   
   # Merge MIXER
   cd "$LIBPATH" || exit
@@ -85,10 +86,10 @@ COMPLETE()
   emar x libogg.a
   emar rcs MIXER.a *.o
   rm -f *.o
-  Transfer "$LIBPATH/MIXER.a" "$TARGETPATH/MIXER.a"
+  Transfer "$LIBPATH/MIXER.a" "$NATIVES_DIR/MIXER.a"
   
   # Merge SDL
-  Transfer "$LIBPATH/libSDL2.a" "$TARGETPATH/SDL2.a"
+  Transfer "$LIBPATH/libSDL2.a" "$NATIVES_DIR/SDL2.a"
   
   read -p "Build complete."
 }
