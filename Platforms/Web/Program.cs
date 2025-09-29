@@ -14,7 +14,7 @@ public static partial class Program
     {
         if (!Initialized)
         {
-            Platform.Create(new PlatformWeb(new TestTTF()));
+            Platform.Create(new PlatformWeb(new Game()));
             Initialized = true;
         }
         

@@ -21,13 +21,13 @@ public static class Program
             };
         });
 
-        Hybrid.SDL2.SDL.SDL_main_func entry = Entry;
-        Hybrid.SDL2.SDL.SDL_UIKitRunApp(0, IntPtr.Zero, entry);
+        // Hybrid.SDL2.SDL.SDL_main_func entry = Entry;
+        // Hybrid.SDL2.SDL.SDL_UIKitRunApp(0, IntPtr.Zero, entry);
     }
 
     private static int Entry(int argc, IntPtr argv)
     {
-        Platform.Create(new PlatformIOS(new TestMIXER()));
+        Platform.Create(new PlatformIOS(new Game()));
         Platform.Current.Run();
         return 0;
     }

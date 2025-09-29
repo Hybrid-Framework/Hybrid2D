@@ -1,5 +1,4 @@
 ﻿using System;
-using Hybrid.SDL2;
 
 namespace Hybrid
 {
@@ -10,7 +9,6 @@ namespace Hybrid
         public static void Create(Platform platform)
         {
             Current = platform;
-            SDL_init.Init();
             Current.Init();
         }
     }
@@ -29,8 +27,7 @@ namespace Hybrid
         
         internal virtual void Dispose()
         {
-            // Dispose
-            Window.CloseWindow();
+            // Dispose Everything
         }
     }
 }

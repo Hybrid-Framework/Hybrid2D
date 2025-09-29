@@ -1,5 +1,4 @@
-﻿using static Hybrid.SDL2.SDL;
-using System;
+﻿using System;
 
 namespace Hybrid.Platforms
 {
@@ -15,13 +14,6 @@ namespace Hybrid.Platforms
         {
             // Init
             Behaviour.Init();
-            
-            // Platform Specifics
-            if (Window.GetWindow() != IntPtr.Zero)
-            {
-                Window.Fullscreen(true);
-                Window.Resizeable(true);
-            }
         }
         
         public override void Run()
@@ -29,12 +21,6 @@ namespace Hybrid.Platforms
             // Main Loop
             while (IsRunning)
             {
-                // Events
-                while (SDL_PollEvent(out SDL_Event e) == 1)
-                {
-                    Behaviour.Events(e);
-                }
-
                 // Loop
                 Behaviour.Update();
                 Behaviour.Render();

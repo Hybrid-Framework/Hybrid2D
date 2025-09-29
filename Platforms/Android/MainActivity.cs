@@ -15,11 +15,11 @@ using App;
     )]
 public class MainActivity : SDLActivity
 {
-    protected override string[] GetLibraries() => ["SDL2", "IMAGE", "MIXER", "TTF"];
+    // protected override string[] GetLibraries() => ["SDL2", "IMAGE", "MIXER", "TTF"];
     
     protected override void Main()
     {
-        Platform.Create(new PlatformAndroid(new TestTTF()));
+        Platform.Create(new PlatformAndroid(new Game()));
         Platform.Current.Run();
     }
 }
