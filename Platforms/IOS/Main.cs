@@ -13,10 +13,10 @@ public static class Program
         {
             return library switch
             {
-                "SDL2_image" => NativeLibrary.Load("@rpath/SDL2_image.framework/SDL2_image", asm, path),
-                "SDL2_mixer" => NativeLibrary.Load("@rpath/SDL2_mixer.framework/SDL2_mixer", asm, path),
-                "SDL2_ttf" => NativeLibrary.Load("@rpath/SDL2_ttf.framework/SDL2_ttf", asm, path),
+                "IMAGE" => NativeLibrary.Load("@rpath/IMAGE.framework/IMAGE", asm, path),
+                "MIXER" => NativeLibrary.Load("@rpath/MIXER.framework/MIXER", asm, path),
                 "SDL2" => NativeLibrary.Load("@rpath/SDL2.framework/SDL2", asm, path),
+                "TTF" => NativeLibrary.Load("@rpath/TTF.framework/TTF", asm, path),
                 _ => IntPtr.Zero
             };
         });

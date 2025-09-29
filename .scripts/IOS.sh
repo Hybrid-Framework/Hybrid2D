@@ -4,16 +4,19 @@ set -euo pipefail
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MODULES_DIR="$BASE_DIR/Dependencies/Modules"
 DEPENDENCIES_DIR="$BASE_DIR/Dependencies"
+NATIVES_DIR="$BASE_DIR/../Natives/IOS"
 source "$DEPENDENCIES_DIR/Methods.sh"
 
 PLATFORM="IOS"
 ARCHS=("arm64" "x86_64" "arm64")
 SDKS=("iphoneos" "iphonesimulator" "iphonesimulator")
 RIDS=("ios-arm64" "iossimulator-x64" "iossimulator-arm64")
-MODULES=("SDL" "IMAGE" "MIXER" "TTF")
+MODULES=("SDL2" "IMAGE" "MIXER" "TTF")
 IOS_DEPLOYMENT_TARGET=13.0
 
-SDL()
+rm -rf "$NATIVES_DIR"
+
+SDL2()
 {
   local INDEX="$1"
   local ARCH="${ARCHS[$INDEX]}"
@@ -51,7 +54,7 @@ IMAGE()
   rm -rf "$BUILDPATH"
   mkdir -p "$BUILDPATH"
 
-  SDL_BUILD="$MODULES_DIR/SDL/build_$PLATFORM-$RID"
+  SDL_BUILD="$MODULES_DIR/SDL2/build_$PLATFORM-$RID"
   SDL_FRAMEWORK="$SDL_BUILD/SDL2.framework"
   SDL_INCLUDE="$SDL_FRAMEWORK/Headers"
 
@@ -65,6 +68,15 @@ IMAGE()
     CONFIGURATION_BUILD_DIR="$BUILDPATH" \
     HEADER_SEARCH_PATHS="$SDL_INCLUDE" \
     FRAMEWORK_SEARCH_PATHS="$SDL_BUILD"
+    
+  # Update Internals
+  local FRAMEWORK="$BUILDPATH/SDL2_image.framework"
+  plutil -replace CFBundleName -string "IMAGE" "$FRAMEWORK/Info.plist"
+  plutil -replace CFBundleExecutable -string "IMAGE" "$FRAMEWORK/Info.plist"
+  install_name_tool -change "@rpath/SDL2_image.framework/SDL2_image" "@rpath/IMAGE.framework/IMAGE" "$FRAMEWORK/SDL2_image"
+  install_name_tool -id "@rpath/IMAGE.framework/IMAGE" "$FRAMEWORK/SDL2_image"
+  Rename "$FRAMEWORK/SDL2_image" "$FRAMEWORK/IMAGE"
+  Rename "$FRAMEWORK" "$BUILDPATH/IMAGE.framework"
 }
 
 MIXER()
@@ -81,7 +93,7 @@ MIXER()
   rm -rf "$BUILDPATH"
   mkdir -p "$BUILDPATH"
 
-  SDL_BUILD="$MODULES_DIR/SDL/build_$PLATFORM-$RID"
+  SDL_BUILD="$MODULES_DIR/SDL2/build_$PLATFORM-$RID"
   SDL_FRAMEWORK="$SDL_BUILD/SDL2.framework"
   SDL_INCLUDE="$SDL_FRAMEWORK/Headers"
 
@@ -95,6 +107,15 @@ MIXER()
     CONFIGURATION_BUILD_DIR="$BUILDPATH" \
     HEADER_SEARCH_PATHS="$SDL_INCLUDE" \
     FRAMEWORK_SEARCH_PATHS="$SDL_BUILD"
+    
+  # Update Internals
+  local FRAMEWORK="$BUILDPATH/SDL2_mixer.framework"
+  plutil -replace CFBundleName -string "MIXER" "$FRAMEWORK/Info.plist"
+  plutil -replace CFBundleExecutable -string "MIXER" "$FRAMEWORK/Info.plist"
+  install_name_tool -change "@rpath/SDL2_mixer.framework/SDL2_mixer" "@rpath/MIXER.framework/MIXER" "$FRAMEWORK/SDL2_mixer"
+  install_name_tool -id "@rpath/MIXER.framework/MIXER" "$FRAMEWORK/SDL2_mixer"
+  Rename "$FRAMEWORK/SDL2_mixer" "$FRAMEWORK/MIXER"
+  Rename "$FRAMEWORK" "$BUILDPATH/MIXER.framework"
 }
 
 TTF()
@@ -111,7 +132,7 @@ TTF()
   rm -rf "$BUILDPATH"
   mkdir -p "$BUILDPATH"
 
-  SDL_BUILD="$MODULES_DIR/SDL/build_$PLATFORM-$RID"
+  SDL_BUILD="$MODULES_DIR/SDL2/build_$PLATFORM-$RID"
   SDL_FRAMEWORK="$SDL_BUILD/SDL2.framework"
   SDL_INCLUDE="$SDL_FRAMEWORK/Headers"
 
@@ -125,37 +146,43 @@ TTF()
     CONFIGURATION_BUILD_DIR="$BUILDPATH" \
     HEADER_SEARCH_PATHS="$SDL_INCLUDE" \
     FRAMEWORK_SEARCH_PATHS="$SDL_BUILD"
+    
+  # Update Internals
+  local FRAMEWORK="$BUILDPATH/SDL2_ttf.framework"
+  plutil -replace CFBundleName -string "TTF" "$FRAMEWORK/Info.plist"
+  plutil -replace CFBundleExecutable -string "TTF" "$FRAMEWORK/Info.plist"
+  install_name_tool -change "@rpath/SDL2_ttf.framework/SDL2_ttf" "@rpath/TTF.framework/TTF" "$FRAMEWORK/SDL2_ttf"
+  install_name_tool -id "@rpath/TTF.framework/TTF" "$FRAMEWORK/SDL2_ttf"
+  Rename "$FRAMEWORK/SDL2_ttf" "$FRAMEWORK/TTF"
+  Rename "$FRAMEWORK" "$BUILDPATH/TTF.framework"
 }
 
 COMPLETE()
 {
+  echo "Building Frameworks"
+  
   for MODULE in "${MODULES[@]}"; do
     
-    local FRAMEWORK_NAME=""
-    
-    if [[ "$MODULE" == "SDL" ]]; then
-      FRAMEWORK_NAME="SDL2"
-    else
-      FRAMEWORK_NAME="SDL2_${MODULE,,}"
-    fi
-    
-    UNIVERSAL_DIR="$MODULES_DIR/$MODULE/build_IOS-iossimulator-universal/$FRAMEWORK_NAME.framework"
-    XCFRAMEWORK="$BASE_DIR/../Natives/IOS/$FRAMEWORK_NAME.xcframework"
+    # Create Universal Framework
+    UNIVERSAL_DIR="$MODULES_DIR/$MODULE/build_IOS-iossimulator-universal/$MODULE.framework"
     mkdir -p "$UNIVERSAL_DIR"
+    cp -R "$MODULES_DIR/$MODULE/build_IOS-iossimulator-arm64/$MODULE.framework/"* "$UNIVERSAL_DIR"
     
-    cp -R "$MODULES_DIR/$MODULE/build_IOS-iossimulator-arm64/$FRAMEWORK_NAME.framework/"* "$UNIVERSAL_DIR"
-  
     lipo -create \
-      "$MODULES_DIR/$MODULE/build_IOS-iossimulator-x64/$FRAMEWORK_NAME.framework/$FRAMEWORK_NAME" \
-      "$MODULES_DIR/$MODULE/build_IOS-iossimulator-arm64/$FRAMEWORK_NAME.framework/$FRAMEWORK_NAME" \
-      -output "$UNIVERSAL_DIR/$FRAMEWORK_NAME"
-  
+      "$MODULES_DIR/$MODULE/build_IOS-iossimulator-x64/$MODULE.framework/$MODULE" \
+      "$MODULES_DIR/$MODULE/build_IOS-iossimulator-arm64/$MODULE.framework/$MODULE" \
+      -output "$UNIVERSAL_DIR/$MODULE"
+    
+    # Create xcFramework
+    XCFRAMEWORK="$NATIVES_DIR/$MODULE.xcframework"
+    
     xcodebuild -create-xcframework \
-      -framework "$MODULES_DIR/$MODULE/build_IOS-ios-arm64/$FRAMEWORK_NAME.framework" \
+      -framework "$MODULES_DIR/$MODULE/build_IOS-ios-arm64/$MODULE.framework" \
       -framework "$UNIVERSAL_DIR" \
       -output "$XCFRAMEWORK"
     
-    find "$XCFRAMEWORK" -type f ! -name "Info.plist" ! -name "$FRAMEWORK_NAME" -exec rm -f "{}" \;
+    # Remove Files
+    find "$XCFRAMEWORK" -type f ! -name "Info.plist" ! -name "$MODULE" -exec rm -f "{}" \;
     find "$XCFRAMEWORK" -type d -empty -delete
 
   done
