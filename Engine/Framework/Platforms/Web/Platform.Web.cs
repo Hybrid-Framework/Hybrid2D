@@ -22,7 +22,7 @@ namespace Hybrid.Platforms
             if (IsRunning)
             {
                 // Loop
-                Behaviour.Update();
+                PollEvents();
                 Behaviour.Render();
             }
             else

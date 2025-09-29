@@ -1,4 +1,5 @@
 ﻿using System;
+using SDL;
 
 namespace Hybrid
 {
@@ -9,7 +10,7 @@ namespace Hybrid
             
         }
 
-        public virtual void Update()
+        public virtual void Update(SDL_Event e)
         {
             
         }
