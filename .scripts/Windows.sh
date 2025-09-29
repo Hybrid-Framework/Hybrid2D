@@ -1,6 +1,17 @@
 #!/usr/bin/env bash
 set -e
 
+cleanup()
+{
+    local exit_code=$?
+    if [ $exit_code -ne 0 ]; then
+        echo "Script failed with exit code $exit_code."
+        read -p "Press Enter to exit."
+    fi
+}
+
+trap cleanup EXIT
+
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MODULES_DIR="$BASE_DIR/Dependencies/Modules"
 DEPENDENCIES_DIR="$BASE_DIR/Dependencies"
@@ -20,7 +31,7 @@ SDL()
   local ARCH="${ARCHS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
   
-  Install "$MODULE" "https://github.com/libsdl-org/SDL.git" "release-2.32.10"
+  Install "$MODULE" "https://github.com/libsdl-org/SDL.git" ""
   
   cd "$MODULES_DIR/$MODULE" || exit
   BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
@@ -29,22 +40,16 @@ SDL()
   mkdir -p "$BUILDPATH" "$INSTALLPATH"
   cd "$BUILDPATH" || exit
 
-  EXTRAFLAGS=""
-  if [ "$ARCH" == "arm64" ]; then
-      EXTRAFLAGS="-forceInterlockedFunctions-"
-  fi
-
   cmake .. -G "Visual Studio 17 2022" -A $ARCH -Wno-dev \
     -DSDL_SHARED=ON \
     -DSDL_STATIC=OFF \
-    -DCMAKE_C_FLAGS=$EXTRAFLAGS \
     -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
     -DCMAKE_INSTALL_PREFIX=$INSTALLPATH
 
   cmake --build . --config Release
   cmake --install . --config Release
 
-  Transfer "$INSTALLPATH/bin/SDL2.dll" "$NATIVES_DIR/$RID/SDL2.dll"
+  Transfer "$INSTALLPATH/bin/SDL3.dll" "$NATIVES_DIR/$RID/"
 }
 
 IMAGE()
@@ -53,7 +58,7 @@ IMAGE()
   local ARCH="${ARCHS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
   
-  Install "$MODULE" "https://github.com/libsdl-org/SDL_image.git" "release-2.8.8"
+  Install "$MODULE" "https://github.com/libsdl-org/SDL_image.git" ""
   
   cd "$MODULES_DIR/$MODULE" || exit
   BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
@@ -63,37 +68,34 @@ IMAGE()
   cd "$BUILDPATH" || exit
 
   cmake .. -G "Visual Studio 17 2022" -A $ARCH -Wno-dev \
-    -DSDL2IMAGE_BMP=ON \
-    -DSDL2IMAGE_PNG=ON \
-    -DSDL2IMAGE_JPG=ON \
-    -DSDL2IMAGE_WEBP=OFF \
-    -DSDL2IMAGE_AVIF=OFF \
-    -DSDL2IMAGE_GIF=OFF \
-    -DSDL2IMAGE_TIF=OFF \
-    -DSDL2IMAGE_TGA=OFF \
-    -DSDL2IMAGE_XCF=OFF \
-    -DSDL2IMAGE_XPM=OFF \
-    -DSDL2IMAGE_XV=OFF \
-    -DSDL2IMAGE_LBM=OFF \
-    -DSDL2IMAGE_PCX=OFF \
-    -DSDL2IMAGE_PNM=OFF \
-    -DSDL2IMAGE_QOI=OFF \
-    -DSDL2IMAGE_SVG=OFF \
-    -DSDL2IMAGE_JXL=OFF \
-    -DSDL2IMAGE_TESTS=OFF \
-    -DSDL2IMAGE_SAMPLES=OFF \
+    -DSDLIMAGE_BMP=ON \
+    -DSDLIMAGE_JPG=ON \
+    -DSDLIMAGE_PNG=ON \
+    -DSDLIMAGE_AVIF=OFF \
+    -DSDLIMAGE_WEBP=OFF \
+    -DSDLIMAGE_GIF=OFF \
+    -DSDLIMAGE_JXL=OFF \
+    -DSDLIMAGE_LBM=OFF \
+    -DSDLIMAGE_PCX=OFF \
+    -DSDLIMAGE_PNM=OFF \
+    -DSDLIMAGE_QOI=OFF \
+    -DSDLIMAGE_SVG=OFF \
+    -DSDLIMAGE_TGA=OFF \
+    -DSDLIMAGE_TIF=OFF \
+    -DSDLIMAGE_XCF=OFF \
+    -DSDLIMAGE_XPM=OFF \
+    -DSDLIMAGE_XV=OFF \
+    -DSDLIMAGE_VENDORED=ON \
+    -DSDLIMAGE_DEPS_SHARED=OFF \
     -DBUILD_SHARED_LIBS=ON \
-    -DSDL2IMAGE_VENDORED=ON \
-    -DSDL2IMAGE_DEPS_SHARED=OFF \
     -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
     -DCMAKE_INSTALL_PREFIX=$INSTALLPATH \
-    -DSDL2_INCLUDE_DIR=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/include/SDL2 \
-    -DSDL2_LIBRARY=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/lib/SDL2.lib
+    -DCMAKE_PREFIX_PATH=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH
 
   cmake --build . --config Release
   cmake --install . --config Release
 
-  Transfer "$INSTALLPATH/bin/SDL2_image.dll" "$NATIVES_DIR/$RID/IMAGE.dll"
+  Transfer "$INSTALLPATH/bin/SDL3_image.dll" "$NATIVES_DIR/$RID/"
 }
 
 MIXER()
@@ -102,7 +104,7 @@ MIXER()
   local ARCH="${ARCHS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
   
-  Install "$MODULE" "https://github.com/libsdl-org/SDL_mixer.git" "release-2.8.1"
+  Install "$MODULE" "https://github.com/libsdl-org/SDL_mixer.git" ""
   
   cd "$MODULES_DIR/$MODULE" || exit
   BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
@@ -112,27 +114,34 @@ MIXER()
   cd "$BUILDPATH" || exit
 
   cmake .. -G "Visual Studio 17 2022" -A $ARCH -Wno-dev \
-    -DSDL2MIXER_WAVE=ON \
-    -DSDL2MIXER_MP3=ON \
-    -DSDL2MIXER_OGG=ON \
-    -DSDL2MIXER_OPUS=OFF \
-    -DSDL2MIXER_FLAC=OFF \
-    -DSDL2MIXER_MOD=OFF \
-    -DSDL2MIXER_MIDI=OFF \
-    -DSDL2MIXER_WAVPACK=OFF \
+    -DSDLMIXER_MP3_DRMP3=ON \
+    -DSDLMIXER_VORBIS_STB=ON \
+    -DSDLMIXER_WAVE=ON \
+    -DSDLMIXER_VORBIS_VORBISFILE=OFF \
+    -DSDLMIXER_VORBIS_TREMOR=OFF \
+    -DSDLMIXER_MIDI_TIMIDITY=OFF \
+    -DSDLMIXER_FLAC_LIBFLAC=OFF \
+    -DSDLMIXER_FLAC_DRFLAC=OFF \
+    -DSDLMIXER_MP3_MPG123=OFF \
+    -DSDLMIXER_GME_SHARED=OFF \
+    -DSDLMIXER_MOD_XMP=OFF \
+    -DSDLMIXER_WAVPACK=OFF \
+    -DSDLMIXER_AIFF=OFF \
+    -DSDLMIXER_OPUS=OFF \
+    -DSDLMIXER_VOC=OFF \
+    -DSDLMIXER_GME=OFF \
+    -DSDLMIXER_AU=OFF \
+    -DSDLMIXER_VENDORED=ON \
+    -DSDLMIXER_DEPS_SHARED=OFF \
     -DBUILD_SHARED_LIBS=ON \
-    -DSDL2MIXER_SAMPLES=OFF \
-    -DSDL2MIXER_VENDORED=ON \
-    -DSDL2MIXER_DEPS_SHARED=OFF \
     -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
     -DCMAKE_INSTALL_PREFIX=$INSTALLPATH \
-    -DSDL2_INCLUDE_DIR=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/include/SDL2 \
-    -DSDL2_LIBRARY=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/lib/SDL2.lib
+    -DCMAKE_PREFIX_PATH=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH
 
   cmake --build . --config Release
   cmake --install . --config Release
 
-  Transfer "$INSTALLPATH/bin/SDL2_mixer.dll" "$NATIVES_DIR/$RID/MIXER.dll"
+  Transfer "$INSTALLPATH/bin/SDL3_mixer.dll" "$NATIVES_DIR/$RID/"
 }
 
 TTF()
@@ -141,7 +150,7 @@ TTF()
   local ARCH="${ARCHS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
   
-  Install "$MODULE" "https://github.com/libsdl-org/SDL_ttf.git" "release-2.24.0"
+  Install "$MODULE" "https://github.com/libsdl-org/SDL_ttf.git" ""
   
   cd "$MODULES_DIR/$MODULE" || exit
   BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
@@ -151,23 +160,23 @@ TTF()
   cd "$BUILDPATH" || exit
 
   cmake .. -G "Visual Studio 17 2022" -A $ARCH -Wno-dev \
+    -DSDLTTF_HARFBUZZ=OFF \
+    -DSDLTTF_PLUTOSVG=OFF \
+    -DSDLTTF_VENDORED=ON \
     -DBUILD_SHARED_LIBS=ON \
-    -DSDL2TTF_VENDORED=ON \
-    -DSDL2TTF_SAMPLES=OFF \
     -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
     -DCMAKE_INSTALL_PREFIX=$INSTALLPATH \
-    -DSDL2_INCLUDE_DIR=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/include/SDL2 \
-    -DSDL2_LIBRARY=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/lib/SDL2.lib
+    -DCMAKE_PREFIX_PATH=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH
 
   cmake --build . --config Release
   cmake --install . --config Release
 
-  Transfer "$INSTALLPATH/bin/SDL2_ttf.dll" "$NATIVES_DIR/$RID/TTF.dll"
+  Transfer "$INSTALLPATH/bin/SDL3_ttf.dll" "$NATIVES_DIR/$RID/"
 }
 
 COMPLETE()
 {
-  read -p "Build complete."
+  read -p "Build Complete."
 }
 
 source "$DEPENDENCIES_DIR/Build.sh"
