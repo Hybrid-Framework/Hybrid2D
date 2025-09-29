@@ -55,5 +55,7 @@ Current community and contributors:
 
 
 <h2 id="license">📄 License</h2>
-This project is currently unlicensed however all third party dependencies used are under their own license please refer to them for details on the individual licenses they use.
+This project is licensed under the [MIT License](LICENSE.txt).
+All third-party dependencies are covered by their respective licenses.
+
  
