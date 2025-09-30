@@ -18,7 +18,7 @@
 <!-- Natives -->
     <ItemGroup>
         <EmbeddedJar Include="Jars\SDLActivity.jar">
-            <Visible>true</Visible>
+            <Visible>false</Visible>
         </EmbeddedJar>
 
         <AndroidNativeLibrary Include="..\..\Natives\Android\armeabi-v7a\*.so">
