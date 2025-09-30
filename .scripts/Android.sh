@@ -1,5 +1,16 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -e
+
+cleanup()
+{
+    local exit_code=$?
+    if [ $exit_code -ne 0 ]; then
+        echo "Script failed with exit code $exit_code."
+        read -p "Press Enter to exit."
+    fi
+}
+
+trap cleanup EXIT
 
 ANDROID_NDK="$HOME/AppData/Local/Android/Sdk/ndk/21.4.7075529/build/cmake/android.toolchain.cmake"
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -21,7 +32,7 @@ SDL()
   local ARCH="${ARCHS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
   
-  Install "$MODULE" "https://github.com/libsdl-org/SDL.git" "release-2.32.10"
+  Install "$MODULE" "https://github.com/libsdl-org/SDL.git" ""
   
   cd "$MODULES_DIR/$MODULE" || exit
   BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
@@ -29,22 +40,22 @@ SDL()
   rm -rf "$BUILDPATH" "$INSTALLPATH"
   mkdir -p "$BUILDPATH" "$INSTALLPATH"
   cd "$BUILDPATH" || exit
-  
+
   cmake .. -G Ninja -Wno-dev \
     -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK" \
-    -DANDROID_ABI=$ARCH \
     -DANDROID_PLATFORM=android-21 \
+    -DANDROID_ABI=$ARCH \
     -DSDL_SHARED=ON \
     -DSDL_STATIC=OFF \
+    -DSDL_ANDROID_JAR=OFF \
+    -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
-    -DCMAKE_INSTALL_PREFIX=$INSTALLPATH \
-    -DCMAKE_C_FLAGS="-Wno-deprecated-declarations" \
-    -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations"
+    -DCMAKE_INSTALL_PREFIX="$INSTALLPATH"
 
   cmake --build . --config Release
   cmake --install . --config Release
-  
-  Transfer "$INSTALLPATH/lib/libSDL2.so" "$NATIVES_DIR/$RID/libSDL2.so"
+
+  Transfer "$INSTALLPATH/lib/libSDL3.so" "$NATIVES_DIR/$RID/"
 }
 
 IMAGE()
@@ -53,7 +64,7 @@ IMAGE()
   local ARCH="${ARCHS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
   
-  Install "$MODULE" "https://github.com/libsdl-org/SDL_image.git" "release-2.8.8"
+  Install "$MODULE" "https://github.com/libsdl-org/SDL_image.git" ""
   
   cd "$MODULES_DIR/$MODULE" || exit
   BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
@@ -61,44 +72,40 @@ IMAGE()
   rm -rf "$BUILDPATH" "$INSTALLPATH"
   mkdir -p "$BUILDPATH" "$INSTALLPATH"
   cd "$BUILDPATH" || exit
-  
+
   cmake .. -G Ninja -Wno-dev \
     -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK" \
-    -DANDROID_ABI=$ARCH \
     -DANDROID_PLATFORM=android-21 \
-    -DSDL2IMAGE_BMP=ON \
-    -DSDL2IMAGE_PNG=ON \
-    -DSDL2IMAGE_JPG=ON \
-    -DSDL2IMAGE_WEBP=OFF \
-    -DSDL2IMAGE_AVIF=OFF \
-    -DSDL2IMAGE_GIF=OFF \
-    -DSDL2IMAGE_TIF=OFF \
-    -DSDL2IMAGE_TGA=OFF \
-    -DSDL2IMAGE_XCF=OFF \
-    -DSDL2IMAGE_XPM=OFF \
-    -DSDL2IMAGE_XV=OFF \
-    -DSDL2IMAGE_LBM=OFF \
-    -DSDL2IMAGE_PCX=OFF \
-    -DSDL2IMAGE_PNM=OFF \
-    -DSDL2IMAGE_QOI=OFF \
-    -DSDL2IMAGE_SVG=OFF \
-    -DSDL2IMAGE_JXL=OFF \
-    -DSDL2IMAGE_TESTS=OFF \
-    -DSDL2IMAGE_SAMPLES=OFF \
+    -DANDROID_ABI=$ARCH \
+    -DSDLIMAGE_BMP=ON \
+    -DSDLIMAGE_JPG=ON \
+    -DSDLIMAGE_PNG=ON \
+    -DSDLIMAGE_AVIF=OFF \
+    -DSDLIMAGE_WEBP=OFF \
+    -DSDLIMAGE_GIF=OFF \
+    -DSDLIMAGE_JXL=OFF \
+    -DSDLIMAGE_LBM=OFF \
+    -DSDLIMAGE_PCX=OFF \
+    -DSDLIMAGE_PNM=OFF \
+    -DSDLIMAGE_QOI=OFF \
+    -DSDLIMAGE_SVG=OFF \
+    -DSDLIMAGE_TGA=OFF \
+    -DSDLIMAGE_TIF=OFF \
+    -DSDLIMAGE_XCF=OFF \
+    -DSDLIMAGE_XPM=OFF \
+    -DSDLIMAGE_XV=OFF \
+    -DSDLIMAGE_VENDORED=ON \
+    -DSDLIMAGE_DEPS_SHARED=OFF \
     -DBUILD_SHARED_LIBS=ON \
-    -DSDL2IMAGE_VENDORED=ON \
-    -DSDL2IMAGE_DEPS_SHARED=OFF \
+    -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
-    -DCMAKE_INSTALL_PREFIX=$INSTALLPATH \
-    -DCMAKE_C_FLAGS="-Wno-deprecated-declarations" \
-    -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" \
-    -DSDL2_INCLUDE_DIR=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/include/SDL2 \
-    -DSDL2_LIBRARY=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/lib/libSDL2.so
+    -DCMAKE_INSTALL_PREFIX="$INSTALLPATH" \
+    -DSDL3_DIR="$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/lib/cmake/SDL3"
 
   cmake --build . --config Release
   cmake --install . --config Release
-  
-  Transfer "$INSTALLPATH/lib/libSDL2_image.so" "$NATIVES_DIR/$RID/libIMAGE.so"
+
+  Transfer "$INSTALLPATH/lib/libSDL3_image.so" "$NATIVES_DIR/$RID/"
 }
 
 MIXER()
@@ -107,7 +114,7 @@ MIXER()
   local ARCH="${ARCHS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
   
-  Install "$MODULE" "https://github.com/libsdl-org/SDL_mixer.git" "release-2.8.1"
+  Install "$MODULE" "https://github.com/libsdl-org/SDL_mixer.git" ""
   
   cd "$MODULES_DIR/$MODULE" || exit
   BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
@@ -115,34 +122,40 @@ MIXER()
   rm -rf "$BUILDPATH" "$INSTALLPATH"
   mkdir -p "$BUILDPATH" "$INSTALLPATH"
   cd "$BUILDPATH" || exit
-  
+
   cmake .. -G Ninja -Wno-dev \
     -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK" \
-    -DANDROID_ABI=$ARCH \
     -DANDROID_PLATFORM=android-21 \
-    -DSDL2MIXER_WAVE=ON \
-    -DSDL2MIXER_MP3=ON \
-    -DSDL2MIXER_OGG=ON \
-    -DSDL2MIXER_OPUS=OFF \
-    -DSDL2MIXER_FLAC=OFF \
-    -DSDL2MIXER_MOD=OFF \
-    -DSDL2MIXER_MIDI=OFF \
-    -DSDL2MIXER_WAVPACK=OFF \
+    -DANDROID_ABI=$ARCH \
+    -DSDLMIXER_MP3_DRMP3=ON \
+    -DSDLMIXER_VORBIS_STB=ON \
+    -DSDLMIXER_WAVE=ON \
+    -DSDLMIXER_VORBIS_VORBISFILE=OFF \
+    -DSDLMIXER_VORBIS_TREMOR=OFF \
+    -DSDLMIXER_MIDI_TIMIDITY=OFF \
+    -DSDLMIXER_FLAC_LIBFLAC=OFF \
+    -DSDLMIXER_FLAC_DRFLAC=OFF \
+    -DSDLMIXER_MP3_MPG123=OFF \
+    -DSDLMIXER_GME_SHARED=OFF \
+    -DSDLMIXER_MOD_XMP=OFF \
+    -DSDLMIXER_WAVPACK=OFF \
+    -DSDLMIXER_AIFF=OFF \
+    -DSDLMIXER_OPUS=OFF \
+    -DSDLMIXER_VOC=OFF \
+    -DSDLMIXER_GME=OFF \
+    -DSDLMIXER_AU=OFF \
+    -DSDLMIXER_VENDORED=ON \
+    -DSDLMIXER_DEPS_SHARED=OFF \
     -DBUILD_SHARED_LIBS=ON \
-    -DSDL2MIXER_SAMPLES=OFF \
-    -DSDL2MIXER_VENDORED=ON \
-    -DSDL2MIXER_DEPS_SHARED=OFF \
+    -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
-    -DCMAKE_INSTALL_PREFIX=$INSTALLPATH \
-    -DCMAKE_C_FLAGS="-Wno-deprecated-declarations" \
-    -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" \
-    -DSDL2_INCLUDE_DIR=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/include/SDL2 \
-    -DSDL2_LIBRARY=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/lib/libSDL2.so
+    -DCMAKE_INSTALL_PREFIX="$INSTALLPATH" \
+    -DSDL3_DIR="$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/lib/cmake/SDL3"
 
   cmake --build . --config Release
   cmake --install . --config Release
-  
-  Transfer "$INSTALLPATH/lib/libSDL2_mixer.so" "$NATIVES_DIR/$RID/libMIXER.so"
+
+  Transfer "$INSTALLPATH/lib/libSDL3_mixer.so" "$NATIVES_DIR/$RID/"
 }
 
 TTF()
@@ -151,7 +164,7 @@ TTF()
   local ARCH="${ARCHS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
   
-  Install "$MODULE" "https://github.com/libsdl-org/SDL_ttf.git" "release-2.24.0"
+  Install "$MODULE" "https://github.com/libsdl-org/SDL_ttf.git" ""
   
   cd "$MODULES_DIR/$MODULE" || exit
   BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
@@ -159,74 +172,44 @@ TTF()
   rm -rf "$BUILDPATH" "$INSTALLPATH"
   mkdir -p "$BUILDPATH" "$INSTALLPATH"
   cd "$BUILDPATH" || exit
-  
+
   cmake .. -G Ninja -Wno-dev \
     -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK" \
     -DANDROID_PLATFORM=android-21 \
     -DANDROID_ABI=$ARCH \
+    -DSDLTTF_HARFBUZZ=OFF \
+    -DSDLTTF_PLUTOSVG=OFF \
+    -DSDLTTF_VENDORED=ON \
     -DBUILD_SHARED_LIBS=ON \
-    -DSDL2TTF_VENDORED=ON \
-    -DSDL2TTF_SAMPLES=OFF \
+    -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
-    -DCMAKE_INSTALL_PREFIX=$INSTALLPATH \
-    -DCMAKE_C_FLAGS="-Wno-deprecated-declarations" \
-    -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" \
-    -DSDL2_INCLUDE_DIR=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/include/SDL2 \
-    -DSDL2_LIBRARY=$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/lib/libSDL2.so
+    -DCMAKE_INSTALL_PREFIX="$INSTALLPATH" \
+    -DSDL3_DIR="$MODULES_DIR/SDL/install_$PLATFORM-$ARCH/lib/cmake/SDL3"
 
   cmake --build . --config Release
   cmake --install . --config Release
-  
-  Transfer "$INSTALLPATH/lib/libSDL2_ttf.so" "$NATIVES_DIR/$RID/libTTF.so"
+
+  Transfer "$INSTALLPATH/lib/libSDL3_ttf.so" "$NATIVES_DIR/$RID/"
 }
 
 COMPLETE()
 {
-  # Dirty Patch SDLActivity...
-  # This patch may break in future releases..
-  local PATCHFILE="$MODULES_DIR/SDL/android-project/app/src/main/java/org/libsdl/app/SDLActivity.java"
-  
-  # Patch 1
-  local SEARCH="class SDLActivity"
-  local INSERT="protected void main() {}"
-  
-  if ! grep -qF "$INSERT" "$PATCHFILE"; then
-  
-      LINENUM=$(grep -n "$SEARCH" "$PATCHFILE" | cut -d: -f1)
-  
-      if [[ -n "$LINENUM" ]]; then
-          LINENUM=$((LINENUM + 1))
-          sed -i "${LINENUM}i $INSERT" "$PATCHFILE"
-      fi
-  fi
-  
-  # Patch 2
-  local SEARCH="SDLActivity.nativeRunMain"
-  local INSERT="SDLActivity.mSingleton.main();"
-  
-  if ! grep -qF "$INSERT" "$PATCHFILE"; then
-  
-      LINENUM=$(grep -n "$SEARCH" "$PATCHFILE" | cut -d: -f1)
-  
-      if [[ -n "$LINENUM" ]]; then
-          LINENUM=$((LINENUM + 1))
-          sed -i "${LINENUM}i $INSERT" "$PATCHFILE"
-      fi
-  fi
-  
-  # Build SDLActivity.jar
+  JAR_DIR="$BASE_DIR/../Platforms/$PLATFORM/Jars"
+  JAVA_DIR="$MODULES_DIR/SDL/android-project/app/src/main/java"
+
   export PATH="$PATH:/c/Program Files/Android/Android Studio/jbr/bin"
   local ANDROID_JAR="$HOME/AppData/Local/Android/Sdk/platforms/android-36/android.jar"
-  cd $MODULES_DIR/SDL/android-project/app/src/main/java || exit 1
+  cd "$JAVA_DIR" || exit 1
   mkdir -p out
   JAVA_FILES=$(find . -name "*.java")
   javac -source 1.8 -target 1.8 -classpath "$ANDROID_JAR" -d out $JAVA_FILES
   jar cf SDLActivity.jar -C out .
   jar tf SDLActivity.jar
-  mkdir -p "$BASE_DIR/../Platforms/$PLATFORM/Jars"
-  cp SDLActivity.jar "$BASE_DIR/../Platforms/$PLATFORM/Jars"
+
+  rm -rf "$JAR_DIR"
+  mkdir -p "$JAR_DIR"
+  Transfer "$JAVA_DIR/SDLActivity.jar" "$JAR_DIR"
   
-  # Complete
   read -p "Build complete."
 }
 

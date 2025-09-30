@@ -15,7 +15,7 @@ namespace App
                 throw new Exception($"SDL failed to initialize: {SDL.SDL_GetError()}");
             }
 
-            window = SDL.SDL_CreateWindow("SDL3", 800, 600, SDL.SDL_WindowFlags.SDL_WINDOW_HIGH_PIXEL_DENSITY);
+            window = SDL.SDL_CreateWindow("SDL3", 800, 600, SDL.SDL_WindowFlags.SDL_WINDOW_HIGH_PIXEL_DENSITY | SDL.SDL_WindowFlags.SDL_WINDOW_RESIZABLE);
             if (window == IntPtr.Zero)
             {
                 throw new Exception($"SDL failed create window: {SDL.SDL_GetError()}");
