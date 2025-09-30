@@ -12,7 +12,7 @@ cleanup()
 
 trap cleanup EXIT
 
-ANDROID_NDK="$HOME/AppData/Local/Android/Sdk/ndk/21.4.7075529/build/cmake/android.toolchain.cmake"
+ANDROID_NDK="$HOME/AppData/Local/Android/Sdk/ndk/29.0.13846066/build/cmake/android.toolchain.cmake"
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MODULES_DIR="$BASE_DIR/Dependencies/Modules"
 DEPENDENCIES_DIR="$BASE_DIR/Dependencies"
