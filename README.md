@@ -4,6 +4,8 @@
 
 A lightweight cross-platform game framework
 
+⚠️ IN DEVELOPMENT ⚠️
+
 ![Windows](https://custom-icon-badges.demolab.com/badge/Windows-000000?logo=windows11&logoColor=white)
 ![MacOS](https://img.shields.io/badge/MacOS-000000?logo=apple&logoColor=white)
 ![Linux](https://img.shields.io/badge/Linux-000000?logo=linux&logoColor=white)
@@ -42,9 +44,9 @@ Currently supports these platforms:
 <h2 id="dependencies">📦 Dependencies</h2>
 
 Currently using these dependencies:
-  * [Emscripten](https://github.com/emscripten-core/emscripten) is a complete compiler toolchain to WebAssembly for great web support.
-  * [Net 9.0](https://github.com/dotnet/runtime) is a cross-platform runtime for desktop, mobile & web applications.
-  * [SDL](https://github.com/libsdl-org/SDL) is a simple direct media abstraction layer.
+  * [EMSCRIPTEN 3.1.56](https://github.com/emscripten-core/emscripten) is a complete compiler toolchain to WebAssembly for great web support.
+  * [NET 9.0](https://github.com/dotnet/runtime) is a cross-platform runtime for desktop, mobile & web applications.
+  * [SDL 3.0](https://github.com/libsdl-org/SDL) is a simple direct media abstraction layer.
 
 
 <h2 id="contributions">🫂 Contributions</h2>
