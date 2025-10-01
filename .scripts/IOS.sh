@@ -61,19 +61,14 @@ IMAGE()
   rm -rf "$BUILDPATH"
   mkdir -p "$BUILDPATH"
 
-  SDL_BUILD="$MODULES_DIR/SDL/build-$RID"
-  SDL_FRAMEWORK="$SDL_BUILD/SDL3.framework"
-  SDL_INCLUDE="$SDL_FRAMEWORK/Headers"
-
   xcodebuild \
     -project "$MODULES_DIR/$MODULE/Xcode/SDL_image.xcodeproj" \
     -scheme SDL3_image \
     -configuration Release \
     -destination "generic/platform=$ARCH" \
     CONFIGURATION_BUILD_DIR="$BUILDPATH" \
-    FRAMEWORK_SEARCH_PATHS="$SDL_BUILD" \
-    HEADER_SEARCH_PATHS="$SDL_INCLUDE" \
-    IPHONEOS_DEPLOYMENT_TARGET=13.0
+    IPHONEOS_DEPLOYMENT_TARGET=13.0 \
+    BUILD_DIR="$BUILDPATH"
 }
 
 MIXER()
@@ -89,19 +84,14 @@ MIXER()
   rm -rf "$BUILDPATH"
   mkdir -p "$BUILDPATH"
 
-  SDL_BUILD="$MODULES_DIR/SDL/build-$RID"
-  SDL_FRAMEWORK="$SDL_BUILD/SDL3.framework"
-  SDL_INCLUDE="$SDL_FRAMEWORK/Headers"
-
   xcodebuild \
     -project "$MODULES_DIR/$MODULE/Xcode/SDL_mixer.xcodeproj" \
     -scheme SDL3_mixer \
     -configuration Release \
     -destination "generic/platform=$ARCH" \
     CONFIGURATION_BUILD_DIR="$BUILDPATH" \
-    FRAMEWORK_SEARCH_PATHS="$SDL_BUILD" \
-    HEADER_SEARCH_PATHS="$SDL_INCLUDE" \
-    IPHONEOS_DEPLOYMENT_TARGET=13.0
+    IPHONEOS_DEPLOYMENT_TARGET=13.0 \
+    BUILD_DIR="$BUILDPATH"
 }
 
 TTF()
@@ -117,19 +107,14 @@ TTF()
   rm -rf "$BUILDPATH"
   mkdir -p "$BUILDPATH"
 
-  SDL_BUILD="$MODULES_DIR/SDL/build-$RID"
-  SDL_FRAMEWORK="$SDL_BUILD/SDL3.framework"
-  SDL_INCLUDE="$SDL_FRAMEWORK/Headers"
-
   xcodebuild \
     -project "$MODULES_DIR/$MODULE/Xcode/SDL_ttf.xcodeproj" \
     -scheme SDL3_ttf \
     -configuration Release \
     -destination "generic/platform=$ARCH" \
     CONFIGURATION_BUILD_DIR="$BUILDPATH" \
-    FRAMEWORK_SEARCH_PATHS="$SDL_BUILD" \
-    HEADER_SEARCH_PATHS="$SDL_INCLUDE" \
-    IPHONEOS_DEPLOYMENT_TARGET=13.0
+    IPHONEOS_DEPLOYMENT_TARGET=13.0 \
+    BUILD_DIR="$BUILDPATH"
 }
 
 COMPLETE()
