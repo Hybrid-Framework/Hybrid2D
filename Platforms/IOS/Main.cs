@@ -7,27 +7,27 @@ public static class Program
 {
     public static void Main(string[] args)
     {
-        var assembly = typeof(Hybrid.SDL2.SDL).Assembly;
+        var assembly = typeof(SDL3.SDL).Assembly;
 
         NativeLibrary.SetDllImportResolver(assembly, (library, asm, path) =>
         {
             return library switch
             {
-                "IMAGE" => NativeLibrary.Load("@rpath/IMAGE.framework/IMAGE", asm, path),
-                "MIXER" => NativeLibrary.Load("@rpath/MIXER.framework/MIXER", asm, path),
-                "SDL2" => NativeLibrary.Load("@rpath/SDL2.framework/SDL2", asm, path),
-                "TTF" => NativeLibrary.Load("@rpath/TTF.framework/TTF", asm, path),
+                "SDL3_image" => NativeLibrary.Load("@rpath/SDL3_image.framework/SDL3_image", asm, path),
+                "SDL3_mixer" => NativeLibrary.Load("@rpath/SDL3_mixer.framework/SDL3_mixer", asm, path),
+                "SDL3_ttf" => NativeLibrary.Load("@rpath/SDL3_ttf.framework/SDL3_ttf", asm, path),
+                "SDL3" => NativeLibrary.Load("@rpath/SDL3.framework/SDL3", asm, path),
                 _ => IntPtr.Zero
             };
         });
 
-        // Hybrid.SDL2.SDL.SDL_main_func entry = Entry;
-        // Hybrid.SDL2.SDL.SDL_UIKitRunApp(0, IntPtr.Zero, entry);
+        SDL3.SDL.SDL_main_func entry = Entry;
+        SDL3.SDL.SDL_RunApp(0, IntPtr.Zero, entry, IntPtr.Zero);
     }
 
     private static int Entry(int argc, IntPtr argv)
     {
-        Platform.Create(new PlatformIOS(new Game()));
+        Platform.Create(new PlatformIOS(new TestIMAGE()));
         Platform.Current.Run();
         return 0;
     }

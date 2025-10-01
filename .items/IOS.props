@@ -17,10 +17,10 @@
     
 <!-- Natives -->
     <ItemGroup>
-        <NativeReference Include="..\..\Natives\IOS\SDL2.xcframework"/>
-        <NativeReference Include="..\..\Natives\IOS\IMAGE.xcframework"/>
-        <NativeReference Include="..\..\Natives\IOS\MIXER.xcframework"/>
-        <NativeReference Include="..\..\Natives\IOS\TTF.xcframework"/>
+        <NativeReference Include="..\..\Natives\IOS\SDL3.xcframework"/>
+        <NativeReference Include="..\..\Natives\IOS\SDL3_image.xcframework"/>
+        <NativeReference Include="..\..\Natives\IOS\SDL3_mixer.xcframework"/>
+        <NativeReference Include="..\..\Natives\IOS\SDL3_ttf.xcframework"/>
     </ItemGroup>
 
 </Project>

@@ -1,5 +1,16 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -e
+
+cleanup()
+{
+    local exit_code=$?
+    if [ $exit_code -ne 0 ]; then
+        echo "Script failed with exit code $exit_code."
+        read -p "Press Enter to exit."
+    fi
+}
+
+trap cleanup EXIT
 
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MODULES_DIR="$BASE_DIR/Dependencies/Modules"
@@ -7,186 +18,158 @@ DEPENDENCIES_DIR="$BASE_DIR/Dependencies"
 source "$DEPENDENCIES_DIR/Methods.sh"
 
 PLATFORM="IOS"
-ARCHS=("arm64" "x86_64" "arm64")
-SDKS=("iphoneos" "iphonesimulator" "iphonesimulator")
-RIDS=("ios-arm64" "iossimulator-x64" "iossimulator-arm64")
-MODULES=("SDL2" "IMAGE" "MIXER" "TTF")
-IOS_DEPLOYMENT_TARGET=13.0
+ARCHS=("iOS" "iOS Simulator")
+RIDS=("ios" "ios-simulator")
+MODULES=("SDL" "IMAGE" "MIXER" "TTF")
 
 NATIVES_DIR="$BASE_DIR/../Natives/$PLATFORM"
 rm -rf "$NATIVES_DIR"
 
-SDL2()
+SDL()
 {
   local INDEX="$1"
   local ARCH="${ARCHS[$INDEX]}"
-  local SDK="${SDKS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
 
-  Install "$MODULE" "https://github.com/libsdl-org/SDL.git" "release-2.32.10"
+  Install "$MODULE" "https://github.com/libsdl-org/SDL.git" ""
 
   cd "$MODULES_DIR/$MODULE" || exit
-  BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$RID"
+  BUILDPATH="$MODULES_DIR/$MODULE/build-$RID"
   rm -rf "$BUILDPATH"
   mkdir -p "$BUILDPATH"
 
   xcodebuild \
     -project "$MODULES_DIR/$MODULE/Xcode/SDL/SDL.xcodeproj" \
-    -scheme "Framework-iOS" \
+    -scheme SDL3 \
     -configuration Release \
-    -arch "$ARCH" \
-    -sdk "$SDK" \
-    IPHONEOS_DEPLOYMENT_TARGET=$IOS_DEPLOYMENT_TARGET \
-    CONFIGURATION_BUILD_DIR="$BUILDPATH"
+    -destination "generic/platform=$ARCH" \
+    CONFIGURATION_BUILD_DIR="$BUILDPATH" \
+    IPHONEOS_DEPLOYMENT_TARGET=13.0 \
+    BUILD_DIR="$BUILDPATH"
 }
 
 IMAGE()
 {
   local INDEX="$1"
   local ARCH="${ARCHS[$INDEX]}"
-  local SDK="${SDKS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
 
-  Install "$MODULE" "https://github.com/libsdl-org/SDL_image.git" "release-2.8.8"
+  Install "$MODULE" "https://github.com/libsdl-org/SDL_image.git" ""
 
   cd "$MODULES_DIR/$MODULE" || exit
-  BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$RID"
+  BUILDPATH="$MODULES_DIR/$MODULE/build-$RID"
   rm -rf "$BUILDPATH"
   mkdir -p "$BUILDPATH"
 
-  SDL_BUILD="$MODULES_DIR/SDL2/build_$PLATFORM-$RID"
-  SDL_FRAMEWORK="$SDL_BUILD/SDL2.framework"
+  SDL_BUILD="$MODULES_DIR/SDL/build-$RID"
+  SDL_FRAMEWORK="$SDL_BUILD/SDL3.framework"
   SDL_INCLUDE="$SDL_FRAMEWORK/Headers"
 
   xcodebuild \
     -project "$MODULES_DIR/$MODULE/Xcode/SDL_image.xcodeproj" \
-    -scheme "Framework" \
+    -scheme SDL3_image \
     -configuration Release \
-    -arch "$ARCH" \
-    -sdk "$SDK" \
-    IPHONEOS_DEPLOYMENT_TARGET=$IOS_DEPLOYMENT_TARGET \
+    -destination "generic/platform=$ARCH" \
     CONFIGURATION_BUILD_DIR="$BUILDPATH" \
+    FRAMEWORK_SEARCH_PATHS="$SDL_BUILD" \
     HEADER_SEARCH_PATHS="$SDL_INCLUDE" \
-    FRAMEWORK_SEARCH_PATHS="$SDL_BUILD"
-    
-  # Update Internals
-  local FRAMEWORK="$BUILDPATH/SDL2_image.framework"
-  plutil -replace CFBundleName -string "IMAGE" "$FRAMEWORK/Info.plist"
-  plutil -replace CFBundleExecutable -string "IMAGE" "$FRAMEWORK/Info.plist"
-  install_name_tool -change "@rpath/SDL2_image.framework/SDL2_image" "@rpath/IMAGE.framework/IMAGE" "$FRAMEWORK/SDL2_image"
-  install_name_tool -id "@rpath/IMAGE.framework/IMAGE" "$FRAMEWORK/SDL2_image"
-  Rename "$FRAMEWORK/SDL2_image" "$FRAMEWORK/IMAGE"
-  Rename "$FRAMEWORK" "$BUILDPATH/IMAGE.framework"
+    IPHONEOS_DEPLOYMENT_TARGET=13.0
 }
 
 MIXER()
 {
   local INDEX="$1"
   local ARCH="${ARCHS[$INDEX]}"
-  local SDK="${SDKS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
 
-  Install "$MODULE" "https://github.com/libsdl-org/SDL_mixer.git" "release-2.8.1"
+  Install "$MODULE" "https://github.com/libsdl-org/SDL_mixer.git" ""
 
   cd "$MODULES_DIR/$MODULE" || exit
-  BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$RID"
+  BUILDPATH="$MODULES_DIR/$MODULE/build-$RID"
   rm -rf "$BUILDPATH"
   mkdir -p "$BUILDPATH"
 
-  SDL_BUILD="$MODULES_DIR/SDL2/build_$PLATFORM-$RID"
-  SDL_FRAMEWORK="$SDL_BUILD/SDL2.framework"
+  SDL_BUILD="$MODULES_DIR/SDL/build-$RID"
+  SDL_FRAMEWORK="$SDL_BUILD/SDL3.framework"
   SDL_INCLUDE="$SDL_FRAMEWORK/Headers"
 
   xcodebuild \
     -project "$MODULES_DIR/$MODULE/Xcode/SDL_mixer.xcodeproj" \
-    -scheme "Framework" \
+    -scheme SDL3_mixer \
     -configuration Release \
-    -arch "$ARCH" \
-    -sdk "$SDK" \
-    IPHONEOS_DEPLOYMENT_TARGET=$IOS_DEPLOYMENT_TARGET \
+    -destination "generic/platform=$ARCH" \
     CONFIGURATION_BUILD_DIR="$BUILDPATH" \
+    FRAMEWORK_SEARCH_PATHS="$SDL_BUILD" \
     HEADER_SEARCH_PATHS="$SDL_INCLUDE" \
-    FRAMEWORK_SEARCH_PATHS="$SDL_BUILD"
-    
-  # Update Internals
-  local FRAMEWORK="$BUILDPATH/SDL2_mixer.framework"
-  plutil -replace CFBundleName -string "MIXER" "$FRAMEWORK/Info.plist"
-  plutil -replace CFBundleExecutable -string "MIXER" "$FRAMEWORK/Info.plist"
-  install_name_tool -change "@rpath/SDL2_mixer.framework/SDL2_mixer" "@rpath/MIXER.framework/MIXER" "$FRAMEWORK/SDL2_mixer"
-  install_name_tool -id "@rpath/MIXER.framework/MIXER" "$FRAMEWORK/SDL2_mixer"
-  Rename "$FRAMEWORK/SDL2_mixer" "$FRAMEWORK/MIXER"
-  Rename "$FRAMEWORK" "$BUILDPATH/MIXER.framework"
+    IPHONEOS_DEPLOYMENT_TARGET=13.0
 }
 
 TTF()
 {
   local INDEX="$1"
   local ARCH="${ARCHS[$INDEX]}"
-  local SDK="${SDKS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
 
-  Install "$MODULE" "https://github.com/libsdl-org/SDL_ttf.git" "release-2.24.0"
+  Install "$MODULE" "https://github.com/libsdl-org/SDL_ttf.git" ""
 
   cd "$MODULES_DIR/$MODULE" || exit
-  BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$RID"
+  BUILDPATH="$MODULES_DIR/$MODULE/build-$RID"
   rm -rf "$BUILDPATH"
   mkdir -p "$BUILDPATH"
 
-  SDL_BUILD="$MODULES_DIR/SDL2/build_$PLATFORM-$RID"
-  SDL_FRAMEWORK="$SDL_BUILD/SDL2.framework"
+  SDL_BUILD="$MODULES_DIR/SDL/build-$RID"
+  SDL_FRAMEWORK="$SDL_BUILD/SDL3.framework"
   SDL_INCLUDE="$SDL_FRAMEWORK/Headers"
 
   xcodebuild \
     -project "$MODULES_DIR/$MODULE/Xcode/SDL_ttf.xcodeproj" \
-    -scheme "Framework" \
+    -scheme SDL3_ttf \
     -configuration Release \
-    -arch "$ARCH" \
-    -sdk "$SDK" \
-    IPHONEOS_DEPLOYMENT_TARGET=$IOS_DEPLOYMENT_TARGET \
+    -destination "generic/platform=$ARCH" \
     CONFIGURATION_BUILD_DIR="$BUILDPATH" \
+    FRAMEWORK_SEARCH_PATHS="$SDL_BUILD" \
     HEADER_SEARCH_PATHS="$SDL_INCLUDE" \
-    FRAMEWORK_SEARCH_PATHS="$SDL_BUILD"
-    
-  # Update Internals
-  local FRAMEWORK="$BUILDPATH/SDL2_ttf.framework"
-  plutil -replace CFBundleName -string "TTF" "$FRAMEWORK/Info.plist"
-  plutil -replace CFBundleExecutable -string "TTF" "$FRAMEWORK/Info.plist"
-  install_name_tool -change "@rpath/SDL2_ttf.framework/SDL2_ttf" "@rpath/TTF.framework/TTF" "$FRAMEWORK/SDL2_ttf"
-  install_name_tool -id "@rpath/TTF.framework/TTF" "$FRAMEWORK/SDL2_ttf"
-  Rename "$FRAMEWORK/SDL2_ttf" "$FRAMEWORK/TTF"
-  Rename "$FRAMEWORK" "$BUILDPATH/TTF.framework"
+    IPHONEOS_DEPLOYMENT_TARGET=13.0
 }
 
 COMPLETE()
 {
-  echo "Building Frameworks"
+  # Merge SDL
+  xcodebuild -create-xcframework \
+    -framework "$MODULES_DIR/SDL/build-ios/SDL3.framework" \
+    -framework "$MODULES_DIR/SDL/build-ios-simulator/SDL3.framework" \
+    -output "$NATIVES_DIR/SDL3.xcframework"
+    
+  find "$NATIVES_DIR/SDL3.xcframework" -type f ! -name "Info.plist" ! -name "SDL3" -exec rm -f "{}" \;
+  find "$NATIVES_DIR/SDL3.xcframework" -type d -empty -delete
   
-  for MODULE in "${MODULES[@]}"; do
+  # Merge SDL Image
+  xcodebuild -create-xcframework \
+    -framework "$MODULES_DIR/IMAGE/build-ios/SDL3_image.framework" \
+    -framework "$MODULES_DIR/IMAGE/build-ios-simulator/SDL3_image.framework" \
+    -output "$NATIVES_DIR/SDL3_image.xcframework"
+  
+  find "$NATIVES_DIR/SDL3_image.xcframework" -type f ! -name "Info.plist" ! -name "SDL3_image" -exec rm -f "{}" \;
+  find "$NATIVES_DIR/SDL3_image.xcframework" -type d -empty -delete
+  
+  # Merge SDL Mixer
+  xcodebuild -create-xcframework \
+    -framework "$MODULES_DIR/MIXER/build-ios/SDL3_mixer.framework" \
+    -framework "$MODULES_DIR/MIXER/build-ios-simulator/SDL3_mixer.framework" \
+    -output "$NATIVES_DIR/SDL3_mixer.xcframework"
+  
+  find "$NATIVES_DIR/SDL3_mixer.xcframework" -type f ! -name "Info.plist" ! -name "SDL3_mixer" -exec rm -f "{}" \;
+  find "$NATIVES_DIR/SDL3_mixer.xcframework" -type d -empty -delete
+  
+  # Merge SDL TTF
+  xcodebuild -create-xcframework \
+    -framework "$MODULES_DIR/TTF/build-ios/SDL3_ttf.framework" \
+    -framework "$MODULES_DIR/TTF/build-ios-simulator/SDL3_ttf.framework" \
+    -output "$NATIVES_DIR/SDL3_ttf.xcframework"
+  
+  find "$NATIVES_DIR/SDL3_ttf.xcframework" -type f ! -name "Info.plist" ! -name "SDL3_ttf" -exec rm -f "{}" \;
+  find "$NATIVES_DIR/SDL3_ttf.xcframework" -type d -empty -delete
     
-    # Create Universal Framework
-    UNIVERSAL_DIR="$MODULES_DIR/$MODULE/build_IOS-iossimulator-universal/$MODULE.framework"
-    mkdir -p "$UNIVERSAL_DIR"
-    cp -R "$MODULES_DIR/$MODULE/build_IOS-iossimulator-arm64/$MODULE.framework/"* "$UNIVERSAL_DIR"
-    
-    lipo -create \
-      "$MODULES_DIR/$MODULE/build_IOS-iossimulator-x64/$MODULE.framework/$MODULE" \
-      "$MODULES_DIR/$MODULE/build_IOS-iossimulator-arm64/$MODULE.framework/$MODULE" \
-      -output "$UNIVERSAL_DIR/$MODULE"
-    
-    # Create xcFramework
-    XCFRAMEWORK="$NATIVES_DIR/$MODULE.xcframework"
-    
-    xcodebuild -create-xcframework \
-      -framework "$MODULES_DIR/$MODULE/build_IOS-ios-arm64/$MODULE.framework" \
-      -framework "$UNIVERSAL_DIR" \
-      -output "$XCFRAMEWORK"
-    
-    # Remove Files
-    find "$XCFRAMEWORK" -type f ! -name "Info.plist" ! -name "$MODULE" -exec rm -f "{}" \;
-    find "$XCFRAMEWORK" -type d -empty -delete
-
-  done
-
   read -p "Build complete."
 }
 
