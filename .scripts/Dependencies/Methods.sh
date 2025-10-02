@@ -31,7 +31,8 @@ Install()
     fi
 }
 
-Transfer() {
+Transfer()
+{
     local SRC_PATTERN="${1:-}"
     local DEST="${2:-}"
 
@@ -40,7 +41,6 @@ Transfer() {
         return 0
     fi
 
-    # Expand wildcard pattern
     shopt -s nullglob
     local FILES=($SRC_PATTERN)
     shopt -u nullglob
@@ -50,7 +50,6 @@ Transfer() {
         return 0
     fi
 
-    # Determine if DEST is a directory (ends with / or exists as a dir) or a file
     local DEST_DIR
     local DEST_FILE
     if [[ -d "$DEST" || "${DEST: -1}" == "/" ]]; then
@@ -64,21 +63,19 @@ Transfer() {
     mkdir -p "$DEST_DIR"
 
     if [[ -n "$DEST_FILE" ]]; then
-        # DEST is a specific file
         echo "Copying ${FILES[0]} → $DEST_DIR/$DEST_FILE"
         cp "${FILES[0]}" "$DEST_DIR/$DEST_FILE"
         if [[ ${#FILES[@]} -gt 1 ]]; then
             echo "Warning: Multiple files match $SRC_PATTERN but only the first was copied to $DEST"
         fi
     else
-        # DEST is a folder, copy all files
         for f in "${FILES[@]}"; do
             if [[ -f "$f" ]]; then
                 echo "Copying file $f → $DEST_DIR/"
                 cp "$f" "$DEST_DIR/"
             elif [[ -d "$f" ]]; then
                 echo "Copying directory $f → $DEST_DIR/"
-                cp -r "$f/." "$DEST_DIR/"
+                cp -r "$f" "$DEST_DIR/"
             fi
         done
     fi

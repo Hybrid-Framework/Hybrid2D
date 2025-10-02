@@ -16,7 +16,7 @@ namespace App
         
         public override void Init()
         {
-            if (!SDL.SDL_Init(SDL.SDL_InitFlags.SDL_INIT_VIDEO | SDL.SDL_InitFlags.SDL_INIT_VIDEO))
+            if (!SDL.SDL_Init(SDL.SDL_InitFlags.SDL_INIT_VIDEO | SDL.SDL_InitFlags.SDL_INIT_AUDIO))
             {
                 throw new Exception($"SDL failed to initialize: {SDL.SDL_GetError()}");
             }
