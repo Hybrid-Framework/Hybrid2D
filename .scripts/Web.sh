@@ -21,7 +21,7 @@ Emscripten()
   local INDEX="$1"
   local VERSION="3.1.56"
 
-  Install "$MODULE" "https://github.com/emscripten-core/emsdk.git" "$VERSION"
+  Github "$MODULE" "https://github.com/emscripten-core/emsdk.git" "$VERSION"
 
   cd "$MODULES_DIR/$MODULE"
   ./emsdk install "$VERSION"
@@ -35,7 +35,7 @@ SDL()
   
   for file in "$DEPENDENCIES_DIR/System/Emscripten/"*.py; do
     [ -e "$file" ] || continue
-    Transfer "$file" "$PORTPATH"
+    cp "$file" "$PORTPATH"
   done
   
   cd "$MODULES_DIR/Emscripten" || exit
@@ -64,7 +64,7 @@ COMPLETE()
   emar x libfreetype.a
   emar rcs TTF.a *.o
   rm -f *.o
-  Transfer "$LIBPATH/TTF.a" "$NATIVES_DIR/TTF.a"
+  cp "$LIBPATH/TTF.a" "$NATIVES_DIR/TTF.a"
   
   # Merge IMAGE
   cd "$LIBPATH" || exit
@@ -75,7 +75,7 @@ COMPLETE()
   emar x libjpeg.a
   emar rcs IMAGE.a *.o
   rm -f *.o
-  Transfer "$LIBPATH/IMAGE.a" "$NATIVES_DIR/IMAGE.a"
+  cp "$LIBPATH/IMAGE.a" "$NATIVES_DIR/IMAGE.a"
   
   # Merge MIXER
   cd "$LIBPATH" || exit
@@ -86,10 +86,10 @@ COMPLETE()
   emar x libogg.a
   emar rcs MIXER.a *.o
   rm -f *.o
-  Transfer "$LIBPATH/MIXER.a" "$NATIVES_DIR/MIXER.a"
+  cp "$LIBPATH/MIXER.a" "$NATIVES_DIR/MIXER.a"
   
   # Merge SDL
-  Transfer "$LIBPATH/libSDL2.a" "$NATIVES_DIR/SDL2.a"
+  cp "$LIBPATH/libSDL2.a" "$NATIVES_DIR/SDL2.a"
   
   read -p "Build complete."
 }

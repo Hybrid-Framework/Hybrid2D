@@ -31,7 +31,7 @@ SDL()
   local ARCH="${ARCHS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
   
-  Install "$MODULE" "https://github.com/libsdl-org/SDL.git" ""
+  Github "$MODULE" "https://github.com/libsdl-org/SDL.git" ""
   
   cd "$MODULES_DIR/$MODULE" || exit
   BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
@@ -49,8 +49,9 @@ SDL()
 
   cmake --build . --config Release
   cmake --install . --config Release
-
-  Transfer "$INSTALLPATH/bin/SDL3.dll" "$NATIVES_DIR/$RID/"
+  
+  mkdir -p "$NATIVES_DIR/$RID"
+  cp "$INSTALLPATH/bin/SDL3.dll" "$NATIVES_DIR/$RID/SDL3.dll"
 }
 
 IMAGE()
@@ -59,7 +60,7 @@ IMAGE()
   local ARCH="${ARCHS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
   
-  Install "$MODULE" "https://github.com/libsdl-org/SDL_image.git" ""
+  Github "$MODULE" "https://github.com/libsdl-org/SDL_image.git" ""
   
   cd "$MODULES_DIR/$MODULE" || exit
   BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
@@ -96,8 +97,9 @@ IMAGE()
 
   cmake --build . --config Release
   cmake --install . --config Release
-
-  Transfer "$INSTALLPATH/bin/SDL3_image.dll" "$NATIVES_DIR/$RID/"
+  
+  mkdir -p "$NATIVES_DIR/$RID"
+  cp "$INSTALLPATH/bin/SDL3_image.dll" "$NATIVES_DIR/$RID/SDL3_image.dll"
 }
 
 MIXER()
@@ -106,7 +108,7 @@ MIXER()
   local ARCH="${ARCHS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
   
-  Install "$MODULE" "https://github.com/libsdl-org/SDL_mixer.git" ""
+  Github "$MODULE" "https://github.com/libsdl-org/SDL_mixer.git" ""
   
   cd "$MODULES_DIR/$MODULE" || exit
   BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
@@ -143,8 +145,9 @@ MIXER()
 
   cmake --build . --config Release
   cmake --install . --config Release
-
-  Transfer "$INSTALLPATH/bin/SDL3_mixer.dll" "$NATIVES_DIR/$RID/"
+  
+  mkdir -p "$NATIVES_DIR/$RID"
+  cp "$INSTALLPATH/bin/SDL3_mixer.dll" "$NATIVES_DIR/$RID/SDL3_mixer.dll"
 }
 
 TTF()
@@ -153,7 +156,7 @@ TTF()
   local ARCH="${ARCHS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
   
-  Install "$MODULE" "https://github.com/libsdl-org/SDL_ttf.git" ""
+  Github "$MODULE" "https://github.com/libsdl-org/SDL_ttf.git" ""
   
   cd "$MODULES_DIR/$MODULE" || exit
   BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
@@ -174,8 +177,9 @@ TTF()
 
   cmake --build . --config Release
   cmake --install . --config Release
-
-  Transfer "$INSTALLPATH/bin/SDL3_ttf.dll" "$NATIVES_DIR/$RID/"
+  
+  mkdir -p "$NATIVES_DIR/$RID"
+  cp "$INSTALLPATH/bin/SDL3_ttf.dll" "$NATIVES_DIR/$RID/SDL3_ttf.dll"
 }
 
 COMPLETE()

@@ -32,7 +32,7 @@ SDL()
   local ARCH="${ARCHS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
   
-  Install "$MODULE" "https://github.com/libsdl-org/SDL.git" ""
+  Github "$MODULE" "https://github.com/libsdl-org/SDL.git" ""
   
   cd "$MODULES_DIR/$MODULE" || exit
   BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
@@ -54,8 +54,9 @@ SDL()
 
   cmake --build . --config Release
   cmake --install . --config Release
-
-  Transfer "$INSTALLPATH/lib/libSDL3.so" "$NATIVES_DIR/$RID/"
+  
+  mkdir -p "$NATIVES_DIR/$RID"
+  cp "$INSTALLPATH/lib/libSDL3.so" "$NATIVES_DIR/$RID/libSDL3.so"
 }
 
 IMAGE()
@@ -64,7 +65,7 @@ IMAGE()
   local ARCH="${ARCHS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
   
-  Install "$MODULE" "https://github.com/libsdl-org/SDL_image.git" ""
+  Github "$MODULE" "https://github.com/libsdl-org/SDL_image.git" ""
   
   cd "$MODULES_DIR/$MODULE" || exit
   BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
@@ -104,8 +105,9 @@ IMAGE()
 
   cmake --build . --config Release
   cmake --install . --config Release
-
-  Transfer "$INSTALLPATH/lib/libSDL3_image.so" "$NATIVES_DIR/$RID/"
+  
+  mkdir -p "$NATIVES_DIR/$RID"
+  cp "$INSTALLPATH/lib/libSDL3_image.so" "$NATIVES_DIR/$RID/libSDL3_image.so"
 }
 
 MIXER()
@@ -114,7 +116,7 @@ MIXER()
   local ARCH="${ARCHS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
   
-  Install "$MODULE" "https://github.com/libsdl-org/SDL_mixer.git" ""
+  Github "$MODULE" "https://github.com/libsdl-org/SDL_mixer.git" ""
   
   cd "$MODULES_DIR/$MODULE" || exit
   BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
@@ -154,8 +156,9 @@ MIXER()
 
   cmake --build . --config Release
   cmake --install . --config Release
-
-  Transfer "$INSTALLPATH/lib/libSDL3_mixer.so" "$NATIVES_DIR/$RID/"
+  
+  mkdir -p "$NATIVES_DIR/$RID"
+  cp "$INSTALLPATH/lib/libSDL3_mixer.so" "$NATIVES_DIR/$RID/libSDL3_mixer.so"
 }
 
 TTF()
@@ -164,7 +167,7 @@ TTF()
   local ARCH="${ARCHS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
   
-  Install "$MODULE" "https://github.com/libsdl-org/SDL_ttf.git" ""
+  Github "$MODULE" "https://github.com/libsdl-org/SDL_ttf.git" ""
   
   cd "$MODULES_DIR/$MODULE" || exit
   BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
@@ -188,8 +191,9 @@ TTF()
 
   cmake --build . --config Release
   cmake --install . --config Release
-
-  Transfer "$INSTALLPATH/lib/libSDL3_ttf.so" "$NATIVES_DIR/$RID/"
+  
+  mkdir -p "$NATIVES_DIR/$RID"
+  cp "$INSTALLPATH/lib/libSDL3_ttf.so" "$NATIVES_DIR/$RID/libSDL3_ttf.so"
 }
 
 COMPLETE()
@@ -201,6 +205,7 @@ COMPLETE()
   local ANDROID_JAR="$HOME/AppData/Local/Android/Sdk/platforms/android-36/android.jar"
   cd "$JAVA_DIR" || exit 1
   mkdir -p out
+  
   JAVA_FILES=$(find . -name "*.java")
   javac -source 1.8 -target 1.8 -classpath "$ANDROID_JAR" -d out $JAVA_FILES
   jar cf SDLActivity.jar -C out .
@@ -208,8 +213,8 @@ COMPLETE()
 
   rm -rf "$JAR_DIR"
   mkdir -p "$JAR_DIR"
-  Transfer "$JAVA_DIR/SDLActivity.jar" "$JAR_DIR"
   
+  cp "$JAVA_DIR/SDLActivity.jar" "$JAR_DIR/SDLActivity.jar"
   read -p "Build complete."
 }
 
