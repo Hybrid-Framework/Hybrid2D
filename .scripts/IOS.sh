@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -e
 
+# This build script currently requires ALL simulator types to be installed
+# It would be better if we could selectively only build IOS & Simulators
+# We can set this up however it would complicate the build script
+# This is scheduled to be fixed by SDL in version 3.4.0
+
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MODULES_DIR="$BASE_DIR/Dependencies/Modules"
 DEPENDENCIES_DIR="$BASE_DIR/Dependencies"
