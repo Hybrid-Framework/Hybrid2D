@@ -1,17 +1,6 @@
 #!/usr/bin/env bash
 set -e
 
-cleanup()
-{
-    local exit_code=$?
-    if [ $exit_code -ne 0 ]; then
-        echo "Script failed with exit code $exit_code."
-        read -p "Press Enter to exit."
-    fi
-}
-
-trap cleanup EXIT
-
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MODULES_DIR="$BASE_DIR/Dependencies/Modules"
 DEPENDENCIES_DIR="$BASE_DIR/Dependencies"
@@ -20,23 +9,14 @@ source "$DEPENDENCIES_DIR/Methods.sh"
 PLATFORM="IOS"
 ARCHS=("IOS")
 RIDS=("ios-arm64" "ios-arm64_x86_64-simulator")
-MODULES=()
+MODULES=("SDL" "IMAGE" "MIXER" "TTF")
 
 NATIVES_DIR="$BASE_DIR/../Natives/$PLATFORM"
 rm -rf "$NATIVES_DIR"
 
 SDL()
 {
-  local INDEX="$1"
-  local ARCH="${ARCHS[$INDEX]}"
-
-  Install "$MODULE" "https://github.com/libsdl-org/SDL.git" ""
-  
-  cd "$MODULES_DIR/$MODULE" || exit
-  BUILDPATH="$MODULES_DIR/$MODULE/build_$ARCH"
-  rm -rf "$BUILDPATH"
-  mkdir -p "$BUILDPATH"
-  cd "$BUILDPATH" || exit
+  Install "$MODULE" "https://github.com/libsdl-org/SDL.git" "4efdfd92a24ff3bbe6780666189000bf5d84ed30"
   
   xcodebuild \
     -project "$MODULES_DIR/SDL/Xcode/SDL/SDL.xcodeproj" \
@@ -46,17 +26,7 @@ SDL()
 
 IMAGE()
 {
-  local INDEX="$1"
-  local ARCH="${ARCHS[$INDEX]}"
-  local RID="${RIDS[$INDEX]}"
-
-  Install "$MODULE" "https://github.com/libsdl-org/SDL_image.git" ""
-  
-  cd "$MODULES_DIR/$MODULE" || exit
-  BUILDPATH="$MODULES_DIR/$MODULE/build_$ARCH"
-  rm -rf "$BUILDPATH"
-  mkdir -p "$BUILDPATH"
-  cd "$BUILDPATH" || exit
+  Install "$MODULE" "https://github.com/libsdl-org/SDL_image.git" "e47ff6fa4e9092eec66c1b95118be0fa574c7933"
   
   xcodebuild \
     -project "$MODULES_DIR/IMAGE/Xcode/SDL_image.xcodeproj" \
@@ -66,17 +36,7 @@ IMAGE()
 
 MIXER()
 {
-  local INDEX="$1"
-  local ARCH="${ARCHS[$INDEX]}"
-  local RID="${RIDS[$INDEX]}"
-
-  Install "$MODULE" "https://github.com/libsdl-org/SDL_mixer.git" ""
-  
-  cd "$MODULES_DIR/$MODULE" || exit
-  BUILDPATH="$MODULES_DIR/$MODULE/build_$ARCH"
-  rm -rf "$BUILDPATH"
-  mkdir -p "$BUILDPATH"
-  cd "$BUILDPATH" || exit
+  Install "$MODULE" "https://github.com/libsdl-org/SDL_mixer.git" "172997758bb69c9217a2caec57bd9450d86dc558"
   
   xcodebuild \
     -project "$MODULES_DIR/MIXER/Xcode/SDL_mixer.xcodeproj" \
@@ -86,17 +46,7 @@ MIXER()
 
 TTF()
 {
-  local INDEX="$1"
-  local ARCH="${ARCHS[$INDEX]}"
-  local RID="${RIDS[$INDEX]}"
-
-  Install "$MODULE" "https://github.com/libsdl-org/SDL_ttf.git" ""
-  
-  cd "$MODULES_DIR/$MODULE" || exit
-  BUILDPATH="$MODULES_DIR/$MODULE/build_$ARCH"
-  rm -rf "$BUILDPATH"
-  mkdir -p "$BUILDPATH"
-  cd "$BUILDPATH" || exit
+  Install "$MODULE" "https://github.com/libsdl-org/SDL_ttf.git" "7285911aea1df44f6522a8c43025a962493c6c24"
   
   xcodebuild \
     -project "$MODULES_DIR/TTF/Xcode/SDL_ttf.xcodeproj" \
@@ -106,43 +56,24 @@ TTF()
 
 COMPLETE()
 {
-  # SDL3
-  for RID in "${RIDS[@]}"; do
-    mkdir -p "$NATIVES_DIR/SDL3.xcframework/$RID/SDL3.framework"
-    cp "$MODULES_DIR/SDL/Xcode/SDL/build/SDL3.xcframework/$RID/SDL3.framework/SDL3" "$NATIVES_DIR/SDL3.xcframework/$RID/SDL3.framework/SDL3"
-    cp "$MODULES_DIR/SDL/Xcode/SDL/build/SDL3.xcframework/$RID/SDL3.framework/Info.plist" "$NATIVES_DIR/SDL3.xcframework/$RID/SDL3.framework/Info.plist"
-  done
+  CreateFramework()
+  {
+    local Location="$1"
+    local Framework="$2"
+    
+    for RID in "${RIDS[@]}"; do
+      mkdir -p "$NATIVES_DIR/$Framework.xcframework/$RID/$Framework.framework"
+      cp "$Location/$Framework.xcframework/$RID/$Framework.framework/$Framework" "$NATIVES_DIR/$Framework.xcframework/$RID/$Framework.framework/$Framework"
+      cp "$Location/$Framework.xcframework/$RID/$Framework.framework/Info.plist" "$NATIVES_DIR/$Framework.xcframework/$RID/$Framework.framework/Info.plist"
+      cp "$Location/$Framework.xcframework/Info.plist" "$NATIVES_DIR/$Framework.xcframework/Info.plist"
+    done
+  }
   
-  cp "$MODULES_DIR/SDL/Xcode/SDL/build/SDL3.xcframework/Info.plist" "$NATIVES_DIR/SDL3.xcframework/Info.plist"
-  
-  # IMAGE
-  for RID in "${RIDS[@]}"; do
-    mkdir -p "$NATIVES_DIR/SDL3_image.xcframework/$RID/SDL3_image.framework"
-    cp "$MODULES_DIR/IMAGE/Xcode/build/SDL3_image.xcframework/$RID/SDL3_image.framework/SDL3_image" "$NATIVES_DIR/SDL3_image.xcframework/$RID/SDL3_image.framework/SDL3_image"
-    cp "$MODULES_DIR/IMAGE/Xcode/build/SDL3_image.xcframework/$RID/SDL3_image.framework/Info.plist" "$NATIVES_DIR/SDL3_image.xcframework/$RID/SDL3_image.framework/Info.plist"
-  done
-  
-  cp "$MODULES_DIR/IMAGE/Xcode/build/SDL3_image.xcframework/Info.plist" "$NATIVES_DIR/SDL3_image.xcframework/Info.plist"
-  
-  # MIXER
-  for RID in "${RIDS[@]}"; do
-    mkdir -p "$NATIVES_DIR/SDL3_mixer.xcframework/$RID/SDL3_mixer.framework"
-    cp "$MODULES_DIR/MIXER/Xcode/build/SDL3_mixer.xcframework/$RID/SDL3_mixer.framework/SDL3_mixer" "$NATIVES_DIR/SDL3_mixer.xcframework/$RID/SDL3_mixer.framework/SDL3_mixer"
-    cp "$MODULES_DIR/MIXER/Xcode/build/SDL3_mixer.xcframework/$RID/SDL3_mixer.framework/Info.plist" "$NATIVES_DIR/SDL3_mixer.xcframework/$RID/SDL3_mixer.framework/Info.plist"
-  done
-  
-  cp "$MODULES_DIR/MIXER/Xcode/build/SDL3_mixer.xcframework/Info.plist" "$NATIVES_DIR/SDL3_mixer.xcframework/Info.plist"
-  
-  # TTF
-  for RID in "${RIDS[@]}"; do
-    mkdir -p "$NATIVES_DIR/SDL3_ttf.xcframework/$RID/SDL3_ttf.framework"
-    cp "$MODULES_DIR/TTF/Xcode/build/SDL3_ttf.xcframework/$RID/SDL3_ttf.framework/SDL3_ttf" "$NATIVES_DIR/SDL3_ttf.xcframework/$RID/SDL3_ttf.framework/SDL3_ttf"
-    cp "$MODULES_DIR/TTF/Xcode/build/SDL3_ttf.xcframework/$RID/SDL3_ttf.framework/Info.plist" "$NATIVES_DIR/SDL3_ttf.xcframework/$RID/SDL3_ttf.framework/Info.plist"
-  done
-  
-  cp "$MODULES_DIR/TTF/Xcode/build/SDL3_ttf.xcframework/Info.plist" "$NATIVES_DIR/SDL3_ttf.xcframework/Info.plist"
-  
-  # Complete
+  CreateFramework "$MODULES_DIR/SDL/Xcode/SDL/build" "SDL3"
+  CreateFramework "$MODULES_DIR/IMAGE/Xcode/build" "SDL3_image"
+  CreateFramework "$MODULES_DIR/MIXER/Xcode/build" "SDL3_mixer"
+  CreateFramework "$MODULES_DIR/TTF/Xcode/build" "SDL3_ttf"
+
   read -p "Build complete."
 }
 
