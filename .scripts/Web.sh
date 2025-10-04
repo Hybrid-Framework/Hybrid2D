@@ -1,5 +1,16 @@
 #!/usr/bin/env bash
-set +e
+set -e
+
+cleanup()
+{
+    local exit_code=$?
+    if [ $exit_code -ne 0 ]; then
+        echo "Script failed with exit code $exit_code."
+        read -p "Press Enter to exit."
+    fi
+}
+
+trap cleanup EXIT
 
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MODULES_DIR="$BASE_DIR/Dependencies/Modules"
@@ -11,8 +22,6 @@ RIDS=("Emscripten")
 ARCHS=("Emscripten")
 MODULES=("Emscripten" "SDL")
 
-LIBPATH="$MODULES_DIR/Emscripten/build_$PLATFORM/sysroot/lib/wasm32-emscripten"
-PORTPATH="$MODULES_DIR/Emscripten/upstream/emscripten/tools/ports"
 NATIVES_DIR="$BASE_DIR/../Natives/$PLATFORM"
 rm -rf "$NATIVES_DIR"
 
@@ -33,63 +42,47 @@ SDL()
 {
   local INDEX="$1"
   
-  for file in "$DEPENDENCIES_DIR/System/Emscripten/"*.py; do
-    [ -e "$file" ] || continue
-    cp "$file" "$PORTPATH"
-  done
+  Github "$MODULE" "https://github.com/libsdl-org/SDL.git" "4efdfd92a24ff3bbe6780666189000bf5d84ed30"
   
-  cd "$MODULES_DIR/Emscripten" || exit
-  BUILDPATH="$MODULES_DIR/Emscripten/build_$PLATFORM"
-  rm -rf "$BUILDPATH"
-  mkdir -p "$BUILDPATH"
+  cd "$MODULES_DIR/$MODULE" || exit
+  BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM"
+  INSTALLPATH="$MODULES_DIR/$MODULE/install_$PLATFORM"
+  rm -rf "$BUILDPATH" "$INSTALLPATH"
+  mkdir -p "$BUILDPATH" "$INSTALLPATH"
   cd "$BUILDPATH" || exit
   
-  export EM_CACHE="$BUILDPATH"
-  echo 'int main() { return 0; }' > test.c
+  emcmake cmake .. -G Ninja \
+    -DSDL_STATIC=ON \
+    -DSDL_SHARED=OFF \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX="$INSTALLPATH"
   
-  emcc test.c \
-    -s USE_SDL=2 \
-    -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='["png","jpg","bmp"]' \
-    -s USE_SDL_MIXER=2 -s SDL2_MIXER_FORMATS='["ogg","wav","mp3"]' \
-    -s USE_SDL_TTF=2 \
-    -o test.html
+  ninja
+  ninja install
+  
+  mkdir -p "$NATIVES_DIR"
+  cp "$INSTALLPATH/lib/libSDL3.a" "$NATIVES_DIR/SDL3.a"
 }
+
 
 COMPLETE()
 {
-  # Merge TTF
-  cd "$LIBPATH" || exit
-  rm -f TTF.a
-  emar x libSDL2_ttf.a
-  emar x libfreetype.a
-  emar rcs TTF.a *.o
-  rm -f *.o
-  cp "$LIBPATH/TTF.a" "$NATIVES_DIR/TTF.a"
+  LLVMPATH="$MODULES_DIR/Emscripten/upstream/bin/llvm-nm.exe"
   
-  # Merge IMAGE
-  cd "$LIBPATH" || exit
-  rm -f IMAGE.a
-  emar x libSDL2_image_bmp-jpg-png.a
-  emar x libz.a
-  emar x libpng.a
-  emar x libjpeg.a
-  emar rcs IMAGE.a *.o
-  rm -f *.o
-  cp "$LIBPATH/IMAGE.a" "$NATIVES_DIR/IMAGE.a"
-  
-  # Merge MIXER
-  cd "$LIBPATH" || exit
-  rm -f MIXER.a
-  emar x libSDL2_mixer_mp3-ogg-wav.a
-  emar x libmpg123.a
-  emar x libvorbis.a
-  emar x libogg.a
-  emar rcs MIXER.a *.o
-  rm -f *.o
-  cp "$LIBPATH/MIXER.a" "$NATIVES_DIR/MIXER.a"
-  
-  # Merge SDL
-  cp "$LIBPATH/libSDL2.a" "$NATIVES_DIR/SDL2.a"
+  for lib in "$NATIVES_DIR"/*.a; do
+    
+    [ -e "$lib" ] || continue
+
+    symbols=$("$LLVMPATH" "$lib" 2>/dev/null | grep "invoke_" || true)
+
+    if [ -n "$symbols" ]; then
+        echo "❌ $lib"
+        echo "$symbols"
+    else
+        echo "✅ $lib"
+    fi
+    
+  done
   
   read -p "Build complete."
 }

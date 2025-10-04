@@ -14,8 +14,9 @@ public static partial class Program
     {
         if (!Initialized)
         {
-            Platform.Create(new PlatformWeb(new Game()));
             Initialized = true;
+            Console.WriteLine("Initialize");
+            Platform.Create(new PlatformWeb(new TestSDL()));
         }
         
         Platform.Current.Run();

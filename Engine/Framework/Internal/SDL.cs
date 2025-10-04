@@ -2354,9 +2354,14 @@ public static unsafe partial class SDL
 	[UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
 	public static partial IntPtr SDL_GetWindows(out int count);
 
-	[LibraryImport(nativeLibName, StringMarshalling = StringMarshalling.Utf8)]
+	[LibraryImport(nativeLibName, StringMarshalling = StringMarshalling.Utf8, EntryPoint = "SDL_CreateWindow")]
 	[UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-	public static partial IntPtr SDL_CreateWindow(string title, int w, int h, SDL_WindowFlags flags);
+	private static partial IntPtr SDL_CreateWindowInternal(string title, int w, int h, ulong flags);
+
+	public static IntPtr SDL_CreateWindow(string title, int w, int h, SDL_WindowFlags flags)
+	{
+		return SDL_CreateWindowInternal(title, w, h, (ulong)flags);
+	}
 
 	[LibraryImport(nativeLibName)]
 	[UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]

@@ -9,12 +9,7 @@ const config = getConfig();
 const exports = await getAssemblyExports(config.mainAssemblyName);
 const entry = exports.Program.Main;
 
-var playButton = document.getElementById("playButton");
 var canvas = document.getElementById("canvas");
 dotnet.instance.Module.canvas = canvas;
 
-playButton.addEventListener("click", async () =>
-{
-    playButton.style.display = "none";
-    dotnet.instance.Module.setMainLoop(entry);
-});
+dotnet.instance.Module.setMainLoop(entry);
