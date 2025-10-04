@@ -7,9 +7,18 @@ const { setModuleImports, getAssemblyExports, getConfig } = await dotnet
 
 const config = getConfig();
 const exports = await getAssemblyExports(config.mainAssemblyName);
-const entry = exports.Program.Main;
 
 var canvas = document.getElementById("canvas");
 dotnet.instance.Module.canvas = canvas;
+dotnet.instance.Module.print = console.log;
+dotnet.instance.Module.printErr = console.error;
+dotnet.instance.Module.onAbort = (msg) => console.error("Exception:", msg);
 
-dotnet.instance.Module.setMainLoop(entry);
+try
+{
+    dotnet.instance.Module.setMainLoop(exports.Program.Main);
+}
+catch (msg)
+{
+    console.error("Exception:", msg);
+}
