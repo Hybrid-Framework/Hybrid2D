@@ -16,7 +16,7 @@ public static partial class Program
         {
             Initialized = true;
             Console.WriteLine("Initialize");
-            Platform.Create(new PlatformWeb(new TestSDL()));
+            Platform.Create(new PlatformWeb(new TestALL()));
         }
         
         Platform.Current.Run();
