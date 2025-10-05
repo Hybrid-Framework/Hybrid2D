@@ -101,6 +101,7 @@ IMAGE()
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX="$INSTALLPATH" \
     -DCMAKE_C_FLAGS="-fwasm-exceptions -sSUPPORT_LONGJMP=wasm" \
+    -DCMAKE_CXX_FLAGS="-fwasm-exceptions -sSUPPORT_LONGJMP=wasm" \
     -DSDL3_DIR="$MODULES_DIR/SDL/install_$PLATFORM/lib/cmake/SDL3"
 
   ninja
@@ -124,9 +125,9 @@ MIXER()
   cd "$BUILDPATH" || exit
 
   emcmake cmake .. -G Ninja \
+    -DSDLMIXER_WAVE=ON \
     -DSDLMIXER_MP3_DRMP3=ON \
     -DSDLMIXER_VORBIS_STB=ON \
-    -DSDLMIXER_WAVE=ON \
     -DSDLMIXER_VORBIS_VORBISFILE=OFF \
     -DSDLMIXER_VORBIS_TREMOR=OFF \
     -DSDLMIXER_MIDI_TIMIDITY=OFF \
@@ -147,6 +148,7 @@ MIXER()
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX="$INSTALLPATH" \
     -DCMAKE_C_FLAGS="-fwasm-exceptions -sSUPPORT_LONGJMP=wasm" \
+    -DCMAKE_CXX_FLAGS="-fwasm-exceptions -sSUPPORT_LONGJMP=wasm" \
     -DSDL3_DIR="$MODULES_DIR/SDL/install_$PLATFORM/lib/cmake/SDL3"
 
   ninja
@@ -170,13 +172,12 @@ TTF()
   cd "$BUILDPATH" || exit
 
   emcmake cmake .. -G Ninja \
-    -DSDLTTF_HARFBUZZ=OFF \
-    -DSDLTTF_PLUTOSVG=OFF \
     -DSDLTTF_VENDORED=ON \
     -DBUILD_SHARED_LIBS=OFF \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX="$INSTALLPATH" \
     -DCMAKE_C_FLAGS="-fwasm-exceptions -sSUPPORT_LONGJMP=wasm" \
+    -DCMAKE_CXX_FLAGS="-fwasm-exceptions -sSUPPORT_LONGJMP=wasm" \
     -DSDL3_DIR="$MODULES_DIR/SDL/install_$PLATFORM/lib/cmake/SDL3"
   
   ninja
