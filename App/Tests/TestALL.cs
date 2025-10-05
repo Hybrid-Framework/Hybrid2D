@@ -84,7 +84,7 @@ namespace App
             if (bmp == IntPtr.Zero) throw new Exception($"SDL failed load bmp: {SDL.SDL_GetError()}");
             SDL.SDL_SetTextureScaleMode(bmp, SDL.SDL_ScaleMode.SDL_SCALEMODE_NEAREST);
             
-            font = TTF.TTF_OpenFont(FileSystem.LoadAsset("Font.ttf"), 128);
+            font = TTF.TTF_OpenFont(FileSystem.LoadAsset("Font.ttf"), 64);
             if (font == IntPtr.Zero) throw new Exception($"SDL failed to load Font.ttf: {SDL.SDL_GetError()}");
         }
         

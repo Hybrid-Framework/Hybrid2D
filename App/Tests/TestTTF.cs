@@ -36,7 +36,7 @@ namespace App
                 throw new Exception($"SDL failed create renderer: {SDL.SDL_GetError()}");
             }
             
-            font = TTF.TTF_OpenFont(FileSystem.LoadAsset("Font.ttf"), 128);
+            font = TTF.TTF_OpenFont(FileSystem.LoadAsset("Font.ttf"), 64);
             if (font == IntPtr.Zero) throw new Exception($"SDL failed to load Font.ttf: {SDL.SDL_GetError()}");
         }
         
