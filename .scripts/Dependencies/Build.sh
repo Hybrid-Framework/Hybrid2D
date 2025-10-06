@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -e
 
 for MODULE in "${MODULES[@]}"; do
   for i in "${!ARCHS[@]}"; do
