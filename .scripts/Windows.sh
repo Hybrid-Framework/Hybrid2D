@@ -166,8 +166,6 @@ TTF()
   cd "$BUILDPATH" || exit
 
   cmake .. -G "Visual Studio 17 2022" -A $ARCH -Wno-dev \
-    -DSDLTTF_HARFBUZZ=OFF \
-    -DSDLTTF_PLUTOSVG=OFF \
     -DSDLTTF_VENDORED=ON \
     -DBUILD_SHARED_LIBS=ON \
     -DCMAKE_BUILD_TYPE=Release \

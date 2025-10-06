@@ -189,23 +189,6 @@ TTF()
 
 COMPLETE()
 {
-  LLVMPATH="$MODULES_DIR/Emscripten/upstream/bin/llvm-nm.exe"
-  
-  for lib in "$NATIVES_DIR"/*.a; do
-    
-    [ -e "$lib" ] || continue
-
-    symbols=$("$LLVMPATH" "$lib" 2>/dev/null | grep "invoke_" || true)
-
-    if [ -n "$symbols" ]; then
-        echo "❌ $lib"
-        echo "$symbols"
-    else
-        echo "✅ $lib"
-    fi
-    
-  done
-  
   read -p "Build complete."
 }
 

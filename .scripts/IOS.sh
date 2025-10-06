@@ -1,11 +1,6 @@
 #!/usr/bin/env bash
 set -e
 
-# This build script currently requires ALL simulator types to be installed
-# It would be better if we could selectively only build IOS & Simulators
-# We can set this up however it would complicate the build script
-# This is scheduled to be fixed by SDL in version 3.4.0
-
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MODULES_DIR="$BASE_DIR/Dependencies/Modules"
 DEPENDENCIES_DIR="$BASE_DIR/Dependencies"
@@ -59,7 +54,7 @@ TTF()
     -configuration Release
 }
 
-CreateFramework()
+Create()
 {
   local Location="$1"
   local Framework="$2"
@@ -74,10 +69,10 @@ CreateFramework()
 
 COMPLETE()
 {
-  CreateFramework "$MODULES_DIR/SDL/Xcode/SDL/build" "SDL3"
-  CreateFramework "$MODULES_DIR/IMAGE/Xcode/build" "SDL3_image"
-  CreateFramework "$MODULES_DIR/MIXER/Xcode/build" "SDL3_mixer"
-  CreateFramework "$MODULES_DIR/TTF/Xcode/build" "SDL3_ttf"
+  Create "$MODULES_DIR/SDL/Xcode/SDL/build" "SDL3"
+  Create "$MODULES_DIR/IMAGE/Xcode/build" "SDL3_image"
+  Create "$MODULES_DIR/MIXER/Xcode/build" "SDL3_mixer"
+  Create "$MODULES_DIR/TTF/Xcode/build" "SDL3_ttf"
 
   read -p "Build complete."
 }
