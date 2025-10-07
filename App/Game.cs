@@ -1,5 +1,4 @@
 ﻿using Hybrid;
-using SDL3;
 
 namespace App
 {
@@ -10,7 +9,7 @@ namespace App
             
         }
         
-        public override void Update(SDL.SDL_Event e)
+        public override void Update()
         {
             
         }

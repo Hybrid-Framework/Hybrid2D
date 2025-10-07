@@ -1,5 +1,4 @@
 ﻿using System;
-using SDL3;
 
 namespace Hybrid.Platforms
 {
@@ -15,8 +14,6 @@ namespace Hybrid.Platforms
         {
             // Init
             Behaviour.Init();
-            
-            // Platform Specifics
         }
         
         public override void Run()
@@ -24,12 +21,8 @@ namespace Hybrid.Platforms
             // Main Loop
             while (IsRunning)
             {
-                while (SDL.SDL_PollEvent(out var e))
-                {
-                    Behaviour.Update(e);
-                }
-                
                 // Loop
+                Behaviour.Update();
                 Behaviour.Render();
             }
             

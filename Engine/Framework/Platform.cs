@@ -1,5 +1,4 @@
 ﻿using System;
-using SDL3;
 
 namespace Hybrid
 {
