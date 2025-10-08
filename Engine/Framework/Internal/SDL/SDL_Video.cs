@@ -13,14 +13,14 @@ public static unsafe partial class SDL
     // Create Window
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern IntPtr SDL_CreateWindow(byte* title, int w, int h, SDL.WindowFlags flags);
-    public static IntPtr CreateWindow(string title, int w, int h, SDL.WindowFlags flags)
+    public static void CreateWindow(string title, int w, int h, SDL.WindowFlags flags)
     {
         var bytes = StringToPtr(title);
         
         fixed (byte* ptr = bytes)
         {
+            DestroyWindow();
             Window = SDL_CreateWindow(ptr, w, h, flags);
-            return Window;
         }
     }
     
@@ -29,7 +29,11 @@ public static unsafe partial class SDL
     private static extern void SDL_DestroyWindow(IntPtr window);
     public static void DestroyWindow()
     {
-        SDL_DestroyWindow(GetWindow());
+        if (Window != IntPtr.Zero)
+        {
+            SDL_DestroyWindow(GetWindow());
+            Window = IntPtr.Zero;
+        }
     }
     
     // Set Window Title

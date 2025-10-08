@@ -20,7 +20,7 @@ public class MainActivity : SDLActivity
     
     protected override void Main()
     {
-        Platform.Create(new PlatformAndroid(new TestALL()));
+        Platform.Create(new PlatformAndroid(new Game()));
         Platform.Current.Run();
     }
 }

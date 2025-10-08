@@ -22,4 +22,12 @@ public static unsafe partial class SDL
             return SDL_SetError(ptr);
         }
     }
+    
+    // Clear Error
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool SDL_ClearError();
+    public static void ClearError()
+    {
+        SDL_ClearError();
+    }
 }

@@ -7,7 +7,7 @@ public static class Program
 {
     public static void Main(string[] args)
     {
-        var assembly = typeof(SDL3.SDL).Assembly;
+        var assembly = typeof(SDL).Assembly;
 
         NativeLibrary.SetDllImportResolver(assembly, (library, asm, path) =>
         {
@@ -21,13 +21,13 @@ public static class Program
             };
         });
 
-        SDL3.SDL.SDL_main_func entry = Entry;
-        SDL3.SDL.SDL_RunApp(0, IntPtr.Zero, entry, IntPtr.Zero);
+        SDL.MainFunction entry = Entry;
+        SDL.RunApp(0, IntPtr.Zero, entry, IntPtr.Zero);
     }
 
     private static int Entry(int argc, IntPtr argv)
     {
-        Platform.Create(new PlatformIOS(new TestALL()));
+        Platform.Create(new PlatformIOS(new Game()));
         Platform.Current.Run();
         return 0;
     }
