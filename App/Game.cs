@@ -17,8 +17,18 @@ namespace App
             }
             
             SDL.CreateWindowAndRenderer("Hello World", 600, 400, SDL.WindowFlags.HighPixelDensity);
-            Console.WriteLine(SDL.GetPlatform());
-            Console.WriteLine(SDL.GetBasePath());
+
+            string file = SDL.GetBasePath() + "test.txt";
+            string folder = SDL.GetBasePath() + "Test";
+
+            SDL.CreateFolder(folder);
+            SDL.CreateFile(folder + "/test2.txt");
+            
+            Console.WriteLine($"Writing File: {file}");
+            SDL.WriteFile(file, System.Text.Encoding.UTF8.GetBytes("Yes it worked!"));
+            
+            Console.WriteLine($"Reading File: {file}");
+            Console.WriteLine(System.Text.Encoding.UTF8.GetString(SDL.ReadFile(file)));
         }
         
         public override void Update()
