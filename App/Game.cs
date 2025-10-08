@@ -18,6 +18,7 @@ namespace App
             
             SDL.CreateWindowAndRenderer("Hello World", 600, 400, SDL.WindowFlags.HighPixelDensity);
             Console.WriteLine(SDL.GetPlatform());
+            Console.WriteLine(SDL.GetBasePath());
         }
         
         public override void Update()

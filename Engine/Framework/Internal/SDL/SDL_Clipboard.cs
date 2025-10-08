@@ -30,4 +30,10 @@ public static unsafe partial class SDL
     {
         return SDL_HasClipboardText();
     }
+    
+    // Clear Clipboard Text
+    public static void ClearClipboardText()
+    {
+        SetClipboardText(string.Empty);
+    }
 }
