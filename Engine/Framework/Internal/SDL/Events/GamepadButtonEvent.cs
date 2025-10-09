@@ -11,7 +11,7 @@ public static unsafe partial class SDL
         public uint which;
         public byte button;
         public SDL.Bool down;
-        public byte padding1;
-        public byte padding2;
+        private byte padding1;
+        private byte padding2;
     }
 }

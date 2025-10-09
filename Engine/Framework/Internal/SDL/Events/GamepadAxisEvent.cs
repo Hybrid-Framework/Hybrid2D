@@ -10,10 +10,10 @@ public static unsafe partial class SDL
         public ulong timestamp;
         public uint which;
         public byte axis;
-        public byte padding1;
-        public byte padding2;
-        public byte padding3;
+        private byte padding1;
+        private byte padding2;
+        private byte padding3;
         public short value;
-        public ushort padding4;
+        private ushort padding4;
     }
 }

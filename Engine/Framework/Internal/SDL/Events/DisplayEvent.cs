@@ -9,7 +9,7 @@ public static unsafe partial class SDL
         public uint reserved;
         public ulong timestamp;
         public uint displayID;
-        public int data1;
-        public int data2;
+        private int data1;
+        private int data2;
     }
 }

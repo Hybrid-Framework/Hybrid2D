@@ -15,5 +15,7 @@ public static unsafe partial class SDL
         public SDL.MouseWheelDirection direction;
         public float mouse_x;
         public float mouse_y;
+        public int integer_x;
+        public int integer_y;
     }
 }

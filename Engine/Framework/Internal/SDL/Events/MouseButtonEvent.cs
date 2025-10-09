@@ -13,7 +13,7 @@ public static unsafe partial class SDL
         public byte button;
         public SDL.Bool down;
         public byte clicks;
-        public byte padding;
+        private byte padding;
         public float x;
         public float y;
     }

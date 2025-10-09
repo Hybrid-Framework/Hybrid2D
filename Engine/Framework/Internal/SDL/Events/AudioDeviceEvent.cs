@@ -10,8 +10,8 @@ public static unsafe partial class SDL
         public ulong timestamp;
         public uint which;
         public SDL.Bool recording;
-        public byte padding1;
-        public byte padding2;
-        public byte padding3;
+        private byte padding1;
+        private byte padding2;
+        private byte padding3;
     }
 }

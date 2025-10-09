@@ -13,8 +13,8 @@ public static unsafe partial class SDL
         public int num_candidates;
         public int selected_candidate;
         public SDL.Bool horizontal;
-        public byte padding1;
-        public byte padding2;
-        public byte padding3;
+        private byte padding1;
+        private byte padding2;
+        private byte padding3;
     }
 }

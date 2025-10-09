@@ -10,9 +10,9 @@ public static unsafe partial class SDL
         public ulong timestamp;
         public uint windowID;
         public uint which;
-        public SDL.ScanCode scancode;
-        public uint key;
-        public SDL.KeyModifier modifier;
+        public SDL.ScanCode scanCode;
+        public SDL.KeyCode keyCode;
+        public SDL.KeyModifier keyModifier;
         public ushort raw;
         public SDL.Bool down;
         public SDL.Bool repeat;
