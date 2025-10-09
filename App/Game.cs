@@ -17,51 +17,21 @@ namespace App
             }
             
             SDL.CreateWindowAndRenderer("Hello World", 600, 400, SDL.WindowFlags.HighPixelDensity);
-            
-            Console.WriteLine("KEYBOARD: " + SDL.KeyboardSupport());
-            
-            if (SDL.KeyboardSupport())
-            {
-                foreach (var id in SDL.GetKeyboardDevices())
-                {
-                    Console.WriteLine("Keyboard:" + SDL.GetKeyboardNameFromID(id));
-                }
-            }
-            
-            Console.WriteLine("MOUSE: " + SDL.MouseSupport());
-            
-            if (SDL.MouseSupport())
-            {
-                foreach (var id in SDL.GetMouseDevices())
-                {
-                    Console.WriteLine("Mouse:" + SDL.GetMouseNameFromID(id));
-                }
-            }
-            
-            Console.WriteLine("GAMEPAD: " +SDL.GamepadSupport());
-            
-            if (SDL.GamepadSupport())
-            {
-                foreach (var id in SDL.GetGamepadDevices())
-                {
-                    Console.WriteLine("Gamepad:" + SDL.GetGamepadNameFromID(id));
-                }
-            }
-            
-            Console.WriteLine("TOUCH: " + SDL.TouchSupport());
-
-            if (SDL.TouchSupport())
-            {
-                foreach (var id in SDL.GetTouchDevices())
-                {
-                    Console.WriteLine("Touch:" + SDL.GetTouchDeviceNameFromID(id));
-                }
-            }
         }
         
         public override void Update()
         {
-            
+            while (SDL.PollEvent(out var e))
+            {
+                var type = (SDL.EventType)e.type;
+                Console.WriteLine(type);
+                
+                if (type == SDL.EventType.Quit)
+                {
+                    Platform.Current.IsRunning = false;
+                    return;
+                }
+            }
         }
         
         public override void Render()

@@ -7,8 +7,12 @@ public static unsafe partial class SDL
     {
         foreach (var id in GetTouchDevices())
         {
-            var fingers = GetTouchFingers((ulong)id);
-            if (fingers.Length > 0) return true;
+            var touches = GetTouches((ulong)id);
+
+            if (touches.Length > 0)
+            {
+                return true;
+            }
         }
         
         return false;
@@ -47,21 +51,21 @@ public static unsafe partial class SDL
     
     // Get Touches
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Finger** SDL_GetTouchFingers(ulong touchID, out int count);
-    public static SDL.Finger[] GetTouchFingers(ulong touchID)
+    private static extern SDL.Touch** SDL_GetTouchFingers(ulong touchID, out int count);
+    public static SDL.Touch[] GetTouches(ulong touchID)
     {
-        SDL.Finger** fingers = SDL_GetTouchFingers(touchID, out int count);
+        SDL.Touch** fingers = SDL_GetTouchFingers(touchID, out int count);
 
         if (fingers == null || count == 0)
         {
-            return Array.Empty<SDL.Finger>();
+            return Array.Empty<SDL.Touch>();
         }
 
-        SDL.Finger[] managed = new SDL.Finger[count];
+        SDL.Touch[] managed = new SDL.Touch[count];
 
         for (int i = 0; i < count; i++)
         {
-            SDL.Finger* fingerPtr = fingers[i];
+            SDL.Touch* fingerPtr = fingers[i];
             managed[i] = *fingerPtr;
         }
 

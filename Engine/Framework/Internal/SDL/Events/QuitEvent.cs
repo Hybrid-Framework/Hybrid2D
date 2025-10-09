@@ -3,11 +3,10 @@
 public static unsafe partial class SDL
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct Finger
+    public struct QuitEvent
     {
-        public ulong id;
-        public float x;
-        public float y;
-        public float pressure;
+        public SDL.EventType type;
+        public uint reserved;
+        public ulong timestamp;
     }
 }
