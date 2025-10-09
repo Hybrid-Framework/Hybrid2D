@@ -2,18 +2,26 @@
 
 public static unsafe partial class SDL
 {
-    // Gamepad Open
+    // Gamepad Support
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool SDL_HasGamepad();
+    public static bool GamepadSupport()
+    {
+        return SDL_HasGamepad();
+    }
+    
+    // Open Gamepad
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern IntPtr SDL_OpenGamepad(int id);
-    public static IntPtr GamepadOpen(int id)
+    public static IntPtr OpenGamepad(int id)
     {
         return SDL_OpenGamepad(id);
     }
     
-    // Gamepad Close
+    // Close Gamepad
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern void SDL_CloseGamepad(IntPtr gamepad);
-    public static void GamepadClose(IntPtr gamepad)
+    public static void CloseGamepad(IntPtr gamepad)
     {
         SDL_CloseGamepad(gamepad);
     }
@@ -26,26 +34,26 @@ public static unsafe partial class SDL
         return SDL_GamepadConnected(gamepad);
     }
     
-    // Gamepad Get ID
+    // Get Gamepad ID
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern int SDL_GetGamepadID(IntPtr gamepad);
-    public static int GamepadGetID(IntPtr gamepad)
+    public static int GetGamepadID(IntPtr gamepad)
     {
         return SDL_GetGamepadID(gamepad);
     }
     
-    // Gamepad Set Player Index
+    // Set Gamepad Player Index
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_SetGamepadPlayerIndex(IntPtr gamepad, int index);
-    public static void GamepadSetPlayerIndex(IntPtr gamepad, int index)
+    public static void SetGamepadPlayerIndex(IntPtr gamepad, int index)
     {
         SDL_SetGamepadPlayerIndex(gamepad, index);
     }
     
-    // Gamepad Get Player Index
+    // Get Gamepad Player Index
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern int SDL_GetGamepadPlayerIndex(IntPtr gamepad);
-    public static int GamepadGetPlayerIndex(IntPtr gamepad)
+    public static int GetGamepadPlayerIndex(IntPtr gamepad)
     {
         return SDL_GetGamepadPlayerIndex(gamepad);
     }
@@ -66,19 +74,50 @@ public static unsafe partial class SDL
         return SDL_GamepadHasButton(gamepad, button);
     }
     
-    // Gamepad Rumble
+    // Rumble Gamepad
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_RumbleGamepad(IntPtr gamepad, ushort low, ushort high, uint duration);
-    public static void GamepadRumble(IntPtr gamepad, ushort low, ushort high, uint duration)
+    public static void RumbleGamepad(IntPtr gamepad, ushort low, ushort high, uint duration)
     {
         SDL_RumbleGamepad(gamepad, low, high, duration);
     }
     
-    // Gamepad Rumble Triggers
+    // Rumble Gamepad Triggers
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_RumbleGamepadTriggers(IntPtr gamepad, ushort left, ushort right, uint duration);
-    public static void GamepadRumbleTriggers(IntPtr gamepad, ushort left, ushort right, uint duration)
+    public static void RumbleGamepadTriggers(IntPtr gamepad, ushort left, ushort right, uint duration)
     {
         SDL_RumbleGamepadTriggers(gamepad, left, right, duration);
+    }
+    
+    // Get Gamepad Name From ID
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern IntPtr SDL_GetGamepadNameForID(int id);
+    public static string GetGamepadNameFromID(int id)
+    {
+        return PtrToString(SDL_GetGamepadNameForID(id));
+    }
+    
+    // Get Gamepads
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern int* SDL_GetGamepads(out int count);
+    public static int[] GetGamepadDevices()
+    {
+        int* ptr = SDL_GetGamepads(out int count);
+
+        if (ptr == null || count == 0)
+        {
+            return Array.Empty<int>();
+        }
+
+        int[] ids = new int[count];
+
+        for (int i = 0; i < count; i++)
+        {
+            ids[i] = ptr[i];
+        }
+
+        SDL.Free((IntPtr)ptr);
+        return ids;
     }
 }

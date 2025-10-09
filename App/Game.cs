@@ -17,18 +17,46 @@ namespace App
             }
             
             SDL.CreateWindowAndRenderer("Hello World", 600, 400, SDL.WindowFlags.HighPixelDensity);
-
-            string file = SDL.GetBasePath() + "test.txt";
-            string folder = SDL.GetBasePath() + "Test";
-
-            SDL.CreateFolder(folder);
-            SDL.CreateFile(folder + "/test2.txt");
             
-            Console.WriteLine($"Writing File: {file}");
-            SDL.WriteFile(file, System.Text.Encoding.UTF8.GetBytes("Yes it worked!"));
+            Console.WriteLine("KEYBOARD: " + SDL.KeyboardSupport());
             
-            Console.WriteLine($"Reading File: {file}");
-            Console.WriteLine(System.Text.Encoding.UTF8.GetString(SDL.ReadFile(file)));
+            if (SDL.KeyboardSupport())
+            {
+                foreach (var id in SDL.GetKeyboardDevices())
+                {
+                    Console.WriteLine("Keyboard:" + SDL.GetKeyboardNameFromID(id));
+                }
+            }
+            
+            Console.WriteLine("MOUSE: " + SDL.MouseSupport());
+            
+            if (SDL.MouseSupport())
+            {
+                foreach (var id in SDL.GetMouseDevices())
+                {
+                    Console.WriteLine("Mouse:" + SDL.GetMouseNameFromID(id));
+                }
+            }
+            
+            Console.WriteLine("GAMEPAD: " +SDL.GamepadSupport());
+            
+            if (SDL.GamepadSupport())
+            {
+                foreach (var id in SDL.GetGamepadDevices())
+                {
+                    Console.WriteLine("Gamepad:" + SDL.GetGamepadNameFromID(id));
+                }
+            }
+            
+            Console.WriteLine("TOUCH: " + SDL.TouchSupport());
+
+            if (SDL.TouchSupport())
+            {
+                foreach (var id in SDL.GetTouchDevices())
+                {
+                    Console.WriteLine("Touch:" + SDL.GetTouchDeviceNameFromID(id));
+                }
+            }
         }
         
         public override void Update()

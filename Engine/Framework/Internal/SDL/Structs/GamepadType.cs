@@ -12,8 +12,8 @@ public static unsafe partial class SDL
         PlayStation4 = 5,
         PlayStation5 = 6,
         NintendoSwitchPro = 7,
-        NintendoSwitchJoyconLeft = 8,
-        NintendoSwitchJoyconRight = 9,
-        NintendoSwitchPair = 10,
+        NintendoSwitchJoyConLeft = 8,
+        NintendoSwitchJoyConRight = 9,
+        NintendoSwitchJoyConPair = 10,
     }
 }
