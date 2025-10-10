@@ -10,6 +10,14 @@ public static unsafe partial class SDL
         return SDL_CreateTexture(GetRenderer(), format, access, w, h);
     }
     
+    // Destroy Texture
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern void SDL_DestroyTexture(IntPtr texture);
+    public static void DestroyTexture(IntPtr texture)
+    {
+        SDL_DestroyTexture(texture);
+    }
+    
     // Create Texture From Surface
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern IntPtr SDL_CreateTextureFromSurface(IntPtr renderer, IntPtr surface);
@@ -132,9 +140,12 @@ public static unsafe partial class SDL
     // Render Texture
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_RenderTexture(IntPtr renderer, IntPtr texture, SDL.FRect* src, SDL.FRect* dst);
-    public static void RenderTexture(IntPtr texture, SDL.FRect src, SDL.FRect dst)
+    public static void RenderTexture(IntPtr texture, SDL.FRect? src = null, SDL.FRect? dst = null)
     {
-        SDL_RenderTexture(GetRenderer(), texture, &src, &dst);
+        SDL.FRect s = src ?? default;
+        SDL.FRect d = dst ?? default;
+        
+        SDL_RenderTexture(GetRenderer(), texture, src.HasValue ? &s : null, dst.HasValue ? &d : null);
     }
     
     // Render Texture Rotated

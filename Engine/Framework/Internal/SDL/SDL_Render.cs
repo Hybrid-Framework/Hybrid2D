@@ -46,6 +46,22 @@ public static unsafe partial class SDL
         }
     }
     
+    // Set Render Target
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool SDL_SetRenderTarget(IntPtr renderer, IntPtr texture);
+    public static bool SetRenderTarget(IntPtr texture)
+    {
+        return SDL_SetRenderTarget(GetRenderer(), texture);
+    }
+    
+    // Get Render Target
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern IntPtr SDL_GetRenderTarget(IntPtr renderer);
+    public static IntPtr GetRenderTarget()
+    {
+        return SDL_GetRenderTarget(GetRenderer());
+    }
+    
     // Set Render Logical Presentation
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_SetRenderLogicalPresentation(IntPtr renderer, int w, int h, SDL.RendererLogicalPresentation mode);
@@ -264,5 +280,13 @@ public static unsafe partial class SDL
         {
             SDL_RenderDebugText(GetRenderer(), x, y, utf8);
         }
+    }
+    
+    // Render Read Pixels
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern IntPtr SDL_RenderReadPixels(IntPtr renderer, IntPtr rect);
+    public static IntPtr RenderReadPixels()
+    {
+        return SDL_RenderReadPixels(GetRenderer(), IntPtr.Zero);
     }
 }

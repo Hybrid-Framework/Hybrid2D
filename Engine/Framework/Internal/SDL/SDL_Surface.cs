@@ -10,12 +10,25 @@ public static unsafe partial class SDL
         return SDL_CreateSurface(w, h, format);
     }
     
-    // Create Surface From
-    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern IntPtr SDL_CreateSurfaceFrom(int w, int h, SDL.PixelFormat format, IntPtr pixels, int pitch);
-    public static IntPtr CreateSurfaceFrom(int w, int h, SDL.PixelFormat format, IntPtr pixels, int pitch)
+    // Create Surface From Texture
+    public static IntPtr CreateSurfaceFromTexture(IntPtr texture)
     {
-        return SDL_CreateSurfaceFrom(w, h, format, pixels, pitch);
+        var width = SDL.GetTextureWidth(texture);
+        var height = SDL.GetTextureHeight(texture);
+        var format = SDL.GetTextureFormat(texture);
+        var target = SDL.CreateTexture(format, TextureAccess.Target, width, height);
+
+        SDL.SetRenderTarget(target);
+        
+        SDL.RenderTexture(texture);
+        
+        var surface = SDL.RenderReadPixels();
+        
+        SDL.SetRenderTarget(IntPtr.Zero);
+        
+        SDL.DestroyTexture(target);
+        
+        return surface;
     }
     
     // Destroy Surface

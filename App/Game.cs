@@ -4,10 +4,7 @@ namespace App
 {
     public class Game : Behaviour
     {
-        private SDL.FRect rect = new SDL.FRect()
-        {
-            x = 0, y = 0, w = 100, h = 100
-        };
+        private IntPtr image;
         
         public override void Init()
         {
@@ -17,6 +14,13 @@ namespace App
             }
             
             SDL.CreateWindowAndRenderer("Hello World", 600, 400, SDL.WindowFlags.HighPixelDensity);
+
+            image = SDL_image.LoadTexture(FileSystem.LoadAsset("Image.jpg"));
+            SDL.SetTextureScaleMode(image, SDL.ScaleMode.Pixel);
+            if (image == IntPtr.Zero)
+            {
+                throw new Exception("Failed to load: " + SDL.GetError());
+            }
         }
         
         public override void Update()
@@ -39,11 +43,10 @@ namespace App
             SDL.SetRenderDrawColor(255, 128, 128, 255);
             SDL.RenderClear();
             
+            SDL.RenderTexture(image);
+            
             SDL.SetRenderDrawColor(0, 0, 0, 255);
             SDL.RenderDebugText(10, 10, "Hello World");
-            
-            SDL.SetRenderDrawColor(0, 255, 0, 255);
-            SDL.RenderFillRect(rect);
             
             SDL.RenderPresent();
         }

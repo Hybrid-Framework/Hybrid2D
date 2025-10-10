@@ -14,4 +14,18 @@ public static unsafe partial class SDL
             SDL_OpenURL(utf8);
         }
     }
+    
+    // Screenshot
+    public static void Screenshot(string path)
+    {
+        SDL.RenderPresent();
+        
+        IntPtr surface = RenderReadPixels();
+        IntPtr texture = CreateTextureFromSurface(surface);
+        
+        SDL_image.SaveTexture(texture, path);
+        
+        SDL.DestroySurface(surface);
+        SDL.DestroyTexture(texture);
+    }
 }
