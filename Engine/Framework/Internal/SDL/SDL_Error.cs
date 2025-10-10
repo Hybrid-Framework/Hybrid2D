@@ -7,7 +7,7 @@ public static unsafe partial class SDL
     private static extern IntPtr SDL_GetError();
     public static string GetError()
     {
-        return PtrToString(SDL_GetError());
+        return Utf8ToString(SDL_GetError());
     }
     
     // Clear Error
@@ -23,11 +23,11 @@ public static unsafe partial class SDL
     private static extern SDL.Bool SDL_SetError(byte* error);
     public static bool SetError(string error)
     {
-        var bytes = StringToPtr(error);
+        var bytes = StringToUtf8(error);
         
-        fixed (byte* ptr = bytes)
+        fixed (byte* utf8 = bytes)
         {
-            return SDL_SetError(ptr);
+            return SDL_SetError(utf8);
         }
     }
 }

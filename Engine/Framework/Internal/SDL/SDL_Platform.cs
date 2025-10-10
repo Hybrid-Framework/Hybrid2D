@@ -7,6 +7,6 @@ public static unsafe partial class SDL
     private static extern IntPtr SDL_GetPlatform();
     public static string GetPlatform()
     {
-        return PtrToString(SDL_GetPlatform());
+        return Utf8ToString(SDL_GetPlatform());
     }
 }

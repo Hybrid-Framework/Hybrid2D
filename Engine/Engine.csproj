@@ -7,6 +7,10 @@
         <Nullable>disable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Folder Include="Framework\Internal\SDL_Image\Structs\" />
+    </ItemGroup>
+
     <Import Project="..\.items\Shared.props" />
     
 </Project>

@@ -7,11 +7,11 @@ public static unsafe partial class SDL
     private static extern SDL.Bool SDL_SetClipboardText(byte* text);
     public static void SetClipboardText(string text)
     {
-        var bytes = StringToPtr(text);
+        var bytes = StringToUtf8(text);
 
-        fixed (byte* ptr = bytes)
+        fixed (byte* utf8 = bytes)
         {
-            SDL_SetClipboardText(ptr);
+            SDL_SetClipboardText(utf8);
         }
     }
     
@@ -20,7 +20,7 @@ public static unsafe partial class SDL
     private static extern IntPtr SDL_GetClipboardText();
     public static string GetClipboardText()
     {
-        return PtrToString(SDL_GetClipboardText(), true);
+        return Utf8ToString(SDL_GetClipboardText(), true);
     }
     
     // Has Clipboard Text

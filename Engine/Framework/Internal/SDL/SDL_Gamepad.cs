@@ -95,7 +95,7 @@ public static unsafe partial class SDL
     private static extern IntPtr SDL_GetGamepadNameForID(int id);
     public static string GetGamepadNameFromID(int id)
     {
-        return PtrToString(SDL_GetGamepadNameForID(id));
+        return Utf8ToString(SDL_GetGamepadNameForID(id));
     }
     
     // Get Gamepads

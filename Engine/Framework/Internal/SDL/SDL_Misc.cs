@@ -7,11 +7,11 @@ public static unsafe partial class SDL
     private static extern SDL.Bool SDL_OpenURL(byte* url);
     public static void OpenURL(string url)
     {
-        var bytes = StringToPtr(url);
+        var bytes = StringToUtf8(url);
 
-        fixed (byte* ptr = bytes)
+        fixed (byte* utf8 = bytes)
         {
-            SDL_OpenURL(ptr);
+            SDL_OpenURL(utf8);
         }
     }
 }

@@ -39,7 +39,7 @@ public static unsafe partial class SDL
     private static extern IntPtr SDL_GetMouseNameForID(int id);
     public static string GetMouseNameFromID(int id)
     {
-        return PtrToString(SDL_GetMouseNameForID(id));
+        return Utf8ToString(SDL_GetMouseNameForID(id));
     }
     
     // Get Mice

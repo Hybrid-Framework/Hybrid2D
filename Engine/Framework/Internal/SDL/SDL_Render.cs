@@ -15,13 +15,13 @@ public static unsafe partial class SDL
     private static extern SDL.Bool SDL_CreateWindowAndRenderer(byte* title, int w, int h, SDL.WindowFlags flags, out IntPtr window, out IntPtr renderer);
     public static void CreateWindowAndRenderer(string title, int w, int h, SDL.WindowFlags flags)
     {
-        var bytes = StringToPtr(title);
+        var bytes = StringToUtf8(title);
 
-        fixed (byte* ptr = bytes)
+        fixed (byte* utf8 = bytes)
         {
             DestroyWindow();
             DestroyRenderer();
-            SDL_CreateWindowAndRenderer(ptr, w, h, flags, out Window, out Renderer);
+            SDL_CreateWindowAndRenderer(utf8, w, h, flags, out Window, out Renderer);
         }
     }
     
@@ -258,11 +258,11 @@ public static unsafe partial class SDL
     private static extern SDL.Bool SDL_RenderDebugText(IntPtr renderer, float x, float y, byte* str);
     public static void RenderDebugText(float x, float y, string text)
     {
-        var bytes = StringToPtr(text);
+        var bytes = StringToUtf8(text);
 
-        fixed (byte* ptr = bytes)
+        fixed (byte* utf8 = bytes)
         {
-            SDL_RenderDebugText(GetRenderer(), x, y, ptr);
+            SDL_RenderDebugText(GetRenderer(), x, y, utf8);
         }
     }
 }

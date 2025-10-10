@@ -23,7 +23,7 @@ public static unsafe partial class SDL
     private static extern IntPtr SDL_GetTouchDeviceName(int id);
     public static string GetTouchDeviceNameFromID(int id)
     {
-        return PtrToString(SDL_GetTouchDeviceName(id));
+        return Utf8ToString(SDL_GetTouchDeviceName(id));
     }
     
     // Get Touch Devices

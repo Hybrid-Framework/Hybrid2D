@@ -7,7 +7,7 @@ public static unsafe partial class SDL
     private static extern IntPtr SDL_GetBasePath();
     public static string GetBasePath()
     {
-        return PtrToString(SDL_GetBasePath());
+        return Utf8ToString(SDL_GetBasePath());
     }
     
     // Get User Folder
@@ -15,7 +15,7 @@ public static unsafe partial class SDL
     private static extern IntPtr SDL_GetUserFolder(SDL.Folder folder);
     public static string GetUserFolder(SDL.Folder folder)
     {
-        return PtrToString(SDL_GetUserFolder(folder));
+        return Utf8ToString(SDL_GetUserFolder(folder));
     }
     
     // Get Current Directory
@@ -23,7 +23,7 @@ public static unsafe partial class SDL
     private static extern IntPtr SDL_GetCurrentDirectory();
     public static string GetCurrentDirectory()
     {
-        return PtrToString(SDL_GetCurrentDirectory());
+        return Utf8ToString(SDL_GetCurrentDirectory());
     }
     
     // Create Folder
@@ -31,11 +31,11 @@ public static unsafe partial class SDL
     private static extern SDL.Bool SDL_CreateDirectory(byte* path);
     public static bool CreateFolder(string path)
     {
-        var pathBytes = StringToPtr(path);
+        var pathBytes = StringToUtf8(path);
 
-        fixed (byte* ptr = pathBytes)
+        fixed (byte* utf8 = pathBytes)
         {
-            return SDL_CreateDirectory(ptr);
+            return SDL_CreateDirectory(utf8);
         }
     }
     
@@ -51,11 +51,11 @@ public static unsafe partial class SDL
     private static extern IntPtr SDL_LoadFile(byte* path, out UIntPtr size);
     public static byte[] ReadFile(string path)
     {
-        var pathBytes = StringToPtr(path);
+        var pathBytes = StringToUtf8(path);
         
-        fixed (byte* ptr = pathBytes)
+        fixed (byte* utf8 = pathBytes)
         {
-            IntPtr data = SDL_LoadFile(ptr, out UIntPtr size);
+            IntPtr data = SDL_LoadFile(utf8, out UIntPtr size);
 
             if (data == IntPtr.Zero)
             {
@@ -81,9 +81,9 @@ public static unsafe partial class SDL
             throw new ArgumentNullException(nameof(data));
         }
 
-        byte[] pathBytes = StringToPtr(path);
+        byte[] utf8 = StringToUtf8(path);
 
-        fixed (byte* pPath = pathBytes)
+        fixed (byte* pPath = utf8)
         fixed (byte* pData = data)
         {
             if (!SDL_SaveFile(pPath, (IntPtr)pData, (UIntPtr)data.Length))

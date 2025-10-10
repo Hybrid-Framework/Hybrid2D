@@ -31,7 +31,7 @@ public static unsafe partial class SDL
     private static extern IntPtr SDL_GetKeyboardNameForID(int id);
     public static string GetKeyboardNameFromID(int id)
     {
-        return PtrToString(SDL_GetKeyboardNameForID(id));
+        return Utf8ToString(SDL_GetKeyboardNameForID(id));
     }
     
     // Get Keyboards

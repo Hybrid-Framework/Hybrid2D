@@ -15,12 +15,12 @@ public static unsafe partial class SDL
     private static extern IntPtr SDL_CreateWindow(byte* title, int w, int h, SDL.WindowFlags flags);
     public static void CreateWindow(string title, int w, int h, SDL.WindowFlags flags)
     {
-        var bytes = StringToPtr(title);
+        var bytes = StringToUtf8(title);
         
-        fixed (byte* ptr = bytes)
+        fixed (byte* utf8 = bytes)
         {
             DestroyWindow();
-            Window = SDL_CreateWindow(ptr, w, h, flags);
+            Window = SDL_CreateWindow(utf8, w, h, flags);
         }
     }
     
@@ -41,11 +41,11 @@ public static unsafe partial class SDL
     private static extern SDL.Bool SDL_SetWindowTitle(IntPtr window, byte* title);
     public static void SetWindowTitle(string title)
     {
-        var bytes = StringToPtr(title);
+        var bytes = StringToUtf8(title);
         
-        fixed (byte* ptr = bytes)
+        fixed (byte* utf8 = bytes)
         {
-            SDL_SetWindowTitle(GetWindow(), ptr);
+            SDL_SetWindowTitle(GetWindow(), utf8);
         }
     }
     
@@ -54,7 +54,7 @@ public static unsafe partial class SDL
     private static extern IntPtr SDL_GetWindowTitle(IntPtr window);
     public static string GetWindowTitle()
     {
-        return PtrToString(SDL_GetWindowTitle(GetWindow()));
+        return Utf8ToString(SDL_GetWindowTitle(GetWindow()));
     }
     
     // Set Window Position

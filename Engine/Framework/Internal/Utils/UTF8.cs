@@ -2,7 +2,7 @@
 
 public static unsafe partial class SDL
 {
-    public static string PtrToString(IntPtr data, bool free = false)
+    public static string Utf8ToString(IntPtr data, bool free = false)
     {
         if (data == IntPtr.Zero) return null;
         string result = Marshal.PtrToStringUTF8(data);
@@ -15,7 +15,7 @@ public static unsafe partial class SDL
         return result;
     }
     
-    public static byte[] StringToPtr(string str)
+    public static byte[] StringToUtf8(string str)
     {
         if (str == null) str = string.Empty;
 
