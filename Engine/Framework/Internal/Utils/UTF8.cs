@@ -9,7 +9,7 @@ public static unsafe partial class SDL
 
         if (free)
         {
-            SDL_free(data);
+            SDL.Free(data);
         }
 
         return result;
@@ -17,7 +17,10 @@ public static unsafe partial class SDL
     
     public static byte[] StringToUtf8(string str)
     {
-        if (str == null) str = string.Empty;
+        if (str == null)
+        {
+            str = string.Empty;
+        }
 
         return System.Text.Encoding.UTF8.GetBytes(str + '\0');
     }

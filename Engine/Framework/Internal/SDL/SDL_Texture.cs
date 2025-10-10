@@ -144,4 +144,40 @@ public static unsafe partial class SDL
     {
         SDL_RenderTextureRotated(GetRenderer(), texture, &src, &dst, angle, &center, mode);
     }
+    
+    // Get Texture Properties
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern uint SDL_GetTextureProperties(IntPtr texture);
+    public static (int w, int h, PixelFormat format, TextureAccess access) GetTextureProperties(IntPtr texture)
+    {
+        var width = GetTextureWidth(texture);
+        var height = GetTextureHeight(texture);
+        var format = GetTextureFormat(texture);
+        var access = GetTextureAccess(texture);
+        return (width, height, format, access);
+    }
+    
+    // Get Texture Width
+    public static int GetTextureWidth(IntPtr texture)
+    {
+        return (int)GetNumberProperty(SDL_GetTextureProperties(texture), "SDL.texture.width");
+    }
+    
+    // Get Texture Height
+    public static int GetTextureHeight(IntPtr texture)
+    {
+        return (int)GetNumberProperty(SDL_GetTextureProperties(texture), "SDL.texture.height");
+    }
+    
+    // Get Texture Format
+    public static PixelFormat GetTextureFormat(IntPtr texture)
+    {
+        return (PixelFormat)GetNumberProperty(SDL_GetTextureProperties(texture), "SDL.texture.format");
+    }
+    
+    // Get Texture Access
+    public static TextureAccess GetTextureAccess(IntPtr texture)
+    {
+        return (TextureAccess)GetNumberProperty(SDL_GetTextureProperties(texture), "SDL.texture.access");
+    }
 }
