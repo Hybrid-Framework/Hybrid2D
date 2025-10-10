@@ -19,8 +19,10 @@ public static unsafe partial class SDL
         var target = SDL.CreateTexture(format, TextureAccess.Target, width, height);
 
         SDL.SetRenderTarget(target);
+
+        FRect rect = new FRect() { x = 0, y = 0, w = width, h = height };
         
-        SDL.RenderTexture(texture);
+        SDL.RenderTexture(texture, rect, rect);
         
         var surface = SDL.RenderReadPixels();
         

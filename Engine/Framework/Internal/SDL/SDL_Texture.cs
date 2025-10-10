@@ -140,12 +140,9 @@ public static unsafe partial class SDL
     // Render Texture
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_RenderTexture(IntPtr renderer, IntPtr texture, SDL.FRect* src, SDL.FRect* dst);
-    public static void RenderTexture(IntPtr texture, SDL.FRect? src = null, SDL.FRect? dst = null)
+    public static void RenderTexture(IntPtr texture, SDL.FRect src, SDL.FRect dst)
     {
-        SDL.FRect s = src ?? default;
-        SDL.FRect d = dst ?? default;
-        
-        SDL_RenderTexture(GetRenderer(), texture, src.HasValue ? &s : null, dst.HasValue ? &d : null);
+        SDL_RenderTexture(GetRenderer(), texture, &src, &dst);
     }
     
     // Render Texture Rotated

@@ -18,14 +18,6 @@ public static unsafe partial class SDL
         return false;
     }
     
-    // Get Touch Device Name From ID
-    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern IntPtr SDL_GetTouchDeviceName(int id);
-    public static string GetTouchDeviceNameFromID(int id)
-    {
-        return Utf8ToString(SDL_GetTouchDeviceName(id));
-    }
-    
     // Get Touch Devices
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern int* SDL_GetTouchDevices(out int count);

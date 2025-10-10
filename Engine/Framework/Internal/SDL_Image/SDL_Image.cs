@@ -2,10 +2,6 @@
 
 public static unsafe partial class SDL_image
 {
-    // Library
-    private const string library = "SDL3_image";
-    
-    
     // Load Texture
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern IntPtr IMG_LoadTexture(IntPtr renderer, byte* path);

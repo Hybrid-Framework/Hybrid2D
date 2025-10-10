@@ -4,6 +4,11 @@ namespace App
 {
     public class Game : Behaviour
     {
+        private SDL.FRect rect = new SDL.FRect()
+        {
+            x = 0, y = 0, w = 128, h = 128
+        };
+        
         private IntPtr image;
         
         public override void Init()
@@ -43,7 +48,7 @@ namespace App
             SDL.SetRenderDrawColor(255, 128, 128, 255);
             SDL.RenderClear();
             
-            SDL.RenderTexture(image);
+            SDL.RenderTexture(image, rect, rect);
             
             SDL.SetRenderDrawColor(0, 0, 0, 255);
             SDL.RenderDebugText(10, 10, "Hello World");
