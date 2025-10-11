@@ -198,4 +198,28 @@ public static unsafe partial class SDL
     {
         SDL_HideWindow(GetWindow());
     }
+    
+    // Get Display ID
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern uint SDL_GetDisplayForWindow(IntPtr window);
+    public static uint GetDisplayID()
+    {
+        return SDL_GetDisplayForWindow(GetWindow());
+    }
+    
+    // Get Natural Orientation
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Orientation SDL_GetNaturalDisplayOrientation(uint displayID);
+    public static SDL.Orientation GetNaturalOrientation()
+    {
+        return SDL_GetNaturalDisplayOrientation(GetDisplayID());
+    }
+    
+    // Get Current Orientation
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Orientation SDL_GetCurrentDisplayOrientation(uint displayID);
+    public static SDL.Orientation GetCurrentOrientation()
+    {
+        return SDL_GetCurrentDisplayOrientation(GetDisplayID());
+    }
 }

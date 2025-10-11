@@ -2,7 +2,7 @@
 
 public static unsafe partial class SDL
 {
-    public enum DisplayOrientation
+    public enum Orientation
     {
         Unknown = 0,
         Portrait = 3,
