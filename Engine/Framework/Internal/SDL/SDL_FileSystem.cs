@@ -10,40 +10,12 @@ public static unsafe partial class SDL
         return Utf8ToString(SDL_GetBasePath());
     }
     
-    // Get User Folder
+    // Get System Folder
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern IntPtr SDL_GetUserFolder(SDL.Folder folder);
-    public static string GetUserFolder(SDL.Folder folder)
+    public static string GetSystemFolder(SDL.Folder folder)
     {
         return Utf8ToString(SDL_GetUserFolder(folder));
-    }
-    
-    // Get Current Directory
-    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern IntPtr SDL_GetCurrentDirectory();
-    public static string GetCurrentDirectory()
-    {
-        return Utf8ToString(SDL_GetCurrentDirectory());
-    }
-    
-    // Create Folder
-    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_CreateDirectory(byte* path);
-    public static bool CreateFolder(string path)
-    {
-        var pathBytes = StringToUtf8(path);
-
-        fixed (byte* utf8 = pathBytes)
-        {
-            return SDL_CreateDirectory(utf8);
-        }
-    }
-    
-    // Create File
-    public static void CreateFile(string path)
-    {
-        byte[] empty = Array.Empty<byte>();
-        WriteFile(path, empty);
     }
     
     // Read File
