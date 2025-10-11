@@ -18,14 +18,14 @@ public static unsafe partial class SDL
     // Screenshot
     public static void Screenshot(string path)
     {
-        SDL.RenderPresent();
+        RenderPresent();
         
         IntPtr surface = RenderReadPixels();
         IntPtr texture = CreateTextureFromSurface(surface);
         
         SDL_image.SaveTexture(texture, path);
         
-        SDL.DestroySurface(surface);
-        SDL.DestroyTexture(texture);
+        DestroySurface(surface);
+        DestroyTexture(texture);
     }
 }

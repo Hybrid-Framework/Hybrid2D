@@ -111,30 +111,12 @@ public static unsafe partial class SDL
         return (pixels, pitch);
     }
     
-    // Lock Texture To Surface
-    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_LockTextureToSurface(IntPtr texture, SDL.Rect* rect, out IntPtr surface);
-    public static IntPtr LockTextureToSurface(IntPtr texture, SDL.Rect rect)
-    {
-        SDL_LockTextureToSurface(texture, &rect, out IntPtr surface);
-        return surface;
-    }
-    
     // Unlock Texture
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern void SDL_UnlockTexture(IntPtr texture);
     public static void UnlockTexture(IntPtr texture)
     {
         SDL_UnlockTexture(texture);
-    }
-    
-    // Get Texture Size
-    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_GetTextureSize(IntPtr texture, out float w, out float h);
-    public static (float w, float h) GetTextureSize(IntPtr texture)
-    {
-        SDL_GetTextureSize(texture, out float w, out float h);
-        return (w, h);
     }
     
     // Render Texture
