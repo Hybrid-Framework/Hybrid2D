@@ -18,6 +18,22 @@ public static unsafe partial class SDL
         SDL_DestroySurface(surface);
     }
     
+    // Lock Surface
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool SDL_LockSurface(IntPtr surface);
+    public static bool LockSurface(IntPtr surface)
+    {
+        return SDL_LockSurface(surface);
+    }
+    
+    // Unlock Surface
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern void SDL_UnlockSurface(IntPtr surface);
+    public static void UnlockSurface(IntPtr surface)
+    {
+        SDL_UnlockSurface(surface);
+    }
+    
     // Create Surface From Texture
     public static IntPtr CreateSurfaceFromTexture(IntPtr texture)
     {

@@ -94,31 +94,6 @@ public static unsafe partial class SDL
         return mode;
     }
     
-    // Update Texture
-    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_UpdateTexture(IntPtr texture, SDL.Rect* rect, IntPtr pixels, int pitch);
-    public static void UpdateTexture(IntPtr texture, SDL.Rect rect, IntPtr pixels, int pitch)
-    {
-        SDL_UpdateTexture(texture, &rect, pixels, pitch);
-    }
-    
-    // Lock Texture
-    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_LockTexture(IntPtr texture, SDL.Rect* rect, out IntPtr pixels, out int pitch);
-    public static (IntPtr pixels, int pitch) LockTexture(IntPtr texture, SDL.Rect rect)
-    {
-        SDL_LockTexture(texture, &rect, out IntPtr pixels, out int pitch);
-        return (pixels, pitch);
-    }
-    
-    // Unlock Texture
-    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern void SDL_UnlockTexture(IntPtr texture);
-    public static void UnlockTexture(IntPtr texture)
-    {
-        SDL_UnlockTexture(texture);
-    }
-    
     // Render Texture
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_RenderTexture(IntPtr renderer, IntPtr texture, SDL.FRect* src, SDL.FRect* dst);
@@ -169,5 +144,76 @@ public static unsafe partial class SDL
     public static TextureAccess GetTextureAccess(IntPtr texture)
     {
         return (TextureAccess)GetNumberProperty(SDL_GetTextureProperties(texture), "SDL.texture.access");
+    }
+    
+    // Update Texture
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool SDL_UpdateTexture(IntPtr texture, SDL.Rect* rect, IntPtr pixels, int pitch);
+    public static bool UpdateTexture(IntPtr texture, SDL.Rect* rect, IntPtr pixels, int pitch)
+    {
+        return SDL_UpdateTexture(texture, rect, pixels, pitch);
+    }
+    
+    // Lock Texture
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool SDL_LockTexture(IntPtr texture, SDL.Rect* rect, out IntPtr pixels, out int pitch);
+    public static bool LockTexture(IntPtr texture, SDL.Rect* rect, out IntPtr pixels, out int pitch)
+    {
+        return SDL_LockTexture(texture, rect, out pixels, out pitch);
+    }
+    
+    // Unlock Texture
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern void SDL_UnlockTexture(IntPtr texture);
+    public static void UnlockTexture(IntPtr texture)
+    {
+        SDL_UnlockTexture(texture);
+    }
+    
+    // Set Texture Pixels
+    public static void SetTexturePixels(IntPtr texture, SDL.Pixel[] pixels)
+    {
+        int width = GetTextureWidth(texture);
+        int height = GetTextureHeight(texture);
+        byte[] buffer = new byte[width * height * 4];
+
+        foreach (var p in pixels)
+        {
+            if (p.x < 0 || p.x >= width || p.y < 0 || p.y >= height)
+            {
+                continue;
+            }
+
+            int index = (p.y * width + p.x) * 4;
+            buffer[index + 0] = p.a;
+            buffer[index + 1] = p.r;
+            buffer[index + 2] = p.g;
+            buffer[index + 3] = p.b;
+        }
+
+        fixed (byte* ptr = buffer)
+        {
+            SDL.UpdateTexture(texture, null, (IntPtr)ptr, width * 4);
+        }
+    }
+    
+    // Set Texture Pixel
+    public static void SetTexturePixel(IntPtr texture, SDL.Pixel pixel)
+    {
+        int width = GetTextureWidth(texture);
+        int height = GetTextureHeight(texture);
+        
+        if (pixel.x < 0 || pixel.x >= width || pixel.y < 0 || pixel.y >= height)
+        {
+            return;
+        }
+
+        SDL.Rect rect = new SDL.Rect { x = pixel.x, y = pixel.y, w = 1, h = 1 };
+        byte[] buffer = new byte[4] { pixel.a, pixel.r, pixel.g, pixel.b };
+
+        fixed (byte* ptr = buffer)
+        {
+            SDL.UpdateTexture(texture, &rect, (IntPtr)ptr, 1 * 4);
+        }
     }
 }
