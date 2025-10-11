@@ -94,58 +94,6 @@ public static unsafe partial class SDL
         return mode;
     }
     
-    // Render Texture
-    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_RenderTexture(IntPtr renderer, IntPtr texture, SDL.FRect* src, SDL.FRect* dst);
-    public static void RenderTexture(IntPtr texture, SDL.FRect src, SDL.FRect dst)
-    {
-        SDL_RenderTexture(GetRenderer(), texture, &src, &dst);
-    }
-    
-    // Render Texture Rotated
-    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_RenderTextureRotated(IntPtr renderer, IntPtr texture, SDL.FRect* src, SDL.FRect* dst, double angle, SDL.FPoint* center, SDL.FlipMode mode);
-    public static void RenderTextureRotated(IntPtr texture, SDL.FRect src, SDL.FRect dst, double angle, SDL.FPoint center, SDL.FlipMode mode)
-    {
-        SDL_RenderTextureRotated(GetRenderer(), texture, &src, &dst, angle, &center, mode);
-    }
-    
-    // Get Texture Properties
-    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern uint SDL_GetTextureProperties(IntPtr texture);
-    public static (int w, int h, PixelFormat format, TextureAccess access) GetTextureProperties(IntPtr texture)
-    {
-        var width = GetTextureWidth(texture);
-        var height = GetTextureHeight(texture);
-        var format = GetTextureFormat(texture);
-        var access = GetTextureAccess(texture);
-        return (width, height, format, access);
-    }
-    
-    // Get Texture Width
-    public static int GetTextureWidth(IntPtr texture)
-    {
-        return (int)GetNumberProperty(SDL_GetTextureProperties(texture), "SDL.texture.width");
-    }
-    
-    // Get Texture Height
-    public static int GetTextureHeight(IntPtr texture)
-    {
-        return (int)GetNumberProperty(SDL_GetTextureProperties(texture), "SDL.texture.height");
-    }
-    
-    // Get Texture Format
-    public static PixelFormat GetTextureFormat(IntPtr texture)
-    {
-        return (PixelFormat)GetNumberProperty(SDL_GetTextureProperties(texture), "SDL.texture.format");
-    }
-    
-    // Get Texture Access
-    public static TextureAccess GetTextureAccess(IntPtr texture)
-    {
-        return (TextureAccess)GetNumberProperty(SDL_GetTextureProperties(texture), "SDL.texture.access");
-    }
-    
     // Update Texture
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_UpdateTexture(IntPtr texture, SDL.Rect* rect, IntPtr pixels, int pitch);
@@ -170,50 +118,27 @@ public static unsafe partial class SDL
         SDL_UnlockTexture(texture);
     }
     
-    // Set Texture Pixels
-    public static void SetTexturePixels(IntPtr texture, SDL.Pixel[] pixels)
+    // Render Texture
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool SDL_RenderTexture(IntPtr renderer, IntPtr texture, SDL.FRect* src, SDL.FRect* dst);
+    public static void RenderTexture(IntPtr texture, SDL.FRect src, SDL.FRect dst)
     {
-        int width = GetTextureWidth(texture);
-        int height = GetTextureHeight(texture);
-        byte[] buffer = new byte[width * height * 4];
-
-        foreach (var p in pixels)
-        {
-            if (p.x < 0 || p.x >= width || p.y < 0 || p.y >= height)
-            {
-                continue;
-            }
-
-            int index = (p.y * width + p.x) * 4;
-            buffer[index + 0] = p.a;
-            buffer[index + 1] = p.r;
-            buffer[index + 2] = p.g;
-            buffer[index + 3] = p.b;
-        }
-
-        fixed (byte* ptr = buffer)
-        {
-            SDL.UpdateTexture(texture, null, (IntPtr)ptr, width * 4);
-        }
+        SDL_RenderTexture(GetRenderer(), texture, &src, &dst);
     }
     
-    // Set Texture Pixel
-    public static void SetTexturePixel(IntPtr texture, SDL.Pixel pixel)
+    // Render Texture Rotated
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool SDL_RenderTextureRotated(IntPtr renderer, IntPtr texture, SDL.FRect* src, SDL.FRect* dst, double angle, SDL.FPoint* center, SDL.FlipMode mode);
+    public static void RenderTextureRotated(IntPtr texture, SDL.FRect src, SDL.FRect dst, double angle, SDL.FPoint center, SDL.FlipMode mode)
     {
-        int width = GetTextureWidth(texture);
-        int height = GetTextureHeight(texture);
-        
-        if (pixel.x < 0 || pixel.x >= width || pixel.y < 0 || pixel.y >= height)
-        {
-            return;
-        }
-
-        SDL.Rect rect = new SDL.Rect { x = pixel.x, y = pixel.y, w = 1, h = 1 };
-        byte[] buffer = new byte[4] { pixel.a, pixel.r, pixel.g, pixel.b };
-
-        fixed (byte* ptr = buffer)
-        {
-            SDL.UpdateTexture(texture, &rect, (IntPtr)ptr, 1 * 4);
-        }
+        SDL_RenderTextureRotated(GetRenderer(), texture, &src, &dst, angle, &center, mode);
     }
+    
+    // Get Texture Properties
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern uint SDL_GetTextureProperties(IntPtr texture);
+    public static int GetTextureWidth(IntPtr texture) => (int)GetNumberProperty(SDL_GetTextureProperties(texture), "SDL.texture.width");
+    public static int GetTextureHeight(IntPtr texture) => (int)GetNumberProperty(SDL_GetTextureProperties(texture), "SDL.texture.height");
+    public static PixelFormat GetTextureFormat(IntPtr texture) => (PixelFormat)GetNumberProperty(SDL_GetTextureProperties(texture), "SDL.texture.format");
+    public static TextureAccess GetTextureAccess(IntPtr texture) =>(TextureAccess)GetNumberProperty(SDL_GetTextureProperties(texture), "SDL.texture.access");
 }
