@@ -4,7 +4,7 @@ public static unsafe partial class SDL
 {
     public enum PixelFormat
 	{
-		UNKNOWN = 0,
+		Unknown = 0,
 		INDEX1LSB = 286261504,
 		INDEX1MSB = 287310080,
 		INDEX2LSB = 470811136,

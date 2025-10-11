@@ -10,6 +10,14 @@ public static unsafe partial class SDL
         return SDL_CreateSurface(w, h, format);
     }
     
+    // Destroy Surface
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern void SDL_DestroySurface(IntPtr surface);
+    public static void DestroySurface(IntPtr surface)
+    {
+        SDL_DestroySurface(surface);
+    }
+    
     // Create Surface From Texture
     public static IntPtr CreateSurfaceFromTexture(IntPtr texture)
     {
@@ -31,14 +39,6 @@ public static unsafe partial class SDL
         SDL.DestroyTexture(target);
         
         return surface;
-    }
-    
-    // Destroy Surface
-    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern void SDL_DestroySurface(IntPtr surface);
-    public static void DestroySurface(IntPtr surface)
-    {
-        SDL_DestroySurface(surface);
     }
     
     // Flip Surface
@@ -171,5 +171,22 @@ public static unsafe partial class SDL
     {
         SDL_GetSurfaceClipRect(surface, out SDL.Rect rect);
         return rect;
+    }
+    
+    // Write Surface Pixel
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool SDL_WriteSurfacePixel(IntPtr surface, int x, int y, byte r, byte g, byte b, byte a);
+    public static void WriteSurfacePixel(IntPtr surface, int x, int y, byte r, byte g, byte b, byte a)
+    {
+        SDL_WriteSurfacePixel(surface, x, y, r, g, b, a);
+    }
+    
+    // Read Surface Pixel
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool SDL_ReadSurfacePixel(IntPtr surface, int x, int y, out byte r, out byte g, out byte b, out byte a);
+    public static (byte r, byte g, byte b, byte a) ReadSurfacePixel(IntPtr surface, int x, int y)
+    {
+        SDL_ReadSurfacePixel(surface, x, y, out byte r, out byte g, out byte b, out byte a);
+        return (r, g, b, a);
     }
 }
