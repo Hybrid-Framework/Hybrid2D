@@ -6,7 +6,13 @@ namespace App
     {
         public override void Init()
         {
-            
+            if (!SDL.Init(SDL.InitFlags.Everything))
+            {
+                throw new Exception(SDL.GetError());
+            }
+
+            var window = SDL.CreateWindow("title", 600, 400, SDL.WindowFlags.HighPixelDensity);
+            SDL.DestroyWindow(window);
         }
         
         public override void Update()
