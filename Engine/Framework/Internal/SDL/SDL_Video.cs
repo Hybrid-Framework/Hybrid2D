@@ -108,6 +108,38 @@ public static unsafe partial class SDL
         return SDL_SetWindowFullscreen(window, fullscreen);
     }
     
+    // Get Natural Display Orientation
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Orientation SDL_GetNaturalDisplayOrientation(uint displayID);
+    public static SDL.Orientation GetNaturalDisplayOrientation(uint displayID)
+    {
+        return SDL_GetNaturalDisplayOrientation(displayID);
+    }
+    
+    // Get Current Display Orientation
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Orientation SDL_GetCurrentDisplayOrientation(uint displayID);
+    public static SDL.Orientation GetCurrentDisplayOrientation(uint displayID)
+    {
+        return SDL_GetCurrentDisplayOrientation(displayID);
+    }
+    
+    // Get Display For Window
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern uint SDL_GetDisplayForWindow(IntPtr window);
+    public static uint GetDisplayForWindow(IntPtr window)
+    {
+        return SDL_GetDisplayForWindow(window);
+    }
+    
+    // Get Window Safe Area
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool SDL_GetWindowSafeArea(IntPtr window, out SDL.Rect rect);
+    public static bool GetWindowSafeArea(IntPtr window, out SDL.Rect rect)
+    {
+        return SDL_GetWindowSafeArea(window, out rect);
+    }
+    
     // Show Window
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_ShowWindow(IntPtr window);

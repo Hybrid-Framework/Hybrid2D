@@ -2,7 +2,7 @@
 
 namespace App
 {
-    public class Game : Behaviour
+    public unsafe class Game : Behaviour
     {
         public override void Init()
         {
@@ -12,7 +12,10 @@ namespace App
             }
 
             var window = SDL.CreateWindow("title", 600, 400, SDL.WindowFlags.HighPixelDensity);
-            SDL.DestroyWindow(window);
+            var renderer = SDL.CreateRenderer(window, null);
+
+            SDL.Rect rect = new SDL.Rect();
+            SDL.SetRenderClipRect(renderer, rect);
         }
         
         public override void Update()
