@@ -5,6 +5,16 @@
         <Scheme>MacOS</Scheme>
         <DefineConstants>$(Scheme)</DefineConstants>
     </PropertyGroup>
+
+<!-- Icon -->
+    <PropertyGroup>
+        <ApplicationIcon>..\..\Hybrid.ico</ApplicationIcon>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="..\..\Hybrid.png" Link="Hybrid.png" />
+        <EmbeddedResource Include="..\..\Hybrid.ico" Link="Hybrid.ico" />
+    </ItemGroup>
     
 <!-- Assets -->
     <ItemGroup>

@@ -1,6 +1,6 @@
 <div align="center">
  
-<img width="256" src="Hybrid.png">
+<img width="192" src="Hybrid.png">
 
 A lightweight cross-platform game framework
 

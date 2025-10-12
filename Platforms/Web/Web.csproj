@@ -1,17 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk.WebAssembly">
 
     <PropertyGroup>
-        <WasmAllowUndefinedSymbols>true</WasmAllowUndefinedSymbols>
-        <WasmEmitSymbolMap>true</WasmEmitSymbolMap>
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <TargetFramework>net9.0</TargetFramework>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
-
-    <ItemGroup>
-        <EmbeddedResource Include="wwwroot/Icon.png" />
-    </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\..\App\App.csproj" />

@@ -4,13 +4,24 @@
     <PropertyGroup>
         <Scheme>Web</Scheme>
         <DefineConstants>$(Scheme)</DefineConstants>
-
+        <WasmAllowUndefinedSymbols>true</WasmAllowUndefinedSymbols>
+        <WasmEmitSymbolMap>true</WasmEmitSymbolMap>
         <EmccExtraLDFlags>
             -sDEFAULT_LIBRARY_FUNCS_TO_INCLUDE=$autoResumeAudioContext,$dynCall
             --embed-file ../../App/Assets@Assets
             -sALLOW_MEMORY_GROWTH=1
         </EmccExtraLDFlags>
     </PropertyGroup>
+
+<!-- Icon -->
+    <PropertyGroup>
+        <ApplicationIcon>..\..\Hybrid.ico</ApplicationIcon>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <EmbeddedResource Include="..\..\Hybrid.png" Link="Hybrid.png" />
+        <EmbeddedResource Include="..\..\Hybrid.ico" Link="Hybrid.ico" />
+    </ItemGroup>
     
 <!-- Assets -->
     <ItemGroup>
@@ -29,12 +40,8 @@
 
 <!-- Web Files -->
     <ItemGroup>
-        <Content Update="wwwroot\index.html">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
-        <Content Update="wwwroot\main.js">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
+        <Content Update="wwwroot\index.html" CopyToOutputDirectory="PreserveNewest" />
+        <Content Update="wwwroot\main.js" CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>
 
 </Project>
