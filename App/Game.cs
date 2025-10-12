@@ -6,7 +6,10 @@ namespace App
     {
         public override void Init()
         {
-            
+            if(!SDL.Init(SDL.InitFlags.Everything))
+            {
+                throw new Exception();
+            }
         }
         
         public override void Update()
