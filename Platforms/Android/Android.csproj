@@ -3,6 +3,9 @@
     <PropertyGroup>
         <TargetFramework>net9.0-android</TargetFramework>
         <SupportedOSPlatformVersion>26</SupportedOSPlatformVersion>
+        <AndroidTargetSdkVersion>35</AndroidTargetSdkVersion>
+        <TargetFrameworkVersion>35</TargetFrameworkVersion>
+        <AndroidMinSdkVersion>26</AndroidMinSdkVersion>
         <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
         <ApplicationId>com.companyname.Android</ApplicationId>
         <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>

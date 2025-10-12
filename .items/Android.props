@@ -17,7 +17,7 @@
     
 <!-- Icon -->
     <ItemGroup>
-        <AndroidResource Include="..\..\Hybrid.png" Link="Resources\drawable\Hybrid.png" />
+        <AndroidResource Include="..\..\Hybrid.png" Link="Resources\drawable-v26\Hybrid.png" />
     </ItemGroup>
     
 <!-- Natives -->
