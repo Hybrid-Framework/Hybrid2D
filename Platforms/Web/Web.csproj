@@ -10,6 +10,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <EmbeddedResource Include="wwwroot/Icon.png" />
+    </ItemGroup>
+
+    <ItemGroup>
         <ProjectReference Include="..\..\App\App.csproj" />
     </ItemGroup>
 

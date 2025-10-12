@@ -27,4 +27,14 @@
         <EmccExportedRuntimeMethod Include="SDL"/>
     </ItemGroup>
 
+<!-- Web Files -->
+    <ItemGroup>
+        <Content Update="wwwroot\index.html">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Update="wwwroot\main.js">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
 </Project>
