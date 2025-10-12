@@ -12,10 +12,8 @@ namespace App
             }
 
             var window = SDL.CreateWindow("title", 600, 400, SDL.WindowFlags.HighPixelDensity);
-            var renderer = SDL.CreateRenderer(window, null);
-
-            SDL.Rect rect = new SDL.Rect();
-            SDL.SetRenderClipRect(renderer, rect);
+            
+            
         }
         
         public override void Update()
