@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">Android</string>
-    <string name="app_text">Hello, Android!</string>
+    <string name="app_name">Hybrid</string>
+    <string name="app_text">Hybrid Framework</string>
 </resources>

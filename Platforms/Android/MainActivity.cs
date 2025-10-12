@@ -4,7 +4,7 @@ using Hybrid;
 using App;
 
 [Activity(
-    Label = "Android", 
+    Label = "Hybrid", 
     Exported = true,
     MainLauncher = true,
     HardwareAccelerated = true,

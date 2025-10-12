@@ -12,6 +12,10 @@
         <OutputType>Exe</OutputType>
         <Nullable>enable</Nullable>
     </PropertyGroup>
+    
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable\Icon.png" />
+    </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\..\App\App.csproj" />
