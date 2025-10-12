@@ -15,6 +15,11 @@
         </AndroidAsset>
     </ItemGroup>
     
+<!-- Icon -->
+    <ItemGroup>
+        <AndroidResource Include="..\..\Hybrid.png" Link="Resources\drawable\Hybrid.png" />
+    </ItemGroup>
+    
 <!-- Natives -->
     <ItemGroup>
         <EmbeddedJar Include="Jars\SDLActivity.jar">
