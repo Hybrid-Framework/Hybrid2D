@@ -164,14 +164,12 @@ public static unsafe partial class SDL
         return SDL_HideWindow(window);
     }
     
-    
-    
     // Set Window Icon
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_SetWindowIcon(SDL.Window* window, SDL.Surface* icon);
-    public static bool SetWindowIcon(SDL.Window* window, SDL.Surface* icon)
+    private static extern SDL.Bool SDL_SetWindowIcon(SDL.Window* window, SDL.Surface* surface);
+    public static bool SetWindowIcon(SDL.Window* window, SDL.Surface* surface)
     {
-        return SDL_SetWindowIcon(window, icon);
+        return SDL_SetWindowIcon(window, surface);
     }
     
     // Get Window Safe Area
