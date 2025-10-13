@@ -65,10 +65,13 @@ public static unsafe partial class SDL
     
     // Set Render Viewport
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_SetRenderViewport(SDL.Renderer* renderer, ref SDL.Rect rect);
-    public static bool SetRenderViewport(SDL.Renderer* renderer, ref SDL.Rect rect)
+    private static extern SDL.Bool SDL_SetRenderViewport(SDL.Renderer* renderer, SDL.Rect* rect);
+    public static bool SetRenderViewport(SDL.Renderer* renderer, SDL.Rect? rect)
     {
-        return SDL_SetRenderViewport(renderer, ref rect);
+        SDL.Rect r = rect.GetValueOrDefault();
+        var rv = (rect.HasValue ? &r : null);
+        
+        return SDL_SetRenderViewport(renderer, rv);
     }
     
     // Get Render Viewport
@@ -89,10 +92,13 @@ public static unsafe partial class SDL
     
     // Set Render Clip Rect
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_SetRenderClipRect(SDL.Renderer* renderer, ref SDL.Rect rect);
-    public static bool SetRenderClipRect(SDL.Renderer* renderer, ref SDL.Rect rect)
+    private static extern SDL.Bool SDL_SetRenderClipRect(SDL.Renderer* renderer, SDL.Rect* rect);
+    public static bool SetRenderClipRect(SDL.Renderer* renderer, SDL.Rect? rect)
     {
-        return SDL_SetRenderClipRect(renderer, ref rect);
+        SDL.Rect r = rect.GetValueOrDefault();
+        var rv = (rect.HasValue ? &r : null);
+        
+        return SDL_SetRenderClipRect(renderer, rv);
     }
     
     // Get Render Clip Rect

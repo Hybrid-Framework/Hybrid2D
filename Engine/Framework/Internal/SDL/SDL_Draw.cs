@@ -52,10 +52,13 @@ public static unsafe partial class SDL
     
     // Render Read Pixels
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Surface* SDL_RenderReadPixels(SDL.Renderer* renderer, ref SDL.Rect rect);
-    public static SDL.Surface* RenderReadPixels(SDL.Renderer* renderer, ref SDL.Rect rect)
+    private static extern SDL.Surface* SDL_RenderReadPixels(SDL.Renderer* renderer, SDL.Rect* rect);
+    public static SDL.Surface* RenderReadPixels(SDL.Renderer* renderer, SDL.Rect? rect)
     {
-        return SDL_RenderReadPixels(renderer, ref rect);
+        SDL.Rect r = rect.GetValueOrDefault();
+        var rv = (rect.HasValue ? &r : null);
+        
+        return SDL_RenderReadPixels(renderer, rv);
     }
     
     // Render Point
@@ -92,10 +95,13 @@ public static unsafe partial class SDL
     
     // Render Rect
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_RenderRect(SDL.Renderer* renderer, ref SDL.FRect rect);
-    public static bool RenderRect(SDL.Renderer* renderer, ref SDL.FRect rect)
+    private static extern SDL.Bool SDL_RenderRect(SDL.Renderer* renderer, SDL.FRect* rect);
+    public static bool RenderRect(SDL.Renderer* renderer, SDL.FRect? rect)
     {
-        return SDL_RenderRect(renderer, ref rect);
+        SDL.FRect r = rect.GetValueOrDefault();
+        var rv = (rect.HasValue ? &r : null);
+        
+        return SDL_RenderRect(renderer, rv);
     }
     
     // Render Rects
@@ -108,10 +114,13 @@ public static unsafe partial class SDL
     
     // Render Fill Rect
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_RenderFillRect(SDL.Renderer* renderer, ref SDL.FRect rect);
-    public static bool RenderFillRect(SDL.Renderer* renderer, ref SDL.FRect rect)
+    private static extern SDL.Bool SDL_RenderFillRect(SDL.Renderer* renderer, SDL.FRect* rect);
+    public static bool RenderFillRect(SDL.Renderer* renderer, SDL.FRect? rect)
     {
-        return SDL_RenderFillRect(renderer, ref rect);
+        SDL.FRect r = rect.GetValueOrDefault();
+        var rv = (rect.HasValue ? &r : null);
+        
+        return SDL_RenderFillRect(renderer, rv);
     }
     
     // Render Fill Rects
