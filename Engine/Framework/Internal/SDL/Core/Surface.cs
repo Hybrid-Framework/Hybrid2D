@@ -10,7 +10,7 @@ public static unsafe partial class SDL
         public int w;
         public int h;
         public int pitch;
-        public byte* pixels;
+        public IntPtr pixels;
         private int refcount;
         private IntPtr reserved;
     }
