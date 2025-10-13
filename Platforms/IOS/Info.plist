@@ -4,6 +4,10 @@
     <dict>
         <key>CFBundleDisplayName</key>
         <string>IOS</string>
+        <key>CFBundleIconFiles</key>
+        <array>
+            <string>Icon.png</string>
+        </array>
         <key>CFBundleIdentifier</key>
         <string>com.companyname.iOS</string>
         <key>CFBundleShortVersionString</key>
