@@ -143,6 +143,22 @@ public static unsafe partial class SDL
         return SDL_GetRenderVSync(renderer, out vsync);
     }
     
+    // Set Render Color Scale
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool SDL_SetRenderColorScale(SDL.Renderer* renderer, float scale);
+    public static bool SetRenderColorScale(SDL.Renderer* renderer, float scale)
+    {
+        return SDL_SetRenderColorScale(renderer, scale);
+    }
+    
+    // Get Render Color Scale
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool SDL_GetRenderColorScale(SDL.Renderer* renderer, out float scale);
+    public static bool GetRenderColorScale(SDL.Renderer* renderer, out float scale)
+    {
+        return SDL_GetRenderColorScale(renderer, out scale);
+    }
+    
     // Get Render Output Size
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_GetRenderOutputSize(SDL.Renderer* renderer, out int w, out int h);
