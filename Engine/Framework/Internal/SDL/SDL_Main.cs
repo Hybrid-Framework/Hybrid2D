@@ -13,4 +13,12 @@ public static unsafe partial class SDL
     {
         return SDL_RunApp(argc, argv, function, reserved);
     }
+    
+    // Set Main Ready
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern void SDL_SetMainReady();
+    public static void SetMainReady()
+    {
+        SDL_SetMainReady();
+    }
 }
