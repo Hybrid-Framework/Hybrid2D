@@ -44,9 +44,9 @@ Currently supports these platforms:
 <h2 id="dependencies">📦 Dependencies</h2>
 
 Currently using these dependencies:
-  * [EMSCRIPTEN 3.1.56](https://github.com/emscripten-core/emscripten) is a complete compiler toolchain to WebAssembly for great web support.
-  * [NET 9.0](https://github.com/dotnet/runtime) is a cross-platform runtime for desktop, mobile & web applications.
-  * [SDL 3.0](https://github.com/libsdl-org/SDL) is a simple direct media abstraction layer.
+  * [EMSCRIPTEN 3.1.56](https://github.com/emscripten-core/emscripten)
+  * [DOTNET 9.0](https://github.com/dotnet/runtime)
+  * [SDL 3.0](https://github.com/libsdl-org/SDL)
 
 
 <h2 id="contributions">🫂 Contributions</h2>
