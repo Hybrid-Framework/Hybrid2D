@@ -12,8 +12,8 @@ public static unsafe partial class SDL
     
     // Get User Path
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern byte* SDL_GetUserFolder(SDL.SystemFolder folder);
-    public static string GetUserFolder(SDL.SystemFolder folder)
+    private static extern byte* SDL_GetUserFolder(SDL.Folder folder);
+    public static string GetUserFolder(SDL.Folder folder)
     {
         return Utf8ToString(SDL_GetUserFolder(folder));
     }
@@ -71,8 +71,8 @@ public static unsafe partial class SDL
     
     // Load File
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern byte* SDL_LoadFile(byte* file, out UIntPtr size);
-    public static byte* LoadFile(string file, out UIntPtr size)
+    private static extern IntPtr SDL_LoadFile(byte* file, out UIntPtr size);
+    public static IntPtr LoadFile(string file, out UIntPtr size)
     {
         var bytes = StringToUtf8(file);
 
@@ -84,14 +84,55 @@ public static unsafe partial class SDL
     
     // Save File
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_SaveFile(byte* file, byte* data, UIntPtr size);
-    public static bool SaveFile(string file, byte* data, UIntPtr size)
+    private static extern SDL.Bool SDL_SaveFile(byte* file, IntPtr data, UIntPtr size);
+    public static bool SaveFile(string file, IntPtr data, UIntPtr size)
     {
         var bytes = StringToUtf8(file);
 
         fixed (byte* utf8 = bytes)
         {
             return SDL_SaveFile(utf8, data, size);
+        }
+    }
+    
+    // Create Directory
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool SDL_CreateDirectory(byte* path);
+    public static bool CreateDirectory(string path)
+    {
+        var bytes = StringToUtf8(path);
+
+        fixed (byte* utf8 = bytes)
+        {
+            return SDL_CreateDirectory(utf8);
+        }
+    }
+    
+    // Get Path Info
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool SDL_GetPathInfo(byte* path, out SDL.PathInfo info);
+    public static bool GetPathInfo(string path, out SDL.PathInfo info)
+    {
+        var bytes = StringToUtf8(path);
+
+        fixed (byte* utf8 = bytes)
+        {
+            return SDL_GetPathInfo(utf8, out info);
+        }
+    }
+    
+    // Glob Directory
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern IntPtr SDL_GlobDirectory(byte* path, byte* pattern, SDL.GlobFlags flags, out int count);
+    public static IntPtr GlobDirectory(string path, string pattern, SDL.GlobFlags flags, out int count)
+    {
+        var bytesPath = StringToUtf8(path);
+        var bytesPattern = StringToUtf8(pattern);
+
+        fixed (byte* utf8Path = bytesPath)
+        fixed (byte* utf8Pattern = bytesPattern)
+        {
+            return SDL_GlobDirectory(utf8Path, utf8Pattern, flags, out count);
         }
     }
 }

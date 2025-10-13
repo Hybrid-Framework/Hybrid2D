@@ -165,8 +165,8 @@ public static unsafe partial class SDL
     
     // Update Texture
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_UpdateTexture(SDL.Texture* texture, SDL.Rect* rect, byte* pixels, int pitch);
-    public static bool UpdateTexture(SDL.Texture* texture, SDL.Rect? rect, byte* pixels, int pitch)
+    private static extern SDL.Bool SDL_UpdateTexture(SDL.Texture* texture, SDL.Rect* rect, IntPtr pixels, int pitch);
+    public static bool UpdateTexture(SDL.Texture* texture, SDL.Rect? rect, IntPtr pixels, int pitch)
     {
         SDL.Rect r = rect.GetValueOrDefault();
         var rv = (rect.HasValue ? &r : null);
@@ -176,8 +176,8 @@ public static unsafe partial class SDL
     
     // Lock Texture
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_LockTexture(SDL.Texture* texture, SDL.Rect* rect, out byte* pixels, out int pitch);
-    public static bool LockTexture(SDL.Texture* texture, SDL.Rect? rect, out byte* pixels, out int pitch)
+    private static extern SDL.Bool SDL_LockTexture(SDL.Texture* texture, SDL.Rect* rect, out IntPtr pixels, out int pitch);
+    public static bool LockTexture(SDL.Texture* texture, SDL.Rect? rect, out IntPtr pixels, out int pitch)
     {
         SDL.Rect r = rect.GetValueOrDefault();
         var rv = (rect.HasValue ? &r : null);

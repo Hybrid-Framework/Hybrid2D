@@ -2,7 +2,7 @@
 
 public static unsafe partial class SDL
 {
-    public enum SystemFolder
+    public enum Folder
     {
         Home = 0,
         Desktop = 1,
