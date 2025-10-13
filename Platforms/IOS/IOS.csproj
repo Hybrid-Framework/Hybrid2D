@@ -11,10 +11,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <BundleResource Include="Icon.png"/>
-    </ItemGroup>
-
-    <ItemGroup>
         <ProjectReference Include="..\..\App\App.csproj" />
     </ItemGroup>
 

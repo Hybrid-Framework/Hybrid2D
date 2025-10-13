@@ -3,10 +3,10 @@
 <plist version="1.0">
     <dict>
         <key>CFBundleDisplayName</key>
-        <string>IOS</string>
+        <string>Hybrid</string>
         <key>CFBundleIconFiles</key>
         <array>
-            <string>Icon.png</string>
+            <string>Hybrid.png</string>
         </array>
         <key>CFBundleIdentifier</key>
         <string>com.companyname.iOS</string>

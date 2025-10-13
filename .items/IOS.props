@@ -5,6 +5,11 @@
         <Scheme>IOS</Scheme>
         <DefineConstants>$(Scheme)</DefineConstants>
     </PropertyGroup>
+    
+<!-- Icon -->
+    <ItemGroup>
+        <BundleResource Include="..\..\Hybrid.png" Link="Hybrid.png"/>
+    </ItemGroup>
 
 <!-- Assets -->
     <ItemGroup>
