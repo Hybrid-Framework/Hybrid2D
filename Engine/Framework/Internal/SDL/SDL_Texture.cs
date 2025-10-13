@@ -10,6 +10,14 @@ public static unsafe partial class SDL
         return SDL_CreateTexture(renderer, format, access, w, h);
     }
     
+    // Create Texture With Properties
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Texture* SDL_CreateTextureWithProperties(SDL.Renderer* renderer, uint properties);
+    public static SDL.Texture* CreateTextureWithProperties(SDL.Renderer* renderer, uint properties)
+    {
+        return SDL_CreateTextureWithProperties(renderer, properties);
+    }
+    
     // Create Texture From Surface
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Texture* SDL_CreateTextureFromSurface(SDL.Renderer* renderer, SDL.Surface* surface);
@@ -183,5 +191,48 @@ public static unsafe partial class SDL
     public static void UnlockTexture(SDL.Texture* texture)
     {
         SDL_UnlockTexture(texture);
+    }
+    
+    // Get Texture Properties
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern uint SDL_GetTextureProperties(SDL.Texture* texture);
+    public static uint GetTextureProperties(SDL.Texture* texture)
+    {
+        return SDL_GetTextureProperties(texture);
+    }
+    
+    // Get Texture Width
+    public static unsafe int GetTextureWidth(SDL.Texture* texture)
+    {
+        uint properties = SDL_GetTextureProperties(texture);
+        return (int)GetNumberProperty(properties, Properties.PropertyTextureWidth, 0);
+    }
+    
+    // Get Texture Height
+    public static int GetTextureHeight(SDL.Texture* texture)
+    {
+        uint properties = SDL_GetTextureProperties(texture);
+        return (int)GetNumberProperty(properties, Properties.PropertyTextureHeight, 0);
+    }
+    
+    // Get Texture Format
+    public static SDL.PixelFormat GetTextureFormat(SDL.Texture* texture)
+    {
+        uint properties = SDL_GetTextureProperties(texture);
+        return (SDL.PixelFormat)(int)GetNumberProperty(properties, Properties.PropertyTextureFormat, 0);
+    }
+    
+    // Get Texture Access
+    public static SDL.TextureAccess GetTextureAccess(SDL.Texture* texture)
+    {
+        uint properties = SDL_GetTextureProperties(texture);
+        return (SDL.TextureAccess)(int)GetNumberProperty(properties, Properties.PropertyTextureAccess, 0);
+    }
+    
+    // Get Texture Color Space
+    public static SDL.ColorSpace GetTextureColorSpace(SDL.Texture* texture)
+    {
+        uint properties = SDL_GetTextureProperties(texture);
+        return (SDL.ColorSpace)(int)GetNumberProperty(properties, Properties.PropertyTextureColorSpace, 0);
     }
 }

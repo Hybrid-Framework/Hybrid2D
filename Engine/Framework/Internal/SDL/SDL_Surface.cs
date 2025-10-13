@@ -10,6 +10,25 @@ public static unsafe partial class SDL
         return SDL_CreateSurface(w, h, format);
     }
     
+    // Create Surface From Texture
+    public static SDL.Surface* CreateSurfaceFromTexture(SDL.Renderer* renderer, SDL.Texture* texture)
+    {
+        var width = SDL.GetTextureWidth(texture);
+        var height = SDL.GetTextureHeight(texture);
+        var format = SDL.GetTextureFormat(texture);
+        var target = SDL.CreateTexture(renderer, format, TextureAccess.Target, width, height);
+
+        SDL.SetRenderTarget(renderer, target);
+        SDL.RenderTexture(renderer, texture, null, null);
+        
+        var surface = SDL.RenderReadPixels(renderer, null);
+        
+        SDL.SetRenderTarget(renderer, null);
+        SDL.DestroyTexture(target);
+        
+        return surface;
+    }
+    
     // Destroy Surface
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern void SDL_DestroySurface(SDL.Surface* surface);
