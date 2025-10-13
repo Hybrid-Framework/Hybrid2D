@@ -2,22 +2,6 @@
 
 public static unsafe partial class SDL
 {
-    // Set Render Draw Color
-    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_SetRenderDrawColor(SDL.Renderer* renderer, byte r, byte g, byte b, byte a);
-    public static bool SetRenderDrawColor(SDL.Renderer* renderer, byte r, byte g, byte b, byte a)
-    {
-        return SDL_SetRenderDrawColor(renderer, r, g, b, a);
-    }
-    
-    // Get Render Draw Color
-    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_GetRenderDrawColor(SDL.Renderer* renderer, out byte r, out byte g, out byte b, out byte a);
-    public static bool GetRenderDrawColor(SDL.Renderer* renderer, out byte r, out byte g, out byte b, out byte a)
-    {
-        return SDL_GetRenderDrawColor(renderer, out r, out g, out b, out a);
-    }
-    
     // Set Render Draw Blend Mode
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_SetRenderDrawBlendMode(SDL.Renderer* renderer, SDL.BlendMode mode);
@@ -34,31 +18,20 @@ public static unsafe partial class SDL
         return SDL_GetRenderDrawBlendMode(renderer, out mode);
     }
     
-    // Render Clear
+    // Set Render Draw Color
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_RenderClear(SDL.Renderer* renderer);
-    public static bool RenderClear(SDL.Renderer* renderer)
+    private static extern SDL.Bool SDL_SetRenderDrawColor(SDL.Renderer* renderer, byte r, byte g, byte b, byte a);
+    public static bool SetRenderDrawColor(SDL.Renderer* renderer, byte r, byte g, byte b, byte a)
     {
-        return SDL_RenderClear(renderer);
+        return SDL_SetRenderDrawColor(renderer, r, g, b, a);
     }
     
-    // Render Present
+    // Get Render Draw Color
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_RenderPresent(SDL.Renderer* renderer);
-    public static bool RenderPresent(SDL.Renderer* renderer)
+    private static extern SDL.Bool SDL_GetRenderDrawColor(SDL.Renderer* renderer, out byte r, out byte g, out byte b, out byte a);
+    public static bool GetRenderDrawColor(SDL.Renderer* renderer, out byte r, out byte g, out byte b, out byte a)
     {
-        return SDL_RenderPresent(renderer);
-    }
-    
-    // Render Read Pixels
-    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Surface* SDL_RenderReadPixels(SDL.Renderer* renderer, SDL.Rect* rect);
-    public static SDL.Surface* RenderReadPixels(SDL.Renderer* renderer, SDL.Rect? rect)
-    {
-        SDL.Rect r = rect.GetValueOrDefault();
-        var rv = (rect.HasValue ? &r : null);
-        
-        return SDL_RenderReadPixels(renderer, rv);
+        return SDL_GetRenderDrawColor(renderer, out r, out g, out b, out a);
     }
     
     // Render Point
@@ -137,5 +110,32 @@ public static unsafe partial class SDL
     public static bool RenderGeometry(SDL.Renderer* renderer, SDL.Texture* texture, SDL.Vertex[] vertices, int verticesCount, int[] indices, int indicesCount)
     {
         return SDL_RenderGeometry(renderer, texture, vertices, verticesCount, indices, indicesCount);
+    }
+    
+    // Render Read Pixels
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Surface* SDL_RenderReadPixels(SDL.Renderer* renderer, SDL.Rect* rect);
+    public static SDL.Surface* RenderReadPixels(SDL.Renderer* renderer, SDL.Rect? rect)
+    {
+        SDL.Rect r = rect.GetValueOrDefault();
+        var rv = (rect.HasValue ? &r : null);
+        
+        return SDL_RenderReadPixels(renderer, rv);
+    }
+    
+    // Render Clear
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool SDL_RenderClear(SDL.Renderer* renderer);
+    public static bool RenderClear(SDL.Renderer* renderer)
+    {
+        return SDL_RenderClear(renderer);
+    }
+    
+    // Render Present
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool SDL_RenderPresent(SDL.Renderer* renderer);
+    public static bool RenderPresent(SDL.Renderer* renderer)
+    {
+        return SDL_RenderPresent(renderer);
     }
 }

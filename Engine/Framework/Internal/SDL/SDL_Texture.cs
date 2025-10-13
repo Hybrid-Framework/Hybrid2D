@@ -202,7 +202,7 @@ public static unsafe partial class SDL
     }
     
     // Get Texture Width
-    public static unsafe int GetTextureWidth(SDL.Texture* texture)
+    public static int GetTextureWidth(SDL.Texture* texture)
     {
         uint properties = SDL_GetTextureProperties(texture);
         return (int)GetNumberProperty(properties, Properties.PropertyTextureWidth, 0);
