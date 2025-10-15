@@ -19,12 +19,8 @@ namespace App
             window = SDL.CreateWindow("Hello World", 600, 400, SDL.WindowFlags.HighPixelDensity);
             renderer = SDL.CreateRenderer(window, null);
 
-            texture = SDL.CreateTexture(renderer, SDL.PixelFormat.RGBA8888, SDL.TextureAccess.Streaming, 32, 32);
-            surface = SDL.CreateSurface(32, 32, SDL.PixelFormat.RGBA8888);
-            
-            SDL.LogDebug(SDL.LogCategory.Application, "Debug Message Here");
-            SDL.LogWarn(SDL.LogCategory.Application, "Warning Message Here");
-            SDL.LogError(SDL.LogCategory.Application, "Error Message Here");
+            texture = SDL_image.LoadTexture(renderer, FileSystem.LoadAsset("Image.png"));
+            SDL.SetTextureScaleMode(texture, SDL.ScaleMode.Pixel);
         }
         
         public override void Update()
@@ -46,6 +42,8 @@ namespace App
         {
             SDL.SetRenderDrawColor(renderer, 255, 128, 128, 255);
             SDL.RenderClear(renderer);
+
+            SDL.RenderTexture(renderer, texture, null, null);
 
             SDL.RenderPresent(renderer);
         }

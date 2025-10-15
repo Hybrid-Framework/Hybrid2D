@@ -196,7 +196,7 @@ public static unsafe partial class SDL
     // Get Texture Properties
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern uint SDL_GetTextureProperties(IntPtr texture);
-    public static uint GetTextureProperties(IntPtr texture)
+    private static uint GetTextureProperties(IntPtr texture)
     {
         return SDL_GetTextureProperties(texture);
     }
@@ -204,35 +204,35 @@ public static unsafe partial class SDL
     // Get Texture Width
     public static int GetTextureWidth(IntPtr texture)
     {
-        uint properties = SDL_GetTextureProperties(texture);
+        uint properties = GetTextureProperties(texture);
         return (int)GetNumberProperty(properties, Properties.PropertyTextureWidth, 0);
     }
     
     // Get Texture Height
     public static int GetTextureHeight(IntPtr texture)
     {
-        uint properties = SDL_GetTextureProperties(texture);
+        uint properties = GetTextureProperties(texture);
         return (int)GetNumberProperty(properties, Properties.PropertyTextureHeight, 0);
     }
     
     // Get Texture Format
     public static SDL.PixelFormat GetTextureFormat(IntPtr texture)
     {
-        uint properties = SDL_GetTextureProperties(texture);
+        uint properties = GetTextureProperties(texture);
         return (SDL.PixelFormat)(int)GetNumberProperty(properties, Properties.PropertyTextureFormat, 0);
     }
     
     // Get Texture Access
     public static SDL.TextureAccess GetTextureAccess(IntPtr texture)
     {
-        uint properties = SDL_GetTextureProperties(texture);
+        uint properties = GetTextureProperties(texture);
         return (SDL.TextureAccess)(int)GetNumberProperty(properties, Properties.PropertyTextureAccess, 0);
     }
     
     // Get Texture Color Space
     public static SDL.ColorSpace GetTextureColorSpace(IntPtr texture)
     {
-        uint properties = SDL_GetTextureProperties(texture);
+        uint properties = GetTextureProperties(texture);
         return (SDL.ColorSpace)(int)GetNumberProperty(properties, Properties.PropertyTextureColorSpace, 0);
     }
 }

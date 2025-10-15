@@ -2,6 +2,18 @@
 
 public static unsafe partial class SDL_image
 {
+    // Init
+    public static bool Init()
+    {
+        return true;
+    }
+    
+    // Quit
+    public static void Quit()
+    {
+        return;
+    }
+    
     // Load Texture
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern IntPtr IMG_LoadTexture(IntPtr renderer, byte* file);

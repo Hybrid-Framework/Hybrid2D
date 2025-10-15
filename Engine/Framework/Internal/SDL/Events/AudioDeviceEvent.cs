@@ -8,7 +8,7 @@ public static unsafe partial class SDL
         public SDL.EventType type;
         public uint reserved;
         public ulong timestamp;
-        public SDL.AudioDevice deviceID;
+        public uint audioDeviceID;
         public SDL.Bool recording;
         private byte padding1;
         private byte padding2;

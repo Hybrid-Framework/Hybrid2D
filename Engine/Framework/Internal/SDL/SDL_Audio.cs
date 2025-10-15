@@ -2,18 +2,23 @@
 
 public static unsafe partial class SDL
 {
+    // Default Devices
+    public const uint DefaultPlaybackDevice = 0xFFFFFFFFu;
+    public const uint DefaultRecordingDevice = 0xFFFFFFFEu;
+    
+        
     // Open Audio Device
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.AudioDevice SDL_OpenAudioDevice(SDL.AudioDevice device, SDL.AudioSpec* spec);
-    public static SDL.AudioDevice OpenAudioDevice(SDL.AudioDevice device, SDL.AudioSpec spec)
+    private static extern uint SDL_OpenAudioDevice(uint device, SDL.AudioSpec* spec);
+    public static uint OpenAudioDevice(uint device, SDL.AudioSpec spec)
     {
         return SDL_OpenAudioDevice(device, &spec);
     }
     
     // Close Audio Device
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern void SDL_CloseAudioDevice(SDL.AudioDevice device);
-    public static void CloseAudioDevice(SDL.AudioDevice device)
+    private static extern void SDL_CloseAudioDevice(uint device);
+    public static void CloseAudioDevice(uint device)
     {
         SDL_CloseAudioDevice(device);
     }
