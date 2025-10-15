@@ -13,7 +13,7 @@ public static unsafe partial class SDL
         public SDL.MouseButtonFlags state;
         public float x;
         public float y;
-        public float xrel;
-        public float yrel;
+        public float x_relative;
+        public float y_relative;
     }
 }

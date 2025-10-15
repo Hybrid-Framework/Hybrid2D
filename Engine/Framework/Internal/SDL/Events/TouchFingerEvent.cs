@@ -12,8 +12,8 @@ public static unsafe partial class SDL
         public ulong fingerID;
         public float x;
         public float y;
-        public float dx;
-        public float dy;
+        public float x_delta;
+        public float y_delta;
         public float pressure;
         public uint windowID;
     }
