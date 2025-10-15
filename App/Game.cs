@@ -25,12 +25,25 @@ namespace App
         
         public override void Update()
         {
-            
+            while (SDL.PollEvent(out SDL.Event e))
+            {
+                var type = (SDL.EventType)e.type;
+                Console.WriteLine("Event: " + type);
+
+                if (type == SDL.EventType.Quit)
+                {
+                    Platform.Current.IsRunning = false;
+                    return;
+                }
+            }
         }
         
         public override void Render()
         {
-            
+            SDL.SetRenderDrawColor(renderer, 255, 128, 128, 255);
+            SDL.RenderClear(renderer);
+
+            SDL.RenderPresent(renderer);
         }
     }
 }
