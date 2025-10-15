@@ -8,7 +8,7 @@ public static unsafe partial class SDL
         public SDL.EventType type;
         public uint reserved;
         public ulong timestamp;
-        public ulong touchID;
+        public ulong touchDeviceID;
         public ulong fingerID;
         public float x;
         public float y;

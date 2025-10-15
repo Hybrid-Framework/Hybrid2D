@@ -10,6 +10,38 @@ public static unsafe partial class SDL
         return SDL_HasKeyboard();
     }
     
+    // Get Keyboards
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern IntPtr SDL_GetKeyboards(out int count);
+    public static IntPtr GetKeyboards(out int count)
+    {
+        return SDL_GetKeyboards(out count);
+    }
+    
+    // Get Keyboard Name for ID
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern byte* SDL_GetKeyboardNameForID(uint keyboardID);
+    public static string GetKeyboardNameForID(uint keyboardID)
+    {
+        return Utf8ToString(SDL_GetKeyboardNameForID(keyboardID));
+    }
+    
+    // Get Mod State
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.KeyModifier SDL_GetModState();
+    public static SDL.KeyModifier GetModState()
+    {
+        return SDL_GetModState();
+    }
+    
+    // Set Mod State
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern void SDL_SetModState(SDL.KeyModifier keyModifier);
+    public static void SetModState(SDL.KeyModifier keyModifier)
+    {
+        SDL_SetModState(keyModifier);
+    }
+    
     // Get Key Name
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern byte* SDL_GetKeyName(SDL.KeyCode keyCode);
