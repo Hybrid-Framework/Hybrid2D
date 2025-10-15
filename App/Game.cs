@@ -4,10 +4,10 @@ namespace App
 {
     public unsafe class Game : Behaviour
     {
-        private SDL.Renderer* renderer;
-        private SDL.Texture* texture;
-        private SDL.Surface* surface;
-        private SDL.Window* window;
+        private IntPtr renderer;
+        private IntPtr texture;
+        private IntPtr surface;
+        private IntPtr window;
         
         public override void Init()
         {
@@ -21,6 +21,10 @@ namespace App
 
             texture = SDL.CreateTexture(renderer, SDL.PixelFormat.RGBA8888, SDL.TextureAccess.Streaming, 32, 32);
             surface = SDL.CreateSurface(32, 32, SDL.PixelFormat.RGBA8888);
+            
+            SDL.LogDebug(SDL.LogCategory.Application, "Debug Message Here");
+            SDL.LogWarn(SDL.LogCategory.Application, "Warning Message Here");
+            SDL.LogError(SDL.LogCategory.Application, "Error Message Here");
         }
         
         public override void Update()
