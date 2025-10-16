@@ -19,7 +19,7 @@ namespace App
             window = SDL.CreateWindow("Hello World", 600, 400, SDL.WindowFlags.HighPixelDensity);
             renderer = SDL.CreateRenderer(window, null);
 
-            texture = SDL_image.LoadTexture(renderer, FileSystem.LoadAsset("Image.png"));
+            texture = SDL_Init.LoadTexture(renderer, FileSystem.LoadAsset("Image.png"));
             SDL.SetTextureScaleMode(texture, SDL.ScaleMode.Pixel);
         }
         
