@@ -5,17 +5,17 @@ public static unsafe partial class SDL
     public static class Properties
     {
         // Texture
-        public const string PropertyTextureColorSpace           = "SDL.texture.colorspace";
-        public const string PropertyTextureFormat               = "SDL.texture.format";
-        public const string PropertyTextureAccess               = "SDL.texture.access";
-        public const string PropertyTextureWidth                = "SDL.texture.width";
-        public const string PropertyTextureHeight               = "SDL.texture.height";
+        public const string Texture_ColorSpace = "SDL.texture.colorspace"; // number
+        public const string Texture_Format = "SDL.texture.format"; // number
+        public const string Texture_Access = "SDL.texture.access"; // number
+        public const string Texture_Width = "SDL.texture.width"; // number
+        public const string Texture_Height = "SDL.texture.height"; // number
         
         // Text Input
-        public const string PropertyTextInputType               = "SDL.textinput.type";
-        public const string PropertyTextInputCapitalization     = "SDL.textinput.capitalization";
-        public const string PropertyTextInputAutocorrect        = "SDL.textinput.autocorrect";
-        public const string PropertyTextInputMultiline          = "SDL.textinput.multiline";
-        public const string PropertyTextInputAndroidInputType   = "SDL.textinput.android.inputtype";
+        public const string Text_InputType = "SDL.textinput.type"; // number 
+        public const string Text_InputCapitalization = "SDL.textinput.capitalization"; // number
+        public const string Text_InputAutocorrect = "SDL.textinput.autocorrect"; // boolean
+        public const string Text_InputMultiline = "SDL.textinput.multiline"; // boolean
+        public const string Text_InputAndroidInputType = "SDL.textinput.android.inputtype"; // number
     }
 }
