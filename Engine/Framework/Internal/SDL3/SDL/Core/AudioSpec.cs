@@ -8,12 +8,12 @@ public static unsafe partial class SDL
         public SDL.AudioFormat format;
         public int channels;
         public int freq;
-
-        public AudioSpec(SDL.AudioFormat format = SDL.AudioFormat.S32, int channels = 2, int freq = 44100)
+        
+        public AudioSpec()
         {
-            this.channels = channels;
-            this.format = format;
-            this.freq = freq;
+            format = SDL.AudioFormat.S16;
+            channels = 1;
+            freq = 44100;
         }
     }
 }

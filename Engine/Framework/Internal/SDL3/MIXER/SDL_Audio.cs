@@ -70,4 +70,67 @@ public static unsafe partial class SDL_mixer
     {
         return MIX_PlayAudio(mixer, audio);
     }
+    
+    // Get Audio Title
+    public static string GetAudioTitle(IntPtr audio)
+    {
+        uint properties = GetAudioProperties(audio);
+        return SDL.GetStringProperty(properties, Properties.Audio_Title, String.Empty);
+    }
+    
+    // Get Audio Artist
+    public static string GetAudioArtist(IntPtr audio)
+    {
+        uint properties = GetAudioProperties(audio);
+        return SDL.GetStringProperty(properties, Properties.Audio_Artist, String.Empty);
+    }
+    
+    // Get Audio Album
+    public static string GetAudioAlbum(IntPtr audio)
+    {
+        uint properties = GetAudioProperties(audio);
+        return SDL.GetStringProperty(properties, Properties.Audio_Album, String.Empty);
+    }
+    
+    // Get Audio Copyright
+    public static string GetAudioCopyright(IntPtr audio)
+    {
+        uint properties = GetAudioProperties(audio);
+        return SDL.GetStringProperty(properties, Properties.Audio_Copyright, String.Empty);
+    }
+    
+    // Get Audio Track Number
+    public static long GetAudioTrackNumber(IntPtr audio)
+    {
+        uint properties = GetAudioProperties(audio);
+        return (int)SDL.GetNumberProperty(properties, Properties.Audio_Track, -1);
+    }
+    
+    // Get Audio Total Tracks Count
+    public static long GetAudioTotalTracksCount(IntPtr audio)
+    {
+        uint properties = GetAudioProperties(audio);
+        return (int)SDL.GetNumberProperty(properties, Properties.Audio_TotalTracks, -1);
+    }
+    
+    // Get Audio Year
+    public static long GetAudioYear(IntPtr audio)
+    {
+        uint properties = GetAudioProperties(audio);
+        return SDL.GetNumberProperty(properties, Properties.Audio_Year, -1);
+    }
+    
+    // Get Audio Duration Frames
+    public static long GetAudioDurationFrames(IntPtr audio)
+    {
+        uint properties = GetAudioProperties(audio);
+        return SDL.GetNumberProperty(properties, Properties.Audio_DurationFrames, -1);
+    }
+    
+    // Get Audio Duration Infinite
+    public static bool GetAudioDurationInfinite(IntPtr audio)
+    {
+        uint properties = GetAudioProperties(audio);
+        return SDL.GetBooleanProperty(properties, Properties.Audio_DurationInfinite, false);
+    }
 }

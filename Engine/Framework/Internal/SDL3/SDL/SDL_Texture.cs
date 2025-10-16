@@ -228,4 +228,39 @@ public static unsafe partial class SDL
     {
         return SDL_GetTextureProperties(texture);
     }
+    
+    // Get Texture Width
+    public static int GetTextureWidth(IntPtr texture)
+    {
+        uint properties = GetTextureProperties(texture);
+        return (int)GetNumberProperty(properties, Properties.Texture_Width, -1);
+    }
+    
+    // Get Texture Height
+    public static int GetTextureHeight(IntPtr texture)
+    {
+        uint properties = GetTextureProperties(texture);
+        return (int)GetNumberProperty(properties, Properties.Texture_Height, -1);
+    }
+    
+    // Get Texture Format
+    public static SDL.PixelFormat GetTextureFormat(IntPtr texture)
+    {
+        uint properties = GetTextureProperties(texture);
+        return (SDL.PixelFormat)GetNumberProperty(properties, Properties.Texture_Format, -1);
+    }
+    
+    // Get Texture Access
+    public static SDL.TextureAccess GetTextureAccess(IntPtr texture)
+    {
+        uint properties = GetTextureProperties(texture);
+        return (SDL.TextureAccess)GetNumberProperty(properties, Properties.Texture_Access, -1);
+    }
+    
+    // Get Texture Color Space
+    public static SDL.ColorSpace GetTextureColorSpace(IntPtr texture)
+    {
+        uint properties = GetTextureProperties(texture);
+        return (SDL.ColorSpace)GetNumberProperty(properties, Properties.Texture_ColorSpace, -1);
+    }
 }
