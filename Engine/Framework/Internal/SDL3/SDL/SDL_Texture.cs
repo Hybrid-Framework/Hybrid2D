@@ -163,6 +163,34 @@ public static unsafe partial class SDL
         return SDL_RenderTextureTiled(renderer, texture, sv, scale, dv);
     }
     
+    // Render Texture 9 Grid
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool SDL_RenderTexture9Grid(IntPtr renderer, IntPtr texture, SDL.FRect* src, float leftWidth, float rightWidth, float topHeight, float bottomHeight, float scale, SDL.FRect* dst);
+    public static bool RenderTexture9Grid(IntPtr renderer, IntPtr texture, SDL.FRect? src, float leftWidth, float rightWidth, float topHeight, float bottomHeight, float scale, SDL.FRect? dst)
+    {
+        SDL.FRect s = src.GetValueOrDefault();
+        var sv = (src.HasValue ? &s : null);
+        
+        SDL.FRect d = dst.GetValueOrDefault();
+        var dv = (dst.HasValue ? &d : null);
+
+        return SDL_RenderTexture9Grid(renderer, texture, sv, leftWidth, rightWidth, topHeight, bottomHeight, scale, dv);
+    }
+    
+    // Render Texture 9 Grid Tiled
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool SDL_RenderTexture9GridTiled(IntPtr renderer, IntPtr texture, SDL.FRect* src, float leftWidth, float rightWidth, float topHeight, float bottomHeight, float scale, SDL.FRect* dst, float tileScale);
+    public static bool RenderTexture9GridTiled(IntPtr renderer, IntPtr texture, SDL.FRect? src, float leftWidth, float rightWidth, float topHeight, float bottomHeight, float scale, SDL.FRect? dst, float tileScale)
+    {
+        SDL.FRect s = src.GetValueOrDefault();
+        var sv = (src.HasValue ? &s : null);
+        
+        SDL.FRect d = dst.GetValueOrDefault();
+        var dv = (dst.HasValue ? &d : null);
+
+        return SDL_RenderTexture9GridTiled(renderer, texture, sv, leftWidth, rightWidth, topHeight, bottomHeight, scale, dv, tileScale);
+    }
+    
     // Update Texture
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_UpdateTexture(IntPtr texture, SDL.Rect* rect, IntPtr pixels, int pitch);
