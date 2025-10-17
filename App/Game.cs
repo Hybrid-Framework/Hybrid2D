@@ -23,7 +23,7 @@ namespace App
             if (!SDL_ttf.Init()) throw new Exception(SDL.GetError());
             
             // Window
-            window = SDL.CreateWindow("Hello World", 600, 400, SDL.WindowFlags.HighPixelDensity);
+            window = SDL.CreateWindow("Hybrid", 600, 400, SDL.WindowFlags.HighPixelDensity);
             renderer = SDL.CreateRenderer(window, null);
             
             // Texture
@@ -42,6 +42,13 @@ namespace App
             track = SDL_mixer.CreateTrack(mixer);
             SDL_mixer.SetTrackAudio(track, sound);
             SDL_mixer.PlayTrack(track, 0);
+            
+            // Platform
+            Console.WriteLine("Platform: " + SDL.GetPlatform());
+            
+            // Texture Test
+            var test = SDL.CreateTexture(renderer, SDL.PixelFormat.RGBA8888, SDL.TextureAccess.Streaming, 16, 16);
+            if (test == IntPtr.Zero) throw new Exception("Texture failed");
         }
         
         public override void Update()

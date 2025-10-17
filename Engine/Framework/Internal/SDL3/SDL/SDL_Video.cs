@@ -4,14 +4,14 @@ public static unsafe partial class SDL
 {
     // Create Window
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern IntPtr SDL_CreateWindow(byte* title, int w, int h, SDL.WindowFlags flags);
+    private static extern IntPtr SDL_CreateWindow(byte* title, int w, int h, ulong flags);
     public static IntPtr CreateWindow(string title, int w, int h, SDL.WindowFlags flags)
     {
         var bytes = StringToUtf8(title);
 
         fixed (byte* utf8 = bytes)
         {
-            return SDL_CreateWindow(utf8, w, h, flags);
+            return SDL_CreateWindow(utf8, w, h, (ulong)flags);
         }
     }
     
