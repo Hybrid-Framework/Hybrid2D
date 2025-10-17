@@ -27,18 +27,18 @@ namespace App
             renderer = SDL.CreateRenderer(window, null);
             
             // Texture
-            texture = SDL_image.LoadTexture(renderer, FileSystem.LoadAsset("Image.png"));
+            texture = SDL_image.LoadTexture(renderer, SDL.GetBasePath() + "Assets/Image.png");
             SDL.SetTextureScaleMode(texture, SDL.ScaleMode.Pixel);
             
             // Font
-            font = SDL_ttf.OpenFont(FileSystem.LoadAsset("Font.ttf"), 24);
+            font = SDL_ttf.OpenFont(SDL.GetBasePath() + "Assets/Font.ttf", 24);
             fontSurface = SDL_ttf.RenderTextSolid(font, "Hello World", new SDL.Color() { r = 255, g = 255, b = 255, a = 255 });
             fontTexture = SDL.CreateTextureFromSurface(renderer, fontSurface);
             SDL.DestroySurface(fontSurface); 
             
             // Sound
             mixer = SDL_mixer.CreateMixerDevice(SDL.DefaultPlaybackDevice, new SDL.AudioSpec());
-            sound = SDL_mixer.LoadAudio(mixer, FileSystem.LoadAsset("Sound.mp3"), false);
+            sound = SDL_mixer.LoadAudio(mixer, SDL.GetBasePath() + "Assets/Sound.mp3", false);
             track = SDL_mixer.CreateTrack(mixer);
             SDL_mixer.SetTrackAudio(track, sound);
             SDL_mixer.PlayTrack(track, 0);

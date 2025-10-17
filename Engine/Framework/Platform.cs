@@ -18,14 +18,12 @@ namespace Hybrid
         public virtual bool IsRunning { get; set; } = true;
         public virtual bool Initialized { get; set; } = false;
 
-        internal virtual Behaviour Behaviour { get; set; }
-        internal virtual IFileSystem FileSystem { get; set; }
-        internal virtual IDebug Debug { get; set; }
+        public virtual Behaviour Behaviour { get; set; }
         
         public virtual void Init() {}
         public virtual void Run() {}
         
-        internal virtual void Dispose()
+        public virtual void Dispose()
         {
             // Dispose Everything
         }
