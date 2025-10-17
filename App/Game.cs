@@ -4,15 +4,15 @@ namespace App
 {
     public unsafe class Game : Behaviour
     {
-        private IntPtr renderer;
-        private IntPtr texture;
-        private IntPtr window;
-        private IntPtr track;
-        private IntPtr mixer;
-        private IntPtr sound;
-        private IntPtr font;
-        private IntPtr fontSurface;
-        private IntPtr fontTexture;
+        private SDL.Renderer* renderer;
+        private SDL.Texture* texture;
+        private SDL.Window* window;
+        private SDL.Track* track;
+        private SDL.Mixer* mixer;
+        private SDL.Audio* sound;
+        private SDL.Font* font;
+        private SDL.Surface* fontSurface;
+        private SDL.Texture* fontTexture;
         
         public override void Init()
         {
@@ -48,7 +48,7 @@ namespace App
             
             // Texture Test
             var test = SDL.CreateTexture(renderer, SDL.PixelFormat.RGBA8888, SDL.TextureAccess.Streaming, 16, 16);
-            if (test == IntPtr.Zero) throw new Exception("Texture failed");
+            if (test == null) throw new Exception("Texture failed");
         }
         
         public override void Update()

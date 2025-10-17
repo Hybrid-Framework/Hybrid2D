@@ -124,8 +124,8 @@ public static unsafe partial class SDL
     
     // Get Gamepads
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern uint* SDL_GetGamepads(out int count);
-    public static uint* GetGamepads(out int count)
+    private static extern IntPtr SDL_GetGamepads(out int count);
+    public static IntPtr GetGamepads(out int count)
     {
         return SDL_GetGamepads(out count);
     }
