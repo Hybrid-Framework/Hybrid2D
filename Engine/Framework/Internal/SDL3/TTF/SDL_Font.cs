@@ -89,16 +89,16 @@ public static unsafe partial class SDL_ttf
     
     // Set Font Style
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern void TTF_SetFontStyle(IntPtr font, FontStyleFlags style);
-    public static void SetFontStyle(IntPtr font, FontStyleFlags style)
+    private static extern void TTF_SetFontStyle(IntPtr font, FontStyle style);
+    public static void SetFontStyle(IntPtr font, FontStyle style)
     {
         TTF_SetFontStyle(font, style);
     }
     
     // Get Font Style
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern FontStyleFlags TTF_GetFontStyle(IntPtr font);
-    public static FontStyleFlags GetFontStyle(IntPtr font)
+    private static extern FontStyle TTF_GetFontStyle(IntPtr font);
+    public static FontStyle GetFontStyle(IntPtr font)
     {
         return TTF_GetFontStyle(font);
     }

@@ -3,7 +3,7 @@
 public static unsafe partial class SDL_ttf
 {
     [Flags]
-    public enum FontStyleFlags : uint
+    public enum FontStyle : uint
     {
         Normal = 0x00,
         Bold = 0x01,
