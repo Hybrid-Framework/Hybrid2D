@@ -4,6 +4,7 @@
     <PropertyGroup>
         <Scheme>Web</Scheme>
         <DefineConstants>$(Scheme)</DefineConstants>
+        <ApplicationIcon>..\..\Hybrid.ico</ApplicationIcon>
         <WasmAllowUndefinedSymbols>true</WasmAllowUndefinedSymbols>
         <WasmEmitSymbolMap>true</WasmEmitSymbolMap>
         <EmccExtraLDFlags>
@@ -13,18 +14,11 @@
         </EmccExtraLDFlags>
     </PropertyGroup>
 
-<!-- Icon -->
-    <PropertyGroup>
-        <ApplicationIcon>..\..\Hybrid.ico</ApplicationIcon>
-    </PropertyGroup>
-    
+<!-- Assets -->
     <ItemGroup>
         <EmbeddedResource Include="..\..\Hybrid.png" Link="Hybrid.png" />
         <EmbeddedResource Include="..\..\Hybrid.ico" Link="Hybrid.ico" />
-    </ItemGroup>
-    
-<!-- Assets -->
-    <ItemGroup>
+        
         <None Include="..\..\App\Assets\**\*">
             <Link>.Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
             <Visible>false</Visible>

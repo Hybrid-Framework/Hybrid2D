@@ -10,22 +10,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Platforms\Web\Web.cs
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Android", "Platforms\Android\Android.csproj", "{838974AA-31F8-466C-940D-C749041D776D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Items", ".Items", "{84BB581D-7441-4AAC-8847-C4B07CD47C36}"
-	ProjectSection(SolutionItems) = preProject
-		.items\Android.props = .items\Android.props
-		.items\IOS.props = .items\IOS.props
-		.items\Web.props = .items\Web.props
-		.items\Linux.props = .items\Linux.props
-		.items\MacOS.props = .items\MacOS.props
-		.items\Windows.props = .items\Windows.props
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IOS", "Platforms\IOS\IOS.csproj", "{882684D4-BBAF-4804-A977-C21E8D500D7F}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{FC78912A-0449-42CF-A673-F76C9A3AF4D6}"
-	ProjectSection(SolutionItems) = preProject
-		.items\Shared.props = .items\Shared.props
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Desktop", "Desktop", "{59D7E50E-C2C3-4312-AF4C-DFC7B2E719AE}"
 EndProject
@@ -84,7 +69,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{0BCEFE08-C88E-474C-B1E7-32F0457884B0} = {F09E69BA-3F65-4A4E-98CC-F05560403CC1}
-		{FC78912A-0449-42CF-A673-F76C9A3AF4D6} = {84BB581D-7441-4AAC-8847-C4B07CD47C36}
 		{59D7E50E-C2C3-4312-AF4C-DFC7B2E719AE} = {574E6364-206B-4DDA-8895-08F9AF815EAE}
 		{36D85265-59B9-4AF9-9A0A-383C25C86534} = {574E6364-206B-4DDA-8895-08F9AF815EAE}
 		{838974AA-31F8-466C-940D-C749041D776D} = {36D85265-59B9-4AF9-9A0A-383C25C86534}

@@ -6,11 +6,5 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>disable</Nullable>
     </PropertyGroup>
-
-    <ItemGroup>
-      <Folder Include="Framework\Internal\SDL3\" />
-    </ItemGroup>
-
-    <Import Project="..\.items\Shared.props" />
     
 </Project>

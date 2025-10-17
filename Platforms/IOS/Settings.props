@@ -5,14 +5,11 @@
         <Scheme>IOS</Scheme>
         <DefineConstants>$(Scheme)</DefineConstants>
     </PropertyGroup>
-    
-<!-- Icon -->
-    <ItemGroup>
-        <BundleResource Include="..\..\Hybrid.png" Link="Hybrid.png"/>
-    </ItemGroup>
 
 <!-- Assets -->
     <ItemGroup>
+        <BundleResource Include="..\..\Hybrid.png" Link="Hybrid.png"/>
+        
         <BundleResource Include="..\..\App\Assets\**\*">
             <LogicalName>Assets/%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
             <Link>.Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>

@@ -4,20 +4,14 @@
     <PropertyGroup>
         <Scheme>Windows</Scheme>
         <DefineConstants>$(Scheme)</DefineConstants>
-    </PropertyGroup>
-
-<!-- Icon -->
-    <PropertyGroup>
         <ApplicationIcon>..\..\Hybrid.ico</ApplicationIcon>
     </PropertyGroup>
 
+<!-- Assets -->
     <ItemGroup>
         <EmbeddedResource Include="..\..\Hybrid.png" Link="Hybrid.png" />
         <EmbeddedResource Include="..\..\Hybrid.ico" Link="Hybrid.ico" />
-    </ItemGroup>
-
-<!-- Assets -->
-    <ItemGroup>
+        
         <Content Include="..\..\App\Assets\**\*">
             <TargetPath>Assets\%(RecursiveDir)%(Filename)%(Extension)</TargetPath>
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>

@@ -12,7 +12,6 @@
         <ProjectReference Include="..\..\App\App.csproj" />
     </ItemGroup>
 
-    <Import Project="..\..\.items\Shared.props" />
-    <Import Project="..\..\.items\Windows.props" />
+    <Import Project="Settings.props" />
 
 </Project>

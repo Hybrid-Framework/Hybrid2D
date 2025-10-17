@@ -1,5 +1,11 @@
 <Project>
     
+<!-- Android -->
+    <PropertyGroup>
+        <AndroidSdkDirectory>$(LOCALAPPDATA)\Android\Sdk</AndroidSdkDirectory>
+        <JavaSdkDirectory>C:\Program Files\Android\Android Studio\jbr</JavaSdkDirectory>
+    </PropertyGroup>
+    
 <!-- Settings -->
     <PropertyGroup>
         <Scheme>Android</Scheme>
@@ -8,16 +14,13 @@
     
 <!-- Assets -->
     <ItemGroup>
+        <AndroidResource Include="..\..\Hybrid.png" Link="Resources\drawable-v26\Hybrid.png" />
+        
         <AndroidAsset Include="..\..\App\Assets\**\*">
             <LogicalName>Assets/%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
             <Link>.Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
             <Visible>false</Visible>
         </AndroidAsset>
-    </ItemGroup>
-    
-<!-- Icon -->
-    <ItemGroup>
-        <AndroidResource Include="..\..\Hybrid.png" Link="Resources\drawable-v26\Hybrid.png" />
     </ItemGroup>
     
 <!-- Natives -->
