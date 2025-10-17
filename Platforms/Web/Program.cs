@@ -6,7 +6,7 @@ using App;
 public static partial class Program
 {
     [JSImport("setMainLoop", "main.js")]
-    private static partial void SetMainLoop([JSMarshalAs<JSType.Function>] Action cb);
+    public static partial void SetMainLoop([JSMarshalAs<JSType.Function>] Action cb);
     private static bool Initialized;
 
     [JSExport]
