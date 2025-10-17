@@ -45,10 +45,6 @@ namespace App
             
             // Platform
             Console.WriteLine("Platform: " + SDL.GetPlatform());
-            
-            // Texture Test
-            var test = SDL.CreateTexture(renderer, SDL.PixelFormat.RGBA8888, SDL.TextureAccess.Streaming, 16, 16);
-            if (test == null) throw new Exception("Texture failed");
         }
         
         public override void Update()

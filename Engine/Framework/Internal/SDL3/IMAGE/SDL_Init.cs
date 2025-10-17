@@ -11,6 +11,6 @@ public static unsafe partial class SDL_image
     // Quit
     public static void Quit()
     {
-        return;
+        
     }
 }
