@@ -325,4 +325,17 @@ public static unsafe partial class SDL
     {
         return SDL_RenderPresent(renderer);
     }
+    
+    // Render Debug Text
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool SDL_RenderDebugText(IntPtr renderer, float x, float y, byte* text);
+    public static bool RenderDebugText(IntPtr renderer, float x, float y, string text)
+    {
+        var bytes = StringToUtf8(text);
+
+        fixed (byte* utf8 = bytes)
+        {
+            return SDL_RenderDebugText(renderer, x, y, utf8);
+        }
+    }
 }
