@@ -71,10 +71,10 @@ public static unsafe partial class SDL
     
     // Load File
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern IntPtr SDL_LoadFile(byte* file, out UIntPtr size);
-    public static IntPtr LoadFile(string file, out UIntPtr size)
+    private static extern IntPtr SDL_LoadFile(byte* path, out UIntPtr size);
+    public static IntPtr LoadFile(string path, out UIntPtr size)
     {
-        var bytes = StringToUtf8(file);
+        var bytes = StringToUtf8(path);
 
         fixed (byte* utf8 = bytes)
         {
@@ -84,10 +84,10 @@ public static unsafe partial class SDL
     
     // Save File
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_SaveFile(byte* file, IntPtr data, UIntPtr size);
-    public static bool SaveFile(string file, IntPtr data, UIntPtr size)
+    private static extern SDL.Bool SDL_SaveFile(byte* path, IntPtr data, UIntPtr size);
+    public static bool SaveFile(string path, IntPtr data, UIntPtr size)
     {
-        var bytes = StringToUtf8(file);
+        var bytes = StringToUtf8(path);
 
         fixed (byte* utf8 = bytes)
         {
