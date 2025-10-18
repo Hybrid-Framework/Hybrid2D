@@ -1,23 +1,19 @@
 <Project>
 
-<!-- Settings -->
-    <PropertyGroup>
-        <Scheme>Linux</Scheme>
-        <DefineConstants>$(Scheme)</DefineConstants>
-        <ApplicationIcon>..\..\Hybrid.ico</ApplicationIcon>
-    </PropertyGroup>
-
 <!-- Assets -->
     <ItemGroup>
-        <EmbeddedResource Include="..\..\Hybrid.png" Link="Hybrid.png" />
-        <EmbeddedResource Include="..\..\Hybrid.ico" Link="Hybrid.ico" />
+        <EmbeddedResource Include="..\..\Hybrid.png">
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <LogicalName>%(Filename)%(Extension)</LogicalName>
+            <Link>%(Filename)%(Extension)</Link>
+        </EmbeddedResource>
         
         <Content Include="..\..\App\Assets\**\*">
             <TargetPath>Assets\%(RecursiveDir)%(Filename)%(Extension)</TargetPath>
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <Link>.Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
-            <Visible>false</Visible>
+            <Link>Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
         </Content>
     </ItemGroup>
     
@@ -28,10 +24,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Content Include="..\..\Natives\Linux\$(Architecture)\**\*">
+        <Content Remove="Natives\**\*"/>
+        <Content Include="Natives\$(Architecture)\**\*">
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <Visible>false</Visible>
+            <TargetPath>%(Filename)%(Extension)</TargetPath>
         </Content>
     </ItemGroup>
 

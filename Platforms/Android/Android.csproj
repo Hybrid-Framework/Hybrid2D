@@ -20,6 +20,6 @@
         <ProjectReference Include="..\..\App\App.csproj" />
     </ItemGroup>
 
-    <Import Project="Settings.props" />
+    <Import Project="Resources/Settings.props" />
     
 </Project>

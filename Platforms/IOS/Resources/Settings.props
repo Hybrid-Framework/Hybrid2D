@@ -1,0 +1,22 @@
+<Project>
+
+<!-- Assets -->
+    <ItemGroup>
+        <BundleResource Include="..\..\Hybrid.png">
+            <LogicalName>%(Filename)%(Extension)</LogicalName>
+            <Link>%(Filename)%(Extension)</Link>
+        </BundleResource>
+        
+        <BundleResource Include="..\..\App\Assets\**\*">
+            <LogicalName>Assets/%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+            <Link>Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
+        </BundleResource>
+    </ItemGroup>
+    
+<!-- Natives -->
+    <ItemGroup>
+        <NativeReference Remove="Natives\**\*"/>
+        <NativeReference Include="Natives\**\*.xcframework"/>
+    </ItemGroup>
+
+</Project>

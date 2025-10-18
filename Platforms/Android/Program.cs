@@ -14,7 +14,7 @@ using App;
     Theme = "@android:style/Theme.NoTitleBar.Fullscreen",
     ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize
 )]
-public class MainActivity : SDLActivity
+public class Program : SDLActivity
 {
     protected override string[] GetLibraries() => ["SDL3", "SDL3_image", "SDL3_mixer", "SDL3_ttf"];
     

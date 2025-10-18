@@ -1,0 +1,35 @@
+<Project>
+    
+<!-- Settings -->
+    <PropertyGroup>
+        <EmccExtraLDFlags>--embed-file ../../App/Assets@Assets</EmccExtraLDFlags>
+        <WasmAllowUndefinedSymbols>true</WasmAllowUndefinedSymbols>
+        <WasmEmitSymbolMap>true</WasmEmitSymbolMap>
+    </PropertyGroup>
+
+<!-- Assets -->
+    <ItemGroup>
+        <Content Update="wwwroot\index.html" CopyToOutputDirectory="PreserveNewest" />
+        <Content Update="wwwroot\main.js" CopyToOutputDirectory="PreserveNewest" />
+        
+        <EmbeddedResource Include="..\..\Hybrid.png">
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <LogicalName>%(Filename)%(Extension)</LogicalName>
+            <Link>%(Filename)%(Extension)</Link>
+        </EmbeddedResource>
+        
+        <None Include="..\..\App\Assets\**\*">
+            <Link>Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
+        </None>
+    </ItemGroup>
+
+<!-- Natives -->
+    <ItemGroup>
+        <NativeFileReference Remove="Natives\**\*"/>
+        <NativeFileReference Include="Natives\**\*"/>
+        <EmccExportedRuntimeMethod Include="setMainLoop"/>
+        <EmccExportedRuntimeMethod Include="SDL"/>
+    </ItemGroup>
+
+</Project>

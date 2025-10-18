@@ -13,6 +13,7 @@ namespace App
         private SDL.Font* font;
         private SDL.Surface* fontSurface;
         private SDL.Texture* fontTexture;
+        private SDL.Surface* icon;
         
         public override void Init()
         {
@@ -25,6 +26,10 @@ namespace App
             // Window
             window = SDL.CreateWindow("Hybrid", 600, 400, SDL.WindowFlags.HighPixelDensity);
             renderer = SDL.CreateRenderer(window, null);
+            
+            // Icon
+            icon = SDL_image.Load(SDL.GetBasePath() + "Hybrid.png");
+            SDL.SetWindowIcon(window, icon);
             
             // Texture
             texture = SDL_image.LoadTexture(renderer, SDL.GetBasePath() + "Assets/Image.png");
