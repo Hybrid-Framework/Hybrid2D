@@ -6,12 +6,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Engine", "Engine", "{F09E69
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platforms", "Platforms", "{574E6364-206B-4DDA-8895-08F9AF815EAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Platforms\Web\Web.csproj", "{FD74C97F-7636-413D-9919-1910A7ABDA9B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Android", "Platforms\Android\Android.csproj", "{838974AA-31F8-466C-940D-C749041D776D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IOS", "Platforms\IOS\IOS.csproj", "{882684D4-BBAF-4804-A977-C21E8D500D7F}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Desktop", "Desktop", "{59D7E50E-C2C3-4312-AF4C-DFC7B2E719AE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mobile", "Mobile", "{36D85265-59B9-4AF9-9A0A-383C25C86534}"
@@ -27,6 +21,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MacOS", "Platforms\MacOS\MacOS.csproj", "{E6A41F89-DDDE-4D71-B835-6968E8D64DF1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Linux", "Platforms\Linux\Linux.csproj", "{1077A3C1-93AD-45F4-A9C6-9A42ECF5415D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Android", "Platforms\Android\Android.csproj", "{838974AA-31F8-466C-940D-C749041D776D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IOS", "Platforms\IOS\IOS.csproj", "{882684D4-BBAF-4804-A977-C21E8D500D7F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Platforms\Web\Web.csproj", "{FD74C97F-7636-413D-9919-1910A7ABDA9B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
