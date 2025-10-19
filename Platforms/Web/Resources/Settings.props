@@ -28,8 +28,9 @@
     <ItemGroup>
         <NativeFileReference Remove="Natives\**\*"/>
         <NativeFileReference Include="Natives\**\*"/>
-        <EmccExportedRuntimeMethod Include="setMainLoop"/>
-        <EmccExportedRuntimeMethod Include="SDL"/>
+        
+        <_WasmPInvokeModules Include="SDL" />
+        <_WasmPInvokeModules Include="__Internal_emscripten" />
     </ItemGroup>
 
 </Project>

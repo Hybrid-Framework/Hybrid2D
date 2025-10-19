@@ -6,17 +6,17 @@ namespace App
     {
         public override void Init()
         {
-            Console.WriteLine("Platform: " + Platform.Current.SystemPlatform);
+            Console.WriteLine("Init");
         }
 
         public override void Update()
         {
-            
+            Console.WriteLine("Update");
         }
 
         public override void Draw()
         {
-            
+            Console.WriteLine("Draw");
         }
     }
 }

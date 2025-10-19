@@ -14,11 +14,4 @@ dotnet.instance.Module.print = console.log;
 dotnet.instance.Module.printErr = console.error;
 dotnet.instance.Module.onAbort = (msg) => console.error("Exception:", msg);
 
-try
-{
-    dotnet.instance.Module.setMainLoop(exports.Program.Main);
-}
-catch (msg)
-{
-    console.error("Exception:", msg);
-}
+await dotnet.run();

@@ -10,7 +10,7 @@ namespace Hybrid
             GameBehaviour = gameBehaviour;
         }
 
-        internal override void Initialize()
+        internal override void Bootstrap()
         {
             // Platform
             SystemPlatform = SystemPlatform.iOS;
@@ -35,9 +35,12 @@ namespace Hybrid
         
         internal int Run(int argc, IntPtr argv)
         {
-            GameBehaviour.Init();
-            Initialized = true;
-            IsRunning = true;
+            if (!Initialized)
+            {
+                GameBehaviour.Init();
+                Initialized = true;
+                IsRunning = true;
+            }
 
             while (IsRunning)
             {

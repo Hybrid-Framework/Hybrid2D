@@ -1,9 +1,10 @@
-using System;
+using Hybrid;
+using App;
 
 public class Program
 {
     public static void Main()
     {
-        Console.WriteLine("Main");
+        Platform.Create(new PlatformWeb(new Game()));
     }
 }
