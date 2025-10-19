@@ -3,7 +3,6 @@
 <!-- Assets -->
     <ItemGroup>
         <BundleResource Include="..\..\Hybrid.png">
-            <LogicalName>%(Filename)%(Extension)</LogicalName>
             <Link>%(Filename)%(Extension)</Link>
         </BundleResource>
         

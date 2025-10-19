@@ -4,6 +4,8 @@
         <TargetFramework>net9.0</TargetFramework>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>Hybrid</RootNamespace>
+        <AssemblyName>Hybrid</AssemblyName>
         <Nullable>disable</Nullable>
     </PropertyGroup>
     

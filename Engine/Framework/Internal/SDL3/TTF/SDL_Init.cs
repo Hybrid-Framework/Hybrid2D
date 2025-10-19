@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-public static unsafe partial class SDL_ttf
+internal static unsafe partial class SDL_ttf
 {
     // Init
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]

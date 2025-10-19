@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-public static unsafe partial class SDL
+internal static unsafe partial class SDL
 {
     public static string Utf8ToString(byte* ptr, bool free = false)
     {

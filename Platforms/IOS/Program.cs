@@ -1,9 +1,10 @@
-using System;
+using Hybrid;
+using App;
 
-public static class Program
+public class Program
 {
-    public static void Main(string[] args)
+    public static void Main()
     {
-        
+        Platform.Create(new PlatformIOS(new Game()));
     }
 }

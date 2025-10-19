@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-public static unsafe partial class SDL
+internal static unsafe partial class SDL
 {
     // Has Keyboard
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]

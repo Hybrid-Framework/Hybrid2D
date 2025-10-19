@@ -1,0 +1,50 @@
+﻿using System.Runtime.InteropServices;
+using System;
+
+namespace Hybrid
+{
+    public class PlatformWindows : Platform
+    {
+        public PlatformWindows(GameBehaviour gameBehaviour)
+        {
+            GameBehaviour = gameBehaviour;
+        }
+        
+        internal override void Initialize()
+        {
+            // Platform
+            SystemPlatform = SystemPlatform.Windows;
+            
+            // Resolve
+            var assembly = typeof(SDL).Assembly;
+            NativeLibrary.SetDllImportResolver(assembly, (library, asm, path) =>
+            {
+                return library switch
+                {
+                    "SDL3_image" => NativeLibrary.Load("SDL3_image.dll", asm, path),
+                    "SDL3_mixer" => NativeLibrary.Load("SDL3_mixer.dll", asm, path),
+                    "SDL3_ttf" => NativeLibrary.Load("SDL3_ttf.dll", asm, path),
+                    "SDL3" => NativeLibrary.Load("SDL3.dll", asm, path),
+                    _ => IntPtr.Zero
+                };
+            });
+            
+            Run();
+        }
+
+        internal void Run()
+        {
+            GameBehaviour.Init();
+            Initialized = true;
+            IsRunning = true;
+            
+            while (IsRunning)
+            {
+                GameBehaviour.Update();
+                GameBehaviour.Draw();
+            }
+            
+            Dispose();
+        }
+    }
+}

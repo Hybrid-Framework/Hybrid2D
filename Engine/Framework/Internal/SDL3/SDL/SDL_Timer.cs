@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-public static unsafe partial class SDL
+internal static unsafe partial class SDL
 {
     // Get Ticks
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]

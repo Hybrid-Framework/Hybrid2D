@@ -1,6 +1,6 @@
 ﻿using System;
 
-public static unsafe partial class SDL
+internal static unsafe partial class SDL
 {
     public static void Initialize()
     {

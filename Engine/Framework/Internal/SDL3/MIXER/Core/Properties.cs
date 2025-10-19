@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-public static unsafe partial class SDL_mixer
+internal static unsafe partial class SDL_mixer
 {
     public static class Properties
     {

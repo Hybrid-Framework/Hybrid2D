@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-public static unsafe partial class SDL_image
+internal static unsafe partial class SDL_image
 {
     // Load
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]

@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-public static unsafe partial class SDL_mixer
+internal static unsafe partial class SDL_mixer
 {
     // Create Mixer Device
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]

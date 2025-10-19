@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-public static unsafe partial class SDL
+internal static unsafe partial class SDL
 {
     // Default Devices
     public const uint DefaultPlaybackDevice = 0xFFFFFFFFu;

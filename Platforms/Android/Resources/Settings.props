@@ -4,14 +4,12 @@
     <PropertyGroup>
         <AndroidSdkDirectory>$(LOCALAPPDATA)\Android\Sdk</AndroidSdkDirectory>
         <JavaSdkDirectory>C:\Program Files\Android\Android Studio\jbr</JavaSdkDirectory>
-        <AndroidManifest>Resources\AndroidManifest.xml</AndroidManifest>
     </PropertyGroup>
     
 <!-- Assets -->
     <ItemGroup>
         <AndroidResource Include="..\..\Hybrid.png">
             <Link>Resources\drawable-v26\%(Filename)%(Extension)</Link>
-            <LogicalName>%(Filename)%(Extension)</LogicalName>
         </AndroidResource>
         
         <AndroidAsset Include="..\..\App\Assets\**\*">
