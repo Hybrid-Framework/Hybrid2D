@@ -1,24 +1,14 @@
 using System.Runtime.InteropServices.JavaScript;
-using Hybrid.Platforms;
-using Hybrid;
-using App;
+using System;
 
-public static partial class Program
+public partial class Program
 {
     [JSImport("setMainLoop", "main.js")]
     public static partial void SetMainLoop([JSMarshalAs<JSType.Function>] Action cb);
-    private static bool Initialized;
 
     [JSExport]
-    private static void Main()
+    public static void Main()
     {
-        if (!Initialized)
-        {
-            Initialized = true;
-            Console.WriteLine("Initialize");
-            Platform.Create(new PlatformWeb(new Game()));
-        }
         
-        Platform.Current.Run();
     }
 }

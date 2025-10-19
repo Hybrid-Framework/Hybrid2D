@@ -1,12 +1,9 @@
-﻿using Hybrid.Platforms;
-using Hybrid;
-using App;
+﻿using System;
 
-public static class Program
+public class Program
 {
     public static void Main()
     {
-        Platform.Create(new PlatformDesktop(new Game()));
-        Platform.Current.Run();
+        
     }
 }
