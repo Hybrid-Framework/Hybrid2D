@@ -28,9 +28,8 @@
     <ItemGroup>
         <NativeFileReference Remove="Natives\**\*"/>
         <NativeFileReference Include="Natives\**\*"/>
-        
-        <_WasmPInvokeModules Include="SDL" />
         <_WasmPInvokeModules Include="__Internal_emscripten" />
+        <_WasmPInvokeModules Include="SDL" />
     </ItemGroup>
 
 </Project>

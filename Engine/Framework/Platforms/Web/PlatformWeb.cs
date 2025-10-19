@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System;
+﻿using System;
 
 namespace Hybrid
 {
@@ -14,10 +12,6 @@ namespace Hybrid
         internal override void Bootstrap()
         {
             SystemPlatform = SystemPlatform.Web;
-            
-            Emscripten.SetWindowTitle("Hello Emscripten");
-            string title = Emscripten.GetWindowTitle();
-            Console.WriteLine("Title: " + title);
         }
     }
 }
