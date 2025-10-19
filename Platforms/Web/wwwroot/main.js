@@ -1,17 +1,28 @@
-import { dotnet } from './_framework/dotnet.js'
+import { dotnet } from './_framework/dotnet.js';
 
-const { setModuleImports, getAssemblyExports, getConfig } = await dotnet
-    .withDiagnosticTracing(false)
-    .withApplicationArgumentsFromQuery()
-    .create();
+try
+{
+    // Initialize
+    const { setModuleImports, getAssemblyExports, getConfig } = await dotnet
+        .withDiagnosticTracing(false)
+        .withApplicationArgumentsFromQuery()
+        .create();
 
-const config = getConfig();
-const exports = await getAssemblyExports(config.mainAssemblyName);
+    const config = getConfig();
+    const exports = await getAssemblyExports(config.mainAssemblyName);
+    
+    // Canvas
+    var canvas = document.getElementById("canvas");
+    dotnet.instance.Module.canvas = canvas;
+    dotnet.instance.Module.print = console.log;
+    dotnet.instance.Module.printErr = console.error;
+    dotnet.instance.Module.onAbort = (msg) => console.error("Exception:", msg);
 
-var canvas = document.getElementById("canvas");
-dotnet.instance.Module.canvas = canvas;
-dotnet.instance.Module.print = console.log;
-dotnet.instance.Module.printErr = console.error;
-dotnet.instance.Module.onAbort = (msg) => console.error("Exception:", msg);
-
-await dotnet.run();
+    // Run
+    await dotnet.run();
+}
+catch (err)
+{
+    // Exception
+    console.error("Exception:", err);
+}

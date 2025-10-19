@@ -9,11 +9,7 @@ namespace Hybrid
         public static void Create(Platform platform)
         {
             Current = platform;
-
-            if (Current != null)
-            {
-                Current.Bootstrap();
-            }
+            Current?.Bootstrap();
         }
     }
 
@@ -21,8 +17,8 @@ namespace Hybrid
     {
         public virtual SystemPlatform SystemPlatform { get; set; }
         public virtual GameBehaviour GameBehaviour { get; set; }
-        public virtual bool Initialized { get; set; }
-        public virtual bool IsRunning { get; set; }
+        public static bool Initialized { get; set; }
+        public static bool IsRunning { get; set; }
         internal abstract void Bootstrap();
 
         public void Dispose()
