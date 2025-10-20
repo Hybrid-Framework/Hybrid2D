@@ -46,12 +46,7 @@ namespace Hybrid
             }
             
             // Main Loop
-            if (!Current.IsRunning)
-            {
-                Emscripten.CancelMainLoop();
-                Current.Dispose();
-            }
-            else
+            if (Current.IsRunning)
             {
                 while (SDL.PollEvent(out SDL.Event e))
                 {
@@ -66,13 +61,19 @@ namespace Hybrid
                 
                 Current.GameBehaviour.Update();
                 Current.GameBehaviour.Draw();
+                return;
             }
+            
+            // Exit
+            Emscripten.CancelMainLoop();
+            Current.Quit();
         }
 
         internal override void Quit()
         {
             // Quit
             IsRunning = false;
+            Platform.Dispose();
         }
     }
 }

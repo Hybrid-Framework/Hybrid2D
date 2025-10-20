@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    public abstract partial class Platform : IDisposable
+    public abstract partial class Platform
     {
         internal static Platform Current;
         
@@ -23,9 +23,9 @@ namespace Hybrid
         internal abstract void Bootstrap();
         internal abstract void Quit();
 
-        public void Dispose()
+        public static void Dispose()
         {
-            Console.WriteLine("Dispose Platform");
+            Console.WriteLine("Disposed Platform");
             
             Window.Dispose();
         }

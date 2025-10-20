@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    public unsafe static partial class Graphics
+    public unsafe static class Graphics
     {
         public static void Clear(Color color)
         {

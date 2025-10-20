@@ -60,13 +60,15 @@ namespace Hybrid
                 Current.GameBehaviour.Draw();
             }
             
-            Current.Dispose();
+            // Exit
+            Current.Quit();
         }
         
         internal override void Quit()
         {
             // Quit
             IsRunning = false;
+            Platform.Dispose();
         }
     }
 }

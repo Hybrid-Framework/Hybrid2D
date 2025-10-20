@@ -61,8 +61,8 @@ namespace Hybrid
                 Current.GameBehaviour.Draw();
             }
 
-            // Dispose
-            Current.Dispose();
+            // Exit
+            Current.Quit();
             return 0;
         }
         
@@ -70,6 +70,7 @@ namespace Hybrid
         {
             // Quit
             IsRunning = false;
+            Platform.Dispose();
         }
     }
 }
