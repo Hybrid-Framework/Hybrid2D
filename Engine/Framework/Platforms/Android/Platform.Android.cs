@@ -28,7 +28,7 @@ namespace Hybrid
                 };
             });
             
-            // Run
+            SDL.Initialize();
             Run();
         }
 
@@ -45,6 +45,17 @@ namespace Hybrid
             // Main Loop
             while (Current.IsRunning)
             {
+                while (SDL.PollEvent(out SDL.Event e))
+                {
+                    var type = (SDL.EventType)e.type;
+
+                    if (type == SDL.EventType.Quit)
+                    {
+                        Current.Quit();
+                        return;
+                    }
+                }
+                
                 Current.GameBehaviour.Update();
                 Current.GameBehaviour.Draw();
             }

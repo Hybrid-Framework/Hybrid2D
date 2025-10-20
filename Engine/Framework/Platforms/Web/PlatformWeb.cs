@@ -21,16 +21,17 @@ namespace Hybrid
             {
                 return library switch
                 {
-                    "SDL3_image" => NativeLibrary.Load("SDL3_image.a", asm, path),
-                    "SDL3_mixer" => NativeLibrary.Load("SDL3_mixer.a", asm, path),
-                    "SDL3_ttf" => NativeLibrary.Load("SDL3_ttf.a", asm, path),
-                    "SDL3" => NativeLibrary.Load("SDL3.a", asm, path),
-                    _ => IntPtr.Zero
+                    "SDL3_image" => IntPtr.Zero,
+                    "SDL3_mixer" => IntPtr.Zero,
+                    "SDL3_ttf"   => IntPtr.Zero,
+                    "SDL3"       => IntPtr.Zero,
+                    _            => IntPtr.Zero
                 };
             });
             
-            // Run
+            SDL.Initialize();
             Emscripten.SetMainLoop((IntPtr)(delegate* unmanaged[Cdecl]<void>)&Run, 0, false);
+            Emscripten.SetMainLoopTiming(Emscripten.TimingMode.RequestFrameAnimation, 1);
         }
         
         [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvCdecl) })]
@@ -39,7 +40,6 @@ namespace Hybrid
             // Initialize
             if (!Current.Initialized)
             {
-                Emscripten.SetMainLoopTiming(Emscripten.TimingMode.RequestFrameAnimation, 1);
                 Current.GameBehaviour.Init();
                 Current.Initialized = true;
                 Current.IsRunning = true;
@@ -53,6 +53,17 @@ namespace Hybrid
             }
             else
             {
+                while (SDL.PollEvent(out SDL.Event e))
+                {
+                    var type = (SDL.EventType)e.type;
+
+                    if (type == SDL.EventType.Quit)
+                    {
+                        Current.Quit();
+                        return;
+                    }
+                }
+                
                 Current.GameBehaviour.Update();
                 Current.GameBehaviour.Draw();
             }

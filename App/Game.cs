@@ -6,17 +6,22 @@ namespace App
     {
         public override void Init()
         {
-            Console.WriteLine("Init");
+            // Init Logic
+            Window.Create(title: "Hybrid", width: 800, height: 600, fullscreen: false, resizable: true);
         }
 
         public override void Update()
         {
-            Console.WriteLine("Update");
+            // Update Logic
         }
 
         public override void Draw()
         {
-            Console.WriteLine("Draw");
+            Graphics.Clear(Color.Salmon);
+            
+            // Draw Logic
+            
+            Graphics.Present();
         }
     }
 }

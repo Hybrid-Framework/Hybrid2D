@@ -26,6 +26,8 @@ namespace Hybrid
         public void Dispose()
         {
             Console.WriteLine("Dispose Platform");
+            
+            Window.Dispose();
         }
     }
 }
