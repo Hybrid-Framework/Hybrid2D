@@ -1,5 +1,4 @@
 ﻿using System.Runtime.InteropServices;
-using System;
 
 namespace Hybrid
 {
@@ -33,22 +32,22 @@ namespace Hybrid
             SDL.RunApp(0, IntPtr.Zero, method, IntPtr.Zero);
         }
         
-        internal int Run(int argc, IntPtr argv)
+        static int Run(int argc, IntPtr argv)
         {
-            if (!Initialized)
+            if (!Current.Initialized)
             {
-                GameBehaviour.Init();
-                Initialized = true;
-                IsRunning = true;
+                Current.GameBehaviour.Init();
+                Current.Initialized = true;
+                Current.IsRunning = true;
             }
 
-            while (IsRunning)
+            while (Current.IsRunning)
             {
-                GameBehaviour.Update();
-                GameBehaviour.Draw();
+                Current.GameBehaviour.Update();
+                Current.GameBehaviour.Draw();
             }
 
-            Dispose();
+            Current.Dispose();
             return 0;
         }
     }

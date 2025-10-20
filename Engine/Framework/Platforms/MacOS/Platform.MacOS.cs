@@ -1,5 +1,4 @@
 ﻿using System.Runtime.InteropServices;
-using System;
 
 namespace Hybrid
 {
@@ -32,22 +31,22 @@ namespace Hybrid
             Run();
         }
 
-        internal void Run()
+        static void Run()
         {
-            if (!Initialized)
+            if (!Current.Initialized)
             {
-                GameBehaviour.Init();
-                Initialized = true;
-                IsRunning = true;
+                Current.GameBehaviour.Init();
+                Current.Initialized = true;
+                Current.IsRunning = true;
             }
             
-            while (IsRunning)
+            while (Current.IsRunning)
             {
-                GameBehaviour.Update();
-                GameBehaviour.Draw();
+                Current.GameBehaviour.Update();
+                Current.GameBehaviour.Draw();
             }
             
-            Dispose();
+            Current.Dispose();
         }
     }
 }
