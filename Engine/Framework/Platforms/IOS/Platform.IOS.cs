@@ -28,27 +28,37 @@ namespace Hybrid
                 };
             });
             
-            SDL.MainFunction method = Run;
-            SDL.RunApp(0, IntPtr.Zero, method, IntPtr.Zero);
+            // Run
+            SDL.MainFunction main = Run;
+            SDL.RunApp(0, IntPtr.Zero, main, IntPtr.Zero);
         }
         
-        static int Run(int argc, IntPtr argv)
+        internal static int Run(int argc, IntPtr argv)
         {
+            // Initialize
             if (!Current.Initialized)
             {
                 Current.GameBehaviour.Init();
                 Current.Initialized = true;
                 Current.IsRunning = true;
             }
-
+            
+            // Main Loop
             while (Current.IsRunning)
             {
                 Current.GameBehaviour.Update();
                 Current.GameBehaviour.Draw();
             }
 
+            // Dispose
             Current.Dispose();
             return 0;
+        }
+        
+        internal override void Quit()
+        {
+            // Quit
+            IsRunning = false;
         }
     }
 }

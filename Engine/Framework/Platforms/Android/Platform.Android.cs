@@ -28,11 +28,13 @@ namespace Hybrid
                 };
             });
             
+            // Run
             Run();
         }
 
-        static void Run()
+        internal static void Run()
         {
+            // Initialize
             if (!Current.Initialized)
             {
                 Current.GameBehaviour.Init();
@@ -40,6 +42,7 @@ namespace Hybrid
                 Current.IsRunning = true;
             }
             
+            // Main Loop
             while (Current.IsRunning)
             {
                 Current.GameBehaviour.Update();
@@ -47,6 +50,12 @@ namespace Hybrid
             }
             
             Current.Dispose();
+        }
+        
+        internal override void Quit()
+        {
+            // Quit
+            IsRunning = false;
         }
     }
 }

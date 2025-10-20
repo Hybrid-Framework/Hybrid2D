@@ -12,6 +12,7 @@ namespace Hybrid
         
         internal override void Bootstrap()
         {
+            // Platform
             SystemPlatform = SystemPlatform.Web;
             
             // Resolve
@@ -29,28 +30,38 @@ namespace Hybrid
             });
             
             // Run
-            Emscripten.SetMainLoop((IntPtr)(delegate* unmanaged[Cdecl] <void>)&Run, 0, false);
+            Emscripten.SetMainLoop((IntPtr)(delegate* unmanaged[Cdecl]<void>)&Run, 0, false);
         }
         
         [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvCdecl) })]
-        static void Run()
+        internal static void Run()
         {
+            // Initialize
             if (!Current.Initialized)
             {
+                Emscripten.SetMainLoopTiming(Emscripten.TimingMode.RequestFrameAnimation, 1);
                 Current.GameBehaviour.Init();
                 Current.Initialized = true;
                 Current.IsRunning = true;
             }
             
+            // Main Loop
             if (!Current.IsRunning)
             {
                 Emscripten.CancelMainLoop();
                 Current.Dispose();
-                return;
             }
-            
-            Current.GameBehaviour.Update();
-            Current.GameBehaviour.Draw();
+            else
+            {
+                Current.GameBehaviour.Update();
+                Current.GameBehaviour.Draw();
+            }
+        }
+
+        internal override void Quit()
+        {
+            // Quit
+            IsRunning = false;
         }
     }
 }

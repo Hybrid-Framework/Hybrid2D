@@ -4,7 +4,7 @@ namespace Hybrid
 {
     public abstract partial class Platform : IDisposable
     {
-        public static Platform Current;
+        internal static Platform Current;
         
         public static void Create(Platform platform)
         {
@@ -15,11 +15,13 @@ namespace Hybrid
 
     public abstract partial class Platform
     {
-        public virtual SystemPlatform SystemPlatform { get; set; }
-        public virtual GameBehaviour GameBehaviour { get; set; }
-        public virtual bool Initialized { get; set; }
-        public virtual bool IsRunning { get; set; }
+        internal virtual SystemPlatform SystemPlatform { get; set; }
+        internal virtual GameBehaviour GameBehaviour { get; set; }
+        internal virtual bool Initialized { get; set; }
+        internal virtual bool IsRunning { get; set; }
+        
         internal abstract void Bootstrap();
+        internal abstract void Quit();
 
         public void Dispose()
         {
