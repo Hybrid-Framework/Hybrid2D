@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    public class PlatformIOS : Platform
+    public unsafe class PlatformIOS : Platform
     {
         public PlatformIOS(GameBehaviour gameBehaviour)
         {
@@ -13,6 +13,7 @@ namespace Hybrid
         {
             // Platform
             SystemPlatform = SystemPlatform.iOS;
+            SystemDevice = SystemDevice.Mobile;
             
             // Resolve
             var assembly = typeof(SDL).Assembly;
@@ -28,6 +29,7 @@ namespace Hybrid
                 };
             });
             
+            // Run
             SDL.Initialize();
             SDL.MainFunction main = Run;
             SDL.RunApp(0, IntPtr.Zero, main, IntPtr.Zero);
@@ -46,6 +48,11 @@ namespace Hybrid
             // Main Loop
             while (Current.IsRunning)
             {
+                if (Window.GetWindow() == null)
+                {
+                    throw new Exception("Please create a window inside Init(); using Window.Create(...);");
+                }
+                
                 while (SDL.PollEvent(out SDL.Event e))
                 {
                     var type = (SDL.EventType)e.type;
@@ -70,7 +77,7 @@ namespace Hybrid
         {
             // Quit
             IsRunning = false;
-            Platform.Dispose();
+            Current.Dispose();
         }
     }
 }

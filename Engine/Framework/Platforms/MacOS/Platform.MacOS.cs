@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    public class PlatformMacOS : Platform
+    public unsafe class PlatformMacOS : Platform
     {
         public PlatformMacOS(GameBehaviour gameBehaviour)
         {
@@ -13,6 +13,7 @@ namespace Hybrid
         {
             // Platform
             SystemPlatform = SystemPlatform.MacOS;
+            SystemDevice = SystemDevice.Desktop;
             
             // Resolve
             var assembly = typeof(SDL).Assembly;
@@ -28,6 +29,7 @@ namespace Hybrid
                 };
             });
             
+            // Run
             SDL.Initialize();
             Run();
         }
@@ -45,6 +47,11 @@ namespace Hybrid
             // Main Loop
             while (Current.IsRunning)
             {
+                if (Window.GetWindow() == null)
+                {
+                    throw new Exception("Please create a window inside Init(); using Window.Create(...);");
+                }
+                
                 while (SDL.PollEvent(out SDL.Event e))
                 {
                     var type = (SDL.EventType)e.type;
@@ -68,7 +75,7 @@ namespace Hybrid
         {
             // Quit
             IsRunning = false;
-            Platform.Dispose();
+            Current.Dispose();
         }
     }
 }

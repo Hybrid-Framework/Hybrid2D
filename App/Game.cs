@@ -6,7 +6,7 @@ namespace App
     {
         public override void Init()
         {
-            Window.Create(title: "Hybrid", width: 800, height: 600, fullscreen: false, resizable: true, borderless: false);
+            Window.Create(title: "Hybrid", width: 800, height: 600, fullscreen: false, resizable: true);
         }
 
         public override void Update()

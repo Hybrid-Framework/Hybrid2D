@@ -14,6 +14,7 @@ namespace Hybrid
         {
             // Platform
             SystemPlatform = SystemPlatform.Web;
+            SystemDevice = SystemDevice.Unknown;
             
             // Resolve
             var assembly = typeof(SDL).Assembly;
@@ -29,6 +30,7 @@ namespace Hybrid
                 };
             });
             
+            // Run
             SDL.Initialize();
             Emscripten.SetMainLoop((IntPtr)(delegate* unmanaged[Cdecl]<void>)&Run, 0, false);
             Emscripten.SetMainLoopTiming(Emscripten.TimingMode.RequestFrameAnimation, 1);
@@ -48,6 +50,11 @@ namespace Hybrid
             // Main Loop
             if (Current.IsRunning)
             {
+                if (Window.GetWindow() == null)
+                {
+                    throw new Exception("Please create a window inside Init(); using Window.Create(...);");
+                }
+                
                 while (SDL.PollEvent(out SDL.Event e))
                 {
                     var type = (SDL.EventType)e.type;
@@ -73,7 +80,7 @@ namespace Hybrid
         {
             // Quit
             IsRunning = false;
-            Platform.Dispose();
+            Current.Dispose();
         }
     }
 }

@@ -8,25 +8,31 @@ namespace Hybrid
         private static SDL.Renderer* RenderHandle;
         
         
-        public static void Create(string title = "", int width = 600, int height = 600, bool fullscreen = false, bool resizable = false, bool borderless = false)
+        public static void Create(string title = "Hybrid", int width = 800, int height = 600, bool fullscreen = false, bool resizable = false)
         {
+            // Window
             if (WindowHandle == null)
             {
+                // Create Window
                 SDL.WindowFlags flags = SDL.WindowFlags.HighPixelDensity;
-                if (fullscreen) flags |= SDL.WindowFlags.Fullscreen;
-                if (borderless) flags |= SDL.WindowFlags.Borderless;
-                if (resizable) flags |= SDL.WindowFlags.Resizable;
-                
+                if (fullscreen || Platform.Current.SystemDevice == SystemDevice.Mobile) flags |= SDL.WindowFlags.Fullscreen;
+                if (resizable || Platform.Current.SystemDevice == SystemDevice.Mobile) flags |= SDL.WindowFlags.Resizable;
                 WindowHandle = SDL.CreateWindow(title, width, height, flags);
+                
+                // Create Icon
+                var icon = SDL_image.Load("Hybrid.png");
+                SDL.SetWindowIcon(WindowHandle, icon);
             }
-
+            
+            // Renderer
             if (RenderHandle == null)
             {
+                // Create Renderer
                 RenderHandle = SDL.CreateRenderer(GetWindow(), null);
             }
         }
 
-        public static void Dispose()
+        internal static void Dispose()
         {
             SDL.DestroyRenderer(GetRenderer());
             SDL.DestroyWindow(GetWindow());
