@@ -26,6 +26,14 @@ internal static unsafe partial class SDL
         return SDL_GetPerformanceFrequency();
     }
     
+    // Delay Precise
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern void SDL_DelayPrecise(ulong ns);
+    public static void DelayPrecise(ulong ns)
+    {
+        SDL_DelayPrecise(ns);
+    }
+    
     // Delay
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern void SDL_Delay(uint ms);

@@ -39,6 +39,7 @@ namespace Hybrid
         [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvCdecl) })]
         internal static void Run()
         {
+            Emscripten.SetMainLoopTiming(Emscripten.TimingMode.RequestFrameAnimation, 1);
             Current?.Initialize();
             
             if (IsRunning)

@@ -3,7 +3,7 @@
 namespace Hybrid
 {
     #region Platform Creation
-    public abstract partial class Platform : IDisposable
+    public partial class Platform : IDisposable
     {
         internal static GameBehaviour GameBehaviour { get; set; }
         internal static Platform Current { get; set; }
@@ -18,19 +18,22 @@ namespace Hybrid
 
     
     #region Platform Behaviour
-    public abstract unsafe partial class Platform
+    public unsafe partial class Platform
     {
         internal virtual SystemPlatform SystemPlatform { get; set; }
         internal virtual SystemDevice SystemDevice { get; set; }
         internal static bool Initialized { get; set; }
         internal static bool IsRunning { get; set; }
-        internal abstract void Bootstrap();
+        ulong _startCounter;
+        ulong _lastCounter;
+        ulong _frequency;
+        float _smoothed;
         
-        private ulong _startCounter;
-        private ulong _lastCounter;
-        private ulong _frequency;
-        private float _smoothed;
-        
+
+        internal virtual void Bootstrap()
+        {
+            // Platform Specific Bootstrap
+        }
         
         internal void Initialize()
         {
@@ -41,6 +44,7 @@ namespace Hybrid
                 _frequency = SDL.GetPerformanceFrequency();
                 _lastCounter = _startCounter;
                 
+                // Time
                 Time.deltaTime = 0f;
                 Time.frameTime = 0f;
                 Time.time = 0f;
@@ -55,25 +59,21 @@ namespace Hybrid
         
         internal void MainLoop()
         {
-            // Window
-            if (Window.GetWindow() == null || Window.GetRenderer() == null)
-            {
-                throw new Exception("Please create a window using Window.Create(...);");
-            }
+            // Invalid Window
+            if (Window.GetWindow() == null || Window.GetRenderer() == null) throw new Exception("Please create a window using Window.Create(...);");
             
             // Frame Timing
-            ulong currentCounter = SDL.GetPerformanceCounter();
-            double elapsed = (currentCounter - _lastCounter) / (double)_frequency;
-            _lastCounter = currentCounter;
-
+            ulong frameStart = SDL.GetPerformanceCounter();
+            double elapsed = (frameStart - _lastCounter) / (double)_frequency;
+            _lastCounter = frameStart;
+            
+            // Time Calculating
             Time.unscaledDeltaTime = (float)Math.Min(elapsed, 0.1);
             Time.deltaTime = Time.unscaledDeltaTime * Time.timeScale;
-
+            Time.fps = _smoothed = (_smoothed * 0.9f) + ((1f / Time.unscaledDeltaTime) * 0.1f);
+            Time.frameTime = Time.unscaledDeltaTime * 1000f;
             Time.unscaledTime += Time.unscaledDeltaTime;
             Time.time += Time.deltaTime;
-
-            Time.frameTime = Time.unscaledDeltaTime * 1000f;
-            Time.fps = _smoothed = (_smoothed * 0.9f) + ((1f / Time.unscaledDeltaTime) * 0.1f);
             
             // Events
             while (SDL.PollEvent(out SDL.Event e))
@@ -90,6 +90,22 @@ namespace Hybrid
             // Main Loop
             GameBehaviour?.Update();
             GameBehaviour?.Draw();
+            
+            
+            // Frame Limiting
+            // if VSYNC is OFF and TARGET FPS is NOT Zero
+            if (Window.GetVsync() == false && Window.GetTargetFPS() != 0)
+            {
+                ulong frameEnd = SDL.GetPerformanceCounter();
+                float frameTarget = 1f / Window.GetTargetFPS();
+                double frameElapsed = (frameEnd - frameStart) / (double)_frequency;
+                double remainingTime = frameTarget - frameElapsed;
+
+                if (remainingTime > 0.0)
+                {
+                    SDL.DelayPrecise((ulong)(remainingTime * 1_000_000_000.0));
+                }
+            }
         }
 
         internal void Quit()

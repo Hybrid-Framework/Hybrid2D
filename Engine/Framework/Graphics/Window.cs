@@ -6,10 +6,16 @@ namespace Hybrid
     {
         private static SDL.Window* WindowHandle;
         private static SDL.Renderer* RenderHandle;
+        internal static SDL.Window* GetWindow() => WindowHandle;
+        internal static SDL.Renderer* GetRenderer() => RenderHandle;
         
         
-        public static void Create(string title = "Hybrid", int width = 800, int height = 600, bool fullscreen = false, bool resizable = false, bool vsync = true)
+        public static void Create(string title = "Hybrid", int width = 800, int height = 600, int fps = 60, bool fullscreen = false, bool resizable = false, bool vsync = true)
         {
+            // Fps
+            Vsync = vsync;
+            TargetFPS = fps;
+            
             // Window
             if (WindowHandle == null)
             {
@@ -40,16 +46,31 @@ namespace Hybrid
         }
     }
 
-    public static unsafe partial class Window
+    public static partial class Window
     {
-        internal static SDL.Window* GetWindow()
-        {
-            return WindowHandle;
-        }
+        private static int TargetFPS;
         
-        internal static SDL.Renderer* GetRenderer()
+        public static void SetTargetFPS(int value)
         {
-            return RenderHandle;
+            if (value <= 0) value = 0;
+            TargetFPS = value;
+        }
+
+        public static int GetTargetFPS()
+        {
+            return TargetFPS;
+        }
+
+        private static bool Vsync = false;
+
+        public static void SetVsync(bool state)
+        {
+            Vsync = state;
+        }
+
+        public static bool GetVsync()
+        {
+            return Vsync;
         }
     }
 }
