@@ -10,33 +10,26 @@ namespace Hybrid
         internal static SDL.Renderer* GetRenderer() => RenderHandle;
         
         
-        public static void Create(string title = "Hybrid", int width = 800, int height = 600, int fps = 60, bool fullscreen = false, bool resizable = false, bool vsync = true)
+        public static void Create(string title = "Hybrid", int width = 800, int height = 600, bool fullscreen = false, bool resizable = false, bool vsync = true)
         {
-            // Fps
-            Vsync = vsync;
-            TargetFPS = fps;
-            
-            // Window
             if (WindowHandle == null)
             {
                 SDL.WindowFlags flags = SDL.WindowFlags.HighPixelDensity;
-
+                
                 if (Platform.Current.SystemDevice == SystemDevice.Mobile) fullscreen = true;
                 if (Platform.Current.SystemDevice == SystemDevice.Mobile) resizable = true;
                 if (fullscreen) flags |= SDL.WindowFlags.Fullscreen;
                 if (resizable) flags |= SDL.WindowFlags.Resizable;
                 
                 WindowHandle = SDL.CreateWindow(title, width, height, flags);
+                SDL.SetWindowIcon(GetWindow(), SDL_image.Load("Hybrid.png"));
             }
             
-            // Renderer
             if (RenderHandle == null)
             {
                 RenderHandle = SDL.CreateRenderer(GetWindow(), null);
+                SDL.SetRenderVSync(GetRenderer(), (vsync ? 1 : 0));
             }
-            
-            SDL.SetRenderVSync(RenderHandle, (vsync ? 1 : 0));
-            SDL.SetWindowIcon(WindowHandle, SDL_image.Load("Hybrid.png"));
         }
 
         internal static void Dispose()
@@ -46,31 +39,32 @@ namespace Hybrid
         }
     }
 
-    public static partial class Window
+    public static unsafe partial class Window
     {
-        private static int TargetFPS;
-        
-        public static void SetTargetFPS(int value)
+        private static int targetFPS;
+        public static int TargetFPS
         {
-            if (value <= 0) value = 0;
-            TargetFPS = value;
+            get => targetFPS;
+            set
+            {
+                if (value < 0) value = 0;
+                targetFPS = value;
+            }
         }
 
-        public static int GetTargetFPS()
+        public static bool VSync
         {
-            return TargetFPS;
-        }
-
-        private static bool Vsync = false;
-
-        public static void SetVsync(bool state)
-        {
-            Vsync = state;
-        }
-
-        public static bool GetVsync()
-        {
-            return Vsync;
+            get
+            {
+                SDL.GetRenderVSync(GetRenderer(), out int vsync);
+                {
+                    return vsync > 0;
+                }
+            }
+            set
+            {
+                SDL.SetRenderVSync(GetRenderer(), value ? 1 : 0);
+            }
         }
     }
 }

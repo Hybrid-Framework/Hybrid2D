@@ -94,10 +94,10 @@ namespace Hybrid
             
             // Frame Limiting
             // if VSYNC is OFF and TARGET FPS is NOT Zero
-            if (Window.GetVsync() == false && Window.GetTargetFPS() != 0)
+            if (Window.VSync == false && Window.TargetFPS != 0)
             {
                 ulong frameEnd = SDL.GetPerformanceCounter();
-                float frameTarget = 1f / Window.GetTargetFPS();
+                float frameTarget = 1f / Window.TargetFPS;
                 double frameElapsed = (frameEnd - frameStart) / (double)_frequency;
                 double remainingTime = frameTarget - frameElapsed;
 

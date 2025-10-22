@@ -211,4 +211,12 @@ internal static unsafe partial class SDL
     {
         return SDL_GetCurrentDisplayOrientation(displayID);
     }
+    
+    // Get Window Flags
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.WindowFlags SDL_GetWindowFlags(SDL.Window* window);
+    public static SDL.WindowFlags GetWindowFlags(SDL.Window* window)
+    {
+        return SDL_GetWindowFlags(window);
+    }
 }

@@ -2,11 +2,16 @@
 
 namespace Hybrid
 {
-    public unsafe static class Graphics
+    public static unsafe class Graphics
     {
-        public static void Clear(Color color)
+        private static void SetRenderColor(Color color)
         {
             SDL.SetRenderDrawColor(Window.GetRenderer(), color.r, color.g, color.b, color.a);
+        }
+        
+        public static void Clear(Color color)
+        {
+            SetRenderColor(color);
             SDL.RenderClear(Window.GetRenderer());
         }
 
@@ -15,9 +20,9 @@ namespace Hybrid
             SDL.RenderPresent(Window.GetRenderer());
         }
 
-        public static void DebugText(int x, int y, string text)
+        public static void DebugText(int x, int y, string text, Color color)
         {
-            SDL.SetRenderDrawColor(Window.GetRenderer(), 0, 0, 0, 255);
+            SetRenderColor(color);
             SDL.RenderDebugText(Window.GetRenderer(), x, y, text);
         }
     }

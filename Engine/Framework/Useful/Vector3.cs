@@ -30,6 +30,6 @@ namespace Hybrid
         public static readonly Vector3 Left = new(-1, 0, 0);
         public static readonly Vector3 Right = new(1, 0, 0);
         public static readonly Vector3 Forward = new(0, 0, 1);
-        public static readonly Vector3 Back = new(1, 0, -1);
+        public static readonly Vector3 Back = new(0, 0, -1);
     }
 }
