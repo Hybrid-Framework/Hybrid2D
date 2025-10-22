@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    public unsafe class PlatformAndroid : Platform
+    public class PlatformAndroid : Platform
     {
         public PlatformAndroid(GameBehaviour gameBehaviour)
         {
@@ -11,71 +11,40 @@ namespace Hybrid
         
         internal override void Bootstrap()
         {
-            // Platform
             SystemPlatform = SystemPlatform.Android;
             SystemDevice = SystemDevice.Mobile;
             
-            // Resolve
             var assembly = typeof(SDL).Assembly;
             NativeLibrary.SetDllImportResolver(assembly, (library, asm, path) =>
             {
                 return library switch
                 {
-                    "SDL3_image" => NativeLibrary.Load("libSDL3_image.so", asm, path),
-                    "SDL3_mixer" => NativeLibrary.Load("libSDL3_mixer.so", asm, path),
-                    "SDL3_ttf" => NativeLibrary.Load("libSDL3_ttf.so", asm, path),
-                    "SDL3" => NativeLibrary.Load("libSDL3.so", asm, path),
-                    _ => IntPtr.Zero
+                    "SDL3_image" => IntPtr.Zero,
+                    "SDL3_mixer" => IntPtr.Zero,
+                    "SDL3_ttf"   => IntPtr.Zero,
+                    "SDL3"       => IntPtr.Zero,
+                    _            => IntPtr.Zero
                 };
             });
             
-            // Run
-            SDL.Initialize();
+            SDL.Init(SDL.InitFlags.Everything);
+            SDL_mixer.Init();
+            SDL_image.Init();
+            SDL_ttf.Init();
+            
             Run();
         }
 
         internal static void Run()
         {
-            // Initialize
-            if (!Current.Initialized)
+            Current?.Initialize();
+            
+            while (IsRunning)
             {
-                Current.GameBehaviour.Init();
-                Current.Initialized = true;
-                Current.IsRunning = true;
+                Current?.MainLoop();
             }
             
-            // Main Loop
-            while (Current.IsRunning)
-            {
-                if (Window.GetWindow() == null)
-                {
-                    throw new Exception("Please create a window inside Init(); using Window.Create(...);");
-                }
-                
-                while (SDL.PollEvent(out SDL.Event e))
-                {
-                    var type = (SDL.EventType)e.type;
-
-                    if (type == SDL.EventType.Quit)
-                    {
-                        Current.Quit();
-                        return;
-                    }
-                }
-                
-                Current.GameBehaviour.Update();
-                Current.GameBehaviour.Draw();
-            }
-            
-            // Exit
-            Current.Quit();
-        }
-        
-        internal override void Quit()
-        {
-            // Quit
-            IsRunning = false;
-            Current.Dispose();
+            Current?.Quit();
         }
     }
 }

@@ -12,11 +12,9 @@ namespace Hybrid
         
         internal override void Bootstrap()
         {
-            // Platform
             SystemPlatform = SystemPlatform.Web;
             SystemDevice = SystemDevice.Unknown;
             
-            // Resolve
             var assembly = typeof(SDL).Assembly;
             NativeLibrary.SetDllImportResolver(assembly, (library, asm, path) =>
             {
@@ -30,8 +28,11 @@ namespace Hybrid
                 };
             });
             
-            // Run
-            SDL.Initialize();
+            SDL.Init(SDL.InitFlags.Everything);
+            SDL_mixer.Init();
+            SDL_image.Init();
+            SDL_ttf.Init();
+            
             Emscripten.SetMainLoop((IntPtr)(delegate* unmanaged[Cdecl]<void>)&Run, 0, false);
             Emscripten.SetMainLoopTiming(Emscripten.TimingMode.RequestFrameAnimation, 1);
         }
@@ -39,48 +40,16 @@ namespace Hybrid
         [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvCdecl) })]
         internal static void Run()
         {
-            // Initialize
-            if (!Current.Initialized)
-            {
-                Current.GameBehaviour.Init();
-                Current.Initialized = true;
-                Current.IsRunning = true;
-            }
+            Current?.Initialize();
             
-            // Main Loop
-            if (Current.IsRunning)
+            if (IsRunning)
             {
-                if (Window.GetWindow() == null)
-                {
-                    throw new Exception("Please create a window inside Init(); using Window.Create(...);");
-                }
-                
-                while (SDL.PollEvent(out SDL.Event e))
-                {
-                    var type = (SDL.EventType)e.type;
-
-                    if (type == SDL.EventType.Quit)
-                    {
-                        Current.Quit();
-                        return;
-                    }
-                }
-                
-                Current.GameBehaviour.Update();
-                Current.GameBehaviour.Draw();
+                Current?.MainLoop();
                 return;
             }
             
-            // Exit
             Emscripten.CancelMainLoop();
-            Current.Quit();
-        }
-
-        internal override void Quit()
-        {
-            // Quit
-            IsRunning = false;
-            Current.Dispose();
+            Current?.Quit();
         }
     }
 }

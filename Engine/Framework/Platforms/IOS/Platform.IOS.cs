@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    public unsafe class PlatformIOS : Platform
+    public class PlatformIOS : Platform
     {
         public PlatformIOS(GameBehaviour gameBehaviour)
         {
@@ -11,11 +11,9 @@ namespace Hybrid
 
         internal override void Bootstrap()
         {
-            // Platform
             SystemPlatform = SystemPlatform.iOS;
             SystemDevice = SystemDevice.Mobile;
             
-            // Resolve
             var assembly = typeof(SDL).Assembly;
             NativeLibrary.SetDllImportResolver(assembly, (library, asm, path) =>
             {
@@ -29,55 +27,26 @@ namespace Hybrid
                 };
             });
             
-            // Run
-            SDL.Initialize();
+            SDL.Init(SDL.InitFlags.Everything);
+            SDL_mixer.Init();
+            SDL_image.Init();
+            SDL_ttf.Init();
+            
             SDL.MainFunction main = Run;
             SDL.RunApp(0, IntPtr.Zero, main, IntPtr.Zero);
         }
         
         internal static int Run(int argc, IntPtr argv)
         {
-            // Initialize
-            if (!Current.Initialized)
-            {
-                Current.GameBehaviour.Init();
-                Current.Initialized = true;
-                Current.IsRunning = true;
-            }
+            Current?.Initialize();
             
-            // Main Loop
-            while (Current.IsRunning)
+            while (IsRunning)
             {
-                if (Window.GetWindow() == null)
-                {
-                    throw new Exception("Please create a window inside Init(); using Window.Create(...);");
-                }
-                
-                while (SDL.PollEvent(out SDL.Event e))
-                {
-                    var type = (SDL.EventType)e.type;
-
-                    if (type == SDL.EventType.Quit)
-                    {
-                        Current.Quit();
-                        return 0;
-                    }
-                }
-                
-                Current.GameBehaviour.Update();
-                Current.GameBehaviour.Draw();
+                Current?.MainLoop();
             }
 
-            // Exit
-            Current.Quit();
+            Current?.Quit();
             return 0;
-        }
-        
-        internal override void Quit()
-        {
-            // Quit
-            IsRunning = false;
-            Current.Dispose();
         }
     }
 }
