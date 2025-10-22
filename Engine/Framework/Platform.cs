@@ -20,27 +20,62 @@ namespace Hybrid
     #region Platform Behaviour
     public abstract unsafe partial class Platform
     {
-        internal static SystemPlatform SystemPlatform { get; set; }
-        internal static SystemDevice SystemDevice { get; set; }
+        internal virtual SystemPlatform SystemPlatform { get; set; }
+        internal virtual SystemDevice SystemDevice { get; set; }
         internal static bool Initialized { get; set; }
         internal static bool IsRunning { get; set; }
         internal abstract void Bootstrap();
         
+        private ulong _startCounter;
+        private ulong _lastCounter;
+        private ulong _frequency;
+        private float _smoothed;
+        
         
         internal void Initialize()
         {
-            GameBehaviour?.Init();
-            Initialized = true;
-            IsRunning = true;
+            if (!Initialized)
+            {
+                // Frame Timing
+                _startCounter = SDL.GetPerformanceCounter();
+                _frequency = SDL.GetPerformanceFrequency();
+                _lastCounter = _startCounter;
+                
+                Time.deltaTime = 0f;
+                Time.frameTime = 0f;
+                Time.time = 0f;
+                Time.fps = 0f;
+                
+                // Initialize
+                GameBehaviour?.Initialize();
+                Initialized = true;
+                IsRunning = true;
+            }
         }
         
         internal void MainLoop()
         {
-            if (Window.GetWindow() == null)
+            // Window
+            if (Window.GetWindow() == null || Window.GetRenderer() == null)
             {
-                throw new Exception("Please create a window inside Init(); using Window.Create(...);");
+                throw new Exception("Please create a window using Window.Create(...);");
             }
             
+            // Frame Timing
+            ulong currentCounter = SDL.GetPerformanceCounter();
+            double elapsed = (currentCounter - _lastCounter) / (double)_frequency;
+            _lastCounter = currentCounter;
+
+            Time.unscaledDeltaTime = (float)Math.Min(elapsed, 0.1);
+            Time.deltaTime = Time.unscaledDeltaTime * Time.timeScale;
+
+            Time.unscaledTime += Time.unscaledDeltaTime;
+            Time.time += Time.deltaTime;
+
+            Time.frameTime = Time.unscaledDeltaTime * 1000f;
+            Time.fps = _smoothed = (_smoothed * 0.9f) + ((1f / Time.unscaledDeltaTime) * 0.1f);
+            
+            // Events
             while (SDL.PollEvent(out SDL.Event e))
             {
                 var type = (SDL.EventType)e.type;
@@ -52,6 +87,7 @@ namespace Hybrid
                 }
             }
             
+            // Main Loop
             GameBehaviour?.Update();
             GameBehaviour?.Draw();
         }

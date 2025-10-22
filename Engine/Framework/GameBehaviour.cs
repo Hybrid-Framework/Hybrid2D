@@ -4,7 +4,7 @@ namespace Hybrid
 {
     public abstract class GameBehaviour
     {
-        public virtual void Init()
+        public virtual void Initialize()
         {
             
         }

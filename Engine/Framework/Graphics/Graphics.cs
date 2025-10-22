@@ -14,5 +14,11 @@ namespace Hybrid
         {
             SDL.RenderPresent(Window.GetRenderer());
         }
+
+        public static void DebugText(int x, int y, string text)
+        {
+            SDL.SetRenderDrawColor(Window.GetRenderer(), 0, 0, 0, 255);
+            SDL.RenderDebugText(Window.GetRenderer(), x, y, text);
+        }
     }
 }
