@@ -6,6 +6,8 @@ namespace Hybrid
     {
         public override void Perform()
         {
+            Console.WriteLine("# Vector4 Tests");
+            
             float tolerance = 1e-3f;
 
             Vector4 a = new Vector4(10f, 20f, 30f, 40f);
@@ -44,7 +46,7 @@ namespace Hybrid
             Display("Division float", Vector4.Approximately(a / 2f, new Vector4(5f, 10f, 15f, 20f), tolerance));
 
             // Dot product
-            float dot = Vector4.Dot(a, b); // 10*40 + 20*80 + 30*120 + 40*160 = 400 + 1600 + 3600 + 6400 = 12000
+            float dot = Vector4.Dot(a, b);
             Display("Dot product", MathF.Abs(dot - 12000f) < tolerance);
 
             // Distance

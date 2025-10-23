@@ -6,6 +6,8 @@ namespace Hybrid
     {
         public override void Perform()
         {
+            Console.WriteLine("# Vector3 Tests");
+            
             float tolerance = 1e-3f;
 
             Vector3 a = new Vector3(10f, 20f, 30f);

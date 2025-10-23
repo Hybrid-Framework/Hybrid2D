@@ -22,13 +22,12 @@ namespace Hybrid
     // Properties
     public partial struct Vector4
     {
-        public static readonly Vector4 PositiveInfinity = new(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
-        public static readonly Vector4 NegativeInfinity = new(float.NegativeInfinity, float.NegativeInfinity, float.NegativeInfinity, float.NegativeInfinity);
+        public static readonly Vector4 positiveInfinity = new(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
+        public static readonly Vector4 negativeInfinity = new(float.NegativeInfinity, float.NegativeInfinity, float.NegativeInfinity, float.NegativeInfinity);
+        public static readonly Vector4 zero = new(0, 0, 0, 0);
+        public static readonly Vector4 one = new(1, 1, 1, 1);
         
-        public static readonly Vector4 Zero = new(0, 0, 0, 0);
-        public static readonly Vector4 One = new(1, 1, 1, 1);
-        
-        public static float Epsilon = 1e-5f;
+        public static float epsilon = 1e-5f;
         
         public float magnitude
         {
@@ -52,12 +51,12 @@ namespace Hybrid
             {
                 float mag = magnitude;
                 
-                if (mag > Epsilon)
+                if (mag > epsilon)
                 {
                     return this / mag;
                 }
                 
-                return Zero;
+                return zero;
             }
         }
     }
@@ -77,7 +76,7 @@ namespace Hybrid
         {
             float mag = magnitude;
             
-            if (mag > Epsilon)
+            if (mag > epsilon)
             {
                 x /= mag;
                 y /= mag;
@@ -139,7 +138,7 @@ namespace Hybrid
             Vector4 delta = b - a;
             float dist = delta.magnitude;
 
-            if (dist <= t || dist < Epsilon)
+            if (dist <= t || dist < epsilon)
             {
                 return b;
             }
@@ -151,21 +150,21 @@ namespace Hybrid
         {
             float mag = vector.magnitude;
             
-            if (mag > Epsilon)
+            if (mag > epsilon)
             {
                 return vector / mag;
             }
 
-            return Zero;
+            return zero;
         }
 
         public static Vector4 Project(Vector4 vector, Vector4 normal)
         {
             float sqrMag = normal.sqrMagnitude;
             
-            if (sqrMag < Epsilon)
+            if (sqrMag < epsilon)
             {
-                return Zero;
+                return zero;
             }
             
             return normal * (Dot(vector, normal) / sqrMag);
@@ -231,29 +230,32 @@ namespace Hybrid
 
         public static Vector4 operator / (Vector4 a, float d)
         {
-            if (MathF.Abs(d) < Epsilon) return Zero;
+            if (MathF.Abs(d) < epsilon)
+            {
+                return zero;
+            }
             
             return new(a.x / d, a.y / d, a.z / d, a.w / d);
         }
 
         public static bool operator == (Vector4 a, Vector4 b)
         {
-            return Approximately(a, b, Epsilon);
+            return Approximately(a, b);
         }
 
         public static bool operator != (Vector4 a, Vector4 b)
         {
-            return !Approximately(a, b, Epsilon);
+            return !Approximately(a, b);
         }
         
         public override bool Equals(object? obj)
         {
-            return obj is Vector4 other && Equals(other);
+            return obj is Vector4 vector && Equals(vector);
         }
         
-        public bool Equals(Vector4 other)
+        public bool Equals(Vector4 vector)
         {
-            return this == other;
+            return this == vector;
         }
 
         public override int GetHashCode()

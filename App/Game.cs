@@ -19,15 +19,18 @@ namespace App
         {
             var color = new ColorTest();
             color.Perform();
-
+            
             var vector2 = new Vector2Test();
             vector2.Perform();
-
+            
             var vector3 = new Vector3Test();
             vector3.Perform();
-
+            
             var vector4 = new Vector4Test();
             vector4.Perform();
+
+            var quaternion = new QuaternionTest();
+            quaternion.Perform();
         }
 
         public override void Update()
@@ -38,16 +41,16 @@ namespace App
         public override void Draw()
         {
             float t = (MathF.Sin(timer) + 1f) / 2f;
-            Color color = Color.Lerp(Color.Red, Color.Blue, t);
+            Color color = Color.Lerp(Color.red, Color.blue, t);
             Graphics.Clear(color);
             
-            Graphics.DebugText(10, 10, $"Frames Per Second: {Time.fps:F2}", Color.Black);
-            Graphics.DebugText(10, 20, $"Frame Time: {Time.frameTime:F2}", Color.Black);
-            Graphics.DebugText(10, 30, $"Delta Time: {Time.deltaTime:F4}", Color.Black);
-            Graphics.DebugText(10, 40, $"Unscaled Delta Time: {Time.unscaledDeltaTime:F4}", Color.Black);
-            Graphics.DebugText(10, 50, $"Time: {Time.time:F2}", Color.Black);
-            Graphics.DebugText(10, 60, $"Unscaled Time: {Time.unscaledTime:F2}", Color.Black);
-            Graphics.DebugText(10, 70, $"Time Scale: {Time.timeScale:F2}", Color.White);
+            Graphics.DebugText(10, 10, $"Frames Per Second: {Time.fps:F2}", Color.black);
+            Graphics.DebugText(10, 20, $"Frame Time: {Time.frameTime:F2}", Color.black);
+            Graphics.DebugText(10, 30, $"Delta Time: {Time.deltaTime:F4}", Color.black);
+            Graphics.DebugText(10, 40, $"Unscaled Delta Time: {Time.unscaledDeltaTime:F4}", Color.black);
+            Graphics.DebugText(10, 50, $"Time: {Time.time:F2}", Color.black);
+            Graphics.DebugText(10, 60, $"Unscaled Time: {Time.unscaledTime:F2}", Color.black);
+            Graphics.DebugText(10, 70, $"Time Scale: {Time.timeScale:F2}", Color.white);
             
             Graphics.Present();
         }

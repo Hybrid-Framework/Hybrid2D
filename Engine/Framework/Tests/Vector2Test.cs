@@ -6,6 +6,8 @@ namespace Hybrid
     {
         public override void Perform()
         {
+            Console.WriteLine("# Vector2 Tests");
+            
             float tolerance = 1e-3f;
 
             // Larger vectors

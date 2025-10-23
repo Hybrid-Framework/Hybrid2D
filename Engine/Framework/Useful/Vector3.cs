@@ -20,20 +20,18 @@ namespace Hybrid
     // Properties
     public partial struct Vector3
     {
-        public static readonly Vector3 PositiveInfinity = new(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
-        public static readonly Vector3 NegativeInfinity = new(float.NegativeInfinity, float.NegativeInfinity, float.NegativeInfinity);
+        public static readonly Vector3 positiveInfinity = new(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
+        public static readonly Vector3 negativeInfinity = new(float.NegativeInfinity, float.NegativeInfinity, float.NegativeInfinity);
+        public static readonly Vector3 zero = new(0, 0, 0);
+        public static readonly Vector3 one = new(1, 1, 1);
+        public static readonly Vector3 up = new(0, 1, 0);
+        public static readonly Vector3 down = new(0, -1, 0);
+        public static readonly Vector3 left = new(-1, 0, 0);
+        public static readonly Vector3 right = new(1, 0, 0);
+        public static readonly Vector3 forward = new(0, 0, 1);
+        public static readonly Vector3 back = new(0, 0, -1);
 
-        public static readonly Vector3 Zero = new(0, 0, 0);
-        public static readonly Vector3 One = new(1, 1, 1);
-
-        public static readonly Vector3 Up = new(0, 1, 0);
-        public static readonly Vector3 Down = new(0, -1, 0);
-        public static readonly Vector3 Left = new(-1, 0, 0);
-        public static readonly Vector3 Right = new(1, 0, 0);
-        public static readonly Vector3 Forward = new(0, 0, 1);
-        public static readonly Vector3 Back = new(0, 0, -1);
-
-        public static float Epsilon = 1e-5f;
+        public static float epsilon = 1e-5f;
         
         public float magnitude
         {
@@ -57,12 +55,12 @@ namespace Hybrid
             {
                 float mag = magnitude;
 
-                if (mag > Epsilon)
+                if (mag > epsilon)
                 {
                     return this / mag;
                 }
 
-                return Zero;
+                return zero;
             }
         }
     }
@@ -81,7 +79,7 @@ namespace Hybrid
         {
             float mag = magnitude;
 
-            if (mag > Epsilon)
+            if (mag > epsilon)
             {
                 x /= mag;
                 y /= mag;
@@ -99,7 +97,7 @@ namespace Hybrid
         {
             float value = MathF.Sqrt(from.sqrMagnitude * to.sqrMagnitude);
 
-            if (value < Epsilon)
+            if (value < epsilon)
             {
                 return 0f;
             }
@@ -176,7 +174,7 @@ namespace Hybrid
             Vector3 delta = b - a;
             float dist = delta.magnitude;
 
-            if (dist <= t || dist < Epsilon)
+            if (dist <= t || dist < epsilon)
             {
                 return b;
             }
@@ -188,21 +186,21 @@ namespace Hybrid
         {
             float mag = vector.magnitude;
 
-            if (mag > Epsilon)
+            if (mag > epsilon)
             {
                 return vector / mag;
             }
 
-            return Zero;
+            return zero;
         }
         
         public static Vector3 Project(Vector3 vector, Vector3 normal)
         {
             float sqrMag = normal.sqrMagnitude;
 
-            if (sqrMag < Epsilon)
+            if (sqrMag < epsilon)
             {
-                return Zero;
+                return zero;
             }
 
             return normal * Dot(vector, normal) / sqrMag;
@@ -222,7 +220,7 @@ namespace Hybrid
         {
             float angle = Angle(vector.normalized, target.normalized);
 
-            if (angle <= Epsilon)
+            if (angle <= epsilon)
             {
                 return target;
             }
@@ -255,7 +253,7 @@ namespace Hybrid
             float magA = a.magnitude;
             float magB = b.magnitude;
 
-            if (magA < Epsilon || magB < Epsilon)
+            if (magA < epsilon || magB < epsilon)
             {
                 return Lerp(a, b, t);
             }
@@ -266,7 +264,7 @@ namespace Hybrid
             float dot = Math.Clamp(Dot(aNorm, bNorm), -1f, 1f);
             float theta = MathF.Acos(dot);
 
-            if (theta < Epsilon)
+            if (theta < epsilon)
             {
                 return b * t + a * (1 - t);
             }
@@ -333,7 +331,10 @@ namespace Hybrid
 
         public static Vector3 operator / (Vector3 a, float d)
         {
-            if (MathF.Abs(d) < Epsilon) return Zero;
+            if (MathF.Abs(d) < epsilon)
+            {
+                return zero;
+            }
             
             return new(a.x / d, a.y / d, a.z / d);
         }
@@ -350,12 +351,12 @@ namespace Hybrid
 
         public override bool Equals(object? obj)
         {
-            return obj is Vector3 other && Equals(other);
+            return obj is Vector3 vector && Equals(vector);
         }
         
-        public bool Equals(Vector3 other)
+        public bool Equals(Vector3 vector)
         {
-            return this == other;
+            return this == vector;
         }
 
         public override int GetHashCode()

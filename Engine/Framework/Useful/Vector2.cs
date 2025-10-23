@@ -18,18 +18,16 @@ namespace Hybrid
     // Properties
     public partial struct Vector2
     {
-        public static readonly Vector2 PositiveInfinity = new(float.PositiveInfinity, float.PositiveInfinity);
-        public static readonly Vector2 NegativeInfinity = new(float.NegativeInfinity, float.NegativeInfinity);
+        public static readonly Vector2 positiveInfinity = new(float.PositiveInfinity, float.PositiveInfinity);
+        public static readonly Vector2 negativeInfinity = new(float.NegativeInfinity, float.NegativeInfinity);
+        public static readonly Vector2 zero = new(0, 0);
+        public static readonly Vector2 one = new(1, 1);
+        public static readonly Vector2 up = new(0, 1);
+        public static readonly Vector2 down = new(0, -1);
+        public static readonly Vector2 left = new(-1, 0);
+        public static readonly Vector2 right = new(1, 0);
 
-        public static readonly Vector2 Zero = new(0, 0);
-        public static readonly Vector2 One = new(1, 1);
-
-        public static readonly Vector2 Up = new(0, 1);
-        public static readonly Vector2 Down = new(0, -1);
-        public static readonly Vector2 Left = new(-1, 0);
-        public static readonly Vector2 Right = new(1, 0);
-
-        public static float Epsilon = 1e-5f;
+        public static float epsilon = 1e-5f;
         
         public float magnitude
         {
@@ -53,12 +51,12 @@ namespace Hybrid
             {
                 float mag = magnitude;
 
-                if (mag > Epsilon)
+                if (mag > epsilon)
                 {
                     return this / mag;
                 }
 
-                return Zero;
+                return zero;
             }
         }
     }
@@ -76,7 +74,7 @@ namespace Hybrid
         {
             float mag = magnitude;
 
-            if (mag > Epsilon)
+            if (mag > epsilon)
             {
                 x /= mag;
                 y /= mag;
@@ -92,7 +90,7 @@ namespace Hybrid
         {
             float value = MathF.Sqrt(from.sqrMagnitude * to.sqrMagnitude);
 
-            if (value < Epsilon)
+            if (value < epsilon)
             {
                 return 0f;
             }
@@ -158,7 +156,7 @@ namespace Hybrid
             Vector2 delta = b - a;
             float mag = delta.magnitude;
 
-            if (mag <= t || mag < Epsilon)
+            if (mag <= t || mag < epsilon)
             {
                 return b;
             }
@@ -170,12 +168,12 @@ namespace Hybrid
         {
             float mag = vector.magnitude;
 
-            if (mag > Epsilon)
+            if (mag > epsilon)
             {
                 return vector / mag;
             }
 
-            return Zero;
+            return zero;
         }
 
         public static Vector2 Perpendicular(Vector2 vector)
@@ -252,7 +250,10 @@ namespace Hybrid
 
         public static Vector2 operator / (Vector2 a, float d)
         {
-            if (MathF.Abs(d) < Epsilon) return Zero;
+            if (MathF.Abs(d) < epsilon)
+            {
+                return zero;
+            }
             
             return new(a.x / d, a.y / d);
         }
@@ -269,12 +270,12 @@ namespace Hybrid
 
         public override bool Equals(object? obj)
         {
-            return obj is Vector2 other && Equals(other);
+            return obj is Vector2 vector && Equals(vector);
         }
         
-        public bool Equals(Vector2 other)
+        public bool Equals(Vector2 vector)
         {
-            return this == other;
+            return this == vector;
         }
 
         public override int GetHashCode()
