@@ -22,6 +22,7 @@ namespace Hybrid
     // Properties
     public partial struct Color
     {
+        public static readonly Color CornflowerBlue = new(100, 149, 237, 255);
         public static readonly Color Transparent = new(0, 0, 0, 0);
         public static readonly Color Black = new(0, 0, 0, 255);
         public static readonly Color White = new(255, 255, 255, 255);
@@ -49,12 +50,78 @@ namespace Hybrid
         public static readonly Color Indigo = new(75, 0, 130, 255);
         public static readonly Color Turquoise = new(64, 224, 208, 255);
         
-        public static float Epsilon = 1.5e-5f;
+        public static float Epsilon = 1e-5f;
+        
+        public float grayscale
+        {
+            get
+            {
+                float rf = r / 255f;
+                float gf = g / 255f;
+                float bf = b / 255f;
+
+                return 0.2126f * rf + 0.7152f * gf + 0.0722f * bf;
+            }
+        }
+        
+        public Color linear
+        {
+            get
+            {
+                float rf = SRGBToLinear(r / 255f);
+                float gf = SRGBToLinear(g / 255f);
+                float bf = SRGBToLinear(b / 255f);
+                
+                return new Color
+                (
+                    (byte)Math.Clamp(MathF.Round(rf * 255f), 0, 255),
+                    (byte)Math.Clamp(MathF.Round(gf * 255f), 0, 255),
+                    (byte)Math.Clamp(MathF.Round(bf * 255f), 0, 255),
+                    a
+                );
+            }
+        }
+        
+        public Color gamma
+        {
+            get
+            {
+                float rf = LinearToSRGB(r / 255f);
+                float gf = LinearToSRGB(g / 255f);
+                float bf = LinearToSRGB(b / 255f);
+                
+                return new Color
+                (
+                    (byte)Math.Clamp(MathF.Round(rf * 255f), 0, 255),
+                    (byte)Math.Clamp(MathF.Round(gf * 255f), 0, 255),
+                    (byte)Math.Clamp(MathF.Round(bf * 255f), 0, 255),
+                    a
+                );
+            }
+        }
     }
     
     // Methods
     public partial struct Color
     {
+        public void Set(byte r, byte g, byte b, byte a)
+        {
+            this.r = r;
+            this.g = g;
+            this.b = b;
+            this.a = a;
+        }
+        
+        private static float SRGBToLinear(float c)
+        {
+            return (c <= 0.04045f) ? c / 12.92f : MathF.Pow((c + 0.055f) / 1.055f, 2.4f);
+        }
+
+        private static float LinearToSRGB(float c)
+        {
+            return (c <= 0.0031308f) ? 12.92f * c : 1.055f * MathF.Pow(c, 1f / 2.4f) - 0.055f;
+        }
+        
         public static Color HSVToRGB(float h, float s, float v, byte alpha = 255)
         {
             h = h % 360f;
@@ -132,6 +199,14 @@ namespace Hybrid
                 (byte)Math.Clamp(MathF.Round(a.a + (b.a - a.a) * t), 0, 255)
             );
         }
+        
+        public static bool Approximately(Color a, Color b, int tolerance = 1)
+        {
+            return MathF.Abs(a.r - b.r) <= tolerance &&
+                   MathF.Abs(a.g - b.g) <= tolerance &&
+                   MathF.Abs(a.b - b.b) <= tolerance &&
+                   MathF.Abs(a.a - b.a) <= tolerance;
+        }
     }
     
     // Operators
@@ -141,8 +216,8 @@ namespace Hybrid
         {
             return new Color
             (
-                (byte)Math.Clamp(MathF.Round(vector.x * 255f), 0, 255),
-                (byte)Math.Clamp(MathF.Round(vector.y * 255f), 0, 255),
+                (byte)Math.Clamp(MathF.Ceiling(vector.x * 255f), 0, 255),
+                (byte)Math.Clamp(MathF.Ceiling(vector.y * 255f), 0, 255),
                 0,
                 255
             );
@@ -152,9 +227,9 @@ namespace Hybrid
         {
             return new Color
             (
-                (byte)Math.Clamp(MathF.Round(vector.x * 255f), 0, 255),
-                (byte)Math.Clamp(MathF.Round(vector.y * 255f), 0, 255),
-                (byte)Math.Clamp(MathF.Round(vector.z * 255f), 0, 255),
+                (byte)Math.Clamp(MathF.Ceiling(vector.x * 255f), 0, 255),
+                (byte)Math.Clamp(MathF.Ceiling(vector.y * 255f), 0, 255),
+                (byte)Math.Clamp(MathF.Ceiling(vector.z * 255f), 0, 255),
                 255
             );
         }
@@ -163,10 +238,10 @@ namespace Hybrid
         {
             return new Color
             (
-                (byte)Math.Clamp(MathF.Round(vector.x * 255f), 0, 255),
-                (byte)Math.Clamp(MathF.Round(vector.y * 255f), 0, 255),
-                (byte)Math.Clamp(MathF.Round(vector.z * 255f), 0, 255),
-                (byte)Math.Clamp(MathF.Round(vector.w * 255f), 0, 255)
+                (byte)Math.Clamp(MathF.Ceiling(vector.x * 255f), 0, 255),
+                (byte)Math.Clamp(MathF.Ceiling(vector.y * 255f), 0, 255),
+                (byte)Math.Clamp(MathF.Ceiling(vector.z * 255f), 0, 255),
+                (byte)Math.Clamp(MathF.Ceiling(vector.w * 255f), 0, 255)
             );
         }
         
@@ -216,25 +291,24 @@ namespace Hybrid
             );
         }
 
-
         public static bool operator == (Color a, Color b)
         {
-            return a.r == b.r && a.g == b.g && a.b == b.b && a.a == b.a;
+            return Approximately(a, b);
         }
 
         public static bool operator != (Color a, Color b)
         {
-            return a.r != b.r || a.g != b.g || a.b != b.b || a.a != b.a;
-        }
-
-        public bool Equals(Color other)
-        {
-            return this == other;
+            return !Approximately(a, b);
         }
 
         public override bool Equals(object? obj)
         {
             return obj is Color other && Equals(other);
+        }
+        
+        public bool Equals(Color other)
+        {
+            return this == other;
         }
 
         public override int GetHashCode()

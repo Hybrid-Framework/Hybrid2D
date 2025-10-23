@@ -11,6 +11,23 @@ namespace App
             Window.Create(title: "Hybrid", width: 800, height: 600, fullscreen: false, resizable: true, vsync: true);
             Window.TargetFPS = 60;
             Window.VSync = false;
+            
+            Tests();
+        }
+
+        private void Tests()
+        {
+            var color = new ColorTest();
+            color.Perform();
+
+            var vector2 = new Vector2Test();
+            vector2.Perform();
+
+            var vector3 = new Vector3Test();
+            vector3.Perform();
+
+            var vector4 = new Vector4Test();
+            vector4.Perform();
         }
 
         public override void Update()

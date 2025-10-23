@@ -33,17 +33,22 @@ namespace Hybrid
         public static readonly Vector3 Forward = new(0, 0, 1);
         public static readonly Vector3 Back = new(0, 0, -1);
 
-        public static float Epsilon = 1.5e-5f;
-
-
+        public static float Epsilon = 1e-5f;
+        
         public float magnitude
         {
-            get { return MathF.Sqrt(x * x + y * y + z * z); }
+            get
+            {
+                return MathF.Sqrt(sqrMagnitude);
+            }
         }
 
         public float sqrMagnitude
         {
-            get { return x * x + y * y + z * z; }
+            get
+            {
+                return x * x + y * y + z * z;
+            }
         }
 
         public Vector3 normalized
@@ -65,6 +70,31 @@ namespace Hybrid
     // Methods
     public partial struct Vector3
     {
+        public void Set(float x, float y, float z)
+        {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+        }
+        
+        public void Normalize()
+        {
+            float mag = magnitude;
+
+            if (mag > Epsilon)
+            {
+                x /= mag;
+                y /= mag;
+                z /= mag;
+            }
+            else
+            {
+                x = 0f;
+                y = 0f;
+                z = 0f;
+            }
+        }
+        
         public static float Angle(Vector3 from, Vector3 to)
         {
             float value = MathF.Sqrt(from.sqrMagnitude * to.sqrMagnitude);
@@ -165,24 +195,6 @@ namespace Hybrid
 
             return Zero;
         }
-
-        public void Normalize()
-        {
-            float mag = magnitude;
-
-            if (mag > Epsilon)
-            {
-                x /= mag;
-                y /= mag;
-                z /= mag;
-            }
-            else
-            {
-                x = 0f;
-                y = 0f;
-                z = 0f;
-            }
-        }
         
         public static Vector3 Project(Vector3 vector, Vector3 normal)
         {
@@ -267,6 +279,13 @@ namespace Hybrid
             float mag = magA + (magB - magA) * t;
             return result * mag;
         }
+        
+        public static bool Approximately(Vector3 a, Vector3 b, float tolerance = 1e-5f)
+        {
+            return MathF.Abs(a.x - b.x) <= tolerance &&
+                   MathF.Abs(a.y - b.y) <= tolerance &&
+                   MathF.Abs(a.z - b.z) <= tolerance;
+        }
     }
     
     // Operators
@@ -321,22 +340,22 @@ namespace Hybrid
 
         public static bool operator == (Vector3 a, Vector3 b)
         {
-            return MathF.Abs(a.x - b.x) <= Epsilon && MathF.Abs(a.y - b.y) <= Epsilon && MathF.Abs(a.z - b.z) <= Epsilon;
+            return Approximately(a, b);
         }
 
         public static bool operator != (Vector3 a, Vector3 b)
         {
-            return MathF.Abs(a.x - b.x) > Epsilon || MathF.Abs(a.y - b.y) > Epsilon || MathF.Abs(a.z - b.z) > Epsilon;
-        }
-        
-        public bool Equals(Vector3 other)
-        {
-            return this == other;
+            return !Approximately(a, b);
         }
 
         public override bool Equals(object? obj)
         {
             return obj is Vector3 other && Equals(other);
+        }
+        
+        public bool Equals(Vector3 other)
+        {
+            return this == other;
         }
 
         public override int GetHashCode()

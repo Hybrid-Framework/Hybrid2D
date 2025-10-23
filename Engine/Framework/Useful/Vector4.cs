@@ -28,14 +28,13 @@ namespace Hybrid
         public static readonly Vector4 Zero = new(0, 0, 0, 0);
         public static readonly Vector4 One = new(1, 1, 1, 1);
         
-        public static float Epsilon = 1.5e-5f;
-        
+        public static float Epsilon = 1e-5f;
         
         public float magnitude
         {
             get
             {
-                return MathF.Sqrt(x * x + y * y + z * z + w * w);
+                return MathF.Sqrt(sqrMagnitude);
             }
         }
         
@@ -66,6 +65,31 @@ namespace Hybrid
     // Methods
     public partial struct Vector4
     {
+        public void Set(float x, float y, float z, float w)
+        {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.y = y;
+        }
+        
+        public void Normalize()
+        {
+            float mag = magnitude;
+            
+            if (mag > Epsilon)
+            {
+                x /= mag;
+                y /= mag;
+                z /= mag;
+                w /= mag;
+            }
+            else
+            {
+                x = y = z = w = 0f;
+            }
+        }
+        
         public static float Distance(Vector4 a, Vector4 b)
         {
             return (a - b).magnitude;
@@ -135,23 +159,6 @@ namespace Hybrid
             return Zero;
         }
 
-        public void Normalize()
-        {
-            float mag = magnitude;
-            
-            if (mag > Epsilon)
-            {
-                x /= mag;
-                y /= mag;
-                z /= mag;
-                w /= mag;
-            }
-            else
-            {
-                x = y = z = w = 0f;
-            }
-        }
-
         public static Vector4 Project(Vector4 vector, Vector4 normal)
         {
             float sqrMag = normal.sqrMagnitude;
@@ -167,6 +174,14 @@ namespace Hybrid
         public static Vector4 Scale(Vector4 a, Vector4 b)
         {
             return new Vector4(a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w);
+        }
+        
+        public static bool Approximately(Vector4 a, Vector4 b, float tolerance = 1e-5f)
+        {
+            return MathF.Abs(a.x - b.x) <= tolerance &&
+                   MathF.Abs(a.y - b.y) <= tolerance &&
+                   MathF.Abs(a.z - b.z) <= tolerance &&
+                   MathF.Abs(a.w - b.w) <= tolerance;
         }
     }
     
@@ -223,22 +238,22 @@ namespace Hybrid
 
         public static bool operator == (Vector4 a, Vector4 b)
         {
-            return MathF.Abs(a.x - b.x) <= Epsilon && MathF.Abs(a.y - b.y) <= Epsilon && MathF.Abs(a.z - b.z) <= Epsilon && MathF.Abs(a.w - b.w) <= Epsilon;
+            return Approximately(a, b, Epsilon);
         }
 
         public static bool operator != (Vector4 a, Vector4 b)
         {
-            return MathF.Abs(a.x - b.x) > Epsilon || MathF.Abs(a.y - b.y) > Epsilon || MathF.Abs(a.z - b.z) > Epsilon || MathF.Abs(a.w - b.w) > Epsilon;
+            return !Approximately(a, b, Epsilon);
+        }
+        
+        public override bool Equals(object? obj)
+        {
+            return obj is Vector4 other && Equals(other);
         }
         
         public bool Equals(Vector4 other)
         {
             return this == other;
-        }
-
-        public override bool Equals(object? obj)
-        {
-            return obj is Vector4 other && Equals(other);
         }
 
         public override int GetHashCode()

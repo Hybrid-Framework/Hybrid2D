@@ -29,17 +29,22 @@ namespace Hybrid
         public static readonly Vector2 Left = new(-1, 0);
         public static readonly Vector2 Right = new(1, 0);
 
-        public static float Epsilon = 1.5e-5f;
-
-
+        public static float Epsilon = 1e-5f;
+        
         public float magnitude
         {
-            get { return MathF.Sqrt(x * x + y * y); }
+            get
+            {
+                return MathF.Sqrt(sqrMagnitude);
+            }
         }
 
         public float sqrMagnitude
         {
-            get { return x * x + y * y; }
+            get
+            {
+                return x * x + y * y;
+            }
         }
 
         public Vector2 normalized
@@ -61,6 +66,28 @@ namespace Hybrid
     // Methods
     public partial struct Vector2
     {
+        public void Set(float x, float y)
+        {
+            this.x = x;
+            this.y = y;
+        }
+        
+        public void Normalize()
+        {
+            float mag = magnitude;
+
+            if (mag > Epsilon)
+            {
+                x /= mag;
+                y /= mag;
+            }
+            else
+            {
+                x = 0f;
+                y = 0f;
+            }
+        }
+        
         public static float Angle(Vector2 from, Vector2 to)
         {
             float value = MathF.Sqrt(from.sqrMagnitude * to.sqrMagnitude);
@@ -151,22 +178,6 @@ namespace Hybrid
             return Zero;
         }
 
-        public void Normalize()
-        {
-            float mag = magnitude;
-
-            if (mag > Epsilon)
-            {
-                x /= mag;
-                y /= mag;
-            }
-            else
-            {
-                x = 0f;
-                y = 0f;
-            }
-        }
-
         public static Vector2 Perpendicular(Vector2 vector)
         {
             return new(-vector.y, vector.x);
@@ -187,6 +198,12 @@ namespace Hybrid
             float sign = MathF.Sign(from.x * to.y - from.y * to.x);
 
             return Angle(from, to) * sign;
+        }
+        
+        public static bool Approximately(Vector2 a, Vector2 b, float tolerance = 1e-5f)
+        {
+            return MathF.Abs(a.x - b.x) <= tolerance &&
+                   MathF.Abs(a.y - b.y) <= tolerance;
         }
     }
     
@@ -242,22 +259,22 @@ namespace Hybrid
 
         public static bool operator == (Vector2 a, Vector2 b)
         {
-            return MathF.Abs(a.x - b.x) <= Epsilon && MathF.Abs(a.y - b.y) <= Epsilon;
+            return Approximately(a, b);
         }
 
         public static bool operator != (Vector2 a, Vector2 b)
         {
-            return MathF.Abs(a.x - b.x) > Epsilon || MathF.Abs(a.y - b.y) > Epsilon;
-        }
-        
-        public bool Equals(Vector2 other)
-        {
-            return this == other;
+            return !Approximately(a, b);
         }
 
         public override bool Equals(object? obj)
         {
             return obj is Vector2 other && Equals(other);
+        }
+        
+        public bool Equals(Vector2 other)
+        {
+            return this == other;
         }
 
         public override int GetHashCode()
