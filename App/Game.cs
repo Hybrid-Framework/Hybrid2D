@@ -4,6 +4,8 @@ namespace App
 {
     public class Game : GameBehaviour
     {
+        private float timer = 0f;
+        
         public override void Initialize()
         {
             Window.Create(title: "Hybrid", width: 800, height: 600, fullscreen: false, resizable: true, vsync: true);
@@ -13,12 +15,14 @@ namespace App
 
         public override void Update()
         {
-            // Update logic
+            timer += Time.unscaledDeltaTime;
         }
 
         public override void Draw()
         {
-            Graphics.Clear(Color.Salmon);
+            float t = (MathF.Sin(timer) + 1f) / 2f;
+            Color color = Color.Lerp(Color.Red, Color.Blue, t);
+            Graphics.Clear(color);
             
             Graphics.DebugText(10, 10, $"Frames Per Second: {Time.fps:F2}", Color.Black);
             Graphics.DebugText(10, 20, $"Frame Time: {Time.frameTime:F2}", Color.Black);
