@@ -9,9 +9,9 @@ namespace App
         
         public override void Initialize()
         {
-            Window.Create(title: "Hybrid", width: 800, height: 600, fullscreen: false, resizable: true, vsync: true);
-            Window.TargetFPS = 60;
-            Window.VSync = false;
+            Window.Create(title: "Hybrid", width: 800, height: 600, fullscreen: false, resizable: true);
+            Window.TargetFramesPerSecond = 0;
+            Window.VSync = true;
         }
 
         public override void Update()

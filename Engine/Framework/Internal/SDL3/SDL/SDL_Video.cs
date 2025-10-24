@@ -2,6 +2,19 @@
 
 internal static unsafe partial class SDL
 {
+    // Create Window And Renderer
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool SDL_CreateWindowAndRenderer(byte* title, int width, int height, ulong flags, out SDL.Window* window, out SDL.Renderer* renderer);
+    public static bool CreateWindowAndRenderer(string title, int w, int h, SDL.WindowFlags flags, out SDL.Window* window, out SDL.Renderer* renderer)
+    {
+        var bytes = StringToUtf8(title);
+
+        fixed (byte* utf8 = bytes)
+        {
+            return SDL_CreateWindowAndRenderer(utf8, w, h, (ulong)flags, out window, out renderer);
+        }
+    }
+    
     // Create Window
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Window* SDL_CreateWindow(byte* title, int w, int h, ulong flags);
@@ -218,5 +231,37 @@ internal static unsafe partial class SDL
     public static SDL.WindowFlags GetWindowFlags(SDL.Window* window)
     {
         return SDL_GetWindowFlags(window);
+    }
+    
+    // Get Window Size In Pixels
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool SDL_GetWindowSizeInPixels(SDL.Window* window, out int w, out int h);
+    public static bool GetWindowSizeInPixels(SDL.Window* window, out int w, out int h)
+    {
+        return SDL_GetWindowSizeInPixels(window, out w, out h);
+    }
+    
+    // Raise Window
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool SDL_RaiseWindow(SDL.Window* window);
+    public static bool RaiseWindow(SDL.Window* window)
+    {
+        return SDL_RaiseWindow(window);
+    }
+    
+    // Maximize Window
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool SDL_MaximizeWindow(SDL.Window* window);
+    public static bool MaximizeWindow(SDL.Window* window)
+    {
+        return SDL_MaximizeWindow(window);
+    }
+
+    // Minimize Window
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool SDL_MinimizeWindow(SDL.Window* window);
+    public static bool MinimizeWindow(SDL.Window* window)
+    {
+        return SDL_MinimizeWindow(window);
     }
 }

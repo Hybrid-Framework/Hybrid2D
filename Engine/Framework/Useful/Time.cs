@@ -5,18 +5,18 @@ namespace Hybrid
     public static class Time
     {
         // Delta
-        public static float unscaledDeltaTime { get; internal set; } = 0f;
-        public static float deltaTime { get; internal set; } = 0f;
+        public static float UnscaledDeltaTime { get; internal set; } = 0f;
+        public static float DeltaTime { get; internal set; } = 0f;
         
         // Time
-        public static float unscaledTime { get; internal set; } = 0f;
-        public static float time { get; internal set; } = 0f;
+        public static float UnscaledTimer { get; internal set; } = 0f;
+        public static float Timer { get; internal set; } = 0f;
         
         // Frame
-        public static float frameTime { get; internal set; } = 0f;
-        public static float fps { get; internal set; } = 0f;
+        public static float FrameTime { get; internal set; } = 0f;
+        public static float Fps { get; internal set; } = 0f;
         
         // Timescale
-        public static float timeScale { get; set; } = 1f;
+        public static float TimeScale { get; set; } = 1f;
     }
 }
