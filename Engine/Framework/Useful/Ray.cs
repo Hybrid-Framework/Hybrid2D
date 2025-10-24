@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    public struct Ray
+    public partial struct Ray
     {
         public Vector3 position;
         public Vector3 direction;

@@ -91,9 +91,7 @@ namespace Hybrid
             GameBehaviour?.Update();
             GameBehaviour?.Draw();
             
-            
             // Frame Limiting
-            // if VSYNC is OFF and TARGET FPS is NOT Zero
             if (Window.VSync == false && Window.TargetFPS != 0)
             {
                 ulong frameEnd = SDL.GetPerformanceCounter();

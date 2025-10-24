@@ -4,53 +4,32 @@ namespace App
 {
     public class Game : GameBehaviour
     {
-        private float timer = 0f;
+        Color text = new (255, 255, 255, 255);
+        Color background = new (100, 149, 237, 255);
         
         public override void Initialize()
         {
             Window.Create(title: "Hybrid", width: 800, height: 600, fullscreen: false, resizable: true, vsync: true);
             Window.TargetFPS = 60;
             Window.VSync = false;
-            
-            Tests();
-        }
-
-        private void Tests()
-        {
-            var color = new ColorTest();
-            color.Perform();
-            
-            var vector2 = new Vector2Test();
-            vector2.Perform();
-            
-            var vector3 = new Vector3Test();
-            vector3.Perform();
-            
-            var vector4 = new Vector4Test();
-            vector4.Perform();
-
-            var quaternion = new QuaternionTest();
-            quaternion.Perform();
         }
 
         public override void Update()
         {
-            timer += Time.unscaledDeltaTime;
+            // Update logic here
         }
 
         public override void Draw()
         {
-            float t = (MathF.Sin(timer) + 1f) / 2f;
-            Color color = Color.Lerp(Color.red, Color.blue, t);
-            Graphics.Clear(color);
+            Graphics.Clear(background);
             
-            Graphics.DebugText(10, 10, $"Frames Per Second: {Time.fps:F2}", Color.black);
-            Graphics.DebugText(10, 20, $"Frame Time: {Time.frameTime:F2}", Color.black);
-            Graphics.DebugText(10, 30, $"Delta Time: {Time.deltaTime:F4}", Color.black);
-            Graphics.DebugText(10, 40, $"Unscaled Delta Time: {Time.unscaledDeltaTime:F4}", Color.black);
-            Graphics.DebugText(10, 50, $"Time: {Time.time:F2}", Color.black);
-            Graphics.DebugText(10, 60, $"Unscaled Time: {Time.unscaledTime:F2}", Color.black);
-            Graphics.DebugText(10, 70, $"Time Scale: {Time.timeScale:F2}", Color.white);
+            Graphics.DebugText(10, 10, $"Frames Per Second: {Time.fps:F2}", text);
+            Graphics.DebugText(10, 20, $"Frame Time: {Time.frameTime:F2}", text);
+            Graphics.DebugText(10, 30, $"Delta Time: {Time.deltaTime:F4}", text);
+            Graphics.DebugText(10, 40, $"Unscaled Delta Time: {Time.unscaledDeltaTime:F4}", text);
+            Graphics.DebugText(10, 50, $"Time: {Time.time:F2}", text);
+            Graphics.DebugText(10, 60, $"Unscaled Time: {Time.unscaledTime:F2}", text);
+            Graphics.DebugText(10, 70, $"Time Scale: {Time.timeScale:F2}", text);
             
             Graphics.Present();
         }

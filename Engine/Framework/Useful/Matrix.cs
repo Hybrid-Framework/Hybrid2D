@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    public struct Matrix
+    public partial struct Matrix
     {
         
     }

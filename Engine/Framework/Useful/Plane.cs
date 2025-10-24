@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    public struct Plane
+    public partial struct Plane
     {
         
     }
