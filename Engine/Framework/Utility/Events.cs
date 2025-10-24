@@ -2,10 +2,11 @@
 {
     public static class Events
     {
-        internal static void Event(SDL.EventType e)
+        internal static void Event(SDL.Event e)
         {
-            // Quit
-            if (e == SDL.EventType.Quit)
+            var type = (SDL.EventType)e.type;
+            
+            if (type == SDL.EventType.Quit)
             {
                 Platform.Current?.Quit();
                 return;

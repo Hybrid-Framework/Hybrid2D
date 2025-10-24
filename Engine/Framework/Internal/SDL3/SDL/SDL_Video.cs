@@ -264,4 +264,20 @@ internal static unsafe partial class SDL
     {
         return SDL_MinimizeWindow(window);
     }
+    
+    // Get Window ID
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern uint SDL_GetWindowID(SDL.Window* window);
+    public static uint GetWindowID(SDL.Window* window)
+    {
+        return SDL_GetWindowID(window);
+    }
+    
+    // Get Window From ID
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Window* SDL_GetWindowFromID(uint windowID);
+    public static SDL.Window* GetWindowFromID(uint windowID)
+    {
+        return SDL_GetWindowFromID(windowID);
+    }
 }

@@ -5,8 +5,7 @@ namespace Hybrid
     // Platform
     public partial class Platform : IDisposable
     {
-        internal static GameBehaviour GameBehaviour { get; set; }
-        internal static Platform Current { get; set; }
+        public static Platform Current { get; set; }
 
         public static void Create(Platform platform)
         {
@@ -18,10 +17,14 @@ namespace Hybrid
     // Behaviour
     public partial class Platform
     {
-        internal virtual PlatformType PlatformType { get; set; }
-        internal virtual PlatformDevice PlatformDevice { get; set; }
+        public GameBehaviour GameBehaviour { get; set; }
+        
+        public virtual PlatformDevice PlatformDevice { get; set; }
+        public virtual PlatformType PlatformType { get; set; }
+        
         internal static bool Initialized { get; set; }
         internal static bool IsRunning { get; set; }
+        
         ulong _startCounter;
         ulong _lastCounter;
         ulong _frequency;
@@ -73,8 +76,7 @@ namespace Hybrid
             // Events
             while (SDL.PollEvent(out SDL.Event e))
             {
-                var type = (SDL.EventType)e.type;
-                Events.Event(type);
+                Events.Event(e);
             }
             
             // Main Loop
@@ -82,13 +84,13 @@ namespace Hybrid
             GameBehaviour?.Draw();
             
             // Frame Limiting
-            if (Window.TargetFramesPerSecond > 0)
+            if (Window.TargetFPS > 0)
             {
                 // Disable vsync if set target fps
                 if (Window.VSync) Window.VSync = false;
                 
                 ulong frameEnd = SDL.GetPerformanceCounter();
-                float frameTarget = 1f / Window.TargetFramesPerSecond;
+                float frameTarget = 1f / Window.TargetFPS;
                 double frameElapsed = (frameEnd - frameStart) / (double)_frequency;
                 double remainingTime = frameTarget - frameElapsed;
             
@@ -99,7 +101,7 @@ namespace Hybrid
             }
         }
 
-        internal void Quit()
+        public void Quit()
         {
             IsRunning = false;
             Dispose(true);
@@ -124,8 +126,8 @@ namespace Hybrid
 
             if (dispose)
             {
-                Window.Quit();
-                Renderer.Quit();
+                Window.Destroy();
+                Renderer.Destroy();
             }
         }
     }
