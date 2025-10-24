@@ -1,6 +1,7 @@
 using System.Runtime.InteropServices.JavaScript;
 using Hybrid;
 using App;
+using Game = App.Game;
 
 public partial class Program
 {

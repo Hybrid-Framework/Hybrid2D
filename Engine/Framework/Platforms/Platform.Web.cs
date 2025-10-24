@@ -5,9 +5,9 @@ namespace Hybrid
 {
     public unsafe class PlatformWeb : Platform
     {
-        public PlatformWeb(GameBehaviour gameBehaviour)
+        public PlatformWeb(Game game)
         {
-            GameBehaviour = gameBehaviour;
+            Game = game;
         }
         
         internal override void Bootstrap()
@@ -28,11 +28,7 @@ namespace Hybrid
                 };
             });
             
-            SDL.Init(SDL.InitFlags.Everything);
-            SDL_mixer.Init();
-            SDL_image.Init();
-            SDL_ttf.Init();
-            
+            SDL.Initialize();
             Emscripten.SetMainLoop((IntPtr)(delegate* unmanaged[Cdecl]<void>)&Run, 0, true);
         }
         
@@ -40,16 +36,16 @@ namespace Hybrid
         internal static void Run()
         {
             Emscripten.SetMainLoopTiming(Emscripten.TimingMode.RequestFrameAnimation, 1);
-            Current?.Initialize();
+            Current.Initialize();
             
-            if (IsRunning)
+            if (Current.IsRunning)
             {
-                Current?.MainLoop();
+                Current.MainLoop();
                 return;
             }
             
             Emscripten.CancelMainLoop();
-            Current?.Quit();
+            Current.Quit();
         }
     }
 }

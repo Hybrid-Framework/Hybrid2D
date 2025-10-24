@@ -5,6 +5,8 @@ namespace Hybrid
     // Window
     public static unsafe partial class Window
     {
+        private static bool Initialized = false;
+        
         public static Action OnCreated = null;
         public static Action OnDestroyed = null;
         public static Action OnFocus = null;
@@ -18,8 +20,10 @@ namespace Hybrid
         
         public static void Create(string title = "Hybrid", int width = 800, int height = 600, bool fullscreen = false, bool resizable = false)
         {
-            if (_handle == null)
+            if (!Initialized)
             {
+                Initialized = true;
+                
                 SDL.WindowFlags flags = SDL.WindowFlags.HighPixelDensity;
                 
                 if (Platform.Current.PlatformDevice == PlatformDevice.Mobile) fullscreen = true;
@@ -74,11 +78,13 @@ namespace Hybrid
             SDL.HideWindow(Handle);
         }
 
-        public static void Destroy()
+        internal static void Destroy()
         {
             SDL.DestroyWindow(Handle);
             
             OnDestroyed?.Invoke();
+
+            Initialized = false;
         }
     }
     

@@ -9,6 +9,11 @@ namespace Hybrid
 
         public static void Create(Platform platform)
         {
+            if (platform == null)
+            {
+                throw new Exception("Invalid Platform");
+            }
+            
             Current = platform;
             Current?.Bootstrap();
         }
@@ -17,13 +22,13 @@ namespace Hybrid
     // Behaviour
     public partial class Platform
     {
-        public GameBehaviour GameBehaviour { get; set; }
-        
         public virtual PlatformDevice PlatformDevice { get; set; }
         public virtual PlatformType PlatformType { get; set; }
         
-        internal static bool Initialized { get; set; }
-        internal static bool IsRunning { get; set; }
+        public virtual bool Initialized { get; set; }
+        public virtual bool IsRunning { get; set; }
+        
+        public virtual Game Game { get; set; }
         
         ulong _startCounter;
         ulong _lastCounter;
@@ -52,7 +57,7 @@ namespace Hybrid
                 Time.Fps = 0f;
                 
                 // Initialize
-                GameBehaviour?.Initialize();
+                Game?.Initialize();
                 Initialized = true;
                 IsRunning = true;
             }
@@ -80,8 +85,8 @@ namespace Hybrid
             }
             
             // Main Loop
-            GameBehaviour?.Update();
-            GameBehaviour?.Draw();
+            Game?.Update();
+            Game?.Draw();
             
             // Frame Limiting
             if (Window.TargetFPS > 0)

@@ -9,7 +9,12 @@ namespace Hybrid
             SDL.SetRenderDrawColor(Renderer.Handle, color.r, color.g, color.b, color.a);
         }
         
-        public static void Clear(Color color)
+        public static void Clear()
+        {
+            SDL.RenderClear(Renderer.Handle);
+        }
+
+        public static void ClearColor(Color color)
         {
             SetRenderColor(color);
             
@@ -39,6 +44,7 @@ namespace Hybrid
             SDL.RenderDebugText(Renderer.Handle, 10, 50, $"Timer: {Time.Timer:F2}");
             SDL.RenderDebugText(Renderer.Handle, 10, 60, $"Unscaled Time: {Time.UnscaledTimer:F2}");
             SDL.RenderDebugText(Renderer.Handle, 10, 70, $"Time Scale: {Time.TimeScale:F2}");
+            SDL.RenderDebugText(Renderer.Handle, 10, 80, $"Target FPS: {Window.TargetFPS:F2}");
         }
     }
 }

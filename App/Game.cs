@@ -2,7 +2,7 @@
 
 namespace App
 {
-    public class Game : GameBehaviour
+    public class Game : Hybrid.Game
     {
         Color text = new (255, 255, 255, 255);
         Color background = new (100, 149, 237, 255);
@@ -21,7 +21,7 @@ namespace App
 
         public override void Draw()
         {
-            Graphics.Clear(background);
+            Graphics.ClearColor(background);
             
             Graphics.DebugStats(text);
             

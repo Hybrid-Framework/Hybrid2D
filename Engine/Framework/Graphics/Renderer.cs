@@ -5,14 +5,18 @@ namespace Hybrid
     // Renderer
     internal static unsafe partial class Renderer
     {
-        public static Action OnCreated = null;
+        private static bool Initialized = false;
+        
         public static Action OnDestroyed = null;
+        public static Action OnCreated = null;
         
         
         internal static void Create(SDL.Window* window)
         {
-            if (_handle == null)
+            if (!Initialized)
             {
+                Initialized = true;
+                
                 Handle = SDL.CreateRenderer(window, null);
                 SDL.SetRenderVSync(Handle, 1);
                 
@@ -29,6 +33,8 @@ namespace Hybrid
             SDL.DestroyRenderer(Handle);
             
             OnDestroyed?.Invoke();
+
+            Initialized = false;
         }
     }
 

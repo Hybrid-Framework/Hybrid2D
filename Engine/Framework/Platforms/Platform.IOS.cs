@@ -4,9 +4,9 @@ namespace Hybrid
 {
     public class PlatformIOS : Platform
     {
-        public PlatformIOS(GameBehaviour gameBehaviour)
+        public PlatformIOS(Game game)
         {
-            GameBehaviour = gameBehaviour;
+            Game = game;
         }
 
         internal override void Bootstrap()
@@ -27,25 +27,21 @@ namespace Hybrid
                 };
             });
             
-            SDL.Init(SDL.InitFlags.Everything);
-            SDL_mixer.Init();
-            SDL_image.Init();
-            SDL_ttf.Init();
-            
+            SDL.Initialize();
             SDL.MainFunction main = Run;
             SDL.RunApp(0, IntPtr.Zero, main, IntPtr.Zero);
         }
         
         internal static int Run(int argc, IntPtr argv)
         {
-            Current?.Initialize();
+            Current.Initialize();
             
-            while (IsRunning)
+            while (Current.IsRunning)
             {
-                Current?.MainLoop();
+                Current.MainLoop();
             }
 
-            Current?.Quit();
+            Current.Quit();
             return 0;
         }
     }

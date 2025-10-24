@@ -1,6 +1,7 @@
 using Android.Content.PM;
 using Hybrid;
 using App;
+using Game = App.Game;
 
 [Activity(
     Label = "Hybrid",

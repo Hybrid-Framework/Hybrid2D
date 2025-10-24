@@ -4,9 +4,9 @@ namespace Hybrid
 {
     public class PlatformLinux : Platform
     {
-        public PlatformLinux(GameBehaviour gameBehaviour)
+        public PlatformLinux(Game game)
         {
-            GameBehaviour = gameBehaviour;
+            Game = game;
         }
         
         internal override void Bootstrap()
@@ -27,24 +27,20 @@ namespace Hybrid
                 };
             });
             
-            SDL.Init(SDL.InitFlags.Everything);
-            SDL_mixer.Init();
-            SDL_image.Init();
-            SDL_ttf.Init();
-            
+            SDL.Initialize();
             Run();
         }
 
         internal static void Run()
         {
-            Current?.Initialize();
+            Current.Initialize();
             
-            while (IsRunning)
+            while (Current.IsRunning)
             {
-                Current?.MainLoop();
+                Current.MainLoop();
             }
             
-            Current?.Quit();
+            Current.Quit();
         }
     }
 }
