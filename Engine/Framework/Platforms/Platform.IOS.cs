@@ -11,8 +11,8 @@ namespace Hybrid
 
         internal override void Bootstrap()
         {
-            SystemPlatform = SystemPlatform.iOS;
-            SystemDevice = SystemDevice.Mobile;
+            PlatformType = PlatformType.iOS;
+            PlatformDevice = PlatformDevice.Mobile;
             
             var assembly = typeof(SDL).Assembly;
             NativeLibrary.SetDllImportResolver(assembly, (library, asm, path) =>

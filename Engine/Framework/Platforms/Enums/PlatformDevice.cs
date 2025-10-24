@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    public enum SystemDevice
+    public enum PlatformDevice
     {
         Unknown,
         Desktop,

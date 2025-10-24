@@ -23,13 +23,7 @@ namespace App
         {
             Graphics.Clear(background);
             
-            Graphics.DebugText(10, 10, $"Frames Per Second: {Time.fps:F2}", text);
-            Graphics.DebugText(10, 20, $"Frame Time: {Time.frameTime:F2}", text);
-            Graphics.DebugText(10, 30, $"Delta Time: {Time.deltaTime:F4}", text);
-            Graphics.DebugText(10, 40, $"Unscaled Delta Time: {Time.unscaledDeltaTime:F4}", text);
-            Graphics.DebugText(10, 50, $"Time: {Time.time:F2}", text);
-            Graphics.DebugText(10, 60, $"Unscaled Time: {Time.unscaledTime:F2}", text);
-            Graphics.DebugText(10, 70, $"Time Scale: {Time.timeScale:F2}", text);
+            Graphics.DebugStats(text);
             
             Graphics.Present();
         }

@@ -2,17 +2,17 @@
 
 namespace Hybrid
 {
-    public class PlatformMacOS : Platform
+    public class PlatformAndroid : Platform
     {
-        public PlatformMacOS(GameBehaviour gameBehaviour)
+        public PlatformAndroid(GameBehaviour gameBehaviour)
         {
             GameBehaviour = gameBehaviour;
         }
         
         internal override void Bootstrap()
         {
-            SystemPlatform = SystemPlatform.MacOS;
-            SystemDevice = SystemDevice.Desktop;
+            PlatformType = PlatformType.Android;
+            PlatformDevice = PlatformDevice.Mobile;
             
             var assembly = typeof(SDL).Assembly;
             NativeLibrary.SetDllImportResolver(assembly, (library, asm, path) =>

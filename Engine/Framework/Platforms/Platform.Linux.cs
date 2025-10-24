@@ -2,17 +2,17 @@
 
 namespace Hybrid
 {
-    public class PlatformWindows : Platform
+    public class PlatformLinux : Platform
     {
-        public PlatformWindows(GameBehaviour gameBehaviour)
+        public PlatformLinux(GameBehaviour gameBehaviour)
         {
             GameBehaviour = gameBehaviour;
         }
         
         internal override void Bootstrap()
         {
-            SystemPlatform = SystemPlatform.Windows;
-            SystemDevice = SystemDevice.Desktop;
+            PlatformType = PlatformType.Linux;
+            PlatformDevice = PlatformDevice.Desktop;
             
             var assembly = typeof(SDL).Assembly;
             NativeLibrary.SetDllImportResolver(assembly, (library, asm, path) =>

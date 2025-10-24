@@ -20,8 +20,8 @@ namespace Hybrid
     #region Platform Behaviour
     public unsafe partial class Platform
     {
-        internal virtual SystemPlatform SystemPlatform { get; set; }
-        internal virtual SystemDevice SystemDevice { get; set; }
+        internal virtual PlatformType PlatformType { get; set; }
+        internal virtual PlatformDevice PlatformDevice { get; set; }
         internal static bool Initialized { get; set; }
         internal static bool IsRunning { get; set; }
         ulong _startCounter;

@@ -1,19 +1,18 @@
-﻿using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 namespace Hybrid
 {
-    public unsafe class PlatformWeb : Platform
+    public class PlatformMacOS : Platform
     {
-        public PlatformWeb(GameBehaviour gameBehaviour)
+        public PlatformMacOS(GameBehaviour gameBehaviour)
         {
             GameBehaviour = gameBehaviour;
         }
         
         internal override void Bootstrap()
         {
-            SystemPlatform = SystemPlatform.Web;
-            SystemDevice = SystemDevice.Unknown;
+            PlatformType = PlatformType.MacOS;
+            PlatformDevice = PlatformDevice.Desktop;
             
             var assembly = typeof(SDL).Assembly;
             NativeLibrary.SetDllImportResolver(assembly, (library, asm, path) =>
@@ -33,22 +32,18 @@ namespace Hybrid
             SDL_image.Init();
             SDL_ttf.Init();
             
-            Emscripten.SetMainLoop((IntPtr)(delegate* unmanaged[Cdecl]<void>)&Run, 0, true);
+            Run();
         }
-        
-        [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvCdecl) })]
+
         internal static void Run()
         {
-            Emscripten.SetMainLoopTiming(Emscripten.TimingMode.RequestFrameAnimation, 1);
             Current?.Initialize();
             
-            if (IsRunning)
+            while (IsRunning)
             {
                 Current?.MainLoop();
-                return;
             }
             
-            Emscripten.CancelMainLoop();
             Current?.Quit();
         }
     }

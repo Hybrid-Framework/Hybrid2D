@@ -16,8 +16,8 @@ namespace Hybrid
             {
                 SDL.WindowFlags flags = SDL.WindowFlags.HighPixelDensity;
                 
-                if (Platform.Current.SystemDevice == SystemDevice.Mobile) fullscreen = true;
-                if (Platform.Current.SystemDevice == SystemDevice.Mobile) resizable = true;
+                if (Platform.Current.PlatformDevice == PlatformDevice.Mobile) fullscreen = true;
+                if (Platform.Current.PlatformDevice == PlatformDevice.Mobile) resizable = true;
                 if (fullscreen) flags |= SDL.WindowFlags.Fullscreen;
                 if (resizable) flags |= SDL.WindowFlags.Resizable;
                 
