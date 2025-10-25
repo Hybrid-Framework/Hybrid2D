@@ -124,7 +124,7 @@ namespace Hybrid
             GC.SuppressFinalize(this);
         }
 
-        public static void Dispose(bool dispose)
+        public void Dispose(bool dispose)
         {
             if (disposed) return;
             disposed = true;
@@ -134,6 +134,11 @@ namespace Hybrid
                 Window.Destroy();
                 Renderer.Destroy();
             }
+        }
+
+        ~Platform()
+        {
+            Dispose(true);
         }
     }
 }
