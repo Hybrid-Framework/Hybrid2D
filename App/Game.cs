@@ -6,10 +6,9 @@ namespace App
     {
         private Color background = new (100, 149, 237, 255);
         private Color text = new (255, 255, 255, 255);
-        
-        private AudioClip audioClip;
+        private Color black = new (0, 0, 0, 255);
         private Texture texture;
-        private Font font;
+        private Texture texture2;
         
         
         public override void Initialize()
@@ -18,11 +17,17 @@ namespace App
             Window.TargetFPS = 0;
             Window.VSync = true;
 
-            audioClip = Content.Load<AudioClip>(FileSystem.assetPath + "Sound.mp3");
-            texture = Content.Load<Texture>(FileSystem.assetPath + "Image.png");
-            font = Content.Load<Font>(FileSystem.assetPath + "Font.ttf");
+            texture = Content.Load<Texture>("Images/Image.jpg");
+            texture2 = new Texture(256, 256, TextureAccess.Target, TextureScaleMode.Pixel);
             
-            Audio.Play(audioClip);
+            Color[] colors = new Color[texture2.Width * texture2.Height];
+            for(int i=0; i<colors.Length; i++)
+            {
+                colors[i] = black;
+            }
+            
+            texture2.SetPixels(colors);
+            texture2.Apply();
         }
 
         public override void Update()
@@ -34,11 +39,10 @@ namespace App
         {
             Graphics.ClearColor(background);
             
-            Graphics.DrawTexture(texture, null);
+            Graphics.DrawTexture(texture, new Rect(0, 0, 128, 128));
+            Graphics.DrawTexture(texture2, new Rect(128, 0, 128, 128));
             
-            Graphics.DrawText(font, 20, 100, "Hello World", text);
-            
-            Graphics.DebugStats(text);
+            Graphics.DrawDebugStats(text);
             
             Graphics.Present();
         }

@@ -5,17 +5,17 @@ namespace Hybrid
     // Color
     public partial struct Color
     {
-        public byte r;
-        public byte g;
-        public byte b;
-        public byte a;
+        public byte R;
+        public byte G;
+        public byte B;
+        public byte A;
 
-        public Color(byte r, byte g, byte b, byte a)
+        public Color(byte R, byte G, byte B, byte A)
         {
-            this.r = r;
-            this.g = g;
-            this.b = b;
-            this.a = a;
+            this.R = R;
+            this.G = G;
+            this.B = B;
+            this.A = A;
         }
     }
 }

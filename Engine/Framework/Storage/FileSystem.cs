@@ -2,14 +2,9 @@
 {
     public static class FileSystem
     {
-        public static string basePath
+        public static string BasePath
         {
             get => SDL.GetBasePath();
-        }
-        
-        public static string assetPath
-        {
-            get => Path.Combine(basePath, "Assets/");
         }
     }
 }

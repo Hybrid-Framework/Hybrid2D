@@ -2,6 +2,6 @@
 {
     public interface IContentResource : IDisposable
     {
-        public bool disposed { get; set; }
+        public bool Disposed { get; set; }
     }
 }

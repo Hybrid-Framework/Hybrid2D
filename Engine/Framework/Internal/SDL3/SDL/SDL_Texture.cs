@@ -7,7 +7,9 @@ internal static unsafe partial class SDL
     private static extern SDL.Texture* SDL_CreateTexture(SDL.Renderer* renderer, SDL.PixelFormat format, SDL.TextureAccess access, int w, int h);
     public static SDL.Texture* CreateTexture(SDL.Renderer* renderer, SDL.PixelFormat format, SDL.TextureAccess access, int w, int h)
     {
-        return SDL_CreateTexture(renderer, format, access, w, h);
+        var texture = SDL_CreateTexture(renderer, format, access, w, h);
+        SDL.SetTextureScaleMode(texture, ScaleMode.Pixel);
+        return texture;
     }
     
     // Create Texture With Properties
@@ -15,7 +17,9 @@ internal static unsafe partial class SDL
     private static extern SDL.Texture* SDL_CreateTextureWithProperties(SDL.Renderer* renderer, uint properties);
     public static SDL.Texture* CreateTextureWithProperties(SDL.Renderer* renderer, uint properties)
     {
-        return SDL_CreateTextureWithProperties(renderer, properties);
+        var texture = SDL_CreateTextureWithProperties(renderer, properties);
+        SDL.SetTextureScaleMode(texture, ScaleMode.Pixel);
+        return texture;
     }
     
     // Create Texture From Surface
@@ -23,7 +27,9 @@ internal static unsafe partial class SDL
     private static extern SDL.Texture* SDL_CreateTextureFromSurface(SDL.Renderer* renderer, SDL.Surface* surface);
     public static SDL.Texture* CreateTextureFromSurface(SDL.Renderer* renderer, SDL.Surface* surface)
     {
-        return SDL_CreateTextureFromSurface(renderer, surface);
+        var texture = SDL_CreateTextureFromSurface(renderer, surface);
+        SDL.SetTextureScaleMode(texture, ScaleMode.Pixel);
+        return texture;
     }
     
     // Destroy Texture

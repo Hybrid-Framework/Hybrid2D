@@ -52,4 +52,12 @@ internal static unsafe partial class SDL
     {
         SDL_UnlockSurface(surface);
     }
+    
+    // Convert Surface
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Surface* SDL_ConvertSurface(SDL.Surface* surface, SDL.PixelFormat format);
+    public static SDL.Surface* ConvertSurface(SDL.Surface* surface, SDL.PixelFormat format)
+    {
+        return SDL_ConvertSurface(surface, format);
+    }
 }

@@ -5,7 +5,11 @@ namespace Hybrid
     // Renderer
     internal static unsafe partial class Renderer
     {
-        private static bool Initialized = false;
+        internal static SDL.Renderer* Handle
+        {
+            set;
+            get;
+        }
         
         public static Action OnDestroyed = null;
         public static Action OnCreated = null;
@@ -13,10 +17,8 @@ namespace Hybrid
         
         internal static void Create(SDL.Window* window)
         {
-            if (!Initialized)
+            if (Handle == null)
             {
-                Initialized = true;
-                
                 Handle = SDL.CreateRenderer(window, null);
                 SDL.SetRenderVSync(Handle, 1);
                 
@@ -33,27 +35,6 @@ namespace Hybrid
             SDL.DestroyRenderer(Handle);
             
             OnDestroyed?.Invoke();
-
-            Initialized = false;
-        }
-    }
-
-    // Properties
-    internal static unsafe partial class Renderer
-    {
-        private static SDL.Renderer* _handle;
-        internal static SDL.Renderer* Handle
-        {
-            set => _handle = value;
-            get
-            {
-                if (_handle == null)
-                {
-                    throw new Exception("Renderer instance does not exist");
-                }
-
-                return _handle;
-            }
         }
     }
 }

@@ -5,7 +5,11 @@ namespace Hybrid
     // Window
     public static unsafe partial class Window
     {
-        private static bool Initialized = false;
+        internal static SDL.Window* Handle
+        {
+            set;
+            get;
+        }
         
         public static Action OnCreated = null;
         public static Action OnDestroyed = null;
@@ -20,10 +24,8 @@ namespace Hybrid
         
         public static void Create(string title = "Hybrid", int width = 800, int height = 600, bool fullscreen = false, bool resizable = false)
         {
-            if (!Initialized)
+            if (Handle == null)
             {
-                Initialized = true;
-                
                 SDL.WindowFlags flags = SDL.WindowFlags.HighPixelDensity;
                 
                 if (Platform.Current.PlatformDevice == PlatformDevice.Mobile) fullscreen = true;
@@ -83,29 +85,12 @@ namespace Hybrid
             SDL.DestroyWindow(Handle);
             
             OnDestroyed?.Invoke();
-
-            Initialized = false;
         }
     }
     
     // Properties
     public static unsafe partial class Window
     {
-        private static SDL.Window* _handle;
-        internal static SDL.Window* Handle
-        {
-            set => _handle = value;
-            get
-            {
-                if (_handle == null)
-                {
-                    throw new Exception("Window instance does not exist");
-                }
-
-                return _handle;
-            }
-        }
-
         public static int TargetFPS
         {
             get; set;

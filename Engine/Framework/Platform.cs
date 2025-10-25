@@ -116,7 +116,7 @@ namespace Hybrid
     // Dispose
     public abstract partial class Platform
     {
-        internal static bool disposed { get; set; }
+        internal static bool Disposed { get; set; }
         
         public void Dispose()
         {
@@ -126,8 +126,8 @@ namespace Hybrid
 
         public void Dispose(bool dispose)
         {
-            if (disposed) return;
-            disposed = true;
+            if (Disposed) return;
+            Disposed = true;
 
             if (dispose)
             {

@@ -4,98 +4,78 @@ namespace Hybrid
 {
     public static unsafe class Content
     {
-        private static readonly Dictionary<string, IContentResource> cache = new();
+        private static Dictionary<string, IContentResource> cache = new Dictionary<string, IContentResource>();
         
-
+        public static string Root = "Content";
+        
+        
+        // Load Content
         public static T Load<T>(string path) where T : IContentResource
         {
-            // Find Asset In Cache
+            // Resolve Path
+            path = Path.Combine(FileSystem.BasePath, Path.Combine(Root, path));
+            
+            // Fetch Content
             if (cache.TryGetValue(path, out IContentResource existing))
             {
                 return (T)existing;
             }
             
-            // Load Asset
-            IContentResource content;
+            // Load Content Methods
+            IContentResource content = typeof(T) switch
+            {
+                var t when t == typeof(Texture) => LoadTexture(path),
+                _ => throw new Exception($"Unsupported asset type {typeof(T)}")
+            };
             
-            if (typeof(T) == typeof(Texture))
-            {
-                content = LoadTexture(path);
-            }
-            else if (typeof(T) == typeof(AudioClip))
-            {
-                content = LoadAudio(path);
-            }
-            else if (typeof(T) == typeof(Font))
-            {
-                content = LoadFont(path);
-            }
-            else
-            {
-                throw new Exception($"Unsupported asset type {typeof(T)}");
-            }
-
+            // Cache Content
             cache[path] = content;
+            
+            // Return Content As Type
             return (T)content;
         }
+        
 
+        // Load Texture
         public static Texture LoadTexture(string path)
         {
-            SDL.Texture* resource = SDL_image.LoadTexture(Renderer.Handle, path);
+            // Load surface
+            var surface = SDL_image.Load(path);
+            if (surface == null) throw new Exception($"Could not load surface '{path}': {SDL.GetError()}");
 
-            if (resource == null)
+            // Convert format
+            var converted = SDL.ConvertSurface(surface, SDL.PixelFormat.RGBA8888);
+            if (converted == null) throw new Exception($"Failed to convert surface '{path}' to RGBA8888: {SDL.GetError()}");
+            
+            // Fetch information
+            int height = converted->height;
+            int width = converted->width;
+            int pitch = converted->pitch;
+            int size = height * pitch;
+            byte[] pixels = new byte[size];
+            byte* src = (byte*)converted->pixels.ToPointer();
+            fixed (byte* dst = pixels) Buffer.MemoryCopy(src, dst, size, size);
+
+            // Create Texture
+            SDL.Texture* texture = SDL.CreateTexture(Renderer.Handle, SDL.PixelFormat.RGBA8888, SDL.TextureAccess.Static, width, height);
+            if(texture == null) throw new Exception($"Failed to create texture: {SDL.GetError()}");
+
+            // Create Instance
+            Texture instance = new Texture(width, height, TextureAccess.Static, TextureScaleMode.Pixel)
             {
-                throw new Exception($"Could not find asset {path}");
-            }
-            else
-            {
-                SDL.SetTextureScaleMode(resource, SDL.ScaleMode.Pixel);
-                
-                Texture texture = new Texture()
-                {
-                    Handle = resource
-                };
-
-                return texture;
-            }
-        }
-
-        public static AudioClip LoadAudio(string path)
-        {
-            SDL.Audio* resource = SDL_mixer.LoadAudio(Audio.AudioListener.Handle, path, false);
-
-            if (resource == null)
-            {
-                throw new Exception($"Could not find asset {path}");
-            }
-            else
-            {
-                AudioClip audioClip = new AudioClip()
-                {
-                    Handle = resource
-                };
-
-                return audioClip;
-            }
-        }
-
-        public static Font LoadFont(string path)
-        {
-            SDL.Font* resource = SDL_ttf.OpenFont(path, 32);
-
-            if (resource == null)
-            {
-                throw new Exception($"Could not find asset {path}");
-            }
-            else
-            {
-                Font font = new Font()
-                {
-                    Handle = resource
-                };
-
-                return font;
-            }
+                Handle = texture,
+                Pixels = pixels,
+            };
+        
+            // Clean up
+            SDL.DestroySurface(converted);
+            SDL.DestroySurface(surface);
+            
+            // Apply
+            instance.Apply();
+            
+            // Return
+            return instance;
         }
     }
 }

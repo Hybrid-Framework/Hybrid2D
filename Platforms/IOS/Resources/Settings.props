@@ -1,14 +1,14 @@
 <Project>
 
-<!-- Assets -->
+<!-- Content -->
     <ItemGroup>
         <BundleResource Include="..\..\Hybrid.png">
             <Link>%(Filename)%(Extension)</Link>
         </BundleResource>
         
-        <BundleResource Include="..\..\App\Assets\**\*">
-            <LogicalName>Assets/%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-            <Link>Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
+        <BundleResource Include="..\..\App\Content\**\*">
+            <LogicalName>Content\%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+            <Link>Content\%(RecursiveDir)%(Filename)%(Extension)</Link>
         </BundleResource>
     </ItemGroup>
     
