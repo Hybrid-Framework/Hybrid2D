@@ -1,7 +1,11 @@
-﻿namespace Hybrid
+﻿using System;
+
+namespace Hybrid
 {
-    public static class Events
+    internal static class Events
     {
+        internal static Action<SDL.Event> OnEvent;
+        
         internal static void Event(SDL.Event e)
         {
             var type = (SDL.EventType)e.type;
@@ -12,8 +16,7 @@
                 return;
             }
             
-            // Window Events
-            Window.Events(e);
+            OnEvent?.Invoke(e);
         }
     }
 }

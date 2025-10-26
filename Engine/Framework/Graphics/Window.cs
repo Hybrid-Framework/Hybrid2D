@@ -36,6 +36,7 @@ namespace Hybrid
                 Handle = SDL.CreateWindow(title, width, height, flags);
                 Renderer.Create(Handle);
                 
+                Events.OnEvent += OnEvents;
                 OnCreated?.Invoke();
             }
             else
@@ -44,7 +45,7 @@ namespace Hybrid
             }
         }
 
-        internal static void Events(SDL.Event e)
+        internal static void OnEvents(SDL.Event e)
         {
             if (e.window.windowID == WindowID)
             {
@@ -145,7 +146,7 @@ namespace Hybrid
 
         public static Vector2 Size
         {
-            set => SDL.SetWindowSize(Handle, (int)value.x, (int)value.y);
+            set => SDL.SetWindowSize(Handle, (int)value.X, (int)value.Y);
             get
             {
                 SDL.GetWindowSize(Handle, out int w, out int h);
@@ -157,7 +158,7 @@ namespace Hybrid
         
         public static Vector2 MinSize
         {
-            set => SDL.SetWindowMinimumSize(Handle, (int)value.x, (int)value.y);
+            set => SDL.SetWindowMinimumSize(Handle, (int)value.X, (int)value.Y);
             get
             {
                 SDL.GetWindowMinimumSize(Handle, out int w, out int h);
@@ -169,7 +170,7 @@ namespace Hybrid
         
         public static Vector2 MaxSize
         {
-            set => SDL.SetWindowMaximumSize(Handle, (int)value.x, (int)value.y);
+            set => SDL.SetWindowMaximumSize(Handle, (int)value.X, (int)value.Y);
             get
             {
                 SDL.GetWindowMinimumSize(Handle, out int w, out int h);
@@ -181,7 +182,7 @@ namespace Hybrid
         
         public static Vector2 Position
         {
-            set => SDL.SetWindowPosition(Handle, (int)value.x, (int)value.y);
+            set => SDL.SetWindowPosition(Handle, (int)value.X, (int)value.Y);
             get
             {
                 SDL.GetWindowPosition(Handle, out int w, out int h);

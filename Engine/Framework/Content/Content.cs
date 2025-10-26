@@ -44,8 +44,8 @@ namespace Hybrid
             if (surface == null) throw new Exception($"Could not load surface '{path}': {SDL.GetError()}");
 
             // Convert format
-            var converted = SDL.ConvertSurface(surface, SDL.PixelFormat.RGBA8888);
-            if (converted == null) throw new Exception($"Failed to convert surface '{path}' to RGBA8888: {SDL.GetError()}");
+            var converted = SDL.ConvertSurface(surface, SDL.PixelFormat.RGBA32);
+            if (converted == null) throw new Exception($"Failed to convert surface '{path}' to RGBA32: {SDL.GetError()}");
             
             // Fetch information
             int height = converted->height;
@@ -57,7 +57,7 @@ namespace Hybrid
             fixed (byte* dst = pixels) Buffer.MemoryCopy(src, dst, size, size);
 
             // Create Texture
-            SDL.Texture* texture = SDL.CreateTexture(Renderer.Handle, SDL.PixelFormat.RGBA8888, SDL.TextureAccess.Static, width, height);
+            SDL.Texture* texture = SDL.CreateTexture(Renderer.Handle, SDL.PixelFormat.RGBA32, SDL.TextureAccess.Static, width, height);
             if(texture == null) throw new Exception($"Failed to create texture: {SDL.GetError()}");
 
             // Create Instance

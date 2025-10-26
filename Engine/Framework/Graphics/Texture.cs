@@ -1,9 +1,10 @@
 ﻿using System;
+using Hybrid.Interfaces;
 
 namespace Hybrid
 {
     // Texture
-    public unsafe partial class Texture : IContentResource
+    public unsafe partial class Texture : IContentResource, IGraphicsResource
     {
         internal SDL.Texture* Handle
         {
@@ -20,7 +21,7 @@ namespace Hybrid
             Handle = SDL.CreateTexture
             (
                 Renderer.Handle,
-                SDL.PixelFormat.RGBA8888,
+                SDL.PixelFormat.RGBA32,
                 (SDL.TextureAccess)access,
                 width,
                 height
@@ -41,10 +42,10 @@ namespace Hybrid
             {
                 int index = (y * Width + x) * 4;
                 
-                Pixels[index + 0] = color.A;
-                Pixels[index + 1] = color.R;
-                Pixels[index + 2] = color.G;
-                Pixels[index + 3] = color.B;
+                Pixels[index + 0] = color.R;
+                Pixels[index + 1] = color.G;
+                Pixels[index + 2] = color.B;
+                Pixels[index + 3] = color.A;
             }
         }
     
@@ -55,21 +56,21 @@ namespace Hybrid
             {
                 int index = (y * Width + x) * 4;
                 
-                byte a = Pixels[index + 0];
-                byte r = Pixels[index + 1];
-                byte g = Pixels[index + 2];
-                byte b = Pixels[index + 3];
+                byte r = Pixels[index + 0];
+                byte g = Pixels[index + 1];
+                byte b = Pixels[index + 2];
+                byte a = Pixels[index + 3];
 
                 return new Color(r, g, b, a);
             }
             
-            return new Color(0, 0, 0, 0);
+            return Color.Transparent;
         }
         
         // Set Pixels
         public void SetPixels(Color[] colors)
         {
-            if (colors.Length != Width * Height)
+            if (colors.Length != (Width * Height))
             {
                 throw new ArgumentException("Array length must match the texture size.");
             }
@@ -79,27 +80,27 @@ namespace Hybrid
                 int index = i * 4;
                 Color c = colors[i];
 
-                Pixels[index + 0] = c.A;
-                Pixels[index + 1] = c.R;
-                Pixels[index + 2] = c.G;
-                Pixels[index + 3] = c.B;
+                Pixels[index + 0] = c.R;
+                Pixels[index + 1] = c.G;
+                Pixels[index + 2] = c.B;
+                Pixels[index + 3] = c.A;
             }
         }
         
         // Get Pixels
         public Color[] GetPixels()
         {
-            int count = Width * Height;
+            int count = (Width * Height);
             Color[] result = new Color[count];
 
             for (int i = 0; i < count; i++)
             {
                 int index = i * 4;
                 
-                byte a = Pixels[index + 0];
-                byte r = Pixels[index + 1];
-                byte g = Pixels[index + 2];
-                byte b = Pixels[index + 3];
+                byte r = Pixels[index + 0];
+                byte g = Pixels[index + 1];
+                byte b = Pixels[index + 2];
+                byte a = Pixels[index + 3];
 
                 result[i] = new Color(r, g, b, a);
             }
@@ -112,7 +113,7 @@ namespace Hybrid
         {
             fixed (byte* p = Pixels)
             {
-                SDL.UpdateTexture(Handle, null, (IntPtr)p, Width * 4);
+                SDL.UpdateTexture(Handle, null, (IntPtr)p, (Width * 4));
             }
         }
     }

@@ -4,26 +4,28 @@ namespace App
 {
     public class Game : Hybrid.Game
     {
-        private Color background = new (100, 149, 237, 255);
-        private Color text = new (255, 255, 255, 255);
-        private Color black = new (0, 0, 0, 255);
         private Texture texture;
         private Texture texture2;
-        
         
         public override void Initialize()
         {
             Window.Create(title: "Hybrid", width: 800, height: 600, fullscreen: false, resizable: true);
             Window.TargetFPS = 0;
             Window.VSync = true;
-
+            
             texture = Content.Load<Texture>("Images/Image.jpg");
-            texture2 = new Texture(256, 256, TextureAccess.Target, TextureScaleMode.Pixel);
+            
+            texture.SetPixel(0,0, Color.Red);
+            texture.SetPixel(1,0, Color.Green);
+            texture.SetPixel(2,0, Color.Blue);
+            texture.Apply();
+            
+            texture2 = new Texture(256, 256, TextureAccess.Static, TextureScaleMode.Pixel);
             
             Color[] colors = new Color[texture2.Width * texture2.Height];
             for(int i=0; i<colors.Length; i++)
             {
-                colors[i] = black;
+                colors[i] = Color.Magenta;
             }
             
             texture2.SetPixels(colors);
@@ -37,12 +39,13 @@ namespace App
 
         public override void Draw()
         {
-            Graphics.ClearColor(background);
+            Graphics.ClearColor(Color.CornFlowerBlue);
             
             Graphics.DrawTexture(texture, new Rect(0, 0, 128, 128));
+            
             Graphics.DrawTexture(texture2, new Rect(128, 0, 128, 128));
             
-            Graphics.DrawDebugStats(text);
+            Graphics.DrawDebugStats(Color.White);
             
             Graphics.Present();
         }

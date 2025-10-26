@@ -6,6 +6,7 @@ namespace Hybrid
     public partial class Platform : IDisposable
     {
         public static Platform Current { get; set; }
+        
 
         public static void Create(Platform platform)
         {
@@ -34,6 +35,7 @@ namespace Hybrid
         ulong _lastCounter;
         ulong _frequency;
         float _smoothed;
+        float _fpsTimer;
         
 
         internal virtual void Bootstrap()
@@ -70,23 +72,27 @@ namespace Hybrid
             double elapsed = (frameStart - _lastCounter) / (double)_frequency;
             _lastCounter = frameStart;
             
-            // Time Calculating
+            // Frame Calculating
             Time.UnscaledDeltaTime = (float)Math.Min(elapsed, 0.1);
             Time.DeltaTime = Time.UnscaledDeltaTime * Time.TimeScale;
-            Time.Fps = _smoothed = (_smoothed * 0.9f) + ((1f / Time.UnscaledDeltaTime) * 0.1f);
             Time.FrameTime = Time.UnscaledDeltaTime * 1000f;
             Time.UnscaledTimer += Time.UnscaledDeltaTime;
             Time.Timer += Time.DeltaTime;
             
-            // Events
-            while (SDL.PollEvent(out SDL.Event e))
+            // Frames Per Second
+            float instantFps = 1f / Time.UnscaledDeltaTime;
+            _smoothed = (_smoothed * 0.9f) + (instantFps * 0.1f);
+            _fpsTimer += Time.DeltaTime;
+            if (_fpsTimer >= 1f)
             {
-                Events.Event(e);
+                _fpsTimer = 0f;
+                Time.Fps = _smoothed;
             }
             
-            // Main Loop
-            Game?.Update();
-            Game?.Draw();
+            // Frame
+            Events();
+            Update();
+            Draw();
             
             // Frame Limiting
             if (Window.TargetFPS > 0)
@@ -106,6 +112,30 @@ namespace Hybrid
             }
         }
 
+        private void Events()
+        {
+            // Engine Event Logic
+            
+            while (SDL.PollEvent(out SDL.Event e))
+            {
+                Hybrid.Events.Event(e);
+            }
+        }
+
+        private void Update()
+        {
+            // Engine Update Logic
+            
+            Game?.Update();
+        }
+
+        private void Draw()
+        {
+            // Engine Draw Logic
+            
+            Game?.Draw();
+        }
+
         public void Quit()
         {
             IsRunning = false;
@@ -117,6 +147,7 @@ namespace Hybrid
     public abstract partial class Platform
     {
         internal static bool Disposed { get; set; }
+        
         
         public void Dispose()
         {
