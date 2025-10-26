@@ -4,7 +4,7 @@ namespace Hybrid
 {
     public static unsafe class Content
     {
-        private static Dictionary<string, IContentResource> cache = new Dictionary<string, IContentResource>();
+        private static Dictionary<string, IContentResource> cache = new();
         
         public static string Root = "Content";
         

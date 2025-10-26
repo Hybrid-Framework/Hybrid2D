@@ -10,11 +10,6 @@ namespace Hybrid
 
         public static void Create(Platform platform)
         {
-            if (platform == null)
-            {
-                throw new Exception("Invalid Platform");
-            }
-            
             Current = platform;
             Current?.Bootstrap();
         }
@@ -95,13 +90,13 @@ namespace Hybrid
             Draw();
             
             // Frame Limiting
-            if (Window.TargetFPS > 0)
+            if (Window.Fps > 0)
             {
                 // Disable vsync if set target fps
                 if (Window.VSync) Window.VSync = false;
                 
                 ulong frameEnd = SDL.GetPerformanceCounter();
-                float frameTarget = 1f / Window.TargetFPS;
+                float frameTarget = 1f / Window.Fps;
                 double frameElapsed = (frameEnd - frameStart) / (double)_frequency;
                 double remainingTime = frameTarget - frameElapsed;
             
@@ -162,8 +157,8 @@ namespace Hybrid
 
             if (dispose)
             {
-                Window.Destroy();
                 Renderer.Destroy();
+                Window.Destroy();
             }
         }
 

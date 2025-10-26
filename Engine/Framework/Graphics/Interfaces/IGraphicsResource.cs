@@ -1,4 +1,4 @@
-﻿namespace Hybrid.Interfaces
+﻿namespace Hybrid
 {
     public interface IGraphicsResource : IDisposable
     {

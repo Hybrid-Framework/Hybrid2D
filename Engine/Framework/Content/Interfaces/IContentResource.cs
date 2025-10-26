@@ -1,4 +1,6 @@
-﻿namespace Hybrid
+﻿using System;
+
+namespace Hybrid
 {
     public interface IContentResource : IDisposable
     {

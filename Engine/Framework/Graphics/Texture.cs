@@ -1,5 +1,4 @@
 ﻿using System;
-using Hybrid.Interfaces;
 
 namespace Hybrid
 {
@@ -11,6 +10,7 @@ namespace Hybrid
             set;
             get;
         }
+        
         
         // Create Texture
         public Texture(int width, int height, TextureAccess access, TextureScaleMode scaleMode)

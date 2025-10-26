@@ -11,54 +11,36 @@ namespace Hybrid
             get;
         }
         
-        public static Action OnCreated = null;
-        public static Action OnDestroyed = null;
-        public static Action OnFocus = null;
-        public static Action OnUnfocus = null;
-        public static Action OnShown = null;
-        public static Action OnHidden = null;
-        public static Action OnMoved = null;
-        public static Action OnResized = null;
-        public static Action OnOrientation = null;
-        
         
         public static void Create(string title = "Hybrid", int width = 800, int height = 600, bool fullscreen = false, bool resizable = false)
         {
-            if (Handle == null)
-            {
-                SDL.WindowFlags flags = SDL.WindowFlags.HighPixelDensity;
+            if (Handle != null) throw new Exception("Only one window instance allowed");
+            
+            SDL.WindowFlags flags = SDL.WindowFlags.HighPixelDensity;
                 
-                if (Platform.Current.PlatformDevice == PlatformDevice.Mobile) fullscreen = true;
-                if (Platform.Current.PlatformDevice == PlatformDevice.Mobile) resizable = true;
-                if (fullscreen) flags |= SDL.WindowFlags.Fullscreen;
-                if (resizable) flags |= SDL.WindowFlags.Resizable;
+            if (Platform.Current.PlatformDevice == PlatformDevice.Mobile) fullscreen = true;
+            if (Platform.Current.PlatformDevice == PlatformDevice.Mobile) resizable = true;
+            if (fullscreen) flags |= SDL.WindowFlags.Fullscreen;
+            if (resizable) flags |= SDL.WindowFlags.Resizable;
                 
-                Handle = SDL.CreateWindow(title, width, height, flags);
-                Renderer.Create(Handle);
+            Handle = SDL.CreateWindow(title, width, height, flags);
+            Renderer.Create(Handle);
                 
-                Events.OnEvent += OnEvents;
-                OnCreated?.Invoke();
-            }
-            else
-            {
-                throw new Exception("Only one window instance allowed");
-            }
+            Events.OnEvent += WindowEvents;
+            OnCreated?.Invoke();
         }
 
-        internal static void OnEvents(SDL.Event e)
+        internal static void WindowEvents(SDL.Event e)
         {
-            if (e.window.windowID == WindowID)
-            {
-                SDL.EventType type = (SDL.EventType)e.type;
-                
-                if (type == SDL.EventType.OrientationChanged) OnOrientation?.Invoke();
-                if (type == SDL.EventType.Unfocused) OnUnfocus?.Invoke();
-                if (type == SDL.EventType.Resized) OnResized?.Invoke();
-                if (type == SDL.EventType.Focused) OnFocus?.Invoke();
-                if (type == SDL.EventType.Hidden) OnHidden?.Invoke();
-                if (type == SDL.EventType.Moved) OnMoved?.Invoke();
-                if (type == SDL.EventType.Shown) OnShown?.Invoke();
-            }
+            SDL.EventType type = (SDL.EventType)e.type;
+            
+            if (type == SDL.EventType.OrientationChanged) OnOrientation?.Invoke();
+            if (type == SDL.EventType.Unfocused) OnUnfocus?.Invoke();
+            if (type == SDL.EventType.Resized) OnResized?.Invoke();
+            if (type == SDL.EventType.Focused) OnFocus?.Invoke();
+            if (type == SDL.EventType.Hidden) OnHidden?.Invoke();
+            if (type == SDL.EventType.Moved) OnMoved?.Invoke();
+            if (type == SDL.EventType.Shown) OnShown?.Invoke();
         }
         
         public static void Minimize()
@@ -92,14 +74,20 @@ namespace Hybrid
     // Properties
     public static unsafe partial class Window
     {
-        public static int TargetFPS
+        public static Action OnCreated = null;
+        public static Action OnDestroyed = null;
+        public static Action OnFocus = null;
+        public static Action OnUnfocus = null;
+        public static Action OnShown = null;
+        public static Action OnHidden = null;
+        public static Action OnMoved = null;
+        public static Action OnResized = null;
+        public static Action OnOrientation = null;
+        
+        
+        public static int Fps
         {
             get; set;
-        }
-        
-        public static uint WindowID
-        {
-            get => SDL.GetWindowID(Handle);
         }
 
         public static string Title
@@ -125,9 +113,9 @@ namespace Hybrid
             set => SDL.SetWindowSize(Handle, value, Height);
             get
             {
-                SDL.GetWindowSize(Handle, out int w, out int h);
+                SDL.GetWindowSize(Handle, out int width, out int height);
                 {
-                    return w;
+                    return width;
                 }
             }
         }
@@ -137,9 +125,9 @@ namespace Hybrid
             set => SDL.SetWindowSize(Handle, Width, value);
             get
             {
-                SDL.GetWindowSize(Handle, out int w, out int h);
+                SDL.GetWindowSize(Handle, out int width, out int height);
                 {
-                    return h;
+                    return height;
                 }
             }
         }
@@ -149,9 +137,9 @@ namespace Hybrid
             set => SDL.SetWindowSize(Handle, (int)value.X, (int)value.Y);
             get
             {
-                SDL.GetWindowSize(Handle, out int w, out int h);
+                SDL.GetWindowSize(Handle, out int width, out int height);
                 {
-                    return new Vector2(w, h);
+                    return new Vector2(width, height);
                 }
             }
         }
@@ -161,9 +149,9 @@ namespace Hybrid
             set => SDL.SetWindowMinimumSize(Handle, (int)value.X, (int)value.Y);
             get
             {
-                SDL.GetWindowMinimumSize(Handle, out int w, out int h);
+                SDL.GetWindowMinimumSize(Handle, out int width, out int height);
                 {
-                    return new Vector2(w, h);
+                    return new Vector2(width, height);
                 }
             }
         }
@@ -173,9 +161,9 @@ namespace Hybrid
             set => SDL.SetWindowMaximumSize(Handle, (int)value.X, (int)value.Y);
             get
             {
-                SDL.GetWindowMinimumSize(Handle, out int w, out int h);
+                SDL.GetWindowMinimumSize(Handle, out int width, out int height);
                 {
-                    return new Vector2(w, h);
+                    return new Vector2(width, height);
                 }
             }
         }
@@ -185,9 +173,9 @@ namespace Hybrid
             set => SDL.SetWindowPosition(Handle, (int)value.X, (int)value.Y);
             get
             {
-                SDL.GetWindowPosition(Handle, out int w, out int h);
+                SDL.GetWindowPosition(Handle, out int x, out int y);
                 {
-                    return new Vector2(w, h);
+                    return new Vector2(x, y);
                 }
             }
         }
@@ -197,9 +185,9 @@ namespace Hybrid
             set => SDL.SetRenderVSync(Renderer.Handle, value ? 1 : 0);
             get
             {
-                SDL.GetRenderVSync(Renderer.Handle, out int value);
+                SDL.GetRenderVSync(Renderer.Handle, out int vsync);
                 {
-                    return value > 0;
+                    return vsync > 0;
                 }
             }
         }

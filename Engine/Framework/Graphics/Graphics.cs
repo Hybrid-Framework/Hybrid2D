@@ -63,7 +63,7 @@ namespace Hybrid
             SDL.RenderDebugText(Renderer.Handle, 10, 50, $"Timer: {Time.Timer:F2}");
             SDL.RenderDebugText(Renderer.Handle, 10, 60, $"Unscaled Time: {Time.UnscaledTimer:F2}");
             SDL.RenderDebugText(Renderer.Handle, 10, 70, $"Time Scale: {Time.TimeScale:F2}");
-            SDL.RenderDebugText(Renderer.Handle, 10, 80, $"Target FPS: {Window.TargetFPS:F2}");
+            SDL.RenderDebugText(Renderer.Handle, 10, 80, $"Target FPS: {Window.Fps:F2}");
         }
     }
 }
