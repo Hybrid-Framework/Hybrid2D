@@ -2,8 +2,8 @@
 
 namespace Hybrid
 {
-    public interface IContentResource : IDisposable
+    public interface IContentResource
     {
-        public bool Disposed { get; set; }
+        
     }
 }

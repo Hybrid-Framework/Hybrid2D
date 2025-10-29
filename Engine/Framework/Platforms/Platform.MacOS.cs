@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    public class PlatformMacOS : Platform
+    internal class PlatformMacOS : Platform
     {
         internal override void Bootstrap()
         {

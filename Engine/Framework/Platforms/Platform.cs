@@ -25,6 +25,7 @@ namespace Hybrid
         {
             // Check for null instances
             if (platform == null) throw new Exception("Can not create null platform");
+            if (config.Game == null) throw new Exception("Can not create null game");
             if (config == null) throw new Exception("Can not create null config");
             
             // Create Engine

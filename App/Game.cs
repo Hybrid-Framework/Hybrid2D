@@ -9,10 +9,6 @@ namespace App
         
         public override void Initialize()
         {
-            Window.Create(title: "Hybrid", width: 800, height: 600, fullscreen: false, resizable: true);
-            Window.Fps = 60;
-            Window.VSync = true;
-            
             texture = Content.Load<Texture>("Images/Image.jpg");
             
             texture.SetPixel(0,0, Color.Red);
@@ -20,7 +16,7 @@ namespace App
             texture.SetPixel(2,0, Color.Blue);
             texture.Apply();
             
-            texture2 = new Texture(256, 256, TextureAccess.Static, TextureScaleMode.Pixel);
+            texture2 = new Texture(16, 16, TextureAccess.Static, TextureScaleMode.Pixel);
             
             Color[] colors = new Color[texture2.Width * texture2.Height];
             for(int i=0; i<colors.Length; i++)
@@ -29,6 +25,11 @@ namespace App
             }
             
             texture2.SetPixels(colors);
+            
+            texture2.SetPixel(0,0, Color.Red);
+            texture2.SetPixel(1,0, Color.Green);
+            texture2.SetPixel(2,0, Color.Blue);
+            
             texture2.Apply();
         }
 
@@ -39,15 +40,15 @@ namespace App
 
         public override void Draw()
         {
-            Graphics.ClearColor(Color.CornFlowerBlue);
+            GraphicsDevice.ClearColor(Color.CornFlowerBlue);
             
-            Graphics.DrawTexture(texture, new Rect(0, 0, 128, 128));
+            GraphicsDevice.DrawTexture(texture, new Rect(0, 0, 128, 128));
             
-            Graphics.DrawTexture(texture2, new Rect(128, 0, 128, 128));
+            GraphicsDevice.DrawTexture(texture2, new Rect(128, 0, 128, 128));
             
-            Graphics.DrawDebugStats(Color.White);
+            GraphicsDevice.DrawStats(Color.White);
             
-            Graphics.Present();
+            GraphicsDevice.Present();
         }
     }
 }

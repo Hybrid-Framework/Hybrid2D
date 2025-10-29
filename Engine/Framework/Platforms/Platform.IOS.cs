@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    public class PlatformIOS : Platform
+    internal class PlatformIOS : Platform
     {
         internal override void Bootstrap()
         {

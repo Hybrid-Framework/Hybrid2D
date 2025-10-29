@@ -10,8 +10,16 @@ namespace Hybrid
             set;
             get;
         }
-        
-        
+
+
+        public void Destroy()
+        {
+            if (Handle != null)
+            {
+                SDL.DestroyTexture(Handle);
+            }
+        }
+
         // Create Texture
         public Texture(int width, int height, TextureAccess access, TextureScaleMode scaleMode)
         {
@@ -20,7 +28,7 @@ namespace Hybrid
             Pixels = new byte[width * height * 4];
             Handle = SDL.CreateTexture
             (
-                Renderer.Handle,
+                GraphicsDevice.Renderer,
                 SDL.PixelFormat.RGBA32,
                 (SDL.TextureAccess)access,
                 width,
@@ -152,35 +160,6 @@ namespace Hybrid
                     return (TextureScaleMode)mode;
                 }
             }
-        }
-    }
-    
-    // Dispose
-    public unsafe partial class Texture
-    {
-        public bool Disposed { get; set; }
-        
-        
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        public void Dispose(bool dispose)
-        {
-            if (Disposed) return;
-            Disposed = true;
-
-            if (dispose)
-            {
-                SDL.DestroyTexture(Handle);
-            }
-        }
-
-        ~Texture()
-        {
-            Dispose(true);
         }
     }
 }

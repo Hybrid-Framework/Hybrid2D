@@ -1,7 +1,7 @@
 ﻿namespace Hybrid
 {
-    public interface IGraphicsResource : IDisposable
+    public interface IGraphicsResource
     {
-        public bool Disposed { get; set; }
+        public void Destroy();
     }
 }

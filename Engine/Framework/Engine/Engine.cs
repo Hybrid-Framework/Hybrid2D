@@ -24,10 +24,12 @@ namespace Hybrid
 
         internal void Quit()
         {
-            // Dispose
+            // Quit Application
+            if(!IsRunning) return;
             IsRunning = false;
-            Renderer.Destroy();
-            Window.Destroy();
+            
+            // Destroy Resources
+            GraphicsDevice.Destroy();
             SDL.Quit();
         }
     }
@@ -40,13 +42,16 @@ namespace Hybrid
         {
             if (Initialized) return;
             Initialized = true;
+            
+            // Create Graphics Device
+            GraphicsDevice.Create(Config);
 
             // Frame Timing
             _startCounter = SDL.GetPerformanceCounter();
             _frequency = SDL.GetPerformanceFrequency();
             _lastCounter = _startCounter;
             
-            // Run
+            // Initialize
             Config?.Game?.Initialize();
         }
         
@@ -81,10 +86,10 @@ namespace Hybrid
             Draw();
 
             // Frame Limiting
-            if (Window.Fps > 0 && !Window.VSync)
+            if (GraphicsDevice.Fps > 0 && !GraphicsDevice.VSync)
             {
                 ulong frameEnd = SDL.GetPerformanceCounter();
-                float frameTarget = 1f / Window.Fps;
+                float frameTarget = 1f / GraphicsDevice.Fps;
                 double frameElapsed = (frameEnd - frameStart) / (double)_frequency;
                 double remainingTime = frameTarget - frameElapsed;
 
