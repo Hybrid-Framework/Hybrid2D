@@ -35,7 +35,7 @@ namespace Hybrid
     }
     
     // Engine Core
-    internal partial class Engine
+    internal unsafe partial class Engine
     {
         // Engine Initialize
         internal void Initialize()
@@ -43,16 +43,16 @@ namespace Hybrid
             if (Initialized) return;
             Initialized = true;
             
-            // Create Graphics Device
-            GraphicsDevice.Create(Config);
-
             // Frame Timing
             _startCounter = SDL.GetPerformanceCounter();
             _frequency = SDL.GetPerformanceFrequency();
             _lastCounter = _startCounter;
             
-            // Initialize
-            Config?.Game?.Initialize();
+            // Create Graphics Device
+            GraphicsDevice.Create(Config);
+            
+            // Load Default Scene
+            SceneManager.Load(Config.Scene);
         }
         
         // Engine Main Loop
@@ -118,7 +118,7 @@ namespace Hybrid
     {
         internal void Update()
         {
-            Config?.Game?.Update();
+            Config?.Scene?.Update();
         }
     }
     
@@ -127,7 +127,7 @@ namespace Hybrid
     {
         internal void Draw()
         {
-            Config?.Game?.Draw();
+            Config?.Scene?.Draw();
         }
     }
 }

@@ -2,13 +2,17 @@
 
 namespace App
 {
-    public class Game : Hybrid.Game
+    public class SampleScene : Scene
     {
         private Texture texture;
         private Texture texture2;
         
-        public override void Initialize()
+
+        public override void OnOpened()
         {
+            GraphicsDevice.Resizable = true;
+            GraphicsDevice.VSync = true;
+            
             texture = Content.Load<Texture>("Images/Image.jpg");
             
             texture.SetPixel(0,0, Color.Red);
@@ -33,9 +37,14 @@ namespace App
             texture2.Apply();
         }
 
+        public override void OnClosed()
+        {
+            
+        }
+
         public override void Update()
         {
-            // Update logic here
+            
         }
 
         public override void Draw()

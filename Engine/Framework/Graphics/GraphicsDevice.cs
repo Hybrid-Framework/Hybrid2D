@@ -37,7 +37,7 @@ namespace Hybrid
                 
                 SDL.SetRenderVSync(Renderer, config.VSync ? 1 : 0);
             }
-
+            
             Events.OnEvent += OnEvent;
         }
 

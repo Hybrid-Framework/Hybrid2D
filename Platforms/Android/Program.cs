@@ -1,5 +1,6 @@
 using Android.Content.PM;
 using Hybrid;
+using App;
 
 [Activity(
     Label = "Hybrid",
@@ -17,6 +18,6 @@ public class Program : Org.Libsdl.App.SDLActivity
     
     protected override void Main()
     {
-        Platform.Android(new App.Config());
+        Platform.Android(new AppConfig());
     }
 }
