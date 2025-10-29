@@ -1,4 +1,5 @@
 ﻿using Hybrid;
+using Object = Hybrid.Object;
 
 namespace App
 {
@@ -12,29 +13,24 @@ namespace App
         {
             GraphicsDevice.Resizable = true;
             GraphicsDevice.VSync = true;
+
+            Object obj1 = new Object();
+            Object obj2 = Object.Instantiate(obj1);
             
-            texture = Content.Load<Texture>("Images/Image.jpg");
+            obj1.Destroy();
             
-            texture.SetPixel(0,0, Color.Red);
-            texture.SetPixel(1,0, Color.Green);
-            texture.SetPixel(2,0, Color.Blue);
-            texture.Apply();
+            Console.WriteLine($"Match: {obj1 == obj1}");
+            Console.WriteLine($"Compare: {obj1 == obj2}");
+            Console.WriteLine($"Obj1 Null: {obj1 == null}");
+            Console.WriteLine($"Obj2 Null: {obj2 == null}");
             
-            texture2 = new Texture(16, 16, TextureAccess.Static, TextureScaleMode.Pixel);
+            Console.WriteLine($"Match: {obj2.Equals(obj1)}");
+            Console.WriteLine($"Compare: {obj1.Equals(obj2)}");
+            Console.WriteLine($"Obj1 Null: {obj1.Equals(null)}");
+            Console.WriteLine($"Obj2 Null: {obj2.Equals(null)}");
             
-            Color[] colors = new Color[texture2.Width * texture2.Height];
-            for(int i=0; i<colors.Length; i++)
-            {
-                colors[i] = Color.Magenta;
-            }
-            
-            texture2.SetPixels(colors);
-            
-            texture2.SetPixel(0,0, Color.Red);
-            texture2.SetPixel(1,0, Color.Green);
-            texture2.SetPixel(2,0, Color.Blue);
-            
-            texture2.Apply();
+            Console.WriteLine($"Obj1 Bool: {(bool)!obj1}");
+            Console.WriteLine($"Obj2 Bool: {(bool)obj2}");
         }
 
         public override void OnClosed()
@@ -50,10 +46,6 @@ namespace App
         public override void Draw()
         {
             GraphicsDevice.ClearColor(Color.CornFlowerBlue);
-            
-            GraphicsDevice.DrawTexture(texture, new Rect(0, 0, 128, 128));
-            
-            GraphicsDevice.DrawTexture(texture2, new Rect(128, 0, 128, 128));
             
             GraphicsDevice.DrawStats(Color.White);
             
