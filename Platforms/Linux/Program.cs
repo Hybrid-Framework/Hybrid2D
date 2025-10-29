@@ -4,6 +4,6 @@ public class Program
 {
     public static void Main()
     {
-        Platform.Linux(new App.Game());
+        Platform.Linux(new App.Config());
     }
 }

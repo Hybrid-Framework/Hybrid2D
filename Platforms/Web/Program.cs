@@ -6,6 +6,6 @@ public partial class Program
     [JSExport]
     public static void Main()
     {
-        Platform.Web(new App.Game());
+        Platform.Web(new App.Config());
     }
 }

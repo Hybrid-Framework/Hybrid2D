@@ -4,6 +4,6 @@ public class Program
 {
     public static void Main()
     {
-        Platform.MacOS(new App.Game());
+        Platform.MacOS(new App.Config());
     }
 }

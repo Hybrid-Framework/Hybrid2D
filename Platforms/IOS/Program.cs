@@ -4,6 +4,6 @@ public class Program
 {
     public static void Main()
     {
-        Platform.IOS(new App.Game());
+        Platform.IOS(new App.Config());
     }
 }

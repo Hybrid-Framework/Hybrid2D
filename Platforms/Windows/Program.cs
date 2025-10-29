@@ -4,6 +4,6 @@ public class Program
 {
     public static void Main()
     {
-        Platform.Windows(new App.Game());
+        Platform.Windows(new App.Config());
     }
 }

@@ -8,7 +8,7 @@ namespace Hybrid
         internal bool Initialized { get; private set; } = false;
         internal bool IsRunning { get; private set; } = true;
         
-        internal Game Game { get; private set; }
+        internal Config Config { get; private set; }
 
         private ulong _startCounter;
         private ulong _lastCounter;
@@ -17,9 +17,9 @@ namespace Hybrid
         private float _fpsTimer;
         
 
-        internal Engine(Game game)
+        internal Engine(Config config)
         {
-            Game = game;
+            Config = config;
         }
 
         internal void Quit()
@@ -47,7 +47,7 @@ namespace Hybrid
             _lastCounter = _startCounter;
             
             // Run
-            Game?.Initialize();
+            Config?.Game?.Initialize();
         }
         
         // Engine Main Loop
@@ -113,7 +113,7 @@ namespace Hybrid
     {
         internal void Update()
         {
-            Game?.Update();
+            Config?.Game?.Update();
         }
     }
     
@@ -122,7 +122,7 @@ namespace Hybrid
     {
         internal void Draw()
         {
-            Game?.Draw();
+            Config?.Game?.Draw();
         }
     }
 }

@@ -17,6 +17,6 @@ public class Program : Org.Libsdl.App.SDLActivity
     
     protected override void Main()
     {
-        Platform.Android(new App.Game());
+        Platform.Android(new App.Config());
     }
 }
