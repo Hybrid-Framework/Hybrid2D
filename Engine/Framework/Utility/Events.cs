@@ -8,7 +8,7 @@ namespace Hybrid
         
         internal static void Event(SDL.Event e)
         {
-            var type = (SDL.EventType)e.type;
+            SDL.EventType type = (SDL.EventType)e.type;
             
             if (type == SDL.EventType.Quit)
             {

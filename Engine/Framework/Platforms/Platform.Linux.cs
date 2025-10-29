@@ -2,13 +2,8 @@
 
 namespace Hybrid
 {
-    public class PlatformLinux : Platform
+    internal class PlatformLinux : Platform
     {
-        public PlatformLinux(Game game)
-        {
-            Game = game;
-        }
-        
         internal override void Bootstrap()
         {
             PlatformType = PlatformType.Linux;
@@ -33,14 +28,14 @@ namespace Hybrid
 
         internal static void Run()
         {
-            Current.Initialize();
+            Engine.Initialize();
             
-            while (Current.IsRunning)
+            while (Engine.IsRunning)
             {
-                Current.MainLoop();
+                Engine.MainLoop();
             }
             
-            Current.Quit();
+            Engine.Quit();
         }
     }
 }

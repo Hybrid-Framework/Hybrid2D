@@ -2,13 +2,8 @@
 
 namespace Hybrid
 {
-    public class PlatformWindows : Platform
+    internal class PlatformWindows : Platform
     {
-        public PlatformWindows(Game game)
-        {
-            Game = game;
-        }
-        
         internal override void Bootstrap()
         {
             PlatformType = PlatformType.Windows;
@@ -33,14 +28,14 @@ namespace Hybrid
 
         internal static void Run()
         {
-            Current.Initialize();
+            Engine.Initialize();
             
-            while (Current.IsRunning)
+            while (Engine.IsRunning)
             {
-                Current.MainLoop();
+                Engine.MainLoop();
             }
             
-            Current.Quit();
+            Engine.Quit();
         }
     }
 }

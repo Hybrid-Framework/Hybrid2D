@@ -1,11 +1,9 @@
 ﻿using Hybrid;
-using App;
-using Game = App.Game;
 
 public class Program
 {
     public static void Main()
     {
-        Platform.Create(new PlatformMacOS(new Game()));
+        Platform.MacOS(new App.Game());
     }
 }

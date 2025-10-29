@@ -3,13 +3,8 @@ using System.Runtime.InteropServices;
 
 namespace Hybrid
 {
-    public unsafe class PlatformWeb : Platform
+    internal unsafe class PlatformWeb : Platform
     {
-        public PlatformWeb(Game game)
-        {
-            Game = game;
-        }
-        
         internal override void Bootstrap()
         {
             PlatformType = PlatformType.Web;
@@ -36,16 +31,16 @@ namespace Hybrid
         internal static void Run()
         {
             Emscripten.SetMainLoopTiming(Emscripten.TimingMode.RequestFrameAnimation, 1);
-            Current.Initialize();
+            Engine.Initialize();
             
-            if (Current.IsRunning)
+            if (Engine.IsRunning)
             {
-                Current.MainLoop();
+                Engine.MainLoop();
                 return;
             }
             
             Emscripten.CancelMainLoop();
-            Current.Quit();
+            Engine.Quit();
         }
     }
 }

@@ -4,11 +4,6 @@ namespace Hybrid
 {
     public class PlatformIOS : Platform
     {
-        public PlatformIOS(Game game)
-        {
-            Game = game;
-        }
-
         internal override void Bootstrap()
         {
             PlatformType = PlatformType.iOS;
@@ -34,14 +29,14 @@ namespace Hybrid
         
         internal static int Run(int argc, IntPtr argv)
         {
-            Current.Initialize();
+            Engine.Initialize();
             
-            while (Current.IsRunning)
+            while (Engine.IsRunning)
             {
-                Current.MainLoop();
+                Engine.MainLoop();
             }
 
-            Current.Quit();
+            Engine.Quit();
             return 0;
         }
     }
