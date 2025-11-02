@@ -1,10 +1,9 @@
 using Hybrid;
-using App;
 
 public class Program
 {
     public static void Main()
     {
-        Platform.IOS(new AppConfig());
+        Platform.IOS(new App.Config());
     }
 }

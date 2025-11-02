@@ -1,10 +1,9 @@
 ﻿using Hybrid;
-using App;
 
 public class Program
 {
     public static void Main()
     {
-        Platform.Windows(new AppConfig());
+        Platform.Windows(new App.Config());
     }
 }

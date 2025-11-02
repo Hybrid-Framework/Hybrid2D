@@ -2,9 +2,9 @@
 
 namespace App
 {
-    public class AppConfig : Config
+    public class Config : Hybrid.Config
     {
-        public override Scene Scene { get; set; } = new SampleScene();
+        public override Hybrid.Scene Scene { get; set; } = new Scene();
 
         public override string Icon { get; set; } = "Hybrid.png";
         public override string Title { get; set; } = "Hybrid";

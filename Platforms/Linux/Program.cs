@@ -1,10 +1,9 @@
 ﻿using Hybrid;
-using App;
 
 public class Program
 {
     public static void Main()
     {
-        Platform.Linux(new AppConfig());
+        Platform.Linux(new App.Config());
     }
 }
