@@ -40,6 +40,7 @@ namespace Hybrid
         // Engine Initialize
         internal void Initialize()
         {
+            // Initialize
             if (Initialized) return;
             Initialized = true;
             
@@ -104,8 +105,10 @@ namespace Hybrid
     // Engine Events
     internal partial class Engine
     {
+        // Update All Events
         internal void Events()
         {
+            // Send SDL Events to Events
             while (SDL.PollEvent(out SDL.Event e))
             {
                 Hybrid.Events.Event(e);
@@ -116,15 +119,14 @@ namespace Hybrid
     // Engine Update
     internal partial class Engine
     {
+        // Update All Objects
         internal void Update()
         {
-            var objects = SceneManager.ActiveScene?.GetSceneObjects();
-
-            if (objects != null)
+            if (SceneManager.ActiveScene != null)
             {
-                foreach (var objs in objects)
+                foreach (var entity in SceneManager.ActiveScene.Entities)
                 {
-                    objs.Process();
+                    entity.Process();
                 }
             }
         }
@@ -133,12 +135,11 @@ namespace Hybrid
     // Engine Render
     internal partial class Engine
     {
+        // Render All Objects
         internal void Render()
         {
             GraphicsDevice.ClearColor(Color.CornFlowerBlue);
-            
             GraphicsDevice.DrawStats(Color.White);
-            
             GraphicsDevice.Present();
         }
     }

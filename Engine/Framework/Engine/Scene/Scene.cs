@@ -4,34 +4,30 @@ namespace Hybrid
 {
     public abstract class Scene
     {
-        private readonly HashSet<Object> SceneObjects = new HashSet<Object>();
+        internal HashSet<Entity> Entities = new HashSet<Entity>();
         
         public abstract void OnOpened();
         public abstract void OnClosed();
+        
 
-        internal void Add(Object obj)
+        internal void Add(Entity entity)
         {
-            SceneObjects.Add(obj);
+            Entities.Add(entity);
         }
 
-        internal void Remove(Object obj)
+        internal void Remove(Entity entity)
         {
-            SceneObjects.Remove(obj);
+            Entities.Remove(entity);
         }
 
-        public Object[] GetSceneObjects()
+        public Entity[] GetAllEntities()
         {
-            return SceneObjects.ToArray();
+            return Entities.ToArray();
         }
         
         public override string ToString()
         {
             return GetType().Name;
-        }
-        
-        protected Scene()
-        {
-            
         }
     }
 }

@@ -5,34 +5,14 @@ namespace Hybrid
     // Object
     public partial class Object : IEquatable<Object>
     {
-        public Scene Scene { get; private set; }
+        protected internal bool IsDestroyed { get; set; } = false;
         public string Name { get; set; }
-        private bool IsDestroyed;
-        private Guid Guid;
+        private Guid Guid { get; set; }
         
 
-        public Object(string name = null)
+        protected Object()
         {
-            if (SceneManager.ActiveScene == null)
-            {
-                throw new Exception("Can't create object with no scene loaded");
-            }
-            
-            Scene = SceneManager.ActiveScene;
-            Name = name ?? "Object";
             Guid = Guid.NewGuid();
-            Scene.Add(this);
-        }
-
-        public void Destroy()
-        {
-            if (!IsDestroyed)
-            {
-                IsDestroyed = true;
-                Scene.Remove(this);
-                Guid = Guid.Empty;
-                Name = "null";
-            }
         }
 
         public int GetInstanceID()
@@ -42,7 +22,7 @@ namespace Hybrid
 
         internal virtual void Process()
         {
-            Console.WriteLine("Processing: " + Name);
+            
         }
     }
     
@@ -51,7 +31,7 @@ namespace Hybrid
     {
         public static implicit operator bool(Object obj)
         {
-            return obj != null;
+            return obj is not null && !obj.IsDestroyed;
         }
         
         public static bool operator !=(Object a, Object b)
@@ -61,8 +41,8 @@ namespace Hybrid
 
         public static bool operator ==(Object a, Object b)
         {
-            if (a is null) return b?.IsDestroyed ?? false;
-            if (b is null) return a?.IsDestroyed ?? false;
+            if (a is null) return b?.IsDestroyed ?? true;
+            if (b is null) return a?.IsDestroyed ?? true;
             
             return ReferenceEquals(a, b);
         }
@@ -74,9 +54,7 @@ namespace Hybrid
 
         public override bool Equals(object obj)
         {
-            if (obj is not Object) return false;
-            
-            return Equals(obj);
+            return obj is Object other && Equals(other);
         }
 
         public override int GetHashCode()
@@ -86,7 +64,7 @@ namespace Hybrid
 
         public override string ToString()
         {
-            return IsDestroyed ? "null" : Name;
+            return Name;
         }
     }
 }

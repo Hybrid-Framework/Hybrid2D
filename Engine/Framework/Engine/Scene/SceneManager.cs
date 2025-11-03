@@ -16,7 +16,7 @@ namespace Hybrid
             {
                 Close(ActiveScene);
             }
-
+            
             ActiveScene = scene;
             Open(ActiveScene);
         }
@@ -36,12 +36,6 @@ namespace Hybrid
             if (scene == null) throw new Exception("Can not null null scene");
             
             Console.WriteLine($"Scene '{scene}' closed");
-
-            foreach (var obj in scene.GetSceneObjects())
-            {
-                obj.Destroy();
-            }
-            
             scene.OnClosed();
         }
     }

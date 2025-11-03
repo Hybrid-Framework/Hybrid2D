@@ -1,4 +1,5 @@
-﻿using Hybrid;
+﻿using System;
+using Hybrid;
 
 namespace App
 {
@@ -6,13 +7,10 @@ namespace App
     {
         public override void OnOpened()
         {
-            GraphicsDevice.Resizable = true;
-            GraphicsDevice.VSync = true;
-
-            Hybrid.Object obj1 = new Hybrid.Object("Hello 1");
-            Hybrid.Object obj2 = new Hybrid.Object();
+            Entity obj1 = new Entity("Hello");
             obj1.Destroy();
-            obj2.Destroy();
+            
+            obj1.GetComponent<Transform>();
         }
 
         public override void OnClosed()
