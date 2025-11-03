@@ -83,7 +83,7 @@ namespace Hybrid
             // Frame
             Events();
             Update();
-            Draw();
+            Render();
 
             // Frame Limiting
             if (GraphicsDevice.Fps > 0 && !GraphicsDevice.VSync)
@@ -118,16 +118,28 @@ namespace Hybrid
     {
         internal void Update()
         {
-            Config?.Scene?.Update();
+            var objects = SceneManager.ActiveScene?.GetSceneObjects();
+
+            if (objects != null)
+            {
+                foreach (var objs in objects)
+                {
+                    objs.Process();
+                }
+            }
         }
     }
     
-    // Engine Draw
+    // Engine Render
     internal partial class Engine
     {
-        internal void Draw()
+        internal void Render()
         {
-            Config?.Scene?.Draw();
+            GraphicsDevice.ClearColor(Color.CornFlowerBlue);
+            
+            GraphicsDevice.DrawStats(Color.White);
+            
+            GraphicsDevice.Present();
         }
     }
 }

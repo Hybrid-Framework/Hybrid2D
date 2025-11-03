@@ -2,33 +2,33 @@
 
 namespace Hybrid
 {
-    public class Scene
+    public abstract class Scene
     {
-        public string Name
+        private readonly HashSet<Object> SceneObjects = new HashSet<Object>();
+        
+        public abstract void OnOpened();
+        public abstract void OnClosed();
+
+        internal void Add(Object obj)
         {
-            get => GetType().Name;
+            SceneObjects.Add(obj);
+        }
+
+        internal void Remove(Object obj)
+        {
+            SceneObjects.Remove(obj);
+        }
+
+        public Object[] GetSceneObjects()
+        {
+            return SceneObjects.ToArray();
         }
         
-        public virtual void OnOpened()
+        public override string ToString()
         {
-            
+            return GetType().Name;
         }
-
-        public virtual void OnClosed()
-        {
-            
-        }
-
-        public virtual void Update()
-        {
-            
-        }
-
-        public virtual void Draw()
-        {
-            
-        }
-
+        
         protected Scene()
         {
             

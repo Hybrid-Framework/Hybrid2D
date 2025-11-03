@@ -10,10 +10,7 @@ namespace Hybrid
         // Load Scene
         public static void Load(Scene scene)
         {
-            if (scene == null)
-            {
-                throw new Exception("Can not load null scene");
-            }
+            if (scene == null) throw new Exception("Can not load null scene");
 
             if (ActiveScene != null)
             {
@@ -27,24 +24,24 @@ namespace Hybrid
         // Open Scene
         private static void Open(Scene scene)
         {
-            if (scene == null)
-            {
-                throw new Exception("Can not open null scene");
-            }
+            if (scene == null) throw new Exception("Can not open null scene");
             
-            Console.WriteLine($"Scene '{scene.Name}' opened");
+            Console.WriteLine($"Scene '{scene}' opened");
             scene.OnOpened();
         }
         
         // Close Scene
         private static void Close(Scene scene)
         {
-            if (scene == null)
+            if (scene == null) throw new Exception("Can not null null scene");
+            
+            Console.WriteLine($"Scene '{scene}' closed");
+
+            foreach (var obj in scene.GetSceneObjects())
             {
-                throw new Exception("Can not null null scene");
+                obj.Destroy();
             }
             
-            Console.WriteLine($"Scene '{scene.Name}' closed");
             scene.OnClosed();
         }
     }
