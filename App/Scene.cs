@@ -1,5 +1,4 @@
-﻿using System;
-using Hybrid;
+﻿using Hybrid;
 
 namespace App
 {
@@ -7,10 +6,7 @@ namespace App
     {
         public override void OnOpened()
         {
-            Entity obj1 = new Entity("Hello");
-            obj1.Destroy();
-            
-            obj1.GetComponent<Transform>();
+            GameObject obj1 = new GameObject("Hello");
         }
 
         public override void OnClosed()

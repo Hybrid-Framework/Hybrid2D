@@ -4,25 +4,31 @@ namespace Hybrid
 {
     public abstract class Scene
     {
-        internal HashSet<Entity> Entities = new HashSet<Entity>();
+        internal List<GameObject> SceneGameObjects = new List<GameObject>();
         
         public abstract void OnOpened();
         public abstract void OnClosed();
         
 
-        internal void Add(Entity entity)
+        internal void Add(GameObject gameObject)
         {
-            Entities.Add(entity);
+            if(gameObject == null) return;
+            
+            SceneGameObjects.Add(gameObject);
+            Console.WriteLine($"GameObject '{gameObject.Name}' added to '{this}'");
         }
 
-        internal void Remove(Entity entity)
+        internal void Remove(GameObject gameObject)
         {
-            Entities.Remove(entity);
+            if(gameObject == null) return;
+            
+            SceneGameObjects.Remove(gameObject);
+            Console.WriteLine($"GameObject '{gameObject.Name}' removed from '{this}'");
         }
 
-        public Entity[] GetAllEntities()
+        public GameObject[] GetSceneObjects()
         {
-            return Entities.ToArray();
+            return SceneGameObjects.ToArray();
         }
         
         public override string ToString()

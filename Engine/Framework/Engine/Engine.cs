@@ -35,7 +35,7 @@ namespace Hybrid
     }
     
     // Engine Core
-    internal unsafe partial class Engine
+    internal partial class Engine
     {
         // Engine Initialize
         internal void Initialize()
@@ -122,12 +122,9 @@ namespace Hybrid
         // Update All Objects
         internal void Update()
         {
-            if (SceneManager.ActiveScene != null)
+            foreach (var obj in SceneManager.ActiveScene.GetSceneObjects())
             {
-                foreach (var entity in SceneManager.ActiveScene.Entities)
-                {
-                    entity.Process();
-                }
+                obj.OnProcess();
             }
         }
     }

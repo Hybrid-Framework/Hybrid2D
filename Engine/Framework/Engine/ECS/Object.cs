@@ -5,24 +5,31 @@ namespace Hybrid
     // Object
     public partial class Object : IEquatable<Object>
     {
-        protected internal bool IsDestroyed { get; set; } = false;
-        public string Name { get; set; }
-        private Guid Guid { get; set; }
+        public string Name { get; set; } = "Object";
         
-
-        protected Object()
-        {
-            Guid = Guid.NewGuid();
-        }
+        private Guid Guid { get; set; } = Guid.NewGuid();
+        private bool IsDestroyed { get; set; }
+        
 
         public int GetInstanceID()
         {
             return Guid.GetHashCode();
         }
 
-        internal virtual void Process()
+        public static void Destroy(Object obj)
         {
-            
+            if (obj == null) return;
+
+            if (!obj.IsDestroyed)
+            {
+                obj.IsDestroyed = true;
+                obj.OnDestroy();
+            }
+        }
+
+        protected internal virtual void OnDestroy()
+        {
+            // What happens on destroyed?
         }
     }
     

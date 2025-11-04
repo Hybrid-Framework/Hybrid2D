@@ -1,14 +1,44 @@
-﻿namespace Hybrid
+﻿using System;
+
+namespace Hybrid
 {
     // Component
-    public class Component : Object
+    public class Component : Behaviour
     {
-        public Entity Entity { get; internal set; }
-        public Transform Transform { get; internal set; }
-
-        internal override void Process()
+        private bool hasAwake = false;
+        private bool hasStart = false;
+        
+        
+        protected internal override void OnProcess()
         {
-            Console.WriteLine($"Updating {Name} in {Entity.Name}");
+            if (!hasAwake)
+            {
+                hasAwake = true;
+                Awake();
+            }
+
+            if (!hasStart)
+            {
+                hasStart = true;
+                Start();
+            }
+            
+            Update();
+        }
+        
+        public virtual void Awake()
+        {
+            
+        }
+        
+        public virtual void Start()
+        {
+            
+        }
+        
+        public virtual void Update()
+        {
+            
         }
     }
 }
