@@ -5,11 +5,21 @@ namespace Hybrid
     // Object
     public partial class Object : IEquatable<Object>
     {
-        public string Name { get; set; } = "Object";
-        
         private Guid Guid { get; set; } = Guid.NewGuid();
         private bool IsDestroyed { get; set; }
         
+        public string Name { get; set; }
+        
+
+        protected Object()
+        {
+            Name = GetType().Name;
+            
+            if (SceneManager.ActiveScene == null)
+            {
+                throw new Exception($"Can't create Object '{Name}' with no scene loaded");
+            }
+        }
 
         public int GetInstanceID()
         {
@@ -18,18 +28,20 @@ namespace Hybrid
 
         public static void Destroy(Object obj)
         {
-            if (obj == null) return;
-
-            if (!obj.IsDestroyed)
+            if (obj != null)
             {
-                obj.IsDestroyed = true;
+                // Already Destroyed
+                if (obj.IsDestroyed) return;
+                
+                // Call First
                 obj.OnDestroy();
+                obj.IsDestroyed = true;
             }
         }
 
         protected internal virtual void OnDestroy()
         {
-            // What happens on destroyed?
+            
         }
     }
     

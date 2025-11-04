@@ -122,8 +122,10 @@ namespace Hybrid
         // Update All Objects
         internal void Update()
         {
+            // For Each Scene Object
             foreach (var obj in SceneManager.ActiveScene.GetSceneObjects())
             {
+                // Process
                 obj.OnProcess();
             }
         }

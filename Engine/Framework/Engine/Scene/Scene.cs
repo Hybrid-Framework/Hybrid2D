@@ -12,16 +12,12 @@ namespace Hybrid
 
         internal void Add(GameObject gameObject)
         {
-            if(gameObject == null) return;
-            
             SceneGameObjects.Add(gameObject);
             Console.WriteLine($"GameObject '{gameObject.Name}' added to '{this}'");
         }
 
         internal void Remove(GameObject gameObject)
         {
-            if(gameObject == null) return;
-            
             SceneGameObjects.Remove(gameObject);
             Console.WriteLine($"GameObject '{gameObject.Name}' removed from '{this}'");
         }

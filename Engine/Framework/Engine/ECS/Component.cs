@@ -7,7 +7,7 @@ namespace Hybrid
     {
         private bool hasAwake = false;
         private bool hasStart = false;
-        
+
         
         protected internal override void OnProcess()
         {
@@ -25,7 +25,15 @@ namespace Hybrid
             
             Update();
         }
-        
+
+        protected internal override void OnDestroy()
+        {
+            if (GameObject != null)
+            {
+                GameObject.RemoveComponent(this);
+            }
+        }
+
         public virtual void Awake()
         {
             
