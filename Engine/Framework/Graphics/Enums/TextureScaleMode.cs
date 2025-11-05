@@ -1,4 +1,6 @@
-﻿namespace Hybrid
+﻿using System;
+
+namespace Hybrid
 {
     public enum TextureScaleMode
     {

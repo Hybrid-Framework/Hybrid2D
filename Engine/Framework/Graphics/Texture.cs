@@ -3,43 +3,48 @@
 namespace Hybrid
 {
     // Texture
-    public unsafe partial class Texture : IContentResource, IGraphicsResource
+    public unsafe partial class Texture : Object, IContentResource
     {
+        public const int MaxTextureSize = 8192;
+            
         internal SDL.Texture* Handle
         {
             set;
             get;
         }
-
-
-        public void Destroy()
-        {
-            if (Handle != null)
-            {
-                SDL.DestroyTexture(Handle);
-            }
-        }
+        
 
         // Create Texture
-        public Texture(int width, int height, TextureAccess access, TextureScaleMode scaleMode)
+        public Texture(int width, int height, TextureAccess access = TextureAccess.Static, TextureScaleMode scaleMode = TextureScaleMode.Pixel)
         {
-            Width = width;
-            Height = height;
-            Pixels = new byte[width * height * 4];
-            Handle = SDL.CreateTexture
-            (
-                GraphicsDevice.Renderer,
-                SDL.PixelFormat.RGBA32,
-                (SDL.TextureAccess)access,
-                width,
-                height
-            );
-
+            // Enforce Maximum Size
+            if (width > MaxTextureSize || height > MaxTextureSize)
+            {
+                throw new ArgumentException($"Texture can't be larger than '({MaxTextureSize}x{MaxTextureSize})'");
+            }
+            
+            // Create SDL Texture
+            {
+                Width = width;
+                Height = height;
+                Pixels = new byte[width * height * 4];
+                Handle = SDL.CreateTexture
+                (
+                    GraphicsDevice.Renderer,
+                    (SDL.PixelFormat)Format,
+                    (SDL.TextureAccess)access,
+                    width,
+                    height
+                );
+            }
+            
+            // Error
             if (Handle == null)
             {
-                throw new Exception($"Failed to create texture: {SDL.GetError()}");
+                throw new NullReferenceException($"Failed to create texture: {SDL.GetError()}");
             }
-
+            
+            // Set Scaling Mode
             SDL.SetTextureScaleMode(Handle, (SDL.ScaleMode)scaleMode);
         }
     
@@ -80,7 +85,7 @@ namespace Hybrid
         {
             if (colors.Length != (Width * Height))
             {
-                throw new ArgumentException("Array length must match the texture size.");
+                throw new ArgumentException("Array length must match the texture size");
             }
 
             for (int i = 0; i < colors.Length; i++)
@@ -121,7 +126,23 @@ namespace Hybrid
         {
             fixed (byte* p = Pixels)
             {
-                SDL.UpdateTexture(Handle, null, (IntPtr)p, (Width * 4));
+                // Update SDL Texture
+                if (!SDL.UpdateTexture(Handle, null, (IntPtr)p, (Width * 4)))
+                {
+                    throw new Exception($"Failed to apply texture: {SDL.GetError()}");
+                }
+            }
+        }
+        
+        // Destroy
+        internal override void Dispose()
+        {
+            base.Dispose();
+            
+            if(Handle != null)
+            {
+                // Destroy SDL Texture
+                SDL.DestroyTexture(Handle);
             }
         }
     }
@@ -143,6 +164,11 @@ namespace Hybrid
         {
             get;
             set;
+        }
+
+        public TextureFormat Format
+        {
+            get => TextureFormat.RGBA32;
         }
 
         public TextureAccess Access

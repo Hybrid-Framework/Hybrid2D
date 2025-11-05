@@ -5,7 +5,7 @@ namespace Hybrid
     // Component
     public class Component : Behaviour
     {
-        internal bool OnStarted { get; set; } = false;
+        protected internal bool ComponentHasBeenInitialized { get; set; } = false;
         
 
         public virtual void OnStart()
@@ -35,6 +35,8 @@ namespace Hybrid
 
         internal override void Dispose()
         {
+            base.Dispose();
+            
             if (GameObject != null)
             {
                 OnDestroy();

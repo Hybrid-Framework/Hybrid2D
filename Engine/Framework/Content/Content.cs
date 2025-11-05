@@ -4,7 +4,7 @@ namespace Hybrid
 {
     public static unsafe class Content
     {
-        private static Dictionary<string, IContentResource> cache = new();
+        private static Dictionary<string, IContentResource> Cache = new();
         
         public static string Root = "Content";
         
@@ -16,7 +16,7 @@ namespace Hybrid
             path = Path.Combine(FileSystem.BasePath, Path.Combine(Root, path));
             
             // Fetch Content
-            if (cache.TryGetValue(path, out IContentResource existing))
+            if (Cache.TryGetValue(path, out IContentResource existing))
             {
                 return (T)existing;
             }
@@ -29,7 +29,7 @@ namespace Hybrid
             };
             
             // Cache Content
-            cache[path] = content;
+            Cache[path] = content;
             
             // Return Content As Type
             return (T)content;

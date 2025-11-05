@@ -23,8 +23,6 @@ namespace Hybrid
 
         public static void DrawTexture(Texture texture, Rect? rect)
         {
-            if (texture.Handle == null) throw new Exception($"Texture has been destroyed");
-            
             SDL.RenderTexture(Renderer, texture.Handle, null, Rect.SDLFRect(rect));
         }
         

@@ -12,7 +12,7 @@
         {
             Name = name ?? Name;
             
-            Scene = SceneManager.ActiveScene;
+            Scene = SceneManagement.ActiveScene;
             Scene.Add(this);
             
             Transform = AddComponent<Transform>();
@@ -21,6 +21,8 @@
 
         internal override void Dispose()
         {
+            base.Dispose();
+            
             // For Each Component
             foreach (var component in Components.ToArray())
             {
@@ -40,9 +42,9 @@
         {
             List<GameObject> gameObjects = new();
 
-            if (SceneManager.ActiveScene != null)
+            if (SceneManagement.ActiveScene != null)
             {
-                var SceneObjects = SceneManager.ActiveScene.GetSceneObjects();
+                var SceneObjects = SceneManagement.ActiveScene.GetSceneObjects();
 
                 for (int i = 0; i < SceneObjects.Length; i++)
                 {
@@ -60,9 +62,9 @@
         {
             List<GameObject> gameObjects = new();
 
-            if (SceneManager.ActiveScene != null)
+            if (SceneManagement.ActiveScene != null)
             {
-                var SceneObjects = SceneManager.ActiveScene.GetSceneObjects();
+                var SceneObjects = SceneManagement.ActiveScene.GetSceneObjects();
 
                 for (int i = 0; i < SceneObjects.Length; i++)
                 {

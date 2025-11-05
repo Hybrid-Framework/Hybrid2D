@@ -7,15 +7,10 @@ namespace Hybrid
     {
         internal static SDL.Renderer* Renderer { get; private set; }
         internal static SDL.Window* Window { get; private set; }
-
-        private static bool Initialized { get; set; }
         
         
         internal static void Create(Config config)
         {
-            if (Initialized) throw new Exception("Only one instance of GraphicsDevice allowed");
-            Initialized = true;
-
             if (Window == null)
             {
                 SDL.WindowFlags flags = SDL.WindowFlags.HighPixelDensity;
@@ -42,7 +37,7 @@ namespace Hybrid
             Events.OnEvent += OnEvent;
         }
 
-        internal static void Destroy()
+        internal static void Dispose()
         {
             SDL.DestroyRenderer(Renderer);
             SDL.DestroyWindow(Window);

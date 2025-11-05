@@ -14,9 +14,9 @@ namespace Hybrid
         {
             Name = GetType().Name;
             
-            if (SceneManager.ActiveScene == null)
+            if (SceneManagement.ActiveScene == null)
             {
-                throw new Exception($"Can't create Object '{Name}' with no scene loaded");
+                throw new Exception($"Can't create '{Name}' because no scene is loaded");
             }
         }
 
@@ -27,6 +27,11 @@ namespace Hybrid
             // This gives us control over what happens when destroyed
             // Called just before object is marked as destroyed
         }
+
+        internal virtual Object Clone()
+        {
+            return null;
+        }
     }
     
     // Static Methods
@@ -36,23 +41,30 @@ namespace Hybrid
         {
             if (obj != null && !obj.IsDestroyed)
             {
+                Console.WriteLine($"Destroyed: {obj.Name}");
+                
                 obj.Dispose();
                 obj.IsDestroyed = true;
             }
         }
 
-        public static void Instantiate(Object obj)
+        public static T Instantiate<T>(T obj) where T : Object
         {
-            // Instantiate Copy of obj
+            if (obj == null)
+            {
+                throw new ArgumentNullException(nameof(obj));
+            }
+            
+            return obj.Clone() as T;
         }
         
         public static T[] FindObjectsOfType<T>() where T : Object
         {
             List<T> objects = new();
 
-            if (SceneManager.ActiveScene != null)
+            if (SceneManagement.ActiveScene != null)
             {
-                foreach(var obj in SceneManager.ActiveScene.GetSceneObjects())
+                foreach(var obj in SceneManagement.ActiveScene.GetSceneObjects())
                 {
                     if (obj is T t)
                     {
@@ -74,9 +86,9 @@ namespace Hybrid
         
         public static T FindFirstObjectByType<T>() where T : Object
         {
-            if (SceneManager.ActiveScene != null)
+            if (SceneManagement.ActiveScene != null)
             {
-                foreach(var obj in SceneManager.ActiveScene.GetSceneObjects())
+                foreach(var obj in SceneManagement.ActiveScene.GetSceneObjects())
                 {
                     if (obj is T t)
                     {

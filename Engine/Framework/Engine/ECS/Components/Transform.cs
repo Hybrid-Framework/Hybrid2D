@@ -12,27 +12,27 @@ namespace Hybrid
         
         public override void OnStart()
         {
-            Console.WriteLine("OnStart");
+            // Console.WriteLine("OnStart");
         }
         
         public override void OnUpdate()
         {
-            Console.WriteLine("OnUpdate");
+            // Console.WriteLine("OnUpdate");
         }
 
         public override void OnEnable()
         {
-            Console.WriteLine("OnEnable");
+            // Console.WriteLine("OnEnable");
         }
         
         public override void OnDisable()
         {
-            Console.WriteLine("OnDisable");
+            // Console.WriteLine("OnDisable");
         }
         
         public override void OnDestroy()
         {
-            Console.WriteLine("OnDestroy");
+            // Console.WriteLine("OnDestroy");
         }
     }
 }

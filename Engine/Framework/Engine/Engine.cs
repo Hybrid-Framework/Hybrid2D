@@ -9,7 +9,6 @@ namespace Hybrid
         internal bool IsRunning { get; private set; } = true;
         
         internal Config Config { get; private set; }
-        
 
         internal Engine(Config config)
         {
@@ -34,7 +33,7 @@ namespace Hybrid
             GraphicsDevice.Create(Config);
             
             // Load Default Scene
-            SceneManager.Load(Config.Scene);
+            SceneManagement.Load(Config.Scene);
         }
         
         // Engine Main Loop
@@ -52,14 +51,20 @@ namespace Hybrid
             Time.AfterFrame();
         }
         
+        // Engine Quit
         internal void Quit()
         {
             // Quit Application
             if(!IsRunning) return;
             IsRunning = false;
             
-            // Destroy Resources
-            GraphicsDevice.Destroy();
+            // Dispose Scene
+            SceneManagement.Dispose();
+            
+            // Dispose Graphics Device
+            GraphicsDevice.Dispose();
+            
+            // Dispose SDL
             SDL.Quit();
         }
     }
@@ -84,7 +89,7 @@ namespace Hybrid
         internal void Update()
         {
             // For Each Scene GameObject
-            foreach (var obj in SceneManager.ActiveScene.GetSceneObjects())
+            foreach (var obj in SceneManagement.ActiveScene.GetSceneObjects())
             {
                 // Skip GameObject 
                 if(!obj.Enabled) continue;
@@ -95,14 +100,14 @@ namespace Hybrid
                     // Skip Component
                     if(!component.Enabled) continue;
                 
-                    // Start
-                    if (!component.OnStarted)
+                    // Call OnStart
+                    if (!component.ComponentHasBeenInitialized)
                     {
-                        component.OnStarted = true;
+                        component.ComponentHasBeenInitialized = true;
                         component.OnStart();
                     }
                 
-                    // Update
+                    // Call OnUpdate
                     component.OnUpdate();
                 }
             }
