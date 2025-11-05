@@ -3,10 +3,10 @@
 namespace Hybrid
 {
     // Texture
-    public unsafe partial class Texture : Object, IContentResource
+    public unsafe partial class Texture : ContentResource
     {
         public const int MaxTextureSize = 8192;
-            
+        
         internal SDL.Texture* Handle
         {
             set;
@@ -134,11 +134,8 @@ namespace Hybrid
             }
         }
         
-        // Destroy
         internal override void Dispose()
         {
-            base.Dispose();
-            
             if(Handle != null)
             {
                 // Destroy SDL Texture

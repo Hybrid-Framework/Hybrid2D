@@ -114,7 +114,7 @@
         
         public void RemoveComponent<T>(T component) where T : Component
         {
-            foreach(var c in Components.ToArray())
+            foreach(var c in GetComponents())
             {
                 if (c == component)
                 {
@@ -127,7 +127,7 @@
         
         public void RemoveComponent<T>() where T : Component
         {
-            foreach(var c in Components.ToArray())
+            foreach(var c in GetComponents())
             {
                 if (c.GetType() == typeof(T))
                 {
@@ -140,7 +140,7 @@
         
         public void RemoveComponents<T>() where T : Component
         {
-            foreach(var c in Components.ToArray())
+            foreach(var c in GetComponents())
             {
                 if (c.GetType() == typeof(T))
                 {
@@ -152,7 +152,7 @@
         
         public T GetComponent<T>(T component) where T : Component
         {
-            foreach(var c in Components.ToArray())
+            foreach(var c in GetComponents())
             {
                 if (c == component)
                 {
@@ -165,7 +165,7 @@
 
         public T GetComponent<T>() where T : Component
         {
-            foreach(var c in Components.ToArray())
+            foreach(var c in GetComponents())
             {
                 if (c.GetType() == typeof(T))
                 {
@@ -180,7 +180,7 @@
         {
             List<T> components = new();
             
-            foreach(var c in Components.ToArray())
+            foreach(var c in GetComponents())
             {
                 if (c.GetType() == typeof(T))
                 {
