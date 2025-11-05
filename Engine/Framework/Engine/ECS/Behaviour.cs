@@ -6,16 +6,5 @@ namespace Hybrid
     {
         public GameObject GameObject { get; internal set; }
         public Transform Transform { get; internal set; }
-        
-        
-        protected internal virtual void OnInitialize()
-        {
-            
-        }
-        
-        protected internal virtual void OnProcess()
-        {
-            
-        }
     }
 }

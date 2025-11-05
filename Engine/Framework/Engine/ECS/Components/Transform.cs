@@ -8,21 +8,16 @@ namespace Hybrid
         public Vector2 Position;
         public Vector2 Scale;
         public int Rotation;
-        
-        
-        public override void Awake()
+
+
+        protected internal override void OnInitialize()
         {
-            Console.WriteLine("Transform Awake");
+            
         }
 
-        public override void Start()
+        protected internal override void OnProcess()
         {
-            Console.WriteLine("Transform Start");
-        }
-
-        public override void Update()
-        {
-            Console.WriteLine("Transform Update");
+            
         }
     }
 }

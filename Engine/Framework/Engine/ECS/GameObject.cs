@@ -3,7 +3,7 @@
     // GameObject
     public partial class GameObject : Behaviour
     {
-        internal List<Component> Components { get; private set; } = new();
+        private List<Component> Components { get; set; } = new();
         public string Tag { get; internal set; } = "Default";
         public Scene Scene { get; private set; }
         
@@ -17,6 +17,11 @@
             
             Transform = AddComponent<Transform>();
             GameObject = this;
+        }
+        
+        protected internal override void OnInitialize()
+        {
+            
         }
 
         protected internal override void OnProcess()
@@ -41,7 +46,7 @@
         }
     }
     
-    // Static Methods
+    // Methods
     public partial class GameObject
     {
         public static GameObject[] FindByName(string name)

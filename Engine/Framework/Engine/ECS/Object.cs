@@ -19,6 +19,16 @@ namespace Hybrid
                 throw new Exception($"Can't create Object '{Name}' with no scene loaded");
             }
         }
+        
+        protected internal virtual void OnInitialize()
+        {
+            
+        }
+        
+        protected internal virtual void OnProcess()
+        {
+            
+        }
 
         protected internal virtual void OnDestroy()
         {
@@ -46,9 +56,17 @@ namespace Hybrid
             {
                 foreach(var obj in SceneManager.ActiveScene.GetSceneObjects())
                 {
-                    if (obj.GetType() == typeof(T))
+                    if (obj is T t)
                     {
-                        objects.Add(obj as T);
+                        objects.Add(t);
+                    }
+                    
+                    foreach (Component component in obj.GetComponents())
+                    {
+                        if (component is T c)
+                        {
+                            objects.Add(c);
+                        }
                     }
                 }
             }
@@ -62,9 +80,17 @@ namespace Hybrid
             {
                 foreach(var obj in SceneManager.ActiveScene.GetSceneObjects())
                 {
-                    if (obj.GetType() == typeof(T))
+                    if (obj is T t)
                     {
-                        return obj as T;
+                        return t;
+                    }
+                    
+                    foreach (Component component in obj.GetComponents())
+                    {
+                        if (component is T c)
+                        {
+                            return c;
+                        }
                     }
                 }
             }

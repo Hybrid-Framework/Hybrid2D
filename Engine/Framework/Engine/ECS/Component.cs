@@ -5,21 +5,26 @@ namespace Hybrid
     // Component
     public class Component : Behaviour
     {
-        private bool hasAwake = false;
-        private bool hasStart = false;
-
+        private bool OnAwake = false;
+        private bool OnStart = false;
         
+
+        protected internal override void OnInitialize()
+        {
+            
+        }
+
         protected internal override void OnProcess()
         {
-            if (!hasAwake)
+            if (!OnAwake)
             {
-                hasAwake = true;
+                OnAwake = true;
                 Awake();
             }
 
-            if (!hasStart)
+            if (!OnStart)
             {
-                hasStart = true;
+                OnStart = true;
                 Start();
             }
             
