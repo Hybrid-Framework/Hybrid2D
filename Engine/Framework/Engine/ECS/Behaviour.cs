@@ -8,6 +8,11 @@ namespace Hybrid
         public Transform Transform { get; internal set; }
         
         
+        protected internal virtual void OnInitialize()
+        {
+            
+        }
+        
         protected internal virtual void OnProcess()
         {
             

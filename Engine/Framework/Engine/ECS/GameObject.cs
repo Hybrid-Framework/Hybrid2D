@@ -3,8 +3,8 @@
     // GameObject
     public partial class GameObject : Behaviour
     {
-        internal List<Component> Components { get; private set; } = new List<Component>();
-        
+        internal List<Component> Components { get; private set; } = new();
+        public string Tag { get; internal set; } = "Default";
         public Scene Scene { get; private set; }
         
         
@@ -15,18 +15,16 @@
             Scene = SceneManager.ActiveScene;
             Scene.Add(this);
             
-            GameObject = this;
             Transform = AddComponent<Transform>();
+            GameObject = this;
         }
 
         protected internal override void OnProcess()
         {
-            // For Each Component
             for(int i=0; i<Components.Count; i++)
             {
                 if (Components[i] != null)
                 {
-                    // Process
                     Components[i].OnProcess();
                 }
             }
@@ -34,19 +32,60 @@
 
         protected internal override void OnDestroy()
         {
-            // For Each Component
             for(int i=0; i<Components.Count; i++)
             {
-                // Remove All Components
                 Destroy(Components[i]);
             }
             
-            // Remove Object
             Scene.Remove(this);
         }
     }
     
-    // Component Management
+    // Static Methods
+    public partial class GameObject
+    {
+        public static GameObject[] FindByName(string name)
+        {
+            List<GameObject> gameObjects = new();
+
+            if (SceneManager.ActiveScene != null)
+            {
+                var SceneObjects = SceneManager.ActiveScene.GetSceneObjects();
+
+                for (int i = 0; i < SceneObjects.Length; i++)
+                {
+                    if (SceneObjects[i].Name == name)
+                    {
+                        gameObjects.Add(SceneObjects[i]);
+                    }
+                }
+            }
+
+            return gameObjects.ToArray();
+        }
+
+        public static GameObject[] FindByTag(string tag)
+        {
+            List<GameObject> gameObjects = new();
+
+            if (SceneManager.ActiveScene != null)
+            {
+                var SceneObjects = SceneManager.ActiveScene.GetSceneObjects();
+
+                for (int i = 0; i < SceneObjects.Length; i++)
+                {
+                    if (SceneObjects[i].Tag == tag)
+                    {
+                        gameObjects.Add(SceneObjects[i]);
+                    }
+                }
+            }
+
+            return gameObjects.ToArray();
+        }
+    }
+    
+    // Methods
     public partial class GameObject
     {
         public T AddComponent<T>(T component) where T : Component
@@ -57,7 +96,7 @@
             component.GameObject = this;
             component.Transform = Transform;
 
-            Console.WriteLine($"Component '{component.GetType().Name}' added to '{Name}'");
+            Console.WriteLine($"Component '{component.Name}' added to GameObject '{Name}'");
             Components.Add(component);
 
             return component;
@@ -73,7 +112,7 @@
             component.GameObject = this;
             component.Transform = Transform;
             
-            Console.WriteLine($"Component '{component.GetType().Name}' added to '{Name}'");
+            Console.WriteLine($"Component '{component.Name}' added to GameObject '{Name}'");
             Components.Add(component);
             
             return component as T;
@@ -81,13 +120,12 @@
         
         public void RemoveComponent<T>(T component) where T : Component
         {
-            for(int i=0; i<Components.Count; i++)
+            foreach(var c in Components.ToArray())
             {
-                if (Components[i] == component)
+                if (c == component)
                 {
-                    Console.WriteLine($"Component '{Components[i].Name}' removed from '{GameObject.Name}'");
-                    Components.RemoveAt(i);
-                    
+                    Console.WriteLine($"Component '{c.Name}' removed from GameObject '{Name}'");
+                    Components.Remove(c);
                     break;
                 }
             }
@@ -95,25 +133,36 @@
         
         public void RemoveComponent<T>() where T : Component
         {
-            for(int i=0; i<Components.Count; i++)
+            foreach(var c in Components.ToArray())
             {
-                if (Components[i].GetType() == typeof(T))
+                if (c.GetType() == typeof(T))
                 {
-                    Console.WriteLine($"Component '{Components[i].Name}' removed from '{GameObject.Name}'");
-                    Components.RemoveAt(i);
-                    
+                    Console.WriteLine($"Component '{c.Name}' removed from GameObject '{Name}'");
+                    Components.Remove(c);
                     break;
+                }
+            }
+        }
+        
+        public void RemoveComponents<T>() where T : Component
+        {
+            foreach(var c in Components.ToArray())
+            {
+                if (c.GetType() == typeof(T))
+                {
+                    Console.WriteLine($"Component '{c}' removed from GameObject '{Name}'");
+                    Components.Remove(c);
                 }
             }
         }
         
         public T GetComponent<T>(T component) where T : Component
         {
-            for(int i=0; i<Components.Count; i++)
+            foreach(var c in Components.ToArray())
             {
-                if (Components[i] == component)
+                if (c == component)
                 {
-                    return Components[i] as T;
+                    return c as T;
                 }
             }
 
@@ -122,15 +171,35 @@
 
         public T GetComponent<T>() where T : Component
         {
-            for(int i=0; i<Components.Count; i++)
+            foreach(var c in Components.ToArray())
             {
-                if (Components[i].GetType() == typeof(T))
+                if (c.GetType() == typeof(T))
                 {
-                    return Components[i] as T;
+                    return c as T;
                 }
             }
             
             return null;
+        }
+        
+        public T[] GetComponents<T>() where T : Component
+        {
+            List<T> components = new();
+            
+            foreach(var c in Components.ToArray())
+            {
+                if (c.GetType() == typeof(T))
+                {
+                    components.Add(c as T);
+                }
+            }
+            
+            return components.ToArray();
+        }
+
+        public Component[] GetComponents()
+        {
+            return Components.ToArray();
         }
     }
 }

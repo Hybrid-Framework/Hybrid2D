@@ -7,6 +7,11 @@ namespace App
         public override void OnOpened()
         {
             GameObject obj1 = new GameObject("Hello");
+            obj1.AddComponent<Transform>();
+            obj1.AddComponent<Transform>();
+            obj1.AddComponent<Transform>();
+            obj1.AddComponent<Transform>();
+            obj1.RemoveComponents<Transform>();
         }
 
         public override void OnClosed()

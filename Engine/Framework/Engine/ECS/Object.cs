@@ -7,7 +7,6 @@ namespace Hybrid
     {
         private Guid Guid { get; set; } = Guid.NewGuid();
         private bool IsDestroyed { get; set; }
-        
         public string Name { get; set; }
         
 
@@ -21,30 +20,59 @@ namespace Hybrid
             }
         }
 
-        public int GetInstanceID()
-        {
-            return Guid.GetHashCode();
-        }
-
-        public static void Destroy(Object obj)
-        {
-            if (obj != null)
-            {
-                // Already Destroyed
-                if (obj.IsDestroyed) return;
-                
-                // Call First
-                obj.OnDestroy();
-                obj.IsDestroyed = true;
-            }
-        }
-
         protected internal virtual void OnDestroy()
         {
             
         }
     }
     
+    // Static Methods
+    public partial class Object
+    {
+        public static void Destroy(Object obj)
+        {
+            if (obj != null && !obj.IsDestroyed)
+            {
+                obj.OnDestroy();
+                obj.IsDestroyed = true;
+            }
+        }
+        
+        public static T[] FindObjectsOfType<T>() where T : Object
+        {
+            List<T> objects = new();
+
+            if (SceneManager.ActiveScene != null)
+            {
+                foreach(var obj in SceneManager.ActiveScene.GetSceneObjects())
+                {
+                    if (obj.GetType() == typeof(T))
+                    {
+                        objects.Add(obj as T);
+                    }
+                }
+            }
+            
+            return objects.ToArray();
+        }
+        
+        public static T FindFirstObjectByType<T>() where T : Object
+        {
+            if (SceneManager.ActiveScene != null)
+            {
+                foreach(var obj in SceneManager.ActiveScene.GetSceneObjects())
+                {
+                    if (obj.GetType() == typeof(T))
+                    {
+                        return obj as T;
+                    }
+                }
+            }
+            
+            return null;
+        }
+    }
+
     // Operators
     public partial class Object
     {
@@ -84,6 +112,11 @@ namespace Hybrid
         public override string ToString()
         {
             return Name;
+        }
+        
+        public int GetInstanceID()
+        {
+            return Guid.GetHashCode();
         }
     }
 }
