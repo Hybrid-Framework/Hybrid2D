@@ -37,14 +37,15 @@ namespace Hybrid
         {
             SetColor(color);
             
-            SDL.RenderDebugText(Renderer, 10, 10, $"Frames Per Second: {Time.Fps:F2}");
-            SDL.RenderDebugText(Renderer, 10, 20, $"Frame Time: {Time.FrameTime:F2}");
-            SDL.RenderDebugText(Renderer, 10, 30, $"Delta Time: {Time.DeltaTime:F4}");
-            SDL.RenderDebugText(Renderer, 10, 40, $"Unscaled Delta Time: {Time.UnscaledDeltaTime:F4}");
-            SDL.RenderDebugText(Renderer, 10, 50, $"Timer: {Time.Timer:F2}");
-            SDL.RenderDebugText(Renderer, 10, 60, $"Unscaled Time: {Time.UnscaledTimer:F2}");
-            SDL.RenderDebugText(Renderer, 10, 70, $"Time Scale: {Time.TimeScale:F2}");
-            SDL.RenderDebugText(Renderer, 10, 80, $"Target FPS: {Fps:F2}");
+            SDL.RenderDebugText(Renderer, 10, 10, $"Target Frames Per Second: {Fps:F2}");
+            SDL.RenderDebugText(Renderer, 10, 20, $"Frames Per Second: {Time.Fps:F2}");
+            SDL.RenderDebugText(Renderer, 10, 30, $"Frame Time: {Time.FrameTime:F2}");
+            SDL.RenderDebugText(Renderer, 10, 40, $"Delta Time: {Time.DeltaTime:F4}");
+            SDL.RenderDebugText(Renderer, 10, 50, $"Unscaled Delta Time: {Time.UnscaledDeltaTime:F4}");
+            SDL.RenderDebugText(Renderer, 10, 60, $"Timer: {Time.Timer:F2}");
+            SDL.RenderDebugText(Renderer, 10, 70, $"Unscaled Time: {Time.UnscaledTimer:F2}");
+            SDL.RenderDebugText(Renderer, 10, 80, $"Time Scale: {Time.TimeScale:F2}");
+            SDL.RenderDebugText(Renderer, 10, 90, $"VSync: {VSync}");
         }
     }
 }

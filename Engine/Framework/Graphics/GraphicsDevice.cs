@@ -8,14 +8,14 @@ namespace Hybrid
         internal static SDL.Renderer* Renderer { get; private set; }
         internal static SDL.Window* Window { get; private set; }
 
-        static bool Initialized { get; set; }
+        private static bool Initialized { get; set; }
         
         
         internal static void Create(Config config)
         {
             if (Initialized) throw new Exception("Only one instance of GraphicsDevice allowed");
             Initialized = true;
-            
+
             if (Window == null)
             {
                 SDL.WindowFlags flags = SDL.WindowFlags.HighPixelDensity;
@@ -34,6 +34,7 @@ namespace Hybrid
             if (Renderer == null)
             {
                 Renderer = SDL.CreateRenderer(Window, null);
+                Fps = config.Fps;
                 
                 SDL.SetRenderVSync(Renderer, config.VSync ? 1 : 0);
             }

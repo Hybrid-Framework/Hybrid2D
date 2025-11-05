@@ -9,28 +9,11 @@ namespace Hybrid
         internal bool IsRunning { get; private set; } = true;
         
         internal Config Config { get; private set; }
-
-        private ulong _startCounter;
-        private ulong _lastCounter;
-        private ulong _frequency;
-        private float _smoothed;
-        private float _fpsTimer;
         
 
         internal Engine(Config config)
         {
             Config = config;
-        }
-
-        internal void Quit()
-        {
-            // Quit Application
-            if(!IsRunning) return;
-            IsRunning = false;
-            
-            // Destroy Resources
-            GraphicsDevice.Destroy();
-            SDL.Quit();
         }
     }
     
@@ -45,11 +28,9 @@ namespace Hybrid
             Initialized = true;
             
             // Frame Timing
-            _startCounter = SDL.GetPerformanceCounter();
-            _frequency = SDL.GetPerformanceFrequency();
-            _lastCounter = _startCounter;
+            Time.Initialize();
             
-            // Create Graphics Device
+            // Create Device
             GraphicsDevice.Create(Config);
             
             // Load Default Scene
@@ -59,46 +40,27 @@ namespace Hybrid
         // Engine Main Loop
         internal void MainLoop()
         {
-            // Frame Timing
-            ulong frameStart = SDL.GetPerformanceCounter();
-            double elapsed = (frameStart - _lastCounter) / (double)_frequency;
-            _lastCounter = frameStart;
-
-            // Frame Calculating
-            Time.UnscaledDeltaTime = (float)Math.Min(elapsed, 0.1);
-            Time.DeltaTime = Time.UnscaledDeltaTime * Time.TimeScale;
-            Time.FrameTime = Time.UnscaledDeltaTime * 1000f;
-            Time.UnscaledTimer += Time.UnscaledDeltaTime;
-            Time.Timer += Time.DeltaTime;
-
-            // Frames Per Second
-            float instantFps = 1f / Time.UnscaledDeltaTime;
-            _smoothed = (_smoothed * 0.9f) + (instantFps * 0.1f);
-            _fpsTimer += Time.DeltaTime;
-            if (_fpsTimer >= 1f)
-            {
-                _fpsTimer = 0f;
-                Time.Fps = _smoothed;
-            }
+            // Calculate Time
+            Time.BeforeFrame();
 
             // Frame
             Events();
             Update();
             Render();
 
-            // Frame Limiting
-            if (GraphicsDevice.Fps > 0 && !GraphicsDevice.VSync)
-            {
-                ulong frameEnd = SDL.GetPerformanceCounter();
-                float frameTarget = 1f / GraphicsDevice.Fps;
-                double frameElapsed = (frameEnd - frameStart) / (double)_frequency;
-                double remainingTime = frameTarget - frameElapsed;
-
-                if (remainingTime > 0.0)
-                {
-                    SDL.DelayPrecise((ulong)(remainingTime * 1_000_000_000.0));
-                }
-            }
+            // Calculate Time
+            Time.AfterFrame();
+        }
+        
+        internal void Quit()
+        {
+            // Quit Application
+            if(!IsRunning) return;
+            IsRunning = false;
+            
+            // Destroy Resources
+            GraphicsDevice.Destroy();
+            SDL.Quit();
         }
     }
     
