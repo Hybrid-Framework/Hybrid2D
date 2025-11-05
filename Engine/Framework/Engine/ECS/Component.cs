@@ -5,53 +5,44 @@ namespace Hybrid
     // Component
     public class Component : Behaviour
     {
-        private bool OnAwake = false;
-        private bool OnStart = false;
+        internal bool OnStarted { get; set; } = false;
         
 
-        protected internal override void OnInitialize()
+        public virtual void OnStart()
         {
             
         }
 
-        protected internal override void OnProcess()
+        public virtual void OnUpdate()
         {
-            if (!OnAwake)
-            {
-                OnAwake = true;
-                Awake();
-            }
-
-            if (!OnStart)
-            {
-                OnStart = true;
-                Start();
-            }
             
-            Update();
         }
 
-        protected internal override void OnDestroy()
+        public virtual void OnEnable()
+        {
+            
+        }
+
+        public virtual void OnDisable()
+        {
+            
+        }
+        
+        public virtual void OnDestroy()
+        {
+            
+        }
+
+        internal override void Dispose()
         {
             if (GameObject != null)
             {
+                OnDestroy();
+                
                 GameObject.RemoveComponent(this);
+                GameObject = null;
+                Transform = null;
             }
-        }
-
-        public virtual void Awake()
-        {
-            
-        }
-        
-        public virtual void Start()
-        {
-            
-        }
-        
-        public virtual void Update()
-        {
-            
         }
     }
 }

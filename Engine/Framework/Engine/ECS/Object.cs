@@ -19,20 +19,13 @@ namespace Hybrid
                 throw new Exception($"Can't create Object '{Name}' with no scene loaded");
             }
         }
-        
-        protected internal virtual void OnInitialize()
-        {
-            
-        }
-        
-        protected internal virtual void OnProcess()
-        {
-            
-        }
 
-        protected internal virtual void OnDestroy()
+        internal virtual void Dispose()
         {
-            
+            // Dispose logic called by Destroy(obj);
+            // Implement this in types that inherit Object
+            // This gives us control over what happens when destroyed
+            // Called just before object is marked as destroyed
         }
     }
     
@@ -43,9 +36,14 @@ namespace Hybrid
         {
             if (obj != null && !obj.IsDestroyed)
             {
-                obj.OnDestroy();
+                obj.Dispose();
                 obj.IsDestroyed = true;
             }
+        }
+
+        public static void Instantiate(Object obj)
+        {
+            // Instantiate Copy of obj
         }
         
         public static T[] FindObjectsOfType<T>() where T : Object

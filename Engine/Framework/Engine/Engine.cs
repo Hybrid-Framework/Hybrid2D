@@ -119,14 +119,30 @@ namespace Hybrid
     // Engine Update
     internal partial class Engine
     {
-        // Update All Objects
         internal void Update()
         {
-            // For Each Scene Object
+            // For Each Scene GameObject
             foreach (var obj in SceneManager.ActiveScene.GetSceneObjects())
             {
-                // Process
-                obj.OnProcess();
+                // Skip GameObject 
+                if(!obj.Enabled) continue;
+                
+                // For Each Component In GameObject
+                foreach (var component in obj.GetComponents())
+                {
+                    // Skip Component
+                    if(!component.Enabled) continue;
+                
+                    // Start
+                    if (!component.OnStarted)
+                    {
+                        component.OnStarted = true;
+                        component.OnStart();
+                    }
+                
+                    // Update
+                    component.OnUpdate();
+                }
             }
         }
     }

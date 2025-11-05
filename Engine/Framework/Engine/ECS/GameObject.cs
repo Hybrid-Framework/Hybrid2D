@@ -1,7 +1,7 @@
 ﻿namespace Hybrid
 {
     // GameObject
-    public partial class GameObject : Behaviour
+    public sealed partial class GameObject : Behaviour
     {
         private List<Component> Components { get; set; } = new();
         public string Tag { get; internal set; } = "Default";
@@ -18,36 +18,23 @@
             Transform = AddComponent<Transform>();
             GameObject = this;
         }
-        
-        protected internal override void OnInitialize()
-        {
-            
-        }
 
-        protected internal override void OnProcess()
+        internal override void Dispose()
         {
-            for(int i=0; i<Components.Count; i++)
+            // For Each Component
+            foreach (var component in Components.ToArray())
             {
-                if (Components[i] != null)
-                {
-                    Components[i].OnProcess();
-                }
-            }
-        }
-
-        protected internal override void OnDestroy()
-        {
-            for(int i=0; i<Components.Count; i++)
-            {
-                Destroy(Components[i]);
+                // Destroy
+                Destroy(component);
             }
             
+            // Remove From Scene
             Scene.Remove(this);
         }
     }
     
     // Methods
-    public partial class GameObject
+    public sealed partial class GameObject
     {
         public static GameObject[] FindByName(string name)
         {
@@ -91,7 +78,7 @@
     }
     
     // Methods
-    public partial class GameObject
+    public sealed partial class GameObject
     {
         public T AddComponent<T>(T component) where T : Component
         {

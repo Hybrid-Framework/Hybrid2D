@@ -9,15 +9,30 @@ namespace Hybrid
         public Vector2 Scale;
         public int Rotation;
 
-
-        protected internal override void OnInitialize()
+        
+        public override void OnStart()
         {
-            
+            Console.WriteLine("OnStart");
+        }
+        
+        public override void OnUpdate()
+        {
+            Console.WriteLine("OnUpdate");
         }
 
-        protected internal override void OnProcess()
+        public override void OnEnable()
         {
-            
+            Console.WriteLine("OnEnable");
+        }
+        
+        public override void OnDisable()
+        {
+            Console.WriteLine("OnDisable");
+        }
+        
+        public override void OnDestroy()
+        {
+            Console.WriteLine("OnDestroy");
         }
     }
 }
