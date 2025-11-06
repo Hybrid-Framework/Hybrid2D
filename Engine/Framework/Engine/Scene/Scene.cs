@@ -8,8 +8,6 @@ namespace Hybrid
         
         public abstract void OnOpened();
         public abstract void OnClosed();
-        public abstract void OnUpdate();
-        public abstract void OnRender();
         
 
         internal void Add(GameObject gameObject)

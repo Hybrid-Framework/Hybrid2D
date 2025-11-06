@@ -5,15 +5,17 @@ namespace Hybrid
     // Engine
     internal partial class Engine
     {
-        internal static List<Module> Modules = new List<Module>(); // Autopopulated by constructors
+        internal static List<Module> Modules = new List<Module>(); // Populated by constructors
+        
         internal static SceneManagement SceneManagement;
         internal static GraphicsDevice GraphicsDevice;
-        internal static Resources Resources;
+        internal static Assets Assets;
         
         internal bool Initialized { get; private set; } = false;
         internal bool IsRunning { get; private set; } = true;
         
         internal Config Config { get; private set; }
+        
 
         internal Engine(Config config)
         {
@@ -34,13 +36,7 @@ namespace Hybrid
             // Create Modules
             GraphicsDevice = new GraphicsDevice(Config);
             SceneManagement = new SceneManagement(Config);
-            Resources = new Resources(Config);
-            
-            // Initialize Modules
-            foreach (var module in Modules)
-            {
-                module.OnStart();
-            }
+            Assets = new Assets(Config);
         }
         
         // Engine Main Loop
@@ -84,18 +80,7 @@ namespace Hybrid
             // Send SDL Events to Events
             while (SDL.PollEvent(out SDL.Event e))
             {
-                SDL.EventType type = (SDL.EventType)e.type;
-
-                if (type == SDL.EventType.Quit)
-                {
-                    Quit();
-                    break;
-                }
-                
-                foreach (var module in Modules)
-                {
-                    module.OnEvent(e);
-                }
+                Hybrid.Events.Event(e);
             }
         }
     }
@@ -105,12 +90,6 @@ namespace Hybrid
     {
         internal void Update()
         {
-            // Update Modules
-            foreach (var module in Modules)
-            {
-                module.OnUpdate();
-            }
-            
             // For Each Scene GameObject
             foreach (var obj in SceneManagement.ActiveScene.GetSceneObjects())
             {
@@ -143,12 +122,6 @@ namespace Hybrid
         // Render All Objects
         internal void Render()
         {
-            // Render Modules
-            foreach (var module in Modules)
-            {
-                module.OnRender();
-            }
-            
             // Graphics.ClearColor(Color.CornFlowerBlue);
             // Graphics.DrawStats(Color.White);
             // Graphics.Present();

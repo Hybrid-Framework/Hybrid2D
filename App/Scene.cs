@@ -7,34 +7,23 @@ namespace App
     {
         private Texture texture1;
         private Texture texture2;
+        private Texture texture3;
         
         public override void OnOpened()
         {
             Window.Title = "Hello World!";
-
-            var resource = Resources.Load<TextureResource>("Images/Image.png");
             
-            texture1 = new Texture(resource);
-            texture2 = new Texture(resource);
+            texture1 = Assets.Load<Texture>("Images/Image.png");
+            texture2 = Assets.Load<Texture>("Images/Image.png");
+            texture3 = new Texture(texture1);
             
             texture1.SetPixel(0,0, Color.Red);
             texture1.SetPixel(1,0, Color.Green);
             texture1.SetPixel(2,0, Color.Blue);
             texture1.Apply();
-        }
-
-        public override void OnUpdate()
-        {
             
-        }
-
-        public override void OnRender()
-        {
             Graphics.ClearColor(Color.CornFlowerBlue);
-            Graphics.DrawStats(Color.White);
-            
-            Graphics.DrawTexture(texture2, null);
-            
+            Graphics.DrawTexture(texture3);
             Graphics.Present();
         }
 

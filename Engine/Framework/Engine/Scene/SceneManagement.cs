@@ -59,22 +59,7 @@ namespace Hybrid
             Console.WriteLine($"Scene '{scene}' closed");
             scene.OnClosed();
         }
-
-        internal override void OnUpdate()
-        {
-            if (ActiveScene != null)
-            {
-                ActiveScene.OnUpdate();
-            }
-        }
-
-        internal override void OnRender()
-        {
-            if (ActiveScene != null)
-            {
-                ActiveScene.OnRender();
-            }
-        }
+        
 
         // Dispose
         internal override void Dispose()

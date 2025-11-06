@@ -35,7 +35,7 @@ namespace Hybrid
             Clear();
         }
 
-        public static void DrawTexture(Texture texture, Rect? rect)
+        public static void DrawTexture(Texture texture, Rect? rect = null)
         {
             SDL.RenderTexture(GraphicsDevice.Renderer, texture.Handle, null, Rect.SDLFRect(rect));
         }

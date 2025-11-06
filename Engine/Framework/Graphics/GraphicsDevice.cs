@@ -10,7 +10,7 @@ namespace Hybrid
         internal SDL.Window* Window { get; private set; }
         
         
-        // Events
+        // Events (unused right now)
         internal Action OnOrientation = null;
         internal Action OnMaximized = null;
         internal Action OnMinimized = null;
@@ -156,11 +156,14 @@ namespace Hybrid
                 
                 SDL.SetRenderVSync(Renderer, config.VSync ? 1 : 0);
             }
+            
+            // Hook Events
+            Events.OnEvent += OnEvent;
         }
         
         
         // Methods
-        internal override void OnEvent(SDL.Event e)
+        internal void OnEvent(SDL.Event e)
         {
             SDL.EventType type = (SDL.EventType)e.type;
             

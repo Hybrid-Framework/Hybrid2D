@@ -3,7 +3,7 @@
 namespace Hybrid
 {
     // Texture
-    public unsafe partial class Texture : Object
+    public unsafe partial class Texture : Asset
     {
         public const int MaxTextureSize = 8192;
         
@@ -14,13 +14,13 @@ namespace Hybrid
         }
         
         // Create Texture From Resource
-        public Texture(TextureResource source, TextureAccess access = TextureAccess.Static, TextureScaleMode scaleMode = TextureScaleMode.Pixel)
+        public Texture(Texture source, TextureAccess access = TextureAccess.Static, TextureScaleMode scaleMode = TextureScaleMode.Pixel)
         {
-            // Null Source
+            // Invalid Source
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
             
-            // Enforce Maximum Size
+            // Invalid Texture Size
             if (source.Width > MaxTextureSize || source.Height > MaxTextureSize)
                 throw new ArgumentException($"Texture can't be larger than '({MaxTextureSize}x{MaxTextureSize})'");
             
@@ -39,7 +39,7 @@ namespace Hybrid
                 );
             }
 
-            // Set scaling mode
+            // Set texture scaling mode
             SDL.SetTextureScaleMode(Handle, (SDL.ScaleMode)scaleMode);
             Apply();
         }
@@ -48,7 +48,7 @@ namespace Hybrid
         // Create Texture
         public Texture(int width, int height, TextureAccess access = TextureAccess.Static, TextureScaleMode scaleMode = TextureScaleMode.Pixel)
         {
-            // Enforce Maximum Size
+            // Invalid Texture Size
             if (width > MaxTextureSize || height > MaxTextureSize)
                 throw new ArgumentException($"Texture can't be larger than '({MaxTextureSize}x{MaxTextureSize})'");
             
@@ -67,7 +67,7 @@ namespace Hybrid
                 );
             }
             
-            // Set Scaling Mode
+            // Set texture scaling mode
             SDL.SetTextureScaleMode(Handle, (SDL.ScaleMode)scaleMode);
         }
     
@@ -106,10 +106,9 @@ namespace Hybrid
         // Set Pixels
         public void SetPixels(Color[] colors)
         {
+            // Invalid Array Length
             if (colors.Length != (Width * Height))
-            {
                 throw new ArgumentException("Array length must match the texture size");
-            }
 
             for (int i = 0; i < colors.Length; i++)
             {
@@ -152,6 +151,7 @@ namespace Hybrid
                 // Update SDL Texture
                 if (!SDL.UpdateTexture(Handle, null, (IntPtr)p, (Width * 4)))
                 {
+                    // Invalid Texture Update
                     throw new Exception($"Failed to apply texture: {SDL.GetError()}");
                 }
             }
