@@ -30,7 +30,7 @@ namespace Hybrid
                 Pixels = new byte[width * height * 4];
                 Handle = SDL.CreateTexture
                 (
-                    GraphicsDevice.Renderer,
+                    Engine.GraphicsDevice.Renderer,
                     (SDL.PixelFormat)Format,
                     (SDL.TextureAccess)access,
                     width,

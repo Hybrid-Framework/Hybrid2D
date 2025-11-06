@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    // Time
+    // Time API
     public static partial class Time
     {
         // Delta
@@ -24,20 +24,13 @@ namespace Hybrid
     // Time Calculating
     public static partial class Time
     {
+        private static ulong _startCounter = SDL.GetPerformanceCounter();
+        private static ulong _frequency = SDL.GetPerformanceFrequency();
+        private static ulong _lastCounter = _startCounter;
         private static ulong _frameStart;
-        private static ulong _startCounter;
-        private static ulong _lastCounter;
-        private static ulong _frequency;
         private static float _smoothed;
-
-
-        internal static void Initialize()
-        {
-            // Initialize calculation
-            _startCounter = SDL.GetPerformanceCounter();
-            _frequency = SDL.GetPerformanceFrequency();
-            _lastCounter = _startCounter;
-        }
+        
+        
         
         internal static void BeforeFrame()
         {
@@ -66,11 +59,11 @@ namespace Hybrid
         internal static void AfterFrame()
         {
             // Vsync & Fps limiting
-            if (GraphicsDevice.Fps > 0 && !GraphicsDevice.VSync)
+            if (Engine.GraphicsDevice.Fps > 0 && !Engine.GraphicsDevice.VSync)
             {
                 // Calculate frame delay
                 var frameEnd = SDL.GetPerformanceCounter();
-                var frameTarget = 1f / GraphicsDevice.Fps;
+                var frameTarget = 1f / Engine.GraphicsDevice.Fps;
                 var frameElapsed = (frameEnd - _frameStart) / (double)_frequency;
                 var remainingTime = frameTarget - frameElapsed;
 

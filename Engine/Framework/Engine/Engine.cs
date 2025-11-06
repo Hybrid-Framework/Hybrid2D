@@ -5,6 +5,10 @@ namespace Hybrid
     // Engine
     internal partial class Engine
     {
+        internal static List<Module> Modules = new List<Module>(); // Autopopulated by constructors
+        internal static SceneManagement SceneManagement;
+        internal static GraphicsDevice GraphicsDevice;
+        
         internal bool Initialized { get; private set; } = false;
         internal bool IsRunning { get; private set; } = true;
         
@@ -26,14 +30,15 @@ namespace Hybrid
             if (Initialized) return;
             Initialized = true;
             
-            // Frame Timing
-            Time.Initialize();
+            // Create Modules
+            GraphicsDevice = new GraphicsDevice(Config);
+            SceneManagement = new SceneManagement(Config);
             
-            // Create Device
-            GraphicsDevice.Create(Config);
-            
-            // Load Default Scene
-            SceneManagement.Load(Config.Scene);
+            // Initialize Modules
+            foreach (var module in Modules)
+            {
+                module.Start();
+            }
         }
         
         // Engine Main Loop
@@ -41,6 +46,12 @@ namespace Hybrid
         {
             // Calculate Time
             Time.BeforeFrame();
+            
+            // Update Modules
+            foreach (var module in Modules)
+            {
+                module.Update();
+            }
 
             // Frame
             Events();
@@ -58,13 +69,12 @@ namespace Hybrid
             if(!IsRunning) return;
             IsRunning = false;
             
-            // Dispose Scene
-            SceneManagement.Dispose();
+            // Dispose Modules
+            foreach (var module in Modules)
+            {
+                module.Dispose();
+            }
             
-            // Dispose Graphics Device
-            GraphicsDevice.Dispose();
-            
-            // Dispose SDL
             SDL.Quit();
         }
     }
@@ -78,7 +88,17 @@ namespace Hybrid
             // Send SDL Events to Events
             while (SDL.PollEvent(out SDL.Event e))
             {
-                Hybrid.Events.Event(e);
+                SDL.EventType type = (SDL.EventType)e.type;
+
+                if (type == SDL.EventType.Quit)
+                {
+                    Quit();
+                }
+                
+                foreach (var module in Modules)
+                {
+                    module.OnEvent(e);
+                }
             }
         }
     }
@@ -120,9 +140,9 @@ namespace Hybrid
         // Render All Objects
         internal void Render()
         {
-            GraphicsDevice.ClearColor(Color.CornFlowerBlue);
-            GraphicsDevice.DrawStats(Color.White);
-            GraphicsDevice.Present();
+            Graphics.ClearColor(Color.CornFlowerBlue);
+            Graphics.DrawStats(Color.White);
+            Graphics.Present();
         }
     }
 }

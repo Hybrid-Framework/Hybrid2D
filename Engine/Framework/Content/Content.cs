@@ -57,7 +57,7 @@ namespace Hybrid
             fixed (byte* dst = pixels) Buffer.MemoryCopy(src, dst, size, size);
 
             // Create Texture
-            SDL.Texture* texture = SDL.CreateTexture(GraphicsDevice.Renderer, SDL.PixelFormat.RGBA32, SDL.TextureAccess.Static, width, height);
+            SDL.Texture* texture = SDL.CreateTexture(Engine.GraphicsDevice.Renderer, SDL.PixelFormat.RGBA32, SDL.TextureAccess.Static, width, height);
             if(texture == null) throw new Exception($"Failed to create texture: {SDL.GetError()}");
 
             // Create Instance

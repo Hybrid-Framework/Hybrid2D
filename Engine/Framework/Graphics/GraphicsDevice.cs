@@ -2,16 +2,139 @@
 
 namespace Hybrid
 {
-    // Graphics Device (Device)
-    public static unsafe partial class GraphicsDevice
+    // Graphics Device
+    internal unsafe class GraphicsDevice : Module
     {
-        internal static SDL.Renderer* Renderer { get; private set; }
-        internal static SDL.Window* Window { get; private set; }
+        // Handles
+        internal SDL.Renderer* Renderer { get; private set; }
+        internal SDL.Window* Window { get; private set; }
         
         
-        internal static void Create(Config config)
+        // Events
+        internal Action OnOrientation = null;
+        internal Action OnMaximized = null;
+        internal Action OnMinimized = null;
+        internal Action OnResized = null;
+        internal Action OnUnfocus = null;
+        internal Action OnOpened = null;
+        internal Action OnClosed = null;
+        internal Action OnFocus = null;
+        internal Action OnMoved = null;
+        
+        
+        // Properties
+        internal int Fps
         {
-            if (Window == null)
+            get; set;
+        }
+
+        internal string Title
+        {
+            set => SDL.SetWindowTitle(Window, value);
+            get => SDL.GetWindowTitle(Window);
+        }
+
+        internal bool Fullscreen
+        {
+            set => SDL.SetWindowFullscreen(Window, value);
+            get => (SDL.GetWindowFlags(Window) & SDL.WindowFlags.Fullscreen) != 0;
+        }
+        
+        internal bool Resizable
+        {
+            set => SDL.SetWindowResizable(Window, value);
+            get => (SDL.GetWindowFlags(Window) & SDL.WindowFlags.Resizable) != 0;
+        }
+
+        internal int Width
+        {
+            set => SDL.SetWindowSize(Window, value, Height);
+            get
+            {
+                SDL.GetWindowSize(Window, out int width, out int height);
+                {
+                    return width;
+                }
+            }
+        }
+        
+        internal int Height
+        {
+            set => SDL.SetWindowSize(Window, Width, value);
+            get
+            {
+                SDL.GetWindowSize(Window, out int width, out int height);
+                {
+                    return height;
+                }
+            }
+        }
+
+        internal Vector2 Size
+        {
+            set => SDL.SetWindowSize(Window, (int)value.X, (int)value.Y);
+            get
+            {
+                SDL.GetWindowSize(Window, out int width, out int height);
+                {
+                    return new Vector2(width, height);
+                }
+            }
+        }
+        
+        internal Vector2 MinSize
+        {
+            set => SDL.SetWindowMinimumSize(Window, (int)value.X, (int)value.Y);
+            get
+            {
+                SDL.GetWindowMinimumSize(Window, out int width, out int height);
+                {
+                    return new Vector2(width, height);
+                }
+            }
+        }
+        
+        internal Vector2 MaxSize
+        {
+            set => SDL.SetWindowMaximumSize(Window, (int)value.X, (int)value.Y);
+            get
+            {
+                SDL.GetWindowMinimumSize(Window, out int width, out int height);
+                {
+                    return new Vector2(width, height);
+                }
+            }
+        }
+        
+        internal Vector2 Position
+        {
+            set => SDL.SetWindowPosition(Window, (int)value.X, (int)value.Y);
+            get
+            {
+                SDL.GetWindowPosition(Window, out int x, out int y);
+                {
+                    return new Vector2(x, y);
+                }
+            }
+        }
+        
+        internal bool VSync
+        {
+            set => SDL.SetRenderVSync(Renderer, value ? 1 : 0);
+            get
+            {
+                SDL.GetRenderVSync(Renderer, out int vsync);
+                {
+                    return vsync > 0;
+                }
+            }
+        }
+        
+        
+        // Constructor
+        internal GraphicsDevice(Config config)
+        {
+            // Create Window
             {
                 SDL.WindowFlags flags = SDL.WindowFlags.HighPixelDensity;
             
@@ -26,18 +149,31 @@ namespace Hybrid
                 if (icon != null) SDL.SetWindowIcon(Window, icon);
             }
 
-            if (Renderer == null)
+            // Create Renderer
             {
                 Renderer = SDL.CreateRenderer(Window, null);
                 Fps = config.Fps;
                 
                 SDL.SetRenderVSync(Renderer, config.VSync ? 1 : 0);
             }
-            
-            Events.OnEvent += OnEvent;
         }
-
-        internal static void Dispose()
+        
+        
+        // Methods
+        internal override void OnEvent(SDL.Event e)
+        {
+            SDL.EventType type = (SDL.EventType)e.type;
+            
+            if (type == SDL.EventType.OrientationChanged) OnOrientation?.Invoke();
+            if (type == SDL.EventType.Unfocused) OnUnfocus?.Invoke();
+            if (type == SDL.EventType.Resized) OnResized?.Invoke();
+            if (type == SDL.EventType.Focused) OnFocus?.Invoke();
+            if (type == SDL.EventType.Moved) OnMoved?.Invoke();
+        }
+        
+        
+        // Dispose
+        internal override void Dispose()
         {
             SDL.DestroyRenderer(Renderer);
             SDL.DestroyWindow(Window);

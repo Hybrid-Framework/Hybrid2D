@@ -8,6 +8,7 @@ namespace App
     {
         public override void OnOpened()
         {
+            Window.Title = "Hello World!";
             GameObject obj1 = new GameObject("Hello World");
             Texture texture = new Texture(16, 16);
         }

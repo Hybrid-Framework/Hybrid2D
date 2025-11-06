@@ -3,12 +3,20 @@
 namespace Hybrid
 {
     // Scene Management
-    public static class SceneManagement
+    public class SceneManagement : Module
     {
+        // Properties
         public static Scene ActiveScene { get; private set; }
+
+        
+        // Constructor
+        internal SceneManagement(Config config)
+        {
+            Load(config.Scene);
+        }
         
         
-        // Load Scene
+        // Methods
         public static void Load(Scene scene)
         {
             if (scene == null)
@@ -25,7 +33,6 @@ namespace Hybrid
             Open(ActiveScene);
         }
         
-        // Open Scene
         private static void Open(Scene scene)
         {
             if (scene == null)
@@ -37,7 +44,6 @@ namespace Hybrid
             scene.OnOpened();
         }
         
-        // Close Scene
         private static void Close(Scene scene)
         {
             if (scene == null)
@@ -45,7 +51,6 @@ namespace Hybrid
                 throw new ArgumentNullException(nameof(scene), "Can't load a null scene.");
             }
             
-            // For Each GameObject In Scene
             foreach (var obj in scene.SceneGameObjects.ToArray())
             {
                 Object.Destroy(obj);
@@ -55,7 +60,9 @@ namespace Hybrid
             scene.OnClosed();
         }
 
-        internal static void Dispose()
+        
+        // Dispose
+        internal override void Dispose()
         {
             if (ActiveScene != null)
             {
