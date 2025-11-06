@@ -13,15 +13,44 @@ namespace Hybrid
             get;
         }
         
+        // Create Texture From Resource
+        public Texture(TextureResource source, TextureAccess access = TextureAccess.Static, TextureScaleMode scaleMode = TextureScaleMode.Pixel)
+        {
+            // Null Source
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+            
+            // Enforce Maximum Size
+            if (source.Width > MaxTextureSize || source.Height > MaxTextureSize)
+                throw new ArgumentException($"Texture can't be larger than '({MaxTextureSize}x{MaxTextureSize})'");
+            
+            // Create SDL Texture
+            {
+                Width = source.Width;
+                Height = source.Height;
+                Pixels = new byte[Width * Height * 4];
+                Array.Copy(source.Pixels, Pixels, Pixels.Length);
+                Handle = SDL.CreateTexture(
+                    Engine.GraphicsDevice.Renderer,
+                    (SDL.PixelFormat)Format,
+                    (SDL.TextureAccess)access,
+                    Width,
+                    Height
+                );
+            }
+
+            // Set scaling mode
+            SDL.SetTextureScaleMode(Handle, (SDL.ScaleMode)scaleMode);
+            Apply();
+        }
+
 
         // Create Texture
         public Texture(int width, int height, TextureAccess access = TextureAccess.Static, TextureScaleMode scaleMode = TextureScaleMode.Pixel)
         {
             // Enforce Maximum Size
             if (width > MaxTextureSize || height > MaxTextureSize)
-            {
                 throw new ArgumentException($"Texture can't be larger than '({MaxTextureSize}x{MaxTextureSize})'");
-            }
             
             // Create SDL Texture
             {
@@ -36,12 +65,6 @@ namespace Hybrid
                     width,
                     height
                 );
-            }
-            
-            // Error
-            if (Handle == null)
-            {
-                throw new NullReferenceException($"Failed to create texture: {SDL.GetError()}");
             }
             
             // Set Scaling Mode

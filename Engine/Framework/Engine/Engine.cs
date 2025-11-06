@@ -8,6 +8,7 @@ namespace Hybrid
         internal static List<Module> Modules = new List<Module>(); // Autopopulated by constructors
         internal static SceneManagement SceneManagement;
         internal static GraphicsDevice GraphicsDevice;
+        internal static Resources Resources;
         
         internal bool Initialized { get; private set; } = false;
         internal bool IsRunning { get; private set; } = true;
@@ -33,11 +34,12 @@ namespace Hybrid
             // Create Modules
             GraphicsDevice = new GraphicsDevice(Config);
             SceneManagement = new SceneManagement(Config);
+            Resources = new Resources(Config);
             
             // Initialize Modules
             foreach (var module in Modules)
             {
-                module.Start();
+                module.OnStart();
             }
         }
         
@@ -46,12 +48,6 @@ namespace Hybrid
         {
             // Calculate Time
             Time.BeforeFrame();
-            
-            // Update Modules
-            foreach (var module in Modules)
-            {
-                module.Update();
-            }
 
             // Frame
             Events();
@@ -93,6 +89,7 @@ namespace Hybrid
                 if (type == SDL.EventType.Quit)
                 {
                     Quit();
+                    break;
                 }
                 
                 foreach (var module in Modules)
@@ -108,6 +105,12 @@ namespace Hybrid
     {
         internal void Update()
         {
+            // Update Modules
+            foreach (var module in Modules)
+            {
+                module.OnUpdate();
+            }
+            
             // For Each Scene GameObject
             foreach (var obj in SceneManagement.ActiveScene.GetSceneObjects())
             {
@@ -140,9 +143,15 @@ namespace Hybrid
         // Render All Objects
         internal void Render()
         {
-            Graphics.ClearColor(Color.CornFlowerBlue);
-            Graphics.DrawStats(Color.White);
-            Graphics.Present();
+            // Render Modules
+            foreach (var module in Modules)
+            {
+                module.OnRender();
+            }
+            
+            // Graphics.ClearColor(Color.CornFlowerBlue);
+            // Graphics.DrawStats(Color.White);
+            // Graphics.Present();
         }
     }
 }

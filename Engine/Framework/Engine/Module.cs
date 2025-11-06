@@ -9,22 +9,27 @@ namespace Hybrid
             Engine.Modules.Add(this);
         }
         
-        internal virtual void Start()
+        internal virtual void OnStart()
         {
             
         }
 
-        internal virtual void Update()
+        internal virtual void OnUpdate()
+        {
+            
+        }
+
+        internal virtual void OnRender()
+        {
+            
+        }
+        
+        internal virtual void OnEvent(SDL.Event e)
         {
             
         }
 
         internal virtual void Dispose()
-        {
-            
-        }
-
-        internal virtual void OnEvent(SDL.Event e)
         {
             
         }

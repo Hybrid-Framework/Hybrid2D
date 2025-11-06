@@ -8,7 +8,12 @@ internal static unsafe partial class SDL
     public static SDL.Texture* CreateTexture(SDL.Renderer* renderer, SDL.PixelFormat format, SDL.TextureAccess access, int w, int h)
     {
         var texture = SDL_CreateTexture(renderer, format, access, w, h);
-        SDL.SetTextureScaleMode(texture, ScaleMode.Pixel);
+        
+        if (texture == null)
+        {
+            throw new NullReferenceException($"Failed to create texture: {SDL.GetError()}");
+        }
+        
         return texture;
     }
     
@@ -18,7 +23,12 @@ internal static unsafe partial class SDL
     public static SDL.Texture* CreateTextureWithProperties(SDL.Renderer* renderer, uint properties)
     {
         var texture = SDL_CreateTextureWithProperties(renderer, properties);
-        SDL.SetTextureScaleMode(texture, ScaleMode.Pixel);
+        
+        if (texture == null)
+        {
+            throw new NullReferenceException($"Failed to create texture: {SDL.GetError()}");
+        }
+        
         return texture;
     }
     
@@ -28,7 +38,12 @@ internal static unsafe partial class SDL
     public static SDL.Texture* CreateTextureFromSurface(SDL.Renderer* renderer, SDL.Surface* surface)
     {
         var texture = SDL_CreateTextureFromSurface(renderer, surface);
-        SDL.SetTextureScaleMode(texture, ScaleMode.Pixel);
+        
+        if (texture == null)
+        {
+            throw new NullReferenceException($"Failed to create texture: {SDL.GetError()}");
+        }
+        
         return texture;
     }
     

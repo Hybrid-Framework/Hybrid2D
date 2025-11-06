@@ -4,7 +4,7 @@ namespace Hybrid
 {
     public class Resource
     {
-        public string path = "Unknown";
+        public string Path { get; set; }
         
         internal virtual void Dispose()
         {

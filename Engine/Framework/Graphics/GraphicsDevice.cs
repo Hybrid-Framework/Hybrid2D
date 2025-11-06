@@ -175,6 +175,8 @@ namespace Hybrid
         // Dispose
         internal override void Dispose()
         {
+            Console.WriteLine("Graphics Device Disposed");
+            
             SDL.DestroyRenderer(Renderer);
             SDL.DestroyWindow(Window);
         }

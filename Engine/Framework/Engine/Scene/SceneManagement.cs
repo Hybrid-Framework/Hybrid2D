@@ -60,10 +60,27 @@ namespace Hybrid
             scene.OnClosed();
         }
 
-        
+        internal override void OnUpdate()
+        {
+            if (ActiveScene != null)
+            {
+                ActiveScene.OnUpdate();
+            }
+        }
+
+        internal override void OnRender()
+        {
+            if (ActiveScene != null)
+            {
+                ActiveScene.OnRender();
+            }
+        }
+
         // Dispose
         internal override void Dispose()
         {
+            Console.WriteLine("Scene Management Disposed");
+            
             if (ActiveScene != null)
             {
                 Close(ActiveScene);
