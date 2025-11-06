@@ -4,39 +4,27 @@ namespace Hybrid
 {
     public static unsafe class Content
     {
-        private static Dictionary<string, ContentResource> Cache = new();
-        
         public static string Root = "Content";
         
         
-        // Load Content
-        public static T Load<T>(string path) where T : ContentResource
+        // Generic Load Method
+        public static T Load<T>(string path) where T : Object
         {
             // Resolve Path
             path = Path.Combine(FileSystem.BasePath, Path.Combine(Root, path));
             
-            // Fetch Content
-            if (Cache.TryGetValue(path, out ContentResource existing))
-            {
-                return (T)existing;
-            }
-            
-            // Load Content Methods
-            ContentResource content = typeof(T) switch
+            // Load Content Type
+            Object content = typeof(T) switch
             {
                 var t when t == typeof(Texture) => LoadTexture(path),
                 _ => throw new Exception($"Unsupported asset type {typeof(T)}")
             };
             
-            // Cache Content
-            Cache[path] = content;
-            
-            // Return Content As Type
-            return (T)content;
+            // Return
+            return content as T;
         }
         
-
-        // Load Texture
+        // Texture
         public static Texture LoadTexture(string path)
         {
             // Load surface

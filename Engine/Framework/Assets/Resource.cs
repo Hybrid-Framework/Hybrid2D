@@ -2,8 +2,10 @@
 
 namespace Hybrid
 {
-    public class ContentResource
+    public class Resource
     {
+        public string path = "Unknown";
+        
         internal virtual void Dispose()
         {
             

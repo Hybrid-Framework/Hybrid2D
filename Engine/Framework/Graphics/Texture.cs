@@ -3,7 +3,7 @@
 namespace Hybrid
 {
     // Texture
-    public unsafe partial class Texture : ContentResource
+    public unsafe partial class Texture : Object
     {
         public const int MaxTextureSize = 8192;
         
