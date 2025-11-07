@@ -3,26 +3,52 @@
 namespace Hybrid
 {
     // Graphics Device
-    internal unsafe class GraphicsDevice : Module
+    internal unsafe partial class GraphicsDevice : Module
     {
-        // Handles
         internal SDL.Renderer* Renderer { get; private set; }
         internal SDL.Window* Window { get; private set; }
         
         
-        // Events (unused right now)
-        internal Action OnOrientation = null;
-        internal Action OnMaximized = null;
-        internal Action OnMinimized = null;
-        internal Action OnResized = null;
-        internal Action OnUnfocus = null;
-        internal Action OnOpened = null;
-        internal Action OnClosed = null;
-        internal Action OnFocus = null;
-        internal Action OnMoved = null;
+        internal GraphicsDevice(Config config)
+        {
+            // Create Window
+            {
+                SDL.WindowFlags flags = SDL.WindowFlags.HighPixelDensity;
+            
+                if (Platform.Current.PlatformDevice == PlatformDevice.Mobile) config.Fullscreen = true;
+                if (Platform.Current.PlatformDevice == PlatformDevice.Mobile) config.Resizable = true;
+                if (config.Fullscreen) flags |= SDL.WindowFlags.Fullscreen;
+                if (config.Resizable) flags |= SDL.WindowFlags.Resizable;
+
+                Window = SDL.CreateWindow(config.Title, config.Width, config.Height, flags);
+
+                SDL.Surface* icon = SDL_image.Load(config.Icon);
+                if (icon != null) SDL.SetWindowIcon(Window, icon);
+            }
+
+            // Create Renderer
+            {
+                Renderer = SDL.CreateRenderer(Window, null);
+                Fps = config.Fps;
+                
+                SDL.SetRenderVSync(Renderer, config.VSync ? 1 : 0);
+            }
+            
+            Events.OnEvent += OnEvent;
+        }
         
-        
-        // Properties
+        internal override void Dispose()
+        {
+            Console.WriteLine("Graphics Device Disposed");
+            
+            SDL.DestroyRenderer(Renderer);
+            SDL.DestroyWindow(Window);
+        }
+    }
+    
+    // Properties
+    internal unsafe partial class GraphicsDevice
+    {
         internal int Fps
         {
             get; set;
@@ -129,40 +155,22 @@ namespace Hybrid
                 }
             }
         }
-        
-        
-        // Constructor
-        internal GraphicsDevice(Config config)
-        {
-            // Create Window
-            {
-                SDL.WindowFlags flags = SDL.WindowFlags.HighPixelDensity;
-            
-                if (Platform.Current.PlatformDevice == PlatformDevice.Mobile) config.Fullscreen = true;
-                if (Platform.Current.PlatformDevice == PlatformDevice.Mobile) config.Resizable = true;
-                if (config.Fullscreen) flags |= SDL.WindowFlags.Fullscreen;
-                if (config.Resizable) flags |= SDL.WindowFlags.Resizable;
+    }
 
-                Window = SDL.CreateWindow(config.Title, config.Width, config.Height, flags);
-
-                SDL.Surface* icon = SDL_image.Load(config.Icon);
-                if (icon != null) SDL.SetWindowIcon(Window, icon);
-            }
-
-            // Create Renderer
-            {
-                Renderer = SDL.CreateRenderer(Window, null);
-                Fps = config.Fps;
-                
-                SDL.SetRenderVSync(Renderer, config.VSync ? 1 : 0);
-            }
-            
-            // Hook Events
-            Events.OnEvent += OnEvent;
-        }
+    // Events
+    internal unsafe partial class GraphicsDevice
+    {
+        internal Action OnOrientation = null;
+        internal Action OnMaximized = null;
+        internal Action OnMinimized = null;
+        internal Action OnResized = null;
+        internal Action OnUnfocus = null;
+        internal Action OnOpened = null;
+        internal Action OnClosed = null;
+        internal Action OnFocus = null;
+        internal Action OnMoved = null;
         
         
-        // Methods
         internal void OnEvent(SDL.Event e)
         {
             SDL.EventType type = (SDL.EventType)e.type;
@@ -172,16 +180,6 @@ namespace Hybrid
             if (type == SDL.EventType.Resized) OnResized?.Invoke();
             if (type == SDL.EventType.Focused) OnFocus?.Invoke();
             if (type == SDL.EventType.Moved) OnMoved?.Invoke();
-        }
-        
-        
-        // Dispose
-        internal override void Dispose()
-        {
-            Console.WriteLine("Graphics Device Disposed");
-            
-            SDL.DestroyRenderer(Renderer);
-            SDL.DestroyWindow(Window);
         }
     }
 }

@@ -4,18 +4,34 @@ using System;
 
 namespace Hybrid
 {
-    // Assets API
+    // Assets
     public partial class Assets : Module
     {
         private static Dictionary<string, Asset> Cache = new Dictionary<string, Asset>();
         public static string Root = "Assets";
-        
+
         internal Assets(Config config)
         {
-            
+
         }
         
+        internal override void Dispose()
+        {
+            Console.WriteLine("Resources Disposed");
 
+            foreach (var resource in Cache)
+            {
+                Console.WriteLine($"Resource '{resource.Value.Name}' Disposed");
+                resource.Value.Dispose();
+            }
+
+            Cache.Clear();
+        }
+    }
+    
+    // Assets API
+    public partial class Assets
+    {
         // Generic Load Resource
         public static T Load<T>(string path) where T : Asset
         {
@@ -64,20 +80,6 @@ namespace Hybrid
             {
                 throw new Exception($"Unsupported asset type {typeof(T)}");
             }
-        }
-        
-        // Dispose
-        internal override void Dispose()
-        {
-            Console.WriteLine("Resources Disposed");
-
-            foreach (var resource in Cache)
-            {
-                Console.WriteLine($"Resource '{resource.Value.Name}' Disposed");
-                resource.Value.Dispose();
-            }
-
-            Cache.Clear();
         }
     }
     

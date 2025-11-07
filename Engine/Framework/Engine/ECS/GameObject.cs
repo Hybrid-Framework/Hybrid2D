@@ -3,22 +3,23 @@
 namespace Hybrid
 {
     // GameObject
-    public sealed partial class GameObject : Behaviour
+    public sealed partial class GameObject : Object
     {
-        private List<Component> Components { get; set; } = new();
+        private List<Component> Components { get; set; } = new List<Component>();
+        
         public string Tag { get; internal set; } = "Default";
         public Scene Scene { get; internal set; } = null;
-        public bool Enabled { get; set; } = true;
+        public bool Active { get; set; } = true;
         
         
         public GameObject(string name = null)
         {
             Name = name ?? Name;
+            GameObject = this;
             
             Scene = SceneManagement.ActiveScene;
             Scene.Add(this);
             
-            GameObject = this;
             Transform = new Transform();
             Transform.Transform = Transform;
             Transform.GameObject = this;
@@ -29,16 +30,13 @@ namespace Hybrid
 
         internal override void Dispose()
         {
-            base.Dispose();
-            
-            // For Each Component
+            // Destroy Each Component
             foreach (var component in Components.ToArray())
             {
-                // Destroy
                 Destroy(component);
             }
             
-            // Remove From Scene
+            // Destroy Object
             Scene.Remove(this);
         }
     }

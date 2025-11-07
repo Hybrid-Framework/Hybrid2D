@@ -3,20 +3,30 @@
 namespace Hybrid
 {
     // Scene Management
-    public class SceneManagement : Module
+    public partial class SceneManagement : Module
     {
-        // Properties
         public static Scene ActiveScene { get; private set; }
 
-        
-        // Constructor
         internal SceneManagement(Config config)
         {
             Load(config.Scene);
         }
+
         
-        
-        // Methods
+        internal override void Dispose()
+        {
+            Console.WriteLine("Scene Management Disposed");
+
+            if (ActiveScene != null)
+            {
+                Close(ActiveScene);
+            }
+        }
+    }
+
+    // Scene Management API
+    public partial class SceneManagement
+    {
         public static void Load(Scene scene)
         {
             if (scene == null)
@@ -51,25 +61,13 @@ namespace Hybrid
                 throw new ArgumentNullException(nameof(scene), "Can't load a null scene.");
             }
             
-            foreach (var obj in scene.SceneGameObjects.ToArray())
+            foreach (var obj in scene.GetSceneObjects())
             {
                 Object.Destroy(obj);
             }
             
             Console.WriteLine($"Scene '{scene}' closed");
             scene.OnClosed();
-        }
-        
-
-        // Dispose
-        internal override void Dispose()
-        {
-            Console.WriteLine("Scene Management Disposed");
-            
-            if (ActiveScene != null)
-            {
-                Close(ActiveScene);
-            }
         }
     }
 }

@@ -3,14 +3,17 @@
 namespace Hybrid
 {
     // Scene
-    public abstract class Scene
+    public abstract partial class Scene
     {
-        internal List<GameObject> SceneGameObjects = new List<GameObject>();
-        
+        private readonly List<GameObject> SceneGameObjects = new List<GameObject>();
+
         public abstract void OnOpened();
         public abstract void OnClosed();
-        
-
+    }
+    
+    // Scene API
+    public abstract partial class Scene
+    {
         internal void Add(GameObject gameObject)
         {
             SceneGameObjects.Add(gameObject);

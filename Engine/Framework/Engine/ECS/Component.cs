@@ -3,11 +3,12 @@
 namespace Hybrid
 {
     // Component
-    public class Component : Behaviour
+    public partial class Component : Object
     {
-        protected internal bool InitializedComponent { get; set; } = false;
         protected internal virtual bool SingletonComponent() => false;
         protected internal virtual bool RequiredComponent() => false;
+        
+        protected internal bool InitializedComponent { get; set; }
         
         internal bool _Enabled = true;
         public bool Enabled
@@ -30,9 +31,28 @@ namespace Hybrid
                 _Enabled = value;
             }
         }
-
         
-
+        protected Component()
+        {
+            
+        }
+        
+        internal override void Dispose()
+        {
+            if (GameObject != null)
+            {
+                OnDestroy();
+                
+                GameObject.DetachComponent(this);
+                GameObject = null;
+                Transform = null;
+            }
+        }
+    }
+    
+    // Component API
+    public partial class Component
+    {
         public virtual void OnStart()
         {
             
@@ -56,20 +76,6 @@ namespace Hybrid
         public virtual void OnDestroy()
         {
             
-        }
-
-        internal override void Dispose()
-        {
-            base.Dispose();
-            
-            if (GameObject != null)
-            {
-                OnDestroy();
-                
-                GameObject.DetachComponent(this);
-                GameObject = null;
-                Transform = null;
-            }
         }
     }
 }

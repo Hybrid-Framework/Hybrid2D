@@ -96,7 +96,7 @@ namespace Hybrid
             foreach (var obj in SceneManagement.ActiveScene.GetSceneObjects())
             {
                 // Skip GameObject 
-                if(!obj.Enabled) continue;
+                if(!obj.Active) continue;
                 
                 // For Each Component In GameObject
                 foreach (var component in obj.GetComponents())

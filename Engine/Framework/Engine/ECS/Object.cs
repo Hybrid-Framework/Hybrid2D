@@ -5,6 +5,9 @@ namespace Hybrid
     // Object
     public partial class Object : IEquatable<Object>
     {
+        public GameObject GameObject { get; internal set; }
+        public Transform Transform { get; internal set; }
+        
         private Guid Guid { get; set; } = Guid.NewGuid();
         private bool IsDestroyed { get; set; }
         public string Name { get; set; }
@@ -22,21 +25,20 @@ namespace Hybrid
 
         internal virtual void Dispose()
         {
-            // Dispose logic called by Destroy(obj);
+            // Dispose called by Destroy(obj);
             // Called just before the Object is marked as destroyed
             // This gives us control over what happens when the Object is destroyed
+            // Example: Null references and clean up resources
         }
     }
     
-    // Static Methods
+    // Object API
     public partial class Object
     {
         public static void Destroy(Object obj)
         {
-            if (obj != null && !obj.IsDestroyed)
+            if (obj != null)
             {
-                Console.WriteLine($"Destroyed: {obj.Name}");
-                
                 obj.Dispose();
                 obj.IsDestroyed = true;
             }
@@ -68,7 +70,7 @@ namespace Hybrid
             return objects.ToArray();
         }
         
-        public static T FindFirstObjectByType<T>() where T : Object
+        public static T FindObjectOfType<T>() where T : Object
         {
             if (SceneManagement.ActiveScene != null)
             {
@@ -109,7 +111,7 @@ namespace Hybrid
         public static bool operator ==(Object a, Object b)
         {
             if (a is null) return b?.IsDestroyed ?? true;
-            if (b is null) return a?.IsDestroyed ?? true;
+            if (b is null) return a.IsDestroyed;
             
             return ReferenceEquals(a, b);
         }
