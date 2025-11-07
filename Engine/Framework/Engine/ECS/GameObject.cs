@@ -7,7 +7,7 @@ namespace Hybrid
     {
         private List<Component> Components { get; set; } = new();
         public string Tag { get; internal set; } = "Default";
-        public Scene Scene { get; private set; } = null;
+        public Scene Scene { get; internal set; } = null;
         public bool Enabled { get; set; } = true;
         
         

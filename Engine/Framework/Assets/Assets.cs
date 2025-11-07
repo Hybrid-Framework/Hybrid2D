@@ -42,7 +42,10 @@ namespace Hybrid
         {
             if (typeof(T) == typeof(Texture))
             {
-                return CreateTextureResource(path) as T;
+                var instance = CreateTextureResource(path);
+                instance.Name = path;
+                
+                return instance as T;
             }
             else
             {
@@ -70,6 +73,7 @@ namespace Hybrid
 
             foreach (var resource in Cache)
             {
+                Console.WriteLine($"Resource '{resource.Value.Name}' Disposed");
                 resource.Value.Dispose();
             }
 

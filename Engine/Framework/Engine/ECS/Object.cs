@@ -16,21 +16,15 @@ namespace Hybrid
             
             if (SceneManagement.ActiveScene == null)
             {
-                throw new Exception($"Can't create '{this.Name}' because no scene is loaded");
+                throw new Exception($"Can't create '{Name}' because no scene is loaded");
             }
         }
 
         internal virtual void Dispose()
         {
             // Dispose logic called by Destroy(obj);
-            // Implement this in types that inherit Object
-            // This gives us control over what happens when destroyed
-            // Called just before object is marked as destroyed
-        }
-
-        internal virtual Object Clone()
-        {
-            return null;
+            // Called just before the Object is marked as destroyed
+            // This gives us control over what happens when the Object is destroyed
         }
     }
     
@@ -46,17 +40,6 @@ namespace Hybrid
                 obj.Dispose();
                 obj.IsDestroyed = true;
             }
-        }
-
-        public static T Instantiate<T>(T obj) where T : Object
-        {
-            if (obj == null)
-            {
-                throw new ArgumentNullException(nameof(obj));
-            }
-            
-            Console.WriteLine("Clone: " + typeof(T).Name);
-            return obj.Clone() as T;
         }
         
         public static T[] FindObjectsOfType<T>() where T : Object

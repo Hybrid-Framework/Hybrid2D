@@ -7,7 +7,7 @@ namespace App
         public override void OnOpened()
         {
             GameObject obj1 = new GameObject("Hello");
-            Object.Instantiate(obj1);
+            Texture texture = Assets.Load<Texture>("Images/Image.png");
         }
 
         public override void OnClosed()
