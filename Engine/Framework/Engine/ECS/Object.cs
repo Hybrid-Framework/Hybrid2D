@@ -16,7 +16,7 @@ namespace Hybrid
             
             if (SceneManagement.ActiveScene == null)
             {
-                throw new Exception($"Can't create '{Name}' because no scene is loaded");
+                throw new Exception($"Can't create '{this.Name}' because no scene is loaded");
             }
         }
 
@@ -55,6 +55,7 @@ namespace Hybrid
                 throw new ArgumentNullException(nameof(obj));
             }
             
+            Console.WriteLine("Clone: " + typeof(T).Name);
             return obj.Clone() as T;
         }
         

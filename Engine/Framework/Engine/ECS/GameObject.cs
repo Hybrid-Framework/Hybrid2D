@@ -20,9 +20,8 @@ namespace Hybrid
             
             GameObject = this;
             Transform = new Transform();
-            
-            Transform.GameObject = this;
             Transform.Transform = Transform;
+            Transform.GameObject = this;
             Transform.Name = Name;
             
             AttachComponent(Transform);
@@ -139,7 +138,7 @@ namespace Hybrid
 
             // Can't have multiple instances of component
             if (existing != null && existing.SingletonComponent())
-                throw new Exception($"Can't have multiple instances of '{typeof(T)}' on GameObject '{Name}'");
+                throw new Exception($"Can't have multiple instances of '{typeof(T).Name}' on GameObject '{GameObject.Name}'");
 
             // Add Component
             return AttachComponent(component);
@@ -159,7 +158,7 @@ namespace Hybrid
 
             // Can't have multiple instances of component
             if (existing != null && existing.SingletonComponent())
-                throw new Exception($"Can't have multiple instances of '{typeof(T)}' on GameObject '{GameObject.Name}'");
+                throw new Exception($"Can't have multiple instances of '{typeof(T).Name}' on GameObject '{GameObject.Name}'");
 
             // Add Component
             return AttachComponent(component) as T;
@@ -206,7 +205,7 @@ namespace Hybrid
                 {
                     // Cant Remove Required Component
                     if (component.RequiredComponent())
-                        throw new Exception($"Can't destroy required '{typeof(T)}' on GameObject '{GameObject.Name}'");
+                        throw new Exception($"Can't destroy required '{typeof(T).Name}' on GameObject '{GameObject.Name}'");
 
                     // Remove Component
                     DetachComponent(c);
@@ -224,7 +223,7 @@ namespace Hybrid
                 {
                     // Cant Remove Required Component
                     if (c.RequiredComponent())
-                        throw new Exception($"Can't destroy required '{typeof(T)}' on GameObject '{GameObject.Name}'");
+                        throw new Exception($"Can't destroy required '{typeof(T).Name}' on GameObject '{GameObject.Name}'");
 
                     // Remove Component
                     DetachComponent(c);
@@ -242,7 +241,7 @@ namespace Hybrid
                 {
                     // Cant Remove Required Component
                     if (c.RequiredComponent())
-                        throw new Exception($"Can't destroy required '{typeof(T)}' on GameObject '{GameObject.Name}'");
+                        throw new Exception($"Can't destroy required '{typeof(T).Name}' on GameObject '{GameObject.Name}'");
 
                     // Remove Component
                     DetachComponent(c);

@@ -34,6 +34,7 @@ namespace Hybrid
             Initialized = true;
             
             // Create Modules
+            // Auto Added To Modules List
             GraphicsDevice = new GraphicsDevice(Config);
             SceneManagement = new SceneManagement(Config);
             Assets = new Assets(Config);
@@ -67,6 +68,7 @@ namespace Hybrid
                 module.Dispose();
             }
             
+            // Quit
             SDL.Quit();
         }
     }
