@@ -4,7 +4,7 @@ using System;
 
 namespace Hybrid
 {
-    // Resource Management
+    // Assets API
     public partial class Assets : Module
     {
         private static Dictionary<string, Asset> Cache = new Dictionary<string, Asset>();

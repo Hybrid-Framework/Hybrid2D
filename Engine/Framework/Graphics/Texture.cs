@@ -5,7 +5,7 @@ namespace Hybrid
     // Texture
     public unsafe partial class Texture : Asset
     {
-        public const int MaxTextureSize = 8192;
+        public const int MaxTextureSize = 4096;
         
         internal SDL.Texture* Handle
         {
@@ -69,6 +69,7 @@ namespace Hybrid
             
             // Set texture scaling mode
             SDL.SetTextureScaleMode(Handle, (SDL.ScaleMode)scaleMode);
+            Apply();
         }
     
         // Set Pixel

@@ -2,6 +2,7 @@
 
 namespace Hybrid
 {
+    // Scene
     public abstract class Scene
     {
         internal List<GameObject> SceneGameObjects = new List<GameObject>();
