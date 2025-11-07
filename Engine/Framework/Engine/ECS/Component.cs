@@ -5,7 +5,32 @@ namespace Hybrid
     // Component
     public class Component : Behaviour
     {
-        protected internal bool ComponentHasBeenInitialized { get; set; } = false;
+        protected internal bool InitializedComponent { get; set; } = false;
+        protected internal virtual bool SingletonComponent() => false;
+        protected internal virtual bool RequiredComponent() => false;
+        
+        internal bool _Enabled = true;
+        public bool Enabled
+        {
+            get => _Enabled;
+            set
+            {
+                if (value != Enabled)
+                {
+                    if (!value)
+                    {
+                        OnDisable();
+                    }
+                    else
+                    {
+                        OnEnable();
+                    }
+                }
+
+                _Enabled = value;
+            }
+        }
+
         
 
         public virtual void OnStart()
@@ -41,7 +66,7 @@ namespace Hybrid
             {
                 OnDestroy();
                 
-                GameObject.RemoveComponent(this);
+                GameObject.DetachComponent(this);
                 GameObject = null;
                 Transform = null;
             }

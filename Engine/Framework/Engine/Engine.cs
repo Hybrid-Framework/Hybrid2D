@@ -103,9 +103,9 @@ namespace Hybrid
                     if(!component.Enabled) continue;
                 
                     // Call OnStart
-                    if (!component.ComponentHasBeenInitialized)
+                    if (!component.InitializedComponent)
                     {
-                        component.ComponentHasBeenInitialized = true;
+                        component.InitializedComponent = true;
                         component.OnStart();
                     }
                 
