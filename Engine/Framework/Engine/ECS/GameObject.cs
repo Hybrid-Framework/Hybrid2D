@@ -1,4 +1,6 @@
-﻿namespace Hybrid
+﻿using System;
+
+namespace Hybrid
 {
     // GameObject
     public sealed partial class GameObject : Behaviour
@@ -38,7 +40,25 @@
     // Methods
     public sealed partial class GameObject
     {
-        public static GameObject[] FindByName(string name)
+        public static GameObject FindGameObjectWithName(string name)
+        {
+            if (SceneManagement.ActiveScene != null)
+            {
+                var SceneObjects = SceneManagement.ActiveScene.GetSceneObjects();
+
+                for (int i = 0; i < SceneObjects.Length; i++)
+                {
+                    if (SceneObjects[i].Name == name)
+                    {
+                        return SceneObjects[i];
+                    }
+                }
+            }
+
+            return null;
+        }
+        
+        public static GameObject[] FindGameObjectsWithName(string name)
         {
             List<GameObject> gameObjects = new();
 
@@ -58,7 +78,25 @@
             return gameObjects.ToArray();
         }
 
-        public static GameObject[] FindByTag(string tag)
+        public static GameObject FindGameObjectWithTag(string tag)
+        {
+            if (SceneManagement.ActiveScene != null)
+            {
+                var SceneObjects = SceneManagement.ActiveScene.GetSceneObjects();
+
+                for (int i = 0; i < SceneObjects.Length; i++)
+                {
+                    if (SceneObjects[i].Tag == tag)
+                    {
+                        return SceneObjects[i];
+                    }
+                }
+            }
+
+            return null;
+        }
+        
+        public static GameObject[] FindGameObjectsWithTag(string tag)
         {
             List<GameObject> gameObjects = new();
 
