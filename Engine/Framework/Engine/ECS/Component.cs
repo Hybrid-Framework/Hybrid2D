@@ -3,39 +3,11 @@
 namespace Hybrid
 {
     // Component
-    public partial class Component : Object
+    public partial class Component : Behaviour
     {
         protected internal virtual bool SingletonComponent() => false;
         protected internal virtual bool RequiredComponent() => false;
         
-        protected internal bool InitializedComponent { get; set; }
-        
-        internal bool _Enabled = true;
-        public bool Enabled
-        {
-            get => _Enabled;
-            set
-            {
-                if (value != Enabled)
-                {
-                    if (!value)
-                    {
-                        OnDisable();
-                    }
-                    else
-                    {
-                        OnEnable();
-                    }
-                }
-
-                _Enabled = value;
-            }
-        }
-        
-        protected Component()
-        {
-            
-        }
         
         internal override void Dispose()
         {
@@ -53,6 +25,9 @@ namespace Hybrid
     // Component API
     public partial class Component
     {
+        internal bool InitializedComponent { get; set; }
+        
+        
         public virtual void OnStart()
         {
             

@@ -9,7 +9,7 @@ namespace Hybrid
         
         internal static SceneManagement SceneManagement;
         internal static GraphicsDevice GraphicsDevice;
-        internal static Assets Assets;
+        internal static Resources Resources;
         
         internal bool Initialized { get; private set; } = false;
         internal bool IsRunning { get; private set; } = true;
@@ -37,7 +37,7 @@ namespace Hybrid
             // Auto Added To Modules List
             GraphicsDevice = new GraphicsDevice(Config);
             SceneManagement = new SceneManagement(Config);
-            Assets = new Assets(Config);
+            Resources = new Resources(Config);
         }
         
         // Engine Main Loop
@@ -96,7 +96,7 @@ namespace Hybrid
             foreach (var obj in SceneManagement.ActiveScene.GetSceneObjects())
             {
                 // Skip GameObject 
-                if(!obj.Active) continue;
+                if(!obj.Enabled) continue;
                 
                 // For Each Component In GameObject
                 foreach (var component in obj.GetComponents())

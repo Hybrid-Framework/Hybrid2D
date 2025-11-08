@@ -3,27 +3,23 @@
 namespace Hybrid
 {
     // Texture
-    public unsafe partial class Texture : Asset
+    public unsafe partial class Texture : Resource
     {
+        internal SDL.Texture* Handle { set; get; }
+        
         public const int MaxTextureSize = 4096;
         
-        internal SDL.Texture* Handle
-        {
-            set;
-            get;
-        }
-        
-        // Create Texture From Resource
+
         public Texture(Texture source, TextureAccess access = TextureAccess.Static, TextureScaleMode scaleMode = TextureScaleMode.Pixel)
         {
             // Invalid Source
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
-            
+
             // Invalid Texture Size
             if (source.Width > MaxTextureSize || source.Height > MaxTextureSize)
                 throw new ArgumentException($"Texture can't be larger than '({MaxTextureSize}x{MaxTextureSize})'");
-            
+
             // Create SDL Texture
             {
                 Width = source.Width;
@@ -51,7 +47,7 @@ namespace Hybrid
             // Invalid Texture Size
             if (width > MaxTextureSize || height > MaxTextureSize)
                 throw new ArgumentException($"Texture can't be larger than '({MaxTextureSize}x{MaxTextureSize})'");
-            
+
             // Create SDL Texture
             {
                 Width = width;
@@ -66,13 +62,25 @@ namespace Hybrid
                     height
                 );
             }
-            
+
             // Set texture scaling mode
             SDL.SetTextureScaleMode(Handle, (SDL.ScaleMode)scaleMode);
             Apply();
         }
+
+        internal override void Dispose()
+        {
+            if (Handle != null)
+            {
+                // Destroy SDL Texture
+                SDL.DestroyTexture(Handle);
+            }
+        }
+    }
     
-        // Set Pixel
+    // Texture API
+    public unsafe partial class Texture
+    {
         public void SetPixel(int x, int y, Color color)
         {
             if (x >= 0 && y >= 0 && x < Width && y < Height)
@@ -86,7 +94,6 @@ namespace Hybrid
             }
         }
     
-        // Get Pixel
         public Color GetPixel(int x, int y)
         {
             if (x >= 0 && y >= 0 && x < Width && y < Height)
@@ -104,7 +111,6 @@ namespace Hybrid
             return Color.Transparent;
         }
         
-        // Set Pixels
         public void SetPixels(Color[] colors)
         {
             // Invalid Array Length
@@ -123,7 +129,6 @@ namespace Hybrid
             }
         }
         
-        // Get Pixels
         public Color[] GetPixels()
         {
             int count = (Width * Height);
@@ -144,26 +149,13 @@ namespace Hybrid
             return result;
         }
         
-        // Apply Texture
         public void Apply()
         {
             fixed (byte* p = Pixels)
             {
                 // Update SDL Texture
                 if (!SDL.UpdateTexture(Handle, null, (IntPtr)p, (Width * 4)))
-                {
-                    // Invalid Texture Update
                     throw new Exception($"Failed to apply texture: {SDL.GetError()}");
-                }
-            }
-        }
-        
-        internal override void Dispose()
-        {
-            if(Handle != null)
-            {
-                // Destroy SDL Texture
-                SDL.DestroyTexture(Handle);
             }
         }
     }

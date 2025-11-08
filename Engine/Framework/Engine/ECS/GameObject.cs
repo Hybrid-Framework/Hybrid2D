@@ -3,13 +3,11 @@
 namespace Hybrid
 {
     // GameObject
-    public sealed partial class GameObject : Object
+    public sealed partial class GameObject : Behaviour
     {
-        private List<Component> Components { get; set; } = new List<Component>();
-        
+        private List<Component> Components { get; set; } = new();
         public string Tag { get; internal set; } = "Default";
         public Scene Scene { get; internal set; } = null;
-        public bool Active { get; set; } = true;
         
         
         public GameObject(string name = null)
@@ -124,19 +122,11 @@ namespace Hybrid
     // Add Components
     public sealed partial class GameObject
     {
-        // Add Component
         public T AddComponent<T>(T component) where T : Component
         {
             // Invalid Component
             if (component == null)
                 return null;
-
-            // Find Existing
-            var existing = GetComponent<T>();
-
-            // Can't have multiple instances of component
-            if (existing != null && existing.SingletonComponent())
-                throw new Exception($"Can't have multiple instances of '{typeof(T).Name}' on GameObject '{GameObject.Name}'");
 
             // Add Component
             return AttachComponent(component);
@@ -144,19 +134,12 @@ namespace Hybrid
 
         public T AddComponent<T>() where T : Component
         {
-            // Create Component
+            // Create Instance
             Component component = Activator.CreateInstance(typeof(T)) as Component;
 
             // Invalid Component
             if (component == null)
                 return null;
-
-            // Find Existing
-            var existing = GetComponent<T>();
-
-            // Can't have multiple instances of component
-            if (existing != null && existing.SingletonComponent())
-                throw new Exception($"Can't have multiple instances of '{typeof(T).Name}' on GameObject '{GameObject.Name}'");
 
             // Add Component
             return AttachComponent(component) as T;
@@ -168,9 +151,12 @@ namespace Hybrid
             if (component == null)
                 return null;
             
-            // Already Attached
-            if (GetComponent(component))
-                throw new Exception($"Component '{component.GetType().Name}' already added to GameObject '{GameObject.Name}'");
+            // Find Existing
+            var existing = GetComponent(component.GetType());
+
+            // Can't have multiple instances of this component
+            if (existing != null && existing.SingletonComponent())
+                throw new Exception($"Can't have multiple instances of '{typeof(T).Name}' on GameObject '{GameObject.Name}'");
 
             // Assign Values
             component.Name = Name;
@@ -189,7 +175,6 @@ namespace Hybrid
     // Remove Components
     public sealed partial class GameObject
     {
-        // Remove Component
         public void RemoveComponent<T>(T component) where T : Component
         {
             // Invalid Component
@@ -262,7 +247,6 @@ namespace Hybrid
     // Get Components
     public sealed partial class GameObject
     {
-        // Get Component
         public T GetComponent<T>(T component) where T : Component
         {
             // Find Matching Component
@@ -309,6 +293,21 @@ namespace Hybrid
             
             // Return All Components
             return components.ToArray();
+        }
+        
+        private Component GetComponent(Type type)
+        {
+            // Find Matching Component
+            foreach (var c in GetComponents())
+            {
+                if (c.GetType() == type)
+                {
+                    // Return
+                    return c;
+                }
+            }
+            
+            return null;
         }
 
         public Component[] GetComponents()

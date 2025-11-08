@@ -5,9 +5,6 @@ namespace Hybrid
     // Object
     public partial class Object : IEquatable<Object>
     {
-        public GameObject GameObject { get; internal set; }
-        public Transform Transform { get; internal set; }
-        
         private Guid Guid { get; set; } = Guid.NewGuid();
         private bool IsDestroyed { get; set; }
         public string Name { get; set; }
@@ -37,11 +34,23 @@ namespace Hybrid
     {
         public static void Destroy(Object obj)
         {
-            if (obj != null)
-            {
-                obj.Dispose();
-                obj.IsDestroyed = true;
-            }
+            // Invalid Object
+            if (obj == null)
+                throw new Exception($"Can't destroy '{nameof(obj)}' because it is null");
+            
+            // Destroy
+            obj.Dispose();
+            obj.IsDestroyed = true;
+        }
+        
+        public static T Instantiate<T>(T obj) where T : Object
+        {
+            // Invalid Object
+            if (obj == null)
+                throw new Exception($"Can't instantiate '{nameof(obj)}' because it is null");
+            
+            // Create
+            return Clone.Shallow(obj) as T;
         }
         
         public static T[] FindObjectsOfType<T>() where T : Object

@@ -4,13 +4,13 @@ using System;
 
 namespace Hybrid
 {
-    // Assets
-    public partial class Assets : Module
+    // Resources
+    public partial class Resources : Module
     {
-        private static Dictionary<string, Asset> Cache = new Dictionary<string, Asset>();
+        private static readonly Dictionary<string, Resource> Cache = new();
         public static string Root = "Assets";
 
-        internal Assets(Config config)
+        internal Resources(Config config)
         {
 
         }
@@ -29,11 +29,11 @@ namespace Hybrid
         }
     }
     
-    // Assets API
-    public partial class Assets
+    // Resources API
+    public partial class Resources
     {
         // Generic Load Resource
-        public static T Load<T>(string path) where T : Asset
+        public static T Load<T>(string path) where T : Resource
         {
             // Resolve path
             path = Path.Combine(FileSystem.BasePath, Path.Combine(Root, path));
@@ -46,7 +46,7 @@ namespace Hybrid
             }
 
             // Create resource
-            Asset resource = CreateResource<T>(path);
+            Resource resource = CreateResource<T>(path);
             Cache[path] = resource;
 
             // Return new instance
@@ -54,8 +54,9 @@ namespace Hybrid
         }
 
         // Generic Create Resource
-        private static T CreateResource<T>(string path) where T : Asset
+        private static T CreateResource<T>(string path) where T : Resource
         {
+            // Create Texture Resource
             if (typeof(T) == typeof(Texture))
             {
                 var instance = CreateTextureResource(path);
@@ -70,8 +71,9 @@ namespace Hybrid
         }
 
         // Generic Create Instance
-        private static T CreateInstance<T>(Asset resource) where T : Asset
+        private static T CreateInstance<T>(Resource resource) where T : Resource
         {
+            // Create Texture Instance
             if (typeof(T) == typeof(Texture))
             {
                 return new Texture((Texture)resource) as T;
@@ -84,7 +86,7 @@ namespace Hybrid
     }
     
     // Texture Resources
-    public unsafe partial class Assets
+    public unsafe partial class Resources
     {
         private static Texture CreateTextureResource(string path)
         {
