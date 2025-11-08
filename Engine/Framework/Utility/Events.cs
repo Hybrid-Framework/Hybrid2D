@@ -2,9 +2,11 @@
 
 namespace Hybrid
 {
+    // Events
     internal static class Events
     {
         internal static Action<SDL.Event> OnEvent;
+        
         
         internal static void Event(SDL.Event e)
         {
