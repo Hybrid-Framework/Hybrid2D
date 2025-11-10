@@ -3,10 +3,9 @@
 namespace Hybrid
 {
     // Rect
-    public partial struct Rect
+    public partial struct Rect : IEquatable<Rect>
     {
         public static readonly Rect Zero = new(0, 0, 0, 0);
-        public static readonly Rect One = new(1, 1, 1, 1);
         
         public float X;
         public float Y;
@@ -25,6 +24,48 @@ namespace Hybrid
         public Rect()
         {
             
+        }
+    }
+
+    // Operators
+    public partial struct Rect
+    {
+        public static bool operator ==(Rect a, Rect b)
+        {
+            return a.Equals(b);
+        }
+
+        public static bool operator !=(Rect a, Rect b)
+        {
+            return !a.Equals(b);
+        }
+        
+        public bool Equals(Rect r)
+        {
+            return Maths.Approximately(X, r.X) &&
+                   Maths.Approximately(Y, r.Y) &&
+                   Maths.Approximately(W, r.W) &&
+                   Maths.Approximately(H, r.H);
+        }
+
+        public override bool Equals(object r)
+        {
+            if (r is Rect other)
+            {
+                return Equals(other);
+            }
+
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(X, Y, W, H);
+        }
+
+        public override string ToString()
+        {
+            return $"({X}, {Y}, {W}, {H})";
         }
     }
     
@@ -53,10 +94,10 @@ namespace Hybrid
             {
                 return new SDL.Rect()
                 {
-                    x = (int)rect.Value.X,
-                    y = (int)rect.Value.Y,
-                    w = (int)rect.Value.W,
-                    h = (int)rect.Value.H
+                    x = (int)Maths.Round(rect.Value.X),
+                    y = (int)Maths.Round(rect.Value.Y),
+                    w = (int)Maths.Round(rect.Value.W),
+                    h = (int)Maths.Round(rect.Value.H)
                 };
             }
 

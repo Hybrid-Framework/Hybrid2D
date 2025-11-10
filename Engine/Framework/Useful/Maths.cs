@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    // Maths (Properties)
+    // Maths
     public static partial class Maths
     {
         public const float PI = MathF.PI;
@@ -13,7 +13,7 @@ namespace Hybrid
         public const float Epsilon = 1e-5f;
     }
     
-    // Maths (Methods)
+    // Methods
     public static partial class Maths
     {
         public static float RadiansToDegrees(float radians)

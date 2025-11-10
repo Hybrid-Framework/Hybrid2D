@@ -3,7 +3,7 @@
 namespace Hybrid
 {
     // Color
-    public partial struct Color
+    public partial struct Color : IEquatable<Color>
     {
         public static readonly Color CornFlowerBlue = new(100, 149, 237, 255);
         public static readonly Color White = new(255, 255, 255, 255);
@@ -38,17 +38,56 @@ namespace Hybrid
         public byte A;
         
 
-        public Color(byte R, byte G, byte B, byte A)
+        public Color(byte r, byte g, byte b, byte a)
         {
-            this.R = R;
-            this.G = G;
-            this.B = B;
-            this.A = A;
+            this.R = r;
+            this.G = g;
+            this.B = b;
+            this.A = a;
         }
 
         public Color()
         {
             
+        }
+    }
+
+    // Operators
+    public partial struct Color
+    {
+        public static bool operator ==(Color a, Color b)
+        {
+            return a.Equals(b);
+        }
+
+        public static bool operator !=(Color a, Color b)
+        {
+            return !a.Equals(b);
+        }
+        
+        public bool Equals(Color c)
+        {
+            return R == c.R && G == c.G && B == c.B && A == c.A;
+        }
+
+        public override bool Equals(object c)
+        {
+            if (c is Color other)
+            {
+                return Equals(other);
+            }
+
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(R, G, B, A);
+        }
+
+        public override string ToString()
+        {
+            return $"({R}, {G}, {B}, {A})";
         }
     }
 }
