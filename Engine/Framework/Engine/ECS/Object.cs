@@ -132,7 +132,12 @@ namespace Hybrid
 
         public override bool Equals(object obj)
         {
-            return obj is Object other && Equals(other);
+            if (obj is Object other)
+            {
+                return Equals(other);
+            }
+
+            return false;
         }
 
         public override int GetHashCode()

@@ -6,6 +6,7 @@ namespace Hybrid
     public sealed partial class GameObject : Behaviour
     {
         private List<Component> Components { get; set; } = new();
+        public string Layer { get; internal set; } = "Default";
         public string Tag { get; internal set; } = "Default";
         public Scene Scene { get; internal set; } = null;
         
@@ -71,6 +72,44 @@ namespace Hybrid
                 for (int i = 0; i < SceneObjects.Length; i++)
                 {
                     if (SceneObjects[i].Name == name)
+                    {
+                        gameObjects.Add(SceneObjects[i]);
+                    }
+                }
+            }
+
+            return gameObjects.ToArray();
+        }
+        
+        public static GameObject FindGameObjectWithLayer(string layer)
+        {
+            if (SceneManagement.ActiveScene != null)
+            {
+                var SceneObjects = SceneManagement.ActiveScene.GetSceneObjects();
+
+                for (int i = 0; i < SceneObjects.Length; i++)
+                {
+                    if (SceneObjects[i].Layer == layer)
+                    {
+                        return SceneObjects[i];
+                    }
+                }
+            }
+
+            return null;
+        }
+        
+        public static GameObject[] FindGameObjectsWithLayer(string layer)
+        {
+            List<GameObject> gameObjects = new();
+
+            if (SceneManagement.ActiveScene != null)
+            {
+                var SceneObjects = SceneManagement.ActiveScene.GetSceneObjects();
+
+                for (int i = 0; i < SceneObjects.Length; i++)
+                {
+                    if (SceneObjects[i].Layer == layer)
                     {
                         gameObjects.Add(SceneObjects[i]);
                     }
