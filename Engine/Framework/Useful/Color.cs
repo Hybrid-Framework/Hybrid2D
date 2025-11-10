@@ -5,23 +5,6 @@ namespace Hybrid
     // Color
     public partial struct Color
     {
-        public byte R;
-        public byte G;
-        public byte B;
-        public byte A;
-
-        public Color(byte R, byte G, byte B, byte A)
-        {
-            this.R = R;
-            this.G = G;
-            this.B = B;
-            this.A = A;
-        }
-    }
-    
-    // Properties
-    public partial struct Color
-    {
         public static readonly Color CornFlowerBlue = new(100, 149, 237, 255);
         public static readonly Color White = new(255, 255, 255, 255);
         public static readonly Color Black = new(0, 0, 0, 255);
@@ -48,5 +31,24 @@ namespace Hybrid
         public static readonly Color Indigo = new(75, 0, 130, 255);
         public static readonly Color Violet = new(238, 130, 238, 255);
         public static readonly Color Transparent = new(0, 0, 0, 0);
+        
+        public byte R;
+        public byte G;
+        public byte B;
+        public byte A;
+        
+
+        public Color(byte R, byte G, byte B, byte A)
+        {
+            this.R = R;
+            this.G = G;
+            this.B = B;
+            this.A = A;
+        }
+
+        public Color()
+        {
+            
+        }
     }
 }

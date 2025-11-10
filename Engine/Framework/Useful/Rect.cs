@@ -5,10 +5,14 @@ namespace Hybrid
     // Rect
     public partial struct Rect
     {
+        public static readonly Rect Zero = new(0, 0, 0, 0);
+        public static readonly Rect One = new(1, 1, 1, 1);
+        
         public float X;
         public float Y;
         public float W;
         public float H;
+        
 
         public Rect(float x, float y, float w, float h)
         {
@@ -17,16 +21,14 @@ namespace Hybrid
             this.W = w;
             this.H = h;
         }
+
+        public Rect()
+        {
+            
+        }
     }
     
-    // Properties
-    public partial struct Rect
-    {
-        public static readonly Rect Zero = new(0, 0, 0, 0);
-        public static readonly Rect One = new(1, 1, 1, 1);
-    }
-    
-    // Methods
+    // SDL
     public partial struct Rect
     {
         internal static SDL.FRect? SDLFRect(Rect? rect)
