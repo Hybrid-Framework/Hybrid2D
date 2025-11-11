@@ -7,7 +7,7 @@ namespace Hybrid
     {
         internal override void OnEvent(SDL.Event e)
         {
-            Console.WriteLine($"Touch {e.type}");
+            Console.WriteLine($"Touch {e.type} {e.touchFinger.fingerID}");
 
             switch (e.type)
             {

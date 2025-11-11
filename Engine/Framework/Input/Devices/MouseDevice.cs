@@ -7,7 +7,7 @@ namespace Hybrid
     {
         internal override void OnEvent(SDL.Event e)
         {
-            Console.WriteLine($"Mouse {e.type}");
+            Console.WriteLine($"Mouse {e.type} {e.mouseMotion.mouseID}");
 
             switch (e.type)
             {

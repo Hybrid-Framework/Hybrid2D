@@ -7,7 +7,7 @@ namespace Hybrid
     {
         internal override void OnEvent(SDL.Event e)
         {
-            Console.WriteLine($"Gamepad {e.type}");
+            Console.WriteLine($"Gamepad {e.type} {e.gamepadButton.gamepadID}");
 
             switch (e.type)
             {

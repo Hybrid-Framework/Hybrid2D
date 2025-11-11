@@ -7,7 +7,7 @@ namespace Hybrid
     {
         internal override void OnEvent(SDL.Event e)
         {
-            Console.WriteLine($"Keyboard {e.type}");
+            Console.WriteLine($"Keyboard {e.type} {e.keyboard.keyboardID}");
 
             switch (e.type)
             {
