@@ -21,12 +21,20 @@ namespace Hybrid
             this.H = h;
         }
 
+        public Rect(Vector2 position, Vector2 size)
+        {
+            this.X = position.X;
+            this.Y = position.Y;
+            this.W = size.X;
+            this.H = size.Y;
+        }
+
         public Rect()
         {
             
         }
     }
-
+    
     // Operators
     public partial struct Rect
     {

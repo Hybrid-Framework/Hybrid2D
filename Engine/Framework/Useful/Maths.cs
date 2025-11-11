@@ -30,6 +30,11 @@ namespace Hybrid
         {
             return MathF.Sin(radians);
         }
+        
+        public static float Sign(float value)
+        {
+            return MathF.Sign(value);
+        }
 
         public static float Cos(float radians)
         {

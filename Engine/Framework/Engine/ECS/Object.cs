@@ -125,9 +125,9 @@ namespace Hybrid
             return ReferenceEquals(a, b);
         }
 
-        public bool Equals(Object other)
+        public bool Equals(Object obj)
         {
-            return this == other;
+            return this == obj;
         }
 
         public override bool Equals(object obj)
