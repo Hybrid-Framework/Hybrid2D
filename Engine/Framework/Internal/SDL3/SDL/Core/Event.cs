@@ -6,7 +6,7 @@ internal static unsafe partial class SDL
 	public struct Event
 	{
 		[FieldOffset(0)]
-		public uint type;
+		public SDL.EventType type;
 		
 		[FieldOffset(0)]
 		public SDL.CommonEvent common;

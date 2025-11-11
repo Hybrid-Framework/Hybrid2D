@@ -10,6 +10,7 @@ namespace Hybrid
         internal static SceneManagement SceneManagement;
         internal static GraphicsDevice GraphicsDevice;
         internal static Resources Resources;
+        internal static Input Input;
         
         internal bool Initialized { get; private set; } = false;
         internal bool IsRunning { get; private set; } = true;
@@ -38,6 +39,7 @@ namespace Hybrid
             GraphicsDevice = new GraphicsDevice(Config);
             SceneManagement = new SceneManagement(Config);
             Resources = new Resources(Config);
+            Input = new Input(Config);
         }
         
         // Engine Main Loop
@@ -82,7 +84,18 @@ namespace Hybrid
             // Send SDL Events to Events
             while (SDL.PollEvent(out SDL.Event e))
             {
-                Hybrid.Events.Event(e);
+                // Quit Application
+                if (e.type == SDL.EventType.Quit)
+                {
+                    Quit();
+                    return;
+                }
+                
+                // Module Events
+                foreach (var module in Modules)
+                {
+                    module.OnEvent(e);
+                }
             }
         }
     }

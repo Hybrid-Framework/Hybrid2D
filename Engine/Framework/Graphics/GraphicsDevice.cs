@@ -33,8 +33,6 @@ namespace Hybrid
                 
                 SDL.SetRenderVSync(Renderer, config.VSync ? 1 : 0);
             }
-            
-            Events.OnEvent += OnEvent;
         }
         
         internal override void Dispose()
@@ -171,7 +169,7 @@ namespace Hybrid
         internal Action OnMoved = null;
         
         
-        internal void OnEvent(SDL.Event e)
+        internal override void OnEvent(SDL.Event e)
         {
             SDL.EventType type = (SDL.EventType)e.type;
             
