@@ -5,43 +5,43 @@ namespace Hybrid
     // Input
     public partial class Input : Module
     {
-        internal static KeyboardDevice KeyboardDevice { get; private set; }
-        internal static GamepadDevice GamepadDevice { get; private set; }
-        internal static MouseDevice MouseDevice { get; private set; }
-        internal static TouchDevice TouchDevice { get; private set; }
-
+        internal static TouchScreen TouchScreen { get; private set; }
+        internal static Keyboard Keyboard { get; private set; }
+        internal static Gamepads Gamepads { get; private set; }
+        internal static Mouse Mouse { get; private set; }
 
         internal Input(Config config)
         {
-            KeyboardDevice = new KeyboardDevice();
-            GamepadDevice = new GamepadDevice();
-            MouseDevice = new MouseDevice();
-            TouchDevice = new TouchDevice();
+            TouchScreen = new TouchScreen();
+            Keyboard = new Keyboard();
+            Gamepads = new Gamepads();
+            Mouse = new Mouse();
         }
         
+        
         // Keyboard
-        public static bool GetKey(Key key) => KeyboardDevice.GetKey(key);
-        public static bool GetKeyUp(Key key) => KeyboardDevice.GetKeyUp(key);
-        public static bool GetKeyDown(Key key) => KeyboardDevice.GetKeyDown(key);
+        public static bool GetKeyDown(Key key) => Keyboard.GetKeyDown(key);
+        public static bool GetKeyUp(Key key) => Keyboard.GetKeyUp(key);
+        public static bool GetKey(Key key) => Keyboard.GetKey(key);
         
         // Mouse
-        public static Vector2 MousePosition => MouseDevice.Position;
-        public static Vector2 MouseScrollDelta => MouseDevice.ScrollDelta;
-        public static Vector2 MousePositionDelta => MouseDevice.PositionDelta;
-        public static bool GetMouseButton(int button) => MouseDevice.GetMouseButton(button);
-        public static bool GetMouseButtonUp(int button) => MouseDevice.GetMouseButtonUp(button);
-        public static bool GetMouseButtonDown(int button) => MouseDevice.GetMouseButtonDown(button);
+        public static bool GetMouseButtonDown(int button) => Mouse.GetMouseButtonDown(button);
+        public static bool GetMouseButtonUp(int button) => Mouse.GetMouseButtonUp(button);
+        public static bool GetMouseButton(int button) => Mouse.GetMouseButton(button);
+        public static Vector2 MousePositionDelta => Mouse.PositionDelta;
+        public static Vector2 MouseScrollDelta => Mouse.ScrollDelta;
+        public static Vector2 MousePosition => Mouse.Position;
 
         // Gamepad
-        public static float GetAxis(Axis axis) => GamepadDevice.GetAxis(axis);
-        public static bool GetButton(Button button) => GamepadDevice.GetButton(button);
-        public static bool GetButtonUp(Button button) => GamepadDevice.GetButtonUp(button);
-        public static bool GetButtonDown(Button button) => GamepadDevice.GetButtonDown(button);
+        public static bool GetButtonDown(Button button, int player = 0) => Gamepads.GetButtonDown(button, player);
+        public static bool GetButtonUp(Button button, int player = 0) => Gamepads.GetButtonUp(button, player);
+        public static bool GetButton(Button button, int player = 0) => Gamepads.GetButton(button, player);
+        public static float GetAxis(Axis axis, int player = 0) => Gamepads.GetAxis(axis, player);
         
         // Touches
-        public static int TouchCount => TouchDevice.GetTouchCount();
-        public static Touch[] Touches() => TouchDevice.GetTouches();
-        public static Touch GetTouch(int id) => TouchDevice.GetTouch(id);
+        public static Touch GetTouch(int id) => TouchScreen.GetTouch(id);
+        public static int TouchCount => TouchScreen.GetTouchCount();
+        public static Touch[] Touches() => TouchScreen.GetTouches();
     }
 
     // Device Events
@@ -49,10 +49,10 @@ namespace Hybrid
     {
         internal override void OnFrameStart()
         {
-            KeyboardDevice.Reset();
-            GamepadDevice.Reset();
-            MouseDevice.Reset();
-            TouchDevice.Reset();
+            TouchScreen.Reset();
+            Keyboard.Reset();
+            Gamepads.Reset();
+            Mouse.Reset();
         }
 
         internal override void OnEvent(SDL.Event e)
@@ -62,7 +62,9 @@ namespace Hybrid
                 // Keyboard
                 case SDL.EventType.KeyboardButtonUp:
                 case SDL.EventType.KeyboardButtonDown:
-                    KeyboardDevice.OnEvent(e);
+                case SDL.EventType.KeyboardDeviceAdded:
+                case SDL.EventType.KeyboardDeviceRemoved:
+                    Keyboard.OnEvent(e);
                     break;
                 
                 // Mouse
@@ -70,22 +72,26 @@ namespace Hybrid
                 case SDL.EventType.MouseMotion:
                 case SDL.EventType.MouseButtonUp:
                 case SDL.EventType.MouseButtonDown:
-                    MouseDevice.OnEvent(e);
+                case SDL.EventType.MouseDeviceAdded:
+                case SDL.EventType.MouseDeviceRemoved:
+                    Mouse.OnEvent(e);
                     break;
                 
                 // Gamepad
                 case SDL.EventType.GamepadButtonUp:
                 case SDL.EventType.GamepadButtonDown:
                 case SDL.EventType.GamepadAxisMotion:
-                    GamepadDevice.OnEvent(e);
+                case SDL.EventType.GamepadDeviceAdded:
+                case SDL.EventType.GamepadDeviceRemoved:
+                    Gamepads.OnEvent(e);
                     break;
                 
-                // Touch
+                // Touchscreen
                 case SDL.EventType.TouchFingerUp:
                 case SDL.EventType.TouchFingerDown:
-                case SDL.EventType.TouchFingerMotion:
                 case SDL.EventType.TouchFingerCancel:
-                    TouchDevice.OnEvent(e);
+                case SDL.EventType.TouchFingerMotion:
+                    TouchScreen.OnEvent(e);
                     break;
             }
         }
@@ -93,6 +99,11 @@ namespace Hybrid
         internal override void Dispose()
         {
             Console.WriteLine("Input Disposed");
+            
+            TouchScreen.Dispose();
+            Keyboard.Dispose();
+            Gamepads.Dispose();
+            Mouse.Dispose();
         }
     }
 }

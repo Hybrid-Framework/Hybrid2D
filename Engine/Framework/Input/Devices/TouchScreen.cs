@@ -3,7 +3,7 @@
 namespace Hybrid
 {
     // Touch Device
-    internal partial class TouchDevice : InputDevice
+    internal partial class TouchScreen : Device
     {
         internal override void OnEvent(SDL.Event e)
         {
@@ -28,7 +28,7 @@ namespace Hybrid
     
 
     // Properties & Methods
-    internal partial class TouchDevice
+    internal partial class TouchScreen
     {
         internal int GetTouchCount()
         {
