@@ -14,6 +14,11 @@ namespace Hybrid
         {
             
         }
+
+        internal virtual void OnUpdate()
+        {
+            
+        }
         
         internal virtual void Dispose()
         {

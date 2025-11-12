@@ -47,6 +47,14 @@ namespace Hybrid
     // Device Events
     public partial class Input
     {
+        internal override void OnUpdate()
+        {
+            KeyboardDevice.Reset();
+            GamepadDevice.Reset();
+            MouseDevice.Reset();
+            TouchDevice.Reset();
+        }
+
         internal override void OnEvent(SDL.Event e)
         {
             switch (e.type)

@@ -5,18 +5,29 @@ namespace Hybrid
     // Keyboard Device
     internal partial class KeyboardDevice : InputDevice
     {
+        private List<Key> Down = new List<Key>();
+        private List<Key> Press = new List<Key>();
+        private List<Key> Release = new List<Key>();
+        
+        
         internal override void OnEvent(SDL.Event e)
         {
             Console.WriteLine($"Keyboard {e.type} {e.keyboard.keyboardID}");
 
-            switch (e.type)
+            if (e.type == SDL.EventType.KeyboardButtonDown)
             {
-                case SDL.EventType.KeyboardButtonUp:
-                    break;
-
-                case SDL.EventType.KeyboardButtonDown:
-                    break;
+                Key key = (Key)e.keyboard.keyCode;
             }
+            
+            if (e.type == SDL.EventType.KeyboardButtonUp)
+            {
+                Key key = (Key)e.keyboard.keyCode;
+            }
+        }
+        
+        internal override void Reset()
+        {
+            // called at start of frame before events & Game update
         }
     }
     

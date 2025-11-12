@@ -48,6 +48,12 @@ namespace Hybrid
             // Calculate Time
             Time.BeforeFrame();
 
+            // Update Modules
+            foreach (var module in Modules)
+            {
+                module.OnUpdate();
+            }
+
             // Frame
             Events();
             Update();
