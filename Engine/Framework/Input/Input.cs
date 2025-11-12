@@ -26,8 +26,8 @@ namespace Hybrid
         
         // Mouse
         public static Vector2 MousePosition => MouseDevice.Position;
-        public static Vector2 MousePositionDelta => MouseDevice.Delta;
         public static Vector2 MouseScrollDelta => MouseDevice.ScrollDelta;
+        public static Vector2 MousePositionDelta => MouseDevice.PositionDelta;
         public static bool GetMouseButton(int button) => MouseDevice.GetMouseButton(button);
         public static bool GetMouseButtonUp(int button) => MouseDevice.GetMouseButtonUp(button);
         public static bool GetMouseButtonDown(int button) => MouseDevice.GetMouseButtonDown(button);
@@ -47,7 +47,7 @@ namespace Hybrid
     // Device Events
     public partial class Input
     {
-        internal override void OnUpdate()
+        internal override void OnFrameStart()
         {
             KeyboardDevice.Reset();
             GamepadDevice.Reset();

@@ -47,13 +47,15 @@ namespace Hybrid
         {
             // Calculate Time
             Time.BeforeFrame();
-
+            
             // Frame
+            OnFrameStart();
             OnEvent();
             OnStart();
             OnUpdate();
             OnRender();
-
+            OnFrameEnd();
+            
             // Calculate Time
             Time.AfterFrame();
         }
@@ -73,6 +75,22 @@ namespace Hybrid
             
             // Quit
             SDL.Quit();
+        }
+
+        internal void OnFrameStart()
+        {
+            foreach (var module in Modules)
+            {
+                module.OnFrameStart();
+            }
+        }
+
+        internal void OnFrameEnd()
+        {
+            foreach (var module in Modules)
+            {
+                module.OnFrameEnd();
+            }
         }
     }
     
@@ -124,7 +142,7 @@ namespace Hybrid
     {
         internal void OnUpdate()
         {
-            // Update Modules
+            // Start Modules
             foreach (var module in Modules)
             {
                 module.OnUpdate();

@@ -9,8 +9,18 @@ namespace Hybrid
         {
             Engine.Modules.Add(this);
         }
-
+        
         internal virtual void OnEvent(SDL.Event e)
+        {
+            
+        }
+
+        internal virtual void OnFrameStart()
+        {
+            
+        }
+
+        internal virtual void OnFrameEnd()
         {
             
         }
