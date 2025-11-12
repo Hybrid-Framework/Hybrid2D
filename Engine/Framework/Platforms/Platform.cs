@@ -34,11 +34,5 @@ namespace Hybrid
             Current = platform;
             Current.Bootstrap();
         }
-        
-        public void Quit()
-        {
-            // Quit
-            Engine.Quit();
-        }
     }
 }

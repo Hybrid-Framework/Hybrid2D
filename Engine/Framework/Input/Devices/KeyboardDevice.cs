@@ -12,7 +12,7 @@ namespace Hybrid
         
         internal override void OnEvent(SDL.Event e)
         {
-            Console.WriteLine($"Keyboard {e.type} {e.keyboard.keyboardID}");
+            // Console.WriteLine($"Keyboard {e.type} {e.keyboard.keyboardID}");
 
             if (e.type == SDL.EventType.KeyboardButtonDown)
             {

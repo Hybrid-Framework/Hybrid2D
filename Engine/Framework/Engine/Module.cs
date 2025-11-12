@@ -14,8 +14,18 @@ namespace Hybrid
         {
             
         }
+        
+        internal virtual void OnStart()
+        {
+            
+        }
 
         internal virtual void OnUpdate()
+        {
+            
+        }
+        
+        internal virtual void OnRender()
         {
             
         }

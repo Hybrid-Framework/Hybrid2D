@@ -7,15 +7,15 @@ namespace Hybrid
     {
         internal static List<Module> Modules = new List<Module>(); // Populated by constructors
         
-        internal static SceneManagement SceneManagement;
+        internal bool HasStarted { get; private set; }
+        internal bool Initialized { get; private set; }
+        internal bool IsRunning { get; private set; }
+        
         internal static GraphicsDevice GraphicsDevice;
         internal static Resources Resources;
         internal static Input Input;
         
-        internal bool Initialized { get; private set; } = false;
-        internal bool IsRunning { get; private set; } = true;
-        
-        internal Config Config { get; private set; }
+        internal Config Config { get; }
         
 
         internal Engine(Config config)
@@ -33,11 +33,11 @@ namespace Hybrid
             // Initialize
             if (Initialized) return;
             Initialized = true;
+            IsRunning = true;
             
             // Create Modules
             // Auto Added To Modules List
             GraphicsDevice = new GraphicsDevice(Config);
-            SceneManagement = new SceneManagement(Config);
             Resources = new Resources(Config);
             Input = new Input(Config);
         }
@@ -48,16 +48,11 @@ namespace Hybrid
             // Calculate Time
             Time.BeforeFrame();
 
-            // Update Modules
-            foreach (var module in Modules)
-            {
-                module.OnUpdate();
-            }
-
             // Frame
-            Events();
-            Update();
-            Render();
+            OnEvent();
+            OnStart();
+            OnUpdate();
+            OnRender();
 
             // Calculate Time
             Time.AfterFrame();
@@ -84,10 +79,9 @@ namespace Hybrid
     // Engine Events
     internal partial class Engine
     {
-        // Update All Events
-        internal void Events()
+        internal void OnEvent()
         {
-            // Send SDL Events to Events
+            // Process SDL Events
             while (SDL.PollEvent(out SDL.Event e))
             {
                 // Quit Application
@@ -97,7 +91,7 @@ namespace Hybrid
                     return;
                 }
                 
-                // Module Events
+                // Event Modules
                 foreach (var module in Modules)
                 {
                     module.OnEvent(e);
@@ -106,46 +100,54 @@ namespace Hybrid
         }
     }
     
+    // Engine Start
+    internal partial class Engine
+    {
+        internal void OnStart()
+        {
+            if(HasStarted) return;
+            HasStarted = true;
+            
+            // Start Modules
+            foreach (var module in Modules)
+            {
+                module.OnStart();
+            }
+            
+            // Start Game
+            Config.Game.OnStart();
+        }
+    }
+    
     // Engine Update
     internal partial class Engine
     {
-        internal void Update()
+        internal void OnUpdate()
         {
-            // For Each Scene GameObject
-            foreach (var obj in SceneManagement.ActiveScene.GetSceneObjects())
+            // Update Modules
+            foreach (var module in Modules)
             {
-                // Skip GameObject 
-                if(!obj.Enabled) continue;
-                
-                // For Each Component In GameObject
-                foreach (var component in obj.GetComponents())
-                {
-                    // Skip Component
-                    if(!component.Enabled) continue;
-                
-                    // Call OnStart
-                    if (!component.InitializedComponent)
-                    {
-                        component.InitializedComponent = true;
-                        component.OnStart();
-                    }
-                
-                    // Call OnUpdate
-                    component.OnUpdate();
-                }
+                module.OnUpdate();
             }
+            
+            // Update Game
+            Config.Game.OnUpdate();
         }
     }
     
     // Engine Render
     internal partial class Engine
     {
-        // Render All Objects
-        internal void Render()
+        internal void OnRender()
         {
-            // Graphics.ClearColor(Color.CornFlowerBlue);
-            // Graphics.DrawStats(Color.White);
-            // Graphics.Present();
+            // Render Modules
+            foreach (var module in Modules)
+            {
+                module.OnRender();
+            }
+            
+            // Render Game
+            Config.Game.OnRender();
         }
     }
 }

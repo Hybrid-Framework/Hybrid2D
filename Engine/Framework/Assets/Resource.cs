@@ -3,7 +3,7 @@
 namespace Hybrid
 {
     // Resource
-    public class Resource : Object
+    public class Resource : Hybrid.Object
     {
         
     }

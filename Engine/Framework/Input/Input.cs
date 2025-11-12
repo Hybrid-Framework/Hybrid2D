@@ -89,5 +89,10 @@ namespace Hybrid
                     break;
             }
         }
+
+        internal override void Dispose()
+        {
+            Console.WriteLine("Input Disposed");
+        }
     }
 }
