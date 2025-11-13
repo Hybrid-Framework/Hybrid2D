@@ -9,9 +9,18 @@ namespace Hybrid
         private readonly HashSet<Button> Press = new HashSet<Button>();
         private readonly HashSet<Button> Release = new HashSet<Button>();
         
-        internal SDL.Gamepad* Handle { get; private set; }
+        internal float DeadZone { get; set; } = 0.2f;
+        
+        private SDL.Gamepad* Handle { get; set; }
         internal int Player { get; }
         internal uint HID { get; }
+        
+        private float LeftStickX;
+        private float LeftStickY;
+        private float LeftTrigger;
+        private float RightStickX;
+        private float RightStickY;
+        private float RightTrigger;
         
 
         internal Gamepad(SDL.Gamepad* handle, uint hid, int player)
@@ -53,11 +62,22 @@ namespace Hybrid
             }
             
             // Gamepad Axis
-            if (e.type == SDL.EventType.GamepadButtonDown)
+            if (e.type == SDL.EventType.GamepadAxisMotion)
             {
                 if (e.gamepadAxis.gamepadID == HID)
                 {
-                    // Axis Control
+                    var axis = (Axis)e.gamepadAxis.axis;
+                    var value = e.gamepadAxis.value >= 0 ? e.gamepadAxis.value / 32767f : e.gamepadAxis.value / 32768f;
+                    var normalized = MathF.Abs(value) < DeadZone ? 0f : MathF.Sign(value) * (MathF.Abs(value) - DeadZone) / (1f - DeadZone);
+                    
+                    if (axis == Axis.LeftStickX) LeftStickX = normalized;
+                    if (axis == Axis.LeftStickY) LeftStickY = -normalized;
+                    
+                    if (axis == Axis.RightStickX) RightStickX = normalized;
+                    if (axis == Axis.RightStickY) RightStickY = -normalized;
+                    
+                    if (axis == Axis.LeftTrigger) LeftTrigger = normalized;
+                    if (axis == Axis.RightTrigger) RightTrigger = normalized;
                 }
             }
         }
@@ -79,7 +99,17 @@ namespace Hybrid
         
         internal float GetAxis(Axis axis)
         {
-            return 0;
+            return axis switch
+            {
+                Axis.LeftStickX => LeftStickX,
+                Axis.LeftStickY => LeftStickY,
+                Axis.RightStickX => RightStickX,
+                Axis.RightStickY => RightStickY,
+                Axis.LeftTrigger => LeftTrigger,
+                Axis.RightTrigger => RightTrigger,
+                
+                _ => throw new ArgumentOutOfRangeException(nameof(axis), axis, "Unknown axis type")
+            };
         }
         
         internal override void Reset()

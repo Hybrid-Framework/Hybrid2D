@@ -24,8 +24,8 @@ namespace Hybrid
     // Time Calculating
     public static partial class Time
     {
-        private static ulong _startCounter = SDL.GetPerformanceCounter();
-        private static ulong _frequency = SDL.GetPerformanceFrequency();
+        private static readonly ulong _startCounter = SDL.GetPerformanceCounter();
+        private static readonly ulong _frequency = SDL.GetPerformanceFrequency();
         private static ulong _lastCounter = _startCounter;
         private static ulong _frameStart;
         private static float _smoothed;

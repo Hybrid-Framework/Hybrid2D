@@ -7,7 +7,7 @@ namespace Hybrid
         internal bool GetButtonDown(Button button, int player) => GetGamepad(player, out var gamepad) && gamepad.GetButtonDown(button);
         internal bool GetButtonUp(Button button, int player) => GetGamepad(player, out var gamepad) && gamepad.GetButtonUp(button);
         internal bool GetButton(Button button, int player) => GetGamepad(player, out var gamepad) && gamepad.GetButton(button);
-        internal float GetAxis(Axis axis, int player) => 0;
+        internal float GetAxis(Axis axis, int player) => GetGamepad(player, out var gamepad) ? gamepad.GetAxis(axis) : 0f;
         
         internal HashSet<Gamepad> Connected = new ();
         internal const int Max = 4;

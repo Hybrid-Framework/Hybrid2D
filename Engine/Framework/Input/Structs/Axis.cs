@@ -4,11 +4,12 @@ namespace Hybrid
 {
     public enum Axis
     {
-        LeftHorizontal = 0,
-        LeftVertical = 1,
-        RightHorizontal = 2,
-        RightVertical = 3,
+        LeftStickX = 0,
+        LeftStickY = 1,
         LeftTrigger = 4,
+        
+        RightStickX = 2,
+        RightStickY = 3,
         RightTrigger = 5,
     }
 }
