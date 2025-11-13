@@ -4,7 +4,7 @@ namespace Hybrid
 {
     public class Game
     {
-        public virtual void OnStart()
+        public virtual void OnInitialize()
         {
             
         }

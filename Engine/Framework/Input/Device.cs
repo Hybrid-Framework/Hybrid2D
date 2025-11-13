@@ -3,8 +3,13 @@
 namespace Hybrid
 {
     // Input Device
-    internal class Device
+    public class Device
     {
+        internal Device()
+        {
+            
+        }
+        
         internal virtual void OnEvent(SDL.Event e)
         {
             

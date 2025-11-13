@@ -14,18 +14,8 @@ namespace Hybrid
         {
             
         }
-
-        internal virtual void OnFrameStart()
-        {
-            
-        }
-
-        internal virtual void OnFrameEnd()
-        {
-            
-        }
         
-        internal virtual void OnStart()
+        internal virtual void OnInitialize()
         {
             
         }

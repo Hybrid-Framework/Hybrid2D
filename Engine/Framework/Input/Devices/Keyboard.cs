@@ -2,51 +2,61 @@
 
 namespace Hybrid
 {
-    // Keyboard Device
-    internal partial class Keyboard : Device
+    // Keyboard API
+    public partial class Keyboard : Device
     {
         private readonly HashSet<Key> Down = new HashSet<Key>();
         private readonly HashSet<Key> Press = new HashSet<Key>();
         private readonly HashSet<Key> Release = new HashSet<Key>();
         
-        
-        internal override void OnEvent(SDL.Event e)
-        {
-            // Keyboard Press
-            if (e.type == SDL.EventType.KeyboardButtonDown)
-            {
-                var key = (Key)e.keyboard.keyCode;
-
-                if (!Press.Contains(key))
-                {
-                    Down.Add(key);
-                    Press.Add(key);
-                }
-            }
-            
-            // Keyboard Release
-            if (e.type == SDL.EventType.KeyboardButtonUp)
-            {
-                var key = (Key)e.keyboard.keyCode;
-
-                Press.Remove(key);
-                Release.Add(key);
-            }
-        }
-        
-        internal bool GetKey(Key key)
+        public bool GetKey(Key key)
         {
             return Press.Contains(key);
         }
 
-        internal bool GetKeyUp(Key key)
+        public bool GetKeyUp(Key key)
         {
             return Release.Contains(key);
         }
         
-        internal bool GetKeyDown(Key key)
+        public bool GetKeyDown(Key key)
         {
             return Down.Contains(key);
+        }
+    }
+    
+    // Keyboard Handling
+    public partial class Keyboard
+    {
+        internal override void OnEvent(SDL.Event e)
+        {
+            switch (e.type)
+            {
+                // Handle Keyboard Up
+                case SDL.EventType.KeyboardButtonUp:
+                {
+                    var key = (Key)e.keyboard.keyCode;
+
+                    Press.Remove(key);
+                    Release.Add(key);
+                    
+                    break;
+                }
+
+                // Handle Keyboard Down
+                case SDL.EventType.KeyboardButtonDown:
+                {
+                    var key = (Key)e.keyboard.keyCode;
+
+                    if (!Press.Contains(key))
+                    {
+                        Down.Add(key);
+                        Press.Add(key);
+                    }
+                    
+                    break;
+                }
+            }
         }
         
         internal override void Reset()

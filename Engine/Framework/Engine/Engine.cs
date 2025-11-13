@@ -7,7 +7,6 @@ namespace Hybrid
     {
         internal static List<Module> Modules = new List<Module>(); // Populated by constructors
         
-        internal bool HasStarted { get; private set; }
         internal bool Initialized { get; private set; }
         internal bool IsRunning { get; private set; }
         
@@ -40,6 +39,8 @@ namespace Hybrid
             GraphicsDevice = new GraphicsDevice(Config);
             Resources = new Resources(Config);
             Input = new Input(Config);
+            
+            OnInitialize();
         }
         
         // Engine Main Loop
@@ -49,12 +50,9 @@ namespace Hybrid
             Time.BeforeFrame();
             
             // Frame
-            OnFrameStart();
             OnEvent();
-            OnStart();
             OnUpdate();
             OnRender();
-            OnFrameEnd();
             
             // Calculate Time
             Time.AfterFrame();
@@ -76,22 +74,6 @@ namespace Hybrid
             // Quit
             SDL.Quit();
         }
-
-        internal void OnFrameStart()
-        {
-            foreach (var module in Modules)
-            {
-                module.OnFrameStart();
-            }
-        }
-
-        internal void OnFrameEnd()
-        {
-            foreach (var module in Modules)
-            {
-                module.OnFrameEnd();
-            }
-        }
     }
     
     // Engine Events
@@ -99,7 +81,9 @@ namespace Hybrid
     {
         internal void OnEvent()
         {
-            // Process SDL Events
+            // Gather SDL Events
+            List<SDL.Event> events = new List<SDL.Event>();
+            
             while (SDL.PollEvent(out SDL.Event e))
             {
                 // Quit Application
@@ -109,8 +93,14 @@ namespace Hybrid
                     return;
                 }
                 
-                // Event Modules
-                foreach (var module in Modules)
+                events.Add(e);
+            }
+            
+            // Foreach Module
+            events.Add(default);
+            foreach (var module in Modules)
+            {
+                foreach (var e in events)
                 {
                     module.OnEvent(e);
                 }
@@ -118,22 +108,19 @@ namespace Hybrid
         }
     }
     
-    // Engine Start
+    // Engine Initialize
     internal partial class Engine
     {
-        internal void OnStart()
+        internal void OnInitialize()
         {
-            if(HasStarted) return;
-            HasStarted = true;
-            
-            // Start Modules
+            // Initialize Modules
             foreach (var module in Modules)
             {
-                module.OnStart();
+                module.OnInitialize();
             }
             
-            // Start Game
-            Config.Game.OnStart();
+            // Initialize Game
+            Config.Game.OnInitialize();
         }
     }
     
@@ -142,7 +129,7 @@ namespace Hybrid
     {
         internal void OnUpdate()
         {
-            // Start Modules
+            // Update Modules
             foreach (var module in Modules)
             {
                 module.OnUpdate();

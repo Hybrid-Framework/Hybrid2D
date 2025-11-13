@@ -5,17 +5,17 @@ namespace App
 {
     public class Game : Hybrid.Game
     {
-        public override void OnStart()
+        public override void OnInitialize()
         {
             
         }
 
         public override void OnUpdate()
         {
-            Vector2 leftStick = new Vector2(Input.GetAxis(Axis.LeftStickX), Input.GetAxis(Axis.LeftStickY));
-            Vector2 rightStick = new Vector2(Input.GetAxis(Axis.RightStickX), Input.GetAxis(Axis.RightStickY));
-            float leftTrigger = Input.GetAxis(Axis.LeftTrigger);
-            float rightTrigger = Input.GetAxis(Axis.RightTrigger);
+            Vector2 leftStick = new Vector2(Input.Gamepad.GetAxis(Axis.LeftStickX), Input.Gamepad.GetAxis(Axis.LeftStickY));
+            Vector2 rightStick = new Vector2(Input.Gamepad.GetAxis(Axis.RightStickX), Input.Gamepad.GetAxis(Axis.RightStickY));
+            float leftTrigger = Input.Gamepad.GetAxis(Axis.LeftTrigger);
+            float rightTrigger = Input.Gamepad.GetAxis(Axis.RightTrigger);
             
             if (leftStick != Vector2.Zero)
             {
