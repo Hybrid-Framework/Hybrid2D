@@ -10,7 +10,7 @@ namespace App
         public override string Title { get; set; } = "Hybrid";
 
         public override bool Fullscreen { get; set; } = false;
-        public override bool Resizable { get; set; } = false;
+        public override bool Resizable { get; set; } = true;
         public override bool VSync { get; set; } = true;
 
         public override int Height { get; set; } = 600;

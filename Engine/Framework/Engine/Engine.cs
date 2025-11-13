@@ -40,6 +40,7 @@ namespace Hybrid
             Resources = new Resources(Config);
             Input = new Input(Config);
             
+            // Initialize
             OnInitialize();
         }
         
@@ -81,9 +82,9 @@ namespace Hybrid
     {
         internal void OnEvent()
         {
-            // Gather SDL Events
+            // Gather SDL events
             List<SDL.Event> events = new List<SDL.Event>();
-            
+    
             while (SDL.PollEvent(out SDL.Event e))
             {
                 // Quit Application
@@ -92,17 +93,26 @@ namespace Hybrid
                     Quit();
                     return;
                 }
-                
+        
+                // Add
                 events.Add(e);
             }
             
-            // Foreach Module
-            events.Add(default);
+            // Event Modules
             foreach (var module in Modules)
             {
-                foreach (var e in events)
+                if(events.Count > 0)
                 {
-                    module.OnEvent(e);
+                    // Send Events
+                    foreach(var e in events)
+                    {
+                        module.OnEvent(e);
+                    }
+                }
+                else
+                {
+                    // Call Per Frame
+                    module.OnEvent(default);
                 }
             }
         }

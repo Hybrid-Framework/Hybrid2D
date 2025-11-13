@@ -5,6 +5,16 @@ namespace Hybrid
     // Window API
     public static class Window
     {
+        public static Action<Orientation> OnOrientation = null;
+        public static Action<bool> OnFullscreen = null;
+        public static Action<Vector2> OnResized = null;
+        public static Action<Vector2> OnMoved = null;
+        public static Action OnMaximized = null;
+        public static Action OnMinimized = null;
+        public static Action OnUnfocus = null;
+        public static Action OnFocus = null;
+        
+        
         public static int Fps
         {
             get => Engine.GraphicsDevice.Fps;

@@ -14,8 +14,10 @@ internal static unsafe partial class SDL
         MouseExit = 525,
         Focused = 526,
         Unfocused = 527,
-        SafeAreaChanged = 533,
-        OrientationChanged = 337,
+        SafeArea = 533,
+        Orientation = 337,
+        EnterFullscreen = 535,
+        ExitFullscreen = 536,
         
         KeyboardButtonUp = 769,
         KeyboardButtonDown = 768,

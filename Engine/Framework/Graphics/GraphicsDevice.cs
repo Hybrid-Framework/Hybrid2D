@@ -3,7 +3,7 @@
 namespace Hybrid
 {
     // Graphics Device
-    internal unsafe partial class GraphicsDevice : Module
+    public unsafe partial class GraphicsDevice : Module
     {
         internal SDL.Renderer* Renderer { get; private set; }
         internal SDL.Window* Window { get; private set; }
@@ -45,7 +45,7 @@ namespace Hybrid
     }
     
     // Properties
-    internal unsafe partial class GraphicsDevice
+    public unsafe partial class GraphicsDevice
     {
         internal int Fps
         {
@@ -156,28 +156,76 @@ namespace Hybrid
     }
 
     // Events
-    internal unsafe partial class GraphicsDevice
+    public unsafe partial class GraphicsDevice
     {
-        internal Action OnOrientation = null;
-        internal Action OnMaximized = null;
-        internal Action OnMinimized = null;
-        internal Action OnResized = null;
-        internal Action OnUnfocus = null;
-        internal Action OnOpened = null;
-        internal Action OnClosed = null;
-        internal Action OnFocus = null;
-        internal Action OnMoved = null;
-        
-        
         internal override void OnEvent(SDL.Event e)
         {
-            SDL.EventType type = (SDL.EventType)e.type;
-            
-            if (type == SDL.EventType.OrientationChanged) OnOrientation?.Invoke();
-            if (type == SDL.EventType.Unfocused) OnUnfocus?.Invoke();
-            if (type == SDL.EventType.Resized) OnResized?.Invoke();
-            if (type == SDL.EventType.Focused) OnFocus?.Invoke();
-            if (type == SDL.EventType.Moved) OnMoved?.Invoke();
+            switch (e.type)
+            {
+                // Handle Orientation Event
+                case SDL.EventType.Orientation:
+                {
+                    var id = SDL.GetWindowID(Window);
+                    Hybrid.Window.OnOrientation?.Invoke((Orientation)SDL.GetCurrentDisplayOrientation(id));
+                    break;
+                }
+
+                // Handle Resize Event
+                case SDL.EventType.Resized:
+                {
+                    Hybrid.Window.OnResized?.Invoke(Size);
+                    break;
+                }
+
+                // Handle Move Event
+                case SDL.EventType.Moved:
+                {
+                    Hybrid.Window.OnMoved?.Invoke(Position);
+                    break;
+                }
+
+                // Handle Maximize Event
+                case SDL.EventType.Maximized:
+                {
+                    Hybrid.Window.OnMaximized?.Invoke();
+                    break;
+                }
+                
+                // Handle Minimize Event
+                case SDL.EventType.Minimized:
+                {
+                    Hybrid.Window.OnMinimized?.Invoke();
+                    break;
+                }
+
+                // Handle Focused Event
+                case SDL.EventType.Focused:
+                {
+                    Hybrid.Window.OnFocus?.Invoke();
+                    break;
+                }
+                
+                // Handle Unfocused Event
+                case SDL.EventType.Unfocused:
+                {
+                    Hybrid.Window.OnUnfocus?.Invoke();
+                    break;
+                }
+
+                // Handle Enter Fullscreen
+                case SDL.EventType.EnterFullscreen:
+                {
+                    Hybrid.Window.OnFullscreen?.Invoke(true);
+                    break;
+                }
+                
+                // Handle Exit Fullscreen
+                case SDL.EventType.ExitFullscreen:
+                {
+                    Hybrid.Window.OnFullscreen?.Invoke(false);
+                    break;
+                }
+            }
         }
     }
 }

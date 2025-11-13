@@ -7,34 +7,16 @@ namespace App
     {
         public override void OnInitialize()
         {
-            
+            Window.OnOrientation += orientation => Console.WriteLine(orientation);
+            Window.OnMoved += position => Console.WriteLine(position);
+            Window.OnResized += size => Console.WriteLine(size);
         }
 
         public override void OnUpdate()
         {
-            Vector2 leftStick = new Vector2(Input.Gamepad.GetAxis(Axis.LeftStickX), Input.Gamepad.GetAxis(Axis.LeftStickY));
-            Vector2 rightStick = new Vector2(Input.Gamepad.GetAxis(Axis.RightStickX), Input.Gamepad.GetAxis(Axis.RightStickY));
-            float leftTrigger = Input.Gamepad.GetAxis(Axis.LeftTrigger);
-            float rightTrigger = Input.Gamepad.GetAxis(Axis.RightTrigger);
-            
-            if (leftStick != Vector2.Zero)
+            foreach (var touch in Input.TouchScreen.GetTouches())
             {
-                Console.WriteLine($"LS: {leftStick}");
-            }
-            
-            if (rightStick != Vector2.Zero)
-            {
-                Console.WriteLine($"RS: {rightStick}");
-            }
-
-            if (leftTrigger > 0)
-            {
-                Console.WriteLine($"LT: {leftTrigger}");
-            }
-            
-            if (rightTrigger > 0)
-            {
-                Console.WriteLine($"RT: {rightTrigger}");
+                Console.WriteLine($"Touch: {touch.TouchID} Phase: {touch.X} {touch.Y}");
             }
         }
 
