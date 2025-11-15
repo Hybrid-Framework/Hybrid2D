@@ -8,7 +8,6 @@ namespace Hybrid
         private static readonly Dictionary<string, Resource> Resources = new();
         public static string Root = "Content";
         
-
         internal Content(Config config)
         {
             
@@ -39,17 +38,25 @@ namespace Hybrid
             // Fetch resource from cache
             if (Resources.TryGetValue(path, out var cached))
             {
-                // Return cached
-                return cached as T;
+                // If exists
+                if (!cached.Disposed)
+                {
+                    // Return cached
+                    return cached as T;
+                }
+                
+                // If disposed elsewhere...
+                // Clear from cache and add new entry
+                Unload(path);
             }
 
-            // Create resource
+            // Create new resource
             Resource resource = CreateResource<T>(path);
             
-            // Cache resource
+            // Cache new resource
             Resources[path] = resource;
 
-            // Return resource
+            // Return new resource
             return resource as T;
         }
         
@@ -75,11 +82,19 @@ namespace Hybrid
             if (typeof(T) == typeof(Texture))
             {
                 var instance = CreateTextureResource(path);
-
+                
                 if (instance != null)
-                {
                     instance.Name = path;
-                }
+                
+                return instance as T;
+            }
+            // Create Audio Resource
+            if (typeof(T) == typeof(Sound))
+            {
+                var instance = CreateAudioResource(path);
+                
+                if (instance != null)
+                    instance.Name = path;
                 
                 return instance as T;
             }
@@ -95,13 +110,19 @@ namespace Hybrid
     {
         private static Texture CreateTextureResource(string path)
         {
-            // Load surface
+            // Load surface From File
             var surface = SDL_image.Load(path);
-            if (surface == null) throw new Exception($"Could not load surface '{path}': {SDL.GetError()}");
+            
+            // Invalid Surface
+            if (surface == null)
+                throw new Exception($"Could not load surface '{path}': {SDL.GetError()}");
 
             // Convert surface
             var converted = SDL.ConvertSurface(surface, SDL.PixelFormat.RGBA32);
-            if (converted == null) throw new Exception($"Failed to convert surface '{path}' to RGBA32: {SDL.GetError()}");
+            
+            // Invalid Surface
+            if (converted == null)
+                throw new Exception($"Failed to convert surface '{path}' to RGBA32: {SDL.GetError()}");
             
             // Create Texture from surface
             int height = converted->height;
@@ -119,6 +140,26 @@ namespace Hybrid
             // Destroy surfaces
             SDL.DestroySurface(converted);
             SDL.DestroySurface(surface);
+            
+            // Return
+            return instance;
+        }
+    }
+    
+    // Audio Resources
+    public unsafe partial class Content
+    {
+        private static Sound CreateAudioResource(string path)
+        {
+            // Load Audio From File
+            var sound = SDL_mixer.LoadAudio(Engine.AudioDevice.Handle, path, false);
+            
+            // Invalid
+            if (sound == null)
+                throw new Exception($"Could not load audio '{path}': {SDL.GetError()}");
+
+            // Create Audio
+            Sound instance = new Sound(sound);
             
             // Return
             return instance;

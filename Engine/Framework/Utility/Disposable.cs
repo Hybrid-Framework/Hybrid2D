@@ -5,7 +5,7 @@ namespace Hybrid
     // Disposable
     public abstract class Disposable : IDisposable
     {
-        private bool Disposed { get; set; }
+        internal bool Disposed { get; private set; }
         
         
         public void Dispose()

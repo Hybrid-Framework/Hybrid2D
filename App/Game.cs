@@ -5,23 +5,13 @@ namespace App
 {
     public class Game : Hybrid.Game
     {
-        private Texture texture;
         public override void OnInitialize()
         {
-            texture = new Texture(16, 16);
-
-            for (int x = 0; x < texture.Width; x++)
-            {
-                for (int y = 0; y < texture.Height; y++)
-                {
-                    texture.SetPixel(x, y, Color.Purple);
-                }
-            }
-            texture.Apply();
+            var sound1 = Content.Load<Sound>("Sounds/Sound.mp3");
+            sound1.Dispose();
             
-            texture.Dispose();
-            
-            
+            var sound2 = Content.Load<Sound>("Sounds/Sound.mp3");
+            Audio.Play(sound2);
         }
 
         public override void OnUpdate()
@@ -33,7 +23,6 @@ namespace App
         {
             Graphics.ClearColor(Color.CornFlowerBlue);
             Graphics.DrawStats(Color.White);
-            Graphics.DrawTexture(texture);
             Graphics.Present();
         }
     }
