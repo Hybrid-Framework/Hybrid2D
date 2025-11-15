@@ -30,7 +30,7 @@ namespace Hybrid
     }
 
     // Properties
-    internal unsafe partial class AudioDevice : Module
+    internal unsafe partial class AudioDevice
     {
         internal float Volume
         {

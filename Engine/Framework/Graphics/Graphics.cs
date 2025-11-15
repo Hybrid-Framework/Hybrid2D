@@ -26,6 +26,29 @@ namespace Hybrid
             SDL.RenderTexture(Engine.GraphicsDevice.Renderer, texture.Handle, null, Rect.SDLFRect(rect));
         }
         
+        public static void DrawText(Font font, string text, int x, int y, Color color)
+        {
+            var surface = SDL_ttf.RenderTextSolid(font.Handle, text, Color.SDLColor(color));
+
+            if (surface != null)
+            {
+                var texture = SDL.CreateTextureFromSurface(Engine.GraphicsDevice.Renderer, surface);
+                
+                var rect = new SDL.FRect()
+                {
+                    x = x,
+                    y = y,
+                    w = texture->width,
+                    h = texture->height
+                };
+                
+                SDL.RenderTexture(Engine.GraphicsDevice.Renderer, texture, null, rect);
+                SDL.DestroyTexture(texture);
+            }
+            
+            SDL.DestroySurface(surface);
+        }
+        
         public static void SetColor(Color color)
         {
             SDL.SetRenderDrawColor(Engine.GraphicsDevice.Renderer, color.R, color.G, color.B, color.A);

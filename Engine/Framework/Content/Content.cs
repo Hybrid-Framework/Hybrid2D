@@ -98,6 +98,16 @@ namespace Hybrid
                 
                 return instance as T;
             }
+            // Create Font Resource
+            if (typeof(T) == typeof(Font))
+            {
+                var instance = CreateFontResource(path);
+                
+                if (instance != null)
+                    instance.Name = path;
+                
+                return instance as T;
+            }
             else
             {
                 throw new Exception($"Unsupported asset type {typeof(T)}");
@@ -160,6 +170,26 @@ namespace Hybrid
 
             // Create Audio
             Sound instance = new Sound(sound);
+            
+            // Return
+            return instance;
+        }
+    }
+    
+    // Create Font Resources
+    public unsafe partial class Content
+    {
+        private static Font CreateFontResource(string path)
+        {
+            // Load Font From File
+            var font = SDL_ttf.OpenFont(path, 32);
+            
+            // Invalid
+            if (font == null)
+                throw new Exception($"Could not load audio '{path}': {SDL.GetError()}");
+
+            // Create Audio
+            Font instance = new Font(font);
             
             // Return
             return instance;

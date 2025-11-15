@@ -5,13 +5,15 @@ namespace App
 {
     public class Game : Hybrid.Game
     {
+        private Font Font;
+        private Sound Sound;
+        
         public override void OnInitialize()
         {
-            var sound1 = Content.Load<Sound>("Sounds/Sound.mp3");
-            sound1.Dispose();
+            Sound = Content.Load<Sound>("Sounds/Sound.wav");
+            Font = Content.Load<Font>("Fonts/Font.ttf");
             
-            var sound2 = Content.Load<Sound>("Sounds/Sound.mp3");
-            Audio.Play(sound2);
+            Audio.Play(Sound);
         }
 
         public override void OnUpdate()
@@ -22,7 +24,7 @@ namespace App
         public override void OnRender()
         {
             Graphics.ClearColor(Color.CornFlowerBlue);
-            Graphics.DrawStats(Color.White);
+            Graphics.DrawText(Font, $"{(int)Time.Fps}", 20, 0, Color.White);
             Graphics.Present();
         }
     }
