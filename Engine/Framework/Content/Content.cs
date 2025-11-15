@@ -13,6 +13,7 @@ namespace Hybrid
             
         }
         
+        
         internal override void OnDispose()
         {
             Console.WriteLine("Resources Disposed");
@@ -84,6 +85,7 @@ namespace Hybrid
                 
                 return instance as T;
             }
+            
             // Create Audio Resource
             if (typeof(T) == typeof(Sound))
             {
@@ -94,6 +96,7 @@ namespace Hybrid
                 
                 return instance as T;
             }
+            
             // Create Font Resource
             if (typeof(T) == typeof(Font))
             {
@@ -104,10 +107,9 @@ namespace Hybrid
                 
                 return instance as T;
             }
-            else
-            {
-                throw new Exception($"Unsupported asset type {typeof(T)}");
-            }
+            
+            // Unknown Resource
+            throw new Exception($"Unsupported resource type {typeof(T)}");
         }
     }
     
@@ -121,16 +123,16 @@ namespace Hybrid
             
             // Invalid Surface
             if (surface == null)
-                throw new Exception($"Could not load surface '{path}': {SDL.GetError()}");
+                throw new Exception($"Could not load texture '{path}': {SDL.GetError()}");
 
             // Convert surface
             var converted = SDL.ConvertSurface(surface, SDL.PixelFormat.RGBA32);
             
             // Invalid Surface
             if (converted == null)
-                throw new Exception($"Failed to convert surface '{path}' to RGBA32: {SDL.GetError()}");
+                throw new Exception($"Failed to convert texture '{path}' to RGBA32: {SDL.GetError()}");
             
-            // Create Texture from surface
+            // Create Texture
             int height = converted->height;
             int width = converted->width;
             int pitch = converted->pitch;
@@ -160,7 +162,7 @@ namespace Hybrid
             // Load Audio From File
             var sound = SDL_mixer.LoadAudio(Engine.AudioDevice.Handle, path, false);
             
-            // Invalid
+            // Invalid Audio
             if (sound == null)
                 throw new Exception($"Could not load audio '{path}': {SDL.GetError()}");
 
@@ -172,7 +174,7 @@ namespace Hybrid
         }
     }
     
-    // Create Font Resources
+    // Font Resources
     public unsafe partial class Content
     {
         private static Font CreateFontResource(string path)
@@ -180,11 +182,11 @@ namespace Hybrid
             // Load Font From File
             var font = SDL_ttf.OpenFont(path, 32);
             
-            // Invalid
+            // Invalid Font
             if (font == null)
-                throw new Exception($"Could not load audio '{path}': {SDL.GetError()}");
+                throw new Exception($"Could not load font '{path}': {SDL.GetError()}");
 
-            // Create Audio
+            // Create Font
             Font instance = new Font(font);
             
             // Return
