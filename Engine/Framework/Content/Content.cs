@@ -38,16 +38,12 @@ namespace Hybrid
             // Fetch resource from cache
             if (Resources.TryGetValue(path, out var cached))
             {
-                // If exists
+                // If not disposed
                 if (!cached.Disposed)
                 {
                     // Return cached
                     return cached as T;
                 }
-                
-                // If disposed elsewhere...
-                // Clear from cache and add new entry
-                Unload(path);
             }
 
             // Create new resource
