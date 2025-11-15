@@ -5,27 +5,26 @@ namespace Hybrid
     // Texture
     public unsafe partial class Texture : Resource
     {
+        internal int MaxTextureSize { get; set; } = 4096;
         internal SDL.Texture* Handle { set; get; }
         
-        private const int MaxTextureSize = 4096;
-        
 
-        public Texture(Texture source, TextureAccess access = TextureAccess.Static, TextureScaleMode scaleMode = TextureScaleMode.Pixel)
+        public Texture(Texture texture, TextureAccess access = TextureAccess.Static, TextureScaleMode scaleMode = TextureScaleMode.Pixel)
         {
             // Invalid Source
-            if (source == null)
-                throw new ArgumentNullException(nameof(source));
+            if (texture == null)
+                throw new ArgumentNullException(nameof(texture));
 
             // Invalid Texture Size
-            if (source.Width > MaxTextureSize || source.Height > MaxTextureSize)
+            if (texture.Width > MaxTextureSize || texture.Height > MaxTextureSize)
                 throw new ArgumentException($"Texture can't be larger than '({MaxTextureSize}x{MaxTextureSize})'");
 
             // Create SDL Texture
             {
-                Width = source.Width;
-                Height = source.Height;
+                Width = texture.Width;
+                Height = texture.Height;
                 Pixels = new byte[Width * Height * 4];
-                Array.Copy(source.Pixels, Pixels, Pixels.Length);
+                Array.Copy(texture.Pixels, Pixels, Pixels.Length);
                 Handle = SDL.CreateTexture(
                     Engine.GraphicsDevice.Renderer,
                     (SDL.PixelFormat)Format,

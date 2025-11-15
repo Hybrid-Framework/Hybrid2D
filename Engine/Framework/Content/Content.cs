@@ -5,7 +5,7 @@ namespace Hybrid
     // Content API
     public partial class Content : Module
     {
-        private static readonly Dictionary<string, Resource> Cache = new();
+        private static readonly Dictionary<string, Resource> Resources = new();
         public static string Root = "Content";
         
 
@@ -18,12 +18,12 @@ namespace Hybrid
         {
             Console.WriteLine("Resources Disposed");
 
-            foreach (var resource in Cache)
+            foreach (var resource in Resources)
             {
                 resource.Value.OnDispose();
             }
 
-            Cache.Clear();
+            Resources.Clear();
         }
     }
     
@@ -31,24 +31,41 @@ namespace Hybrid
     public partial class Content
     {
         // Generic Load Resource
-        public static T Create<T>(string path) where T : Resource
+        public static T Load<T>(string path) where T : Resource
         {
             // Resolve path
             path = Path.Combine(FileSystem.BasePath, Path.Combine(Root, path));
 
-            // Fetch from cache
-            if (Cache.TryGetValue(path, out var cached))
+            // Fetch resource from cache
+            if (Resources.TryGetValue(path, out var cached))
             {
-                // Return new instance
-                return CreateInstance<T>(cached);
+                // Return cached
+                return cached as T;
             }
 
             // Create resource
             Resource resource = CreateResource<T>(path);
-            Cache[path] = resource;
+            
+            // Cache resource
+            Resources[path] = resource;
 
-            // Return new instance
-            return CreateInstance<T>(resource);
+            // Return resource
+            return resource as T;
+        }
+        
+        // Generic Unload Resource
+        public static void Unload(string path)
+        {
+            // Find Resource
+            if (Resources.ContainsKey(path))
+            {
+                // Unload Resource
+                var resource = Resources[path];
+                resource.Dispose();
+                
+                // Remove
+                Resources.Remove(path);
+            }
         }
 
         // Generic Create Resource
@@ -58,30 +75,13 @@ namespace Hybrid
             if (typeof(T) == typeof(Texture))
             {
                 var instance = CreateTextureResource(path);
-                instance.Name = path;
-                
-                return instance as T;
-            }
-            else
-            {
-                throw new Exception($"Unsupported asset type {typeof(T)}");
-            }
-        }
 
-        // Generic Create Instance
-        private static T CreateInstance<T>(Resource resource) where T : Resource
-        {
-            // Create Texture Instance
-            if (typeof(T) == typeof(Texture))
-            {
-                var instance = new Texture((Texture)resource) as T;
-                
                 if (instance != null)
                 {
-                    instance.Name = resource.Name;
+                    instance.Name = path;
                 }
                 
-                return instance;
+                return instance as T;
             }
             else
             {
