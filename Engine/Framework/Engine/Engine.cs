@@ -11,7 +11,7 @@ namespace Hybrid
         internal bool IsRunning { get; private set; }
         
         internal static GraphicsDevice GraphicsDevice;
-        internal static Resources Resources;
+        internal static Content Content;
         
         internal Config Config { get; }
         
@@ -36,7 +36,7 @@ namespace Hybrid
             // Create Modules
             // Auto Added To Modules List
             GraphicsDevice = new GraphicsDevice(Config);
-            Resources = new Resources(Config);
+            Content = new Content(Config);
             
             // Initialize
             OnInitialize();

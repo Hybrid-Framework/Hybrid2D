@@ -9,11 +9,11 @@
             <Link>%(Filename)%(Extension)</Link>
         </EmbeddedResource>
         
-        <Content Include="..\..\App\Assets\**\*">
-            <TargetPath>Assets\%(RecursiveDir)%(Filename)%(Extension)</TargetPath>
+        <Content Include="..\..\App\Content\**\*">
+            <TargetPath>Content\%(RecursiveDir)%(Filename)%(Extension)</TargetPath>
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <Link>Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
+            <Link>Content\%(RecursiveDir)%(Filename)%(Extension)</Link>
         </Content>
     </ItemGroup>
     

@@ -1,16 +1,15 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System;
+﻿using System;
 
 namespace Hybrid
 {
-    // Resources
-    public partial class Resources : Module
+    // Content API
+    public partial class Content : Module
     {
         private static readonly Dictionary<string, Resource> Cache = new();
-        public static string Root = "Assets";
+        public static string Root = "Content";
+        
 
-        internal Resources(Config config)
+        internal Content(Config config)
         {
 
         }
@@ -21,7 +20,6 @@ namespace Hybrid
 
             foreach (var resource in Cache)
             {
-                Console.WriteLine($"Resource '{resource.Value.Name}' Disposed");
                 resource.Value.OnDispose();
             }
 
@@ -29,8 +27,8 @@ namespace Hybrid
         }
     }
     
-    // Resources API
-    public partial class Resources
+    // Content API
+    public partial class Content
     {
         // Generic Load Resource
         public static T Load<T>(string path) where T : Resource
@@ -86,7 +84,7 @@ namespace Hybrid
     }
     
     // Texture Resources
-    public unsafe partial class Resources
+    public unsafe partial class Content
     {
         private static Texture CreateTextureResource(string path)
         {
