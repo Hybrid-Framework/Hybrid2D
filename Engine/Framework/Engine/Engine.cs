@@ -67,7 +67,7 @@ namespace Hybrid
             // Dispose Modules
             foreach (var module in Modules)
             {
-                module.OnDispose();
+                module.Dispose();
             }
             
             // Quit

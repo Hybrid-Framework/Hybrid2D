@@ -2,15 +2,21 @@
 
 namespace Hybrid
 {
+    // Disposable
     public abstract class Disposable : IDisposable
     {
-        public bool Disposed { get; private set; }
+        private bool Disposed { get; set; }
         
         
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+        
+        internal virtual void OnDispose()
+        {
+            // What happens on dispose?
         }
 
         protected virtual void Dispose(bool disposing)
@@ -22,11 +28,6 @@ namespace Hybrid
             {
                 OnDispose();
             }
-        }
-
-        internal virtual void OnDispose()
-        {
-            
         }
 
         ~Disposable()

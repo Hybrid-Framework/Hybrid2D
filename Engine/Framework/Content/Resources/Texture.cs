@@ -7,7 +7,7 @@ namespace Hybrid
     {
         internal SDL.Texture* Handle { set; get; }
         
-        public const int MaxTextureSize = 4096;
+        private const int MaxTextureSize = 4096;
         
 
         public Texture(Texture source, TextureAccess access = TextureAccess.Static, TextureScaleMode scaleMode = TextureScaleMode.Pixel)
@@ -70,10 +70,15 @@ namespace Hybrid
 
         internal override void OnDispose()
         {
+            Console.WriteLine($"Texture '{Name}' Disposed");
+            
             if (Handle != null)
             {
-                // Destroy SDL Texture
                 SDL.DestroyTexture(Handle);
+                Array.Clear(Pixels);
+                Handle = null;
+                Height = 0;
+                Width = 0;
             }
         }
     }
@@ -166,17 +171,19 @@ namespace Hybrid
         public int Width
         {
             get;
+            internal set;
         }
 
         public int Height
         {
             get;
+            internal set;
         }
 
         public byte[] Pixels
         {
             get;
-            set;
+            internal set;
         }
 
         public TextureFormat Format

@@ -11,7 +11,7 @@ namespace Hybrid
 
         internal Content(Config config)
         {
-
+            
         }
         
         internal override void OnDispose()
@@ -31,7 +31,7 @@ namespace Hybrid
     public partial class Content
     {
         // Generic Load Resource
-        public static T Load<T>(string path) where T : Resource
+        public static T Create<T>(string path) where T : Resource
         {
             // Resolve path
             path = Path.Combine(FileSystem.BasePath, Path.Combine(Root, path));
@@ -74,7 +74,14 @@ namespace Hybrid
             // Create Texture Instance
             if (typeof(T) == typeof(Texture))
             {
-                return new Texture((Texture)resource) as T;
+                var instance = new Texture((Texture)resource) as T;
+                
+                if (instance != null)
+                {
+                    instance.Name = resource.Name;
+                }
+                
+                return instance;
             }
             else
             {
