@@ -15,22 +15,7 @@ namespace Hybrid
             
         }
         
-        internal virtual void OnInitialize()
-        {
-            
-        }
-
-        internal virtual void OnUpdate()
-        {
-            
-        }
-        
-        internal virtual void OnRender()
-        {
-            
-        }
-        
-        internal virtual void Dispose()
+        internal virtual void OnDispose()
         {
             
         }

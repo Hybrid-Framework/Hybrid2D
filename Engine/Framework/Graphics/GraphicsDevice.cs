@@ -35,7 +35,7 @@ namespace Hybrid
             }
         }
         
-        internal override void Dispose()
+        internal override void OnDispose()
         {
             Console.WriteLine("Graphics Device Disposed");
             

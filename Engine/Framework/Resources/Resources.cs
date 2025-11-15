@@ -15,14 +15,14 @@ namespace Hybrid
 
         }
         
-        internal override void Dispose()
+        internal override void OnDispose()
         {
             Console.WriteLine("Resources Disposed");
 
             foreach (var resource in Cache)
             {
                 Console.WriteLine($"Resource '{resource.Value.Name}' Disposed");
-                resource.Value.Dispose();
+                resource.Value.OnDispose();
             }
 
             Cache.Clear();

@@ -68,7 +68,7 @@ namespace Hybrid
             Apply();
         }
 
-        internal override void Dispose()
+        internal override void OnDispose()
         {
             if (Handle != null)
             {

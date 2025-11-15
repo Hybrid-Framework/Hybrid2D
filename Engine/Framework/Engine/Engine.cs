@@ -12,7 +12,6 @@ namespace Hybrid
         
         internal static GraphicsDevice GraphicsDevice;
         internal static Resources Resources;
-        internal static Input Input;
         
         internal Config Config { get; }
         
@@ -38,7 +37,6 @@ namespace Hybrid
             // Auto Added To Modules List
             GraphicsDevice = new GraphicsDevice(Config);
             Resources = new Resources(Config);
-            Input = new Input(Config);
             
             // Initialize
             OnInitialize();
@@ -69,7 +67,7 @@ namespace Hybrid
             // Dispose Modules
             foreach (var module in Modules)
             {
-                module.Dispose();
+                module.OnDispose();
             }
             
             // Quit
@@ -123,12 +121,6 @@ namespace Hybrid
     {
         internal void OnInitialize()
         {
-            // Initialize Modules
-            foreach (var module in Modules)
-            {
-                module.OnInitialize();
-            }
-            
             // Initialize Game
             Config.Game.OnInitialize();
         }
@@ -139,12 +131,6 @@ namespace Hybrid
     {
         internal void OnUpdate()
         {
-            // Update Modules
-            foreach (var module in Modules)
-            {
-                module.OnUpdate();
-            }
-            
             // Update Game
             Config.Game.OnUpdate();
         }
@@ -155,12 +141,6 @@ namespace Hybrid
     {
         internal void OnRender()
         {
-            // Render Modules
-            foreach (var module in Modules)
-            {
-                module.OnRender();
-            }
-            
             // Render Game
             Config.Game.OnRender();
         }
