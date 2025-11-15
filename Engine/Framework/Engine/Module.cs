@@ -3,7 +3,7 @@
 namespace Hybrid
 {
     // Module
-    public class Module
+    public class Module : Disposable
     {
         internal Module()
         {
@@ -11,11 +11,6 @@ namespace Hybrid
         }
         
         internal virtual void OnEvent(SDL.Event e)
-        {
-            
-        }
-        
-        internal virtual void OnDispose()
         {
             
         }
