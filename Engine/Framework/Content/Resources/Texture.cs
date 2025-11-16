@@ -69,16 +69,15 @@ namespace Hybrid
 
         internal override void OnDispose()
         {
-            Console.WriteLine($"Texture '{Name}' Disposed");
-            
             if (Handle != null)
             {
                 SDL.DestroyTexture(Handle);
-                Array.Clear(Pixels);
                 Handle = null;
-                Height = 0;
-                Width = 0;
             }
+            
+            Array.Clear(Pixels);
+            Height = 0;
+            Width = 0;
         }
     }
     

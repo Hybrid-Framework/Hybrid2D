@@ -5,7 +5,6 @@ namespace Hybrid
     public unsafe class Sound : Resource
     {
         internal SDL.Audio* Handle { get; private set; }
-        
 
         internal Sound(SDL.Audio* handle)
         {

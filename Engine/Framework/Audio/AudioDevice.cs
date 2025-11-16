@@ -21,6 +21,8 @@ namespace Hybrid
 
         internal override void OnDispose()
         {
+            Console.WriteLine("Audio Device Disposed");
+            
             if (Handle != null)
             {
                 SDL_mixer.DestroyMixer(Handle);
