@@ -5,25 +5,26 @@ namespace App
 {
     public class Game : Hybrid.Game
     {
+        private Font Font;
+        private Sound Sound;
+        
         public override void OnInitialize()
         {
-            Window.OnOrientation += orientation => Console.WriteLine(orientation);
-            Window.OnMoved += position => Console.WriteLine(position);
-            Window.OnResized += size => Console.WriteLine(size);
+            Sound = Content.Load<Sound>("Sounds/Sound.wav");
+            Font = Content.Load<Font>("Fonts/Font.ttf");
+            
+            Audio.Play(Sound);
         }
 
         public override void OnUpdate()
         {
-            foreach (var touch in Input.TouchScreen.GetTouches())
-            {
-                Console.WriteLine($"Touch: {touch.TouchID} Phase: {touch.X} {touch.Y}");
-            }
+            
         }
 
         public override void OnRender()
         {
             Graphics.ClearColor(Color.CornFlowerBlue);
-            Graphics.DrawStats(Color.White);
+            Graphics.DrawText(Font, $"{(int)Time.Fps}", 20, 0, Color.White);
             Graphics.Present();
         }
     }
