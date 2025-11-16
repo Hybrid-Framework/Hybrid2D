@@ -17,8 +17,11 @@ namespace Hybrid
     }
     
     // Engine Core
-    internal partial class Engine
+    internal unsafe partial class Engine
     {
+        private SDL.Window* window;
+        private SDL.Renderer* renderer;
+        
         // Engine Initialize
         internal void Initialize()
         {
@@ -26,6 +29,17 @@ namespace Hybrid
             if (Initialized) return;
             Initialized = true;
             IsRunning = true;
+            
+            // Temp Window For Testing
+            SDL.WindowFlags flags = SDL.WindowFlags.HighPixelDensity;
+            
+            if (Platform.Current.PlatformDevice == PlatformDevice.Mobile)
+            {
+                flags |= SDL.WindowFlags.Fullscreen;
+            }
+            
+            window = SDL.CreateWindow("test", 600, 600, flags);
+            renderer = SDL.CreateRenderer(window, null);
             
             // Initialize
             OnInitialize();
@@ -90,10 +104,14 @@ namespace Hybrid
     }
     
     // Engine Render
-    internal partial class Engine
+    internal unsafe partial class Engine
     {
         internal void OnRender()
         {
+            SDL.SetRenderDrawColor(renderer, 255, 128, 128, 255);
+            SDL.RenderClear(renderer);
+            SDL.RenderPresent(renderer);
+            
             // Render Game
             Config.Game.OnRender();
         }
