@@ -3,7 +3,7 @@
 namespace Hybrid
 {
     // Vector2
-    public partial struct Vector2
+    public partial struct Vector2 : IEquatable<Vector2>
     {
         public static readonly Vector2 PositiveInfinity = new(float.PositiveInfinity, float.PositiveInfinity);
         public static readonly Vector2 NegativeInfinity = new(float.NegativeInfinity, float.NegativeInfinity);
@@ -29,6 +29,254 @@ namespace Hybrid
         public Vector2()
         {
             
+        }
+    }
+
+    // Methods
+    public partial struct Vector2
+    {
+        public float Magnitude
+        {
+            get
+            {
+                return Maths.Sqrt(SqrMagnitude);
+            }
+        }
+
+        public float SqrMagnitude
+        {
+            get
+            {
+                return (X * X + Y * Y);
+            }
+        }
+
+        public Vector2 Normalized
+        {
+            get
+            {
+                float mag = Magnitude;
+
+                if (mag > Maths.Epsilon)
+                {
+                    return this / mag;
+                }
+                
+                return Zero;
+            }
+        }
+        
+        public static float Angle(Vector2 from, Vector2 to)
+        {
+            float denominator = Maths.Sqrt(from.SqrMagnitude * to.SqrMagnitude);
+
+            if (denominator < Maths.Epsilon)
+            {
+                return 0f;
+            }
+
+            float dot = Maths.Clamp(Dot(from, to) / denominator, -1f, 1f);
+            return Maths.Acos(dot) * Maths.Rad2Deg;
+        }
+
+        public static Vector2 ClampMagnitude(Vector2 vector, float maxLength)
+        {
+            float sqrMag = vector.SqrMagnitude;
+            
+            if (sqrMag > maxLength * maxLength)
+            {
+                float mag = Maths.Sqrt(sqrMag);
+                return vector / mag * maxLength;
+            }
+            
+            return vector;
+        }
+
+        public static float Distance(Vector2 a, Vector2 b)
+        {
+            return (a - b).Magnitude;
+        }
+
+        public static float Dot(Vector2 a, Vector2 b)
+        {
+            return a.X * b.X + a.Y * b.Y;
+        }
+
+        public static Vector2 Lerp(Vector2 a, Vector2 b, float t)
+        {
+            return new Vector2
+            (
+                Maths.Lerp(a.X, b.X, t),
+                Maths.Lerp(a.Y, b.Y, t)
+            );
+        }
+
+        public static Vector2 LerpUnclamped(Vector2 a, Vector2 b, float t)
+        {
+            return new Vector2
+            (
+                Maths.LerpUnclamped(a.X, b.X, t),
+                Maths.LerpUnclamped(a.Y, b.Y, t)
+            );
+        }
+
+        public static Vector2 Max(Vector2 a, Vector2 b)
+        {
+            return new Vector2
+            (
+                Maths.Max(a.X, b.X),
+                Maths.Max(a.Y, b.Y)
+            );
+        }
+
+        public static Vector2 Min(Vector2 a, Vector2 b)
+        {
+            return new Vector2
+            (
+                Maths.Min(a.X, b.X),
+                Maths.Min(a.Y, b.Y)
+            );
+        }
+
+        public static Vector2 MoveTowards(Vector2 current, Vector2 target, float maxDistanceDelta)
+        {
+            Vector2 delta = target - current;
+            float distance = delta.SqrMagnitude;
+
+            if (distance == 0f || (maxDistanceDelta >= 0f && distance <= maxDistanceDelta * maxDistanceDelta))
+            {
+                return target;
+            }
+
+            float dist = Maths.Sqrt(distance);
+            return current + delta / dist * maxDistanceDelta;
+        }
+
+        public static Vector2 Perpendicular(Vector2 direction)
+        {
+            return new Vector2(-direction.Y, direction.X);
+        }
+
+        public static Vector2 Reflect(Vector2 direction, Vector2 normal)
+        {
+            return direction - 2f * Dot(direction, normal) * normal;
+        }
+
+        public static float SignedAngle(Vector2 from, Vector2 to)
+        {
+            return Angle(from, to) * Maths.Sign(from.X * to.Y - from.Y * to.X);
+        }
+        
+        public void Normalize()
+        {
+            float mag = Magnitude;
+            
+            if (mag > Maths.Epsilon)
+            {
+                this.X /= mag;
+                this.Y /= mag;
+            }
+            else
+            {
+                this.X = 0;
+                this.Y = 0;
+            }
+        }
+
+        public void Set(float x, float y)
+        {
+            this.X = x;
+            this.Y = y;
+        }
+    }
+    
+    // Operators
+    public partial struct Vector2
+    {
+        public static implicit operator Vector2(Vector3 v)
+        {
+            return new Vector2(v.X, v.Y);
+        }
+        
+        public static implicit operator Vector2(Vector4 v)
+        {
+            return new Vector2(v.X, v.Y);
+        }
+        
+        public static Vector2 operator +(Vector2 a, Vector2 b)
+        {
+            return new(a.X + b.X, a.Y + b.Y);
+        }
+        
+        public static Vector2 operator -(Vector2 a, Vector2 b)
+        {
+            return new(a.X - b.X, a.Y - b.Y);
+        }
+
+        public static Vector2 operator -(Vector2 v)
+        {
+            return new(-v.X, -v.Y);
+        }
+
+        public static Vector2 operator *(Vector2 a, Vector2 b)
+        {
+            return new(a.X * b.X, a.Y * b.Y);
+        }
+
+        public static Vector2 operator *(Vector2 v, float value)
+        {
+            return new(v.X * value, v.Y * value);
+        }
+
+        public static Vector2 operator *(float value, Vector2 v)
+        {
+            return new(v.X * value, v.Y * value);
+        }
+
+        public static Vector2 operator /(Vector2 a, Vector2 b)
+        {
+            return new(a.X / b.X, a.Y / b.Y);
+        }
+
+        public static Vector2 operator /(Vector2 v, float value)
+        {
+            return new(v.X / value, v.Y / value);
+        }
+
+        public static bool operator ==(Vector2 a, Vector2 b)
+        {
+            return a.Equals(b);
+        }
+
+        public static bool operator !=(Vector2 a, Vector2 b)
+        {
+            return !a.Equals(b);
+        }
+        
+        public bool Equals(Vector2 v)
+        {
+            return Maths.Approximately(X, v.X) && 
+                   Maths.Approximately(Y, v.Y);
+        }
+
+        public override bool Equals(object v)
+        {
+            if (v is Vector2 other)
+            {
+                return Equals(other);
+            }
+
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(X, Y);
+        }
+
+        public override string ToString()
+        {
+            return $"({X}, {Y})";
         }
     }
 }

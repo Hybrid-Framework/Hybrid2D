@@ -2,7 +2,7 @@
     
 <!-- Settings -->
     <PropertyGroup>
-        <EmccExtraLDFlags>--embed-file ../../App/Content@Content</EmccExtraLDFlags>
+        <EmccExtraLDFlags>--embed-file ../../App/Assets@Assets</EmccExtraLDFlags>
         <WasmAllowUndefinedSymbols>true</WasmAllowUndefinedSymbols>
         <WasmEmitSymbolMap>true</WasmEmitSymbolMap>
     </PropertyGroup>
@@ -19,8 +19,8 @@
             <Link>%(Filename)%(Extension)</Link>
         </EmbeddedResource>
         
-        <None Include="..\..\App\Content\**\*">
-            <Link>Content\%(RecursiveDir)%(Filename)%(Extension)</Link>
+        <None Include="..\..\App\Assets\**\*">
+            <Link>Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
         </None>
     </ItemGroup>
 

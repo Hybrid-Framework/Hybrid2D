@@ -3,7 +3,7 @@
 namespace Hybrid
 {
     // Graphics Device
-    internal unsafe partial class GraphicsDevice : Module
+    public unsafe partial class GraphicsDevice : Module
     {
         internal SDL.Renderer* Renderer { get; private set; }
         internal SDL.Window* Window { get; private set; }
@@ -35,26 +35,17 @@ namespace Hybrid
             }
         }
         
-        internal override void OnDispose()
+        internal override void Dispose()
         {
             Console.WriteLine("Graphics Device Disposed");
-
-            if (Renderer != null)
-            {
-                SDL.DestroyRenderer(Renderer);
-                Renderer = null;
-            }
-
-            if (Window != null)
-            {
-                SDL.DestroyWindow(Window);
-                Window = null;
-            }
+            
+            SDL.DestroyRenderer(Renderer);
+            SDL.DestroyWindow(Window);
         }
     }
     
     // Properties
-    internal unsafe partial class GraphicsDevice
+    public unsafe partial class GraphicsDevice
     {
         internal int Fps
         {
@@ -165,7 +156,7 @@ namespace Hybrid
     }
 
     // Events
-    internal unsafe partial class GraphicsDevice
+    public unsafe partial class GraphicsDevice
     {
         internal override void OnEvent(SDL.Event e)
         {

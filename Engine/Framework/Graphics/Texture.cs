@@ -5,26 +5,27 @@ namespace Hybrid
     // Texture
     public unsafe partial class Texture : Resource
     {
-        internal int MaxTextureSize { get; set; } = 4096;
         internal SDL.Texture* Handle { set; get; }
         
+        public const int MaxTextureSize = 4096;
+        
 
-        public Texture(Texture texture, TextureAccess access = TextureAccess.Static, TextureScaleMode scaleMode = TextureScaleMode.Pixel)
+        public Texture(Texture source, TextureAccess access = TextureAccess.Static, TextureScaleMode scaleMode = TextureScaleMode.Pixel)
         {
             // Invalid Source
-            if (texture == null)
-                throw new ArgumentNullException(nameof(texture));
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
             // Invalid Texture Size
-            if (texture.Width > MaxTextureSize || texture.Height > MaxTextureSize)
+            if (source.Width > MaxTextureSize || source.Height > MaxTextureSize)
                 throw new ArgumentException($"Texture can't be larger than '({MaxTextureSize}x{MaxTextureSize})'");
 
             // Create SDL Texture
             {
-                Width = texture.Width;
-                Height = texture.Height;
+                Width = source.Width;
+                Height = source.Height;
                 Pixels = new byte[Width * Height * 4];
-                Array.Copy(texture.Pixels, Pixels, Pixels.Length);
+                Array.Copy(source.Pixels, Pixels, Pixels.Length);
                 Handle = SDL.CreateTexture(
                     Engine.GraphicsDevice.Renderer,
                     (SDL.PixelFormat)Format,
@@ -67,17 +68,13 @@ namespace Hybrid
             Apply();
         }
 
-        internal override void OnDispose()
+        internal override void Dispose()
         {
             if (Handle != null)
             {
+                // Destroy SDL Texture
                 SDL.DestroyTexture(Handle);
-                Handle = null;
             }
-            
-            Array.Clear(Pixels);
-            Height = 0;
-            Width = 0;
         }
     }
     
@@ -169,19 +166,17 @@ namespace Hybrid
         public int Width
         {
             get;
-            internal set;
         }
 
         public int Height
         {
             get;
-            internal set;
         }
 
         public byte[] Pixels
         {
             get;
-            internal set;
+            set;
         }
 
         public TextureFormat Format
