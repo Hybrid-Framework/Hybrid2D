@@ -24,7 +24,7 @@ COMPILERS=("gcc" "gcc" "aarch64-linux-gnu-gcc")
 CPPCOMPILERS=("g++" "g++" "aarch64-linux-gnu-g++")
 MODULES=("SDL" "IMAGE" "MIXER" "TTF")
 
-NATIVES_DIR="$BASE_DIR/../Natives/$PLATFORM"
+NATIVES_DIR="$BASE_DIR/../Platforms/$PLATFORM/Natives"
 rm -rf "$NATIVES_DIR"
 
 SDL()

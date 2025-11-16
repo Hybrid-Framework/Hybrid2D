@@ -22,7 +22,7 @@ RIDS=("Emscripten")
 ARCHS=("Emscripten")
 MODULES=("Emscripten" "SDL" "IMAGE" "MIXER" "TTF")
 
-NATIVES_DIR="$BASE_DIR/../Natives/$PLATFORM"
+NATIVES_DIR="$BASE_DIR/../Platforms/$PLATFORM/Natives"
 rm -rf "$NATIVES_DIR"
 
 Emscripten()

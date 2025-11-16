@@ -22,7 +22,7 @@ ARCHS=("x64" "win32" "arm64")
 RIDS=("win-x64" "win-x86" "win-arm64")
 MODULES=("SDL" "IMAGE" "MIXER" "TTF")
 
-NATIVES_DIR="$BASE_DIR/../Natives/$PLATFORM"
+NATIVES_DIR="$BASE_DIR/../Platforms/$PLATFORM/Natives"
 rm -rf "$NATIVES_DIR"
 
 SDL()

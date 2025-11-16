@@ -23,7 +23,7 @@ ARCHS=("armeabi-v7a" "arm64-v8a" "x86" "x86_64")
 RIDS=("armeabi-v7a" "arm64-v8a" "x86" "x86_64")
 MODULES=("SDL" "IMAGE" "MIXER" "TTF")
 
-NATIVES_DIR="$BASE_DIR/../Natives/$PLATFORM"
+NATIVES_DIR="$BASE_DIR/../Platforms/$PLATFORM/Natives"
 rm -rf "$NATIVES_DIR"
 
 SDL()

@@ -11,7 +11,7 @@ ARCHS=("IOS")
 RIDS=("ios-arm64" "ios-arm64_x86_64-simulator")
 MODULES=("SDL" "IMAGE" "MIXER" "TTF")
 
-NATIVES_DIR="$BASE_DIR/../Natives/$PLATFORM"
+NATIVES_DIR="$BASE_DIR/../Platforms/$PLATFORM/Natives"
 rm -rf "$NATIVES_DIR"
 
 SDL()
