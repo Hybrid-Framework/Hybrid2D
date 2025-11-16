@@ -1,0 +1,31 @@
+<Project>
+    
+<!-- Android -->
+    <PropertyGroup>
+        <AndroidSdkDirectory>$(LOCALAPPDATA)\Android\Sdk</AndroidSdkDirectory>
+        <JavaSdkDirectory>C:\Program Files\Android\Android Studio\jbr</JavaSdkDirectory>
+    </PropertyGroup>
+    
+<!-- Content -->
+    <ItemGroup>
+        <AndroidResource Include="..\..\Hybrid.png">
+            <Link>Resources\drawable-v26\%(Filename)%(Extension)</Link>
+        </AndroidResource>
+        
+        <AndroidAsset Include="..\..\App\Content\**\*">
+            <LogicalName>Content\%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+            <Link>Content\%(RecursiveDir)%(Filename)%(Extension)</Link>
+        </AndroidAsset>
+    </ItemGroup>
+    
+<!-- Natives -->
+    <ItemGroup>
+        <AndroidNativeLibrary Remove="Natives\**\*" />
+        <AndroidNativeLibrary Include="Natives\armeabi-v7a\**\*" Abi="armeabi-v7a"/>
+        <AndroidNativeLibrary Include="Natives\arm64-v8a\**\*" Abi="arm64-v8a"/>
+        <AndroidNativeLibrary Include="Natives\x86_64\**\*" Abi="x86_64"/>
+        <AndroidNativeLibrary Include="Natives\x86\**\*" Abi="x86"/>
+        <EmbeddedJar Include="Jars\SDLActivity.jar"/>
+    </ItemGroup>
+
+</Project>

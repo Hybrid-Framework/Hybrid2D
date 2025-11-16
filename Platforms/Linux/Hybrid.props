@@ -1,0 +1,35 @@
+<Project>
+
+<!-- Content -->
+    <ItemGroup>
+        <EmbeddedResource Include="..\..\Hybrid.png">
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <LogicalName>%(Filename)%(Extension)</LogicalName>
+            <Link>%(Filename)%(Extension)</Link>
+        </EmbeddedResource>
+        
+        <Content Include="..\..\App\Content\**\*">
+            <TargetPath>Content\%(RecursiveDir)%(Filename)%(Extension)</TargetPath>
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Link>Content\%(RecursiveDir)%(Filename)%(Extension)</Link>
+        </Content>
+    </ItemGroup>
+    
+<!-- Natives -->
+    <PropertyGroup>
+        <Architecture Condition="'$(RuntimeIdentifier)' == ''">$(NETCoreSdkRuntimeIdentifier)</Architecture>
+        <Architecture Condition="'$(RuntimeIdentifier)' != ''">$(RuntimeIdentifier)</Architecture>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <Content Remove="Natives\**\*"/>
+        <Content Include="Natives\$(Architecture)\**\*">
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <TargetPath>%(Filename)%(Extension)</TargetPath>
+        </Content>
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,22 @@
+using Android.Content.PM;
+using Hybrid;
+
+[Activity(
+    Label = "Hybrid",
+    Exported = true,
+    MainLauncher = true,
+    HardwareAccelerated = true,
+    AlwaysRetainTaskState = true,
+    LaunchMode = LaunchMode.SingleInstance,
+    Theme = "@android:style/Theme.NoTitleBar.Fullscreen",
+    ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize
+)]
+public class Program : Org.Libsdl.App.SDLActivity
+{
+    protected override string[] GetLibraries() => ["SDL3", "SDL3_image", "SDL3_mixer", "SDL3_ttf"];
+    
+    protected override void Main()
+    {
+        Platform.Android(new App.Config());
+    }
+}
