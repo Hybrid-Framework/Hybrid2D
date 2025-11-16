@@ -12,9 +12,9 @@
             <Link>Resources\drawable-v26\%(Filename)%(Extension)</Link>
         </AndroidResource>
         
-        <AndroidAsset Include="..\..\App\Content\**\*">
-            <LogicalName>Content\%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-            <Link>Content\%(RecursiveDir)%(Filename)%(Extension)</Link>
+        <AndroidAsset Include="..\..\App\Resources\**\*">
+            <LogicalName>Resources\%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+            <Link>Resources\%(RecursiveDir)%(Filename)%(Extension)</Link>
         </AndroidAsset>
     </ItemGroup>
     
