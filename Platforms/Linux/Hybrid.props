@@ -13,8 +13,8 @@
     
 <!-- Natives -->
     <PropertyGroup>
-        <Architecture Condition="'$(RuntimeIdentifier)' == ''">$(NETCoreSdkRuntimeIdentifier)</Architecture>
         <Architecture Condition="'$(RuntimeIdentifier)' != ''">$(RuntimeIdentifier)</Architecture>
+        <Architecture Condition="'$(RuntimeIdentifier)' == ''">linux-$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().ToLower())</Architecture>
     </PropertyGroup>
     
     <ItemGroup>
