@@ -1,19 +1,13 @@
 <Project>
 
-<!-- Content -->
+<!-- Resources -->
     <ItemGroup>
-        <EmbeddedResource Include="..\..\Hybrid.png">
-            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <LogicalName>%(Filename)%(Extension)</LogicalName>
-            <Link>%(Filename)%(Extension)</Link>
-        </EmbeddedResource>
-        
         <Content Include="..\..\App\Resources\**\*">
-            <TargetPath>Resources\%(RecursiveDir)%(Filename)%(Extension)</TargetPath>
+            <TargetPath>%(RecursiveDir)%(Filename)%(Extension)</TargetPath>
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <Link>Resources\%(RecursiveDir)%(Filename)%(Extension)</Link>
+            <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+            <Visible>false</Visible>
         </Content>
     </ItemGroup>
     

@@ -6,15 +6,16 @@
         <JavaSdkDirectory>C:\Program Files\Android\Android Studio\jbr</JavaSdkDirectory>
     </PropertyGroup>
     
-<!-- Content -->
+<!-- Resources -->
     <ItemGroup>
-        <AndroidResource Include="..\..\Hybrid.png">
+        <AndroidResource Include="..\..\App\Resources\Icon.png">
             <Link>Resources\drawable-v26\%(Filename)%(Extension)</Link>
         </AndroidResource>
         
         <AndroidAsset Include="..\..\App\Resources\**\*">
-            <LogicalName>Resources\%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-            <Link>Resources\%(RecursiveDir)%(Filename)%(Extension)</Link>
+            <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+            <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+            <Visible>false</Visible>
         </AndroidAsset>
     </ItemGroup>
     

@@ -19,5 +19,23 @@ namespace Hybrid
         {
             SDL.LogError(SDL.LogCategory.Application, $"[ERROR] {message}");
         }
+
+        public static void Files()
+        {
+            // foreach (var file in Directory.GetFiles(SDL.GetBasePath()))
+            // {
+            //     Console.WriteLine("File: " + file);
+            // }
+            //
+            // foreach (var directory in Directory.GetDirectories(SDL.GetBasePath()))
+            // {
+            //     Console.WriteLine("Directory: " + directory);
+            //     
+            //     foreach (var file in Directory.GetFiles(directory))
+            //     {
+            //         Console.WriteLine("File: " + directory + "/" + file);
+            //     }
+            // }
+        }
     }
 }

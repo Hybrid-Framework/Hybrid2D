@@ -21,6 +21,7 @@ namespace Hybrid
     {
         private SDL.Window* window;
         private SDL.Renderer* renderer;
+        private SDL.Texture* texture;
         
         // Engine Initialize
         internal void Initialize()
@@ -35,11 +36,28 @@ namespace Hybrid
             
             if (Platform.Current.PlatformDevice == PlatformDevice.Mobile)
             {
-                flags |= SDL.WindowFlags.Fullscreen;
+                flags |= SDL.WindowFlags.Fullscreen | SDL.WindowFlags.Resizable;
             }
             
             window = SDL.CreateWindow("test", 600, 600, flags);
             renderer = SDL.CreateRenderer(window, null);
+
+            Debug.Files();
+            
+            texture = SDL_image.LoadTexture(renderer, Path.Combine(SDL.GetBasePath(), "Images/Image.png"));
+            
+            if (texture == null)
+                Console.WriteLine("Failed to load texture: " + SDL.GetError());
+            
+            SDL.SetTextureScaleMode(texture, SDL.ScaleMode.Pixel);
+            
+            var icon = SDL_image.Load(Path.Combine(SDL.GetBasePath(), "Icon.png"));
+            
+            if (icon == null)
+                Console.WriteLine("Failed to load icon: " + SDL.GetError());
+            
+            if (!SDL.SetWindowIcon(window, icon))
+                Console.WriteLine("Failed to set icon: " + SDL.GetError());
             
             // Initialize
             OnInitialize();
@@ -110,6 +128,7 @@ namespace Hybrid
         {
             SDL.SetRenderDrawColor(renderer, 255, 128, 128, 255);
             SDL.RenderClear(renderer);
+            SDL.RenderTexture(renderer, texture, null, null);
             SDL.RenderPresent(renderer);
             
             // Render Game

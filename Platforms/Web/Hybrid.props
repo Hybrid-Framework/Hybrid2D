@@ -2,25 +2,19 @@
     
 <!-- Settings -->
     <PropertyGroup>
-        <EmccExtraLDFlags>--embed-file ../../App/Resources@Resources</EmccExtraLDFlags>
+        <EmccExtraLDFlags>--embed-file ../../App/Resources@/</EmccExtraLDFlags>
         <WasmAllowUndefinedSymbols>true</WasmAllowUndefinedSymbols>
         <WasmEmitSymbolMap>true</WasmEmitSymbolMap>
     </PropertyGroup>
 
-<!-- Content -->
+<!-- Resources -->
     <ItemGroup>
         <Content Update="wwwroot\index.html" CopyToOutputDirectory="PreserveNewest" />
         <Content Update="wwwroot\main.js" CopyToOutputDirectory="PreserveNewest" />
         
-        <EmbeddedResource Include="..\..\Hybrid.png">
-            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <LogicalName>%(Filename)%(Extension)</LogicalName>
-            <Link>%(Filename)%(Extension)</Link>
-        </EmbeddedResource>
-        
         <None Include="..\..\App\Resources\**\*">
-            <Link>Resources\%(RecursiveDir)%(Filename)%(Extension)</Link>
+            <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+            <Visible>false</Visible>
         </None>
     </ItemGroup>
 
