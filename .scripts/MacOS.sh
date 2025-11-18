@@ -31,7 +31,7 @@ SDL()
   local ARCH="${ARCHS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
   
-  Github "$MODULE" "https://github.com/libsdl-org/SDL.git" "4efdfd92a24ff3bbe6780666189000bf5d84ed30"
+  Github "$MODULE" "https://github.com/libsdl-org/SDL.git" ""
   
   cd "$MODULES_DIR/$MODULE" || exit
   BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
@@ -45,6 +45,7 @@ SDL()
     -DCMAKE_OSX_ARCHITECTURES=$ARCH \
     -DSDL_SHARED=ON \
     -DSDL_STATIC=OFF \
+    -DSDL_TEST_LIBRARY=OFF \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
     -DCMAKE_INSTALL_PREFIX="$INSTALLPATH"
@@ -62,7 +63,7 @@ IMAGE()
   local ARCH="${ARCHS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
   
-  Github "$MODULE" "https://github.com/libsdl-org/SDL_image.git" "e47ff6fa4e9092eec66c1b95118be0fa574c7933"
+  Github "$MODULE" "https://github.com/libsdl-org/SDL_image.git" ""
   
   cd "$MODULES_DIR/$MODULE" || exit
   BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
@@ -91,6 +92,7 @@ IMAGE()
     -DSDLIMAGE_XCF=OFF \
     -DSDLIMAGE_XPM=OFF \
     -DSDLIMAGE_XV=OFF \
+    -DSDLIMAGE_TESTS=OFF \
     -DSDLIMAGE_VENDORED=ON \
     -DSDLIMAGE_DEPS_SHARED=OFF \
     -DBUILD_SHARED_LIBS=ON \
@@ -112,7 +114,7 @@ MIXER()
   local ARCH="${ARCHS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
   
-  Github "$MODULE" "https://github.com/libsdl-org/SDL_mixer.git" "172997758bb69c9217a2caec57bd9450d86dc558"
+  Github "$MODULE" "https://github.com/libsdl-org/SDL_mixer.git" ""
   
   cd "$MODULES_DIR/$MODULE" || exit
   BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
@@ -141,6 +143,7 @@ MIXER()
     -DSDLMIXER_VOC=OFF \
     -DSDLMIXER_GME=OFF \
     -DSDLMIXER_AU=OFF \
+    -DSDLMIXER_TESTS=OFF \
     -DSDLMIXER_VENDORED=ON \
     -DSDLMIXER_DEPS_SHARED=OFF \
     -DBUILD_SHARED_LIBS=ON \
@@ -162,7 +165,7 @@ TTF()
   local ARCH="${ARCHS[$INDEX]}"
   local RID="${RIDS[$INDEX]}"
   
-  Github "$MODULE" "https://github.com/libsdl-org/SDL_ttf.git" "7285911aea1df44f6522a8c43025a962493c6c24"
+  Github "$MODULE" "https://github.com/libsdl-org/SDL_ttf.git" ""
   
   cd "$MODULES_DIR/$MODULE" || exit
   BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
