@@ -7,14 +7,7 @@ internal static unsafe partial class SDL
     private static extern SDL.Texture* SDL_CreateTexture(SDL.Renderer* renderer, SDL.PixelFormat format, SDL.TextureAccess access, int w, int h);
     public static SDL.Texture* CreateTexture(SDL.Renderer* renderer, SDL.PixelFormat format, SDL.TextureAccess access, int w, int h)
     {
-        var texture = SDL_CreateTexture(renderer, format, access, w, h);
-        
-        if (texture == null)
-        {
-            throw new NullReferenceException($"Failed to create texture: {SDL.GetError()}");
-        }
-        
-        return texture;
+        return SDL_CreateTexture(renderer, format, access, w, h);
     }
     
     // Create Texture With Properties
@@ -22,14 +15,7 @@ internal static unsafe partial class SDL
     private static extern SDL.Texture* SDL_CreateTextureWithProperties(SDL.Renderer* renderer, uint properties);
     public static SDL.Texture* CreateTextureWithProperties(SDL.Renderer* renderer, uint properties)
     {
-        var texture = SDL_CreateTextureWithProperties(renderer, properties);
-        
-        if (texture == null)
-        {
-            throw new NullReferenceException($"Failed to create texture: {SDL.GetError()}");
-        }
-        
-        return texture;
+        return SDL_CreateTextureWithProperties(renderer, properties);
     }
     
     // Create Texture From Surface
@@ -37,14 +23,7 @@ internal static unsafe partial class SDL
     private static extern SDL.Texture* SDL_CreateTextureFromSurface(SDL.Renderer* renderer, SDL.Surface* surface);
     public static SDL.Texture* CreateTextureFromSurface(SDL.Renderer* renderer, SDL.Surface* surface)
     {
-        var texture = SDL_CreateTextureFromSurface(renderer, surface);
-        
-        if (texture == null)
-        {
-            throw new NullReferenceException($"Failed to create texture: {SDL.GetError()}");
-        }
-        
-        return texture;
+        return SDL_CreateTextureFromSurface(renderer, surface);
     }
     
     // Destroy Texture

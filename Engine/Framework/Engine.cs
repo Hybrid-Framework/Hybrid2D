@@ -8,6 +8,7 @@ namespace Hybrid
         internal bool Initialized { get; private set; }
         internal bool IsRunning { get; private set; }
         
+        internal Test Test { get; set; }
         internal Config Config { get; }
         
         internal Engine(Config config)
@@ -31,33 +32,8 @@ namespace Hybrid
             Initialized = true;
             IsRunning = true;
             
-            // Temp Window For Testing
-            SDL.WindowFlags flags = SDL.WindowFlags.HighPixelDensity;
-            
-            if (Platform.Current.PlatformDevice == PlatformDevice.Mobile)
-            {
-                flags |= SDL.WindowFlags.Fullscreen | SDL.WindowFlags.Resizable;
-            }
-            
-            window = SDL.CreateWindow("test", 600, 600, flags);
-            renderer = SDL.CreateRenderer(window, null);
-
-            Debug.Files();
-            
-            texture = SDL_image.LoadTexture(renderer, Path.Combine(SDL.GetBasePath(), "Images/Image.png"));
-            
-            if (texture == null)
-                Console.WriteLine("Failed to load texture: " + SDL.GetError());
-            
-            SDL.SetTextureScaleMode(texture, SDL.ScaleMode.Pixel);
-            
-            var icon = SDL_image.Load(Path.Combine(SDL.GetBasePath(), "Icon.png"));
-            
-            if (icon == null)
-                Console.WriteLine("Failed to load icon: " + SDL.GetError());
-            
-            if (!SDL.SetWindowIcon(window, icon))
-                Console.WriteLine("Failed to set icon: " + SDL.GetError());
+            // Example
+            Test = new Test();
             
             // Initialize
             OnInitialize();
@@ -97,6 +73,8 @@ namespace Hybrid
                     Quit();
                     return;
                 }
+                
+                Test.OnEvent(e);
             }
         }
     }
@@ -108,6 +86,7 @@ namespace Hybrid
         {
             // Initialize Game
             Config.Game.OnInitialize();
+            Test.OnInitialize();
         }
     }
     
@@ -118,6 +97,7 @@ namespace Hybrid
         {
             // Update Game
             Config.Game.OnUpdate();
+            Test.OnUpdate();
         }
     }
     
@@ -126,13 +106,9 @@ namespace Hybrid
     {
         internal void OnRender()
         {
-            SDL.SetRenderDrawColor(renderer, 255, 128, 128, 255);
-            SDL.RenderClear(renderer);
-            SDL.RenderTexture(renderer, texture, null, null);
-            SDL.RenderPresent(renderer);
-            
             // Render Game
             Config.Game.OnRender();
+            Test.OnRender();
         }
     }
 }
