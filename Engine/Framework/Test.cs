@@ -39,15 +39,17 @@ namespace Hybrid
                 freq = 44100,
             };
 
-            string basePath = SDL.GetBasePath();
+            string basePath = "";
+            Console.WriteLine("BasePath: " + basePath);
+            
             Mixer = SDL_mixer.CreateMixerDevice(SDL.DefaultPlaybackDevice, spec);
-            mp3 = SDL_mixer.LoadAudio(Mixer, basePath + "Sounds/Sound.mp3", false);
-            wav = SDL_mixer.LoadAudio(Mixer, basePath + "Sounds/Sound.wav", false);
-            ogg = SDL_mixer.LoadAudio(Mixer, basePath + "Sounds/Sound.ogg", false);
-            png = LoadTexture(basePath + "Images/Image.png");
-            jpg = LoadTexture(basePath + "Images/Image.jpg");
-            bmp = LoadTexture(basePath + "Images/Image.bmp");
-            font = SDL_ttf.OpenFont(basePath + "Fonts/Font.ttf", 32);
+            mp3 = SDL_mixer.LoadAudio(Mixer, "Sounds/Sound.mp3", false);
+            wav = SDL_mixer.LoadAudio(Mixer, "Sounds/Sound.wav", false);
+            ogg = SDL_mixer.LoadAudio(Mixer, "Sounds/Sound.ogg", false);
+            font = SDL_ttf.OpenFont("Fonts/Font.ttf", 32);
+            png = LoadTexture("Images/Image.png");
+            jpg = LoadTexture("Images/Image.jpg");
+            bmp = LoadTexture("Images/Image.bmp");
 
             SDL.SetTextureScaleMode(png, SDL.ScaleMode.Pixel);
             SDL.SetTextureScaleMode(jpg, SDL.ScaleMode.Pixel);
