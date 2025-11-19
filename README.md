@@ -46,7 +46,7 @@ Currently supports these platforms:
 Currently using these dependencies:
   * [EMSCRIPTEN 3.1.56](https://github.com/emscripten-core/emscripten)
   * [DOTNET 10.0](https://github.com/dotnet/runtime)
-  * [SDL 3.0](https://github.com/libsdl-org/SDL)
+  * [SDL 3.2](https://github.com/libsdl-org/SDL)
 
 
 <h2 id="contributions">🫂 Contributions</h2>
