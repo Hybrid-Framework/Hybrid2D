@@ -39,17 +39,17 @@ namespace Hybrid
                 freq = 44100,
             };
 
-            string basePath = "";
+            string basePath = SDL.GetBasePath();
             Console.WriteLine("BasePath: " + basePath);
             
             Mixer = SDL_mixer.CreateMixerDevice(SDL.DefaultPlaybackDevice, spec);
-            mp3 = SDL_mixer.LoadAudio(Mixer, "Sounds/Sound.mp3", false);
-            wav = SDL_mixer.LoadAudio(Mixer, "Sounds/Sound.wav", false);
-            ogg = SDL_mixer.LoadAudio(Mixer, "Sounds/Sound.ogg", false);
-            font = SDL_ttf.OpenFont("Fonts/Font.ttf", 32);
-            png = LoadTexture("Images/Image.png");
-            jpg = LoadTexture("Images/Image.jpg");
-            bmp = LoadTexture("Images/Image.bmp");
+            mp3 = SDL_mixer.LoadAudio(Mixer, Path.Combine(basePath, "Sounds/Sound.mp3"), false);
+            wav = SDL_mixer.LoadAudio(Mixer, Path.Combine(basePath, "Sounds/Sound.wav"), false);
+            ogg = SDL_mixer.LoadAudio(Mixer, Path.Combine(basePath, "Sounds/Sound.ogg"), false);
+            font = SDL_ttf.OpenFont(Path.Combine(basePath, "Fonts/Font.ttf"), 32);
+            png = LoadTexture(Path.Combine(basePath, "Images/Image.png"));
+            jpg = LoadTexture(Path.Combine(basePath, "Images/Image.jpg"));
+            bmp = LoadTexture(Path.Combine(basePath, "Images/Image.bmp"));
 
             SDL.SetTextureScaleMode(png, SDL.ScaleMode.Pixel);
             SDL.SetTextureScaleMode(jpg, SDL.ScaleMode.Pixel);
