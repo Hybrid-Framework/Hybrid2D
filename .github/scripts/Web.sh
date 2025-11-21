@@ -1,52 +1,37 @@
 #!/usr/bin/env bash
 set -e
 
-cleanup()
-{
-    local exit_code=$?
-    if [ $exit_code -ne 0 ]; then
-        echo "Script failed with exit code $exit_code."
-        read -p "Press Enter to exit."
-    fi
-}
-
-trap cleanup EXIT
+echo "Building... OS: $OS PLATFORM: $PLATFORM ARCH: $ARCH RID: $RID"
 
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+NATIVES_DIR="$BASE_DIR/../../Platforms/$PLATFORM/Natives"
 MODULES_DIR="$BASE_DIR/Dependencies/Modules"
 DEPENDENCIES_DIR="$BASE_DIR/Dependencies"
 source "$DEPENDENCIES_DIR/Methods.sh"
-
-PLATFORM="Web"
-RIDS=("Emscripten")
-ARCHS=("Emscripten")
-MODULES=("Emscripten" "SDL" "IMAGE" "MIXER" "TTF")
-
-NATIVES_DIR="$BASE_DIR/../Platforms/$PLATFORM/Natives"
 rm -rf "$NATIVES_DIR"
+mkdir -p "$NATIVES_DIR"
 
-Emscripten()
+MODULES=("SDL" "IMAGE" "MIXER" "TTF")
+
+ENVIRONMENT()
 {
-  local INDEX="$1"
-  local VERSION="3.1.56"
+  echo "Setting up emscripten environment..."
+  
+  Github "EMSCRIPTEN" "https://github.com/emscripten-core/emsdk.git" "3.1.56"
 
-  Github "$MODULE" "https://github.com/emscripten-core/emsdk.git" "$VERSION"
-
-  cd "$MODULES_DIR/$MODULE"
-  ./emsdk install "$VERSION"
-  ./emsdk activate "$VERSION"
+  cd "$MODULES_DIR/EMSCRIPTEN"
+  ./emsdk install "3.1.56"
+  ./emsdk activate "3.1.56"
   source ./emsdk_env.sh
 }
 
 SDL()
 {
-  local INDEX="$1"
+  Github "SDL" "https://github.com/libsdl-org/SDL.git" ""
   
-  Github "$MODULE" "https://github.com/libsdl-org/SDL.git" ""
-  
-  cd "$MODULES_DIR/$MODULE" || exit
-  BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM"
-  INSTALLPATH="$MODULES_DIR/$MODULE/install_$PLATFORM"
+  cd "$MODULES_DIR/SDL" || exit
+  BUILDPATH="$MODULES_DIR/SDL/build_$PLATFORM"
+  INSTALLPATH="$MODULES_DIR/SDL/install_$PLATFORM"
   rm -rf "$BUILDPATH" "$INSTALLPATH"
   mkdir -p "$BUILDPATH" "$INSTALLPATH"
   cd "$BUILDPATH" || exit
@@ -67,13 +52,11 @@ SDL()
 
 IMAGE()
 {
-  local INDEX="$1"
+  Github "SDL_IMAGE" "https://github.com/libsdl-org/SDL_image.git" ""
 
-  Github "$MODULE" "https://github.com/libsdl-org/SDL_image.git" ""
-
-  cd "$MODULES_DIR/$MODULE" || exit
-  BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM"
-  INSTALLPATH="$MODULES_DIR/$MODULE/install_$PLATFORM"
+  cd "$MODULES_DIR/SDL_IMAGE" || exit
+  BUILDPATH="$MODULES_DIR/SDL_IMAGE/build_$PLATFORM"
+  INSTALLPATH="$MODULES_DIR/SDL_IMAGE/install_$PLATFORM"
   rm -rf "$BUILDPATH" "$INSTALLPATH"
   mkdir -p "$BUILDPATH" "$INSTALLPATH"
   cd "$BUILDPATH" || exit
@@ -115,13 +98,11 @@ IMAGE()
 
 MIXER()
 {
-  local INDEX="$1"
+  Github "SDL_MIXER" "https://github.com/libsdl-org/SDL_mixer.git" ""
   
-  Github "$MODULE" "https://github.com/libsdl-org/SDL_mixer.git" ""
-  
-  cd "$MODULES_DIR/$MODULE" || exit
-  BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM"
-  INSTALLPATH="$MODULES_DIR/$MODULE/install_$PLATFORM"
+  cd "$MODULES_DIR/SDL_MIXER" || exit
+  BUILDPATH="$MODULES_DIR/SDL_MIXER/build_$PLATFORM"
+  INSTALLPATH="$MODULES_DIR/SDL_MIXER/install_$PLATFORM"
   rm -rf "$BUILDPATH" "$INSTALLPATH"
   mkdir -p "$BUILDPATH" "$INSTALLPATH"
   cd "$BUILDPATH" || exit
@@ -163,13 +144,11 @@ MIXER()
 
 TTF()
 {
-  local INDEX="$1"
+  Github "SDL_TTF" "https://github.com/libsdl-org/SDL_ttf.git" ""
   
-  Github "$MODULE" "https://github.com/libsdl-org/SDL_ttf.git" ""
-  
-  cd "$MODULES_DIR/$MODULE" || exit
-  BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM"
-  INSTALLPATH="$MODULES_DIR/$MODULE/install_$PLATFORM"
+  cd "$MODULES_DIR/SDL_TTF" || exit
+  BUILDPATH="$MODULES_DIR/SDL_TTF/build_$PLATFORM"
+  INSTALLPATH="$MODULES_DIR/SDL_TTF/install_$PLATFORM"
   rm -rf "$BUILDPATH" "$INSTALLPATH"
   mkdir -p "$BUILDPATH" "$INSTALLPATH"
   cd "$BUILDPATH" || exit
@@ -192,7 +171,7 @@ TTF()
 
 COMPLETE()
 {
-  read -p "Build complete."
+  echo "Build complete."
 }
 
 source "$DEPENDENCIES_DIR/Build.sh"

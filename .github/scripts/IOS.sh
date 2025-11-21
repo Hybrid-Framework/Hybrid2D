@@ -1,18 +1,22 @@
 #!/usr/bin/env bash
 set -e
 
+echo "Building... OS: $OS PLATFORM: $PLATFORM ARCH: $ARCH RID: $RID"
+
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+NATIVES_DIR="$BASE_DIR/../../Platforms/$PLATFORM/Natives"
 MODULES_DIR="$BASE_DIR/Dependencies/Modules"
 DEPENDENCIES_DIR="$BASE_DIR/Dependencies"
 source "$DEPENDENCIES_DIR/Methods.sh"
+rm -rf "$NATIVES_DIR"
+mkdir -p "$NATIVES_DIR"
 
-PLATFORM="IOS"
-ARCHS=("IOS")
-RIDS=("ios-arm64" "ios-arm64_x86_64-simulator")
 MODULES=("SDL" "IMAGE" "MIXER" "TTF")
 
-NATIVES_DIR="$BASE_DIR/../Platforms/$PLATFORM/Natives"
-rm -rf "$NATIVES_DIR"
+ENVIRONMENT()
+{
+  echo "Setting up ios environment..."
+}
 
 SDL()
 {
@@ -58,11 +62,12 @@ Create()
 {
   local Location="$1"
   local Framework="$2"
+  local RIDS=("ios-arm64" "ios-arm64_x86_64-simulator")
   
-  for RID in "${RIDS[@]}"; do
-    mkdir -p "$NATIVES_DIR/$Framework.xcframework/$RID/$Framework.framework"
-    cp "$Location/$Framework.xcframework/$RID/$Framework.framework/$Framework" "$NATIVES_DIR/$Framework.xcframework/$RID/$Framework.framework/$Framework"
-    cp "$Location/$Framework.xcframework/$RID/$Framework.framework/Info.plist" "$NATIVES_DIR/$Framework.xcframework/$RID/$Framework.framework/Info.plist"
+  for Rid in "${RIDS[@]}"; do
+    mkdir -p "$NATIVES_DIR/$Framework.xcframework/$Rid/$Framework.framework"
+    cp "$Location/$Framework.xcframework/$Rid/$Framework.framework/$Framework" "$NATIVES_DIR/$Framework.xcframework/$Rid/$Framework.framework/$Framework"
+    cp "$Location/$Framework.xcframework/$Rid/$Framework.framework/Info.plist" "$NATIVES_DIR/$Framework.xcframework/$Rid/$Framework.framework/Info.plist"
     cp "$Location/$Framework.xcframework/Info.plist" "$NATIVES_DIR/$Framework.xcframework/Info.plist"
   done
 }
@@ -74,7 +79,7 @@ COMPLETE()
   Create "$MODULES_DIR/MIXER/Xcode/build" "SDL3_mixer"
   Create "$MODULES_DIR/TTF/Xcode/build" "SDL3_ttf"
 
-  read -p "Build complete."
+  echo "Build complete."
 }
 
 source "$DEPENDENCIES_DIR/Build.sh"

@@ -1,41 +1,30 @@
 #!/usr/bin/env bash
 set -e
 
-cleanup()
-{
-    local exit_code=$?
-    if [ $exit_code -ne 0 ]; then
-        echo "Script failed with exit code $exit_code."
-        read -p "Press Enter to exit."
-    fi
-}
-
-trap cleanup EXIT
+echo "Building... OS: $OS PLATFORM: $PLATFORM ARCH: $ARCH RID: $RID"
 
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+NATIVES_DIR="$BASE_DIR/../../Platforms/$PLATFORM/Natives"
 MODULES_DIR="$BASE_DIR/Dependencies/Modules"
 DEPENDENCIES_DIR="$BASE_DIR/Dependencies"
 source "$DEPENDENCIES_DIR/Methods.sh"
+rm -rf "$NATIVES_DIR"
+mkdir -p "$NATIVES_DIR"
 
-PLATFORM="Windows"
-ARCHS=("x64" "win32" "arm64")
-RIDS=("win-x64" "win-x86" "win-arm64")
 MODULES=("SDL" "IMAGE" "MIXER" "TTF")
 
-NATIVES_DIR="$BASE_DIR/../Platforms/$PLATFORM/Natives"
-rm -rf "$NATIVES_DIR"
+ENVIRONMENT()
+{
+  echo "Setting up windows environment..."
+}
 
 SDL()
 {
-  local INDEX="$1"
-  local ARCH="${ARCHS[$INDEX]}"
-  local RID="${RIDS[$INDEX]}"
+  Github "SDL" "https://github.com/libsdl-org/SDL.git" ""
   
-  Github "$MODULE" "https://github.com/libsdl-org/SDL.git" ""
-  
-  cd "$MODULES_DIR/$MODULE" || exit
-  BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
-  INSTALLPATH="$MODULES_DIR/$MODULE/install_$PLATFORM-$ARCH"
+  cd "$MODULES_DIR/SDL" || exit
+  BUILDPATH="$MODULES_DIR/SDL/build_$PLATFORM-$ARCH"
+  INSTALLPATH="$MODULES_DIR/SDL/install_$PLATFORM-$ARCH"
   rm -rf "$BUILDPATH" "$INSTALLPATH"
   mkdir -p "$BUILDPATH" "$INSTALLPATH"
   cd "$BUILDPATH" || exit
@@ -57,15 +46,11 @@ SDL()
 
 IMAGE()
 {
-  local INDEX="$1"
-  local ARCH="${ARCHS[$INDEX]}"
-  local RID="${RIDS[$INDEX]}"
+  Github "SDL_IMAGE" "https://github.com/libsdl-org/SDL_image.git" ""
   
-  Github "$MODULE" "https://github.com/libsdl-org/SDL_image.git" ""
-  
-  cd "$MODULES_DIR/$MODULE" || exit
-  BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
-  INSTALLPATH="$MODULES_DIR/$MODULE/install_$PLATFORM-$ARCH"
+  cd "$MODULES_DIR/SDL_IMAGE" || exit
+  BUILDPATH="$MODULES_DIR/SDL_IMAGE/build_$PLATFORM-$ARCH"
+  INSTALLPATH="$MODULES_DIR/SDL_IMAGE/install_$PLATFORM-$ARCH"
   rm -rf "$BUILDPATH" "$INSTALLPATH"
   mkdir -p "$BUILDPATH" "$INSTALLPATH"
   cd "$BUILDPATH" || exit
@@ -106,15 +91,11 @@ IMAGE()
 
 MIXER()
 {
-  local INDEX="$1"
-  local ARCH="${ARCHS[$INDEX]}"
-  local RID="${RIDS[$INDEX]}"
+  Github "SDL_MIXER" "https://github.com/libsdl-org/SDL_mixer.git" ""
   
-  Github "$MODULE" "https://github.com/libsdl-org/SDL_mixer.git" ""
-  
-  cd "$MODULES_DIR/$MODULE" || exit
-  BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
-  INSTALLPATH="$MODULES_DIR/$MODULE/install_$PLATFORM-$ARCH"
+  cd "$MODULES_DIR/SDL_MIXER" || exit
+  BUILDPATH="$MODULES_DIR/SDL_MIXER/build_$PLATFORM-$ARCH"
+  INSTALLPATH="$MODULES_DIR/SDL_MIXER/install_$PLATFORM-$ARCH"
   rm -rf "$BUILDPATH" "$INSTALLPATH"
   mkdir -p "$BUILDPATH" "$INSTALLPATH"
   cd "$BUILDPATH" || exit
@@ -155,15 +136,11 @@ MIXER()
 
 TTF()
 {
-  local INDEX="$1"
-  local ARCH="${ARCHS[$INDEX]}"
-  local RID="${RIDS[$INDEX]}"
+  Github "SDL_TTF" "https://github.com/libsdl-org/SDL_ttf.git" ""
   
-  Github "$MODULE" "https://github.com/libsdl-org/SDL_ttf.git" ""
-  
-  cd "$MODULES_DIR/$MODULE" || exit
-  BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
-  INSTALLPATH="$MODULES_DIR/$MODULE/install_$PLATFORM-$ARCH"
+  cd "$MODULES_DIR/SDL_TTF" || exit
+  BUILDPATH="$MODULES_DIR/SDL_TTF/build_$PLATFORM-$ARCH"
+  INSTALLPATH="$MODULES_DIR/SDL_TTF/install_$PLATFORM-$ARCH"
   rm -rf "$BUILDPATH" "$INSTALLPATH"
   mkdir -p "$BUILDPATH" "$INSTALLPATH"
   cd "$BUILDPATH" || exit
@@ -185,7 +162,7 @@ TTF()
 
 COMPLETE()
 {
-  read -p "Build Complete."
+  echo "Build Complete."
 }
 
 source "$DEPENDENCIES_DIR/Build.sh"

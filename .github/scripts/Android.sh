@@ -1,50 +1,49 @@
 #!/usr/bin/env bash
 set -e
 
-cleanup()
-{
-    local exit_code=$?
-    if [ $exit_code -ne 0 ]; then
-        echo "Script failed with exit code $exit_code."
-        read -p "Press Enter to exit."
-    fi
-}
+echo "Building... OS: $OS PLATFORM: $PLATFORM ARCH: $ARCH RID: $RID"
 
-trap cleanup EXIT
-
-ANDROID_NDK="$HOME/AppData/Local/Android/Sdk/ndk/29.0.13846066/build/cmake/android.toolchain.cmake"
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+NATIVES_DIR="$BASE_DIR/../../Platforms/$PLATFORM/Natives"
 MODULES_DIR="$BASE_DIR/Dependencies/Modules"
 DEPENDENCIES_DIR="$BASE_DIR/Dependencies"
 source "$DEPENDENCIES_DIR/Methods.sh"
+rm -rf "$NATIVES_DIR"
+mkdir -p "$NATIVES_DIR"
 
-PLATFORM="Android"
-ARCHS=("armeabi-v7a" "arm64-v8a" "x86" "x86_64")
-RIDS=("armeabi-v7a" "arm64-v8a" "x86" "x86_64")
 MODULES=("SDL" "IMAGE" "MIXER" "TTF")
 
-NATIVES_DIR="$BASE_DIR/../Platforms/$PLATFORM/Natives"
-rm -rf "$NATIVES_DIR"
+ENVIRONMENT()
+{
+  echo "Setting up android environment..."
+  
+  ANDROID_SDK="$ANDROID_HOME"
+  ANDROID_NDK="$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake"
+  ANDROID_PLATFORM_VER="${PLATFORM_VER:-34}"
+  NDK_VER="${NDK_VER:-29.0.13846066}"
+  
+  export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/tools/bin:$PATH"
+  
+  yes | sdkmanager --install "platform-tools"
+  yes | sdkmanager --install "platforms;android-$ANDROID_PLATFORM_VER"
+  yes | sdkmanager --install "ndk;$NDK_VER"
+}
 
 SDL()
 {
-  local INDEX="$1"
-  local ARCH="${ARCHS[$INDEX]}"
-  local RID="${RIDS[$INDEX]}"
+  Github "SDL" "https://github.com/libsdl-org/SDL.git" ""
   
-  Github "$MODULE" "https://github.com/libsdl-org/SDL.git" ""
-  
-  cd "$MODULES_DIR/$MODULE" || exit
-  BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
-  INSTALLPATH="$MODULES_DIR/$MODULE/install_$PLATFORM-$ARCH"
+  cd "$MODULES_DIR/SDL" || exit
+  BUILDPATH="$MODULES_DIR/SDL/build_$PLATFORM-$ARCH"
+  INSTALLPATH="$MODULES_DIR/SDL/install_$PLATFORM-$ARCH"
   rm -rf "$BUILDPATH" "$INSTALLPATH"
   mkdir -p "$BUILDPATH" "$INSTALLPATH"
   cd "$BUILDPATH" || exit
 
   cmake .. -G Ninja -Wno-dev \
     -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK" \
-    -DANDROID_PLATFORM=android-21 \
-    -DANDROID_ABI=$ARCH \
+    -DANDROID_PLATFORM=android-"$ANDROID_PLATFORM_VER" \
+    -DANDROID_ABI="$ARCH" \
     -DSDL_SHARED=ON \
     -DSDL_STATIC=OFF \
     -DSDL_ANDROID_JAR=OFF \
@@ -62,23 +61,19 @@ SDL()
 
 IMAGE()
 {
-  local INDEX="$1"
-  local ARCH="${ARCHS[$INDEX]}"
-  local RID="${RIDS[$INDEX]}"
+  Github "SDL_IMAGE" "https://github.com/libsdl-org/SDL_image.git" ""
   
-  Github "$MODULE" "https://github.com/libsdl-org/SDL_image.git" ""
-  
-  cd "$MODULES_DIR/$MODULE" || exit
-  BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
-  INSTALLPATH="$MODULES_DIR/$MODULE/install_$PLATFORM-$ARCH"
+  cd "$MODULES_DIR/SDL_IMAGE" || exit
+  BUILDPATH="$MODULES_DIR/SDL_IMAGE/build_$PLATFORM-$ARCH"
+  INSTALLPATH="$MODULES_DIR/SDL_IMAGE/install_$PLATFORM-$ARCH"
   rm -rf "$BUILDPATH" "$INSTALLPATH"
   mkdir -p "$BUILDPATH" "$INSTALLPATH"
   cd "$BUILDPATH" || exit
 
   cmake .. -G Ninja -Wno-dev \
     -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK" \
-    -DANDROID_PLATFORM=android-21 \
-    -DANDROID_ABI=$ARCH \
+    -DANDROID_PLATFORM=android-"$ANDROID_PLATFORM_VER" \
+    -DANDROID_ABI="$ARCH" \
     -DSDLIMAGE_BMP=ON \
     -DSDLIMAGE_JPG=ON \
     -DSDLIMAGE_PNG=ON \
@@ -114,23 +109,19 @@ IMAGE()
 
 MIXER()
 {
-  local INDEX="$1"
-  local ARCH="${ARCHS[$INDEX]}"
-  local RID="${RIDS[$INDEX]}"
+  Github "SDL_MIXER" "https://github.com/libsdl-org/SDL_mixer.git" ""
   
-  Github "$MODULE" "https://github.com/libsdl-org/SDL_mixer.git" ""
-  
-  cd "$MODULES_DIR/$MODULE" || exit
-  BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
-  INSTALLPATH="$MODULES_DIR/$MODULE/install_$PLATFORM-$ARCH"
+  cd "$MODULES_DIR/SDL_MIXER" || exit
+  BUILDPATH="$MODULES_DIR/SDL_MIXER/build_$PLATFORM-$ARCH"
+  INSTALLPATH="$MODULES_DIR/SDL_MIXER/install_$PLATFORM-$ARCH"
   rm -rf "$BUILDPATH" "$INSTALLPATH"
   mkdir -p "$BUILDPATH" "$INSTALLPATH"
   cd "$BUILDPATH" || exit
 
   cmake .. -G Ninja -Wno-dev \
     -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK" \
-    -DANDROID_PLATFORM=android-21 \
-    -DANDROID_ABI=$ARCH \
+    -DANDROID_PLATFORM=android-"$ANDROID_PLATFORM_VER" \
+    -DANDROID_ABI="$ARCH" \
     -DSDLMIXER_MP3_DRMP3=ON \
     -DSDLMIXER_VORBIS_STB=ON \
     -DSDLMIXER_WAVE=ON \
@@ -166,23 +157,19 @@ MIXER()
 
 TTF()
 {
-  local INDEX="$1"
-  local ARCH="${ARCHS[$INDEX]}"
-  local RID="${RIDS[$INDEX]}"
+  Github "SDL_TTF" "https://github.com/libsdl-org/SDL_ttf.git" ""
   
-  Github "$MODULE" "https://github.com/libsdl-org/SDL_ttf.git" ""
-  
-  cd "$MODULES_DIR/$MODULE" || exit
-  BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
-  INSTALLPATH="$MODULES_DIR/$MODULE/install_$PLATFORM-$ARCH"
+  cd "$MODULES_DIR/SDL_TTF" || exit
+  BUILDPATH="$MODULES_DIR/SDL_TTF/build_$PLATFORM-$ARCH"
+  INSTALLPATH="$MODULES_DIR/SDL_TTF/install_$PLATFORM-$ARCH"
   rm -rf "$BUILDPATH" "$INSTALLPATH"
   mkdir -p "$BUILDPATH" "$INSTALLPATH"
   cd "$BUILDPATH" || exit
 
   cmake .. -G Ninja -Wno-dev \
     -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK" \
-    -DANDROID_PLATFORM=android-21 \
-    -DANDROID_ABI=$ARCH \
+    -DANDROID_PLATFORM=android-"$ANDROID_PLATFORM_VER" \
+    -DANDROID_ABI="$ARCH" \
     -DSDLTTF_VENDORED=ON \
     -DBUILD_SHARED_LIBS=ON \
     -DCMAKE_BUILD_TYPE=Release \
@@ -199,24 +186,27 @@ TTF()
 
 COMPLETE()
 {
-  JAR_DIR="$BASE_DIR/../Platforms/$PLATFORM/Jars"
+  export PATH="$PATH:$JAVA_HOME/bin"
+  
+  JAR_DIR="$BASE_DIR/../../Platforms/$PLATFORM/Jars"
   JAVA_DIR="$MODULES_DIR/SDL/android-project/app/src/main/java"
 
-  export PATH="$PATH:/c/Program Files/Android/Android Studio/jbr/bin"
-  local ANDROID_JAR="$HOME/AppData/Local/Android/Sdk/platforms/android-36/android.jar"
+  ANDROID_JAR="$ANDROID_HOME/platforms/android-$ANDROID_PLATFORM_VER/android.jar"
   cd "$JAVA_DIR" || exit 1
   mkdir -p out
-  
+
   JAVA_FILES=$(find . -name "*.java")
   javac -source 1.8 -target 1.8 -classpath "$ANDROID_JAR" -d out $JAVA_FILES
+
   jar cf SDLActivity.jar -C out .
   jar tf SDLActivity.jar
 
   rm -rf "$JAR_DIR"
   mkdir -p "$JAR_DIR"
-  
-  cp "$JAVA_DIR/SDLActivity.jar" "$JAR_DIR/SDLActivity.jar"
-  read -p "Build complete."
+  cp SDLActivity.jar "$JAR_DIR/SDLActivity.jar"
+
+  echo "Build complete."
 }
+
 
 source "$DEPENDENCIES_DIR/Build.sh"

@@ -1,53 +1,69 @@
 #!/usr/bin/env bash
 set -e
 
-cleanup()
-{
-    local exit_code=$?
-    if [ $exit_code -ne 0 ]; then
-        echo "Script failed with exit code $exit_code."
-        read -p "Press Enter to exit."
-    fi
-}
-
-trap cleanup EXIT
+echo "Building... OS: $OS PLATFORM: $PLATFORM ARCH: $ARCH RID: $RID"
 
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+NATIVES_DIR="$BASE_DIR/../../Platforms/$PLATFORM/Natives"
 MODULES_DIR="$BASE_DIR/Dependencies/Modules"
 DEPENDENCIES_DIR="$BASE_DIR/Dependencies"
 source "$DEPENDENCIES_DIR/Methods.sh"
+rm -rf "$NATIVES_DIR"
+mkdir -p "$NATIVES_DIR"
 
-PLATFORM="Linux"
-ARCHS=("x86_64" "i686" "aarch64")
-RIDS=("linux-x64" "linux-x86" "linux-arm64")
-COMPILERS=("gcc" "gcc" "aarch64-linux-gnu-gcc")
-CPPCOMPILERS=("g++" "g++" "aarch64-linux-gnu-g++")
 MODULES=("SDL" "IMAGE" "MIXER" "TTF")
 
-NATIVES_DIR="$BASE_DIR/../Platforms/$PLATFORM/Natives"
-rm -rf "$NATIVES_DIR"
+ENVIRONMENT()
+{
+  echo "Setting up linux environment..."
+  
+  if [[ "$ARCH" == "i686" ]]; then
+      sudo dpkg --add-architecture i386
+      sudo apt-get update
+      sudo apt-get install -y gcc-multilib g++-multilib libc6:i386 libstdc++6:i386
+      export CC="gcc"
+      export CXX="g++"
+      export CFLAGS="-m32"
+      export CXXFLAGS="-m32"
+
+  elif [[ "$ARCH" == "armhf" ]]; then
+      sudo apt-get update
+      sudo apt-get install -y gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf
+      export CC="arm-linux-gnueabihf-gcc"
+      export CXX="arm-linux-gnueabihf-g++"
+
+  else
+      export CC="gcc"
+      export CXX="g++"
+  fi
+
+  sudo apt-get update
+  sudo apt-get install -y \
+      build-essential git make pkg-config cmake ninja-build \
+      libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxi-dev libxinerama-dev \
+      libxfixes-dev libxss-dev libxtst-dev libxkbcommon-dev libdrm-dev libgbm-dev \
+      libgl1-mesa-dev libgles2-mesa-dev libegl1-mesa-dev \
+      libasound2-dev libpulse-dev libaudio-dev libfribidi-dev libjack-dev libsndio-dev \
+      libdbus-1-dev libibus-1.0-dev libudev-dev libpipewire-0.3-dev libwayland-dev \
+      libdecor-0-dev liburing-dev
+}
+
 
 SDL()
 {
-  local INDEX="$1"
-  local ARCH="${ARCHS[$INDEX]}"
-  local RID="${RIDS[$INDEX]}"
-  local COMPILER="${COMPILERS[$INDEX]}"
-  local CXXCOMPILER="${CPPCOMPILERS[$INDEX]}"
+  Github "SDL" "https://github.com/libsdl-org/SDL.git" ""
   
-  Github "$MODULE" "https://github.com/libsdl-org/SDL.git" ""
-  
-  cd "$MODULES_DIR/$MODULE" || exit
-  BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
-  INSTALLPATH="$MODULES_DIR/$MODULE/install_$PLATFORM-$ARCH"
+  cd "$MODULES_DIR/SDL" || exit
+  BUILDPATH="$MODULES_DIR/SDL/build_$PLATFORM-$ARCH"
+  INSTALLPATH="$MODULES_DIR/SDL/install_$PLATFORM-$ARCH"
   rm -rf "$BUILDPATH" "$INSTALLPATH"
   mkdir -p "$BUILDPATH" "$INSTALLPATH"
   cd "$BUILDPATH" || exit
 
   cmake .. -G Ninja -Wno-dev \
     -DCMAKE_SYSTEM_PROCESSOR=$ARCH \
-    -DCMAKE_C_COMPILER=$COMPILER \
-    -DCMAKE_CXX_COMPILER=$CXXCOMPILER \
+    -DCMAKE_C_COMPILER=$CC \
+    -DCMAKE_CXX_COMPILER=$CXX \
     -DCMAKE_SYSTEM_NAME=Linux \
     -DSDL_SHARED=ON \
     -DSDL_STATIC=OFF \
@@ -65,25 +81,19 @@ SDL()
 
 IMAGE()
 {
-  local INDEX="$1"
-  local ARCH="${ARCHS[$INDEX]}"
-  local RID="${RIDS[$INDEX]}"
-  local COMPILER="${COMPILERS[$INDEX]}"
-  local CXXCOMPILER="${CPPCOMPILERS[$INDEX]}"
+  Github "SDL_IMAGE" "https://github.com/libsdl-org/SDL_image.git" ""
   
-  Github "$MODULE" "https://github.com/libsdl-org/SDL_image.git" ""
-  
-  cd "$MODULES_DIR/$MODULE" || exit
-  BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
-  INSTALLPATH="$MODULES_DIR/$MODULE/install_$PLATFORM-$ARCH"
+  cd "$MODULES_DIR/SDL_IMAGE" || exit
+  BUILDPATH="$MODULES_DIR/SDL_IMAGE/build_$PLATFORM-$ARCH"
+  INSTALLPATH="$MODULES_DIR/SDL_IMAGE/install_$PLATFORM-$ARCH"
   rm -rf "$BUILDPATH" "$INSTALLPATH"
   mkdir -p "$BUILDPATH" "$INSTALLPATH"
   cd "$BUILDPATH" || exit
 
   cmake .. -G Ninja -Wno-dev \
     -DCMAKE_SYSTEM_PROCESSOR=$ARCH \
-    -DCMAKE_C_COMPILER=$COMPILER \
-    -DCMAKE_CXX_COMPILER=$CXXCOMPILER \
+    -DCMAKE_C_COMPILER=$CC \
+    -DCMAKE_CXX_COMPILER=$CXX \
     -DCMAKE_SYSTEM_NAME=Linux \
     -DSDLIMAGE_BMP=ON \
     -DSDLIMAGE_JPG=ON \
@@ -120,25 +130,19 @@ IMAGE()
 
 MIXER()
 {
-  local INDEX="$1"
-  local ARCH="${ARCHS[$INDEX]}"
-  local RID="${RIDS[$INDEX]}"
-  local COMPILER="${COMPILERS[$INDEX]}"
-  local CXXCOMPILER="${CPPCOMPILERS[$INDEX]}"
+  Github "SDL_MIXER" "https://github.com/libsdl-org/SDL_mixer.git" ""
   
-  Github "$MODULE" "https://github.com/libsdl-org/SDL_mixer.git" ""
-  
-  cd "$MODULES_DIR/$MODULE" || exit
-  BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
-  INSTALLPATH="$MODULES_DIR/$MODULE/install_$PLATFORM-$ARCH"
+  cd "$MODULES_DIR/SDL_MIXER" || exit
+  BUILDPATH="$MODULES_DIR/SDL_MIXER/build_$PLATFORM-$ARCH"
+  INSTALLPATH="$MODULES_DIR/SDL_MIXER/install_$PLATFORM-$ARCH"
   rm -rf "$BUILDPATH" "$INSTALLPATH"
   mkdir -p "$BUILDPATH" "$INSTALLPATH"
   cd "$BUILDPATH" || exit
 
   cmake .. -G Ninja -Wno-dev \
     -DCMAKE_SYSTEM_PROCESSOR=$ARCH \
-    -DCMAKE_C_COMPILER=$COMPILER \
-    -DCMAKE_CXX_COMPILER=$CXXCOMPILER \
+    -DCMAKE_C_COMPILER=$CC \
+    -DCMAKE_CXX_COMPILER=$CXX \
     -DCMAKE_SYSTEM_NAME=Linux \
     -DSDLMIXER_MP3_DRMP3=ON \
     -DSDLMIXER_VORBIS_STB=ON \
@@ -175,25 +179,19 @@ MIXER()
 
 TTF()
 {
-  local INDEX="$1"
-  local ARCH="${ARCHS[$INDEX]}"
-  local RID="${RIDS[$INDEX]}"
-  local COMPILER="${COMPILERS[$INDEX]}"
-  local CXXCOMPILER="${CPPCOMPILERS[$INDEX]}"
+  Github "SDL_TTF" "https://github.com/libsdl-org/SDL_ttf.git" ""
   
-  Github "$MODULE" "https://github.com/libsdl-org/SDL_ttf.git" ""
-  
-  cd "$MODULES_DIR/$MODULE" || exit
-  BUILDPATH="$MODULES_DIR/$MODULE/build_$PLATFORM-$ARCH"
-  INSTALLPATH="$MODULES_DIR/$MODULE/install_$PLATFORM-$ARCH"
+  cd "$MODULES_DIR/SDL_TTF" || exit
+  BUILDPATH="$MODULES_DIR/SDL_TTF/build_$PLATFORM-$ARCH"
+  INSTALLPATH="$MODULES_DIR/SDL_TTF/install_$PLATFORM-$ARCH"
   rm -rf "$BUILDPATH" "$INSTALLPATH"
   mkdir -p "$BUILDPATH" "$INSTALLPATH"
   cd "$BUILDPATH" || exit
 
   cmake .. -G Ninja -Wno-dev \
     -DCMAKE_SYSTEM_PROCESSOR=$ARCH \
-    -DCMAKE_C_COMPILER=$COMPILER \
-    -DCMAKE_CXX_COMPILER=$CXXCOMPILER \
+    -DCMAKE_C_COMPILER=$CC \
+    -DCMAKE_CXX_COMPILER=$CXX \
     -DCMAKE_SYSTEM_NAME=Linux \
     -DSDLTTF_VENDORED=ON \
     -DBUILD_SHARED_LIBS=ON \
@@ -211,7 +209,7 @@ TTF()
 
 COMPLETE()
 {
-  read -p "Build complete."
+  echo "Build complete."
 }
 
 source "$DEPENDENCIES_DIR/Build.sh"
