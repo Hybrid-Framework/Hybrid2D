@@ -21,7 +21,7 @@ ENVIRONMENT()
   ANDROID_NDK="$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake"
   
   NDK_VERSION="29.0.13846066"
-  ANDROID_TARGET="21"
+  ANDROID_TARGET="26"
   ANDROID_COMPILE="36"
   
   export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/tools/bin:$PATH"
@@ -44,6 +44,8 @@ SDL()
   cd "$BUILDPATH" || exit
 
   cmake .. -G Ninja -Wno-dev \
+    -DCMAKE_SHARED_LINKER_FLAGS="-Wl,-z,max-page-size=16384" \
+    -DCMAKE_EXE_LINKER_FLAGS="-Wl,-z,max-page-size=16384" \
     -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK" \
     -DANDROID_PLATFORM=android-$ANDROID_TARGET \
     -DANDROID_ABI="$ARCH" \
@@ -74,6 +76,8 @@ IMAGE()
   cd "$BUILDPATH" || exit
 
   cmake .. -G Ninja -Wno-dev \
+    -DCMAKE_SHARED_LINKER_FLAGS="-Wl,-z,max-page-size=16384" \
+    -DCMAKE_EXE_LINKER_FLAGS="-Wl,-z,max-page-size=16384" \
     -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK" \
     -DANDROID_PLATFORM=android-$ANDROID_TARGET \
     -DANDROID_ABI="$ARCH" \
@@ -122,6 +126,8 @@ MIXER()
   cd "$BUILDPATH" || exit
 
   cmake .. -G Ninja -Wno-dev \
+    -DCMAKE_SHARED_LINKER_FLAGS="-Wl,-z,max-page-size=16384" \
+    -DCMAKE_EXE_LINKER_FLAGS="-Wl,-z,max-page-size=16384" \
     -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK" \
     -DANDROID_PLATFORM=android-$ANDROID_TARGET \
     -DANDROID_ABI="$ARCH" \
@@ -170,6 +176,8 @@ TTF()
   cd "$BUILDPATH" || exit
 
   cmake .. -G Ninja -Wno-dev \
+    -DCMAKE_SHARED_LINKER_FLAGS="-Wl,-z,max-page-size=16384" \
+    -DCMAKE_EXE_LINKER_FLAGS="-Wl,-z,max-page-size=16384" \
     -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK" \
     -DANDROID_PLATFORM=android-$ANDROID_TARGET \
     -DANDROID_ABI="$ARCH" \
