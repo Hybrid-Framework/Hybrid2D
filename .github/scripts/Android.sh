@@ -19,14 +19,17 @@ ENVIRONMENT()
   
   ANDROID_SDK="$ANDROID_HOME"
   ANDROID_NDK="$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake"
-  ANDROID_PLATFORM_VER="${PLATFORM_VER:-34}"
-  NDK_VER="${NDK_VER:-29.0.13846066}"
+  
+  NDK_VERSION="29.0.13846066"
+  ANDROID_TARGET="21"
+  ANDROID_COMPILE="36"
   
   export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/tools/bin:$PATH"
   
   yes | sdkmanager --install "platform-tools"
-  yes | sdkmanager --install "platforms;android-$ANDROID_PLATFORM_VER"
-  yes | sdkmanager --install "ndk;$NDK_VER"
+  yes | sdkmanager --install "platforms;android-$ANDROID_TARGET"
+  yes | sdkmanager --install "platforms;android-$ANDROID_COMPILE"
+  yes | sdkmanager --install "ndk;$NDK_VERSION"
 }
 
 SDL()
@@ -42,7 +45,7 @@ SDL()
 
   cmake .. -G Ninja -Wno-dev \
     -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK" \
-    -DANDROID_PLATFORM=android-"$ANDROID_PLATFORM_VER" \
+    -DANDROID_PLATFORM=android-$ANDROID_TARGET \
     -DANDROID_ABI="$ARCH" \
     -DSDL_SHARED=ON \
     -DSDL_STATIC=OFF \
@@ -72,7 +75,7 @@ IMAGE()
 
   cmake .. -G Ninja -Wno-dev \
     -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK" \
-    -DANDROID_PLATFORM=android-"$ANDROID_PLATFORM_VER" \
+    -DANDROID_PLATFORM=android-$ANDROID_TARGET \
     -DANDROID_ABI="$ARCH" \
     -DSDLIMAGE_BMP=ON \
     -DSDLIMAGE_JPG=ON \
@@ -120,7 +123,7 @@ MIXER()
 
   cmake .. -G Ninja -Wno-dev \
     -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK" \
-    -DANDROID_PLATFORM=android-"$ANDROID_PLATFORM_VER" \
+    -DANDROID_PLATFORM=android-$ANDROID_TARGET \
     -DANDROID_ABI="$ARCH" \
     -DSDLMIXER_MP3_DRMP3=ON \
     -DSDLMIXER_VORBIS_STB=ON \
@@ -168,7 +171,7 @@ TTF()
 
   cmake .. -G Ninja -Wno-dev \
     -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK" \
-    -DANDROID_PLATFORM=android-"$ANDROID_PLATFORM_VER" \
+    -DANDROID_PLATFORM=android-$ANDROID_TARGET \
     -DANDROID_ABI="$ARCH" \
     -DSDLTTF_VENDORED=ON \
     -DBUILD_SHARED_LIBS=ON \
@@ -191,7 +194,7 @@ COMPLETE()
   JAR_DIR="$BASE_DIR/../../Platforms/$PLATFORM/Jars"
   JAVA_DIR="$MODULES_DIR/SDL/android-project/app/src/main/java"
 
-  ANDROID_JAR="$ANDROID_HOME/platforms/android-$ANDROID_PLATFORM_VER/android.jar"
+  ANDROID_JAR="$ANDROID_HOME/platforms/android-$ANDROID_COMPILE/android.jar"
   cd "$JAVA_DIR" || exit 1
   mkdir -p out
 
