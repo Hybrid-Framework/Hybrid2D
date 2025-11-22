@@ -6,8 +6,8 @@ namespace Hybrid
     {
         internal override void Bootstrap()
         {
-            PlatformName = PlatformName.IOS;
-            PlatformDevice = PlatformDevice.Mobile;
+            System = System.IOS;
+            Device = Device.Mobile;
             
             var assembly = typeof(SDL).Assembly;
             var frameworks = Path.Combine(AppContext.BaseDirectory!, "Frameworks");

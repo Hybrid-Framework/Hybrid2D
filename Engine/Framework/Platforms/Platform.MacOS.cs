@@ -6,8 +6,8 @@ namespace Hybrid
     {
         internal override void Bootstrap()
         {
-            PlatformName = PlatformName.MacOS;
-            PlatformDevice = PlatformDevice.Desktop;
+            System = System.MacOS;
+            Device = Device.Desktop;
             
             var assembly = typeof(SDL).Assembly;
             NativeLibrary.SetDllImportResolver(assembly, (library, asm, path) =>

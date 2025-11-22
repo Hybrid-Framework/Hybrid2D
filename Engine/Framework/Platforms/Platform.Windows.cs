@@ -6,8 +6,8 @@ namespace Hybrid
     {
         internal override void Bootstrap()
         {
-            PlatformName = PlatformName.Windows;
-            PlatformDevice = PlatformDevice.Desktop;
+            System = System.Windows;
+            Device = Device.Desktop;
             
             var assembly = typeof(SDL).Assembly;
             NativeLibrary.SetDllImportResolver(assembly, (library, asm, path) =>

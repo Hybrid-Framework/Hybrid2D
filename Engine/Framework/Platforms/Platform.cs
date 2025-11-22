@@ -3,7 +3,7 @@
 namespace Hybrid
 {
     // Platform
-    public abstract class Platform
+    public abstract partial class Platform
     {
         public static void Windows(Config config) => Create(new PlatformWindows(), config);
         public static void Android(Config config) => Create(new PlatformAndroid(), config);
@@ -12,10 +12,10 @@ namespace Hybrid
         public static void IOS(Config config) => Create(new PlatformIOS(), config);
         public static void Web(Config config) => Create(new PlatformWeb(), config);
         
-        public virtual PlatformDevice PlatformDevice { get; protected set; }
-        public virtual PlatformName PlatformName { get; protected set; }
+        public static Device Device { get; internal set; }
+        public static System System { get; internal set; }
         
-        public static Platform Current { get; protected set; }
+        private static Platform Current { get; set; }
         internal static Engine Engine { get; set; }
 
         internal abstract void Bootstrap();
@@ -27,7 +27,7 @@ namespace Hybrid
             if (platform == null) throw new Exception("Can not create null platform");
             if (config == null) throw new Exception("Can not create null config");
             
-            // Create Engine
+            // Create Engine Instance
             Engine = new Engine(config);
             
             // Bootstrap

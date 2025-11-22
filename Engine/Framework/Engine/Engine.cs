@@ -3,12 +3,12 @@
 namespace Hybrid
 {
     // Engine
-    internal partial class Engine
+    internal unsafe partial class Engine
     {
+        internal static GraphicsDevice GraphicsDevice { get; private set; }
+        
         internal bool Initialized { get; private set; }
         internal bool IsRunning { get; private set; }
-        
-        internal static GraphicsDevice GraphicsDevice;
         
         internal Config Config { get; }
         
@@ -23,6 +23,7 @@ namespace Hybrid
     {
         private SDL.Texture* Texture;
         
+        
         // Engine Initialize
         internal void Initialize()
         {
@@ -33,7 +34,6 @@ namespace Hybrid
 
             // Modules
             GraphicsDevice = new GraphicsDevice(Config);
-
             Texture = SDL_image.LoadTexture(GraphicsDevice.Renderer, SDL.GetBasePath() + "Images/Image.png");
             SDL.SetTextureScaleMode(Texture, SDL.ScaleMode.Pixel);
             
@@ -63,7 +63,7 @@ namespace Hybrid
     }
     
     // Engine Initialize
-    internal partial class Engine
+    internal unsafe partial class Engine
     {
         internal void OnInitialize()
         {
@@ -73,7 +73,7 @@ namespace Hybrid
     }
     
     // Engine Events
-    internal partial class Engine
+    internal unsafe partial class Engine
     {
         internal void OnEvent()
         {
@@ -90,7 +90,7 @@ namespace Hybrid
     }
     
     // Engine Update
-    internal partial class Engine
+    internal unsafe partial class Engine
     {
         internal void OnUpdate()
         {

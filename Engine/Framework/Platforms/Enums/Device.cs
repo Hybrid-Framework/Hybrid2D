@@ -2,10 +2,11 @@
 
 namespace Hybrid
 {
-    public enum PlatformDevice
+    public enum Device
     {
         Unknown,
+        Console,
         Desktop,
-        Mobile
+        Mobile,
     }
 }
