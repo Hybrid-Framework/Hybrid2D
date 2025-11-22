@@ -8,6 +8,8 @@ namespace Hybrid
         internal bool Initialized { get; private set; }
         internal bool IsRunning { get; private set; }
         
+        internal static GraphicsDevice GraphicsDevice;
+        
         internal Config Config { get; }
         
         internal Engine(Config config)
@@ -17,8 +19,10 @@ namespace Hybrid
     }
     
     // Engine Core
-    internal partial class Engine
+    internal unsafe partial class Engine
     {
+        private SDL.Texture* Texture;
+        
         // Engine Initialize
         internal void Initialize()
         {
@@ -26,6 +30,12 @@ namespace Hybrid
             if (Initialized) return;
             Initialized = true;
             IsRunning = true;
+
+            // Modules
+            GraphicsDevice = new GraphicsDevice(Config);
+
+            Texture = SDL_image.LoadTexture(GraphicsDevice.Renderer, SDL.GetBasePath() + "Images/Image.png");
+            SDL.SetTextureScaleMode(Texture, SDL.ScaleMode.Pixel);
             
             // Initialize
             OnInitialize();
@@ -90,12 +100,19 @@ namespace Hybrid
     }
     
     // Engine Render
-    internal partial class Engine
+    internal unsafe partial class Engine
     {
         internal void OnRender()
         {
+            SDL.SetRenderDrawColor(GraphicsDevice.Renderer, 255, 128, 128, 255);
+            SDL.RenderClear(GraphicsDevice.Renderer);
+            
             // Render Game
             Config.Game.OnRender();
+
+            SDL.RenderTexture(GraphicsDevice.Renderer, Texture, null, null);
+            
+            SDL.RenderPresent(GraphicsDevice.Renderer);
         }
     }
 }

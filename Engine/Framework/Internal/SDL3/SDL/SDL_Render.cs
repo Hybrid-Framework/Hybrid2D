@@ -326,6 +326,14 @@ internal static unsafe partial class SDL
         return SDL_RenderPresent(renderer);
     }
     
+    // Get Renderer Name
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern byte* SDL_GetRendererName(SDL.Renderer* renderer);
+    public static string GetRendererName(SDL.Renderer* renderer)
+    {
+        return Utf8ToString(SDL_GetRendererName(renderer));
+    }
+    
     // Render Debug Text
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_RenderDebugText(SDL.Renderer* renderer, float x, float y, byte* text);
