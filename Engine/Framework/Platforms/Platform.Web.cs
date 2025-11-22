@@ -65,7 +65,7 @@ namespace Hybrid
         internal static void Run()
         {
             Emscripten.SetMainLoopTiming(Emscripten.Mode.RequestFrameAnimation, 1);
-            Engine.Initialize();
+            Engine.StartMainLoop();
             
             if (Engine.IsRunning)
             {

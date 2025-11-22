@@ -28,7 +28,7 @@ namespace Hybrid
 
         internal static void Run()
         {
-            Engine.Initialize();
+            Engine.StartMainLoop();
             
             while (Engine.IsRunning)
             {

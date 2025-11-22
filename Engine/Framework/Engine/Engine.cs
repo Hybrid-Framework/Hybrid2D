@@ -3,14 +3,15 @@
 namespace Hybrid
 {
     // Engine
-    internal unsafe partial class Engine
+    internal partial class Engine
     {
-        internal static GraphicsDevice GraphicsDevice { get; private set; }
+        internal static Graphics Graphics { get; private set; }
+        internal static Window Window { get; private set; }
+        internal static Config Config { get; private set; }
         
         internal bool Initialized { get; private set; }
         internal bool IsRunning { get; private set; }
         
-        internal Config Config { get; }
         
         internal Engine(Config config)
         {
@@ -19,23 +20,19 @@ namespace Hybrid
     }
     
     // Engine Core
-    internal unsafe partial class Engine
+    internal partial class Engine
     {
-        private SDL.Texture* Texture;
-        
-        
-        // Engine Initialize
-        internal void Initialize()
+        // Engine Start Main Loop
+        internal void StartMainLoop()
         {
-            // Initialize
-            if (Initialized) return;
+            // Already Initialized
+            if (Initialized)return;
             Initialized = true;
             IsRunning = true;
 
-            // Modules
-            GraphicsDevice = new GraphicsDevice(Config);
-            Texture = SDL_image.LoadTexture(GraphicsDevice.Renderer, SDL.GetBasePath() + "Images/Image.png");
-            SDL.SetTextureScaleMode(Texture, SDL.ScaleMode.Pixel);
+            // Initialize Engine Modules
+            Window = Module.Register(new Window(Config));
+            Graphics = Module.Register(new Graphics(Config));
             
             // Initialize
             OnInitialize();
@@ -53,71 +50,62 @@ namespace Hybrid
         // Engine Quit
         internal void Quit()
         {
-            // Quit Application
-            if(!IsRunning) return;
-            IsRunning = false;
-            
-            // Quit
             SDL.Quit();
         }
     }
     
     // Engine Initialize
-    internal unsafe partial class Engine
+    internal partial class Engine
     {
         internal void OnInitialize()
         {
-            // Initialize Game
-            Config.Game.OnInitialize();
+            // Initialize Modules
+            foreach (var module in Module.GetModules())
+            {
+                module.OnInitialize();
+            }
         }
     }
     
     // Engine Events
-    internal unsafe partial class Engine
+    internal partial class Engine
     {
         internal void OnEvent()
         {
             while (SDL.PollEvent(out SDL.Event e))
             {
-                // Quit Application
-                if (e.type == SDL.EventType.Quit)
+                // Event Modules
+                foreach (var module in Module.GetModules())
                 {
-                    Quit();
-                    return;
+                    module.OnEvent(e);
                 }
             }
         }
     }
     
     // Engine Update
-    internal unsafe partial class Engine
+    internal partial class Engine
     {
         internal void OnUpdate()
         {
-            // Update Game
-            Config.Game.OnUpdate();
+            // Update Modules
+            foreach (var module in Module.GetModules())
+            {
+                module.OnUpdate();
+            }
         }
     }
     
     // Engine Render
-    internal unsafe partial class Engine
+    internal partial class Engine
     {
         internal void OnRender()
         {
-            SDL.SetRenderDrawColor(GraphicsDevice.Renderer, 255, 128, 128, 255);
-            SDL.RenderClear(GraphicsDevice.Renderer);
-            
-            // Render Game
-            Config.Game.OnRender();
-
-            SDL.RenderTexture(GraphicsDevice.Renderer, Texture, null, null);
-            
-            SDL.SetRenderDrawColor(GraphicsDevice.Renderer, 255, 255, 255, 255);
-            SDL.RenderDebugText(GraphicsDevice.Renderer, 10, 10, "Graphics: " + GraphicsDevice.GraphicsDriver);
-            SDL.RenderDebugText(GraphicsDevice.Renderer, 10, 20, "System: " + Platform.System);
-            SDL.RenderDebugText(GraphicsDevice.Renderer, 10, 30, "Device: " + Platform.Device);
-            
-            SDL.RenderPresent(GraphicsDevice.Renderer);
+            // Render Modules
+            foreach (var module in Module.GetModules())
+            {
+                module.OnRender();
+            }
         }
     }
 }

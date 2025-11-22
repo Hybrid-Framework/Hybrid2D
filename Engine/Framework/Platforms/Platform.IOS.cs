@@ -31,7 +31,7 @@ namespace Hybrid
         
         internal static int Run(int argc, IntPtr argv)
         {
-            Engine.Initialize();
+            Engine.StartMainLoop();
             
             while (Engine.IsRunning)
             {
