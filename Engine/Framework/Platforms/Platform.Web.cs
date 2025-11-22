@@ -5,10 +5,12 @@ namespace Hybrid
 {
     internal unsafe class PlatformWeb : Platform
     {
+        private bool IsMobile => Emscripten.RunScriptInt("(/Mobi|Android|iPhone|iPad|iPod|Tablet/i.test(navigator.userAgent))|0;" ) != 0;
+        
         internal override void Bootstrap()
         {
             System = System.Web;
-            Device = Device.Unknown;
+            Device = IsMobile ? Device.Mobile : Device.Desktop;
             
             var assembly = typeof(SDL).Assembly;
             NativeLibrary.SetDllImportResolver(assembly, (library, asm, path) =>
@@ -30,7 +32,7 @@ namespace Hybrid
         [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvCdecl) })]
         internal static void Run()
         {
-            Emscripten.SetMainLoopTiming(Emscripten.TimingMode.RequestFrameAnimation, 1);
+            Emscripten.SetMainLoopTiming(Emscripten.Mode.RequestFrameAnimation, 1);
             Engine.Initialize();
             
             if (Engine.IsRunning)

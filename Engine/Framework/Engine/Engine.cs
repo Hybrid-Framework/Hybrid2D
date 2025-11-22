@@ -111,6 +111,10 @@ namespace Hybrid
             Config.Game.OnRender();
 
             SDL.RenderTexture(GraphicsDevice.Renderer, Texture, null, null);
+
+            SDL.RenderDebugText(GraphicsDevice.Renderer, 10, 10, "Graphics: " + GraphicsDevice.GraphicsDriver);
+            SDL.RenderDebugText(GraphicsDevice.Renderer, 10, 20, "System: " + Platform.System);
+            SDL.RenderDebugText(GraphicsDevice.Renderer, 10, 30, "Device: " + Platform.Device);
             
             SDL.RenderPresent(GraphicsDevice.Renderer);
         }

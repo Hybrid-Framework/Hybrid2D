@@ -12,16 +12,16 @@ internal static unsafe partial class Emscripten
     
     // Set Main Loop Timing
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern int emscripten_set_main_loop_timing(TimingMode mode, int value);
-    public static int SetMainLoopTiming(TimingMode mode, int value)
+    private static extern int emscripten_set_main_loop_timing(Mode mode, int value);
+    public static int SetMainLoopTiming(Mode mode, int value)
     {
         return emscripten_set_main_loop_timing(mode, value);
     }
     
     // Get Main Loop Timing
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern void emscripten_get_main_loop_timing(out TimingMode mode, out int value);
-    public static void GetMainLoopTiming(out TimingMode mode, out int value)
+    private static extern void emscripten_get_main_loop_timing(out Mode mode, out int value);
+    public static void GetMainLoopTiming(out Mode mode, out int value)
     {
         emscripten_get_main_loop_timing(out mode, out value);
     }
