@@ -8,7 +8,6 @@ namespace Hybrid
         internal bool Initialized { get; private set; }
         internal bool IsRunning { get; private set; }
         
-        internal Test Test { get; set; }
         internal Config Config { get; }
         
         internal Engine(Config config)
@@ -18,12 +17,8 @@ namespace Hybrid
     }
     
     // Engine Core
-    internal unsafe partial class Engine
+    internal partial class Engine
     {
-        private SDL.Window* window;
-        private SDL.Renderer* renderer;
-        private SDL.Texture* texture;
-        
         // Engine Initialize
         internal void Initialize()
         {
@@ -31,9 +26,6 @@ namespace Hybrid
             if (Initialized) return;
             Initialized = true;
             IsRunning = true;
-            
-            // Example
-            Test = new Test();
             
             // Initialize
             OnInitialize();
@@ -60,6 +52,16 @@ namespace Hybrid
         }
     }
     
+    // Engine Initialize
+    internal partial class Engine
+    {
+        internal void OnInitialize()
+        {
+            // Initialize Game
+            Config.Game.OnInitialize();
+        }
+    }
+    
     // Engine Events
     internal partial class Engine
     {
@@ -73,20 +75,7 @@ namespace Hybrid
                     Quit();
                     return;
                 }
-                
-                Test.OnEvent(e);
             }
-        }
-    }
-    
-    // Engine Initialize
-    internal partial class Engine
-    {
-        internal void OnInitialize()
-        {
-            // Initialize Game
-            Config.Game.OnInitialize();
-            Test.OnInitialize();
         }
     }
     
@@ -97,18 +86,16 @@ namespace Hybrid
         {
             // Update Game
             Config.Game.OnUpdate();
-            Test.OnUpdate();
         }
     }
     
     // Engine Render
-    internal unsafe partial class Engine
+    internal partial class Engine
     {
         internal void OnRender()
         {
             // Render Game
             Config.Game.OnRender();
-            Test.OnRender();
         }
     }
 }
