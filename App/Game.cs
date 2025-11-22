@@ -7,11 +7,7 @@ namespace App
     {
         public override void OnInitialize()
         {
-            Console.WriteLine("Graphics: " + Window.GraphicsDriver);
-            Console.WriteLine("System: " + Platform.System);
-            Console.WriteLine("Device: " + Platform.Device);
             
-            Debug.FileSystem();
         }
 
         public override void OnUpdate()

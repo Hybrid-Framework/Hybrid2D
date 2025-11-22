@@ -5,12 +5,43 @@ namespace Hybrid
 {
     internal unsafe class PlatformWeb : Platform
     {
-        private bool IsMobile => Emscripten.RunScriptInt("(/Mobi|Android|iPhone|iPad|iPod|Tablet/i.test(navigator.userAgent))|0;" ) != 0;
+        private static Device ResolveDevice()
+        {
+            var found = Emscripten.RunScriptString
+            (
+                @"(() =>
+                {
+                    const uap = new UAParser();
+
+                    const device = uap.getDevice().withFeatureCheck();
+                    
+                    if (device.type == 'mobile') return 'Mobile';
+                    if (device.type == 'tablet') return 'Mobile';
+                    if (device.type == 'console') return 'Mobile';
+                    if (device.type == 'embedded') return 'Mobile';
+                    if (device.type == 'smarttv') return 'Mobile';
+                    if (device.type == 'wearable') return 'Mobile';
+                    if (device.type == 'xr') return 'Mobile';
+
+                    if (device.is('iPad')) return 'Mobile';
+
+                    return 'Desktop';
+
+                })();"
+            );
+
+            switch (found)
+            {
+                case "Mobile": return Device.Mobile;
+                case "Desktop": return Device.Desktop;
+                default: return Device.Unknown;
+            }
+        }
         
         internal override void Bootstrap()
         {
             System = System.Web;
-            Device = IsMobile ? Device.Mobile : Device.Desktop;
+            Device = ResolveDevice();
             
             var assembly = typeof(SDL).Assembly;
             NativeLibrary.SetDllImportResolver(assembly, (library, asm, path) =>
@@ -26,6 +57,7 @@ namespace Hybrid
             });
             
             SDL.Initialize();
+            SDL.SetHint(SDL.SDL_HINT_EMSCRIPTEN_FILL_DOCUMENT, "1");
             Emscripten.SetMainLoop((IntPtr)(delegate* unmanaged[Cdecl]<void>)&Run, 0, false);
         }
         
@@ -37,6 +69,7 @@ namespace Hybrid
             
             if (Engine.IsRunning)
             {
+                Device = ResolveDevice(); // DEBUG ONLY!!!
                 Engine.MainLoop();
                 return;
             }
