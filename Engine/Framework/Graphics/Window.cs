@@ -26,6 +26,17 @@ namespace Hybrid
             Handle = SDL.CreateWindow(config.Title, config.Width, config.Height, flags);
             VSync = config.VSync;
             Fps = config.Fps;
+            
+            // Window Icon
+            if (config.Icon != null)
+            {
+                SDL.Surface* icon = SDL_image.Load(config.Icon);
+                    
+                if (icon != null)
+                {
+                    SDL.SetWindowIcon(Handle, icon);
+                }
+            }
         }
     }
     
