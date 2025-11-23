@@ -4,7 +4,9 @@ namespace Hybrid
 {
     public class MacPlatform : Platform
     {
-        internal override IPlatformDevice Device { get; } = new MacDevice();
-        internal override IPlatformSystem System { get; } = new MacSystem();
+        internal override IPlatformOrientation PlatformOrientation { get; } = new MacOrientation();
+        internal override IPlatformResize PlatformResize { get; } = new MacResize();
+        internal override IPlatformDevice PlatformDevice { get; } = new MacDevice();
+        internal override IPlatformSystem PlatformSystem { get; } = new MacSystem();
     }
 }

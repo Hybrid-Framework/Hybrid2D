@@ -6,7 +6,7 @@ namespace Hybrid
     {
         public Device GetDevice()
         {
-            string found = Emscripten.RunScriptString
+            string device = Emscripten.RunScriptString
             (
                 @"(() =>
                 {
@@ -21,7 +21,6 @@ namespace Hybrid
                     if (device.type == 'smarttv') return 'Mobile';
                     if (device.type == 'wearable') return 'Mobile';
                     if (device.type == 'xr') return 'Mobile';
-
                     if (device.is('iPad')) return 'Mobile';
 
                     return 'Desktop';
@@ -29,11 +28,16 @@ namespace Hybrid
                 })();"
             );
 
-            switch (found)
+            switch (device)
             {
-                case "Mobile": return Device.Mobile;
-                case "Desktop": return Device.Desktop;
-                default: return Device.Unknown;
+                case "Mobile":
+                    return Device.Mobile;
+                
+                case "Desktop":
+                    return Device.Desktop;
+                
+                default:
+                    return Device.Unknown;
             }
         }
     }

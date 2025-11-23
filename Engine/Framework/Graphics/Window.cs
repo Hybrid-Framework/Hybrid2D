@@ -179,7 +179,7 @@ namespace Hybrid
 
         public static Orientation Orientation
         {
-            get => (Orientation)SDL.GetCurrentDisplayOrientation(SDL.GetWindowID(Handle));
+            get => Platform.GetOrientation();
         }
     }
 
@@ -201,7 +201,7 @@ namespace Hybrid
             switch (e.type)
             {
                 case SDL.EventType.Orientation:
-                    HandleOrientation();
+                    OnOrientation?.Invoke(Orientation);
                     break;
                 
                 case SDL.EventType.EnterFullscreen:
@@ -213,7 +213,7 @@ namespace Hybrid
                     break;
                 
                 case SDL.EventType.Resized:
-                    OnResized.Invoke(Size);
+                    OnResized?.Invoke(Size);
                     break;
                 
                 case SDL.EventType.Moved:
@@ -236,11 +236,6 @@ namespace Hybrid
                     OnMaximized?.Invoke();
                     break;
             }
-        }
-        
-        private void HandleOrientation()
-        {
-            Console.WriteLine($"Orientation: {Orientation}");
         }
     }
 }
