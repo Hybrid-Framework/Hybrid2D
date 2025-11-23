@@ -6,8 +6,8 @@ namespace Hybrid
     {
         Unknown,
         Windows,
-        MacOS,
         Linux,
+        Mac,
         Android,
         IOS,
         Web

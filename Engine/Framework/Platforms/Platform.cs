@@ -3,41 +3,35 @@
 namespace Hybrid
 {
     // Platform
-    public abstract partial class Platform
+    public partial class Platform
     {
-        public static void Windows(Config config) => Create(new PlatformWindows(), config);
-        public static void Android(Config config) => Create(new PlatformAndroid(), config);
-        public static void Linux(Config config) => Create(new PlatformLinux(), config);
-        public static void MacOS(Config config) => Create(new PlatformMacOS(), config);
-        public static void IOS(Config config) => Create(new PlatformIOS(), config);
-        public static void Web(Config config) => Create(new PlatformWeb(), config);
-        
-        public static Device Device { get; internal set; }
-        public static System System { get; internal set; }
-        
-        private static Platform Current { get; set; }
-        internal static Engine Engine { get; set; }
-
-        internal abstract void Bootstrap();
-        
+        internal virtual IPlatformDevice Device { get; } = null;
+        internal virtual IPlatformSystem System { get; } = null;
+        internal static Platform Current { get; set; }
 
         internal static void Create(Platform platform, Config config)
         {
-            // Check for null instances
-            if (platform == null) throw new Exception("Can not create null platform");
-            if (config == null) throw new Exception("Can not create null config");
-            
-            // Create Engine Instance
-            Engine = new Engine(config);
-            
-            // Bootstrap
+            // Set Platform
             Current = platform;
-            Current.Bootstrap();
+        }
+    }
+
+    // Platform Methods
+    public partial class Platform
+    {
+        public static Device GetDevice()
+        {
+            return Current?.Device.GetDevice() ?? Hybrid.Device.Unknown;
+        }
+        
+        public static System GetSystem()
+        {
+            return Current?.System.GetSystem() ?? Hybrid.System.Unknown;
         }
 
         public static void Quit()
         {
-            Engine?.Quit();
+            Bootstrap.Engine?.Quit();
         }
     }
 }

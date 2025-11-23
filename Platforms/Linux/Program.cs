@@ -4,6 +4,6 @@ public class Program
 {
     public static void Main()
     {
-        Platform.Linux(new App.Config());
+        Bootstrap.Linux(new App.Config());
     }
 }

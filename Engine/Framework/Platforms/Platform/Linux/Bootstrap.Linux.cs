@@ -2,13 +2,13 @@
 
 namespace Hybrid
 {
-    internal class PlatformWindows : Platform
+    internal class LinuxBootstrap : Bootstrap
     {
-        internal override void Bootstrap()
+        protected override Platform Platform { get; set; } = new LinuxPlatform();
+        
+        
+        internal override void Execute()
         {
-            System = System.Windows;
-            Device = Device.Desktop;
-            
             var assembly = typeof(SDL).Assembly;
             NativeLibrary.SetDllImportResolver(assembly, (library, asm, path) =>
             {

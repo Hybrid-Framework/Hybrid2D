@@ -27,7 +27,7 @@ namespace Hybrid
         internal void StartMainLoop()
         {
             // Already Initialized
-            if (Initialized)return;
+            if (Initialized) return;
             Initialized = true;
             IsRunning = true;
 
@@ -52,6 +52,9 @@ namespace Hybrid
         // Engine Quit
         internal void Quit()
         {
+            if(!IsRunning) return;
+            IsRunning = false;
+            
             // Destroy Modules
             foreach (var module in Module.GetModules().Reverse())
             {
@@ -83,6 +86,13 @@ namespace Hybrid
         {
             while (SDL.PollEvent(out SDL.Event e))
             {
+                // Quit Application
+                if (e.type == SDL.EventType.Quit)
+                {
+                    Quit();
+                    return;
+                }
+                
                 // Event Modules
                 foreach (var module in Module.GetModules())
                 {

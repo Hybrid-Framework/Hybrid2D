@@ -2,13 +2,13 @@
 
 namespace Hybrid
 {
-    internal class PlatformIOS : Platform
+    internal class IOSBootstrap : Bootstrap
     {
-        internal override void Bootstrap()
+        protected override Platform Platform { get; set; } = new IOSPlatform();
+        
+        
+        internal override void Execute()
         {
-            System = System.IOS;
-            Device = Device.Mobile;
-            
             var assembly = typeof(SDL).Assembly;
             var frameworks = Path.Combine(AppContext.BaseDirectory!, "Frameworks");
 

@@ -2,13 +2,13 @@
 
 namespace Hybrid
 {
-    internal class PlatformAndroid : Platform
+    internal class MacBootstrap : Bootstrap
     {
-        internal override void Bootstrap()
+        protected override Platform Platform { get; set; } = new MacPlatform();
+        
+        
+        internal override void Execute()
         {
-            System = System.Android;
-            Device = Device.Mobile;
-            
             var assembly = typeof(SDL).Assembly;
             NativeLibrary.SetDllImportResolver(assembly, (library, asm, path) =>
             {

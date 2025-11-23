@@ -2,13 +2,13 @@
 
 namespace Hybrid
 {
-    internal class PlatformMacOS : Platform
+    internal class WindowsBootstrap : Bootstrap
     {
-        internal override void Bootstrap()
+        protected override Platform Platform { get; set; } = new WindowsPlatform();
+        
+        
+        internal override void Execute()
         {
-            System = System.MacOS;
-            Device = Device.Desktop;
-            
             var assembly = typeof(SDL).Assembly;
             NativeLibrary.SetDllImportResolver(assembly, (library, asm, path) =>
             {

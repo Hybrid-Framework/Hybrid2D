@@ -17,8 +17,9 @@ namespace Hybrid
             SDL.WindowFlags flags = SDL.WindowFlags.HighPixelDensity;
             
             // Calculate Flags
-            if (Platform.Device == Device.Mobile) config.Fullscreen = true;
-            if (Platform.Device == Device.Mobile) config.Resizable = true;
+            var device = Platform.GetDevice();
+            if (device == Device.Mobile) config.Fullscreen = true;
+            if (device == Device.Mobile) config.Resizable = true;
             if (config.Fullscreen) flags |= SDL.WindowFlags.Fullscreen;
             if (config.Resizable) flags |= SDL.WindowFlags.Resizable;
             
@@ -175,19 +176,71 @@ namespace Hybrid
                 }
             }
         }
+
+        public static Orientation Orientation
+        {
+            get => (Orientation)SDL.GetCurrentDisplayOrientation(SDL.GetWindowID(Handle));
+        }
     }
 
     // Events
     public unsafe partial class Window
     {
+        public static Action<Orientation> OnOrientation = null;
+        public static Action<bool> OnFullscreen = null;
+        public static Action<Vector2> OnResized = null;
+        public static Action<Vector2> OnMoved = null;
+        public static Action OnMaximized = null;
+        public static Action OnMinimized = null;
+        public static Action OnUnfocus = null;
+        public static Action OnFocus = null;
+        
+        
         internal override void OnEvent(SDL.Event e)
         {
-            // Quit Application
-            if (e.type == SDL.EventType.Quit)
+            switch (e.type)
             {
-                Platform.Quit();
-                return;
+                case SDL.EventType.Orientation:
+                    HandleOrientation();
+                    break;
+                
+                case SDL.EventType.EnterFullscreen:
+                    OnFullscreen?.Invoke(true);
+                    break;
+                
+                case SDL.EventType.ExitFullscreen:
+                    OnFullscreen?.Invoke(false);
+                    break;
+                
+                case SDL.EventType.Resized:
+                    OnResized.Invoke(Size);
+                    break;
+                
+                case SDL.EventType.Moved:
+                    OnMoved?.Invoke(Position);
+                    break;
+                
+                case SDL.EventType.Focused:
+                    OnFocus?.Invoke();
+                    break;
+                
+                case SDL.EventType.Unfocused:
+                    OnUnfocus?.Invoke();
+                    break;
+                
+                case SDL.EventType.Minimized:
+                    OnMinimized?.Invoke();
+                    break;
+                
+                case SDL.EventType.Maximized:
+                    OnMaximized?.Invoke();
+                    break;
             }
+        }
+        
+        private void HandleOrientation()
+        {
+            Console.WriteLine($"Orientation: {Orientation}");
         }
     }
 }
