@@ -38,6 +38,16 @@ namespace Hybrid
                 }
             }
         }
+        
+        internal override void OnDestroy()
+        {
+            Console.WriteLine("Window Disposed");
+            
+            if (Handle != null)
+            {
+                SDL.DestroyWindow(Handle);
+            }
+        }
     }
     
     // Properties

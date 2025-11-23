@@ -7,11 +7,12 @@ namespace Hybrid
     {
         internal static Graphics Graphics { get; private set; }
         internal static Window Window { get; private set; }
-        internal static Config Config { get; private set; }
+        internal static Scenes Scenes { get; private set; }
         
         internal bool Initialized { get; private set; }
         internal bool IsRunning { get; private set; }
         
+        private static Config Config { get; set; }
         
         internal Engine(Config config)
         {
@@ -33,6 +34,7 @@ namespace Hybrid
             // Initialize Engine Modules
             Window = Module.Register(new Window(Config));
             Graphics = Module.Register(new Graphics(Config));
+            Scenes = Module.Register(new Scenes(Config));
             
             // Initialize
             OnInitialize();
@@ -50,6 +52,13 @@ namespace Hybrid
         // Engine Quit
         internal void Quit()
         {
+            // Destroy Modules
+            foreach (var module in Module.GetModules().Reverse())
+            {
+                Object.Destroy(module);
+            }
+            
+            // Quit
             SDL.Quit();
         }
     }

@@ -3,10 +3,9 @@
 namespace Hybrid
 {
     // Global Module Management
-    public abstract partial class Module
+    public partial class Module : Object
     {
         private static readonly List<Module> Modules = new List<Module>();
-        
         
         public static T Register<T>(T module) where T : Module
         {
@@ -24,10 +23,15 @@ namespace Hybrid
         {
             return Modules.ToArray();
         }
+
+        internal Module()
+        {
+            
+        }
     }
     
     // Module
-    public abstract partial class Module
+    public partial class Module
     {
         internal virtual void OnEvent(SDL.Event e) {}
         internal virtual void OnInitialize() {}
