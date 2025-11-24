@@ -33,7 +33,7 @@ namespace Hybrid
 
         public static void Quit()
         {
-            Bootstrap.Engine?.Quit();
+            Engine.Quit();
         }
     }
 

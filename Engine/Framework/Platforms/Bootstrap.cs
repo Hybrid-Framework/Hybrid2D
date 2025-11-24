@@ -13,7 +13,6 @@ namespace Hybrid
         public static void Web(Config config) => Create(new WebBootstrap(), config);
         
         protected virtual Platform Platform { get; set; }
-        internal static Engine Engine { get; set; }
         
         
         internal static void Create(Bootstrap bootstrap, Config config)
@@ -22,7 +21,7 @@ namespace Hybrid
             Platform.Create(bootstrap.Platform, config);
 
             // Initialize Engine
-            Engine = new Engine(config);
+            Engine.Create(config);
             
             // Bootstrap
             bootstrap.Execute();

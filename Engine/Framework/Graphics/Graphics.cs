@@ -11,6 +11,7 @@ namespace Hybrid
             private set;
             get;
         }
+        
 
         internal Graphics(Config config)
         {

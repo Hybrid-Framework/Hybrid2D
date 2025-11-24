@@ -12,6 +12,7 @@ namespace Hybrid
             get;
         }
         
+        
         internal Window(Config config)
         {
             SDL.WindowFlags flags = SDL.WindowFlags.HighPixelDensity;

@@ -2,9 +2,11 @@
 
 namespace Hybrid
 {
+    // Scene
     public abstract class Scene
     {
         private readonly List<Object> Objects = new List<Object>();
+        
         public string Name => GetType().Name;
         
 
