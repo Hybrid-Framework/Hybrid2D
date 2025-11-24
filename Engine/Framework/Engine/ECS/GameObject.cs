@@ -16,7 +16,7 @@ namespace Hybrid
 
         internal override void OnDestroy()
         {
-            
+            Scene?.Remove(this);
         }
     }
 }

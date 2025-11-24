@@ -5,6 +5,7 @@ namespace Hybrid
     // Engine
     internal partial class Engine
     {
+        internal static Resources Resources { get; private set; }
         internal static Graphics Graphics { get; private set; }
         internal static Window Window { get; private set; }
         internal static Scenes Scenes { get; private set; }
@@ -34,6 +35,7 @@ namespace Hybrid
             // Initialize Engine Modules
             Window = Module.Register(new Window(Config));
             Graphics = Module.Register(new Graphics(Config));
+            Resources = Module.Register(new Resources(Config));
             Scenes = Module.Register(new Scenes(Config));
             
             // Initialize
@@ -58,6 +60,7 @@ namespace Hybrid
             // Destroy Modules
             foreach (var module in Module.GetModules().Reverse())
             {
+                // Destroy
                 Object.Destroy(module);
             }
             
@@ -74,6 +77,7 @@ namespace Hybrid
             // Initialize Modules
             foreach (var module in Module.GetModules())
             {
+                // Initialize
                 module.OnInitialize();
             }
         }
@@ -96,6 +100,7 @@ namespace Hybrid
                 // Event Modules
                 foreach (var module in Module.GetModules())
                 {
+                    // Event
                     module.OnEvent(e);
                 }
             }
@@ -110,6 +115,7 @@ namespace Hybrid
             // Update Modules
             foreach (var module in Module.GetModules())
             {
+                // Update
                 module.OnUpdate();
             }
         }
@@ -123,6 +129,7 @@ namespace Hybrid
             // Render Modules
             foreach (var module in Module.GetModules())
             {
+                // Render
                 module.OnRender();
             }
         }

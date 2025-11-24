@@ -49,16 +49,16 @@ namespace Hybrid
             switch (orientation)
             {
                 case "Portrait":
-                    return Orientation.Portrait;
+                    return Orientation.PortraitPrimary;
                 
                 case "Landscape":
-                    return Orientation.Landscape;
+                    return Orientation.LandscapePrimary;
                 
                 case "PortraitFlipped":
-                    return Orientation.PortraitFlipped;
+                    return Orientation.PortraitSecondary;
                 
                 case "LandscapeFlipped":
-                    return Orientation.LandscapeFlipped;
+                    return Orientation.LandscapeSecondary;
                 
                 default:
                     return Orientation.Unknown;

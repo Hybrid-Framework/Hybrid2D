@@ -7,6 +7,7 @@ namespace Hybrid
     {
         private static readonly List<Module> Modules = new List<Module>();
         
+        
         public static T Register<T>(T module) where T : Module
         {
             Modules.Add(module);
@@ -37,5 +38,11 @@ namespace Hybrid
         internal virtual void OnInitialize() {}
         internal virtual void OnRender() {}
         internal virtual void OnUpdate() {}
+        
+        
+        internal Module(Config config)
+        {
+            
+        }
     }
 }
