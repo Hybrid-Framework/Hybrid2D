@@ -13,7 +13,7 @@ namespace Hybrid
         }
         
 
-        internal Graphics(Config config)
+        internal Graphics()
         {
             Handle = SDL.CreateRenderer(Window.Handle, null);
         }
@@ -29,7 +29,7 @@ namespace Hybrid
         }
     }
 
-    // Graphics
+    // Graphics API
     public unsafe partial class Graphics
     {
         internal override void OnRender()

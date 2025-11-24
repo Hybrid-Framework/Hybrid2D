@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Hybrid
+namespace Hybrid.Internal
 {
     public unsafe class Test
     {

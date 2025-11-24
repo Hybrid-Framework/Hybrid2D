@@ -8,7 +8,7 @@ namespace Hybrid
         private static readonly Dictionary<string, Resource> Cache = new Dictionary<string, Resource>();
         
         
-        internal Resources(Config config)
+        internal Resources()
         {
             // Config
         }

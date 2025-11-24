@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Hybrid
+namespace Hybrid.Internal
 {
     // Engine
     internal static partial class Engine
     {
-        internal static List<Module> Modules { get; private set; } = new List<Module>();
+        internal static Modules Modules { get; private set; } = new Modules();
         
         internal static Resources Resources { get; private set; }
         internal static Graphics Graphics { get; private set; }
@@ -15,7 +15,7 @@ namespace Hybrid
         internal static bool Initialized { get; private set; }
         internal static bool IsRunning { get; private set; }
         
-        private static Config Config { get; set; }
+        internal static Config Config { get; set; }
         
         
         internal static void Create(Config config)
@@ -24,90 +24,112 @@ namespace Hybrid
         }
     }
 
-    // Engine Main
+    // Main Loop
     internal partial class Engine
     {
-        internal static T Register<T>(T module) where T : Module
-        {
-            // Register Module
-            Modules.Add(module);
-            return module;
-        }
-
-        internal static T UnRegister<T>(T module) where T : Module
-        {
-            // UnRegister Modules
-            Modules.Remove(module);
-            module.OnDestroy();
-            return module;
-        }
-        
         internal static void StartMainLoop()
         {
-            // Already Initialized
+            // Initialize
             if (Initialized) return;
             Initialized = true;
             IsRunning = true;
 
-            // Initialize Engine Modules
-            Window = Register(new Window(Config));
-            Graphics = Register(new Graphics(Config));
-            Resources = Register(new Resources(Config));
-            Scenes = Register(new Scenes(Config));
-            
             // Initialize Modules
-            foreach (var module in Modules)
-            {
-                module.OnInitialize();
-            }
+            Window = Modules.Register(new Window());
+            Graphics = Modules.Register(new Graphics());
+            Resources = Modules.Register(new Resources());
+            Scenes = Modules.Register(new Scenes());
+            
+            OnInitialize();
         }
         
         internal static void MainLoop()
         {
-            // SDL Pump Events
             while (SDL.PollEvent(out SDL.Event e))
             {
                 // Quit Application
                 if(e.type == SDL.EventType.Quit)
                 {
-                    Quit(); return;
+                    Quit();
+                    return;
                 }
                 
-                // Event Modules
-                foreach (var module in Modules)
-                {
-                    module.OnEvent(e);
-                }
+                OnEvent(e);
             }
             
-            // Update Modules
-            foreach (var module in Modules)
-            {
-                module.OnUpdate();
-            }
-            
-            // Render Modules
-            foreach (var module in Modules)
-            {
-                module.OnRender();
-            }
+            OnUpdate();
+            OnRender();
         }
         
         internal static void Quit()
         {
-            // Quit
-            if (IsRunning)
+            // Quit Application
+            if (!IsRunning) return;
+            IsRunning = false;
+            
+            OnQuit();
+        }
+    }
+
+    // Initialize
+    internal partial class Engine
+    {
+        internal static void OnInitialize()
+        {
+            foreach (var module in Modules.GetModules())
             {
-                IsRunning = false;
-            
-                // UnRegister Modules
-                foreach(var module in Modules.ToArray().Reverse())
-                {
-                    UnRegister(module);
-                }
-            
-                SDL.Quit();
+                module.OnInitialize();
             }
+        }
+    }
+
+    // Events
+    internal partial class Engine
+    {
+        internal static void OnEvent(SDL.Event e)
+        {
+            foreach (var module in Modules.GetModules())
+            {
+                module.OnEvent(e);
+            }
+        }
+    }
+
+    // Update
+    internal partial class Engine
+    {
+        internal static void OnUpdate()
+        {
+            foreach (var module in Modules.GetModules())
+            {
+                module.OnUpdate();
+            }
+        }
+    }
+
+    // Render
+    internal partial class Engine
+    {
+        internal static void OnRender()
+        {
+            foreach (var module in Modules.GetModules())
+            {
+                module.OnRender();
+            }
+        }
+    }
+    
+    // Quit
+    internal partial class Engine
+    {
+        internal static void OnQuit()
+        {
+            foreach(var module in Modules.GetModules().Reverse())
+            {
+                Modules.UnRegister(module);
+            }
+            
+            SDL.Quit();
         }
     }
 }

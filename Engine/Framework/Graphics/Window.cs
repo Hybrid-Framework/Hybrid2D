@@ -13,26 +13,26 @@ namespace Hybrid
         }
         
         
-        internal Window(Config config)
+        internal Window()
         {
             SDL.WindowFlags flags = SDL.WindowFlags.HighPixelDensity;
             
             // Calculate Flags
             var device = Platform.GetDevice();
-            if (device == Device.Mobile) config.Fullscreen = true;
-            if (device == Device.Mobile) config.Resizable = true;
-            if (config.Fullscreen) flags |= SDL.WindowFlags.Fullscreen;
-            if (config.Resizable) flags |= SDL.WindowFlags.Resizable;
+            if (device == Device.Mobile) Engine.Config.Fullscreen = true;
+            if (device == Device.Mobile) Engine.Config.Resizable = true;
+            if (Engine.Config.Fullscreen) flags |= SDL.WindowFlags.Fullscreen;
+            if (Engine.Config.Resizable) flags |= SDL.WindowFlags.Resizable;
             
             // Create Window Handle
-            Handle = SDL.CreateWindow(config.Title, config.Width, config.Height, flags);
-            VSync = config.VSync;
-            Fps = config.Fps;
+            Handle = SDL.CreateWindow(Engine.Config.Title, Engine.Config.Width, Engine.Config.Height, flags);
+            VSync = Engine.Config.VSync;
+            Fps = Engine.Config.Fps;
             
             // Window Icon
-            if (config.Icon != null)
+            if (Engine.Config.Icon != null)
             {
-                SDL.Surface* icon = SDL_image.Load(config.Icon);
+                SDL.Surface* icon = SDL_image.Load(Engine.Config.Icon);
                     
                 if (icon != null)
                 {
@@ -52,7 +52,7 @@ namespace Hybrid
         }
     }
     
-    // Properties
+    // Window API
     public unsafe partial class Window
     {
         public static int Fps

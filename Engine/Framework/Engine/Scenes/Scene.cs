@@ -3,7 +3,7 @@
 namespace Hybrid
 {
     // Scene
-    public abstract class Scene
+    public class Scene
     {
         private readonly List<Object> Objects = new List<Object>();
         
