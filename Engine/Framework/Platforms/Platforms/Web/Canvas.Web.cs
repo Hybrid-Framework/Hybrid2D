@@ -44,6 +44,8 @@ namespace Hybrid
                 })();"
             );
             
+            HandleResize();
+            
             switch (orientation)
             {
                 case "Portrait":
@@ -65,46 +67,7 @@ namespace Hybrid
         
         public void HandleResize()
         {
-            var device = Platform.GetDevice();
-            var fullscreen = Window.Fullscreen;
-            var fillDocument = fullscreen || device == Device.Mobile;
-
-            if (fillDocument)
-            {
-                Emscripten.RunScript
-                (
-                    @"(() =>
-                    {
-                        const c = document.getElementById('canvas');
-                        if (!c) return;
-
-                        const width = document.documentElement.clientWidth;
-                        const height = document.documentElement.clientHeight;
-
-                        c.width = width;
-                        c.height = height;
-
-                        c.style.width = width + 'px';
-                        c.style.height = height + 'px';
-                    })();
-                ");
-
-                Window.Size = new Vector2(GetWidth(), GetHeight());
-            }
-            else
-            {
-                Window.Size = new Vector2(800, 600);
-            }
-        }
-        
-        private int GetWidth()
-        {
-            return Emscripten.RunScriptInt("document.getElementById('canvas').width;");
-        }
-        
-        private int GetHeight()
-        {
-            return Emscripten.RunScriptInt("document.getElementById('canvas').height;");
+            
         }
     }
 }
