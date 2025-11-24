@@ -33,14 +33,15 @@ namespace Hybrid
     {
         internal override void OnRender()
         {
+            // Presentation
             SDL.SetRenderDrawColor(Handle, 255, 128, 128, 255);
             SDL.RenderClear(Handle);
             
+            // Rendering
             SDL.SetRenderDrawColor(Handle, 255, 255, 255, 255);
-            SDL.RenderDebugText(Handle, 10, 10, "Hello World!");
+            SDL.RenderDebugText(Handle, 10, 10, $"Screen: {Window.Width} {Window.Height}");
             
-            // Draw Here
-            
+            // Present
             SDL.RenderPresent(Handle);
         }
     }

@@ -6,12 +6,10 @@ namespace Hybrid
     public partial class Platform
     {
         // Platform Specifics
-        internal virtual IPlatformOrientation PlatformOrientation { get; } = null;
-        internal virtual IPlatformResize PlatformResize { get; } = null;
-        internal virtual IPlatformDevice PlatformDevice { get; } = null;
-        internal virtual IPlatformSystem PlatformSystem { get; } = null;
+        protected virtual IPlatformDevice Device { get; } = null;
+        protected virtual IPlatformCanvas Canvas { get; } = null;
         
-        internal static Platform Current { get; set; }
+        protected static Platform Current { get; set; }
 
         internal static void Create(Platform platform, Config config)
         {
@@ -20,37 +18,41 @@ namespace Hybrid
         }
     }
 
-    // Platform Methods
+    // Public API
     public partial class Platform
     {
         public static Device GetDevice()
         {
-            return Current?.PlatformDevice?.GetDevice() ?? Hybrid.Device.Unknown;
+            return Current?.Device?.GetDevice() ?? Hybrid.Device.Unknown;
         }
         
         public static System GetSystem()
         {
-            return Current?.PlatformSystem?.GetSystem() ?? Hybrid.System.Unknown;
-        }
-
-        public static Orientation GetOrientation()
-        {
-            return Current?.PlatformOrientation?.GetOrientation() ?? Hybrid.Orientation.Unknown;
-        }
-        
-        public static Orientation GetNaturalOrientation()
-        {
-            return Current?.PlatformOrientation?.GetNaturalOrientation() ?? Hybrid.Orientation.Unknown;
-        }
-
-        public static void Resize()
-        {
-            Current?.PlatformResize?.Resize();
+            return Current?.Device?.GetSystem() ?? System.Unknown;
         }
 
         public static void Quit()
         {
             Bootstrap.Engine?.Quit();
+        }
+    }
+
+    // Engine API
+    public partial class Platform
+    {
+        internal static Orientation GetOrientation()
+        {
+            return Current?.Canvas?.GetOrientation() ?? Orientation.Unknown;
+        }
+        
+        internal static Orientation GetNaturalOrientation()
+        {
+            return Current?.Canvas?.GetNaturalOrientation() ?? Orientation.Unknown;
+        }
+
+        internal static void HandleResize()
+        {
+            Current?.Canvas?.HandleResize();
         }
     }
 }

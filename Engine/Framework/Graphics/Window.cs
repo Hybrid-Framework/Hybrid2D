@@ -176,6 +176,11 @@ namespace Hybrid
                 }
             }
         }
+        
+        public static Orientation NaturalOrientation
+        {
+            get => Platform.GetNaturalOrientation();
+        }
 
         public static Orientation Orientation
         {

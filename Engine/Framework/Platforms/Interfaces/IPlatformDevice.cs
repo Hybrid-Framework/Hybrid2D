@@ -5,5 +5,6 @@ namespace Hybrid
     public interface IPlatformDevice
     {
         Device GetDevice();
+        System GetSystem();
     }
 }

@@ -7,12 +7,7 @@ namespace App
     {
         public override void OnSceneOpen()
         {
-            Window.OnOrientation += DisplayOrientation;
-        }
-        
-        private void DisplayOrientation(Orientation orientation)
-        {
-            Console.WriteLine($"Orientation: {orientation}");
+            
         }
 
         public override void OnSceneClose()
