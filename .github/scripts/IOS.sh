@@ -20,7 +20,10 @@ ENVIRONMENT()
 
 SDL()
 {
-  Github "$MODULE" "https://github.com/libsdl-org/SDL.git" ""
+  SDL_HEADERS="$MODULES_DIR/SDL/include/SDL3"
+  SDL_FRAMEWORK="$MODULES_DIR/SDL/Xcode/SDL/build"
+  
+  Github "SDL" "https://github.com/libsdl-org/SDL.git" ""
   
   xcodebuild \
     -project "$MODULES_DIR/SDL/Xcode/SDL/SDL.xcodeproj" \
@@ -30,32 +33,38 @@ SDL()
 
 IMAGE()
 {
-  Github "$MODULE" "https://github.com/libsdl-org/SDL_image.git" ""
+  Github "SDL_IMAGE" "https://github.com/libsdl-org/SDL_image.git" ""
   
   xcodebuild \
-    -project "$MODULES_DIR/IMAGE/Xcode/SDL_image.xcodeproj" \
+    -project "$MODULES_DIR/SDL_IMAGE/Xcode/SDL_image.xcodeproj" \
     -target "SDL3_image.xcframework" \
-    -configuration Release
+    -configuration Release \
+    HEADER_SEARCH_PATHS="$SDL_HEADERS" \
+    FRAMEWORK_SEARCH_PATHS="$SDL_FRAMEWORK"
 }
 
 MIXER()
 {
-  Github "$MODULE" "https://github.com/libsdl-org/SDL_mixer.git" ""
+  Github "SDL_MIXER" "https://github.com/libsdl-org/SDL_mixer.git" ""
   
   xcodebuild \
-    -project "$MODULES_DIR/MIXER/Xcode/SDL_mixer.xcodeproj" \
+    -project "$MODULES_DIR/SDL_MIXER/Xcode/SDL_mixer.xcodeproj" \
     -target "SDL3_mixer.xcframework" \
-    -configuration Release
+    -configuration Release \
+    HEADER_SEARCH_PATHS="$SDL_HEADERS" \
+    FRAMEWORK_SEARCH_PATHS="$SDL_FRAMEWORK"
 }
 
 TTF()
 {
-  Github "$MODULE" "https://github.com/libsdl-org/SDL_ttf.git" ""
+  Github "SDL_TTF" "https://github.com/libsdl-org/SDL_ttf.git" ""
   
   xcodebuild \
-    -project "$MODULES_DIR/TTF/Xcode/SDL_ttf.xcodeproj" \
+    -project "$MODULES_DIR/SDL_TTF/Xcode/SDL_ttf.xcodeproj" \
     -target "SDL3_ttf.xcframework" \
-    -configuration Release
+    -configuration Release \
+    HEADER_SEARCH_PATHS="$SDL_HEADERS" \
+    FRAMEWORK_SEARCH_PATHS="$SDL_FRAMEWORK"
 }
 
 Create()
@@ -75,9 +84,9 @@ Create()
 COMPLETE()
 {
   Create "$MODULES_DIR/SDL/Xcode/SDL/build" "SDL3"
-  Create "$MODULES_DIR/IMAGE/Xcode/build" "SDL3_image"
-  Create "$MODULES_DIR/MIXER/Xcode/build" "SDL3_mixer"
-  Create "$MODULES_DIR/TTF/Xcode/build" "SDL3_ttf"
+  Create "$MODULES_DIR/SDL_IMAGE/Xcode/build" "SDL3_image"
+  Create "$MODULES_DIR/SDL_MIXER/Xcode/build" "SDL3_mixer"
+  Create "$MODULES_DIR/SDL_TTF/Xcode/build" "SDL3_ttf"
 
   echo "Build complete."
 }
