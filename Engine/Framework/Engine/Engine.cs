@@ -53,6 +53,14 @@ namespace Hybrid.Internal
                     Quit();
                     return;
                 }
+
+                if (e.type == SDL.EventType.KeyboardButtonDown)
+                {
+                    if (e.keyboard.keyCode == SDL.KeyCode.F)
+                    {
+                        Window.Fullscreen = !Window.Fullscreen;
+                    }
+                }
                 
                 OnEvent(e);
             }

@@ -150,7 +150,14 @@ internal static unsafe partial class SDL
     private static extern SDL.Bool SDL_SetWindowResizable(SDL.Window* window, SDL.Bool resizable);
     public static bool SetWindowResizable(SDL.Window* window, bool resizable)
     {
-        return SDL_SetWindowResizable(window, resizable);
+        var current = (GetWindowFlags(window) & WindowFlags.Resizable) != 0;
+
+        if (resizable != current)
+        {
+            return SDL_SetWindowResizable(window, resizable);
+        }
+
+        return false;
     }
     
     // Set Window Fullscreen
@@ -158,7 +165,14 @@ internal static unsafe partial class SDL
     private static extern SDL.Bool SDL_SetWindowFullscreen(SDL.Window* window, SDL.Bool fullscreen);
     public static bool SetWindowFullscreen(SDL.Window* window, bool fullscreen)
     {
-        return SDL_SetWindowFullscreen(window, fullscreen);
+        var current = (GetWindowFlags(window) & WindowFlags.Fullscreen) != 0;
+
+        if (fullscreen != current)
+        {
+            return SDL_SetWindowFullscreen(window, fullscreen);
+        }
+
+        return false;
     }
     
     // Show Window

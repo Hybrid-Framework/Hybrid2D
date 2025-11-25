@@ -24,7 +24,7 @@ namespace Hybrid
             });
             
             SDL.Initialize();
-            SDL.SetHint(SDL.SDL_HINT_EMSCRIPTEN_FILL_DOCUMENT, "1"); // Temporary
+            // SDL.SetHint(SDL.SDL_HINT_EMSCRIPTEN_FILL_DOCUMENT, "1"); // Temporary
             Emscripten.SetMainLoop((IntPtr)(delegate* unmanaged[Cdecl]<void>)&Run, 0, false);
         }
         

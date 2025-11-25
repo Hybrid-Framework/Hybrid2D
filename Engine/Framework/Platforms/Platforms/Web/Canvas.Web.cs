@@ -44,8 +44,6 @@ namespace Hybrid
                 })();"
             );
             
-            HandleResize();
-            
             switch (orientation)
             {
                 case "Portrait":
