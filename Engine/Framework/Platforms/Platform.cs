@@ -10,11 +10,16 @@ namespace Hybrid
         protected virtual IPlatformCanvas Canvas { get; } = null;
         
         protected static Platform Current { get; set; }
+        
 
         internal static void Create(Platform platform, Config config)
         {
-            // Set Platform
             Current = platform;
+        }
+        
+        public static void Quit()
+        {
+            Engine.Quit();
         }
     }
 
@@ -30,16 +35,16 @@ namespace Hybrid
         {
             return Current?.Device?.GetSystem() ?? System.Unknown;
         }
-
-        public static void Quit()
-        {
-            Engine.Quit();
-        }
     }
 
     // Engine API
     public partial class Platform
     {
+        internal static void HandleResize()
+        {
+            Current?.Canvas?.HandleResize();
+            
+        }
         internal static Orientation GetOrientation()
         {
             return Current?.Canvas?.GetOrientation() ?? Orientation.Unknown;
@@ -48,11 +53,6 @@ namespace Hybrid
         internal static Orientation GetNaturalOrientation()
         {
             return Current?.Canvas?.GetNaturalOrientation() ?? Orientation.Unknown;
-        }
-
-        internal static void HandleResize()
-        {
-            Current?.Canvas?.HandleResize();
         }
     }
 }

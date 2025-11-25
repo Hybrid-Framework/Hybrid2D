@@ -1,5 +1,6 @@
 import { dotnet } from './_framework/dotnet.js';
 
+// Settings
 const { setModuleImports, getAssemblyExports, getConfig } = await dotnet
     .withDiagnosticTracing(false)
     .withApplicationArgumentsFromQuery()
