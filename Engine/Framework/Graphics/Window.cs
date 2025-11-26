@@ -24,7 +24,7 @@ namespace Hybrid
             if (Engine.Config.Fullscreen) flags |= SDL.WindowFlags.Fullscreen;
             if (Engine.Config.Resizable) flags |= SDL.WindowFlags.Resizable;
             
-            // Create Window Handle
+            // Create Window
             Handle = SDL.CreateWindow(Engine.Config.Title, Engine.Config.Width, Engine.Config.Height, flags);
             VSync = Engine.Config.VSync;
             Fps = Engine.Config.Fps;
@@ -48,6 +48,7 @@ namespace Hybrid
             if (Handle != null)
             {
                 SDL.DestroyWindow(Handle);
+                Handle = null;
             }
         }
     }

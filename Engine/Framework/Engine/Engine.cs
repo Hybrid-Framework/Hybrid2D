@@ -11,6 +11,7 @@ namespace Hybrid.Internal
         internal static Graphics Graphics { get; private set; }
         internal static Window Window { get; private set; }
         internal static Scenes Scenes { get; private set; }
+        internal static Audio Audio { get; private set; }
         
         internal static bool Initialized { get; private set; }
         internal static bool IsRunning { get; private set; }
@@ -35,6 +36,7 @@ namespace Hybrid.Internal
             IsRunning = true;
 
             // Initialize Modules
+            Audio = Modules.Register(new Audio());
             Window = Modules.Register(new Window());
             Graphics = Modules.Register(new Graphics());
             Resources = Modules.Register(new Resources());

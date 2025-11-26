@@ -12,12 +12,11 @@ namespace Hybrid
             get;
         }
         
-
         internal Graphics()
         {
             Handle = SDL.CreateRenderer(Window.Handle, null);
         }
-
+        
         internal override void OnDestroy()
         {
             Console.WriteLine("Graphics Disposed");
@@ -25,6 +24,7 @@ namespace Hybrid
             if (Handle != null)
             {
                 SDL.DestroyRenderer(Handle);
+                Handle = null;
             }
         }
     }
