@@ -25,60 +25,37 @@ SDL()
   xcodebuild \
     -project "$MODULES_DIR/SDL/Xcode/SDL/SDL.xcodeproj" \
     -target "SDL3.xcframework" \
-    -configuration Release \
-    -quiet
-    
-  SDL_FRAMEWORK_SEARCH_PATHS="$MODULES_DIR/SDL/Xcode/SDL/build"
-  SDL_HEADER_SEARCH_PATHS="$MODULES_DIR/SDL/Xcode/SDL/build/SDL3.xcframework"
-  export SDL_FRAMEWORK_SEARCH_PATHS SDL_HEADER_SEARCH_PATHS
+    -configuration Release
 }
 
 IMAGE()
 {
   Github "SDL_IMAGE" "https://github.com/libsdl-org/SDL_image.git" ""
   
-  rm -rf "$MODULES_DIR/SDL_IMAGE/Xcode/macOS/SDL3.framework"
-  rm -rf "$MODULES_DIR/SDL_IMAGE/Xcode/iOS/SDL3.framework"
-  
   xcodebuild \
     -project "$MODULES_DIR/SDL_IMAGE/Xcode/SDL_image.xcodeproj" \
     -target "SDL3_image.xcframework" \
-    -configuration Release \
-    -quiet \
-    FRAMEWORK_SEARCH_PATHS="$SDL_FRAMEWORK_SEARCH_PATHS" \
-    HEADER_SEARCH_PATHS="$SDL_HEADER_SEARCH_PATHS"
+    -configuration Release
 }
 
 MIXER()
 {
   Github "SDL_MIXER" "https://github.com/libsdl-org/SDL_mixer.git" ""
   
-  rm -rf "$MODULES_DIR/SDL_MIXER/Xcode/macOS/SDL3.framework"
-  rm -rf "$MODULES_DIR/SDL_MIXER/Xcode/iOS/SDL3.framework"
-  
   xcodebuild \
     -project "$MODULES_DIR/SDL_MIXER/Xcode/SDL_mixer.xcodeproj" \
     -target "SDL3_mixer.xcframework" \
-    -configuration Release \
-    -quiet \
-    FRAMEWORK_SEARCH_PATHS="$SDL_FRAMEWORK_SEARCH_PATHS" \
-    HEADER_SEARCH_PATHS="$SDL_HEADER_SEARCH_PATHS"
+    -configuration Release
 }
 
 TTF()
 {
   Github "SDL_TTF" "https://github.com/libsdl-org/SDL_ttf.git" ""
   
-  rm -rf "$MODULES_DIR/SDL_TTF/Xcode/macOS/SDL3.framework"
-  rm -rf "$MODULES_DIR/SDL_TTF/Xcode/iOS/SDL3.framework"
-  
   xcodebuild \
     -project "$MODULES_DIR/SDL_TTF/Xcode/SDL_ttf.xcodeproj" \
     -target "SDL3_ttf.xcframework" \
-    -configuration Release \
-    -quiet \
-    FRAMEWORK_SEARCH_PATHS="$SDL_FRAMEWORK_SEARCH_PATHS" \
-    HEADER_SEARCH_PATHS="$SDL_HEADER_SEARCH_PATHS"
+    -configuration Release
 }
 
 Create()
