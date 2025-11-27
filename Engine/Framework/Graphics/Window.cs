@@ -12,29 +12,28 @@ namespace Hybrid
         {
             Console.WriteLine("Window Created");
             
-            // Fetch Device
+            // Config
+            var config = Platform.GetConfig();
+            
+            // Device
             var device = Platform.GetDevice();
-            if (device == Device.Mobile) Engine.Config.Fullscreen = true;
-            if (device == Device.Mobile) Engine.Config.Resizable = true;
+            if (device == Device.Mobile) config.Fullscreen = true;
+            if (device == Device.Mobile) config.Resizable = true;
             
             // Calculate Flags
             SDL.WindowFlags flags = SDL.WindowFlags.HighPixelDensity;
-            if (Engine.Config.Fullscreen) flags |= SDL.WindowFlags.Fullscreen;
-            if (Engine.Config.Resizable) flags |= SDL.WindowFlags.Resizable;
+            if (config.Fullscreen) flags |= SDL.WindowFlags.Fullscreen;
+            if (config.Resizable) flags |= SDL.WindowFlags.Resizable;
         
             // Create Window
-            Handle = SDL.CreateWindow(Engine.Config.Title, Engine.Config.Width, Engine.Config.Height, flags);
-            Fps = Engine.Config.Fps;
+            Handle = SDL.CreateWindow(config.Title, config.Width, config.Height, flags);
+            Fps = config.Fps;
         
             // Window Icon
-            if (Engine.Config.Icon != null)
+            if (config.Icon != null)
             {
-                SDL.Surface* icon = SDL_image.Load(Engine.Config.Icon);
-                
-                if (icon != null)
-                {
-                    SDL.SetWindowIcon(Handle, icon);
-                }
+                SDL.Surface* icon = SDL_image.Load(config.Icon);
+                if (icon != null) SDL.SetWindowIcon(Handle, icon);
             }
         }
 

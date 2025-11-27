@@ -4,10 +4,12 @@ namespace Hybrid
 {
     internal class IOSBootstrap : Bootstrap
     {
-        protected override Platform Platform { get; set; } = new IOSPlatform();
+        protected override Platform CreatePlatform()
+        {
+            return new IOSPlatform();
+        }
         
-        
-        internal override void Execute()
+        protected override void Execute()
         {
             var assembly = typeof(SDL).Assembly;
             var frameworks = Path.Combine(AppContext.BaseDirectory!, "Frameworks");
@@ -29,16 +31,16 @@ namespace Hybrid
             SDL.RunApp(0, IntPtr.Zero, main, IntPtr.Zero);
         }
         
-        internal static int Run(int argc, IntPtr argv)
+        protected static int Run(int argc, IntPtr argv)
         {
-            Engine.StartMainLoop();
+            Engine.Instance.StartMainLoop();
             
-            while (Engine.IsRunning)
+            while (Engine.Instance.IsRunning)
             {
-                Engine.MainLoop();
+                Engine.Instance.MainLoop();
             }
 
-            Engine.Quit();
+            Engine.Instance.Quit();
             return 0;
         }
     }

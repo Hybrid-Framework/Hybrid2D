@@ -5,12 +5,15 @@ namespace Hybrid
 {
     internal unsafe class WebBootstrap : Bootstrap
     {
-        protected override Platform Platform { get; set; } = new WebPlatform();
+        protected override Platform CreatePlatform()
+        {
+            return new WebPlatform();
+        }
         
-        
-        internal override void Execute()
+        protected override void Execute()
         {
             var assembly = typeof(SDL).Assembly;
+            
             NativeLibrary.SetDllImportResolver(assembly, (library, asm, path) =>
             {
                 return library switch
@@ -29,19 +32,19 @@ namespace Hybrid
         }
         
         [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvCdecl) })]
-        internal static void Run()
+        protected static void Run()
         {
             Emscripten.SetMainLoopTiming(Emscripten.Mode.RequestFrameAnimation, 1);
-            Engine.StartMainLoop();
+            Engine.Instance.StartMainLoop();
             
-            if (Engine.IsRunning)
+            if (Engine.Instance.IsRunning)
             {
-                Engine.MainLoop();
+                Engine.Instance.MainLoop();
                 return;
             }
             
             Emscripten.CancelMainLoop();
-            Engine.Quit();
+            Engine.Instance.Quit();
         }
     }
 }

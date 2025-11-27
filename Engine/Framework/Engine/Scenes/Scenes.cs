@@ -11,8 +11,10 @@ namespace Hybrid
         internal override void OnCreate()
         {
             Console.WriteLine("Scenes Created");
+
+            var config = Platform.GetConfig();
             
-            Load(Engine.Config.Scene);
+            Load(config.Scene);
         }
         
         // Destroy

@@ -3,24 +3,16 @@
 namespace Hybrid
 {
     // Engine
-    internal static partial class Engine
+    internal partial class Engine : Module<Engine>
     {
-        internal static bool Initialized { get; private set; }
-        internal static bool IsRunning { get; private set; }
-        
-        internal static Config Config { get; set; }
-        
-        
-        internal static void Create(Config config)
-        {
-            Config = config;
-        }
+        internal bool Initialized { get; private set; }
+        internal bool IsRunning { get; private set; }
     }
 
     // Main Loop
     internal partial class Engine
     {
-        internal static void StartMainLoop()
+        internal void StartMainLoop()
         {
             // Initialize
             if (Initialized) return;
@@ -28,16 +20,17 @@ namespace Hybrid
             IsRunning = true;
 
             // Create
-            Audio.FindOrCreate();
-            Window.FindOrCreate();
-            Graphics.FindOrCreate();
-            Resources.FindOrCreate();
-            Scenes.FindOrCreate();
+            Register(Audio.FindOrCreate());
+            Register(Window.FindOrCreate());
+            Register(Graphics.FindOrCreate());
+            Register(Resources.FindOrCreate());
+            Register(Scenes.FindOrCreate());
             
+            // Initialize
             OnInitialize();
         }
         
-        internal static void MainLoop()
+        internal void MainLoop()
         {
             while (SDL.PollEvent(out SDL.Event e))
             {
@@ -55,22 +48,27 @@ namespace Hybrid
             OnRender();
         }
         
-        internal static void Quit()
+        internal void Quit()
         {
             // Quit Application
             if (!IsRunning) return;
             IsRunning = false;
             
-            OnQuit();
+            foreach(var module in GetModules().Reverse())
+            {
+                UnRegister(module);
+            }
+            
+            SDL.Quit();
         }
     }
 
     // Initialize
     internal partial class Engine
     {
-        internal static void OnInitialize()
+        internal override void OnInitialize()
         {
-            foreach (var module in Module.GetModules())
+            foreach (var module in GetModules())
             {
                 module.OnInitialize();
             }
@@ -80,9 +78,9 @@ namespace Hybrid
     // Events
     internal partial class Engine
     {
-        internal static void OnEvent(SDL.Event e)
+        internal override void OnEvent(SDL.Event e)
         {
-            foreach (var module in Module.GetModules())
+            foreach (var module in GetModules())
             {
                 module.OnEvent(e);
             }
@@ -92,9 +90,9 @@ namespace Hybrid
     // Update
     internal partial class Engine
     {
-        internal static void OnUpdate()
+        internal override void OnUpdate()
         {
-            foreach (var module in Module.GetModules())
+            foreach (var module in GetModules())
             {
                 module.OnUpdate();
             }
@@ -104,26 +102,12 @@ namespace Hybrid
     // Render
     internal partial class Engine
     {
-        internal static void OnRender()
+        internal override void OnRender()
         {
-            foreach (var module in Module.GetModules())
+            foreach (var module in GetModules())
             {
                 module.OnRender();
             }
-        }
-    }
-    
-    // Quit
-    internal partial class Engine
-    {
-        internal static void OnQuit()
-        {
-            foreach(var module in Module.GetModules().Reverse())
-            {
-                module.OnDestroy();
-            }
-            
-            SDL.Quit();
         }
     }
 }

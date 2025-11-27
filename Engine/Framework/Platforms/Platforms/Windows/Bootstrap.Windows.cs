@@ -4,12 +4,15 @@ namespace Hybrid
 {
     internal class WindowsBootstrap : Bootstrap
     {
-        protected override Platform Platform { get; set; } = new WindowsPlatform();
+        protected override Platform CreatePlatform()
+        {
+            return new WindowsPlatform();
+        }
         
-        
-        internal override void Execute()
+        protected override void Execute()
         {
             var assembly = typeof(SDL).Assembly;
+            
             NativeLibrary.SetDllImportResolver(assembly, (library, asm, path) =>
             {
                 return library switch
@@ -21,21 +24,21 @@ namespace Hybrid
                     _            => IntPtr.Zero
                 };
             });
-            
+
             SDL.Initialize();
             Run();
         }
 
-        internal static void Run()
+        protected static void Run()
         {
-            Engine.StartMainLoop();
+            Engine.Instance.StartMainLoop();
             
-            while (Engine.IsRunning)
+            while (Engine.Instance.IsRunning)
             {
-                Engine.MainLoop();
+                Engine.Instance.MainLoop();
             }
             
-            Engine.Quit();
+            Engine.Instance.Quit();
         }
     }
 }

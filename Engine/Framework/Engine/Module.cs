@@ -5,35 +5,48 @@ namespace Hybrid
     // Module<T> Singleton
     public abstract class Module<T> : Module where T : Module<T>
     {
-        private static T Instance;
+        private static T _Instance;
+        
+        internal static T Instance
+        {
+            get => FindOrCreate();
+        }
 
         internal static T FindOrCreate()
         {
-            if (Instance == null)
+            if (_Instance == null)
             {
-                Instance = Activator.CreateInstance(typeof(T), nonPublic: true) as T;
+                _Instance = Activator.CreateInstance(typeof(T), nonPublic: true) as T;
 
-                if (Instance != null)
+                if (_Instance != null)
                 {
-                    Instance.OnCreate();
-                    Modules.Add(Instance);
+                    _Instance.OnCreate();
                 }
             }
 
-            return Instance;
-        }
-        
-        protected Module()
-        {
-            
+            return _Instance;
         }
     }
     
     // Module
     public class Module
     {
-        protected static HashSet<Module> Modules = new HashSet<Module>();
+        internal static List<Module> Modules { get; private set; } = new List<Module>();
         
+        
+        internal static T Register<T>(T module) where T : Module
+        {
+            Modules.Add(module);
+            return module;
+        }
+
+        internal static T UnRegister<T>(T module) where T : Module
+        {
+            Modules.Remove(module);
+            module.OnDestroy();
+            return module;
+        }
+
         internal static Module[] GetModules()
         {
             return Modules.ToArray();
@@ -45,5 +58,10 @@ namespace Hybrid
         internal virtual void OnUpdate() {}
         internal virtual void OnDestroy() {}
         internal virtual void OnCreate() {}
+        
+        protected Module()
+        {
+            
+        }
     }
 }

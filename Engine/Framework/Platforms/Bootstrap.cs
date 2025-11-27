@@ -3,38 +3,27 @@
 namespace Hybrid
 {
     // Platform
-    public class Bootstrap
+    public abstract class Bootstrap : Module<Bootstrap>
     {
-        public static void Windows(Config config) => Create(new WindowsBootstrap(), config);
-        public static void Android(Config config) => Create(new AndroidBootstrap(), config);
-        public static void Linux(Config config) => Create(new LinuxBootstrap(), config);
-        public static void Mac(Config config) => Create(new MacBootstrap(), config);
-        public static void IOS(Config config) => Create(new IOSBootstrap(), config);
-        public static void Web(Config config) => Create(new WebBootstrap(), config);
+        protected Bootstrap() { }
         
-        protected virtual Platform Platform { get; set; }
+        public static void Windows(Config Config) => Entry(new WindowsBootstrap(), Config);
+        public static void Android(Config Config) => Entry(new AndroidBootstrap(), Config);
+        public static void Linux(Config Config) => Entry(new LinuxBootstrap(), Config);
+        public static void Mac(Config Config) => Entry(new MacBootstrap(), Config);
+        public static void IOS(Config Config) => Entry(new IOSBootstrap(), Config);
+        public static void Web(Config Config) => Entry(new WebBootstrap(), Config);
         
+        protected abstract Platform CreatePlatform();
+        protected abstract void Execute();
         
-        internal static void Create(Bootstrap bootstrap, Config config)
+        protected static void Entry(Bootstrap bootstrap, Config config)
         {
             // Initialize Platform
-            Platform.Create(bootstrap.Platform, config);
-
-            // Initialize Engine
-            Engine.Create(config);
+            Platform.Create(bootstrap.CreatePlatform(), config);
             
             // Bootstrap
             bootstrap.Execute();
-        }
-        
-        internal virtual void Execute()
-        {
-            // Code To Execute
-        }
-
-        internal Bootstrap()
-        {
-            // Constructor
         }
     }
 }

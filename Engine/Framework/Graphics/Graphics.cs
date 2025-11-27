@@ -11,9 +11,11 @@ namespace Hybrid
         internal override void OnCreate()
         {
             Console.WriteLine("Graphics Created");
-                
+
+            var config = Platform.GetConfig();
+            
             Handle = SDL.CreateRenderer(Window.Handle, null);
-            VSync = Engine.Config.VSync;
+            VSync = config.VSync;
         }
         
         // Render

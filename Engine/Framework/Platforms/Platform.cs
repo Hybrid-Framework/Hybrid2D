@@ -3,29 +3,37 @@
 namespace Hybrid
 {
     // Platform
-    public partial class Platform
+    public abstract partial class Platform : Module<Platform>
     {
-        // Platform Specifics
-        protected virtual IPlatformDevice Device { get; } = null;
-        protected virtual IPlatformCanvas Canvas { get; } = null;
+        protected Platform() { }
         
-        protected static Platform Current { get; set; }
-        
+        protected abstract IPlatformDevice Device { get; set; }
+        protected abstract IPlatformCanvas Canvas { get; set; }
 
+        protected static Platform Current { get; set; }
+        protected static Config Config { get; set; }
+        
+        
         internal static void Create(Platform platform, Config config)
         {
             Current = platform;
-        }
-        
-        public static void Quit()
-        {
-            Engine.Quit();
+            Config = config;
         }
     }
-
-    // Public API
-    public partial class Platform
+    
+    // Platform API
+    public abstract partial class Platform
     {
+        public static void Quit()
+        {
+            Engine.Instance.Quit();
+        }
+        
+        public static Config GetConfig()
+        {
+            return Config;
+        }
+        
         public static Device GetDevice()
         {
             return Current?.Device?.GetDevice() ?? Hybrid.Device.Unknown;
@@ -35,16 +43,7 @@ namespace Hybrid
         {
             return Current?.Device?.GetSystem() ?? System.Unknown;
         }
-    }
-
-    // Engine API
-    public partial class Platform
-    {
-        internal static void HandleResize()
-        {
-            Current?.Canvas?.HandleResize();
-            
-        }
+        
         internal static Orientation GetOrientation()
         {
             return Current?.Canvas?.GetOrientation() ?? Orientation.Unknown;
