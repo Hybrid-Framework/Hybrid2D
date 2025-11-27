@@ -13,10 +13,5 @@ namespace Hybrid
         {
             return (Orientation)SDL.GetCurrentDisplayOrientation(SDL.GetWindowID(Window.Handle));
         }
-        
-        public void HandleResize()
-        {
-            
-        }
     }
 }

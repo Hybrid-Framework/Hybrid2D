@@ -6,6 +6,5 @@ namespace Hybrid
     {
         Orientation GetNaturalOrientation();
         Orientation GetOrientation();
-        void HandleResize();
     }
 }

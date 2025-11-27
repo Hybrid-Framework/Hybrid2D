@@ -4,15 +4,11 @@ namespace Hybrid
 {
     internal class LinuxBootstrap : Bootstrap
     {
-        protected override Platform CreatePlatform()
+        protected override void Execute(Config config)
         {
-            return new LinuxPlatform();
-        }
-        
-        protected override void Execute()
-        {
-            var assembly = typeof(SDL).Assembly;
+            Platform.SetPlatform(new LinuxPlatform(), config);
             
+            var assembly = typeof(SDL).Assembly;
             NativeLibrary.SetDllImportResolver(assembly, (library, asm, path) =>
             {
                 return library switch

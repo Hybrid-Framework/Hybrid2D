@@ -3,7 +3,7 @@
 namespace Hybrid
 {
     // Platform
-    public abstract class Bootstrap : Module<Bootstrap>
+    public abstract class Bootstrap
     {
         protected Bootstrap() { }
         
@@ -13,17 +13,23 @@ namespace Hybrid
         public static void Mac(Config Config) => Entry(new MacBootstrap(), Config);
         public static void IOS(Config Config) => Entry(new IOSBootstrap(), Config);
         public static void Web(Config Config) => Entry(new WebBootstrap(), Config);
+
+        protected static bool Initialized { get; private set; }
         
-        protected abstract Platform CreatePlatform();
-        protected abstract void Execute();
         
         protected static void Entry(Bootstrap bootstrap, Config config)
         {
-            // Initialize Platform
-            Platform.Create(bootstrap.CreatePlatform(), config);
+            // Initialize
+            if(Initialized) return;
+            Initialized = true;
             
             // Bootstrap
-            bootstrap.Execute();
+            bootstrap.Execute(config);
+        }
+
+        protected virtual void Execute(Config config)
+        {
+            // Platform specific bootstrap call
         }
     }
 }

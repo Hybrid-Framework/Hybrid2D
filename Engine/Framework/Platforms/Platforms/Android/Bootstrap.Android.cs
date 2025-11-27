@@ -4,15 +4,11 @@ namespace Hybrid
 {
     internal class AndroidBootstrap : Bootstrap
     {
-        protected override Platform CreatePlatform()
+        protected override void Execute(Config config)
         {
-            return new AndroidPlatform();
-        }
-
-        protected override void Execute()
-        {
-            var assembly = typeof(SDL).Assembly;
+            Platform.SetPlatform(new AndroidPlatform(), config);
             
+            var assembly = typeof(SDL).Assembly;
             NativeLibrary.SetDllImportResolver(assembly, (library, asm, path) =>
             {
                 return library switch

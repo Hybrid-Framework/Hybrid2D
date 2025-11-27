@@ -12,10 +12,9 @@ namespace Hybrid
         {
             Console.WriteLine("Graphics Created");
 
-            var config = Platform.GetConfig();
-            
+            // Create Renderer
             Handle = SDL.CreateRenderer(Window.Handle, null);
-            VSync = config.VSync;
+            Window.VSync = Platform.GetConfig().VSync;
         }
         
         // Render
@@ -53,18 +52,6 @@ namespace Hybrid
         {
             private set;
             get;
-        }
-        
-        public static bool VSync
-        {
-            set => SDL.SetRenderVSync(Handle, value ? 1 : 0);
-            get
-            {
-                SDL.GetRenderVSync(Handle, out int vsync);
-                {
-                    return vsync > 0;
-                }
-            }
         }
     }
 }

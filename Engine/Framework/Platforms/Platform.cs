@@ -3,18 +3,18 @@
 namespace Hybrid
 {
     // Platform
-    public abstract partial class Platform : Module<Platform>
+    public partial class Platform : Module<Platform>
     {
         protected Platform() { }
         
-        protected abstract IPlatformDevice Device { get; set; }
-        protected abstract IPlatformCanvas Canvas { get; set; }
+        protected virtual IPlatformDevice Device { get; set; }
+        protected virtual IPlatformCanvas Canvas { get; set; }
 
-        protected static Platform Current { get; set; }
-        protected static Config Config { get; set; }
+        protected static Platform Current { get; private set; }
+        protected static Config Config { get; private set; }
         
         
-        internal static void Create(Platform platform, Config config)
+        internal static void SetPlatform(Platform platform, Config config)
         {
             Current = platform;
             Config = config;
@@ -22,7 +22,7 @@ namespace Hybrid
     }
     
     // Platform API
-    public abstract partial class Platform
+    public partial class Platform
     {
         public static void Quit()
         {

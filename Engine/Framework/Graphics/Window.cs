@@ -28,11 +28,9 @@ namespace Hybrid
             Fps = config.Fps;
         
             // Icon
-            if (config.Icon != null)
-            {
-                SDL.Surface* icon = SDL_image.Load(config.Icon);
-                if (icon != null) SDL.SetWindowIcon(Handle, icon);
-            }
+            var icon = SDL_image.Load(config.Icon);
+            SDL.SetWindowIcon(Handle, icon);
+            SDL.DestroySurface(icon);
         }
 
         // Events
@@ -217,6 +215,18 @@ namespace Hybrid
                 SDL.GetWindowSize(Handle, out int w, out int h);
                 {
                     return h;
+                }
+            }
+        }
+        
+        public static bool VSync
+        {
+            set => SDL.SetRenderVSync(Graphics.Handle, value ? 1 : 0);
+            get
+            {
+                SDL.GetRenderVSync(Graphics.Handle, out int vsync);
+                {
+                    return vsync > 0;
                 }
             }
         }

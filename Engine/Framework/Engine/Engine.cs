@@ -20,6 +20,7 @@ namespace Hybrid
             IsRunning = true;
 
             // Create
+            Register(Platform.FindOrCreate());
             Register(Audio.FindOrCreate());
             Register(Window.FindOrCreate());
             Register(Graphics.FindOrCreate());

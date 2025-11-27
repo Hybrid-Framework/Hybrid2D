@@ -4,16 +4,12 @@ namespace Hybrid
 {
     internal class IOSBootstrap : Bootstrap
     {
-        protected override Platform CreatePlatform()
+        protected override void Execute(Config config)
         {
-            return new IOSPlatform();
-        }
-        
-        protected override void Execute()
-        {
+            Platform.SetPlatform(new IOSPlatform(), config);
+            
             var assembly = typeof(SDL).Assembly;
             var frameworks = Path.Combine(AppContext.BaseDirectory!, "Frameworks");
-
             NativeLibrary.SetDllImportResolver(assembly, (library, asm, path) =>
             {
                 return library switch

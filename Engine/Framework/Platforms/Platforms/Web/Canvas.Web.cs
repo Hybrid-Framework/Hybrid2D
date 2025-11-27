@@ -62,30 +62,28 @@ namespace Hybrid
                     return Orientation.Unknown;
             }
         }
-        
-        public void HandleResize()
-        {
-//             // Same functionality as Fill Document
-//             Emscripten.RunScript
-//             (
-//                 @"(() =>{
-//                     const c = document.getElementById('canvas');
-//                     if (!c) return;
-//
-//                     const width = document.documentElement.clientWidth;
-//                     const height = document.documentElement.clientHeight;
-//
-//                     c.width = width;
-//                     c.height = height;
-//
-//                     c.style.width = width + 'px';
-//                     c.style.height = height + 'px';
-//                 })();
-//             ");
-//
-//             int w = Emscripten.RunScriptInt("document.getElementById('canvas').width;");
-//             int h = Emscripten.RunScriptInt("document.getElementById('canvas').height;");
-//             Window.Size = new Vector2(w, h);
-        }
     }
 }
+
+// Fill Document
+// Emscripten.RunScript
+// (
+// @"(() =>
+// {
+//      const c = document.getElementById('canvas');
+//      if (!c) return;
+//
+//      const width = document.documentElement.clientWidth;
+//      const height = document.documentElement.clientHeight;
+//
+//      c.width = width;
+//      c.height = height;
+//
+//      c.style.width = width + 'px';
+//      c.style.height = height + 'px';
+//  })();
+// ");
+//
+// int w = Emscripten.RunScriptInt("document.getElementById('canvas').width;");
+// int h = Emscripten.RunScriptInt("document.getElementById('canvas').height;");
+// Window.Size = new Vector2(w, h);
