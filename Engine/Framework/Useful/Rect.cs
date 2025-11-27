@@ -5,10 +5,14 @@ namespace Hybrid
     // Rect
     public partial struct Rect
     {
+        public static readonly Rect Zero = new Rect(0, 0, 0, 0);
+        public static readonly Rect One = new Rect(0, 0, 1, 1);
+        
         public float X;
         public float Y;
         public float W;
         public float H;
+        
 
         public Rect(float x, float y, float w, float h)
         {
@@ -46,10 +50,10 @@ namespace Hybrid
 
             return new SDL.Rect
             {
-                x = (int)rect.Value.X,
-                y = (int)rect.Value.Y,
-                w = (int)rect.Value.W,
-                h = (int)rect.Value.H,
+                x = Maths.RoundToInt(rect.Value.X),
+                y = Maths.RoundToInt(rect.Value.Y),
+                w = Maths.RoundToInt(rect.Value.W),
+                h = Maths.RoundToInt(rect.Value.H),
             };
         }
     }

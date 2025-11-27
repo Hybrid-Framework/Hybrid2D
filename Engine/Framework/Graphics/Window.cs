@@ -12,10 +12,8 @@ namespace Hybrid
         {
             Console.WriteLine("Window Created");
             
-            // Config
+            // Platform
             var config = Platform.GetConfig();
-            
-            // Device
             var device = Platform.GetDevice();
             if (device == Device.Mobile) config.Fullscreen = true;
             if (device == Device.Mobile) config.Resizable = true;
@@ -29,7 +27,7 @@ namespace Hybrid
             Handle = SDL.CreateWindow(config.Title, config.Width, config.Height, flags);
             Fps = config.Fps;
         
-            // Window Icon
+            // Icon
             if (config.Icon != null)
             {
                 SDL.Surface* icon = SDL_image.Load(config.Icon);

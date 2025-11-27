@@ -34,5 +34,10 @@ namespace Hybrid
         {
             Objects.Remove(obj);
         }
+
+        protected Scene()
+        {
+            
+        }
     }
 }
