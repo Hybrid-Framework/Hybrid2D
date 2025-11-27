@@ -25,7 +25,7 @@ namespace Hybrid
         
         protected Module()
         {
-            FindOrCreate();
+            
         }
     }
     
