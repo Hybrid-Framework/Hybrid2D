@@ -2,20 +2,21 @@
 
 namespace Hybrid
 {
-    // Resources
-    public partial class Resources : Module
+    // Internal API
+    public partial class Resources : Module<Resources>
     {
-        private static readonly Dictionary<string, Resource> Cache = new Dictionary<string, Resource>();
-        
-        
-        internal Resources()
+        private Resources() { }
+
+        // Create
+        internal override void OnCreate()
         {
-            // Config
+            Console.WriteLine("Resources Created");
         }
 
+        // Destroy
         internal override void OnDestroy()
         {
-            Console.WriteLine("Resources Disposed");
+            Console.WriteLine("Resources Destroyed");
 
             // For Each Resource In Cache
             foreach (var resource in Cache)
@@ -32,6 +33,9 @@ namespace Hybrid
     // Resources API
     public partial class Resources
     {
+        private static readonly Dictionary<string, Resource> Cache = new Dictionary<string, Resource>();
+        
+        
         public static T Load<T>(string path) where T : Resource
         {
             // Fetch Resource From Cache

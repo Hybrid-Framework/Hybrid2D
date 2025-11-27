@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    public class IOSDevice : IPlatformDevice
+    internal class IOSDevice : IPlatformDevice
     {
         public Device GetDevice()
         {

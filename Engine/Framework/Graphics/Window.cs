@@ -2,49 +2,90 @@
 
 namespace Hybrid
 {
-    // Window
-    public unsafe partial class Window : Module
+    // Internal
+    public unsafe partial class Window : Module<Window>
     {
-        // SDL Window Handle
-        internal static SDL.Window* Handle
+        private Window() { }
+
+        // Create
+        internal override void OnCreate()
         {
-            private set;
-            get;
-        }
-        
-        
-        internal Window()
-        {
-            SDL.WindowFlags flags = SDL.WindowFlags.HighPixelDensity;
+            Console.WriteLine("Window Created");
             
-            // Calculate Flags
+            // Fetch Device
             var device = Platform.GetDevice();
             if (device == Device.Mobile) Engine.Config.Fullscreen = true;
             if (device == Device.Mobile) Engine.Config.Resizable = true;
+            
+            // Calculate Flags
+            SDL.WindowFlags flags = SDL.WindowFlags.HighPixelDensity;
             if (Engine.Config.Fullscreen) flags |= SDL.WindowFlags.Fullscreen;
             if (Engine.Config.Resizable) flags |= SDL.WindowFlags.Resizable;
-            
+        
             // Create Window
             Handle = SDL.CreateWindow(Engine.Config.Title, Engine.Config.Width, Engine.Config.Height, flags);
-            VSync = Engine.Config.VSync;
             Fps = Engine.Config.Fps;
-            
+        
             // Window Icon
             if (Engine.Config.Icon != null)
             {
                 SDL.Surface* icon = SDL_image.Load(Engine.Config.Icon);
-                    
+                
                 if (icon != null)
                 {
                     SDL.SetWindowIcon(Handle, icon);
                 }
             }
         }
+
+        // Events
+        internal override void OnEvent(SDL.Event e)
+        {
+            switch (e.type)
+            {
+                case SDL.EventType.Orientation:
+                    OnOrientation?.Invoke(Orientation);
+                    break;
+                
+                case SDL.EventType.EnterFullscreen:
+                    OnFullscreen?.Invoke(true);
+                    break;
+                
+                case SDL.EventType.ExitFullscreen:
+                    OnFullscreen?.Invoke(false);
+                    break;
+                
+                case SDL.EventType.Resized:
+                    OnResized?.Invoke(Size);
+                    break;
+                
+                case SDL.EventType.Moved:
+                    OnMoved?.Invoke(Position);
+                    break;
+                
+                case SDL.EventType.Focused:
+                    OnFocus?.Invoke();
+                    break;
+                
+                case SDL.EventType.Unfocused:
+                    OnUnfocus?.Invoke();
+                    break;
+                
+                case SDL.EventType.Minimized:
+                    OnMinimized?.Invoke();
+                    break;
+                
+                case SDL.EventType.Maximized:
+                    OnMaximized?.Invoke();
+                    break;
+            }
+        }
         
+        // Destroy
         internal override void OnDestroy()
         {
-            Console.WriteLine("Window Disposed");
-            
+            Console.WriteLine("Window Destroyed");
+
             if (Handle != null)
             {
                 SDL.DestroyWindow(Handle);
@@ -56,6 +97,22 @@ namespace Hybrid
     // Window API
     public unsafe partial class Window
     {
+        public static Action<Orientation> OnOrientation = null;
+        public static Action<bool> OnFullscreen = null;
+        public static Action<Vector2> OnResized = null;
+        public static Action<Vector2> OnMoved = null;
+        public static Action OnMaximized = null;
+        public static Action OnMinimized = null;
+        public static Action OnUnfocus = null;
+        public static Action OnFocus = null;
+        
+        
+        internal static SDL.Window* Handle
+        {
+            private set;
+            get;
+        }
+        
         public static int Fps
         {
             set;
@@ -166,18 +223,6 @@ namespace Hybrid
                 }
             }
         }
-
-        public static bool VSync
-        {
-            set => SDL.SetRenderVSync(Graphics.Handle, value ? 1 : 0);
-            get
-            {
-                SDL.GetRenderVSync(Graphics.Handle, out int vsync);
-                {
-                    return vsync > 0;
-                }
-            }
-        }
         
         public static Orientation NaturalOrientation
         {
@@ -187,62 +232,6 @@ namespace Hybrid
         public static Orientation Orientation
         {
             get => Platform.GetOrientation();
-        }
-    }
-
-    // Events
-    public unsafe partial class Window
-    {
-        public static Action<Orientation> OnOrientation = null;
-        public static Action<bool> OnFullscreen = null;
-        public static Action<Vector2> OnResized = null;
-        public static Action<Vector2> OnMoved = null;
-        public static Action OnMaximized = null;
-        public static Action OnMinimized = null;
-        public static Action OnUnfocus = null;
-        public static Action OnFocus = null;
-        
-        
-        internal override void OnEvent(SDL.Event e)
-        {
-            switch (e.type)
-            {
-                case SDL.EventType.Orientation:
-                    OnOrientation?.Invoke(Orientation);
-                    break;
-                
-                case SDL.EventType.EnterFullscreen:
-                    OnFullscreen?.Invoke(true);
-                    break;
-                
-                case SDL.EventType.ExitFullscreen:
-                    OnFullscreen?.Invoke(false);
-                    break;
-                
-                case SDL.EventType.Resized:
-                    OnResized?.Invoke(Size);
-                    break;
-                
-                case SDL.EventType.Moved:
-                    OnMoved?.Invoke(Position);
-                    break;
-                
-                case SDL.EventType.Focused:
-                    OnFocus?.Invoke();
-                    break;
-                
-                case SDL.EventType.Unfocused:
-                    OnUnfocus?.Invoke();
-                    break;
-                
-                case SDL.EventType.Minimized:
-                    OnMinimized?.Invoke();
-                    break;
-                
-                case SDL.EventType.Maximized:
-                    OnMaximized?.Invoke();
-                    break;
-            }
         }
     }
 }

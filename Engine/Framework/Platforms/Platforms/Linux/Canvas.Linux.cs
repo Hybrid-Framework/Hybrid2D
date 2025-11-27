@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    public unsafe class LinuxCanvas : IPlatformCanvas
+    internal unsafe class LinuxCanvas : IPlatformCanvas
     {
         public Orientation GetNaturalOrientation()
         {

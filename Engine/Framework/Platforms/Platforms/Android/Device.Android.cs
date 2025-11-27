@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    public class AndroidDevice : IPlatformDevice
+    internal class AndroidDevice : IPlatformDevice
     {
         public Device GetDevice()
         {

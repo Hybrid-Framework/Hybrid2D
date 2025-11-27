@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    public unsafe class AndroidCanvas : IPlatformCanvas
+    internal unsafe class AndroidCanvas : IPlatformCanvas
     {
         public Orientation GetNaturalOrientation()
         {

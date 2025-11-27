@@ -1,18 +1,10 @@
 ﻿using System;
 
-namespace Hybrid.Internal
+namespace Hybrid
 {
     // Engine
     internal static partial class Engine
     {
-        internal static Modules Modules { get; private set; } = new Modules();
-        
-        internal static Resources Resources { get; private set; }
-        internal static Graphics Graphics { get; private set; }
-        internal static Window Window { get; private set; }
-        internal static Scenes Scenes { get; private set; }
-        internal static Audio Audio { get; private set; }
-        
         internal static bool Initialized { get; private set; }
         internal static bool IsRunning { get; private set; }
         
@@ -35,12 +27,12 @@ namespace Hybrid.Internal
             Initialized = true;
             IsRunning = true;
 
-            // Initialize Modules
-            Audio = Modules.Register(new Audio());
-            Window = Modules.Register(new Window());
-            Graphics = Modules.Register(new Graphics());
-            Resources = Modules.Register(new Resources());
-            Scenes = Modules.Register(new Scenes());
+            // Create
+            Audio.FindOrCreate();
+            Window.FindOrCreate();
+            Graphics.FindOrCreate();
+            Resources.FindOrCreate();
+            Scenes.FindOrCreate();
             
             OnInitialize();
         }
@@ -78,7 +70,7 @@ namespace Hybrid.Internal
     {
         internal static void OnInitialize()
         {
-            foreach (var module in Modules.GetModules())
+            foreach (var module in Module.GetModules())
             {
                 module.OnInitialize();
             }
@@ -90,7 +82,7 @@ namespace Hybrid.Internal
     {
         internal static void OnEvent(SDL.Event e)
         {
-            foreach (var module in Modules.GetModules())
+            foreach (var module in Module.GetModules())
             {
                 module.OnEvent(e);
             }
@@ -102,7 +94,7 @@ namespace Hybrid.Internal
     {
         internal static void OnUpdate()
         {
-            foreach (var module in Modules.GetModules())
+            foreach (var module in Module.GetModules())
             {
                 module.OnUpdate();
             }
@@ -114,7 +106,7 @@ namespace Hybrid.Internal
     {
         internal static void OnRender()
         {
-            foreach (var module in Modules.GetModules())
+            foreach (var module in Module.GetModules())
             {
                 module.OnRender();
             }
@@ -126,9 +118,9 @@ namespace Hybrid.Internal
     {
         internal static void OnQuit()
         {
-            foreach(var module in Modules.GetModules().Reverse())
+            foreach(var module in Module.GetModules().Reverse())
             {
-                Modules.UnRegister(module);
+                module.OnDestroy();
             }
             
             SDL.Quit();

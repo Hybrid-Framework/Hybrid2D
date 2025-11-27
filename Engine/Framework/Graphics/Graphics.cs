@@ -2,36 +2,21 @@
 
 namespace Hybrid
 {
-    // Graphics
-    public unsafe partial class Graphics : Module
+    // Internal
+    public unsafe partial class Graphics : Module<Graphics>
     {
-        // SDL Renderer Handle
-        internal static SDL.Renderer* Handle
-        {
-            private set;
-            get;
-        }
+        private Graphics() { }
         
-        internal Graphics()
+        // Create
+        internal override void OnCreate()
         {
+            Console.WriteLine("Graphics Created");
+                
             Handle = SDL.CreateRenderer(Window.Handle, null);
+            VSync = Engine.Config.VSync;
         }
         
-        internal override void OnDestroy()
-        {
-            Console.WriteLine("Graphics Disposed");
-            
-            if (Handle != null)
-            {
-                SDL.DestroyRenderer(Handle);
-                Handle = null;
-            }
-        }
-    }
-
-    // Graphics API
-    public unsafe partial class Graphics
-    {
+        // Render
         internal override void OnRender()
         {
             // Presentation
@@ -44,6 +29,40 @@ namespace Hybrid
             
             // Present
             SDL.RenderPresent(Handle);
+        }
+
+        // Destroy
+        internal override void OnDestroy()
+        {
+            Console.WriteLine("Graphics Destroyed");
+
+            if (Handle != null)
+            {
+                SDL.DestroyRenderer(Handle);
+                Handle = null;
+            }
+        }
+    }
+
+    // Graphics API
+    public unsafe partial class Graphics
+    {
+        internal static SDL.Renderer* Handle
+        {
+            private set;
+            get;
+        }
+        
+        public static bool VSync
+        {
+            set => SDL.SetRenderVSync(Handle, value ? 1 : 0);
+            get
+            {
+                SDL.GetRenderVSync(Handle, out int vsync);
+                {
+                    return vsync > 0;
+                }
+            }
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    public unsafe class WindowsCanvas : IPlatformCanvas
+    internal unsafe class WindowsCanvas : IPlatformCanvas
     {
         public Orientation GetNaturalOrientation()
         {

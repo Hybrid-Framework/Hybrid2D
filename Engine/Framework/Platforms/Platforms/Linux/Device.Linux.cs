@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    public class LinuxDevice : IPlatformDevice
+    internal class LinuxDevice : IPlatformDevice
     {
         public Device GetDevice()
         {

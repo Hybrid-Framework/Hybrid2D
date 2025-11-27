@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    public class WebCanvas : IPlatformCanvas
+    internal class WebCanvas : IPlatformCanvas
     {
         public Orientation GetNaturalOrientation()
         {

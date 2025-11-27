@@ -2,20 +2,23 @@
 
 namespace Hybrid
 {
-    // Scenes
-    public partial class Scenes : Module
+    // Internal
+    public partial class Scenes : Module<Scenes>
     {
-        private static Scene Active { get; set; }
+        private Scenes() { }
 
-
-        internal Scenes()
+        // Create
+        internal override void OnCreate()
         {
+            Console.WriteLine("Scenes Created");
+            
             Load(Engine.Config.Scene);
         }
         
+        // Destroy
         internal override void OnDestroy()
         {
-            Console.WriteLine("Scenes Disposed");
+            Console.WriteLine("Scenes Destroyed");
             
             if (Active != null)
             {
@@ -27,6 +30,14 @@ namespace Hybrid
     // Scenes API
     public partial class Scenes
     {
+        private static Scene Active { get; set; }
+        
+        
+        public static Scene GetActiveScene()
+        {
+            return Active;
+        }
+        
         public static void Load(Scene scene)
         {
             // Invalid Scene
@@ -66,11 +77,6 @@ namespace Hybrid
             
             Console.WriteLine($"Scene '{scene.Name}' closed");
             scene.OnSceneClose();
-        }
-        
-        public static Scene GetActiveScene()
-        {
-            return Active;
         }
     }
 }

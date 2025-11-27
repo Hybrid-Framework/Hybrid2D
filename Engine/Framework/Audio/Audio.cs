@@ -2,19 +2,16 @@
 
 namespace Hybrid
 {
-    internal unsafe class Audio : Module
+    // Internal
+    public unsafe partial class Audio : Module<Audio>
     {
-        // SDL Mixer Handle
-        internal static SDL.Mixer* Handle
-        {
-            private set;
-            get;
-        }
+        private Audio() { }
         
-        
-        internal Audio()
+        // Create
+        internal override void OnCreate()
         {
-            // Create Audio Device
+            Console.WriteLine("Audio Created");
+            
             Handle = SDL_mixer.CreateMixerDevice(SDL.DefaultPlaybackDevice, new SDL.AudioSpec()
             {
                 format = SDL.AudioFormat.S16,
@@ -22,16 +19,28 @@ namespace Hybrid
                 freq = 44100
             });
         }
-
+        
+        // Destroy
         internal override void OnDestroy()
         {
-            Console.WriteLine("Audio Disposed");
+            Console.WriteLine("Audio Destroyed");
             
             if (Handle != null)
             {
                 SDL_mixer.DestroyMixer(Handle);
                 Handle = null;
             }
+        }
+    }
+
+    // Audio API
+    public unsafe partial class Audio
+    {
+        // SDL Mixer Handle
+        internal static SDL.Mixer* Handle
+        {
+            private set;
+            get;
         }
     }
 }

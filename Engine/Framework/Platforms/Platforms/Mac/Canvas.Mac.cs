@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    public unsafe class MacCanvas : IPlatformCanvas
+    internal unsafe class MacCanvas : IPlatformCanvas
     {
         public Orientation GetNaturalOrientation()
         {

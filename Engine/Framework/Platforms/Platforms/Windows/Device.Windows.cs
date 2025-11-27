@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    public class WindowsDevice : IPlatformDevice
+    internal class WindowsDevice : IPlatformDevice
     {
         public Device GetDevice()
         {
