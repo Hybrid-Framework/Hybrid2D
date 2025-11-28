@@ -18,10 +18,12 @@ namespace Hybrid
 
             // Create
             Register(Platform.FindOrCreate());
+            Register(Storage.FindOrCreate());
             Register(Audio.FindOrCreate());
             Register(Window.FindOrCreate());
             Register(Graphics.FindOrCreate());
             Register(Resources.FindOrCreate());
+            Register(Input.FindOrCreate());
             Register(Scenes.FindOrCreate());
             
             // Initialize

@@ -46,12 +46,18 @@ namespace Hybrid
             if (scene == null)
                 throw new Exception("Invalid Scene");
 
+            // Already Loaded
+            if (Active != null && Active.Name == scene.Name)
+                return;
+
+            // Close
             if (Active != null)
             {
                 Close(Active);
                 Active = null;
             }
 
+            // Open
             Active = scene;
             Open(scene);
         }

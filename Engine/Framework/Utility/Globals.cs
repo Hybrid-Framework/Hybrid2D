@@ -1,1 +1,1 @@
-﻿global using Hybrid.Internal;
+﻿global using Hybrid;

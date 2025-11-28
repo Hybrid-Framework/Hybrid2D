@@ -1,9 +1,8 @@
-﻿using System;
-using Hybrid;
+﻿using Hybrid;
 
 namespace App
 {
-    public class Game : Hybrid.Scene
+    public class Game : Scene
     {
         public override void OnSceneOpen()
         {
