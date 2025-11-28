@@ -24,18 +24,19 @@ namespace Hybrid
     // Frame Time
     public static partial class Time
     {
-        private static readonly double Frequency = SDL.GetPerformanceFrequency();
-        private static ulong Previous = SDL.GetPerformanceCounter();
-        private static ulong Start = SDL.GetPerformanceCounter();
-        private static float SmoothFPS;
+        private static readonly double FrameFrequency = SDL.GetPerformanceFrequency();
+        private static ulong FramePrevious = SDL.GetPerformanceCounter();
+        private static ulong FrameStart = SDL.GetPerformanceCounter();
+        private static float Smoothed;
         
         
         internal static void BeforeFrame()
         {
+            FrameStart = SDL.GetPerformanceCounter();
+            
             // Calculate Elapsed
-            Start = SDL.GetPerformanceCounter();
-            var Elapsed = (Start - Previous) / Frequency;
-            Previous = Start;
+            var Elapsed = (FrameStart - FramePrevious) / FrameFrequency;
+            FramePrevious = FrameStart;
             
             // Calculate Time
             Time.UnscaledDeltaTime = (float)Elapsed;
@@ -48,8 +49,8 @@ namespace Hybrid
             if (Time.UnscaledDeltaTime > 0f)
             {
                 var fps = 1f / Time.UnscaledDeltaTime;
-                SmoothFPS = (SmoothFPS * 0.9f) + (fps * 0.1f);
-                Time.Fps = SmoothFPS;
+                Smoothed = (Smoothed * 0.9f) + (fps * 0.1f);
+                Time.Fps = Smoothed;
             }
         }
         
@@ -60,14 +61,15 @@ namespace Hybrid
             {
                 // Calculate Remaining
                 var Target = 1f / Window.Fps;
-                var End = SDL.GetPerformanceCounter();
-                var Elapsed = (End - Start) / Frequency;
-                var Remaining = Target - Elapsed;
+                
+                var FrameEnd = SDL.GetPerformanceCounter();
+                var FrameElapsed = (FrameEnd - FrameStart) / FrameFrequency;
+                var FrameRemaining = Target - FrameElapsed;
 
-                if (Remaining > 0.0)
+                if (FrameRemaining > 0.0)
                 {
                     // Sleep for (Remaining) nanoseconds
-                    SDL.DelayPrecise((ulong)(Remaining * 1_000_000_000.0));
+                    SDL.DelayPrecise((ulong)(FrameRemaining * 1_000_000_000.0));
                 }
             }
         }
