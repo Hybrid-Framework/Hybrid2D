@@ -2,16 +2,16 @@
 
 namespace Hybrid
 {
-    internal class LinuxDevice : IPlatformDevice
+    internal class WindowsSystem : IPlatformSystem
     {
         public Device GetDevice()
         {
             return Device.Desktop;
         }
         
-        public System GetSystem()
+        public System GetPlatform()
         {
-            return System.Linux;
+            return System.Windows;
         }
     }
 }

@@ -2,16 +2,16 @@
 
 namespace Hybrid
 {
-    internal class WindowsDevice : IPlatformDevice
+    internal class MacSystem : IPlatformSystem
     {
         public Device GetDevice()
         {
             return Device.Desktop;
         }
         
-        public System GetSystem()
+        public System GetPlatform()
         {
-            return System.Windows;
+            return System.Mac;
         }
     }
 }

@@ -26,7 +26,7 @@ namespace Hybrid
             
             // Rendering
             SDL.SetRenderDrawColor(Handle, 255, 255, 255, 255);
-            SDL.RenderDebugText(Handle, 10, 10, $"Screen: {Window.Width} {Window.Height}");
+            SDL.RenderDebugText(Handle, 10, 10, $"FPS: {Time.Fps.ToString("N0")}");
             
             // Present
             SDL.RenderPresent(Handle);

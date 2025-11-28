@@ -26,7 +26,7 @@ namespace Hybrid.Internal
         public void OnInitialize()
         {
             SDL.WindowFlags flags = SDL.WindowFlags.HighPixelDensity;
-            if (Platform.GetDevice() == Device.Mobile) flags |= SDL.WindowFlags.Fullscreen | SDL.WindowFlags.Resizable;
+            if (Platform.GetSystem().GetDevice() == Device.Mobile) flags |= SDL.WindowFlags.Fullscreen | SDL.WindowFlags.Resizable;
             
             Window = SDL.CreateWindow("test", 600, 600, flags);
             Renderer = SDL.CreateRenderer(Window, null);

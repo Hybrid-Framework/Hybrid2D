@@ -2,9 +2,9 @@
 
 namespace Hybrid
 {
-    public interface IPlatformDevice
+    public interface IPlatformSystem
     {
         Device GetDevice();
-        System GetSystem();
+        System GetPlatform();
     }
 }

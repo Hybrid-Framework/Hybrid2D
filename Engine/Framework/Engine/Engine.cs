@@ -7,11 +7,8 @@ namespace Hybrid
     {
         internal bool Initialized { get; private set; }
         internal bool IsRunning { get; private set; }
-    }
-
-    // Main Loop
-    internal partial class Engine
-    {
+        
+        
         internal void StartMainLoop()
         {
             // Initialize
@@ -33,6 +30,9 @@ namespace Hybrid
         
         internal void MainLoop()
         {
+            // Frame Time
+            Time.BeforeFrame();
+            
             while (SDL.PollEvent(out SDL.Event e))
             {
                 // Quit Application
@@ -47,6 +47,9 @@ namespace Hybrid
             
             OnUpdate();
             OnRender();
+            
+            // Frame Limit
+            Time.AfterFrame();
         }
         
         internal void Quit()

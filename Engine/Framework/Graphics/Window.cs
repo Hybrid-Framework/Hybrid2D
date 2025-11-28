@@ -14,7 +14,7 @@ namespace Hybrid
             
             // Platform
             var config = Platform.GetConfig();
-            var device = Platform.GetDevice();
+            var device = Platform.GetSystem().GetDevice();
             if (device == Device.Mobile) config.Fullscreen = true;
             if (device == Device.Mobile) config.Resizable = true;
             
@@ -233,12 +233,12 @@ namespace Hybrid
         
         public static Orientation NaturalOrientation
         {
-            get => Platform.GetNaturalOrientation();
+            get => Platform.GetCanvas().GetNaturalOrientation();
         }
 
         public static Orientation Orientation
         {
-            get => Platform.GetOrientation();
+            get => Platform.GetCanvas().GetOrientation();
         }
     }
 }

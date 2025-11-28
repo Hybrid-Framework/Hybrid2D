@@ -2,16 +2,16 @@
 
 namespace Hybrid
 {
-    internal class IOSDevice : IPlatformDevice
+    internal class AndroidSystem : IPlatformSystem
     {
         public Device GetDevice()
         {
             return Device.Mobile;
         }
         
-        public System GetSystem()
+        public System GetPlatform()
         {
-            return System.IOS;
+            return System.Android;
         }
     }
 }

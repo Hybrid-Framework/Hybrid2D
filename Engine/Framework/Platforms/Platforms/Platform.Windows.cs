@@ -4,7 +4,7 @@ namespace Hybrid
 {
     internal class WindowsPlatform : Platform
     {
-        protected override IPlatformDevice Device { get; set; } = new WindowsDevice();
+        protected override IPlatformSystem System { get; set; } = new WindowsSystem();
         protected override IPlatformCanvas Canvas { get; set; } = new WindowsCanvas();
     }
 }

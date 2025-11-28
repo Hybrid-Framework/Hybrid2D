@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    internal class WebDevice : IPlatformDevice
+    internal class WebSystem : IPlatformSystem
     {
         public Device GetDevice()
         {
@@ -41,7 +41,7 @@ namespace Hybrid
             }
         }
         
-        public System GetSystem()
+        public System GetPlatform()
         {
             return System.Web;
         }

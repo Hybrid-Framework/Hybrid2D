@@ -4,7 +4,7 @@ namespace Hybrid
 {
     internal class MacPlatform : Platform
     {
-        protected override IPlatformDevice Device { get; set; } = new MacDevice();
+        protected override IPlatformSystem System { get; set; } = new MacSystem();
         protected override IPlatformCanvas Canvas { get; set; } = new MacCanvas();
     }
 }

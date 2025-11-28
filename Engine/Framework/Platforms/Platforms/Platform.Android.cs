@@ -4,7 +4,7 @@ namespace Hybrid
 {
     internal class AndroidPlatform : Platform
     {
-        protected override IPlatformDevice Device { get; set; } = new AndroidDevice();
+        protected override IPlatformSystem System { get; set; } = new AndroidSystem();
         protected override IPlatformCanvas Canvas { get; set; } = new AndroidCanvas();
     }
 }
