@@ -6,8 +6,8 @@ namespace Hybrid
     public partial class Object
     {
         private readonly Guid Guid = Guid.NewGuid();
-        private bool IsMarkedDestroyed { get; set; }
-        private bool IsDestroyed { get; set; }
+        private bool Destroying { get; set; }
+        private bool Destroyed { get; set; }
         public string Name { get; set; }
         
 
@@ -18,20 +18,34 @@ namespace Hybrid
 
         public static void Destroy(Object obj)
         {
-            if (obj != null && !obj.IsMarkedDestroyed)
+            if (obj != null)
             {
-                // Mark As Destroyed
-                obj.IsMarkedDestroyed = true;
+                // Mark For Destroying
+                if(obj.IsDestroying()) return;
+                obj.Destroying = true;
                 
                 // Destroy
                 obj.OnDestroy();
-                obj.IsDestroyed = true;
+                obj.Destroyed = true;
             }
         }
 
         internal virtual void OnDestroy()
         {
-            // Called before object is marked as destroyed.
+            // Called after object is marked as destroying
+            // Called before object is marked as destroyed
+        }
+        
+        public bool IsDestroying()
+        {
+            // Useful for knowing if an object is about to be destroyed
+            return Destroying;
+        }
+
+        public bool IsDestroyed()
+        {
+            // Useful for knowing if an object has been destroyed
+            return Destroyed;
         }
     }
 
@@ -40,7 +54,7 @@ namespace Hybrid
     {
         public static implicit operator bool(Object obj)
         {
-            return obj is not null && !obj.IsDestroyed;
+            return obj is not null && !obj.Destroyed;
         }
         
         public static bool operator !=(Object a, Object b)
@@ -50,8 +64,8 @@ namespace Hybrid
 
         public static bool operator ==(Object a, Object b)
         {
-            if (a is null) return b?.IsDestroyed ?? true;
-            if (b is null) return a.IsDestroyed;
+            if (a is null) return b?.Destroyed ?? true;
+            if (b is null) return a.Destroyed;
             
             return ReferenceEquals(a, b);
         }
@@ -78,12 +92,12 @@ namespace Hybrid
 
         public override string ToString()
         {
-            return Name;
+            return Destroyed ? "Null" : Name;
         }
 
         public int GetInstanceID()
         {
-            return Guid.GetHashCode();
+            return Destroyed ? 0 : Guid.GetHashCode();
         }
     }
 }

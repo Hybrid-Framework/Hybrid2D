@@ -3,7 +3,7 @@
 namespace Hybrid
 {
     [RequireComponent(typeof(Transform))]
-    public class TestComponent : Component
+    public class TestComponent2 : Component
     {
         
     }

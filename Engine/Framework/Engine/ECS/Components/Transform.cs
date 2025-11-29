@@ -2,6 +2,8 @@
 
 namespace Hybrid
 {
+    [DisallowDestroyComponent]
+    [DisallowMultipleComponent]
     public class Transform : Component
     {
         public Vector2 Position;
