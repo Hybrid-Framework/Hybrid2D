@@ -9,13 +9,13 @@ namespace Hybrid
         // Create
         internal override void OnCreate()
         {
-            Console.WriteLine("Storage Created");
+            
         }
 
         // Destroy
         internal override void OnDestroy()
         {
-            Console.WriteLine("Storage Destroyed");
+            
         }
     }
     

@@ -10,8 +10,6 @@ namespace Hybrid
         // Create
         internal override void OnCreate()
         {
-            Console.WriteLine("Scenes Created");
-
             var config = Platform.GetConfig();
             
             Load(config.Scene);
@@ -20,8 +18,6 @@ namespace Hybrid
         // Destroy
         internal override void OnDestroy()
         {
-            Console.WriteLine("Scenes Destroyed");
-            
             if (Active != null)
             {
                 Close(Active);
@@ -78,7 +74,7 @@ namespace Hybrid
             if (scene == null)
                 throw new Exception("Invalid Scene");
             
-            foreach (var obj in scene.GetSceneObjects())
+            foreach (var obj in scene.GetSceneGameObjects())
             {
                 Object.Destroy(obj);
             }

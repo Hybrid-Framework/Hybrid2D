@@ -5,7 +5,7 @@ namespace Hybrid
     // Scene
     public class Scene
     {
-        private readonly List<Object> Objects = new List<Object>();
+        private readonly List<GameObject> GameObjects = new List<GameObject>();
         
         public string Name => GetType().Name;
         
@@ -20,19 +20,21 @@ namespace Hybrid
             // Called When Scene Opened
         }
         
-        public Object[] GetSceneObjects()
+        public GameObject[] GetSceneGameObjects()
         {
-            return Objects.ToArray();
+            return GameObjects.ToArray();
         }
 
-        internal void Add(Object obj)
+        internal void Add(GameObject gameObject)
         {
-            Objects.Add(obj);
+            Console.WriteLine($"GameObject '{gameObject.Name}' added to scene");
+            GameObjects.Add(gameObject);
         }
         
-        internal void Remove(Object obj)
+        internal void Remove(GameObject gameObject)
         {
-            Objects.Remove(obj);
+            Console.WriteLine($"GameObject '{gameObject.Name}' removed from scene");
+            GameObjects.Remove(gameObject);
         }
 
         protected Scene()

@@ -10,8 +10,6 @@ namespace Hybrid
         // Create
         internal override void OnCreate()
         {
-            Console.WriteLine("Window Created");
-            
             // Platform
             var config = Platform.GetConfig();
             var device = Platform.GetSystem().GetDevice();
@@ -79,8 +77,6 @@ namespace Hybrid
         // Destroy
         internal override void OnDestroy()
         {
-            Console.WriteLine("Window Destroyed");
-
             if (Handle != null)
             {
                 SDL.DestroyWindow(Handle);

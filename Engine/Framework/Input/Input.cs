@@ -9,13 +9,13 @@ namespace Hybrid
         // Create
         internal override void OnCreate()
         {
-            Console.WriteLine("Input Created");
+            
         }
 
         // Destroy
         internal override void OnDestroy()
         {
-            Console.WriteLine("Input Destroyed");
+            
         }
     }
 }

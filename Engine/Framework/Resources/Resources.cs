@@ -10,14 +10,12 @@ namespace Hybrid
         // Create
         internal override void OnCreate()
         {
-            Console.WriteLine("Resources Created");
+            
         }
 
         // Destroy
         internal override void OnDestroy()
         {
-            Console.WriteLine("Resources Destroyed");
-
             // For Each Resource In Cache
             foreach (var resource in Cache)
             {

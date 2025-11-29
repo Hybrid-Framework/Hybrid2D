@@ -10,8 +10,6 @@ namespace Hybrid
         // Create
         internal override void OnCreate()
         {
-            Console.WriteLine("Graphics Created");
-
             // Create Renderer
             Handle = SDL.CreateRenderer(Window.Handle, null);
             Window.VSync = Platform.GetConfig().VSync;
@@ -35,8 +33,6 @@ namespace Hybrid
         // Destroy
         internal override void OnDestroy()
         {
-            Console.WriteLine("Graphics Destroyed");
-
             if (Handle != null)
             {
                 SDL.DestroyRenderer(Handle);
