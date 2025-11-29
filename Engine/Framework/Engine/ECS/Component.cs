@@ -11,8 +11,11 @@ namespace Hybrid
 
             if (GameObject != null)
             {
-                GameObject.DetachComponent(this);
+                GameObject.RemoveComponent(this);
             }
+
+            GameObject = null;
+            Transform = null;
         }
     }
 }

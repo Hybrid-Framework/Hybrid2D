@@ -6,6 +6,7 @@ namespace Hybrid
     public partial class Object
     {
         private readonly Guid Guid = Guid.NewGuid();
+        private bool IsMarkedDestroyed { get; set; }
         private bool IsDestroyed { get; set; }
         public string Name { get; set; }
         
@@ -17,8 +18,11 @@ namespace Hybrid
 
         public static void Destroy(Object obj)
         {
-            if (obj != null)
+            if (obj != null && !obj.IsMarkedDestroyed)
             {
+                // Mark As Destroyed
+                obj.IsMarkedDestroyed = true;
+                
                 // Destroy
                 obj.OnDestroy();
                 obj.IsDestroyed = true;

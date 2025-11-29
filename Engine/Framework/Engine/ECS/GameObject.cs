@@ -25,7 +25,7 @@ namespace Hybrid
             Transform.GameObject = this;
             Transform.Name = Name;
             
-            AttachComponent(Transform);
+            AddComponent(Transform);
         }
 
         internal override void OnDestroy()
@@ -36,44 +36,11 @@ namespace Hybrid
             foreach (var component in GetComponents())
             {
                 // Destroy Component
-                Object.Destroy(component);
+                Destroy(component);
             }
             
             // Remove From Scene
             Scene?.Remove(this);
-        }
-    }
-
-    // Internal Component
-    public partial class GameObject
-    {
-        internal T AttachComponent<T>(T component) where T : Component
-        {
-            // Invalid Component
-            if (component == null)
-                return null;
-            
-            // Assign
-            component.Name = Name;
-            component.GameObject = this;
-            component.Transform = Transform;
-            
-            // Attach to GameObject
-            Console.WriteLine($"Component '{component.GetType().Name}' attached to GameObject '{GameObject.Name}'");
-            Components.Add(component);
-            return component;
-        }
-        
-        internal T DetachComponent<T>(T component) where T : Component
-        {
-            // Invalid Component
-            if (component == null)
-                return null;
-            
-            // Detach From GameObject
-            Console.WriteLine($"Component '{component.GetType().Name}' detached from GameObject '{GameObject.Name}'");
-            Components.Remove(component);
-            return component;
         }
     }
 
@@ -86,20 +53,81 @@ namespace Hybrid
             var component = Activator.CreateInstance(typeof(T)) as Component;
 
             // Attach & Return
-            return AttachComponent(component) as T;
+            return AddComponent(component) as T;
         }
-        
-        public Component AddComponent(Type component)
+
+        public Component AddComponent(Type type)
         {
-            // Invalid Component
-            if (!typeof(Component).IsAssignableFrom(component))
-                throw new ArgumentException($"Type '{component?.Name}' does not inherit from Component");
-            
+            // Invalid Type
+            if (!typeof(Component).IsAssignableFrom(type))
+                throw new ArgumentException($"Type '{type?.Name}' does not inherit from Component");
+
             // Create Instance
-            var instance = Activator.CreateInstance(component) as Component;
+            var component = Activator.CreateInstance(type) as Component;
 
             // Attach & Return
-            return AttachComponent(instance);
+            return AddComponent(component);
+        }
+
+        internal T AddComponent<T>(T component) where T : Component
+        {
+            // Invalid Component
+            if (component == null)
+                return null;
+
+            // Assign
+            component.Name = Name;
+            component.GameObject = this;
+            component.Transform = Transform;
+
+            // Attach to GameObject
+            Console.WriteLine($"Component '{component.GetType().Name}' attached to GameObject '{GameObject.Name}'");
+            Components.Add(component);
+            return component;
+        }
+    }
+    
+    // Remove Component
+    public partial class GameObject
+    {
+        public void RemoveComponent<T>() where T : Component
+        {
+            // Find Component
+            var component = GetComponent<T>();
+
+            // Remove & Return
+            RemoveComponent(component);
+        }
+
+        public void RemoveComponent(Type type)
+        {
+            // Invalid Type
+            if (!typeof(Component).IsAssignableFrom(type))
+                throw new ArgumentException($"Type '{type?.Name}' does not inherit from Component");
+
+            // Find Component
+            var component = GetComponent(type);
+
+            // Attach & Return
+            RemoveComponent(component);
+        }
+
+        internal void RemoveComponent<T>(T component) where T : Component
+        {
+            // Invalid Component
+            if (component == null)
+                return;
+            
+            // Find Component
+            if(GetComponent(component.GetType()))
+            {
+                // Remove Component
+                Console.WriteLine($"Component '{component.GetType().Name}' detached from GameObject '{GameObject.Name}'");
+                Components.Remove(component);
+                
+                // Destroy
+                Destroy(component);
+            }
         }
     }
     
@@ -136,12 +164,12 @@ namespace Hybrid
             return list.ToArray();
         }
         
-        public Component GetComponent(Type component)
+        public Component GetComponent(Type type)
         {
             // Find Matching Component
             foreach (var c in GetComponents())
             {
-                if (c.GetType() == component)
+                if (c.GetType() == type)
                 {
                     return c;
                 }
