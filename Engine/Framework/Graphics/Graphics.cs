@@ -7,9 +7,18 @@ namespace Hybrid
     {
         private Graphics() { }
         
+        internal static SDL.Renderer* Handle
+        {
+            private set;
+            get;
+        }
+        
+        
         // Initialize
         internal override void OnInitialize()
         {
+            base.OnInitialize();
+            
             // Create Renderer
             Handle = SDL.CreateRenderer(Window.Handle, null);
             Window.VSync = Platform.GetConfig().VSync;
@@ -18,6 +27,8 @@ namespace Hybrid
         // Render
         internal override void OnRender()
         {
+            base.OnRender();
+            
             // Presentation
             SDL.SetRenderDrawColor(Handle, 255, 128, 128, 255);
             SDL.RenderClear(Handle);
@@ -46,10 +57,6 @@ namespace Hybrid
     // Graphics API
     public unsafe partial class Graphics
     {
-        internal static SDL.Renderer* Handle
-        {
-            private set;
-            get;
-        }
+        
     }
 }

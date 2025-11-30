@@ -10,6 +10,8 @@ namespace Hybrid
         // Initialize
         internal override void OnInitialize()
         {
+            base.OnInitialize();
+            
             Handle = SDL_mixer.CreateMixerDevice(SDL.DefaultPlaybackDevice, new SDL.AudioSpec()
             {
                 format = SDL.AudioFormat.S16,

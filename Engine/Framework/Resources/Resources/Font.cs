@@ -2,16 +2,17 @@
 
 namespace Hybrid
 {
-    // Font
-    public unsafe class Font : Resource
+    // Internal
+    public unsafe partial class Font : Resource
     {
-        internal SDL.Font* Handle { get; private set; }
-        
-        internal Font(SDL.Font* handle)
+        // SDL Font Handle
+        internal SDL.Font* Handle
         {
-            Handle = handle;
+            private set;
+            get;
         }
-
+        
+        
         internal override void OnDispose()
         {
             base.OnDispose();
@@ -21,6 +22,15 @@ namespace Hybrid
                 SDL_ttf.CloseFont(Handle);
                 Handle = null;
             }
+        }
+    }
+
+    // Font API
+    public unsafe partial class Font
+    {
+        internal Font(SDL.Font* handle)
+        {
+            Handle = handle;
         }
     }
 }

@@ -10,9 +10,9 @@ namespace Hybrid
         // Initialize
         internal override void OnInitialize()
         {
-            var config = Platform.GetConfig();
+            base.OnInitialize();
             
-            Load(config.Scene);
+            Load(Platform.GetConfig().Scene);
         }
         
         // Dispose
@@ -23,6 +23,39 @@ namespace Hybrid
             if (Active != null)
             {
                 Close(Active);
+            }
+        }
+
+        // Update
+        internal override void OnUpdate()
+        {
+            base.OnUpdate();
+            
+            if (GetActiveScene() != null)
+            {
+                // For Each GameObject
+                foreach (var gameObject in GetActiveScene().GetSceneGameObjects())
+                {
+                    // Skip Disabled GameObject
+                    if(!gameObject.Enabled) continue;
+                    
+                    // Get Components
+                    foreach (var component in gameObject.GetComponents())
+                    {
+                        // Skip Disabled Component
+                        if(!component.Enabled) continue;
+                        
+                        // Process Component
+                        if (!component.ComponentInitialized)
+                        {
+                            component.ComponentInitialized = true;
+                            component.OnAwake();
+                            component.OnStart();
+                        }
+                        
+                        component.OnUpdate();
+                    }
+                }
             }
         }
     }

@@ -6,10 +6,19 @@ namespace Hybrid
     public unsafe partial class Window : Module<Window>
     {
         private Window() { }
+        
+        internal static SDL.Window* Handle
+        {
+            private set;
+            get;
+        }
+        
 
         // Initialize
         internal override void OnInitialize()
         {
+            base.OnInitialize();
+            
             // Platform
             var config = Platform.GetConfig();
             var device = Platform.GetSystem().GetDevice();
@@ -34,6 +43,8 @@ namespace Hybrid
         // Events
         internal override void OnEvent(SDL.Event e)
         {
+            base.OnEvent(e);
+            
             switch (e.type)
             {
                 case SDL.EventType.Orientation:
@@ -99,12 +110,6 @@ namespace Hybrid
         public static Action OnUnfocus = null;
         public static Action OnFocus = null;
         
-        
-        internal static SDL.Window* Handle
-        {
-            private set;
-            get;
-        }
         
         public static int Fps
         {

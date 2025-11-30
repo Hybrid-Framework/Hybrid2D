@@ -9,7 +9,7 @@ namespace Hybrid
         // Initialize
         internal override void OnInitialize()
         {
-            
+            base.OnInitialize();
         }
 
         // Dispose

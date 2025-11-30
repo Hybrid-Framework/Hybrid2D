@@ -2,16 +2,34 @@
 
 namespace Hybrid
 {
-    // Texture
+    // Internal
     public unsafe partial class Texture : Resource
     {
         // SDL Texture Handle
         internal SDL.Texture* Handle
         {
+            private set;
             get;
-            set;
         }
         
+
+        internal override void OnDispose()
+        {
+            base.OnDispose();
+
+            if (Handle != null)
+            {
+                SDL.DestroyTexture(Handle);
+                Handle = null;
+            }
+
+            Array.Clear(Pixels);
+        }
+    }
+    
+    // Texture API
+    public unsafe partial class Texture
+    {
         // Create Texture from another Texture
         public Texture(Texture texture, TextureAccess access = TextureAccess.Static, TextureScaling scaling = TextureScaling.Pixel)
         {
@@ -83,19 +101,6 @@ namespace Hybrid
             // Apply
             Scaling = scaling;
             Apply();
-        }
-        
-        internal override void OnDispose()
-        {
-            base.OnDispose();
-            
-            if (Handle != null)
-            {
-                SDL.DestroyTexture(Handle);
-                Handle = null;
-            }
-            
-            Array.Clear(Pixels);
         }
     }
     

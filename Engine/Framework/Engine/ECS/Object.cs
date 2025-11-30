@@ -3,7 +3,7 @@
 namespace Hybrid
 {
     // Object
-    public partial class Object
+    public abstract partial class Object
     {
         private readonly Guid Guid = Guid.NewGuid();
         private bool Destroying { get; set; }

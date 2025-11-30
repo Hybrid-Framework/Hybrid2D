@@ -2,8 +2,8 @@
 
 namespace Hybrid
 {
-    // Sound
-    public unsafe class Sound : Resource
+    // Internal
+    public unsafe partial class Sound : Resource
     {
         // SDL Audio Handle
         internal SDL.Audio* Handle
@@ -12,11 +12,6 @@ namespace Hybrid
             get;
         }
         
-
-        internal Sound(SDL.Audio* handle)
-        {
-            Handle = handle;
-        }
 
         internal override void OnDispose()
         {
@@ -27,6 +22,15 @@ namespace Hybrid
                 SDL_mixer.DestroyAudio(Handle);
                 Handle = null;
             }
+        }
+    }
+
+    // Sound API
+    public unsafe partial class Sound
+    {
+        internal Sound(SDL.Audio* handle)
+        {
+            Handle = handle;
         }
     }
 }

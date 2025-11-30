@@ -9,14 +9,13 @@ namespace Hybrid
         // Initialize
         internal override void OnInitialize()
         {
-            
+            base.OnInitialize();
         }
 
         // Dispose
         internal override void OnDispose()
         {
             base.OnDispose();
-            
         }
     }
 }
