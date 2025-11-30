@@ -2,8 +2,28 @@
 
 namespace Hybrid
 {
-    // GameObject
+    // Internal
     public partial class GameObject : Behaviour
+    {
+        // Dispose
+        internal override void OnDispose()
+        {
+            // For Each Component
+            foreach (var component in GetComponents())
+            {
+                // Destroy Component
+                Destroy(component);
+            }
+            
+            // Remove From Scene
+            Scene?.Remove(this);
+            
+            base.OnDispose();
+        }
+    }
+    
+    // GameObject API
+    public partial class GameObject
     {
         private readonly List<Component> Components = new List<Component>();
         private readonly HashSet<Type> Processing = new HashSet<Type>();
@@ -33,21 +53,6 @@ namespace Hybrid
             Transform.Name = Name;
             
             AddComponent(Transform);
-        }
-
-        internal override void OnDispose()
-        {
-            base.OnDispose();
-            
-            // For Each Component
-            foreach (var component in GetComponents())
-            {
-                // Destroy Component
-                Destroy(component);
-            }
-            
-            // Remove From Scene
-            Scene?.Remove(this);
         }
     }
     

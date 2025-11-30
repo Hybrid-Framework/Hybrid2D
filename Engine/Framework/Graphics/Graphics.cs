@@ -17,18 +17,16 @@ namespace Hybrid
         // Initialize
         internal override void OnInitialize()
         {
-            base.OnInitialize();
-            
             // Create Renderer
             Handle = SDL.CreateRenderer(Window.Handle, null);
             Window.VSync = Platform.GetConfig().VSync;
+            
+            base.OnInitialize();
         }
         
         // Render
         internal override void OnRender()
         {
-            base.OnRender();
-            
             // Presentation
             SDL.SetRenderDrawColor(Handle, 255, 128, 128, 255);
             SDL.RenderClear(Handle);
@@ -39,18 +37,20 @@ namespace Hybrid
             
             // Present
             SDL.RenderPresent(Handle);
+            
+            base.OnRender();
         }
 
         // Dispose
         internal override void OnDispose()
         {
-            base.OnDispose();
-            
             if (Handle != null)
             {
                 SDL.DestroyRenderer(Handle);
                 Handle = null;
             }
+            
+            base.OnDispose();
         }
     }
 

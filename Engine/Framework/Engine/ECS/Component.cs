@@ -2,27 +2,27 @@
 
 namespace Hybrid
 {
-    // Component
-    public abstract class Component : Behaviour
+    // Internal
+    public abstract partial class Component : Behaviour
     {
-        internal bool ComponentInitialized { get; set; } = false;
-        
+        // Dispose
         internal override void OnDispose()
         {
             OnDestroy();
-            
-            base.OnDispose();
 
             if (GameObject != null)
             {
                 // Remove From GameObject
                 GameObject.RemoveComponent(this);
             }
-
-            // Remove
-            GameObject = null;
-            Transform = null;
+            
+            base.OnDispose();
         }
+    }
+    
+    public abstract partial class Component
+    {
+        internal bool ComponentInitialized { get; set; } = false;
         
         public virtual void OnAwake() { }
         public virtual void OnStart() { }

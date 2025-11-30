@@ -17,8 +17,6 @@ namespace Hybrid
         // Initialize
         internal override void OnInitialize()
         {
-            base.OnInitialize();
-            
             // Platform
             var config = Platform.GetConfig();
             var device = Platform.GetSystem().GetDevice();
@@ -38,13 +36,13 @@ namespace Hybrid
             var icon = SDL_image.Load(config.Icon);
             SDL.SetWindowIcon(Handle, icon);
             SDL.DestroySurface(icon);
+            
+            base.OnInitialize();
         }
 
         // Events
         internal override void OnEvent(SDL.Event e)
         {
-            base.OnEvent(e);
-            
             switch (e.type)
             {
                 case SDL.EventType.Orientation:
@@ -83,18 +81,20 @@ namespace Hybrid
                     OnMaximized?.Invoke();
                     break;
             }
+            
+            base.OnEvent(e);
         }
         
         // Dispose
         internal override void OnDispose()
         {
-            base.OnDispose();
-
             if (Handle != null)
             {
                 SDL.DestroyWindow(Handle);
                 Handle = null;
             }
+            
+            base.OnDispose();
         }
     }
     

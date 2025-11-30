@@ -10,27 +10,25 @@ namespace Hybrid
         // Initialize
         internal override void OnInitialize()
         {
-            base.OnInitialize();
-            
             Load(Platform.GetConfig().Scene);
+            
+            base.OnInitialize();
         }
         
         // Dispose
         internal override void OnDispose()
         {
-            base.OnDispose();
-            
             if (Active != null)
             {
                 Close(Active);
             }
+            
+            base.OnDispose();
         }
 
         // Update
         internal override void OnUpdate()
         {
-            base.OnUpdate();
-            
             if (GetActiveScene() != null)
             {
                 // For Each GameObject
@@ -57,6 +55,8 @@ namespace Hybrid
                     }
                 }
             }
+            
+            base.OnUpdate();
         }
     }
     

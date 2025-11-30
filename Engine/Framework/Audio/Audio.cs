@@ -10,26 +10,26 @@ namespace Hybrid
         // Initialize
         internal override void OnInitialize()
         {
-            base.OnInitialize();
-            
             Handle = SDL_mixer.CreateMixerDevice(SDL.DefaultPlaybackDevice, new SDL.AudioSpec()
             {
                 format = SDL.AudioFormat.S16,
                 channels = 2,
                 freq = 44100
             });
+            
+            base.OnInitialize();
         }
         
         // Dispose
         internal override void OnDispose()
         {
-            base.OnDispose();
-            
             if (Handle != null)
             {
                 SDL_mixer.DestroyMixer(Handle);
                 Handle = null;
             }
+            
+            base.OnDispose();
         }
     }
 

@@ -16,8 +16,6 @@ namespace Hybrid
         // Dispose
         internal override void OnDispose()
         {
-            base.OnDispose();
-            
             // For Each Resource In Cache
             foreach (var resource in Cache)
             {
@@ -27,6 +25,8 @@ namespace Hybrid
             
             // Empty
             Cache.Clear();
+            
+            base.OnDispose();
         }
     }
     

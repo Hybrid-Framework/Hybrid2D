@@ -2,8 +2,21 @@
 
 namespace Hybrid
 {
-    // Behaviour
-    public abstract class Behaviour : Object
+    // Internal
+    public abstract partial class Behaviour : Object
+    {
+        // Dispose
+        internal override void OnDispose()
+        {
+            GameObject = null;
+            Transform = null;
+            
+            base.OnDispose();
+        }
+    }
+    
+    // Behaviour API
+    public abstract partial class Behaviour
     {
         public GameObject GameObject { get; internal set; }
         public Transform Transform { get; internal set; }
