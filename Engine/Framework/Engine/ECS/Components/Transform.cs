@@ -10,9 +10,9 @@ namespace Hybrid
         public Vector2 Scale;
         public int Rotation;
 
-        internal override void OnDestroy()
+        internal override void OnDispose()
         {
-            base.OnDestroy();
+            base.OnDispose();
             
             Position = Vector2.Zero;
             Scale = Vector2.Zero;

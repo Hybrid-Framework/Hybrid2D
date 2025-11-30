@@ -21,19 +21,18 @@ namespace Hybrid
             if (obj != null)
             {
                 // Mark For Destroying
-                if(obj.IsDestroying()) return;
+                if(obj.Destroying) return;
                 obj.Destroying = true;
                 
                 // Destroy
-                obj.OnDestroy();
+                obj.OnDispose();
                 obj.Destroyed = true;
             }
         }
 
-        internal virtual void OnDestroy()
+        internal virtual void OnDispose()
         {
-            // Called after object is marked as destroying
-            // Called before object is marked as destroyed
+            // Internal dispose
         }
         
         public bool IsDestroying()
@@ -46,6 +45,35 @@ namespace Hybrid
         {
             // Useful for knowing if an object has been destroyed
             return Destroyed;
+        }
+    }
+
+    public partial class Object
+    {
+        public static T[] FindObjectsByType<T>() where T : Object
+        {
+            List<T> results = new();
+
+            if (Scenes.GetActiveScene() != null)
+            {
+                foreach(var gameObject in Scenes.GetActiveScene().GetSceneGameObjects())
+                {
+                    if (gameObject is T t)
+                    {
+                        results.Add(t);
+                    }
+                    
+                    foreach (Component component in gameObject.GetComponents())
+                    {
+                        if (component is T c)
+                        {
+                            results.Add(c);
+                        }
+                    }
+                }
+            }
+            
+            return results.ToArray();
         }
     }
 

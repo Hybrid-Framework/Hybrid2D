@@ -18,8 +18,10 @@ namespace Hybrid
             Handle = handle;
         }
 
-        internal override void OnDestroy()
+        internal override void OnDispose()
         {
+            base.OnDispose();
+            
             if (Handle != null)
             {
                 SDL_mixer.DestroyAudio(Handle);

@@ -7,17 +7,19 @@ namespace Hybrid
     {
         private Scenes() { }
 
-        // Create
-        internal override void OnCreate()
+        // Initialize
+        internal override void OnInitialize()
         {
             var config = Platform.GetConfig();
             
             Load(config.Scene);
         }
         
-        // Destroy
-        internal override void OnDestroy()
+        // Dispose
+        internal override void OnDispose()
         {
+            base.OnDispose();
+            
             if (Active != null)
             {
                 Close(Active);
@@ -33,6 +35,7 @@ namespace Hybrid
         
         public static Scene GetActiveScene()
         {
+            // Return Active Scene
             return Active;
         }
         
@@ -64,6 +67,7 @@ namespace Hybrid
             if (scene == null)
                 throw new Exception("Invalid Scene");
             
+            // On Scene Opened
             Console.WriteLine($"Scene '{scene.Name}' opened");
             scene.OnSceneOpen();
         }
@@ -74,11 +78,14 @@ namespace Hybrid
             if (scene == null)
                 throw new Exception("Invalid Scene");
             
+            // For Each GameObject In Scene
             foreach (var obj in scene.GetSceneGameObjects())
             {
+                // Destroy
                 Object.Destroy(obj);
             }
             
+            // On Scene Closed
             Console.WriteLine($"Scene '{scene.Name}' closed");
             scene.OnSceneClose();
         }

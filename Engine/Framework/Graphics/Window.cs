@@ -7,8 +7,8 @@ namespace Hybrid
     {
         private Window() { }
 
-        // Create
-        internal override void OnCreate()
+        // Initialize
+        internal override void OnInitialize()
         {
             // Platform
             var config = Platform.GetConfig();
@@ -74,9 +74,11 @@ namespace Hybrid
             }
         }
         
-        // Destroy
-        internal override void OnDestroy()
+        // Dispose
+        internal override void OnDispose()
         {
+            base.OnDispose();
+
             if (Handle != null)
             {
                 SDL.DestroyWindow(Handle);

@@ -16,7 +16,7 @@ namespace Hybrid
             Initialized = true;
             IsRunning = true;
 
-            // Create
+            // Initialize Modules
             Register(Platform.FindOrCreate());
             Register(Storage.FindOrCreate());
             Register(Audio.FindOrCreate());
@@ -25,9 +25,6 @@ namespace Hybrid
             Register(Resources.FindOrCreate());
             Register(Input.FindOrCreate());
             Register(Scenes.FindOrCreate());
-            
-            // Initialize
-            OnInitialize();
         }
         
         internal void MainLoop()
@@ -68,19 +65,7 @@ namespace Hybrid
             SDL.Quit();
         }
     }
-
-    // Initialize
-    internal partial class Engine
-    {
-        internal override void OnInitialize()
-        {
-            foreach (var module in GetModules())
-            {
-                module.OnInitialize();
-            }
-        }
-    }
-
+    
     // Events
     internal partial class Engine
     {

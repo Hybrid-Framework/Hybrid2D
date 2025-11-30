@@ -5,15 +5,17 @@ namespace Hybrid
     // Component
     public class Component : Behaviour
     {
-        internal override void OnDestroy()
+        internal override void OnDispose()
         {
-            base.OnDestroy();
+            base.OnDispose();
 
             if (GameObject != null)
             {
+                // Remove From GameObject
                 GameObject.RemoveComponent(this);
             }
 
+            // Remove
             GameObject = null;
             Transform = null;
         }

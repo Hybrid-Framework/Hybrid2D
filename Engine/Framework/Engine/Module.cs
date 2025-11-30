@@ -20,7 +20,7 @@ namespace Hybrid
 
                 if (_Instance != null)
                 {
-                    _Instance.OnCreate();
+                    _Instance.OnInitialize();
                 }
             }
 
@@ -43,7 +43,7 @@ namespace Hybrid
         internal static T UnRegister<T>(T module) where T : Module
         {
             Modules.Remove(module);
-            module.OnDestroy();
+            module.OnDispose();
             return module;
         }
 
@@ -56,8 +56,7 @@ namespace Hybrid
         internal virtual void OnInitialize() {}
         internal virtual void OnRender() {}
         internal virtual void OnUpdate() {}
-        internal virtual void OnDestroy() {}
-        internal virtual void OnCreate() {}
+        internal virtual void OnDispose() {}
         
         protected Module()
         {

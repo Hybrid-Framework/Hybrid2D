@@ -7,15 +7,17 @@ namespace Hybrid
     {
         private Resources() { }
 
-        // Create
-        internal override void OnCreate()
+        // Initialize
+        internal override void OnInitialize()
         {
             
         }
 
-        // Destroy
-        internal override void OnDestroy()
+        // Dispose
+        internal override void OnDispose()
         {
+            base.OnDispose();
+            
             // For Each Resource In Cache
             foreach (var resource in Cache)
             {

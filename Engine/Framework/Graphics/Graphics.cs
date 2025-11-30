@@ -7,8 +7,8 @@ namespace Hybrid
     {
         private Graphics() { }
         
-        // Create
-        internal override void OnCreate()
+        // Initialize
+        internal override void OnInitialize()
         {
             // Create Renderer
             Handle = SDL.CreateRenderer(Window.Handle, null);
@@ -30,9 +30,11 @@ namespace Hybrid
             SDL.RenderPresent(Handle);
         }
 
-        // Destroy
-        internal override void OnDestroy()
+        // Dispose
+        internal override void OnDispose()
         {
+            base.OnDispose();
+            
             if (Handle != null)
             {
                 SDL.DestroyRenderer(Handle);

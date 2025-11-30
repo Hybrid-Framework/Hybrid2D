@@ -7,8 +7,8 @@ namespace Hybrid
     {
         private Audio() { }
         
-        // Create
-        internal override void OnCreate()
+        // Initialize
+        internal override void OnInitialize()
         {
             Handle = SDL_mixer.CreateMixerDevice(SDL.DefaultPlaybackDevice, new SDL.AudioSpec()
             {
@@ -18,9 +18,11 @@ namespace Hybrid
             });
         }
         
-        // Destroy
-        internal override void OnDestroy()
+        // Dispose
+        internal override void OnDispose()
         {
+            base.OnDispose();
+            
             if (Handle != null)
             {
                 SDL_mixer.DestroyMixer(Handle);

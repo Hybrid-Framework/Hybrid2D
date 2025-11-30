@@ -85,8 +85,10 @@ namespace Hybrid
             Apply();
         }
         
-        internal override void OnDestroy()
+        internal override void OnDispose()
         {
+            base.OnDispose();
+            
             if (Handle != null)
             {
                 SDL.DestroyTexture(Handle);

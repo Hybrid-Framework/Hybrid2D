@@ -6,16 +6,16 @@ namespace Hybrid
     {
         private Storage() { }
 
-        // Create
-        internal override void OnCreate()
+        // Initialize
+        internal override void OnInitialize()
         {
             
         }
 
-        // Destroy
-        internal override void OnDestroy()
+        // Dispose
+        internal override void OnDispose()
         {
-            
+            base.OnDispose();
         }
     }
     

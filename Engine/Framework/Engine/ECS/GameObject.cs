@@ -7,11 +7,17 @@ namespace Hybrid
     {
         private readonly List<Component> Components = new List<Component>();
         private readonly HashSet<Type> Processing = new HashSet<Type>();
-        public Scene Scene { get; private set; }
+        public string Layer { get; set; } = "Default";
+        public string Tag { get; set; } = "Default";
+        public Scene Scene { get; }
         
         
         public GameObject(string name = null)
         {
+            // No Active Scene
+            if (Scenes.GetActiveScene() == null)
+                throw new Exception("Can't create GameObject when scene isn't loaded");
+            
             // Name
             Name = name ?? Name;
             GameObject = this;
@@ -29,9 +35,9 @@ namespace Hybrid
             AddComponent(Transform);
         }
 
-        internal override void OnDestroy()
+        internal override void OnDispose()
         {
-            base.OnDestroy();
+            base.OnDispose();
             
             // For Each Component
             foreach (var component in GetComponents())
@@ -44,6 +50,70 @@ namespace Hybrid
             Scene?.Remove(this);
         }
     }
+    
+    // Find Object
+    public partial class GameObject
+    {
+        public static GameObject[] FindGameObjectsByName(string name)
+        {
+            List<GameObject> results = new();
+
+            if (Scenes.GetActiveScene() != null)
+            {
+                // For Each GameObject In Scene
+                foreach(var gameObject in Scenes.GetActiveScene().GetSceneGameObjects())
+                {
+                    // Find Match
+                    if (gameObject.Name == name)
+                    {
+                        results.Add(gameObject);
+                    }
+                }
+            }
+            
+            return results.ToArray();
+        }
+        
+        public static GameObject[] FindGameObjectsByTag(string tag)
+        {
+            List<GameObject> results = new();
+
+            if (Scenes.GetActiveScene() != null)
+            {
+                // For Each GameObject In Scene
+                foreach(var gameObject in Scenes.GetActiveScene().GetSceneGameObjects())
+                {
+                    // Find Match
+                    if (gameObject.Tag == tag)
+                    {
+                        results.Add(gameObject);
+                    }
+                }
+            }
+            
+            return results.ToArray();
+        }
+        
+        public static GameObject[] FindGameObjectsByLayer(string layer)
+        {
+            List<GameObject> results = new();
+
+            if (Scenes.GetActiveScene() != null)
+            {
+                // For Each GameObject In Scene
+                foreach(var gameObject in Scenes.GetActiveScene().GetSceneGameObjects())
+                {
+                    // Find Match
+                    if (gameObject.Layer == layer)
+                    {
+                        results.Add(gameObject);
+                    }
+                }
+            }
+            
+            return results.ToArray();
+        }
+    }
 
     // Add Component
     public partial class GameObject
@@ -52,9 +122,9 @@ namespace Hybrid
         {
             // Invalid Type
             if (!typeof(Component).IsAssignableFrom(type))
-                throw new ArgumentException($"Type '{type?.Name}' does not inherit from Component");
+                throw new Exception($"Type '{type?.Name}' does not inherit from Component");
 
-            // Create Instance
+            // Create Component Instance
             var component = Activator.CreateInstance(type) as Component;
 
             // Attach & Return
@@ -63,7 +133,7 @@ namespace Hybrid
         
         public T AddComponent<T>() where T : Component
         {
-            // Create Instance
+            // Create Component Instance
             var component = Activator.CreateInstance(typeof(T)) as Component;
 
             // Attach & Return
@@ -75,28 +145,29 @@ namespace Hybrid
             // Invalid Component
             if (component == null)
                 return null;
+
+            // Get Component Type
+            var type = component.GetType();
             
-            // Disallow Multiple Component
-            // Can only have one instance of this Component per GameObject
-            if (Attribute.IsDefined(component.GetType(), typeof(DisallowMultipleComponentAttribute)))
+            // DISALLOW MULTIPLE COMPONENT ATTRIBUTE
+            if (Attribute.IsDefined(type, typeof(DisallowMultipleComponentAttribute)))
             {
                 // Find Component
-                if (GetComponent(component.GetType()))
+                if (GetComponent(type))
                 {
-                    throw new Exception($"Can't have multiple instances of '{component.GetType().Name}' on GameObject '{GameObject.Name}'");
+                    throw new Exception($"Can't have multiple instances of '{type.Name}' on GameObject '{GameObject.Name}'");
                 }
             }
             
-            // Require Component
-            // Creates required Components for other Components
-            if (Attribute.IsDefined(component.GetType(), typeof(RequireComponentAttribute)))
+            // REQUIRE COMPONENT ATTRIBUTE
+            if (Attribute.IsDefined(type, typeof(RequireComponentAttribute)))
             {
-                // Processing Component (Recursion)
-                if (!Processing.Add(component.GetType()))
+                // Processing Component
+                if (!Processing.Add(type))
                     return component;
                 
                 // For Each Required Component
-                foreach (RequireComponentAttribute required in component.GetType().GetCustomAttributes(typeof(RequireComponentAttribute), true))
+                foreach (RequireComponentAttribute required in type.GetCustomAttributes(typeof(RequireComponentAttribute), true))
                 {
                     // Find Component
                     if (!GetComponent(required.Type))
@@ -107,7 +178,7 @@ namespace Hybrid
                 }
                 
                 // Finished Processing
-                Processing.Remove(component.GetType());
+                Processing.Remove(type);
             }
 
             // Assign
@@ -116,7 +187,7 @@ namespace Hybrid
             component.Transform = Transform;
 
             // Attach to GameObject
-            Console.WriteLine($"Component '{component.GetType().Name}' attached to GameObject '{GameObject.Name}'");
+            Console.WriteLine($"Component '{type.Name}' attached to GameObject '{GameObject.Name}'");
             Components.Add(component);
             return component;
         }
@@ -129,7 +200,7 @@ namespace Hybrid
         {
             // Invalid Type
             if (!typeof(Component).IsAssignableFrom(type))
-                throw new ArgumentException($"Type '{type?.Name}' does not inherit from Component");
+                throw new Exception($"Type '{type?.Name}' does not inherit from Component");
 
             // Find Component
             var component = GetComponent(type);
@@ -152,22 +223,24 @@ namespace Hybrid
             // Invalid Component
             if (component == null)
                 return;
+
+            // Get Component Type
+            var type = component.GetType();
             
             // Find Component
-            if(GetComponent(component.GetType()))
+            if(GetComponent(type))
             {
-                // Disallow Destroy Component
-                // Can only be destroyed by destroying the GameObject
-                if (Attribute.IsDefined(component.GetType(), typeof(DisallowMultipleComponentAttribute)))
+                // DISALLOW DESTROY COMPONENT ATTRIBUTE
+                if (Attribute.IsDefined(type, typeof(DisallowMultipleComponentAttribute)))
                 {
                     if (!GameObject.IsDestroying())
                     {
-                        throw new Exception($"Can't remove component '{component.GetType().Name}' from GameObject '{GameObject.Name}'");
+                        throw new Exception($"Can't remove component '{type.Name}' from GameObject '{GameObject.Name}'");
                     }
                 }
                 
                 // Remove Component
-                Console.WriteLine($"Component '{component.GetType().Name}' detached from GameObject '{GameObject.Name}'");
+                Console.WriteLine($"Component '{type.Name}' detached from GameObject '{GameObject.Name}'");
                 Components.Remove(component);
                 
                 // Destroy
@@ -183,7 +256,7 @@ namespace Hybrid
         {
             // Invalid Type
             if (!typeof(Component).IsAssignableFrom(type))
-                throw new ArgumentException($"Type '{type?.Name}' does not inherit from Component");
+                throw new Exception($"Type '{type?.Name}' does not inherit from Component");
             
             // Find Matching Component
             foreach (var c in GetComponents())
@@ -213,18 +286,18 @@ namespace Hybrid
 
         public T[] GetComponents<T>() where T : Component
         {
-            List<T> list = new();
+            List<T> results = new();
 
             // Find Matching Components
             foreach (var c in GetComponents())
             {
                 if (c.GetType() == typeof(T))
                 {
-                    list.Add(c as T);
+                    results.Add(c as T);
                 }
             }
 
-            return list.ToArray();
+            return results.ToArray();
         }
     }
     
@@ -233,6 +306,7 @@ namespace Hybrid
     {
         public Component[] GetComponents()
         {
+            // Return All Components
             return Components.ToArray();
         }
     }
