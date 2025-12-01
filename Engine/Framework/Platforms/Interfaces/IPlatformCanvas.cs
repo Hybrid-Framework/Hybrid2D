@@ -8,5 +8,7 @@ namespace Hybrid
         
         bool SetFullscreen(bool fullscreen);
         bool GetFullscreen();
+
+        void Resize();
     }
 }

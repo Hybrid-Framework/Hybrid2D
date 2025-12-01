@@ -19,14 +19,12 @@ namespace Hybrid
         {
             // Platform
             var config = Platform.GetConfig();
-            var device = Platform.GetSystem().GetUnderlyingDevice();
-            if (device == UnderlyingDevice.Mobile) config.Fullscreen = true;
-            if (device == UnderlyingDevice.Mobile) config.Resizable = true;
+            var mobile = Platform.GetSystem().GetUnderlyingDevice() == UnderlyingDevice.Mobile;
             
             // Calculate Flags
             SDL.WindowFlags flags = SDL.WindowFlags.HighPixelDensity;
-            if (config.Fullscreen) flags |= SDL.WindowFlags.Fullscreen;
-            if (config.Resizable) flags |= SDL.WindowFlags.Resizable;
+            if (config.Fullscreen || mobile) flags |= SDL.WindowFlags.Fullscreen;
+            if (config.Resizable || mobile) flags |= SDL.WindowFlags.Resizable;
         
             // Create Window
             Handle = SDL.CreateWindow(config.Title, config.Width, config.Height, flags);
@@ -50,6 +48,7 @@ namespace Hybrid
                     break;
                 
                 case SDL.EventType.Resized:
+                    Platform.GetCanvas().Resize();
                     OnResized?.Invoke(Size);
                     break;
                 

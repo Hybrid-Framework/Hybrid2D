@@ -1,18 +1,22 @@
 ﻿window.Hybrid = window.Hybrid || {};
 
-window.Hybrid.events = {
+// Events
+window.Hybrid.events =
+{
     queue: [],
 
-    pushEvent: function(name) {
+    pushEvent: function(name) 
+    {
         this.queue.push(name);
     },
 
-    pollEvent: function() {
+    pollEvent: function() 
+    {
         return this.queue.shift();
     }
 };
 
-// Resize Event
+// Resize
 window.addEventListener("resize", () => 
 {
     window.Hybrid.events.pushEvent("resize");

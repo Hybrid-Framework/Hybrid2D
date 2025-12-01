@@ -26,23 +26,7 @@ namespace Hybrid
     {
         public bool SetFullscreen(bool fullscreen)
         {
-            if (Emscripten.RunScriptInt($"Hybrid.setFullscreen({(fullscreen ? 1 : 0)});") == 1)
-            {
-                var state = GetFullscreen();
-
-                if (state)
-                {
-                    // Enter Fullscreen
-                }
-                else
-                {
-                    // Exit Fullscreen
-                }
-
-                return true;
-            }
-
-            return false;
+            return Emscripten.RunScriptInt($"Hybrid.setFullscreen({(fullscreen ? 1 : 0)});") == 1;
         }
 
         public bool GetFullscreen()
@@ -50,27 +34,28 @@ namespace Hybrid
             return Emscripten.RunScriptInt("Hybrid.getFullscreen();") == 1;
         }
     }
-}
 
-// Fill Document
-// Emscripten.RunScript
-// (
-// @"(() =>
-// {
-//      const c = document.getElementById('canvas');
-//      if (!c) return;
-//
-//      const width = document.documentElement.clientWidth;
-//      const height = document.documentElement.clientHeight;
-//
-//      c.width = width;
-//      c.height = height;
-//
-//      c.style.width = width + 'px';
-//      c.style.height = height + 'px';
-//  })();
-// ");
-//
-// int w = Emscripten.RunScriptInt("document.getElementById('canvas').width;");
-// int h = Emscripten.RunScriptInt("document.getElementById('canvas').height;");
-// Window.Size = new Vector2(w, h);
+    // Resize
+    internal unsafe partial class WebCanvas
+    {
+        public void Resize()
+        {
+            var mobile = Platform.GetSystem().GetUnderlyingDevice() == UnderlyingDevice.Mobile;
+            var fullscreen = Platform.GetCanvas().GetFullscreen();
+
+            if (mobile || fullscreen)
+            {
+                Emscripten.RunScript("Hybrid.fillDocument();");
+
+                int w = Emscripten.RunScriptInt("Hybrid.getWidth();");
+                int h = Emscripten.RunScriptInt("Hybrid.getHeight();");
+
+                SDL.SetWindowSize(Window.Handle, w, h);
+            }
+            else
+            {
+                SDL.SetWindowSize(Window.Handle, Platform.GetConfig().Width, Platform.GetConfig().Height);
+            }
+        }
+    }
+}

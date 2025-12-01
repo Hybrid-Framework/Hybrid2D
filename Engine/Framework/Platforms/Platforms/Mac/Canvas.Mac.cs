@@ -16,28 +16,21 @@ namespace Hybrid
     {
         public bool SetFullscreen(bool fullscreen)
         {
-            if (SDL.SetWindowFullscreen(Window.Handle, fullscreen))
-            {
-                var state = GetFullscreen();
-
-                if (state)
-                {
-                    // Enter Fullscreen
-                }
-                else
-                {
-                    // Exit Fullscreen
-                }
-
-                return true;
-            }
-
-            return false;
+            return SDL.SetWindowFullscreen(Window.Handle, fullscreen);
         }
 
         public bool GetFullscreen()
         {
             return (SDL.GetWindowFlags(Window.Handle) & SDL.WindowFlags.Fullscreen) != 0;
+        }
+    }
+    
+    // Resize
+    internal unsafe partial class MacCanvas
+    {
+        public void Resize()
+        {
+            
         }
     }
 }
