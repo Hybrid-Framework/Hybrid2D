@@ -47,12 +47,10 @@ namespace Hybrid
             {
                 case SDL.EventType.Orientation:
                     OnOrientation?.Invoke(Orientation);
-                    Console.WriteLine("Orientation Event");
                     break;
                 
                 case SDL.EventType.Resized:
                     OnResized?.Invoke(Size);
-                    Console.WriteLine("Resized Event");
                     break;
                 
                 case SDL.EventType.Moved:
@@ -219,11 +217,6 @@ namespace Hybrid
                     return vsync > 0;
                 }
             }
-        }
-        
-        public static Orientation NaturalOrientation
-        {
-            get => Platform.GetCanvas().GetNaturalOrientation();
         }
 
         public static Orientation Orientation

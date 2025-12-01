@@ -6,39 +6,14 @@ namespace Hybrid
     {
         public Device GetDevice()
         {
-            string device = Emscripten.RunScriptString
-            (
-                @"(() =>
-                {
-                    const uap = new UAParser();
+            string device = Emscripten.RunScriptString("Hybrid.getDevice();");
 
-                    const device = uap.getDevice().withFeatureCheck();
-                    
-                    if (device.type == 'mobile') return 'Mobile';
-                    if (device.type == 'tablet') return 'Mobile';
-                    if (device.type == 'console') return 'Mobile';
-                    if (device.type == 'embedded') return 'Mobile';
-                    if (device.type == 'smarttv') return 'Mobile';
-                    if (device.type == 'wearable') return 'Mobile';
-                    if (device.type == 'xr') return 'Mobile';
-                    if (device.is('iPad')) return 'Mobile';
-
-                    return 'Desktop';
-
-                })();"
-            );
-
-            switch (device)
+            return device switch
             {
-                case "Mobile":
-                    return Device.Mobile;
-                
-                case "Desktop":
-                    return Device.Desktop;
-                
-                default:
-                    return Device.Unknown;
-            }
+                "Mobile" => Device.Mobile,
+                "Desktop" => Device.Desktop,
+                _ => Device.Unknown,
+            };
         }
         
         public System GetPlatform()

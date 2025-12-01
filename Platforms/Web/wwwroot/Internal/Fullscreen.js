@@ -2,17 +2,17 @@
 
 window.Hybrid.setFullscreen = function(value) 
 {
-    let elem = document.getElementById("canvas");
-    if (!elem) return 0;
+    let element = document.getElementById("canvas");
+    if (!element) return 0;
 
     try 
     {
         if (value)
         {
-            elem.requestFullscreen?.() ||
-            elem.webkitRequestFullscreen?.() ||
-            elem.mozRequestFullScreen?.() ||
-            elem.msRequestFullscreen?.();
+            element.requestFullscreen?.() ||
+            element.webkitRequestFullscreen?.() ||
+            element.mozRequestFullScreen?.() ||
+            element.msRequestFullscreen?.();
         }
         else
         {

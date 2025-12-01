@@ -2,7 +2,6 @@
 
 window.Hybrid.getOrientation = function () 
 {
-    // Modern Screen Orientation API
     if (screen.orientation && screen.orientation.type)
     {
         switch (screen.orientation.type)
@@ -14,7 +13,6 @@ window.Hybrid.getOrientation = function ()
         }
     }
 
-    // Legacy iOS / fallback
     if (typeof window.orientation === "number")
     {
         switch (window.orientation)

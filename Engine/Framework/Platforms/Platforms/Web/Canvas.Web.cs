@@ -5,11 +5,6 @@ namespace Hybrid
     // Orientation
     internal unsafe partial class WebCanvas : IPlatformCanvas
     {
-        public Orientation GetNaturalOrientation()
-        {
-            return GetOrientation();
-        }
-
         public Orientation GetOrientation()
         {
             string orientation = Emscripten.RunScriptString("Hybrid.getOrientation();");
