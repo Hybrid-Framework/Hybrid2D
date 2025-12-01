@@ -4,7 +4,7 @@ namespace Hybrid
 {
     internal class LinuxPlatform : Platform
     {
-        protected override IPlatformSystem System { get; set; } = new LinuxSystem();
-        protected override IPlatformCanvas Canvas { get; set; } = new LinuxCanvas();
+        protected internal override IPlatformSystem System { get; set; } = new LinuxSystem();
+        protected internal override IPlatformCanvas Canvas { get; set; } = new LinuxCanvas();
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    public interface IPlatformCanvas
+    internal interface IPlatformCanvas
     {
         Orientation GetOrientation();
         

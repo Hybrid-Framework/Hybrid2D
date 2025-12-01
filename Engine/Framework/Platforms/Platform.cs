@@ -3,12 +3,15 @@
 namespace Hybrid
 {
     // Platform
-    public partial class Platform : Module<Platform>
+    internal class Platform : Module<Platform>
     {
         protected Platform() { }
 
-        protected static Platform Current { get; private set; }
-        protected static Config Config { get; private set; }
+        protected internal virtual IPlatformSystem System { get; set; }
+        protected internal virtual IPlatformCanvas Canvas { get; set; }
+        
+        private static Platform Current { get; set; }
+        private static Config Config { get; set; }
         
         
         internal static void SetPlatform(Platform platform, Config config)
@@ -16,25 +19,21 @@ namespace Hybrid
             Current = platform;
             Config = config;
         }
-        
-        public static void Quit()
-        {
-            Engine.Instance.Quit();
-        }
 
-        public static Config GetConfig()
+        internal static Platform GetPlatform()
         {
+            if (Current == null)
+                throw new Exception("No Platform Detected");
+            
+            return Current;
+        }
+        
+        internal static Config GetConfig()
+        {
+            if (Config == null)
+                throw new Exception("No Config Detected");
+            
             return Config;
         }
-    }
-    
-    // Platform Specifics
-    public partial class Platform
-    {
-        protected virtual IPlatformSystem System { get; set; }
-        protected virtual IPlatformCanvas Canvas { get; set; }
-        
-        public static IPlatformSystem GetSystem() => Current.System;
-        public static IPlatformCanvas GetCanvas() => Current.Canvas;
     }
 }

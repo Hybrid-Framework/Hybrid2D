@@ -19,9 +19,9 @@ namespace Hybrid
         {
             // Platform
             var config = Platform.GetConfig();
-            var device = Platform.GetSystem().GetDevice();
-            if (device == Device.Mobile) config.Fullscreen = true;
-            if (device == Device.Mobile) config.Resizable = true;
+            var device = Platform.GetPlatform().System.GetUnderlyingDevice();
+            if (device == UnderlyingDevice.Mobile) config.Fullscreen = true;
+            if (device == UnderlyingDevice.Mobile) config.Resizable = true;
             
             // Calculate Flags
             SDL.WindowFlags flags = SDL.WindowFlags.HighPixelDensity;
@@ -119,8 +119,11 @@ namespace Hybrid
 
         public static bool Fullscreen
         {
-            set => Platform.GetCanvas().SetFullscreen(value);
-            get => Platform.GetCanvas().GetFullscreen();
+            set => Platform.GetPlatform().Canvas.SetFullscreen(value);
+            get
+            {
+                return Platform.GetPlatform().Canvas.GetFullscreen();
+            }
         }
 
         public static bool Resizable
@@ -221,7 +224,7 @@ namespace Hybrid
 
         public static Orientation Orientation
         {
-            get => Platform.GetCanvas().GetOrientation();
+            get => Platform.GetPlatform().Canvas.GetOrientation();
         }
     }
 }

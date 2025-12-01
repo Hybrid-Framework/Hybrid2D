@@ -4,14 +4,14 @@ namespace Hybrid
 {
     internal class WindowsSystem : IPlatformSystem
     {
-        public Device GetDevice()
+        public UnderlyingDevice GetUnderlyingDevice()
         {
-            return Device.Desktop;
+            return UnderlyingDevice.Desktop;
         }
-        
-        public System GetPlatform()
+
+        public UnderlyingPlatform GetUnderlyingPlatform()
         {
-            return System.Windows;
+            return UnderlyingPlatform.Windows;
         }
     }
 }

@@ -53,10 +53,4 @@ namespace Hybrid
             base.OnDispose();
         }
     }
-
-    // Graphics API
-    public unsafe partial class Graphics
-    {
-        
-    }
 }

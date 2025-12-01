@@ -4,14 +4,14 @@ namespace Hybrid
 {
     internal class LinuxSystem : IPlatformSystem
     {
-        public Device GetDevice()
+        public UnderlyingDevice GetUnderlyingDevice()
         {
-            return Device.Desktop;
+            return UnderlyingDevice.Desktop;
         }
-        
-        public System GetPlatform()
+
+        public UnderlyingPlatform GetUnderlyingPlatform()
         {
-            return System.Linux;
+            return UnderlyingPlatform.Linux;
         }
     }
 }

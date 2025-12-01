@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    public enum System
+    public enum UnderlyingPlatform
     {
         Unknown,
         Windows,

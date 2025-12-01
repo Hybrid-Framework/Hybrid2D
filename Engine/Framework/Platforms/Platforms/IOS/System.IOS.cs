@@ -4,14 +4,14 @@ namespace Hybrid
 {
     internal class IOSSystem : IPlatformSystem
     {
-        public Device GetDevice()
+        public UnderlyingDevice GetUnderlyingDevice()
         {
-            return Device.Mobile;
+            return UnderlyingDevice.Mobile;
         }
-        
-        public System GetPlatform()
+
+        public UnderlyingPlatform GetUnderlyingPlatform()
         {
-            return System.IOS;
+            return UnderlyingPlatform.IOS;
         }
     }
 }

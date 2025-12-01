@@ -15,6 +15,7 @@ namespace Hybrid
                 "Landscape" => Orientation.LandscapePrimary,
                 "PortraitFlipped" => Orientation.PortraitSecondary,
                 "LandscapeFlipped" => Orientation.LandscapeSecondary,
+                
                 _ => Orientation.Unknown,
             };
         }

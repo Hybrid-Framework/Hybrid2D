@@ -4,21 +4,22 @@ namespace Hybrid
 {
     internal class WebSystem : IPlatformSystem
     {
-        public Device GetDevice()
+        public UnderlyingDevice GetUnderlyingDevice()
         {
             string device = Emscripten.RunScriptString("Hybrid.getDevice();");
 
             return device switch
             {
-                "Mobile" => Device.Mobile,
-                "Desktop" => Device.Desktop,
-                _ => Device.Unknown,
+                "Mobile" => UnderlyingDevice.Mobile,
+                "Desktop" => UnderlyingDevice.Desktop,
+                
+                _ => UnderlyingDevice.Unknown,
             };
         }
         
-        public System GetPlatform()
+        public UnderlyingPlatform GetUnderlyingPlatform()
         {
-            return System.Web;
+            return UnderlyingPlatform.Web;
         }
     }
 }
