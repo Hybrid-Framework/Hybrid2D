@@ -2,16 +2,49 @@
 
 namespace Hybrid
 {
-    internal unsafe class IOSCanvas : IPlatformCanvas
+    // Orientation
+    internal unsafe partial class IOSCanvas : IPlatformCanvas
     {
         public Orientation GetNaturalOrientation()
         {
             return (Orientation)SDL.GetNaturalDisplayOrientation(SDL.GetWindowID(Window.Handle));
         }
-        
+
         public Orientation GetOrientation()
         {
             return (Orientation)SDL.GetCurrentDisplayOrientation(SDL.GetWindowID(Window.Handle));
+        }
+    }
+    
+    // Fullscreen
+    internal unsafe partial class IOSCanvas
+    {
+        public bool SetFullscreen(bool fullscreen)
+        {
+            fullscreen = true; // Force fullscreen
+            
+            if (SDL.SetWindowFullscreen(Window.Handle, fullscreen))
+            {
+                var state = GetFullscreen();
+
+                if (state)
+                {
+                    // Enter Fullscreen
+                }
+                else
+                {
+                    // Exit Fullscreen
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool GetFullscreen()
+        {
+            return (SDL.GetWindowFlags(Window.Handle) & SDL.WindowFlags.Fullscreen) != 0;
         }
     }
 }

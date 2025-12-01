@@ -14,10 +14,5 @@ const exports = await getAssemblyExports(config.mainAssemblyName);
 var canvas = document.getElementById("canvas");
 dotnet.instance.Module.canvas = canvas;
 
-// Debugging
-dotnet.instance.Module.print = console.log;
-dotnet.instance.Module.printErr = console.error;
-dotnet.instance.Module.onAbort = (msg) => console.error("Exception:", msg);
-
 // Run App
 await exports.Program.Main();

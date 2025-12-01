@@ -47,18 +47,12 @@ namespace Hybrid
             {
                 case SDL.EventType.Orientation:
                     OnOrientation?.Invoke(Orientation);
-                    break;
-                
-                case SDL.EventType.EnterFullscreen:
-                    OnFullscreen?.Invoke(true);
-                    break;
-                
-                case SDL.EventType.ExitFullscreen:
-                    OnFullscreen?.Invoke(false);
+                    Console.WriteLine("Orientation Event");
                     break;
                 
                 case SDL.EventType.Resized:
                     OnResized?.Invoke(Size);
+                    Console.WriteLine("Resized Event");
                     break;
                 
                 case SDL.EventType.Moved:
@@ -102,7 +96,6 @@ namespace Hybrid
     public unsafe partial class Window
     {
         public static Action<Orientation> OnOrientation = null;
-        public static Action<bool> OnFullscreen = null;
         public static Action<Vector2> OnResized = null;
         public static Action<Vector2> OnMoved = null;
         public static Action OnMaximized = null;
@@ -128,14 +121,8 @@ namespace Hybrid
 
         public static bool Fullscreen
         {
-            set => SDL.SetWindowFullscreen(Handle, value);
-            get
-            {
-                var flags = SDL.GetWindowFlags(Handle);
-                {
-                    return (flags & SDL.WindowFlags.Fullscreen) != 0;
-                }
-            }
+            set => Platform.GetCanvas().SetFullscreen(value);
+            get => Platform.GetCanvas().GetFullscreen();
         }
 
         public static bool Resizable

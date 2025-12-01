@@ -6,5 +6,8 @@ namespace Hybrid
     {
         Orientation GetNaturalOrientation();
         Orientation GetOrientation();
+        
+        bool SetFullscreen(bool fullscreen);
+        bool GetFullscreen();
     }
 }
