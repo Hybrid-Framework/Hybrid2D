@@ -19,7 +19,7 @@ namespace Hybrid
         {
             // Platform
             var config = Platform.GetConfig();
-            var device = Platform.GetPlatform().System.GetUnderlyingDevice();
+            var device = Platform.GetSystem().GetUnderlyingDevice();
             if (device == UnderlyingDevice.Mobile) config.Fullscreen = true;
             if (device == UnderlyingDevice.Mobile) config.Resizable = true;
             
@@ -119,10 +119,10 @@ namespace Hybrid
 
         public static bool Fullscreen
         {
-            set => Platform.GetPlatform().Canvas.SetFullscreen(value);
+            set => Platform.GetCanvas().SetFullscreen(value);
             get
             {
-                return Platform.GetPlatform().Canvas.GetFullscreen();
+                return Platform.GetCanvas().GetFullscreen();
             }
         }
 
@@ -224,7 +224,7 @@ namespace Hybrid
 
         public static Orientation Orientation
         {
-            get => Platform.GetPlatform().Canvas.GetOrientation();
+            get => Platform.GetCanvas().GetOrientation();
         }
     }
 }

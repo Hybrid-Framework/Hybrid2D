@@ -17,7 +17,6 @@ namespace Hybrid
             IsRunning = true;
 
             // Initialize Modules
-            Register(Platform.FindOrCreate());
             Register(Storage.FindOrCreate());
             Register(Audio.FindOrCreate());
             Register(Window.FindOrCreate());
@@ -32,7 +31,7 @@ namespace Hybrid
             // Frame Time
             Time.BeforeFrame();
             
-            while (SDL.PollEvent(out SDL.Event e))
+            while (Platform.GetEvents().PollEvents(out SDL.Event e))
             {
                 // Quit Application
                 if(e.type == SDL.EventType.Quit)

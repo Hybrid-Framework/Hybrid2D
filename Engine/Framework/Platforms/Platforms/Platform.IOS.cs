@@ -4,7 +4,8 @@ namespace Hybrid
 {
     internal class IOSPlatform : Platform
     {
-        protected internal override IPlatformSystem System { get; set; } = new IOSSystem();
-        protected internal override IPlatformCanvas Canvas { get; set; } = new IOSCanvas();
+        protected override IPlatformSystem System { get; set; } = new IOSSystem();
+        protected override IPlatformCanvas Canvas { get; set; } = new IOSCanvas();
+        protected override IPlatformEvents Events { get; set; } = new IOSEvents();
     }
 }

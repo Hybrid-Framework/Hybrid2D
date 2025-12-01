@@ -7,12 +7,12 @@ namespace Hybrid
     {
         public static UnderlyingDevice GetUnderlyingDevice()
         {
-            return Platform.GetPlatform().System.GetUnderlyingDevice();
+            return Platform.GetSystem().GetUnderlyingDevice();
         }
         
         public static UnderlyingPlatform GetUnderlyingPlatform()
         {
-            return Platform.GetPlatform().System.GetUnderlyingPlatform();
+            return Platform.GetSystem().GetUnderlyingPlatform();
         }
         
         public static Config GetConfig()

@@ -3,19 +3,17 @@
 namespace Hybrid
 {
     // Platform
-    internal class Platform : Module<Platform>
+    internal abstract partial class Platform
     {
-        protected Platform() { }
-
-        protected internal virtual IPlatformSystem System { get; set; }
-        protected internal virtual IPlatformCanvas Canvas { get; set; }
-        
         private static Platform Current { get; set; }
         private static Config Config { get; set; }
         
         
         internal static void SetPlatform(Platform platform, Config config)
         {
+            if(platform == null || config == null)
+                throw new Exception("Invalid Parameters");
+            
             Current = platform;
             Config = config;
         }
@@ -35,5 +33,17 @@ namespace Hybrid
             
             return Config;
         }
+    }
+
+    // Backends
+    internal abstract partial class Platform
+    {
+        protected virtual IPlatformSystem System { get; set; }
+        protected virtual IPlatformCanvas Canvas { get; set; }
+        protected virtual IPlatformEvents Events { get; set; }
+
+        internal static IPlatformSystem GetSystem() => GetPlatform().System;
+        internal static IPlatformCanvas GetCanvas() => GetPlatform().Canvas;
+        internal static IPlatformEvents GetEvents() => GetPlatform().Events;
     }
 }
