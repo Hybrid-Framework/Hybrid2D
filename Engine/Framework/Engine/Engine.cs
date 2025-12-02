@@ -31,6 +31,8 @@ namespace Hybrid
             // Frame Time
             Time.BeforeFrame();
             
+            Console.WriteLine("Fullscreen: " + Platform.GetCanvas().GetFullscreen());
+            
             while (Platform.GetEvents().PollEvents(out SDL.Event e))
             {
                 // Quit Application
