@@ -28,6 +28,7 @@ namespace Hybrid
         
             // Create Window
             Handle = SDL.CreateWindow(config.Title, config.Width, config.Height, flags);
+            RestoreSize = new Vector2(config.Width, config.Height);
             Fps = config.Fps;
         
             // Icon
@@ -50,6 +51,7 @@ namespace Hybrid
                 case SDL.EventType.Resized:
                     Platform.GetCanvas().Resize();
                     OnResized?.Invoke(Size);
+                    Size = Window.Size;
                     break;
                 
                 case SDL.EventType.Moved:
@@ -137,9 +139,35 @@ namespace Hybrid
             }
         }
 
+        public static Vector2 RestoreSize
+        {
+            get;
+            set;
+        }
+        
+        public static int Width
+        {
+            set => Size = new Vector2(value, Size.Y);
+            get => (int)Size.X;
+        }
+        
+        public static int Height
+        {
+            set => Size = new Vector2(Size.X, value);
+            get => (int)Size.Y;
+        }
+
         public static Vector2 Size
         {
-            set => SDL.SetWindowSize(Handle, (int)value.X, (int)value.Y);
+            set
+            {
+                if (!Fullscreen)
+                {
+                    RestoreSize = value;
+                }
+                
+                SDL.SetWindowSize(Handle, (int)value.X, (int)value.Y);
+            }
             get
             {
                 SDL.GetWindowSize(Handle, out int w, out int h);
@@ -185,30 +213,6 @@ namespace Hybrid
             }
         }
         
-        public static int Width
-        {
-            set => SDL.SetWindowSize(Handle, value, Height);
-            get
-            {
-                SDL.GetWindowSize(Handle, out int w, out int h);
-                {
-                    return w;
-                }
-            }
-        }
-        
-        public static int Height
-        {
-            set => SDL.SetWindowSize(Handle, Width, value);
-            get
-            {
-                SDL.GetWindowSize(Handle, out int w, out int h);
-                {
-                    return h;
-                }
-            }
-        }
-        
         public static bool VSync
         {
             set => SDL.SetRenderVSync(Graphics.Handle, value ? 1 : 0);
@@ -224,6 +228,12 @@ namespace Hybrid
         public static Orientation Orientation
         {
             get => Platform.GetCanvas().GetOrientation();
+        }
+
+        public static void Restore()
+        {
+            Fullscreen = false;
+            Size = RestoreSize;
         }
     }
 }

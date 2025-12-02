@@ -47,6 +47,21 @@ namespace Hybrid
                     {
                         Window.Fullscreen =! Window.Fullscreen;
                     }
+                    
+                    if (e.keyboard.keyCode == SDL.KeyCode.Num1)
+                    {
+                        Window.Size = new Vector2(400, 400);
+                    }
+                    
+                    if (e.keyboard.keyCode == SDL.KeyCode.Num2)
+                    {
+                        Window.Size = new Vector2(800, 600);
+                    }
+                    
+                    if (e.keyboard.keyCode == SDL.KeyCode.R)
+                    {
+                        Window.Restore();
+                    }
                 }
                 
                 OnEvent(e);

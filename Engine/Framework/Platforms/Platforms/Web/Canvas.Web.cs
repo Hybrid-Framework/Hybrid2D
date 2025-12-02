@@ -31,7 +31,10 @@ namespace Hybrid
 
         public bool GetFullscreen()
         {
-            return Emscripten.RunScriptInt("HybridJS.GetFullscreen();") == 1;
+            var mobile = Platform.GetSystem().GetUnderlyingDevice() == UnderlyingDevice.Mobile;
+            var fullscreen = Emscripten.RunScriptInt("HybridJS.GetFullscreen();") == 1;
+            
+            return fullscreen || mobile;
         }
     }
 
@@ -40,21 +43,18 @@ namespace Hybrid
     {
         public void Resize()
         {
-            var mobile = Platform.GetSystem().GetUnderlyingDevice() == UnderlyingDevice.Mobile;
-            var fullscreen = Platform.GetCanvas().GetFullscreen();
-
-            if (mobile || fullscreen)
+            if (Platform.GetCanvas().GetFullscreen())
             {
                 Emscripten.RunScript("HybridJS.FillDocument();");
 
                 int w = Emscripten.RunScriptInt("HybridJS.GetCanvasWidth();");
                 int h = Emscripten.RunScriptInt("HybridJS.GetCanvasHeight();");
 
-                SDL.SetWindowSize(Window.Handle, w, h);
+                Window.Size = new Vector2(w, h);
             }
             else
             {
-                SDL.SetWindowSize(Window.Handle, Platform.GetConfig().Width, Platform.GetConfig().Height);
+                Window.Restore();
             }
         }
     }
