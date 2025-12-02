@@ -7,7 +7,7 @@ namespace Hybrid
     {
         public Orientation GetOrientation()
         {
-            string orientation = Emscripten.RunScriptString("Hybrid.getOrientation();");
+            string orientation = Emscripten.RunScriptString("HybridJS.GetOrientation();");
 
             return orientation switch
             {
@@ -26,12 +26,12 @@ namespace Hybrid
     {
         public bool SetFullscreen(bool fullscreen)
         {
-            return Emscripten.RunScriptInt($"Hybrid.setFullscreen({(fullscreen ? 1 : 0)});") == 1;
+            return Emscripten.RunScriptInt($"HybridJS.SetFullscreen({(fullscreen ? 1 : 0)});") == 1;
         }
 
         public bool GetFullscreen()
         {
-            return Emscripten.RunScriptInt("Hybrid.getFullscreen();") == 1;
+            return Emscripten.RunScriptInt("HybridJS.GetFullscreen();") == 1;
         }
     }
 
@@ -45,10 +45,10 @@ namespace Hybrid
 
             if (mobile || fullscreen)
             {
-                Emscripten.RunScript("Hybrid.fillDocument();");
+                Emscripten.RunScript("HybridJS.FillDocument();");
 
-                int w = Emscripten.RunScriptInt("Hybrid.getWidth();");
-                int h = Emscripten.RunScriptInt("Hybrid.getHeight();");
+                int w = Emscripten.RunScriptInt("HybridJS.GetCanvasWidth();");
+                int h = Emscripten.RunScriptInt("HybridJS.GetCanvasHeight();");
 
                 SDL.SetWindowSize(Window.Handle, w, h);
             }

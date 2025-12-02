@@ -1,16 +1,15 @@
-﻿window.Hybrid = window.Hybrid || {};
+﻿window.HybridJS = window.HybridJS || {};
 
-// Events
-window.Hybrid.events =
+window.HybridJS.events =
 {
     queue: [],
 
-    pushEvent: function(name) 
+    PushEvent: function(name) 
     {
         this.queue.push(name);
     },
 
-    pollEvent: function() 
+    PollEvent: function() 
     {
         return this.queue.shift();
     }
@@ -19,5 +18,5 @@ window.Hybrid.events =
 // Resize
 window.addEventListener("resize", () => 
 {
-    window.Hybrid.events.pushEvent("resize");
+    window.HybridJS.events.PushEvent("resize");
 });

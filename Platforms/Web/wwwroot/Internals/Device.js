@@ -1,6 +1,6 @@
-﻿window.Hybrid = window.Hybrid || {};
+﻿window.HybridJS = window.HybridJS || {};
 
-window.Hybrid.getDevice = function()
+window.HybridJS.GetDevice = function()
 {
     try
     {
@@ -14,8 +14,11 @@ window.Hybrid.getDevice = function()
         if (device.type === "smarttv") return "Mobile";
         if (device.type === "wearable") return "Mobile";
         if (device.type === "xr") return "Mobile";
-
-        if (navigator.userAgent.includes("iPad")) return "Mobile";
+        
+        if (navigator.userAgent.includes("iPad"))
+        {
+            return "Mobile";
+        }
 
         return "Desktop";
     }

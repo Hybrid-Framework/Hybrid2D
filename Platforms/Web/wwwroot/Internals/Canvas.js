@@ -1,27 +1,49 @@
-﻿window.Hybrid = window.Hybrid || {};
+﻿window.HybridJS = window.HybridJS || {};
 
-window.Hybrid.fillDocument = function() 
+window.HybridJS.GetCanvas = function() 
 {
-    const canvas = document.getElementById('canvas');
+    return document.getElementById("canvas");
+};
+
+window.HybridJS.GetDocument = function() 
+{
+    return document.documentElement;
+};
+
+window.HybridJS.GetCanvasWidth = function() 
+{
+    const canvas = HybridJS.GetCanvas();
+    return canvas ? canvas.width : 0;
+};
+
+window.HybridJS.GetCanvasHeight = function() 
+{
+    const canvas = HybridJS.GetCanvas();
+    return canvas ? canvas.height : 0;
+};
+
+window.HybridJS.GetDocumentWidth = function()
+{
+    const document = HybridJS.GetDocument();
+    return document ? document.clientWidth : 0;
+};
+
+window.HybridJS.GetDocumentHeight = function()
+{
+    const document = HybridJS.GetDocument();
+    return document ? document.clientHeight : 0;
+};
+
+window.HybridJS.FillDocument = function()
+{
+    const canvas = HybridJS.GetCanvas();
     if (!canvas) return;
 
-    const width = document.documentElement.clientWidth;
-    const height = document.documentElement.clientHeight;
+    const width = HybridJS.GetDocumentWidth();
+    const height = HybridJS.GetDocumentHeight();
 
     canvas.width = width;
     canvas.height = height;
     canvas.style.width = width + 'px';
     canvas.style.height = height + 'px';
-};
-
-window.Hybrid.getWidth = function() 
-{
-    const canvas = document.getElementById('canvas');
-    return canvas ? canvas.width : 0;
-};
-
-window.Hybrid.getHeight = function() 
-{
-    const canvas = document.getElementById('canvas');
-    return canvas ? canvas.height : 0;
 };

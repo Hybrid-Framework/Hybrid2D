@@ -12,7 +12,7 @@ namespace Hybrid
             string found = Emscripten.RunScriptString(
             @"
                 (function(){
-                    var evt = window.Hybrid.events.pollEvent();
+                    var evt = window.HybridJS.events.PollEvent();
                     return evt || '';
                 })();
             ");

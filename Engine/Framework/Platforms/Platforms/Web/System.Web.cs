@@ -6,7 +6,7 @@ namespace Hybrid
     {
         public UnderlyingDevice GetUnderlyingDevice()
         {
-            string device = Emscripten.RunScriptString("Hybrid.getDevice();");
+            string device = Emscripten.RunScriptString("HybridJS.GetDevice();");
 
             return device switch
             {

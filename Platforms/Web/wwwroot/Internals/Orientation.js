@@ -1,6 +1,6 @@
-﻿window.Hybrid = window.Hybrid || {};
+﻿window.HybridJS = window.HybridJS || {};
 
-window.Hybrid.getOrientation = function () 
+window.HybridJS.GetOrientation = function () 
 {
     if (screen.orientation && screen.orientation.type)
     {

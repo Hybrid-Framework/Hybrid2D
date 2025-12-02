@@ -1,36 +1,68 @@
-﻿window.Hybrid = window.Hybrid || {};
+﻿window.HybridJS = window.HybridJS || {};
 
-window.Hybrid.setFullscreen = function(value) 
+
+window.HybridJS.IsFullscreen = function(canvas)
 {
-    let element = document.getElementById("canvas");
-    if (!element) return 0;
+    return ( document.fullscreenElement === canvas || document.webkitFullscreenElement === canvas || document.mozFullScreenElement === canvas || document.msFullscreenElement === canvas );
+};
 
-    try 
+window.HybridJS.FullscreenElement = function()
+{
+    return ( document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement );
+};
+
+window.HybridJS.RequestFullscreen = function(canvas)
+{
+    return ( canvas.requestFullscreen || canvas.webkitRequestFullscreen || canvas.mozRequestFullScreen || canvas.msRequestFullscreen );
+};
+
+window.HybridJS.ExitFullscreen = function()
+{
+    return ( document.exitFullscreen || document.webkitExitFullscreen || document.mozCancelFullScreen || document.msExitFullscreen );
+};
+
+
+window.HybridJS.SetFullscreen = function(value)
+{
+    const canvas = HybridJS.GetCanvas();
+    if (!canvas) return 0;
+
+    try
     {
         if (value)
         {
-            element.requestFullscreen?.() ||
-            element.webkitRequestFullscreen?.() ||
-            element.mozRequestFullScreen?.() ||
-            element.msRequestFullscreen?.();
+            if (!HybridJS.IsFullscreen(canvas))
+            {
+                HybridJS.RequestFullscreen(canvas)?.call(canvas);
+            }
+
+            return 1;
         }
         else
         {
-            document.exitFullscreen?.() ||
-            document.webkitExitFullscreen?.() ||
-            document.mozCancelFullScreen?.() ||
-            document.msExitFullscreen?.();
+            if (document.visibilityState !== "visible")
+            {
+                return 0;
+            }
+
+            if (HybridJS.FullscreenElement())
+            {
+                HybridJS.ExitFullscreen()?.call(document);
+            }
+
+            return 1;
         }
     }
-    catch(e)
+    catch
     {
         return 0;
     }
-
-    return 1;
 };
 
-window.Hybrid.getFullscreen = function() 
+window.HybridJS.GetFullscreen = function()
 {
-    return document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement ? 1 : 0;
+    const canvas = HybridJS.GetCanvas();
+    if (!canvas) return 0;
+    
+    return HybridJS.IsFullscreen(canvas) ? 1 : 0;
 };
