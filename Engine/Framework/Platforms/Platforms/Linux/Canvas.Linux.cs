@@ -30,7 +30,7 @@ namespace Hybrid
     {
         public void Resize()
         {
-            
+            Window.Size = Window.Size;
         }
     }
 }

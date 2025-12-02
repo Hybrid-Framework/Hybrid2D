@@ -294,4 +294,12 @@ internal static unsafe partial class SDL
     {
         return SDL_GetWindowFromID(windowID);
     }
+    
+    // Restore Window
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool SDL_RestoreWindow(SDL.Window* window);
+    public static bool RestoreWindow(SDL.Window* window)
+    {
+        return SDL_RestoreWindow(window);
+    }
 }

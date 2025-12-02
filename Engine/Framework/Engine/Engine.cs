@@ -62,6 +62,11 @@ namespace Hybrid
                     {
                         Window.Restore();
                     }
+                    
+                    if (e.keyboard.keyCode == SDL.KeyCode.M)
+                    {
+                        Window.Maximize();
+                    }
                 }
                 
                 OnEvent(e);
