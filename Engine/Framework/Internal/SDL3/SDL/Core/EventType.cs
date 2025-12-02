@@ -10,6 +10,7 @@ internal static unsafe partial class SDL
         Resized = 518,
         Minimized = 521,
         Maximized = 522,
+        Restored = 523,
         MouseEnter = 524,
         MouseExit = 525,
         Focused = 526,

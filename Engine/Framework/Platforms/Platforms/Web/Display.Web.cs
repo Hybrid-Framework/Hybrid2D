@@ -2,12 +2,11 @@
 
 namespace Hybrid
 {
-    // Orientation
-    internal unsafe partial class WebCanvas : IPlatformCanvas
+    internal class WebDisplay : IPlatformDisplay
     {
         public Orientation GetOrientation()
         {
-            string orientation = Emscripten.RunScriptString("HybridJS.GetOrientation();");
+            var orientation = Emscripten.RunScriptString("HybridJS.GetOrientation();");
 
             return orientation switch
             {
@@ -19,11 +18,7 @@ namespace Hybrid
                 _ => Orientation.Unknown,
             };
         }
-    }
-    
-    // Fullscreen
-    internal unsafe partial class WebCanvas
-    {
+        
         public bool SetFullscreen(bool fullscreen)
         {
             return Emscripten.RunScriptInt($"HybridJS.SetFullscreen({(fullscreen ? 1 : 0)});") == 1;
@@ -36,14 +31,10 @@ namespace Hybrid
             
             return fullscreen || mobile;
         }
-    }
-
-    // Resize
-    internal unsafe partial class WebCanvas
-    {
+        
         public void Resize()
         {
-            if (Platform.GetCanvas().GetFullscreen())
+            if (Platform.GetDisplay().GetFullscreen())
             {
                 Emscripten.RunScript("HybridJS.FillDocument();");
 

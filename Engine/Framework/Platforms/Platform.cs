@@ -38,12 +38,12 @@ namespace Hybrid
     // Backends
     internal abstract partial class Platform
     {
+        protected virtual IPlatformDisplay Display { get; set; }
         protected virtual IPlatformSystem System { get; set; }
-        protected virtual IPlatformCanvas Canvas { get; set; }
         protected virtual IPlatformEvents Events { get; set; }
 
+        internal static IPlatformDisplay GetDisplay() => GetPlatform().Display;
         internal static IPlatformSystem GetSystem() => GetPlatform().System;
-        internal static IPlatformCanvas GetCanvas() => GetPlatform().Canvas;
         internal static IPlatformEvents GetEvents() => GetPlatform().Events;
     }
 }

@@ -5,8 +5,6 @@ namespace Hybrid
     // Platform
     public abstract class Bootstrap
     {
-        protected Bootstrap() { }
-        
         public static void Windows(Config Config) => Entry(new WindowsBootstrap(), Config);
         public static void Android(Config Config) => Entry(new AndroidBootstrap(), Config);
         public static void Linux(Config Config) => Entry(new LinuxBootstrap(), Config);

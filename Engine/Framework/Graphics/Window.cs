@@ -45,13 +45,17 @@ namespace Hybrid
             switch (e.type)
             {
                 case SDL.EventType.Orientation:
-                    Platform.GetCanvas().GetOrientation();
+                    Platform.GetDisplay().GetOrientation();
                     OnOrientation?.Invoke();
                     break;
                 
                 case SDL.EventType.Resized:
-                    Platform.GetCanvas().Resize();
+                    Platform.GetDisplay().Resize();
                     OnResized?.Invoke();
+                    break;
+                
+                case SDL.EventType.Restored:
+                    OnRestored?.Invoke();
                     break;
                 
                 case SDL.EventType.Moved:
@@ -95,12 +99,13 @@ namespace Hybrid
     public unsafe partial class Window
     {
         public static Action OnOrientation = null;
+        public static Action OnRestored = null;
         public static Action OnResized = null;
-        public static Action OnMoved = null;
         public static Action OnMaximized = null;
         public static Action OnMinimized = null;
         public static Action OnUnfocus = null;
         public static Action OnFocus = null;
+        public static Action OnMoved = null;
 
 
         public static int Fps
@@ -128,13 +133,19 @@ namespace Hybrid
         public static string Title
         {
             set => SDL.SetWindowTitle(Handle, value);
-            get { return SDL.GetWindowTitle(Handle); }
+            get
+            {
+                return SDL.GetWindowTitle(Handle);
+            }
         }
 
         public static bool Fullscreen
         {
-            set => Platform.GetCanvas().SetFullscreen(value);
-            get { return Platform.GetCanvas().GetFullscreen(); }
+            set => Platform.GetDisplay().SetFullscreen(value);
+            get
+            {
+                return Platform.GetDisplay().GetFullscreen();
+            }
         }
 
         public static bool Resizable
@@ -219,7 +230,7 @@ namespace Hybrid
 
         public static Orientation Orientation
         {
-            get => Platform.GetCanvas().GetOrientation();
+            get => Platform.GetDisplay().GetOrientation();
         }
     }
     
@@ -232,16 +243,19 @@ namespace Hybrid
             Size = RestoreSize;
             
             SDL.RestoreWindow(Handle);
+            OnRestored?.Invoke();
         }
 
         public static void Minimize()
         {
             SDL.MinimizeWindow(Handle);
+            OnMinimized?.Invoke();
         }
 
         public static void Maximize()
         {
             SDL.MaximizeWindow(Handle);
+            OnMaximized?.Invoke();
         }
     }
 }
