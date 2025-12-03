@@ -14,8 +14,8 @@ namespace Hybrid
         public virtual bool Resizable { get; set; }
         public virtual bool VSync { get; set; }
         
+        public virtual int TargetFrameRate { get; set; }
         public virtual int Height { get; set; }
         public virtual int Width { get; set; }
-        public virtual int Fps { get; set; }
     }
 }

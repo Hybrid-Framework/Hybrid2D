@@ -67,12 +67,12 @@ namespace Hybrid
                     
                     if (e.keyboard.keyCode == SDL.KeyCode.M)
                     {
-                        Window.Maximized =! Window.Maximized;
+                        Window.Maximize();
                     }
                     
                     if (e.keyboard.keyCode == SDL.KeyCode.N)
                     {
-                        Window.Minimized =! Window.Minimized;
+                        Window.Minimize();
                     }
                 }
                 

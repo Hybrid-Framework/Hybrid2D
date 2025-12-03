@@ -53,10 +53,10 @@ namespace Hybrid
         internal static void AfterFrame()
         {
             // Frame Limiting
-            if (Window.Fps > 0 && !Window.VSync)
+            if (Application.TargetFrameRate > 0 && !Application.VSync)
             {
                 // Calculate Remaining
-                var Target = 1f / Window.Fps;
+                var Target = 1f / Application.TargetFrameRate;
                 
                 var FrameEnd = SDL.GetPerformanceCounter();
                 var FrameElapsed = (FrameEnd - FrameStart) / FrameFrequency;

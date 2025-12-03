@@ -19,7 +19,6 @@ namespace Hybrid
         {
             // Create Renderer
             Handle = SDL.CreateRenderer(Window.Handle, null);
-            Window.VSync = Platform.GetConfig().VSync;
             
             base.OnInitialize();
         }

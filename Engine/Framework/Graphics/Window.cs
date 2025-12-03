@@ -21,17 +21,20 @@ namespace Hybrid
             var config = Platform.GetConfig();
             var mobile = Platform.GetSystem().GetUnderlyingDevice() == UnderlyingDevice.Mobile;
             
-            // Calculate Flags
+            // Settings
+            Application.TargetFrameRate = Platform.GetConfig().TargetFrameRate;
+            Application.VSync = Platform.GetConfig().VSync;
+            
+            // Window Flags
             SDL.WindowFlags flags = SDL.WindowFlags.HighPixelDensity;
             if (config.Fullscreen || mobile) flags |= SDL.WindowFlags.Fullscreen;
             if (config.Resizable || mobile) flags |= SDL.WindowFlags.Resizable;
         
-            // Create Window
+            // Window Creation
             Handle = SDL.CreateWindow(config.Title, config.Width, config.Height, flags);
-            RestoreSize = new Vector2(config.Width, config.Height);
-            Fps = config.Fps;
+            RestoredSize = new Vector2(config.Width, config.Height);
         
-            // Icon
+            // Window Icon
             var icon = SDL_image.Load(config.Icon);
             SDL.SetWindowIcon(Handle, icon);
             SDL.DestroySurface(icon);
@@ -45,38 +48,54 @@ namespace Hybrid
             switch (e.type)
             {
                 case SDL.EventType.Orientation:
+                {
                     Platform.GetDisplay().GetOrientation();
                     OnOrientation?.Invoke();
                     break;
-                
+                }
+
                 case SDL.EventType.Resized:
+                {
                     Platform.GetDisplay().Resize();
                     OnResized?.Invoke();
                     break;
-                
+                }
+
                 case SDL.EventType.Restored:
+                {
                     OnRestored?.Invoke();
                     break;
-                
+                }
+
                 case SDL.EventType.Minimized:
+                {
                     OnMinimized?.Invoke();
                     break;
-                
+                }
+
                 case SDL.EventType.Maximized:
+                {
                     OnMaximized?.Invoke();
                     break;
-                
+                }
+
                 case SDL.EventType.Moved:
+                {
                     OnMoved?.Invoke();
                     break;
-                
+                }
+
                 case SDL.EventType.Focused:
+                {
                     OnFocus?.Invoke();
                     break;
-                
+                }
+
                 case SDL.EventType.Unfocused:
+                {
                     OnUnfocus?.Invoke();
                     break;
+                }
             }
             
             base.OnEvent(e);
@@ -98,8 +117,7 @@ namespace Hybrid
     // Window API
     public unsafe partial class Window
     {
-        internal static Vector2 RestoreSize { get; set; }
-        public static int Fps { get; set; }
+        private static Vector2 RestoredSize { get; set; }
         
         public static Action OnOrientation = null;
         public static Action OnRestored = null;
@@ -110,6 +128,11 @@ namespace Hybrid
         public static Action OnFocus = null;
         public static Action OnMoved = null;
         
+        
+        public static Orientation Orientation
+        {
+            get => Platform.GetDisplay().GetOrientation();
+        }
 
         public static string Title
         {
@@ -155,6 +178,30 @@ namespace Hybrid
                 return Platform.GetDisplay().GetMinimized();
             }
         }
+        
+        public static Vector2 AspectRatio
+        {
+            set => SDL.SetWindowAspectRatio(Handle, value.X, value.Y);
+            get
+            {
+                SDL.GetWindowAspectRatio(Handle, out float min, out float max);
+                {
+                    return new Vector2(min, max);
+                }
+            }
+        }
+
+        public static Vector2 Position
+        {
+            set => SDL.SetWindowPosition(Handle, (int)value.X, (int)value.Y);
+            get
+            {
+                SDL.GetWindowPosition(Handle, out var x, out var y);
+                {
+                    return new Vector2(x, y);
+                }
+            }
+        }
 
         public static Vector2 Size
         {
@@ -164,7 +211,7 @@ namespace Hybrid
                 {
                     if (!Fullscreen && !Maximized && !Minimized)
                     {
-                        RestoreSize = value;
+                        RestoredSize = value;
                     }
                 }
             }
@@ -177,31 +224,37 @@ namespace Hybrid
             }
         }
 
-        public static bool VSync
+        public static int Width
         {
-            set => SDL.SetRenderVSync(Graphics.Handle, value ? 1 : 0);
-            get
-            {
-                SDL.GetRenderVSync(Graphics.Handle, out int vsync);
-                {
-                    return vsync > 0;
-                }
-            }
+            set => Size = new Vector2(value, Size.Y);
+            get => (int)Size.X;
         }
         
-        public static Orientation Orientation
+        public static int Height
         {
-            get => Platform.GetDisplay().GetOrientation();
+            set => Size = new Vector2(Size.X, value);
+            get => (int)Size.Y;
         }
     }
     
     // Window Methods
     public unsafe partial class Window
     {
-        internal static void Restore()
+        public static void Maximize()
+        {
+            Maximized = true;
+        }
+
+        public static void Minimize()
+        {
+            Minimized = true;
+        }
+        
+        public static void Restore()
         {
             Fullscreen = false;
-            Size = RestoreSize;
+            Size = RestoredSize;
+            
             SDL.RestoreWindow(Handle);
         }
     }

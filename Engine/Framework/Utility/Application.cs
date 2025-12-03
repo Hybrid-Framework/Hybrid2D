@@ -3,8 +3,26 @@
 namespace Hybrid
 {
     // Application
-    public static class Application
+    public static unsafe class Application
     {
+        public static int TargetFrameRate
+        {
+            get;
+            set;
+        }
+        
+        public static bool VSync
+        {
+            set => SDL.SetRenderVSync(Graphics.Handle, value ? 1 : 0);
+            get
+            {
+                SDL.GetRenderVSync(Graphics.Handle, out int vsync);
+                {
+                    return vsync > 0;
+                }
+            }
+        }
+        
         public static UnderlyingDevice GetUnderlyingDevice()
         {
             return Platform.GetSystem().GetUnderlyingDevice();
