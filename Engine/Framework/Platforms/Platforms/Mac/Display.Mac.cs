@@ -58,7 +58,7 @@ namespace Hybrid
             }
             else
             {
-                Restore();
+                Window.Restore();
             }
         }
 
@@ -80,23 +80,13 @@ namespace Hybrid
             }
             else
             {
-                Restore();
+                Window.Restore();
             }
         }
 
         public bool GetMinimized()
         {
             return (SDL.GetWindowFlags(Window.Handle) & SDL.WindowFlags.Minimized) != 0;
-        }
-    }
-
-    
-    // Restore
-    internal unsafe partial class MacDisplay
-    {
-        public void Restore()
-        {
-            Window.Restore();
         }
     }
 

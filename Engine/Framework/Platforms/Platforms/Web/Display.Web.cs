@@ -22,12 +22,12 @@ namespace Hybrid
     {
         public void SetFullscreen(bool fullscreen)
         {
-            Emscripten.RunScriptInt($"HybridJS.SetFullscreen({(fullscreen ? 1 : 0)});");
+            SDL.SetWindowFullscreen(Window.Handle, fullscreen);
         }
 
         public bool GetFullscreen()
         {
-            return Emscripten.RunScriptInt("HybridJS.GetFullscreen();") == 1;
+            return (SDL.GetWindowFlags(Window.Handle) & SDL.WindowFlags.Fullscreen) != 0;
         }
     }
 
@@ -63,7 +63,7 @@ namespace Hybrid
             }
             else
             {
-                Restore();
+                Window.Restore();
             }
         }
 
@@ -82,22 +82,12 @@ namespace Hybrid
     {
         public void SetMinimized(bool minimized)
         {
-            Restore();
+            Window.Restore();
         }
 
         public bool GetMinimized()
         {
             return false;
-        }
-    }
-
-    
-    // Restore
-    internal unsafe partial class WebDisplay
-    {
-        public void Restore()
-        {
-            Window.Restore();
         }
     }
     

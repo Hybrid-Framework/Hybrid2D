@@ -21,7 +21,6 @@ namespace Hybrid
         void SetMinimized(bool minimized);
         bool GetMinimized();
         
-        void Restore();
         void Resize();
     }
 }
