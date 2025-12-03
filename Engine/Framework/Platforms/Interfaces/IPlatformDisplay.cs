@@ -6,19 +6,22 @@ namespace Hybrid
     {
         Orientation GetOrientation();
 
-        bool SetTitle(string title);
+        void SetTitle(string title);
         string GetTitle();
         
-        bool SetFullscreen(bool fullscreen);
+        void SetFullscreen(bool fullscreen);
         bool GetFullscreen();
 
-        bool SetResizable(bool resizable);
+        void SetResizable(bool resizable);
         bool GetResizable();
 
-        bool Maximize();
-        bool Minimize();
-        bool Restore();
-
+        void SetMaximized(bool maximized);
+        bool GetMaximized();
+        
+        void SetMinimized(bool minimized);
+        bool GetMinimized();
+        
+        void Restore();
         void Resize();
     }
 }

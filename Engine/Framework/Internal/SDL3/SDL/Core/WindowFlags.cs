@@ -7,6 +7,8 @@ internal static unsafe partial class SDL
     {
         Fullscreen = 0x1,
         Resizable = 0x20,
+        Minimized = 0x40,
+        Maximized = 0x080,
         HighPixelDensity = 0x2000,
     }
 }

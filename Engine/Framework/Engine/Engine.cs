@@ -31,6 +31,9 @@ namespace Hybrid
             // Frame Time
             Time.BeforeFrame();
             
+            Console.WriteLine("Maximized: " + Platform.GetDisplay().GetMaximized());
+            Console.WriteLine("Minimized: " + Platform.GetDisplay().GetMinimized());
+            
             while (Platform.GetEvents().PollEvents(out SDL.Event e))
             {
                 // Quit Application
@@ -65,7 +68,12 @@ namespace Hybrid
                     
                     if (e.keyboard.keyCode == SDL.KeyCode.M)
                     {
-                        Window.Maximize();
+                        Window.Maximized =! Window.Maximized;
+                    }
+                    
+                    if (e.keyboard.keyCode == SDL.KeyCode.N)
+                    {
+                        Window.Minimized =! Window.Minimized;
                     }
                 }
                 

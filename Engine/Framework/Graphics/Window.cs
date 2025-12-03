@@ -98,6 +98,9 @@ namespace Hybrid
     // Window API
     public unsafe partial class Window
     {
+        internal static Vector2 RestoreSize { get; set; }
+        public static int Fps { get; set; }
+        
         public static Action OnOrientation = null;
         public static Action OnRestored = null;
         public static Action OnResized = null;
@@ -107,21 +110,6 @@ namespace Hybrid
         public static Action OnFocus = null;
         public static Action OnMoved = null;
         
-        
-        private static Vector2 RestoreSize { get; set; }
-        public static int Fps { get; set; }
-
-        public static int Width
-        {
-            set => Size = new Vector2(value, Size.Y);
-            get => (int)Size.X;
-        }
-
-        public static int Height
-        {
-            set => Size = new Vector2(Size.X, value);
-            get => (int)Size.Y;
-        }
 
         public static string Title
         {
@@ -150,13 +138,31 @@ namespace Hybrid
             }
         }
 
+        public static bool Maximized
+        {
+            set => Platform.GetDisplay().SetMaximized(value);
+            get
+            {
+                return Platform.GetDisplay().GetMaximized();
+            }
+        }
+        
+        public static bool Minimized
+        {
+            set => Platform.GetDisplay().SetMinimized(value);
+            get
+            {
+                return Platform.GetDisplay().GetMinimized();
+            }
+        }
+
         public static Vector2 Size
         {
             set
             {
                 SDL.SetWindowSize(Handle, (int)value.X, (int)value.Y);
                 {
-                    if (!Fullscreen)
+                    if (!Fullscreen && !Maximized && !Minimized)
                     {
                         RestoreSize = value;
                     }
@@ -182,7 +188,7 @@ namespace Hybrid
                 }
             }
         }
-
+        
         public static Orientation Orientation
         {
             get => Platform.GetDisplay().GetOrientation();
@@ -192,25 +198,11 @@ namespace Hybrid
     // Window Methods
     public unsafe partial class Window
     {
-        public static void Restore()
+        internal static void Restore()
         {
             Fullscreen = false;
             Size = RestoreSize;
-
-            Platform.GetDisplay().Restore();
-            OnRestored?.Invoke();
-        }
-
-        public static void Minimize()
-        {
-            Platform.GetDisplay().Minimize();
-            OnMinimized?.Invoke();
-        }
-
-        public static void Maximize()
-        {
-            Platform.GetDisplay().Maximize();
-            OnMaximized?.Invoke();
+            SDL.RestoreWindow(Handle);
         }
     }
 }

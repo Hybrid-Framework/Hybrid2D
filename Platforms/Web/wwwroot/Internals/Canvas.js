@@ -47,3 +47,27 @@ window.HybridJS.FillDocument = function()
     canvas.style.width = width + 'px';
     canvas.style.height = height + 'px';
 };
+
+window.HybridJS.IsFillDocument = function(tolerance = 1) 
+{
+    const canvas = HybridJS.GetCanvas();
+    if (!canvas) return 0;
+
+    const document = HybridJS.GetDocument();
+    if (!document) return 0;
+    
+    const width = document.clientWidth;
+    const height = document.clientHeight;
+
+    const canvasWidth = canvas.width;
+    const canvasHeight = canvas.height;
+    const dpi = window.devicePixelRatio || 1;
+
+    const bufferWidth = Math.round(width * dpi);
+    const bufferHeight = Math.round(height * dpi);
+
+    const bufferCheck = Math.abs(canvasWidth - bufferWidth) <= tolerance && Math.abs(canvasHeight - bufferHeight) <= tolerance;
+    const documentCheck = Math.abs(canvasWidth - width) <= tolerance && Math.abs(canvasHeight - height) <= tolerance;
+
+    return (bufferCheck || documentCheck) ? 1 : 0;
+};
