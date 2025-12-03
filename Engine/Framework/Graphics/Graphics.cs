@@ -7,6 +7,7 @@ namespace Hybrid
     {
         private Graphics() { }
         
+        // SDL Renderer Handle
         internal static SDL.Renderer* Handle
         {
             private set;

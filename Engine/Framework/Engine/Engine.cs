@@ -47,27 +47,37 @@ namespace Hybrid
                 {
                     if (e.keyboard.keyCode == SDL.KeyCode.F)
                     {
-                        Window.SetFullscreen(!Window.GetFullscreen());
+                        Window.Fullscreen = !Window.Fullscreen;
                     }
                     
                     if (e.keyboard.keyCode == SDL.KeyCode.Num1)
                     {
-                        Window.SetSize(new Vector2(400, 400));
+                        Window.Size = new Vector2(400, 400);
                     }
                     
                     if (e.keyboard.keyCode == SDL.KeyCode.Num2)
                     {
-                        Window.SetSize(new Vector2(800, 600));
+                        Window.Size = new Vector2(800, 600);
+                    }
+                    
+                    if (e.keyboard.keyCode == SDL.KeyCode.Num3)
+                    {
+                        Window.Width = 1000;
+                    }
+                    
+                    if (e.keyboard.keyCode == SDL.KeyCode.Num4)
+                    {
+                        Window.Height = 1000;
                     }
                     
                     if (e.keyboard.keyCode == SDL.KeyCode.M)
                     {
-                        Window.SetMaximized(!Window.GetMaximized());
+                        Window.Maximized = !Window.Maximized;
                     }
                     
                     if (e.keyboard.keyCode == SDL.KeyCode.N)
                     {
-                        Window.SetMinimized(!Window.GetMinimized());
+                        Window.Minimized = !Window.Minimized;
                     }
                     
                     if (e.keyboard.keyCode == SDL.KeyCode.R)

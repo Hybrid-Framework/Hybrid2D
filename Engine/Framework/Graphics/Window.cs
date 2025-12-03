@@ -7,6 +7,7 @@ namespace Hybrid
     {
         private Window() { }
         
+        // SDL Window Handle
         internal static SDL.Window* Handle
         {
             private set;
@@ -105,8 +106,7 @@ namespace Hybrid
     {
         private static SDL.WindowFlags Flags
         {
-            get;
-            set;
+            get; set;
         }
 
         internal static void SetFlags(SDL.WindowFlags flags)
@@ -130,206 +130,217 @@ namespace Hybrid
         }
     }
 
-    // Window Size
+    // Window Properties
     public unsafe partial class Window
     {
-        private static Vector2 Size
+        private static Vector2 Restoration
         {
-            get; set;
+            get;
+            set;
+        }
+        
+        public static Orientation Orientation
+        {
+            get => Platform.GetDisplay().GetOrientation();
         }
 
-        public static Vector2 RestoreSize
+        public static string Title
         {
-            get => Size;
+            set => Platform.GetDisplay().SetTitle(value);
+            get => Platform.GetDisplay().GetTitle();
         }
-    }
-    
-    // Window Title
-    public unsafe partial class Window
-    {
-        public static void SetTitle(string title)
+        
+        public static bool Fullscreen
         {
-            Platform.GetDisplay().SetTitle(title);
-        }
-
-        public static string GetTitle()
-        {
-            return Platform.GetDisplay().GetTitle();
-        }
-    }
-    
-    // Window Fullscreen
-    public unsafe partial class Window
-    {
-        public static void SetFullscreen(bool fullscreen)
-        {
-            if(fullscreen) SetFlags(SDL.WindowFlags.Fullscreen);
-            if(!fullscreen) ClearFlags(SDL.WindowFlags.Fullscreen);
-            
-            Platform.GetDisplay().SetFullscreen(fullscreen);
-        }
-
-        public static bool GetFullscreen()
-        {
-            return Platform.GetDisplay().GetFullscreen();
-        }
-    }
-    
-    // Window Resizable
-    public unsafe partial class Window
-    {
-        public static void SetResizable(bool resizable)
-        {
-            if (GetFullscreen()) return;
-            
-            if(resizable) SetFlags(SDL.WindowFlags.Resizable);
-            if(!resizable) ClearFlags(SDL.WindowFlags.Resizable);
-
-            Platform.GetDisplay().SetResizable(resizable);
-        }
-
-        public static bool GetResizable()
-        {
-            return Platform.GetDisplay().GetResizable();
-        }
-    }
-    
-    
-    // Window Maximize
-    public unsafe partial class Window
-    {
-        public static void SetMaximized(bool maximize)
-        {
-            if (GetFullscreen()) return;
-            
-            if(maximize) SetFlags(SDL.WindowFlags.Maximized);
-            if(!maximize) ClearFlags(SDL.WindowFlags.Maximized);
-
-            Platform.GetDisplay().SetMaximized(maximize);
-        }
-
-        public static bool GetMaximized()
-        {
-            return Platform.GetDisplay().GetMaximized();
-        }
-    }
-    
-    // Window Minimize
-    public unsafe partial class Window
-    {
-        public static void SetMinimized(bool minimized)
-        {
-            if (GetFullscreen()) return;
-            
-            if(minimized) SetFlags(SDL.WindowFlags.Minimized);
-            if(!minimized) ClearFlags(SDL.WindowFlags.Minimized);
-
-            Platform.GetDisplay().SetMinimized(minimized);
-        }
-
-        public static bool GetMinimized()
-        {
-            return Platform.GetDisplay().GetMinimized();
-        }
-    }
-    
-    // Window Position
-    public unsafe partial class Window
-    {
-        public static void SetPosition(int x, int y)
-        {
-            SetPosition(new Vector2(x, y));
-        }
-
-        public static void SetPosition(Vector2 position)
-        {
-            if (GetFullscreen()) return;
-
-            SDL.SetWindowPosition(Handle, (int)position.X, (int)position.Y);
-        }
-
-        public static Vector2 GetPosition()
-        {
-            SDL.GetWindowPosition(Handle, out int x, out int y);
+            get => Platform.GetDisplay().GetFullscreen();
+            set
             {
-                return new Vector2(x, y);
-            }
-        }
-    }
-    
-    // Window Size
-    public unsafe partial class Window
-    {
-        public static void SetSize(int w, int h)
-        {
-            SetSize(new Vector2(w, h));
-        }
-
-        public static void SetSize(Vector2 size)
-        {
-            if (GetFullscreen()) return;
-            if (GetMaximized()) return;
-            if (GetMinimized()) return;
-
-            SDL.SetWindowSize(Handle, (int)size.X, (int)size.Y);
-            {
-                Size = size;
+                if(value) SetFlags(SDL.WindowFlags.Fullscreen);
+                if(!value) ClearFlags(SDL.WindowFlags.Fullscreen);
+                
+                Platform.GetDisplay().SetFullscreen(value);
             }
         }
 
-        public static Vector2 GetSize()
+        public static bool Resizable
         {
-            SDL.GetWindowSize(Handle, out int w, out int h);
+            get => Platform.GetDisplay().GetResizable();
+            set
             {
-                return new Vector2(w, h);
+                if (!Fullscreen)
+                {
+                    if(value) SetFlags(SDL.WindowFlags.Resizable);
+                    if(!value) ClearFlags(SDL.WindowFlags.Resizable);
+                
+                    Platform.GetDisplay().SetResizable(value);
+                }
             }
+        }
+
+        public static bool Maximized
+        {
+            get => Platform.GetDisplay().GetMaximized();
+            set
+            {
+                if (!Fullscreen)
+                {
+                    if(value) SetFlags(SDL.WindowFlags.Maximized);
+                    if(!value) ClearFlags(SDL.WindowFlags.Maximized);
+                
+                    Platform.GetDisplay().SetMaximized(value);
+                }
+            }
+        }
+        
+        public static bool Minimized
+        {
+            get => Platform.GetDisplay().GetMinimized();
+            set
+            {
+                if (!Fullscreen)
+                {
+                    if(value) SetFlags(SDL.WindowFlags.Minimized);
+                    if(!value) ClearFlags(SDL.WindowFlags.Minimized);
+                
+                    Platform.GetDisplay().SetMinimized(value);
+                }
+            }
+        }
+        
+        public static Vector2 AspectRatio
+        {
+            get
+            {
+                SDL.GetWindowAspectRatio(Handle, out float min, out float max);
+                {
+                    return new Vector2(min, max);
+                }
+            }
+            set
+            {
+                SDL.SetWindowAspectRatio(Handle, value.X, value.Y);
+            }
+        }
+
+        public static Vector2 Position
+        {
+            get
+            {
+                SDL.GetWindowPosition(Handle, out int x, out int y);
+                {
+                    return new Vector2(x, y);
+                }
+            }
+            set
+            {
+                if (!Fullscreen)
+                {
+                    SDL.SetWindowPosition(Handle, (int)value.X, (int)value.Y);
+                }
+            }
+        }
+
+        public static Vector2 Size
+        {
+            get
+            {
+                SDL.GetWindowSize(Handle, out int w, out int h);
+                {
+                    return new Vector2(w, h);
+                }
+            }
+            set
+            {
+                if (!Fullscreen && !Maximized && !Minimized)
+                {
+                    SDL.SetWindowSize(Handle, (int)value.X, (int)value.Y);
+                    {
+                        Restoration = value;
+                    }
+                }
+            }
+        }
+
+        public static int Width
+        {
+            set => Size = new Vector2(value, Size.Y);
+            get => (int)Size.X;
+        }
+        
+        public static int Height
+        {
+            set => Size = new Vector2(Size.X, value);
+            get => (int)Size.Y;
         }
     }
     
-    // Window Visibility
+    // Window Methods
     public unsafe partial class Window
     {
-        public static void Hide()
+        public static void EnterFullscreen()
         {
-            if (GetFullscreen()) return;
-
-            SDL.HideWindow(Handle);
+            if (!Fullscreen)
+            {
+                Fullscreen = true;
+            }
+        }
+        
+        public static void ExitFullscreen()
+        {
+            if (Fullscreen)
+            {
+                Fullscreen = false;
+            }
+        }
+        
+        public static void Maximize()
+        {
+            if (!Fullscreen)
+            {
+                Maximized = true;
+            }
+        }
+        
+        public static void Minimize()
+        {
+            if (!Fullscreen)
+            {
+                Minimized = true;
+            }
         }
 
         public static void Show()
         {
-            if (GetFullscreen()) return;
-
-            SDL.ShowWindow(Handle);
+            if (!Fullscreen)
+            {
+                SDL.ShowWindow(Handle);
+            }
         }
-    }
-    
-    // Window Restore
-    public unsafe partial class Window
-    {
+
+        public static void Hide()
+        {
+            if (!Fullscreen)
+            {
+                SDL.HideWindow(Handle);
+            }
+        }
+
         public static void Raise()
         {
-            if (GetFullscreen()) return;
-
-            SDL.RaiseWindow(Handle);
+            if (!Fullscreen)
+            {
+                SDL.RaiseWindow(Handle);
+            }
         }
-
+        
         public static void Restore()
         {
-            if(GetFullscreen()) return;
-            
-            ClearFlags(SDL.WindowFlags.Minimized | SDL.WindowFlags.Maximized);
-            SDL.RestoreWindow(Handle);
-            SetSize(Size);
-        }
-    }
-    
-    // Window Orientation
-    public unsafe partial class Window
-    {
-        public static Orientation GetOrientation()
-        {
-            return Platform.GetDisplay().GetOrientation();
+            if (!Fullscreen)
+            {
+                ClearFlags(SDL.WindowFlags.Minimized | SDL.WindowFlags.Maximized);
+                SDL.SetWindowSize(Handle, (int)Restoration.X, (int)Restoration.Y);
+                SDL.RestoreWindow(Handle);
+            }
         }
     }
 }
