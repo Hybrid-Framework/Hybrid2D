@@ -2,9 +2,9 @@
 
 namespace Hybrid
 {
-    internal unsafe class LinuxDisplay : IPlatformDisplay
+    // Title
+    internal unsafe partial class LinuxDisplay : IPlatformDisplay
     {
-        // Title
         public void SetTitle(string title)
         {
             SDL.SetWindowTitle(Window.Handle, title);
@@ -14,8 +14,12 @@ namespace Hybrid
         {
             return SDL.GetWindowTitle(Window.Handle);
         }
-        
-        // Fullscreen
+    }
+
+    
+    // Fullscreen
+    internal unsafe partial class LinuxDisplay
+    {
         public void SetFullscreen(bool fullscreen)
         {
             SDL.SetWindowFullscreen(Window.Handle, fullscreen);
@@ -25,8 +29,12 @@ namespace Hybrid
         {
             return (SDL.GetWindowFlags(Window.Handle) & SDL.WindowFlags.Fullscreen) != 0;
         }
+    }
 
-        // Resizable
+    
+    // Resizable
+    internal unsafe partial class LinuxDisplay
+    {
         public void SetResizable(bool resizable)
         {
             SDL.SetWindowResizable(Window.Handle, resizable);
@@ -36,8 +44,12 @@ namespace Hybrid
         {
             return (SDL.GetWindowFlags(Window.Handle) & SDL.WindowFlags.Resizable) != 0;
         }
+    }
 
-        // Maximize
+
+    // Maximize
+    internal unsafe partial class LinuxDisplay
+    {
         public void SetMaximized(bool maximized)
         {
             if (maximized)
@@ -54,8 +66,12 @@ namespace Hybrid
         {
             return (SDL.GetWindowFlags(Window.Handle) & SDL.WindowFlags.Maximized) != 0;
         }
+    }
 
-        // Minimize
+    
+    // Minimize
+    internal unsafe partial class LinuxDisplay
+    {
         public void SetMinimized(bool minimized)
         {
             if (minimized)
@@ -72,20 +88,32 @@ namespace Hybrid
         {
             return (SDL.GetWindowFlags(Window.Handle) & SDL.WindowFlags.Minimized) != 0;
         }
+    }
 
-        // Restore
+    
+    // Restore
+    internal unsafe partial class LinuxDisplay
+    {
         public void Restore()
         {
             Window.Restore();
         }
-        
-        // Resize
+    }
+    
+
+    // Resize
+    internal unsafe partial class LinuxDisplay
+    {
         public void Resize()
         {
             Window.Size = Window.Size;
         }
-        
-        // Orientation
+    }
+    
+    
+    // Orientation
+    internal unsafe partial class LinuxDisplay
+    {
         public Orientation GetOrientation()
         {
             return (Orientation)SDL.GetCurrentDisplayOrientation(SDL.GetWindowID(Window.Handle));
