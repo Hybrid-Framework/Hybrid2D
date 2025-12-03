@@ -47,53 +47,9 @@ namespace Hybrid
         {
             switch (e.type)
             {
-                case SDL.EventType.Orientation:
-                {
-                    Platform.GetDisplay().GetOrientation();
-                    OnOrientation?.Invoke();
-                    break;
-                }
-
                 case SDL.EventType.Resized:
                 {
                     Platform.GetDisplay().Resize();
-                    OnResized?.Invoke();
-                    break;
-                }
-
-                case SDL.EventType.Restored:
-                {
-                    OnRestored?.Invoke();
-                    break;
-                }
-
-                case SDL.EventType.Minimized:
-                {
-                    OnMinimized?.Invoke();
-                    break;
-                }
-
-                case SDL.EventType.Maximized:
-                {
-                    OnMaximized?.Invoke();
-                    break;
-                }
-
-                case SDL.EventType.Moved:
-                {
-                    OnMoved?.Invoke();
-                    break;
-                }
-
-                case SDL.EventType.Focused:
-                {
-                    OnFocus?.Invoke();
-                    break;
-                }
-
-                case SDL.EventType.Unfocused:
-                {
-                    OnUnfocus?.Invoke();
                     break;
                 }
             }
@@ -114,20 +70,13 @@ namespace Hybrid
         }
     }
     
-    // Window API
+    // Window Properties
     public unsafe partial class Window
     {
-        private static Vector2 RestoredSize { get; set; }
-        
-        public static Action OnOrientation = null;
-        public static Action OnRestored = null;
-        public static Action OnResized = null;
-        public static Action OnMaximized = null;
-        public static Action OnMinimized = null;
-        public static Action OnUnfocus = null;
-        public static Action OnFocus = null;
-        public static Action OnMoved = null;
-        
+        private static Vector2 RestoredSize
+        {
+            get; set;
+        }
         
         public static Orientation Orientation
         {
@@ -160,24 +109,6 @@ namespace Hybrid
                 return Platform.GetDisplay().GetResizable();
             }
         }
-
-        public static bool Maximized
-        {
-            set => Platform.GetDisplay().SetMaximized(value);
-            get
-            {
-                return Platform.GetDisplay().GetMaximized();
-            }
-        }
-        
-        public static bool Minimized
-        {
-            set => Platform.GetDisplay().SetMinimized(value);
-            get
-            {
-                return Platform.GetDisplay().GetMinimized();
-            }
-        }
         
         public static Vector2 AspectRatio
         {
@@ -207,9 +138,13 @@ namespace Hybrid
         {
             set
             {
+                var fullscreen = Platform.GetDisplay().GetFullscreen();
+                var minimized = Platform.GetDisplay().GetMinimized();
+                var maximized = Platform.GetDisplay().GetMaximized();
+                
                 SDL.SetWindowSize(Handle, (int)value.X, (int)value.Y);
                 {
-                    if (!Fullscreen && !Maximized && !Minimized)
+                    if (!fullscreen && !maximized && !minimized)
                     {
                         RestoredSize = value;
                     }
@@ -240,14 +175,29 @@ namespace Hybrid
     // Window Methods
     public unsafe partial class Window
     {
+        public static void Hide()
+        {
+            SDL.HideWindow(Handle);
+        }
+
+        public static void Show()
+        {
+            SDL.ShowWindow(Handle);
+        }
+
+        public static void Raise()
+        {
+            SDL.RaiseWindow(Handle);
+        }
+        
         public static void Maximize()
         {
-            Maximized = true;
+            Platform.GetDisplay().SetMaximized(true);
         }
 
         public static void Minimize()
         {
-            Minimized = true;
+            Platform.GetDisplay().SetMinimized(true);
         }
         
         public static void Restore()
