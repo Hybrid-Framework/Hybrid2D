@@ -17,7 +17,7 @@ namespace Hybrid
         // Initialize
         internal override void OnInitialize()
         {
-            // Create Renderer
+            // Render Creation
             Handle = SDL.CreateRenderer(Window.Handle, null);
             
             base.OnInitialize();

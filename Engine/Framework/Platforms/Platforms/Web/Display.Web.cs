@@ -59,7 +59,7 @@ namespace Hybrid
                 int w = Emscripten.RunScriptInt("HybridJS.GetCanvasWidth();");
                 int h = Emscripten.RunScriptInt("HybridJS.GetCanvasHeight();");
 
-                Window.Size = new Vector2(w, h);
+                SDL.SetWindowSize(Window.Handle, w, h);
             }
             else
             {
@@ -104,7 +104,7 @@ namespace Hybrid
                 int w = Emscripten.RunScriptInt("HybridJS.GetCanvasWidth();");
                 int h = Emscripten.RunScriptInt("HybridJS.GetCanvasHeight();");
 
-                Window.Size = new Vector2(w, h);
+                SDL.SetWindowSize(Window.Handle, w, h);
             }
             else
             {

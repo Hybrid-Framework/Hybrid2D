@@ -20,19 +20,16 @@ namespace Hybrid
             // Platform
             var config = Platform.GetConfig();
             var mobile = Platform.GetSystem().GetUnderlyingDevice() == UnderlyingDevice.Mobile;
-            
-            // Settings
-            Application.TargetFrameRate = Platform.GetConfig().TargetFrameRate;
-            Application.VSync = Platform.GetConfig().VSync;
+            var web = Platform.GetSystem().GetUnderlyingPlatform() == UnderlyingPlatform.Web;
             
             // Window Flags
             SDL.WindowFlags flags = SDL.WindowFlags.HighPixelDensity;
-            if (config.Fullscreen || mobile) flags |= SDL.WindowFlags.Fullscreen;
-            if (config.Resizable || mobile) flags |= SDL.WindowFlags.Resizable;
+            if ((config.Fullscreen || mobile) && !web) flags |= SDL.WindowFlags.Fullscreen;
+            if ((config.Resizable || mobile) && !web) flags |= SDL.WindowFlags.Resizable;
         
             // Window Creation
             Handle = SDL.CreateWindow(config.Title, config.Width, config.Height, flags);
-            RestoredSize = new Vector2(config.Width, config.Height);
+            Size = new Vector2(config.Width, config.Height);
         
             // Window Icon
             var icon = SDL_image.Load(config.Icon);
@@ -70,142 +67,192 @@ namespace Hybrid
         }
     }
     
-    // Window Properties
+    // Window Size
     public unsafe partial class Window
     {
-        private static Vector2 RestoredSize
+        private static Vector2 Size
         {
             get; set;
         }
-        
-        public static Orientation Orientation
-        {
-            get => Platform.GetDisplay().GetOrientation();
-        }
 
-        public static string Title
+        public static Vector2 RestoreSize
         {
-            set => Platform.GetDisplay().SetTitle(value);
-            get
-            {
-                return Platform.GetDisplay().GetTitle();
-            }
-        }
-
-        public static bool Fullscreen
-        {
-            set => Platform.GetDisplay().SetFullscreen(value);
-            get
-            {
-                return Platform.GetDisplay().GetFullscreen();
-            }
-        }
-
-        public static bool Resizable
-        {
-            set => Platform.GetDisplay().SetResizable(value);
-            get
-            {
-                return Platform.GetDisplay().GetResizable();
-            }
-        }
-        
-        public static Vector2 AspectRatio
-        {
-            set => SDL.SetWindowAspectRatio(Handle, value.X, value.Y);
-            get
-            {
-                SDL.GetWindowAspectRatio(Handle, out float min, out float max);
-                {
-                    return new Vector2(min, max);
-                }
-            }
-        }
-
-        public static Vector2 Position
-        {
-            set => SDL.SetWindowPosition(Handle, (int)value.X, (int)value.Y);
-            get
-            {
-                SDL.GetWindowPosition(Handle, out var x, out var y);
-                {
-                    return new Vector2(x, y);
-                }
-            }
-        }
-
-        public static Vector2 Size
-        {
-            set
-            {
-                var fullscreen = Platform.GetDisplay().GetFullscreen();
-                var minimized = Platform.GetDisplay().GetMinimized();
-                var maximized = Platform.GetDisplay().GetMaximized();
-                
-                SDL.SetWindowSize(Handle, (int)value.X, (int)value.Y);
-                {
-                    if (!fullscreen && !maximized && !minimized)
-                    {
-                        RestoredSize = value;
-                    }
-                }
-            }
-            get
-            {
-                SDL.GetWindowSize(Handle, out int w, out int h);
-                {
-                    return new Vector2(w, h);
-                }
-            }
-        }
-
-        public static int Width
-        {
-            set => Size = new Vector2(value, Size.Y);
-            get => (int)Size.X;
-        }
-        
-        public static int Height
-        {
-            set => Size = new Vector2(Size.X, value);
-            get => (int)Size.Y;
+            get => Size;
         }
     }
     
-    // Window Methods
+    // Window Title
+    public unsafe partial class Window
+    {
+        public static void SetTitle(string title)
+        {
+            Platform.GetDisplay().SetTitle(title);
+        }
+
+        public static string GetTitle()
+        {
+            return Platform.GetDisplay().GetTitle();
+        }
+    }
+    
+    // Window Fullscreen
+    public unsafe partial class Window
+    {
+        public static void SetFullscreen(bool fullscreen)
+        {
+            Platform.GetDisplay().SetFullscreen(fullscreen);
+        }
+
+        public static bool GetFullscreen()
+        {
+            return Platform.GetDisplay().GetFullscreen();
+        }
+    }
+    
+    // Window Resizable
+    public unsafe partial class Window
+    {
+        public static void SetResizable(bool resizable)
+        {
+            if (GetFullscreen()) return;
+
+            Platform.GetDisplay().SetResizable(resizable);
+        }
+
+        public static bool GetResizable()
+        {
+            return Platform.GetDisplay().GetResizable();
+        }
+    }
+    
+    
+    // Window Maximize
+    public unsafe partial class Window
+    {
+        public static void SetMaximized(bool maximize)
+        {
+            if (GetFullscreen()) return;
+
+            Platform.GetDisplay().SetMaximized(maximize);
+        }
+
+        public static bool GetMaximized()
+        {
+            return Platform.GetDisplay().GetMaximized();
+        }
+    }
+    
+    // Window Minimize
+    public unsafe partial class Window
+    {
+        public static void SetMinimized(bool minimized)
+        {
+            if (GetFullscreen()) return;
+
+            Platform.GetDisplay().SetMinimized(minimized);
+        }
+
+        public static bool GetMinimized()
+        {
+            return Platform.GetDisplay().GetMinimized();
+        }
+    }
+    
+    // Window Position
+    public unsafe partial class Window
+    {
+        public static void SetPosition(int x, int y)
+        {
+            SetPosition(new Vector2(x, y));
+        }
+
+        public static void SetPosition(Vector2 position)
+        {
+            if (GetFullscreen()) return;
+
+            SDL.SetWindowPosition(Handle, (int)position.X, (int)position.Y);
+        }
+
+        public static Vector2 GetPosition()
+        {
+            SDL.GetWindowPosition(Handle, out int x, out int y);
+            {
+                return new Vector2(x, y);
+            }
+        }
+    }
+    
+    // Window Size
+    public unsafe partial class Window
+    {
+        public static void SetSize(int w, int h)
+        {
+            SetSize(new Vector2(w, h));
+        }
+
+        public static void SetSize(Vector2 size)
+        {
+            if (GetFullscreen()) return;
+            if (GetMaximized()) return;
+            if (GetMinimized()) return;
+
+            SDL.SetWindowSize(Handle, (int)size.X, (int)size.Y);
+            {
+                Size = size;
+            }
+        }
+
+        public static Vector2 GetSize()
+        {
+            SDL.GetWindowSize(Handle, out int w, out int h);
+            {
+                return new Vector2(w, h);
+            }
+        }
+    }
+    
+    // Window Visibility
     public unsafe partial class Window
     {
         public static void Hide()
         {
+            if (GetFullscreen()) return;
+
             SDL.HideWindow(Handle);
         }
 
         public static void Show()
         {
+            if (GetFullscreen()) return;
+
             SDL.ShowWindow(Handle);
         }
-
+    }
+    
+    // Window Restore
+    public unsafe partial class Window
+    {
         public static void Raise()
         {
+            if (GetFullscreen()) return;
+
             SDL.RaiseWindow(Handle);
         }
-        
-        public static void Maximize()
-        {
-            Platform.GetDisplay().SetMaximized(true);
-        }
 
-        public static void Minimize()
-        {
-            Platform.GetDisplay().SetMinimized(true);
-        }
-        
         public static void Restore()
         {
-            Fullscreen = false;
-            Size = RestoredSize;
-            
+            if(GetFullscreen()) SetFullscreen(false);
             SDL.RestoreWindow(Handle);
+            SetSize(Size);
+        }
+    }
+    
+    // Window Orientation
+    public unsafe partial class Window
+    {
+        public static Orientation GetOrientation()
+        {
+            return Platform.GetDisplay().GetOrientation();
         }
     }
 }

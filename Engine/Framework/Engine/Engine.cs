@@ -31,6 +31,8 @@ namespace Hybrid
             // Frame Time
             Time.BeforeFrame();
             
+            Console.WriteLine($"Restore: {Window.RestoreSize.X} {Window.RestoreSize.Y} Fullscreen: {Window.GetFullscreen()} Maximized: {Window.GetMaximized()} Minimized {Window.GetMinimized()}");
+            
             while (Platform.GetEvents().PollEvents(out SDL.Event e))
             {
                 // Quit Application
@@ -38,6 +40,40 @@ namespace Hybrid
                 {
                     Quit();
                     return;
+                }
+
+                // Fullscreen
+                if (e.type == SDL.EventType.KeyboardButtonDown)
+                {
+                    if (e.keyboard.keyCode == SDL.KeyCode.F)
+                    {
+                        Window.SetFullscreen(!Window.GetFullscreen());
+                    }
+                    
+                    if (e.keyboard.keyCode == SDL.KeyCode.Num1)
+                    {
+                        Window.SetSize(new Vector2(400, 400));
+                    }
+                    
+                    if (e.keyboard.keyCode == SDL.KeyCode.Num2)
+                    {
+                        Window.SetSize(new Vector2(800, 600));
+                    }
+                    
+                    if (e.keyboard.keyCode == SDL.KeyCode.M)
+                    {
+                        Window.SetMaximized(!Window.GetMaximized());
+                    }
+                    
+                    if (e.keyboard.keyCode == SDL.KeyCode.N)
+                    {
+                        Window.SetMinimized(!Window.GetMinimized());
+                    }
+                    
+                    if (e.keyboard.keyCode == SDL.KeyCode.R)
+                    {
+                        Window.Restore();
+                    }
                 }
                 
                 OnEvent(e);

@@ -12,9 +12,7 @@ namespace App
 
         public override bool Fullscreen { get; set; } = false;
         public override bool Resizable { get; set; } = true;
-        public override bool VSync { get; set; } = true;
 
-        public override int TargetFrameRate { get; set; } = 60;
         public override int Height { get; set; } = 600;
         public override int Width { get; set; } = 800;
     }

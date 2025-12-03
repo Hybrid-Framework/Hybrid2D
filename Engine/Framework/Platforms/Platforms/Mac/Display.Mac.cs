@@ -96,7 +96,7 @@ namespace Hybrid
     {
         public void Resize()
         {
-            Window.Size = Window.Size;
+            Window.SetSize(Window.GetSize());
         }
     }
     
