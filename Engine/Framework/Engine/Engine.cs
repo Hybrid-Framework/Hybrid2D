@@ -31,7 +31,7 @@ namespace Hybrid
             // Frame Time
             Time.BeforeFrame();
             
-            Console.WriteLine($"Restore: {Window.RestoreSize.X} {Window.RestoreSize.Y} Fullscreen: {Window.GetFullscreen()} Maximized: {Window.GetMaximized()} Minimized {Window.GetMinimized()}");
+            Console.WriteLine($"Flags: {Window.GetFlags()}");
             
             while (Platform.GetEvents().PollEvents(out SDL.Event e))
             {

@@ -27,7 +27,7 @@ namespace Hybrid
 
         public bool GetFullscreen()
         {
-            return (SDL.GetWindowFlags(Window.Handle) & SDL.WindowFlags.Fullscreen) != 0;
+            return Window.HasFlags(SDL.WindowFlags.Fullscreen);
         }
     }
 
@@ -42,7 +42,7 @@ namespace Hybrid
 
         public bool GetResizable()
         {
-            return (SDL.GetWindowFlags(Window.Handle) & SDL.WindowFlags.Resizable) != 0;
+            return Window.HasFlags(SDL.WindowFlags.Resizable);
         }
     }
 
@@ -52,19 +52,12 @@ namespace Hybrid
     {
         public void SetMaximized(bool maximized)
         {
-            if (maximized)
-            {
-                SDL.MaximizeWindow(Window.Handle);
-            }
-            else
-            {
-                Window.Restore();
-            }
+            // stub
         }
 
         public bool GetMaximized()
         {
-            return (SDL.GetWindowFlags(Window.Handle) & SDL.WindowFlags.Maximized) != 0;
+            return false;
         }
     }
 
@@ -74,19 +67,12 @@ namespace Hybrid
     {
         public void SetMinimized(bool minimized)
         {
-            if (minimized)
-            {
-                SDL.MinimizeWindow(Window.Handle);
-            }
-            else
-            {
-                Window.Restore();
-            }
+            // stub
         }
 
         public bool GetMinimized()
         {
-            return (SDL.GetWindowFlags(Window.Handle) & SDL.WindowFlags.Minimized) != 0;
+            return false;
         }
     }
 

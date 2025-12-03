@@ -27,7 +27,7 @@ namespace Hybrid
 
         public bool GetFullscreen()
         {
-            return (SDL.GetWindowFlags(Window.Handle) & SDL.WindowFlags.Fullscreen) != 0;
+            return Window.HasFlags(SDL.WindowFlags.Fullscreen);
         }
     }
 
@@ -42,7 +42,7 @@ namespace Hybrid
 
         public bool GetResizable()
         {
-            return (SDL.GetWindowFlags(Window.Handle) & SDL.WindowFlags.Resizable) != 0;
+            return Window.HasFlags(SDL.WindowFlags.Resizable);
         }
     }
     
@@ -70,7 +70,7 @@ namespace Hybrid
         public bool GetMaximized()
         {
             var mobile = Platform.GetSystem().GetUnderlyingDevice() == UnderlyingDevice.Mobile;
-            var maximized = Emscripten.RunScriptInt("HybridJS.IsFillDocument();") == 1;
+            var maximized = Window.HasFlags(SDL.WindowFlags.Maximized);
 
             return maximized || mobile;
         }
