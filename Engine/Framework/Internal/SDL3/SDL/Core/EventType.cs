@@ -17,8 +17,10 @@ internal static unsafe partial class SDL
         Unfocused = 527,
         SafeArea = 533,
         Orientation = 337,
-        EnterFullscreen = 535,
-        ExitFullscreen = 536,
+        FullscreenOn = 535,
+        FullscreenOff = 536,
+        ResizableOn = (User + 1),
+        ResizableOff = (User + 2),
         
         KeyboardButtonUp = 769,
         KeyboardButtonDown = 768,
@@ -52,6 +54,7 @@ internal static unsafe partial class SDL
         
         First = 0,
         Quit = 256,
+        User = 32768,
         Last = 65535,
         Clipboard = 2304,
     }

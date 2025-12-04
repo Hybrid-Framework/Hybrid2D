@@ -17,4 +17,12 @@ internal static unsafe partial class SDL
     {
         return SDL_PushEvent(ref e);
     }
+    
+    // Has Event
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool SDL_HasEvent(uint e);
+    public static bool HasEvent(SDL.EventType e)
+    {
+        return SDL_HasEvent((uint)e);
+    }
 }

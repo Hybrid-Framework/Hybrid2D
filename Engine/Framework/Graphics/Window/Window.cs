@@ -7,6 +7,7 @@ namespace Hybrid
     {
         private Window() { }
         
+        internal static WindowEvents Events { get; set; }
         internal static WindowFlags Flags { get; set; }
         internal static SDL.Window* Handle
         {
@@ -24,9 +25,14 @@ namespace Hybrid
             var web = Platform.GetSystem().GetUnderlyingPlatform() == UnderlyingPlatform.Web;
             
             // Window Flags
-            Flags = new WindowFlags(SDL.WindowFlags.HighPixelDensity);
+            Flags = new WindowFlags();
+            Flags.SetFlags(SDL.WindowFlags.HighPixelDensity);
             if ((config.Fullscreen || mobile) && !web) Flags.SetFlags(SDL.WindowFlags.Fullscreen);
             if ((config.Resizable || mobile) && !web) Flags.SetFlags(SDL.WindowFlags.Resizable);
+            
+            // Window Events
+            Events = new WindowEvents();
+            Events.RegisterEvents();
         
             // Window Creation
             Handle = SDL.CreateWindow(config.Title, config.Width, config.Height, Flags.GetFlags());
@@ -36,8 +42,6 @@ namespace Hybrid
             var icon = SDL_image.Load(config.Icon);
             SDL.SetWindowIcon(Handle, icon);
             SDL.DestroySurface(icon);
-
-            RegisterEvents();
             
             base.OnInitialize();
         }
@@ -46,39 +50,59 @@ namespace Hybrid
         internal override void OnEvent(SDL.Event e)
         {
             Flags.OnEvent(e);
-            Events(e);
-            
-            // Fullscreen
-            if (e.type == SDL.EventType.KeyboardButtonDown)
+            Events.OnEvent(e);
+
+            switch (e.type)
             {
-                if (e.keyboard.keyCode == SDL.KeyCode.F)
+                case SDL.EventType.Resized:
                 {
-                    SetFullscreen(!GetFullscreen());
-                }
+                    if (Platform.GetDisplay().Resize())
+                    {
+                        if (!GetFullscreen() && !GetMaximized() && !GetMinimized())
+                        {
+                            SDL.GetWindowSize(Handle, out var w, out var h);
+                            {
+                                Size = new Vector2(w, h);
+                            }
+                        }
+                    }
                     
-                if (e.keyboard.keyCode == SDL.KeyCode.Num1)
-                {
-                    SetSize(400, 400);
+                    break;
                 }
-                    
-                if (e.keyboard.keyCode == SDL.KeyCode.Num2)
+                
+                case SDL.EventType.KeyboardButtonDown:
                 {
-                    SetSize(800, 600);
-                }
+                    if (e.keyboard.keyCode == SDL.KeyCode.F)
+                    {
+                        SetFullscreen(!GetFullscreen());
+                    }
+                
+                    if (e.keyboard.keyCode == SDL.KeyCode.Num1)
+                    {
+                        SetSize(400, 400);
+                    }
+                
+                    if (e.keyboard.keyCode == SDL.KeyCode.Num2)
+                    {
+                        SetSize(800, 600);
+                    }
+                
+                    if (e.keyboard.keyCode == SDL.KeyCode.M)
+                    {
+                        SetMaximized(!GetMaximized());
+                    }
+                
+                    if (e.keyboard.keyCode == SDL.KeyCode.N)
+                    {
+                        SetMinimized(!GetMinimized());
+                    }
+                
+                    if (e.keyboard.keyCode == SDL.KeyCode.R)
+                    {
+                        Restore();
+                    }
                     
-                if (e.keyboard.keyCode == SDL.KeyCode.M)
-                {
-                    SetMaximized(!GetMaximized());
-                }
-                    
-                if (e.keyboard.keyCode == SDL.KeyCode.N)
-                {
-                    SetMinimized(!GetMinimized());
-                }
-                    
-                if (e.keyboard.keyCode == SDL.KeyCode.R)
-                {
-                    Restore();
+                    break;
                 }
             }
             
@@ -121,8 +145,6 @@ namespace Hybrid
             {
                 if(fullscreen) Flags.SetFlags(SDL.WindowFlags.Fullscreen);
                 if(!fullscreen) Flags.ClearFlags(SDL.WindowFlags.Fullscreen);
-                
-                OnFullscreen?.Invoke();
             }
         }
 
@@ -164,8 +186,6 @@ namespace Hybrid
                 {
                     if (maximized) Flags.SetFlags(SDL.WindowFlags.Maximized);
                     if (!maximized) Flags.ClearFlags(SDL.WindowFlags.Maximized);
-                    
-                    OnMaximized?.Invoke();
                 }
             }
         }
@@ -187,8 +207,6 @@ namespace Hybrid
                 {
                     if(minimized) Flags.SetFlags(SDL.WindowFlags.Minimized);
                     if(!minimized) Flags.ClearFlags(SDL.WindowFlags.Minimized);
-                    
-                    OnMinimized?.Invoke();
                 }
             }
         }
@@ -299,7 +317,6 @@ namespace Hybrid
             if (!GetFullscreen())
             {
                 SDL.ShowWindow(Handle);
-                OnShow?.Invoke();
             }
         }
 
@@ -308,7 +325,6 @@ namespace Hybrid
             if (!GetFullscreen())
             {
                 SDL.HideWindow(Handle);
-                OnHide?.Invoke();
             }
         }
     }
@@ -338,140 +354,6 @@ namespace Hybrid
                     Flags.ClearFlags(SDL.WindowFlags.Minimized | SDL.WindowFlags.Maximized);
                     SetSize((int)Size.X, (int)Size.Y);
                     SDL.RestoreWindow(Handle);
-                    OnRestore?.Invoke();
-                }
-            }
-        }
-    }
-    
-    // Events
-    public unsafe partial class Window
-    {
-        public static Action OnOrientation = null;
-        public static Action OnFullscreen = null;
-        public static Action OnMaximized = null;
-        public static Action OnMinimized = null;
-        public static Action OnResized = null;
-        public static Action OnUnfocus = null;
-        public static Action OnFocus = null;
-        public static Action OnHide = null;
-        public static Action OnShow = null;
-        public static Action OnMoved = null;
-        public static Action OnRestore = null;
-
-
-        internal void RegisterEvents()
-        {
-            OnOrientation += CallOnOrientation;
-            OnFullscreen += CallOnFullscreen;
-            OnMaximized += CallOnMaximized;
-            OnMinimized += CallOnMinimized;
-            OnResized += CallOnResized;
-            OnUnfocus += CallOnUnfocus;
-            OnFocus += CallOnFocus;
-            OnHide += CallOnHide;
-            OnShow += CallOnShow;
-            OnMoved += CallOnMoved;
-            OnRestore += CallOnRestore;
-        }
-
-        private void CallOnOrientation() => Console.WriteLine("OnOrientation");
-        private void CallOnFullscreen() => Console.WriteLine("OnFullscreen");
-        private void CallOnMaximized() => Console.WriteLine("OnMaximized");
-        private void CallOnMinimized() => Console.WriteLine("OnMinimized");
-        private void CallOnResized() => Console.WriteLine("OnResized");
-        private void CallOnUnfocus() => Console.WriteLine("OnUnfocus");
-        private void CallOnFocus() => Console.WriteLine("OnFocus");
-        private void CallOnHide() => Console.WriteLine("OnHide");
-        private void CallOnShow() => Console.WriteLine("OnShow");
-        private void CallOnMoved() => Console.WriteLine("OnMoved");
-        private void CallOnRestore() => Console.WriteLine("OnRestore");
-
-        internal void Events(SDL.Event e)
-        {
-            switch (e.type)
-            {
-                case SDL.EventType.Resized:
-                {
-                    if (Platform.GetDisplay().Resize())
-                    {
-                        if (!GetFullscreen() && !GetMaximized() && !GetMinimized())
-                        {
-                            SDL.GetWindowSize(Handle, out var w, out var h);
-                            {
-                                Size = new Vector2(w, h);
-                            }
-                        }
-                    }
-                    
-                    OnResized?.Invoke();
-                    break;
-                }
-                
-                case SDL.EventType.Orientation:
-                {
-                    OnOrientation?.Invoke();
-                    break;
-                }
-                
-                case SDL.EventType.EnterFullscreen:
-                {
-                    OnFullscreen?.Invoke();
-                    break;
-                }
-                
-                case SDL.EventType.ExitFullscreen:
-                {
-                    OnFullscreen?.Invoke();
-                    break;
-                }
-
-                case SDL.EventType.Maximized:
-                {
-                    OnMaximized?.Invoke();
-                    break;
-                }
-                
-                case SDL.EventType.Minimized:
-                {
-                    OnMinimized?.Invoke();
-                    break;
-                }
-                
-                case SDL.EventType.Moved:
-                {
-                    OnMoved?.Invoke();
-                    break;
-                }
-                
-                case SDL.EventType.Restored:
-                {
-                    OnRestore?.Invoke();
-                    break;
-                }
-                
-                case SDL.EventType.Hidden:
-                {
-                    OnHide?.Invoke();
-                    break;
-                }
-                
-                case SDL.EventType.Shown:
-                {
-                    OnShow?.Invoke();
-                    break;
-                }
-                
-                case SDL.EventType.Focused:
-                {
-                    OnFocus?.Invoke();
-                    break;
-                }
-                
-                case SDL.EventType.Unfocused:
-                {
-                    OnUnfocus?.Invoke();
-                    break;
                 }
             }
         }

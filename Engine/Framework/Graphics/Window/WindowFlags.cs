@@ -4,11 +4,6 @@ namespace Hybrid
 {
     internal class WindowFlags
     {
-        internal WindowFlags(SDL.WindowFlags flags)
-        {
-            Flags = flags;
-        }
-        
         private static SDL.WindowFlags Flags
         {
             get; set;
@@ -38,13 +33,13 @@ namespace Hybrid
         {
             switch (e.type)
             {
-                case SDL.EventType.EnterFullscreen:
+                case SDL.EventType.FullscreenOn:
                 {
                     SetFlags(SDL.WindowFlags.Fullscreen);
                     break;
                 }
                 
-                case SDL.EventType.ExitFullscreen:
+                case SDL.EventType.FullscreenOff:
                 {
                     ClearFlags(SDL.WindowFlags.Fullscreen);
                     break;
