@@ -4,8 +4,8 @@ internal static unsafe partial class SDL
 {
     public enum EventType
     {
-        Shown = 514,
-        Hidden = 515,
+        Show = 514,
+        Hide = 515,
         Moved = 517,
         Resized = 518,
         Minimized = 521,
@@ -21,6 +21,7 @@ internal static unsafe partial class SDL
         FullscreenOff = 536,
         ResizableOn = (User + 1),
         ResizableOff = (User + 2),
+        Raised = (User + 3),
         
         KeyboardButtonUp = 769,
         KeyboardButtonDown = 768,

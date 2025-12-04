@@ -9,6 +9,22 @@ namespace Hybrid
         
         internal static WindowEvents Events { get; set; }
         internal static WindowFlags Flags { get; set; }
+        
+        public static Action OnOrientation = null;
+        public static Action OnFullscreen = null;
+        public static Action OnMaximized = null;
+        public static Action OnMinimized = null;
+        public static Action OnResized = null;
+        public static Action OnUnfocus = null;
+        public static Action OnFocus = null;
+        public static Action OnHide = null;
+        public static Action OnShow = null;
+        public static Action OnMoved = null;
+        public static Action OnRestore = null;
+        public static Action OnRaise = null;
+        public static Action OnEnter = null;
+        public static Action OnExit = null;
+        
         internal static SDL.Window* Handle
         {
             private set;
@@ -24,16 +40,15 @@ namespace Hybrid
             var mobile = Platform.GetSystem().GetUnderlyingDevice() == UnderlyingDevice.Mobile;
             var web = Platform.GetSystem().GetUnderlyingPlatform() == UnderlyingPlatform.Web;
             
-            // Window Flags
+            // Window Objects
             Flags = new WindowFlags();
+            Events = new WindowEvents();
+            
+            // Window Flags
             Flags.SetFlags(SDL.WindowFlags.HighPixelDensity);
             if ((config.Fullscreen || mobile) && !web) Flags.SetFlags(SDL.WindowFlags.Fullscreen);
-            if ((config.Resizable || mobile) && !web) Flags.SetFlags(SDL.WindowFlags.Resizable);
+            if (config.Resizable || mobile) Flags.SetFlags(SDL.WindowFlags.Resizable);
             
-            // Window Events
-            Events = new WindowEvents();
-            Events.RegisterEvents();
-        
             // Window Creation
             Handle = SDL.CreateWindow(config.Title, config.Width, config.Height, Flags.GetFlags());
             Size = new Vector2(config.Width, config.Height);
@@ -49,8 +64,8 @@ namespace Hybrid
         // Events
         internal override void OnEvent(SDL.Event e)
         {
-            Flags.OnEvent(e);
             Events.OnEvent(e);
+            Flags.OnEvent(e);
 
             switch (e.type)
             {
@@ -102,6 +117,11 @@ namespace Hybrid
                         Restore();
                     }
                     
+                    if (e.keyboard.keyCode == SDL.KeyCode.T)
+                    {
+                        SetResizable(!GetResizable());
+                    }
+                    
                     break;
                 }
             }
@@ -143,8 +163,8 @@ namespace Hybrid
         {
             if (Platform.GetDisplay().SetFullscreen(fullscreen))
             {
-                if(fullscreen) Flags.SetFlags(SDL.WindowFlags.Fullscreen);
-                if(!fullscreen) Flags.ClearFlags(SDL.WindowFlags.Fullscreen);
+                // BUG IN SDL (due to be fixed in SDL 3.6) (still fires event)
+                // Events.Push(fullscreen ? SDL.EventType.FullscreenOn : SDL.EventType.FullscreenOff);
             }
         }
 
@@ -163,8 +183,7 @@ namespace Hybrid
             {
                 if (Platform.GetDisplay().SetResizable(resizable))
                 {
-                    if (resizable) Flags.SetFlags(SDL.WindowFlags.Resizable);
-                    if (!resizable) Flags.ClearFlags(SDL.WindowFlags.Resizable);
+                    Events.Push(resizable ? SDL.EventType.ResizableOn : SDL.EventType.ResizableOff);
                 }
             }
         }
@@ -180,12 +199,14 @@ namespace Hybrid
     {
         public static void SetMaximized(bool maximized)
         {
-            if (!GetFullscreen())
+            if (!GetFullscreen() && GetResizable())
             {
                 if (Platform.GetDisplay().SetMaximized(maximized))
                 {
-                    if (maximized) Flags.SetFlags(SDL.WindowFlags.Maximized);
-                    if (!maximized) Flags.ClearFlags(SDL.WindowFlags.Maximized);
+                    if (maximized)
+                    {
+                        Events.Push(SDL.EventType.Maximized);
+                    }
                 }
             }
         }
@@ -205,8 +226,10 @@ namespace Hybrid
             {
                 if (Platform.GetDisplay().SetMinimized(minimized))
                 {
-                    if(minimized) Flags.SetFlags(SDL.WindowFlags.Minimized);
-                    if(!minimized) Flags.ClearFlags(SDL.WindowFlags.Minimized);
+                    if (minimized)
+                    {
+                        Events.Push(SDL.EventType.Minimized);
+                    }
                 }
             }
         }
@@ -229,7 +252,10 @@ namespace Hybrid
         {
             if (!GetFullscreen() && !GetMaximized() && !GetMinimized())
             {
-                SDL.SetWindowPosition(Handle, (int)position.X, (int)position.Y);
+                if (SDL.SetWindowPosition(Handle, (int)position.X, (int)position.Y))
+                {
+                    Events.Push(SDL.EventType.Moved);
+                }
             }
         }
 
@@ -316,7 +342,10 @@ namespace Hybrid
         {
             if (!GetFullscreen())
             {
-                SDL.ShowWindow(Handle);
+                if (SDL.ShowWindow(Handle))
+                {
+                    Events.Push(SDL.EventType.Show);
+                }
             }
         }
 
@@ -324,7 +353,10 @@ namespace Hybrid
         {
             if (!GetFullscreen())
             {
-                SDL.HideWindow(Handle);
+                if (SDL.HideWindow(Handle))
+                {
+                    Events.Push(SDL.EventType.Hide);
+                }
             }
         }
     }
@@ -341,7 +373,10 @@ namespace Hybrid
         {
             if (!GetFullscreen())
             {
-                SDL.RaiseWindow(Handle);
+                if (SDL.RaiseWindow(Handle))
+                {
+                    Events.Push(SDL.EventType.Raised);
+                }
             }
         }
         
@@ -349,12 +384,13 @@ namespace Hybrid
         {
             if (!GetFullscreen())
             {
-                if ((int)GetSize().X != (int)Size.X && (int)GetSize().Y != (int)Size.Y)
+                if (GetMaximized() || GetMaximized())
                 {
-                    Flags.ClearFlags(SDL.WindowFlags.Minimized | SDL.WindowFlags.Maximized);
-                    SetSize((int)Size.X, (int)Size.Y);
+                    Events.Push(SDL.EventType.Restored);
                     SDL.RestoreWindow(Handle);
                 }
+                
+                SetSize((int)Size.X, (int)Size.Y);
             }
         }
     }

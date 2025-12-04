@@ -2,46 +2,20 @@
 
 namespace Hybrid
 {
-    internal unsafe class WindowEvents
+    internal class WindowEvents
     {
-        private void CallOnOrientation() => Console.WriteLine("OnOrientation");
-        private void CallOnFullscreen() => Console.WriteLine("OnFullscreen");
-        private void CallOnMaximized() => Console.WriteLine("OnMaximized");
-        private void CallOnMinimized() => Console.WriteLine("OnMinimized");
-        private void CallOnResized() => Console.WriteLine("OnResized");
-        private void CallOnUnfocus() => Console.WriteLine("OnUnfocus");
-        private void CallOnFocus() => Console.WriteLine("OnFocus");
-        private void CallOnHide() => Console.WriteLine("OnHide");
-        private void CallOnShow() => Console.WriteLine("OnShow");
-        private void CallOnMoved() => Console.WriteLine("OnMoved");
-        private void CallOnRestore() => Console.WriteLine("OnRestore");
-        
-        public static Action OnOrientation = null;
-        public static Action OnFullscreen = null;
-        public static Action OnMaximized = null;
-        public static Action OnMinimized = null;
-        public static Action OnResized = null;
-        public static Action OnUnfocus = null;
-        public static Action OnFocus = null;
-        public static Action OnHide = null;
-        public static Action OnShow = null;
-        public static Action OnMoved = null;
-        public static Action OnRestore = null;
-
-
-        internal void RegisterEvents()
+        internal void Push(SDL.EventType e)
         {
-            OnOrientation += CallOnOrientation;
-            OnFullscreen += CallOnFullscreen;
-            OnMaximized += CallOnMaximized;
-            OnMinimized += CallOnMinimized;
-            OnResized += CallOnResized;
-            OnUnfocus += CallOnUnfocus;
-            OnFocus += CallOnFocus;
-            OnHide += CallOnHide;
-            OnShow += CallOnShow;
-            OnMoved += CallOnMoved;
-            OnRestore += CallOnRestore;
+            if (!SDL.HasEvent(e))
+            {
+                SDL.Event custom = new SDL.Event()
+                {
+                    type = e
+                };
+
+                Window.Flags.OnEvent(custom);
+                SDL.PushEvent(ref custom);
+            }
         }
 
         internal void OnEvent(SDL.Event e)
@@ -50,73 +24,79 @@ namespace Hybrid
             {
                 case SDL.EventType.Resized:
                 {
-                    OnResized?.Invoke();
+                    Window.OnResized?.Invoke();
                     break;
                 }
                 
                 case SDL.EventType.Orientation:
                 {
-                    OnOrientation?.Invoke();
+                    Window.OnOrientation?.Invoke();
                     break;
                 }
                 
                 case SDL.EventType.FullscreenOn:
                 {
-                    OnFullscreen?.Invoke();
+                    Window.OnFullscreen?.Invoke();
                     break;
                 }
                 
                 case SDL.EventType.FullscreenOff:
                 {
-                    OnFullscreen?.Invoke();
+                    Window.OnFullscreen?.Invoke();
                     break;
                 }
 
                 case SDL.EventType.Maximized:
                 {
-                    OnMaximized?.Invoke();
+                    Window.OnMaximized?.Invoke();
                     break;
                 }
                 
                 case SDL.EventType.Minimized:
                 {
-                    OnMinimized?.Invoke();
+                    Window.OnMinimized?.Invoke();
                     break;
                 }
                 
                 case SDL.EventType.Moved:
                 {
-                    OnMoved?.Invoke();
+                    Window.OnMoved?.Invoke();
                     break;
                 }
                 
                 case SDL.EventType.Restored:
                 {
-                    OnRestore?.Invoke();
+                    Window.OnRestore?.Invoke();
                     break;
                 }
                 
-                case SDL.EventType.Hidden:
+                case SDL.EventType.Hide:
                 {
-                    OnHide?.Invoke();
+                    Window.OnHide?.Invoke();
                     break;
                 }
                 
-                case SDL.EventType.Shown:
+                case SDL.EventType.Show:
                 {
-                    OnShow?.Invoke();
+                    Window.OnShow?.Invoke();
+                    break;
+                }
+                
+                case SDL.EventType.Raised:
+                {
+                    Window.OnRaise?.Invoke();
                     break;
                 }
                 
                 case SDL.EventType.Focused:
                 {
-                    OnFocus?.Invoke();
+                    Window.OnFocus?.Invoke();
                     break;
                 }
                 
                 case SDL.EventType.Unfocused:
                 {
-                    OnUnfocus?.Invoke();
+                    Window.OnUnfocus?.Invoke();
                     break;
                 }
             }

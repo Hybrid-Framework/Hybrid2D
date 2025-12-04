@@ -45,6 +45,18 @@ namespace Hybrid
                     break;
                 }
                 
+                case SDL.EventType.ResizableOn:
+                {
+                    SetFlags(SDL.WindowFlags.Resizable);
+                    break;
+                }
+                
+                case SDL.EventType.ResizableOff:
+                {
+                    ClearFlags(SDL.WindowFlags.Resizable);
+                    break;
+                }
+                
                 case SDL.EventType.Maximized:
                 {
                     ClearFlags(SDL.WindowFlags.Minimized);
