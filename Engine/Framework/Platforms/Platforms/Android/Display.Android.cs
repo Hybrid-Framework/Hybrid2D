@@ -5,9 +5,9 @@ namespace Hybrid
     // Title
     internal unsafe partial class AndroidDisplay : IPlatformDisplay
     {
-        public void SetTitle(string title)
+        public bool SetTitle(string title)
         {
-            SDL.SetWindowTitle(Window.Handle, title);
+            return SDL.SetWindowTitle(Window.Handle, title);
         }
 
         public string GetTitle()
@@ -20,14 +20,14 @@ namespace Hybrid
     // Fullscreen
     internal unsafe partial class AndroidDisplay
     {
-        public void SetFullscreen(bool fullscreen)
+        public bool SetFullscreen(bool fullscreen)
         {
-            SDL.SetWindowFullscreen(Window.Handle, true);
+            return SDL.SetWindowFullscreen(Window.Handle, true);
         }
 
         public bool GetFullscreen()
         {
-            return Window.HasFlags(SDL.WindowFlags.Fullscreen);
+            return Window.Flags.HasFlags(SDL.WindowFlags.Fullscreen);
         }
     }
     
@@ -35,14 +35,14 @@ namespace Hybrid
     // Resizable
     internal unsafe partial class AndroidDisplay
     {
-        public void SetResizable(bool resizable)
+        public bool SetResizable(bool resizable)
         {
-            SDL.SetWindowResizable(Window.Handle, resizable);
+            return SDL.SetWindowResizable(Window.Handle, resizable);
         }
 
         public bool GetResizable()
         {
-            return Window.HasFlags(SDL.WindowFlags.Resizable);
+            return Window.Flags.HasFlags(SDL.WindowFlags.Resizable);
         }
     }
     
@@ -50,9 +50,9 @@ namespace Hybrid
     // Maximize
     internal unsafe partial class AndroidDisplay
     {
-        public void SetMaximized(bool maximized)
+        public bool SetMaximized(bool maximized)
         {
-            // stub
+            return false;
         }
 
         public bool GetMaximized()
@@ -65,9 +65,9 @@ namespace Hybrid
     // Minimize
     internal unsafe partial class AndroidDisplay
     {
-        public void SetMinimized(bool minimized)
+        public bool SetMinimized(bool minimized)
         {
-            // stub
+            return false;
         }
 
         public bool GetMinimized()
@@ -80,9 +80,9 @@ namespace Hybrid
     // Resize
     internal unsafe partial class AndroidDisplay
     {
-        public void Resize()
+        public bool Resize()
         {
-            Window.Size = Window.Size;
+            return true;
         }
     }
     

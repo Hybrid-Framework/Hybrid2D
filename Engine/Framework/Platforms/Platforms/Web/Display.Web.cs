@@ -5,9 +5,9 @@ namespace Hybrid
     // Title
     internal unsafe partial class WebDisplay : IPlatformDisplay
     {
-        public void SetTitle(string title)
+        public bool SetTitle(string title)
         {
-            SDL.SetWindowTitle(Window.Handle, title);
+            return SDL.SetWindowTitle(Window.Handle, title);
         }
 
         public string GetTitle()
@@ -20,14 +20,14 @@ namespace Hybrid
     // Fullscreen
     internal unsafe partial class WebDisplay
     {
-        public void SetFullscreen(bool fullscreen)
+        public bool SetFullscreen(bool fullscreen)
         {
-            SDL.SetWindowFullscreen(Window.Handle, fullscreen);
+            return SDL.SetWindowFullscreen(Window.Handle, fullscreen);
         }
 
         public bool GetFullscreen()
         {
-            return Window.HasFlags(SDL.WindowFlags.Fullscreen);
+            return Window.Flags.HasFlags(SDL.WindowFlags.Fullscreen);
         }
     }
 
@@ -35,14 +35,14 @@ namespace Hybrid
     // Resizable
     internal unsafe partial class WebDisplay
     {
-        public void SetResizable(bool resizable)
+        public bool SetResizable(bool resizable)
         {
-            SDL.SetWindowResizable(Window.Handle, resizable);
+            return SDL.SetWindowResizable(Window.Handle, resizable);
         }
 
         public bool GetResizable()
         {
-            return Window.HasFlags(SDL.WindowFlags.Resizable);
+            return Window.Flags.HasFlags(SDL.WindowFlags.Resizable);
         }
     }
     
@@ -50,7 +50,7 @@ namespace Hybrid
     // Maximize
     internal unsafe partial class WebDisplay
     {
-        public void SetMaximized(bool maximized)
+        public bool SetMaximized(bool maximized)
         {
             if (maximized)
             {
@@ -59,19 +59,18 @@ namespace Hybrid
                 int w = Emscripten.RunScriptInt("HybridJS.GetCanvasWidth();");
                 int h = Emscripten.RunScriptInt("HybridJS.GetCanvasHeight();");
 
-                SDL.SetWindowSize(Window.Handle, w, h);
+                return SDL.SetWindowSize(Window.Handle, w, h);
             }
-            else
-            {
-                Window.Restore();
-            }
+            
+            Window.Restore();
+            return true;
         }
 
         public bool GetMaximized()
         {
             var mobile = Platform.GetSystem().GetUnderlyingDevice() == UnderlyingDevice.Mobile;
-            var maximized = Window.HasFlags(SDL.WindowFlags.Maximized);
-
+            var maximized = Window.Flags.HasFlags(SDL.WindowFlags.Maximized);
+            
             return maximized || mobile;
         }
     }
@@ -80,9 +79,9 @@ namespace Hybrid
     // Minimize
     internal unsafe partial class WebDisplay
     {
-        public void SetMinimized(bool minimized)
+        public bool SetMinimized(bool minimized)
         {
-            Window.Restore();
+            return false;
         }
 
         public bool GetMinimized()
@@ -95,7 +94,7 @@ namespace Hybrid
     // Resize
     internal unsafe partial class WebDisplay
     {
-        public void Resize()
+        public bool Resize()
         {
             if (Platform.GetDisplay().GetFullscreen() || Platform.GetDisplay().GetMaximized())
             {
@@ -104,12 +103,11 @@ namespace Hybrid
                 int w = Emscripten.RunScriptInt("HybridJS.GetCanvasWidth();");
                 int h = Emscripten.RunScriptInt("HybridJS.GetCanvasHeight();");
 
-                SDL.SetWindowSize(Window.Handle, w, h);
+                return SDL.SetWindowSize(Window.Handle, w, h);
             }
-            else
-            {
-                Window.Restore();
-            }
+            
+            Window.Restore();
+            return true;
         }
     }
     

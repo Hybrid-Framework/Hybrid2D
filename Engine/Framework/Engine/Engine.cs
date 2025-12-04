@@ -31,8 +31,6 @@ namespace Hybrid
             // Frame Time
             Time.BeforeFrame();
             
-            Console.WriteLine($"Flags: {Window.GetFlags()}");
-            
             while (Platform.GetEvents().PollEvents(out SDL.Event e))
             {
                 // Quit Application
@@ -40,50 +38,6 @@ namespace Hybrid
                 {
                     Quit();
                     return;
-                }
-
-                // Fullscreen
-                if (e.type == SDL.EventType.KeyboardButtonDown)
-                {
-                    if (e.keyboard.keyCode == SDL.KeyCode.F)
-                    {
-                        Window.Fullscreen = !Window.Fullscreen;
-                    }
-                    
-                    if (e.keyboard.keyCode == SDL.KeyCode.Num1)
-                    {
-                        Window.Size = new Vector2(400, 400);
-                    }
-                    
-                    if (e.keyboard.keyCode == SDL.KeyCode.Num2)
-                    {
-                        Window.Size = new Vector2(800, 600);
-                    }
-                    
-                    if (e.keyboard.keyCode == SDL.KeyCode.Num3)
-                    {
-                        Window.Width = 1000;
-                    }
-                    
-                    if (e.keyboard.keyCode == SDL.KeyCode.Num4)
-                    {
-                        Window.Height = 1000;
-                    }
-                    
-                    if (e.keyboard.keyCode == SDL.KeyCode.M)
-                    {
-                        Window.Maximized = !Window.Maximized;
-                    }
-                    
-                    if (e.keyboard.keyCode == SDL.KeyCode.N)
-                    {
-                        Window.Minimized = !Window.Minimized;
-                    }
-                    
-                    if (e.keyboard.keyCode == SDL.KeyCode.R)
-                    {
-                        Window.Restore();
-                    }
                 }
                 
                 OnEvent(e);
