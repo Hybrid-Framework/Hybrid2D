@@ -30,6 +30,21 @@ namespace Hybrid
             return Window.Flags.HasFlags(SDL.WindowFlags.Fullscreen);
         }
     }
+    
+    
+    // Borderless
+    internal unsafe partial class WebDisplay
+    {
+        public bool SetBorderless(bool borderless)
+        {
+            return false;
+        }
+
+        public bool GetBorderless()
+        {
+            return false;
+        }
+    }
 
     
     // Resizable

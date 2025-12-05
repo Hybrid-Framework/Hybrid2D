@@ -45,6 +45,18 @@ namespace Hybrid
                     break;
                 }
                 
+                case SDL.EventType.BorderlessOn:
+                {
+                    SetFlags(SDL.WindowFlags.Borderless);
+                    break;
+                }
+                
+                case SDL.EventType.BorderlessOff:
+                {
+                    ClearFlags(SDL.WindowFlags.Borderless);
+                    break;
+                }
+                
                 case SDL.EventType.ResizableOn:
                 {
                     SetFlags(SDL.WindowFlags.Resizable);

@@ -21,7 +21,9 @@ internal static unsafe partial class SDL
         FullscreenOff = 536,
         ResizableOn = (User + 1),
         ResizableOff = (User + 2),
-        Raised = (User + 3),
+        BorderlessOn = (User + 3),
+        BorderlessOff = (User + 4),
+        Raised = (User + 5),
         
         KeyboardButtonUp = 769,
         KeyboardButtonDown = 768,

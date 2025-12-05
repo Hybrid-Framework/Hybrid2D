@@ -31,6 +31,21 @@ namespace Hybrid
         }
     }
     
+    
+    // Borderless
+    internal unsafe partial class AndroidDisplay
+    {
+        public bool SetBorderless(bool borderless)
+        {
+            return false;
+        }
+
+        public bool GetBorderless()
+        {
+            return false;
+        }
+    }
+    
 
     // Resizable
     internal unsafe partial class AndroidDisplay

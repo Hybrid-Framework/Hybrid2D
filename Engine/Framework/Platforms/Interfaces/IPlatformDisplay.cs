@@ -11,6 +11,9 @@ namespace Hybrid
         
         bool SetFullscreen(bool fullscreen);
         bool GetFullscreen();
+        
+        bool SetBorderless(bool borderless);
+        bool GetBorderless();
 
         bool SetResizable(bool resizable);
         bool GetResizable();

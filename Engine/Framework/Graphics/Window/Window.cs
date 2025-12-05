@@ -23,6 +23,7 @@ namespace Hybrid
         public static Action OnHide = null;
         public static Action OnShow = null;
         public static Action OnMoved = null;
+        public static Action OnBorder = null;
         public static Action OnRestore = null;
         public static Action OnRaise = null;
         
@@ -152,6 +153,26 @@ namespace Hybrid
         public static bool GetResizable()
         {
             return Platform.GetDisplay().GetResizable();
+        }
+    }
+
+    // Borderless
+    public unsafe partial class Window
+    {
+        public static void SetBorderless(bool borderless)
+        {
+            if (!GetFullscreen())
+            {
+                if (Platform.GetDisplay().SetBorderless(borderless))
+                {
+                    Events.Push(borderless ? SDL.EventType.BorderlessOn : SDL.EventType.BorderlessOff);
+                }
+            }
+        }
+        
+        public static bool GetBorderless()
+        {
+            return Platform.GetDisplay().GetBorderless();
         }
     }
 

@@ -45,6 +45,18 @@ namespace Hybrid
                     Window.OnFullscreen?.Invoke();
                     break;
                 }
+                
+                case SDL.EventType.BorderlessOn:
+                {
+                    Window.OnBorder?.Invoke();
+                    break;
+                }
+                
+                case SDL.EventType.BorderlessOff:
+                {
+                    Window.OnBorder?.Invoke();
+                    break;
+                }
 
                 case SDL.EventType.Maximized:
                 {
