@@ -29,8 +29,7 @@ Getting started...
 * 🌐 1. Clone the source: `git clone https://github.com/LloydJHowarth/Hybrid.git`
 * 📂 2. Open 'Hybrid.sln' in your favourite IDE such as [Rider](https://www.jetbrains.com/rider) or [Visual Studio](https://visualstudio.microsoft.com)
 * 🎮 3. Develop in the 'App' project provided to you
-* 🎯 4. Build your target platform
-* 🚀 5. Launch your game
+* 🚀 4. Build & launch your game
 
 
 <h2 id="platforms">🖥️ Platforms</h2>
@@ -46,7 +45,7 @@ Currently supports these platforms:
 Currently using these dependencies:
   * [EMSCRIPTEN 3.1.56](https://github.com/emscripten-core/emscripten)
   * [DOTNET 10.0](https://github.com/dotnet/runtime)
-  * [SDL 3.2](https://github.com/libsdl-org/SDL)
+  * [SDL 3.2.28](https://github.com/libsdl-org/SDL)
 
 
 <h2 id="contributions">🫂 Contributions</h2>
@@ -58,7 +57,7 @@ Current community and contributors:
 
 <h2 id="license">📄 License</h2>
 
- * This project is licensed under the [MIT LICENSE](LICENSE.txt).
  * All third-party dependencies are covered by their respective licenses.
+ * This project is licensed under the [MIT LICENSE](LICENSE.txt).
 
  
