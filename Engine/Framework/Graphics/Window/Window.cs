@@ -7,13 +7,16 @@ namespace Hybrid
     {
         private Window() { }
         
-        internal static WindowEvents Events { get; set; }
-        internal static WindowFlags Flags { get; set; }
+        internal static WindowEvents Events { get; private set; }
+        internal static WindowFlags Flags { get; private set; }
         
         public static Action OnOrientation = null;
         public static Action OnFullscreen = null;
         public static Action OnMaximized = null;
+        public static Action OnMouseEnter = null;
+        public static Action OnMouseExit = null;
         public static Action OnMinimized = null;
+        public static Action OnSafeArea = null;
         public static Action OnResized = null;
         public static Action OnUnfocus = null;
         public static Action OnFocus = null;
@@ -22,13 +25,11 @@ namespace Hybrid
         public static Action OnMoved = null;
         public static Action OnRestore = null;
         public static Action OnRaise = null;
-        public static Action OnEnter = null;
-        public static Action OnExit = null;
         
         internal static SDL.Window* Handle
         {
             private set;
-            get;
+            get; 
         }
         
 
@@ -80,46 +81,6 @@ namespace Hybrid
                                 Size = new Vector2(w, h);
                             }
                         }
-                    }
-                    
-                    break;
-                }
-                
-                case SDL.EventType.KeyboardButtonDown:
-                {
-                    if (e.keyboard.keyCode == SDL.KeyCode.F)
-                    {
-                        SetFullscreen(!GetFullscreen());
-                    }
-                
-                    if (e.keyboard.keyCode == SDL.KeyCode.Num1)
-                    {
-                        SetSize(400, 400);
-                    }
-                
-                    if (e.keyboard.keyCode == SDL.KeyCode.Num2)
-                    {
-                        SetSize(800, 600);
-                    }
-                
-                    if (e.keyboard.keyCode == SDL.KeyCode.M)
-                    {
-                        SetMaximized(!GetMaximized());
-                    }
-                
-                    if (e.keyboard.keyCode == SDL.KeyCode.N)
-                    {
-                        SetMinimized(!GetMinimized());
-                    }
-                
-                    if (e.keyboard.keyCode == SDL.KeyCode.R)
-                    {
-                        Restore();
-                    }
-                    
-                    if (e.keyboard.keyCode == SDL.KeyCode.T)
-                    {
-                        SetResizable(!GetResizable());
                     }
                     
                     break;
@@ -243,11 +204,6 @@ namespace Hybrid
     // Position
     public unsafe partial class Window
     {
-        public static void SetPosition(int x, int y)
-        {
-            SetPosition(new Vector2(x, y));
-        }
-
         public static void SetPosition(Vector2 position)
         {
             if (!GetFullscreen() && !GetMaximized() && !GetMinimized())
@@ -274,11 +230,6 @@ namespace Hybrid
         private static Vector2 Size
         {
             get; set;
-        }
-
-        public static void SetSize(int width, int height)
-        {
-            SetSize(new Vector2(width, height));
         }
 
         public static void SetSize(Vector2 size)
@@ -308,7 +259,7 @@ namespace Hybrid
         {
             if (!GetFullscreen())
             {
-                SetSize(width, (int)GetSize().Y);
+                SetSize(new Vector2(width, (int)GetSize().Y));
             }
         }
 
@@ -325,7 +276,7 @@ namespace Hybrid
         {
             if (!GetFullscreen())
             {
-                SetSize((int)GetSize().X, height);
+                SetSize(new Vector2((int)GetSize().X, height));
             }
         }
 
@@ -397,14 +348,23 @@ namespace Hybrid
         }
     }
     
-    // Functional
+    // Orientation
     public unsafe partial class Window
     {
+        public static void SetOrientation(Orientation orientation)
+        {
+            // Potentially implement at some point?
+        }
+
         public static Orientation GetOrientation()
         {
             return Platform.GetDisplay().GetOrientation();
         }
-        
+    }
+    
+    // Functional
+    public unsafe partial class Window
+    {
         public static void Raise()
         {
             if (!GetFullscreen())
@@ -426,7 +386,7 @@ namespace Hybrid
                     SDL.RestoreWindow(Handle);
                 }
                 
-                SetSize((int)Size.X, (int)Size.Y);
+                SetSize(new Vector2((int)Size.X, (int)Size.Y));
             }
         }
     }

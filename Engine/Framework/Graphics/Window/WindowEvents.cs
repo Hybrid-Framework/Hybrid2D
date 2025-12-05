@@ -99,6 +99,24 @@ namespace Hybrid
                     Window.OnUnfocus?.Invoke();
                     break;
                 }
+
+                case SDL.EventType.MouseEnter:
+                {
+                    Window.OnMouseEnter?.Invoke();
+                    break;
+                }
+                
+                case SDL.EventType.MouseExit:
+                {
+                    Window.OnMouseExit?.Invoke();
+                    break;
+                }
+                
+                case SDL.EventType.SafeArea:
+                {
+                    Window.OnSafeArea?.Invoke();
+                    break;
+                }
             }
         }
     }
