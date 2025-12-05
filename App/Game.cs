@@ -23,6 +23,9 @@ namespace App
         
         public override void OnSceneOpen()
         {
+            Window.SetPresentationMode(Presentation.Letterbox);
+            Window.SetPresentationSize(new Vector2(640, 480));
+            
             Window.OnOrientation += CallOnOrientation;
             Window.OnFullscreen += CallOnFullscreen;
             Window.OnMaximized += CallOnMaximized;

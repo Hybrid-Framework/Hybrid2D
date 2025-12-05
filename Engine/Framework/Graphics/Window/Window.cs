@@ -361,6 +361,42 @@ namespace Hybrid
         }
     }
     
+    // Presentation
+    public unsafe partial class Window
+    {
+        public static void SetPresentationMode(Presentation mode)
+        {
+            SDL.GetRenderLogicalPresentation(Graphics.Handle, out var w, out var h, out var presentation);
+            {
+                SDL.SetRenderLogicalPresentation(Graphics.Handle, w, h, (SDL.Presentation)mode);
+            }
+        }
+
+        public static Presentation GetPresentationMode()
+        {
+            SDL.GetRenderLogicalPresentation(Graphics.Handle, out var w, out var h, out var presentation);
+            {
+                return (Presentation)presentation;
+            }
+        }
+
+        public static void SetPresentationSize(Vector2 size)
+        {
+            SDL.GetRenderLogicalPresentation(Graphics.Handle, out var w, out var h, out var presentation);
+            {
+                SDL.SetRenderLogicalPresentation(Graphics.Handle, (int)size.X, (int)size.Y, presentation);
+            }
+        }
+
+        public static Vector2 GetPresentationSize()
+        {
+            SDL.GetRenderLogicalPresentation(Graphics.Handle, out var w, out var h, out var _);
+            {
+                return new Vector2(w, h);
+            }
+        }
+    }
+    
     // Functional
     public unsafe partial class Window
     {
