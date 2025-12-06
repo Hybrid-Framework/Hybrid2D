@@ -13,6 +13,9 @@ namespace Hybrid
 
         internal Object()
         {
+            if (Scenes.GetActiveScene() == null)
+                throw new Exception($"Can't create '{GetType().Name}' with no scene loaded");
+            
             Name = GetType().Name;
         }
 
