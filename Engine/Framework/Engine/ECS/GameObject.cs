@@ -140,9 +140,31 @@ namespace Hybrid
         }
     }
     
-    // Destroy Component
+    // Destroy Components
     public partial class GameObject
     {
+        internal bool DestroyComponent(Type type)
+        {
+            // Invalid Component
+            if (!typeof(Component).IsAssignableFrom(type))
+                throw new Exception($"Type '{type?.Name}' does not inherit from Component");
+            
+            // Find Component
+            var component = GetComponent(type);
+            
+            // Remove Component
+            return DestroyComponent(component);
+        }
+        
+        internal bool DestroyComponent<T>() where T : Component
+        {
+            // Find Component
+            var component = GetComponent<T>();
+            
+            // Remove Component
+            return DestroyComponent(component);
+        }
+
         internal bool DestroyComponent<T>(T component) where T : Component
         {
             // Invalid Component
@@ -157,7 +179,7 @@ namespace Hybrid
                 Components.Remove(component);
                 
                 // Destroy
-                Object.Destroy(component);
+                Destroy(component);
                 return true;
             }
 
