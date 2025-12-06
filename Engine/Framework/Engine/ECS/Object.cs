@@ -37,43 +37,12 @@ namespace Hybrid
         
         public bool IsDestroying()
         {
-            // Useful for knowing if an object is about to be destroyed
             return Destroying;
         }
 
         public bool IsDestroyed()
         {
-            // Useful for knowing if an object has been destroyed
             return Destroyed;
-        }
-    }
-
-    public partial class Object
-    {
-        public static T[] FindObjectsByType<T>() where T : Object
-        {
-            List<T> results = new();
-
-            if (Scenes.GetActiveScene() != null)
-            {
-                foreach(var gameObject in Scenes.GetActiveScene().GetSceneGameObjects())
-                {
-                    if (gameObject is T t)
-                    {
-                        results.Add(t);
-                    }
-                    
-                    foreach (Component component in gameObject.GetComponents())
-                    {
-                        if (component is T c)
-                        {
-                            results.Add(c);
-                        }
-                    }
-                }
-            }
-            
-            return results.ToArray();
         }
     }
 

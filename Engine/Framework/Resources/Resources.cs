@@ -7,12 +7,6 @@ namespace Hybrid
     {
         private Resources() { }
 
-        // Initialize
-        internal override void OnInitialize()
-        {
-            base.OnInitialize();
-        }
-
         // Dispose
         internal override void OnDispose()
         {
