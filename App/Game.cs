@@ -12,9 +12,11 @@ namespace App
             
             var test1 = obj1.AddComponent(typeof(TestComponent));
             var test2 = obj1.AddComponent<TestComponent>();
-            
-            Object.Destroy(test1);
-            Object.Destroy(test2);
+
+            foreach (var comp in obj1.GetComponents())
+            {
+                Object.Destroy(comp);
+            }
         }
 
         public override void OnSceneClose()

@@ -8,7 +8,7 @@ namespace Hybrid
         {
             if (GameObject != null)
             {
-                if (GameObject.DestroyComponent(this))
+                if (GameObject.DestroyComponentInternal(this))
                 {
                     GameObject = null;
                     Transform = null;
