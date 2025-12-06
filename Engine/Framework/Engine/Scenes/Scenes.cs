@@ -7,12 +7,11 @@ namespace Hybrid
     {
         internal override void OnInitialize()
         {
-            var scene = Platform.GetConfig().Scene;
-            
-            if (scene == null)
+            // Invalid Scene
+            if (Platform.GetConfig().Scene == null)
                 throw new Exception("No valid scene in config file");
             
-            Load(scene);
+            Load(Platform.GetConfig().Scene);
             
             base.OnInitialize();
         }
@@ -44,10 +43,7 @@ namespace Hybrid
         public static void Load(Scene scene)
         {
             if (scene == null)
-                throw new Exception($"Failed to load null scene");
-
-            if (Active == scene)
-                throw new Exception($"Scene '{scene.Name}' already loaded");
+                throw new Exception($"Failed to load invalid scene");
 
             if (Active != null)
             {
@@ -62,7 +58,7 @@ namespace Hybrid
             Active = scene;
             
             if (scene == null)
-                throw new Exception("Failed to open null scene");
+                throw new Exception("Failed to open invalid scene");
             
             Console.WriteLine($"Scene '{scene.Name}' opened");
             scene.OnSceneOpen();
@@ -71,9 +67,9 @@ namespace Hybrid
         private static void Close(Scene scene)
         {
             if (scene == null)
-                throw new Exception("Failed to close null scene");
+                throw new Exception("Failed to close invalid scene");
 
-            foreach (GameObject gameObject in Active.GetSceneGameObjects())
+            foreach (var gameObject in GetActiveScene().GetSceneGameObjects())
             {
                 Object.Destroy(gameObject);
             }
