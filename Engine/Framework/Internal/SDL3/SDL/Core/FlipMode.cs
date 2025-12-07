@@ -7,5 +7,6 @@ internal static unsafe partial class SDL
         None = 0,
         Horizontal = 1,
         Vertical = 2,
+        HorizontalVertical = (Horizontal | Vertical)
     }
 }

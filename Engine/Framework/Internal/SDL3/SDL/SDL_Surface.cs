@@ -60,4 +60,12 @@ internal static unsafe partial class SDL
     {
         return SDL_ConvertSurface(surface, format);
     }
+    
+    // Rotate Surface
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Surface* SDL_RotateSurface(SDL.Surface* surface, float angle);
+    public static SDL.Surface* RotateSurface(SDL.Surface* surface, float angle)
+    {
+        return SDL_RotateSurface(surface, angle);
+    }
 }

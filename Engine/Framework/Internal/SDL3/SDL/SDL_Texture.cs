@@ -34,6 +34,22 @@ internal static unsafe partial class SDL
         SDL_DestroyTexture(texture);
     }
     
+    // Set Default Texture Scale Mode
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool SDL_SetDefaultTextureScaleMode(SDL.Renderer* renderer, SDL.ScaleMode mode);
+    public static bool SetDefaultTextureScaleMode(SDL.Renderer* renderer, SDL.ScaleMode mode)
+    {
+        return SDL_SetDefaultTextureScaleMode(renderer, mode);
+    }
+    
+    // Get Default Texture Scale Mode
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool SDL_GetDefaultTextureScaleMode(SDL.Renderer* renderer, out SDL.ScaleMode mode);
+    public static bool GetDefaultTextureScaleMode(SDL.Renderer* renderer, out SDL.ScaleMode mode)
+    {
+        return SDL_GetDefaultTextureScaleMode(renderer, out mode);
+    }
+    
     // Set Texture Scale Mode
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_SetTextureScaleMode(SDL.Texture* texture, SDL.ScaleMode mode);

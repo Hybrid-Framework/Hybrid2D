@@ -33,6 +33,8 @@ internal static unsafe partial class SDL
         TextEditing = 770,
         TextInput = 771,
         TextEditingCandidates = 775,
+        OnScreenKeyboardShown = 776,
+        OnScreenKeyboardHidden = 777,
         
         MouseButtonUp = 1026,
         MouseButtonDown = 1025,
