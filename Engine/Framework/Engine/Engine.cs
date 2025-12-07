@@ -16,7 +16,7 @@ namespace Hybrid
             Initialized = true;
             IsRunning = true;
 
-            // Initialize Modules
+            // Create & Initialize Modules
             Register(Storage.FindOrCreate());
             Register(Audio.FindOrCreate());
             Register(Window.FindOrCreate());
@@ -31,6 +31,7 @@ namespace Hybrid
             // Frame Time
             Time.BeforeFrame();
             
+            // Events
             while (Platform.GetEvents().PollEvents(out SDL.Event e))
             {
                 // Quit Application
@@ -43,7 +44,18 @@ namespace Hybrid
                 OnEvent(e);
             }
             
+            // Fixed Update
+            while (Time.FixedFrameTime >= Time.FixedDeltaTime)
+            {
+                OnFixedUpdate();
+                Time.FixedFrameTime -= Time.FixedDeltaTime;
+            }
+            
+            // Update
             OnUpdate();
+            OnLateUpdate();
+            
+            // Render
             OnRender();
             
             // Frame Limit
@@ -56,6 +68,7 @@ namespace Hybrid
             if (!IsRunning) return;
             IsRunning = false;
             
+            // Unregister & Dispose Modules
             foreach(var module in GetModules().Reverse())
             {
                 UnRegister(module);
@@ -85,6 +98,30 @@ namespace Hybrid
             foreach (var module in GetModules())
             {
                 module.OnUpdate();
+            }
+        }
+    }
+    
+    // Fixed Update
+    internal partial class Engine
+    {
+        internal override void OnFixedUpdate()
+        {
+            foreach (var module in GetModules())
+            {
+                module.OnFixedUpdate();
+            }
+        }
+    }
+
+    // Late Update
+    internal partial class Engine
+    {
+        internal override void OnLateUpdate()
+        {
+            foreach (var module in GetModules())
+            {
+                module.OnLateUpdate();
             }
         }
     }
