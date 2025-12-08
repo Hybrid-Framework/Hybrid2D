@@ -133,7 +133,7 @@ namespace Hybrid
             if (scene == null)
                 throw new Exception("Failed to open invalid scene");
             
-            Console.WriteLine($"Scene '{scene.Name}' opened");
+            Debug.Log($"Scene '{scene.Name}' opened");
             scene.OnSceneOpen();
         }
 
@@ -142,12 +142,13 @@ namespace Hybrid
             if (scene == null)
                 throw new Exception("Failed to close invalid scene");
 
+            // Destroy Every GameObject In Scene
             foreach (var gameObject in GetActiveScene().GetSceneGameObjects())
             {
                 Object.Destroy(gameObject);
             }
             
-            Console.WriteLine($"Scene '{scene.Name}' closed");
+            Debug.Log($"Scene '{scene.Name}' closed");
             scene.OnSceneClose();
             Active = null;
         }

@@ -5,6 +5,7 @@ namespace Hybrid
     // Internal
     public abstract partial class Component : Behaviour
     {
+        // Dispose
         internal override void OnDispose()
         {
             if (GameObject != null)
@@ -12,6 +13,7 @@ namespace Hybrid
                 if (GameObject.DestroyComponentInternal(this))
                 {
                     OnDestroy();
+                    
                     GameObject = null;
                     Transform = null;
                 }

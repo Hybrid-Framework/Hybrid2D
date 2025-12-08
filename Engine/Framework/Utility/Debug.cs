@@ -7,17 +7,17 @@ namespace Hybrid
     {
         public static void Log(string message)
         {
-            SDL.LogDebug(SDL.LogCategory.Application, $"[LOG] {message}");
+            Console.WriteLine($"[LOG] {message}");
         }
 
         public static void Warn(string message)
         {
-            SDL.LogWarn(SDL.LogCategory.Application, $"[WARN] {message}");
+            Console.WriteLine($"[WARNING] {message}");
         }
 
         public static void Error(string message)
         {
-            SDL.LogError(SDL.LogCategory.Application, $"[ERROR] {message}");
+            throw new Exception($"[ERROR] {message}");
         }
     }
 }

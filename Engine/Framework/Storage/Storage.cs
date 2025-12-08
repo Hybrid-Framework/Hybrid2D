@@ -30,16 +30,16 @@ namespace Hybrid
         {
             foreach (var file in Directory.GetFiles(BasePath))
             {
-                Console.WriteLine($"File: {file}");
+                Debug.Log($"File: {file}");
             }
             
             foreach (var directory in Directory.GetDirectories(BasePath))
             {
-                Console.WriteLine($"Directory: {directory}");
+                Debug.Log($"Directory: {directory}");
                 
                 foreach (var file in Directory.GetFiles(directory))
                 {
-                    Console.WriteLine($"File: {file}");
+                    Debug.Log($"File: {file}");
                 }
             }
         }

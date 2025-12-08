@@ -8,6 +8,9 @@ namespace Hybrid
         public Scene Scene { get; private set; }
         public bool Enabled { get; set; }
         
+        public string Layer { get; set; }
+        public string Tag { get; set; }
+        
         
         public GameObject(string name = null)
         {
@@ -30,6 +33,7 @@ namespace Hybrid
             Enabled = true;
         }
 
+        // Dispose
         internal override void OnDispose()
         {
             // Destroy All Components
@@ -92,12 +96,13 @@ namespace Hybrid
                 {
                     if (!GetComponent(required.Type))
                     {
+                        // Add Component
                         AddComponent(required.Type);
                     }
                 }
             }
             
-            Console.WriteLine($"Component '{component.GetType()}' added to GameObject '{GameObject.Name}'");
+            Debug.Log($"Component '{component.GetType()}' added to GameObject '{GameObject.Name}'");
             return component;
         }
     }
@@ -200,7 +205,7 @@ namespace Hybrid
             if (!typeof(Component).IsAssignableFrom(type))
                 throw new Exception($"Type '{type.Name}' does not inherit from Component");
 
-            // Has Component
+            // Check For Component
             if (GetComponents().Contains(component))
             {
                 // Disallow Destroy Component
@@ -208,7 +213,7 @@ namespace Hybrid
                 {
                     if (!GameObject.IsDestroying())
                     {
-                        throw new Exception($"Can't remove Component '{type.Name}' from GameObject '{GameObject.Name}'");
+                        throw new Exception($"Can't destroy Component '{type.Name}' on GameObject '{GameObject.Name}' because it isn't destroyable");
                     }
                 }
                 
@@ -223,7 +228,7 @@ namespace Hybrid
                         {
                             if (required.Type == type)
                             {
-                                throw new Exception($"Can't remove Component '{type.Name}' from GameObject '{GameObject.Name}' because Component '{checkComponent.GetType().Name}' requires it");
+                                throw new Exception($"Can't destroy Component '{type.Name}' on GameObject '{GameObject.Name}' because Component '{checkComponent.GetType().Name}' requires it");
                             }
                         }
                     }
@@ -233,7 +238,7 @@ namespace Hybrid
                 Components.Remove(component);
                 Destroy(component);
                 
-                Console.WriteLine($"Component '{type.Name}' removed from GameObject '{GameObject.Name}'");
+                Debug.Log($"Component '{type.Name}' destroy on GameObject '{GameObject.Name}'");
                 return true;
             }
 

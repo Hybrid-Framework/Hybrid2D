@@ -3,7 +3,7 @@
 namespace Hybrid
 {
     [RequireComponent(typeof(TestComponent2))]
-    public class TestComponent : Component
+    public sealed class TestComponent : Component
     {
         
     }

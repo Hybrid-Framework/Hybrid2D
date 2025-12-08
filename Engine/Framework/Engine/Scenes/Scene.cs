@@ -10,13 +10,13 @@ namespace Hybrid
 
         internal void Add(GameObject gameObject)
         {
-            Console.WriteLine($"Added {gameObject.Name} to scene");
+            Debug.Log($"Added '{gameObject.Name}' to scene");
             SceneGameObjects.Add(gameObject);
         }
 
         internal void Remove(GameObject gameObject)
         {
-            Console.WriteLine($"Removed {gameObject.Name} from scene");
+            Debug.Log($"Removed '{gameObject.Name}' from scene");
             SceneGameObjects.Remove(gameObject);
         }
     }
