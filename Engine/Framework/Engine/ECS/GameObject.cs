@@ -212,6 +212,23 @@ namespace Hybrid
                     }
                 }
                 
+                // Require Component
+                if (!GameObject.IsDestroying())
+                {
+                    // For Each Component
+                    foreach (var checkComponent in GetComponents())
+                    {
+                        // For Each Required Component
+                        foreach (RequireComponentAttribute required in checkComponent.GetType().GetCustomAttributes(typeof(RequireComponentAttribute), true))
+                        {
+                            if (required.Type == type)
+                            {
+                                throw new Exception($"Can't remove Component '{type.Name}' from GameObject '{GameObject.Name}' because Component '{checkComponent.GetType().Name}' requires it");
+                            }
+                        }
+                    }
+                }
+                
                 // Remove From GameObject
                 Components.Remove(component);
                 Destroy(component);
