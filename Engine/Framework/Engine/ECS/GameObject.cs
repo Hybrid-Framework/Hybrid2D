@@ -58,18 +58,42 @@ namespace Hybrid
             // Invalid Component
             if (component == null) return null;
             
-            // Invalid Component
-            if (!typeof(Component).IsAssignableFrom(component.GetType()))
-                throw new Exception($"Type '{component.GetType()?.Name}' does not inherit from Component");
+            // Component Type
+            var type = component.GetType();
             
-            // Required Properties
+            // Invalid Component
+            if (!typeof(Component).IsAssignableFrom(type))
+                throw new Exception($"Type '{type.Name}' does not inherit from Component");
+            
+            // Disallow Multiple Component
+            if (Attribute.IsDefined(type, typeof(DisallowMultipleComponentAttribute)))
+            {
+                if (GetComponent<T>())
+                {
+                    throw new Exception($"Can't have multiple instances of '{type.Name}' on GameObject '{GameObject.Name}'");
+                }
+            }
+
+            // Add To GameObject
             component.GameObject = this.GameObject;
             component.Transform = this.Transform;
             component.Name = this.Name;
-            
-            // Add To GameObject
-            Console.WriteLine($"Component '{component.GetType()}' added to GameObject '{GameObject.Name}'");
             Components.Add(component);
+            
+            // Require Component
+            if (Attribute.IsDefined(type, typeof(RequireComponentAttribute)))
+            {
+                // For Each Required Component
+                foreach (RequireComponentAttribute required in type.GetCustomAttributes(typeof(RequireComponentAttribute), true))
+                {
+                    if (!GetComponent(required.Type))
+                    {
+                        AddComponent(required.Type);
+                    }
+                }
+            }
+            
+            Console.WriteLine($"Component '{component.GetType()}' added to GameObject '{GameObject.Name}'");
             return component;
         }
     }
@@ -94,7 +118,7 @@ namespace Hybrid
             
             // Invalid Component
             if (!typeof(Component).IsAssignableFrom(type))
-                throw new Exception($"Type '{type?.Name}' does not inherit from Component");
+                throw new Exception($"Type '{type.Name}' does not inherit from Component");
             
             // Find Matching Component
             foreach (var c in GetComponents())
@@ -129,7 +153,7 @@ namespace Hybrid
             
             // Invalid Component
             if (!typeof(Component).IsAssignableFrom(type))
-                throw new Exception($"Type '{type?.Name}' does not inherit from Component");
+                throw new Exception($"Type '{type.Name}' does not inherit from Component");
 
             // Create Results
             var results = new List<Component>();
@@ -165,17 +189,30 @@ namespace Hybrid
             // Invalid Component
             if (component == null) return false;
             
+            // Component Type
+            var type = component.GetType();
+            
             // Invalid Component
-            if (!typeof(Component).IsAssignableFrom(component.GetType()))
-                throw new Exception($"Type '{component.GetType()?.Name}' does not inherit from Component");
+            if (!typeof(Component).IsAssignableFrom(type))
+                throw new Exception($"Type '{type.Name}' does not inherit from Component");
 
             // Has Component
             if (GetComponents().Contains(component))
             {
+                // Disallow Destroy Component
+                if (Attribute.IsDefined(type, typeof(DisallowDestroyComponentAttribute)))
+                {
+                    if (!GameObject.IsDestroying())
+                    {
+                        throw new Exception($"Can't remove Component '{type.Name}' from GameObject '{GameObject.Name}'");
+                    }
+                }
+                
                 // Remove From GameObject
-                Console.WriteLine($"Component '{component.GetType().Name}' removed from GameObject '{GameObject.Name}'");
                 Components.Remove(component);
                 Destroy(component);
+                
+                Console.WriteLine($"Component '{type.Name}' removed from GameObject '{GameObject.Name}'");
                 return true;
             }
 
