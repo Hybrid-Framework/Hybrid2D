@@ -9,8 +9,7 @@ namespace App
         public override void OnSceneOpen()
         {
             GameObject obj1 = new GameObject("Obj 1");
-            obj1.AddComponent<TestComponent2>();
-            Object.Destroy(obj1);
+            var component = obj1.AddComponent<TestComponent>();
         }
 
         public override void OnSceneClose()

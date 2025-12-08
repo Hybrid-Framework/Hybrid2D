@@ -5,6 +5,7 @@ namespace Hybrid
     // Internal
     public partial class Scenes : Module<Scenes>
     {
+        // Initialize
         internal override void OnInitialize()
         {
             // Invalid Scene
@@ -12,10 +13,82 @@ namespace Hybrid
                 throw new Exception("No valid scene in config file");
             
             Load(Platform.GetConfig().Scene);
-            
             base.OnInitialize();
         }
 
+        // Update
+        internal override void OnUpdate()
+        {
+            if (GetActiveScene() != null)
+            {
+                foreach (var gameObject in GetActiveScene().GetSceneGameObjects())
+                {
+                    if(!gameObject.Enabled) continue;
+                    
+                    foreach (var component in gameObject.GetComponents())
+                    {
+                        if(!component.Enabled) continue;
+                        
+                        // OnAwake
+                        if (!component.DidAwake)
+                        {
+                            component.DidAwake = true;
+                            component.OnAwake();
+                        }
+                        
+                        // OnStart
+                        if (!component.DidStart)
+                        {
+                            component.DidStart = true;
+                            component.OnStart();
+                        }
+                        
+                        // OnUpdate
+                        component.OnUpdate();
+                    }
+                }
+            }
+        }
+        
+        // Late Update
+        internal override void OnLateUpdate()
+        {
+            if (GetActiveScene() != null)
+            {
+                foreach (var gameObject in GetActiveScene().GetSceneGameObjects())
+                {
+                    if(!gameObject.Enabled) continue;
+                    
+                    foreach (var component in gameObject.GetComponents())
+                    {
+                        if(!component.Enabled) continue;
+                        
+                        component.OnLateUpdate();
+                    }
+                }
+            }
+        }
+
+        // Fixed Update
+        internal override void OnFixedUpdate()
+        {
+            if (GetActiveScene() != null)
+            {
+                foreach (var gameObject in GetActiveScene().GetSceneGameObjects())
+                {
+                    if(!gameObject.Enabled) continue;
+                    
+                    foreach (var component in gameObject.GetComponents())
+                    {
+                        if(!component.Enabled) continue;
+                        
+                        component.OnFixedUpdate();
+                    }
+                }
+            }
+        }
+
+        // Dispose
         internal override void OnDispose()
         {
             if (Active != null)

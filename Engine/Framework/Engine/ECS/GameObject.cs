@@ -6,6 +6,7 @@ namespace Hybrid
     {
         private List<Component> Components { get; set; } = new List<Component>();
         public Scene Scene { get; private set; }
+        public bool Enabled { get; set; }
         
         
         public GameObject(string name = null)
@@ -24,6 +25,9 @@ namespace Hybrid
             // Add To Scene
             Scene = Scenes.GetActiveScene();
             Scene.Add(this);
+            
+            // Activate
+            Enabled = true;
         }
 
         internal override void OnDispose()

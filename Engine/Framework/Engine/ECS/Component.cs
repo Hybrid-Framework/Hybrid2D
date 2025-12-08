@@ -2,7 +2,8 @@
 
 namespace Hybrid
 {
-    public abstract class Component : Behaviour
+    // Internal
+    public abstract partial class Component : Behaviour
     {
         internal override void OnDispose()
         {
@@ -10,6 +11,7 @@ namespace Hybrid
             {
                 if (GameObject.DestroyComponentInternal(this))
                 {
+                    OnDestroy();
                     GameObject = null;
                     Transform = null;
                 }
@@ -17,5 +19,44 @@ namespace Hybrid
             
             base.OnDispose();
         }
+    }
+    
+    // Component API
+    public abstract partial class Component
+    {
+        public bool DidAwake { get; internal set; } = false;
+        public bool DidStart { get; internal set; } = false;
+        
+        private bool _Enabled { get; set; } = true;
+        public bool Enabled
+        {
+            get => _Enabled;
+            set
+            {
+                if (value != _Enabled)
+                {
+                    if(value) OnEnable();
+                    if(!value) OnDisable();
+                }
+
+                _Enabled = value;
+            }
+        }
+        
+        public virtual void OnAwake() { }
+
+        public virtual void OnStart() { }
+        
+        public virtual void OnEnable() { }
+        
+        public virtual void OnDisable() { }
+        
+        public virtual void OnUpdate() { }
+        
+        public virtual void OnFixedUpdate() { }
+        
+        public virtual void OnLateUpdate() { }
+        
+        public virtual void OnDestroy() { }
     }
 }
