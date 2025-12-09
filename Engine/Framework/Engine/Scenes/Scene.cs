@@ -5,19 +5,19 @@ namespace Hybrid
     // Internal
     public abstract partial class Scene
     {
-        private readonly List<GameObject> SceneGameObjects = new List<GameObject>();
+        private readonly List<GameObject> RootGameObjects = new List<GameObject>();
         
 
-        internal void Add(GameObject gameObject)
+        internal void AddObject(GameObject gameObject)
         {
-            Debug.Log($"Added '{gameObject.Name}' to scene");
-            SceneGameObjects.Add(gameObject);
+            Debug.Log($"Added '{gameObject.Name}' to scene root GameObjects");
+            RootGameObjects.Add(gameObject);
         }
 
-        internal void Remove(GameObject gameObject)
+        internal void RemoveObject(GameObject gameObject)
         {
-            Debug.Log($"Removed '{gameObject.Name}' from scene");
-            SceneGameObjects.Remove(gameObject);
+            Debug.Log($"Removed '{gameObject.Name}' from scene root GameObjects");
+            RootGameObjects.Remove(gameObject);
         }
     }
 
@@ -30,9 +30,9 @@ namespace Hybrid
         }
         
         
-        public GameObject[] GetSceneGameObjects()
+        public GameObject[] GetRootGameObjects()
         {
-            return SceneGameObjects.ToArray();
+            return RootGameObjects.ToArray();
         }
         
         public virtual void OnSceneOpen()

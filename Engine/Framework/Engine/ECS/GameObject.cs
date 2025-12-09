@@ -27,7 +27,7 @@ namespace Hybrid
             
             // Add To Scene
             Scene = Scenes.GetActiveScene();
-            Scene.Add(this);
+            Scene.AddObject(this);
             
             // Activate
             Enabled = true;
@@ -43,7 +43,7 @@ namespace Hybrid
             }
             
             // Remove From Scene
-            Scene.Remove(this);
+            Scene.RemoveObject(this);
             base.OnDispose();
         }
     }
@@ -102,7 +102,7 @@ namespace Hybrid
                 }
             }
             
-            Debug.Log($"Component '{component.GetType()}' added to GameObject '{GameObject.Name}'");
+            // Debug.Log($"Component '{component.GetType()}' added to GameObject '{GameObject.Name}'");
             return component;
         }
     }
@@ -238,7 +238,7 @@ namespace Hybrid
                 Components.Remove(component);
                 Destroy(component);
                 
-                Debug.Log($"Component '{type.Name}' destroy on GameObject '{GameObject.Name}'");
+                // Debug.Log($"Component '{type.Name}' destroy on GameObject '{GameObject.Name}'");
                 return true;
             }
 

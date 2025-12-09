@@ -19,33 +19,30 @@ namespace Hybrid
         // Update
         internal override void OnUpdate()
         {
-            if (GetActiveScene() != null)
+            foreach (var gameObject in GetActiveScene().GetRootGameObjects())
             {
-                foreach (var gameObject in GetActiveScene().GetSceneGameObjects())
+                if(!gameObject.Enabled) continue;
+                
+                foreach (var component in gameObject.GetComponents())
                 {
-                    if(!gameObject.Enabled) continue;
+                    if(!component.Enabled) continue;
                     
-                    foreach (var component in gameObject.GetComponents())
+                    // OnAwake
+                    if (!component.DidAwake)
                     {
-                        if(!component.Enabled) continue;
-                        
-                        // OnAwake
-                        if (!component.DidAwake)
-                        {
-                            component.DidAwake = true;
-                            component.OnAwake();
-                        }
-                        
-                        // OnStart
-                        if (!component.DidStart)
-                        {
-                            component.DidStart = true;
-                            component.OnStart();
-                        }
-                        
-                        // OnUpdate
-                        component.OnUpdate();
+                        component.DidAwake = true;
+                        component.OnAwake();
                     }
+                    
+                    // OnStart
+                    if (!component.DidStart)
+                    {
+                        component.DidStart = true;
+                        component.OnStart();
+                    }
+                    
+                    // OnUpdate
+                    component.OnUpdate();
                 }
             }
         }
@@ -53,18 +50,15 @@ namespace Hybrid
         // Late Update
         internal override void OnLateUpdate()
         {
-            if (GetActiveScene() != null)
+            foreach (var gameObject in GetActiveScene().GetRootGameObjects())
             {
-                foreach (var gameObject in GetActiveScene().GetSceneGameObjects())
+                if(!gameObject.Enabled) continue;
+                
+                foreach (var component in gameObject.GetComponents())
                 {
-                    if(!gameObject.Enabled) continue;
+                    if(!component.Enabled) continue;
                     
-                    foreach (var component in gameObject.GetComponents())
-                    {
-                        if(!component.Enabled) continue;
-                        
-                        component.OnLateUpdate();
-                    }
+                    component.OnLateUpdate();
                 }
             }
         }
@@ -72,18 +66,15 @@ namespace Hybrid
         // Fixed Update
         internal override void OnFixedUpdate()
         {
-            if (GetActiveScene() != null)
+            foreach (var gameObject in GetActiveScene().GetRootGameObjects())
             {
-                foreach (var gameObject in GetActiveScene().GetSceneGameObjects())
+                if(!gameObject.Enabled) continue;
+                
+                foreach (var component in gameObject.GetComponents())
                 {
-                    if(!gameObject.Enabled) continue;
+                    if(!component.Enabled) continue;
                     
-                    foreach (var component in gameObject.GetComponents())
-                    {
-                        if(!component.Enabled) continue;
-                        
-                        component.OnFixedUpdate();
-                    }
+                    component.OnFixedUpdate();
                 }
             }
         }
@@ -110,6 +101,9 @@ namespace Hybrid
 
         public static Scene GetActiveScene()
         {
+            if (Active == null)
+                throw new Exception("No valid active scene loaded");
+            
             return Active;
         }
         
@@ -143,7 +137,7 @@ namespace Hybrid
                 throw new Exception("Failed to close invalid scene");
 
             // Destroy Every GameObject In Scene
-            foreach (var gameObject in GetActiveScene().GetSceneGameObjects())
+            foreach (var gameObject in GetActiveScene().GetRootGameObjects())
             {
                 Object.Destroy(gameObject);
             }
