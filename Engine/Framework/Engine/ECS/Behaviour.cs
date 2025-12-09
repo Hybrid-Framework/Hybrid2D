@@ -389,7 +389,10 @@ namespace Hybrid
         public Component[] GetComponents()
         {
             // Invalid GameObject
-            if(GameObject == null) return Array.Empty<Component>();
+            if (GameObject == null)
+            {
+                return Array.Empty<Component>();
+            }
             
             return GameObject.Components.ToArray();
         }

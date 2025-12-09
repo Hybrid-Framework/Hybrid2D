@@ -16,7 +16,6 @@ namespace Hybrid
             // Ensure only one Transform
             if (!gameObject.GetComponent<Transform>())
             {
-                // Assign
                 GameObject = gameObject;
                 Name = gameObject.Name;
                 Transform = this;
@@ -26,7 +25,9 @@ namespace Hybrid
         // Dispose
         internal override void OnDispose()
         {
+            // Remove
             SetParent(null);
+            
             base.OnDispose();
         }
     }
@@ -134,14 +135,14 @@ namespace Hybrid
         
         public bool IsChildOf(Transform parent)
         {
-            // Invalid Parent
-            if (parent == null) return false;
-            
-            foreach (var child in parent.GetChildrenRecursive())
+            if (parent != null)
             {
-                if (child == this)
+                foreach (var child in parent.GetChildrenRecursive())
                 {
-                    return true;
+                    if (child == this)
+                    {
+                        return true;
+                    }
                 }
             }
 
