@@ -83,7 +83,7 @@ namespace Hybrid
                 }
             }
             
-            // Debug.Log($"Component '{component.GetType()}' added to GameObject '{GameObject.Name}'");
+            Debug.Log($"Component '{component.GetType()}' added to GameObject '{GameObject.Name}'");
             return component;
         }
     }
@@ -111,11 +111,11 @@ namespace Hybrid
                 throw new Exception($"Type '{type.Name}' does not inherit from Component");
             
             // Find Matching Component
-            foreach (var c in GetComponents())
+            foreach (var component in GetComponents())
             {
-                if (type.IsAssignableFrom(c.GetType()))
+                if (type.IsAssignableFrom(component.GetType()))
                 {
-                    return c;
+                    return component;
                 }
             }
 
@@ -149,11 +149,11 @@ namespace Hybrid
             var results = new List<Component>();
             
             // Find All Matching Components
-            foreach (var c in GetComponents())
+            foreach (var component in GetComponents())
             {
-                if (type.IsAssignableFrom(c.GetType()))
+                if (type.IsAssignableFrom(component.GetType()))
                 {
-                    results.Add(c);
+                    results.Add(component);
                 }
             }
 
@@ -375,7 +375,7 @@ namespace Hybrid
                 
                 // Remove From GameObject
                 GameObject.Components.Remove(component);
-                // Debug.Log($"Component '{type.Name}' destroy on GameObject '{GameObject.Name}'");
+                Debug.Log($"Component '{type.Name}' destroy on GameObject '{GameObject.Name}'");
                 return true;
             }
 

@@ -39,18 +39,14 @@ namespace Hybrid
     public partial class GameObject
     {
         // Constructor
-        public GameObject(string name = null)
+        public GameObject(string name, Transform parent = null)
         {
             // Assign
-            GameObject = this;
             Name = name ?? Name;
-
+            GameObject = this;
+            
             // Create Transform
-            Transform = AddComponentInternal(new Transform
-            {
-                GameObject = this,
-                Name = Name
-            });
+            Transform = AddComponentInternal(new Transform(this));
             
             // Add To Scene
             Scene = Scenes.GetActiveScene();

@@ -8,7 +8,21 @@ namespace Hybrid
         private readonly Guid Guid = Guid.NewGuid();
         private bool Destroying { get; set; }
         private bool Destroyed { get; set; }
-        public string Name { get; set; }
+
+        private string _Name { get; set; }
+        public string Name
+        {
+            set => _Name = value;
+            get
+            {
+                if (Destroyed)
+                {
+                    return $"{_Name} (Destroyed)";
+                }
+
+                return _Name;
+            }
+        }
         
 
         internal Object()
@@ -27,11 +41,14 @@ namespace Hybrid
                 // Mark For Destroying
                 if(obj.Destroying) return;
                 obj.Destroying = true;
+                var name = obj.Name;
                 
                 // Destroy
                 obj.OnDispose();
                 obj.Destroyed = true;
-                Debug.Log("Destroyed: " + obj.Name + " " + obj.GetType().Name);
+
+                // Output
+                if (obj is GameObject) Debug.Log("Destroyed: " + name);
             }
         }
 
@@ -94,12 +111,12 @@ namespace Hybrid
 
         public override string ToString()
         {
-            return Destroyed ? "Null" : Name;
+            return GetType().Name;
         }
 
         public int GetInstanceID()
         {
-            return Destroyed ? 0 : Guid.GetHashCode();
+            return Guid.GetHashCode();
         }
     }
 }

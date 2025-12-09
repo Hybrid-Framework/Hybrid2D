@@ -10,9 +10,17 @@ namespace Hybrid
         private Transform Parent { get; set; }
         
         
-        public Transform()
+        // Constructor
+        internal Transform(GameObject gameObject)
         {
-            Transform = this;
+            // Ensure only one Transform
+            if (!gameObject.GetComponent<Transform>())
+            {
+                // Assign
+                GameObject = gameObject;
+                Name = gameObject.Name;
+                Transform = this;
+            }
         }
 
         // Dispose
