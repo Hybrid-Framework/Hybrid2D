@@ -9,15 +9,16 @@ namespace Hybrid
         private List<Transform> Children { get; set; } = new List<Transform>();
         private Transform Parent { get; set; }
         
+        
         public Transform()
         {
             Transform = this;
         }
 
+        // Dispose
         internal override void OnDispose()
         {
             SetParent(null);
-            
             base.OnDispose();
         }
     }

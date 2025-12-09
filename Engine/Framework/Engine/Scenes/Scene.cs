@@ -2,12 +2,13 @@
 
 namespace Hybrid
 {
-    // Internal
+    // Scene API
     public abstract partial class Scene
     {
         private readonly List<GameObject> RootGameObjects = new List<GameObject>();
+        public string Name => GetType().Name;
         
-
+        
         internal void AddObject(GameObject gameObject)
         {
             // Debug.Log($"Added '{gameObject.Name}' to scene root GameObjects");
@@ -19,16 +20,6 @@ namespace Hybrid
             // Debug.Log($"Removed '{gameObject.Name}' from scene root GameObjects");
             RootGameObjects.Remove(gameObject);
         }
-    }
-
-    // Scene API
-    public abstract partial class Scene
-    {
-        public string Name
-        {
-            get => GetType().Name;
-        }
-        
         
         public GameObject[] GetRootGameObjects()
         {
@@ -37,12 +28,12 @@ namespace Hybrid
         
         public virtual void OnSceneOpen()
         {
-            
+            // Called when scene finished opening
         }
 
         public virtual void OnSceneClose()
         {
-            
+            // Called when scene finished closing
         }
     }
 }

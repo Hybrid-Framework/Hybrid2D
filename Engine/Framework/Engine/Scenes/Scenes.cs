@@ -141,7 +141,7 @@ namespace Hybrid
             if (scene == null)
                 throw new Exception("Failed to open invalid scene");
             
-            Debug.Log($"Scene '{scene.Name}' opened");
+            // Debug.Log($"Scene '{scene.Name}' opened");
             scene.OnSceneOpen();
         }
 
@@ -156,7 +156,7 @@ namespace Hybrid
                 Object.Destroy(gameObject);
             }
             
-            Debug.Log($"Scene '{scene.Name}' closed");
+            // Debug.Log($"Scene '{scene.Name}' closed");
             scene.OnSceneClose();
             Active = null;
         }

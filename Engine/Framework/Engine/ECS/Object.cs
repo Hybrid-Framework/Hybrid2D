@@ -3,7 +3,7 @@
 namespace Hybrid
 {
     // Object
-    public abstract partial class Object
+    public abstract partial class Object : IEquatable<Object>
     {
         private readonly Guid Guid = Guid.NewGuid();
         private bool Destroying { get; set; }
@@ -31,6 +31,7 @@ namespace Hybrid
                 // Destroy
                 obj.OnDispose();
                 obj.Destroyed = true;
+                Debug.Log("Destroyed: " + obj.Name + " " + obj.GetType().Name);
             }
         }
 
@@ -93,12 +94,12 @@ namespace Hybrid
 
         public override string ToString()
         {
-            return Name;
+            return Destroyed ? "Null" : Name;
         }
 
         public int GetInstanceID()
         {
-            return Guid.GetHashCode();
+            return Destroyed ? 0 : Guid.GetHashCode();
         }
     }
 }
