@@ -5,9 +5,28 @@ namespace Hybrid
     public partial class GameObject : Behaviour
     {
         internal List<Component> Components { get; set; } = new List<Component>();
-        private Scene Scene { get; set; }
-        public string Layer { get; set; }
-        public string Tag { get; set; }
+        public string Layer { get; set; } = "Default";
+        public string Tag { get; set; } = "Default";
+        private Scene Scene { get; }
+        
+        
+        // Constructor
+        public GameObject(string name, Transform parent = null)
+        {
+            // Assign
+            Name = name ?? Name;
+            GameObject = this;
+            
+            // Create Transform
+            Transform = AddComponentInternal(new Transform(this));
+            
+            // Add To Scene
+            Scene = Scenes.GetActiveScene();
+            Scene.AddObject(this);
+            
+            // Activate
+            Enabled = true;
+        }
         
 
         // Dispose
@@ -38,27 +57,22 @@ namespace Hybrid
     // GameObject
     public partial class GameObject
     {
-        // Constructor
-        public GameObject(string name, Transform parent = null)
-        {
-            // Assign
-            Name = name ?? Name;
-            GameObject = this;
-            
-            // Create Transform
-            Transform = AddComponentInternal(new Transform(this));
-            
-            // Add To Scene
-            Scene = Scenes.GetActiveScene();
-            Scene.AddObject(this);
-            
-            // Activate
-            Enabled = true;
-        }
-
         public Scene GetScene()
         {
             return Scene;
+        }
+
+        public GameObject Find(string name)
+        {
+            foreach (var child in Transform.GetChildrenRecursive())
+            {
+                if (child.GameObject.Name == name)
+                {
+                    return child.GameObject;
+                }
+            }
+
+            return null;
         }
     }
 }

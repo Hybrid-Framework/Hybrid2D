@@ -26,6 +26,172 @@ namespace Hybrid
             }
         }
     }
+
+    // Find Object Types
+    public abstract partial class Behaviour
+    {
+        public static GameObject[] FindGameObjectsByName(string name)
+        {
+            List<GameObject> results = new();
+            
+            foreach (var gameObject in Scenes.GetActiveScene().GetRootGameObjects())
+            {
+                foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
+                {
+                    if (child.GameObject.Name == name)
+                    {
+                        results.Add(child.GameObject);
+                    }
+                }
+            }
+            
+            return results.ToArray();
+        }
+        
+        public static GameObject FindGameObjectByName(string name)
+        {
+            foreach (var gameObject in Scenes.GetActiveScene().GetRootGameObjects())
+            {
+                foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
+                {
+                    if (child.GameObject.Name == name)
+                    {
+                        return child.GameObject;
+                    }
+                }
+            }
+            
+            return null;
+        }
+        
+        public static GameObject[] FindGameObjectsByLayer(string layer)
+        {
+            List<GameObject> results = new();
+            
+            foreach (var gameObject in Scenes.GetActiveScene().GetRootGameObjects())
+            {
+                foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
+                {
+                    if (child.GameObject.Layer == layer)
+                    {
+                        results.Add(child.GameObject);
+                    }
+                }
+            }
+            
+            return results.ToArray();
+        }
+        
+        public static GameObject FindGameObjectByLayer(string layer)
+        {
+            foreach (var gameObject in Scenes.GetActiveScene().GetRootGameObjects())
+            {
+                foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
+                {
+                    if (child.GameObject.Layer == layer)
+                    {
+                        return child.GameObject;
+                    }
+                }
+            }
+            
+            return null;
+        }
+        
+        public static GameObject[] FindGameObjectsByTag(string tag)
+        {
+            List<GameObject> results = new();
+            
+            foreach (var gameObject in Scenes.GetActiveScene().GetRootGameObjects())
+            {
+                foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
+                {
+                    if (child.GameObject.Tag == tag)
+                    {
+                        results.Add(child.GameObject);
+                    }
+                }
+            }
+            
+            return results.ToArray();
+        }
+        
+        public static GameObject FindGameObjectByTag(string tag)
+        {
+            foreach (var gameObject in Scenes.GetActiveScene().GetRootGameObjects())
+            {
+                foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
+                {
+                    if (child.GameObject.Tag == tag)
+                    {
+                        return child.GameObject;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public static T[] FindObjectsByType<T>() where T : Object
+        {
+            List<T> results = new();
+            
+            foreach (var gameObject in Scenes.GetActiveScene().GetRootGameObjects())
+            {
+                foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
+                {
+                    if (child.GameObject is T g)
+                    {
+                        results.Add(g);
+                    }
+                    
+                    if (child.Transform is T t)
+                    {
+                        results.Add(t);
+                    }
+
+                    foreach (var component in child.GetComponents())
+                    {
+                        if (component is T c)
+                        {
+                            results.Add(c);
+                        }
+                    }
+                }
+            }
+            
+            return results.ToArray();
+        }
+        
+        public static T FindObjectByType<T>() where T : Object
+        {
+            foreach (var gameObject in Scenes.GetActiveScene().GetRootGameObjects())
+            {
+                foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
+                {
+                    if (child.GameObject is T g)
+                    {
+                        return g;
+                    }
+                    
+                    if (child.Transform is T t)
+                    {
+                        return t;
+                    }
+
+                    foreach (var component in child.GetComponents())
+                    {
+                        if (component is T c)
+                        {
+                            return c;
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+    }
     
     // Add Component
     public abstract partial class Behaviour

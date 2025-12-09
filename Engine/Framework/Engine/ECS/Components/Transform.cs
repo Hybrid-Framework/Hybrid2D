@@ -89,7 +89,7 @@ namespace Hybrid
             // Console.WriteLine($"Child '{child.Name}' removed from parent '{parent.Name}'");
         }
         
-        public Transform[] GetChildrenRecursive(bool parent = false)
+        internal Transform[] GetChildrenRecursive(bool parent = false)
         {
             List<Transform> result = new List<Transform>();
             Stack<Transform> stack = new Stack<Transform>();
@@ -188,6 +188,23 @@ namespace Hybrid
         public int ChildCount()
         {
             return Children.Count;
+        }
+    }
+
+    // Transform API
+    public partial class Transform
+    {
+        public Transform Find(string name)
+        {
+            foreach (var child in Transform.GetChildrenRecursive())
+            {
+                if (child.Name == name)
+                {
+                    return child;
+                }
+            }
+
+            return null;
         }
     }
 }
