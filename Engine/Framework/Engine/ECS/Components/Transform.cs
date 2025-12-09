@@ -196,7 +196,7 @@ namespace Hybrid
     {
         public Transform Find(string name)
         {
-            foreach (var child in Transform.GetChildrenRecursive())
+            foreach (var child in GetChildrenRecursive())
             {
                 if (child.Name == name)
                 {

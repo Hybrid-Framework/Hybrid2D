@@ -7,13 +7,10 @@ namespace App
         public override void OnSceneOpen()
         {
             GameObject obj1 = new GameObject("Object 1");
-            GameObject obj2 = new GameObject("Object 1");
-            GameObject obj3 = new GameObject("Object 3");
+            GameObject obj2 = new GameObject("Object 2");
+            obj2.Transform.SetParent(obj1.Transform);
 
-            foreach (var found in GameObject.FindObjectsOfType<Component>())
-            {
-                Debug.Log("Found: " + found.Name + " " + found);
-            }
+            Debug.Log($"FOUND: {obj1.Transform.Find("Object 2")?.Name}");
         }
 
         public override void OnSceneClose()
