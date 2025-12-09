@@ -7,25 +7,16 @@ namespace App
         public override void OnSceneOpen()
         {
             Transform parent = new GameObject("parent").Transform;
-            Transform child = new GameObject("child").Transform;
-            Transform sub = new GameObject("sub").Transform;
-            Transform other = new GameObject("other").Transform;
             
-            child.SetParent(parent);
-            sub.SetParent(parent);
-            other.SetParent(parent);
-            
-            child.SetSiblingIndex(3);
-
-            for (int i = 0; i < parent.GetChildren().Length; i++)
+            Transform[] children = new Transform[5];
+            for (int i = 0; i < children.Length; i++)
             {
-                Debug.Log($"{i}: " + parent.GetChildren()[i]);
+                children[i] = new GameObject($"Child {i}").Transform;
+                children[i].SetParent(parent);
             }
             
-            Debug.Log(child.IsChildOf(child));
-            
-            
-            child.SetParent(null);
+            Object.Destroy(parent.GameObject);
+            Debug.Log("Parent: " + children[0].GetParent());
         }
 
         public override void OnSceneClose()

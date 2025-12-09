@@ -37,13 +37,12 @@ namespace Hybrid
         internal override void OnDispose()
         {
             // Destroy All Components
-            foreach (var component in GetComponents())
+            foreach (var component in GameObject.GetComponents())
             {
-                Object.Destroy(component);
+                Destroy(component);
             }
-            
-            // Remove From Scene
-            Scene.RemoveObject(this);
+
+            Scene.RemoveObject(GameObject);
             base.OnDispose();
         }
     }
@@ -102,7 +101,7 @@ namespace Hybrid
                 }
             }
             
-            // Debug.Log($"Component '{component.GetType()}' added to GameObject '{GameObject.Name}'");
+            Debug.Log($"Component '{component.GetType()}' added to GameObject '{GameObject.Name}'");
             return component;
         }
     }
@@ -180,6 +179,164 @@ namespace Hybrid
         }
     }
     
+    // Get Component In Children
+    public partial class GameObject
+    {
+        public Component GetComponentInChildren(Type type, bool parent = false)
+        {
+            return GetComponentInChildrenInternal(type, parent);
+        }
+
+        public T GetComponentInChildren<T>(bool parent = false) where T : Component
+        {
+            return GetComponentInChildrenInternal(typeof(T), parent) as T;
+        }
+        
+        internal Component GetComponentInChildrenInternal(Type type, bool parent = false)
+        {
+            // Invalid Component
+            if (type == null) return null;
+            
+            // Invalid Component
+            if (!typeof(Component).IsAssignableFrom(type))
+                throw new Exception($"Type '{type.Name}' does not inherit from Component");
+            
+            // Find Matching Component
+            foreach (var child in Transform.GetChildrenRecursive(parent))
+            {
+                foreach (var childComponent in child.GameObject.GetComponents())
+                {
+                    if (type.IsAssignableFrom(childComponent.GetType()))
+                    {
+                        return childComponent;
+                    }
+                }
+            }
+
+            return null;
+        }
+    }
+    
+    // Get Components In Children
+    public partial class GameObject
+    {
+        public Component[] GetComponentsInChildren(Type type, bool parent = false)
+        {
+            return GetComponentsInChildrenInternal(type, parent);
+        }
+
+        public T[] GetComponentsInChildren<T>(bool parent = false) where T : Component
+        {
+            return GetComponentsInChildrenInternal(typeof(T), parent).Cast<T>().ToArray();
+        }
+        
+        internal Component[] GetComponentsInChildrenInternal(Type type, bool parent = false)
+        {
+            // Invalid Component
+            if (type == null) return Array.Empty<Component>();
+            
+            // Invalid Component
+            if (!typeof(Component).IsAssignableFrom(type))
+                throw new Exception($"Type '{type.Name}' does not inherit from Component");
+
+            // Create Results
+            var results = new List<Component>();
+            
+            // Find All Matching Components
+            foreach (var child in Transform.GetChildrenRecursive(parent))
+            {
+                foreach (var childComponent in child.GameObject.GetComponents())
+                {
+                    if (type.IsAssignableFrom(childComponent.GetType()))
+                    {
+                        results.Add(childComponent);
+                    }
+                }
+            }
+
+            return results.ToArray();
+        }
+    }
+    
+    // Get Component In Parent
+    public partial class GameObject
+    {
+        public Component GetComponentInParent(Type type)
+        {
+            return GetComponentInParentInternal(type);
+        }
+
+        public T GetComponentInParent<T>() where T : Component
+        {
+            return GetComponentInParentInternal(typeof(T)) as T;
+        }
+        
+        internal Component GetComponentInParentInternal(Type type)
+        {
+            // Invalid Component
+            if (type == null) return null;
+            
+            // Invalid Component
+            if (!typeof(Component).IsAssignableFrom(type))
+                throw new Exception($"Type '{type.Name}' does not inherit from Component");
+            
+            // Find Matching Component
+            if (Transform.GetParent())
+            {
+                foreach (var c in Transform.GetParent().GameObject.GetComponents())
+                {
+                    if (type.IsAssignableFrom(c.GetType()))
+                    {
+                        return c;
+                    }
+                }
+            }
+
+            return null;
+        }
+    }
+    
+    // Get Components In Parent
+    public partial class GameObject
+    {
+        public Component[] GetComponentsInParent(Type type)
+        {
+            return GetComponentsInParentInternal(type);
+        }
+
+        public T[] GetComponentsInParent<T>() where T : Component
+        {
+            return GetComponentsInParentInternal(typeof(T)).Cast<T>().ToArray();
+        }
+        
+        internal Component[] GetComponentsInParentInternal(Type type)
+        {
+            // Invalid Component
+            if (type == null) return Array.Empty<Component>();
+            
+            // Invalid Component
+            if (!typeof(Component).IsAssignableFrom(type))
+                throw new Exception($"Type '{type.Name}' does not inherit from Component");
+
+            // Create Results
+            var results = new List<Component>();
+            
+            // Find All Matching Components
+            if (Transform.GetParent())
+            {
+                foreach (var c in Transform.GetParent().GameObject.GetComponents())
+                {
+                    if (type.IsAssignableFrom(c.GetType()))
+                    {
+                        results.Add(c);
+                    }
+                }
+            }
+
+            return results.ToArray();
+        }
+    }
+    
     // Destroy Component
     public partial class GameObject
     {
@@ -238,7 +395,7 @@ namespace Hybrid
                 Components.Remove(component);
                 Destroy(component);
                 
-                // Debug.Log($"Component '{type.Name}' destroy on GameObject '{GameObject.Name}'");
+                Debug.Log($"Component '{type.Name}' destroy on GameObject '{GameObject.Name}'");
                 return true;
             }
 

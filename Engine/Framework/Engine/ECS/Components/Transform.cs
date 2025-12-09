@@ -13,6 +13,13 @@ namespace Hybrid
         {
             Transform = this;
         }
+
+        internal override void OnDispose()
+        {
+            SetParent(null);
+            
+            base.OnDispose();
+        }
     }
     
     // Parent
@@ -56,7 +63,7 @@ namespace Hybrid
             child.Parent = parent;
             
             Scenes.GetActiveScene().RemoveObject(child.GameObject);
-            Console.WriteLine($"Child '{child.Name}' added to parent '{parent.Name}'");
+            // Console.WriteLine($"Child '{child.Name}' added to parent '{parent.Name}'");
         }
 
         internal void RemoveChild(Transform child)
@@ -69,13 +76,18 @@ namespace Hybrid
             child.Parent = null;
             
             Scenes.GetActiveScene().AddObject(child.GameObject);
-            Console.WriteLine($"Child '{child.Name}' removed from parent '{parent.Name}'");
+            // Console.WriteLine($"Child '{child.Name}' removed from parent '{parent.Name}'");
         }
         
-        public Transform[] GetChildrenRecursive()
+        public Transform[] GetChildrenRecursive(bool parent = false)
         {
             List<Transform> result = new List<Transform>();
             Stack<Transform> stack = new Stack<Transform>();
+
+            if (parent)
+            {
+                result.Add(this);
+            }
 
             foreach (var child in Children)
             {

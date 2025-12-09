@@ -93,12 +93,12 @@ namespace Hybrid
 
         public override string ToString()
         {
-            return Destroyed ? "Null" : Name;
+            return Name;
         }
 
         public int GetInstanceID()
         {
-            return Destroyed ? 0 : Guid.GetHashCode();
+            return Guid.GetHashCode();
         }
     }
 }

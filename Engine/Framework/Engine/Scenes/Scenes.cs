@@ -19,29 +19,33 @@ namespace Hybrid
         // Update
         internal override void OnUpdate()
         {
+            // For Each Object In Scene
             foreach (var gameObject in GetActiveScene().GetRootGameObjects())
             {
+                // Skip Disabled GameObject
                 if(!gameObject.Enabled) continue;
                 
-                foreach (var component in gameObject.GetComponents())
+                // For Each Component In Children & Parent
+                foreach (var component in gameObject.GetComponentsInChildren<Component>(true))
                 {
+                    // Skip Disabled Component
                     if(!component.Enabled) continue;
                     
-                    // OnAwake
+                    // Awake
                     if (!component.DidAwake)
                     {
                         component.DidAwake = true;
                         component.OnAwake();
                     }
                     
-                    // OnStart
+                    // Start
                     if (!component.DidStart)
                     {
                         component.DidStart = true;
                         component.OnStart();
                     }
                     
-                    // OnUpdate
+                    // Update
                     component.OnUpdate();
                 }
             }
@@ -50,14 +54,19 @@ namespace Hybrid
         // Late Update
         internal override void OnLateUpdate()
         {
+            // For Each Object In Scene
             foreach (var gameObject in GetActiveScene().GetRootGameObjects())
             {
+                // Skip Disabled GameObject
                 if(!gameObject.Enabled) continue;
                 
-                foreach (var component in gameObject.GetComponents())
+                // For Each Component In Children & Parent
+                foreach (var component in gameObject.GetComponentsInChildren<Component>(true))
                 {
+                    // Skip Disabled Component
                     if(!component.Enabled) continue;
                     
+                    // Late Update
                     component.OnLateUpdate();
                 }
             }
@@ -66,14 +75,19 @@ namespace Hybrid
         // Fixed Update
         internal override void OnFixedUpdate()
         {
+            // For Each Object In Scene
             foreach (var gameObject in GetActiveScene().GetRootGameObjects())
             {
+                // Skip Disabled GameObject
                 if(!gameObject.Enabled) continue;
                 
-                foreach (var component in gameObject.GetComponents())
+                // For Each Component In Children & Parent
+                foreach (var component in gameObject.GetComponentsInChildren<Component>(true))
                 {
+                    // Skip Disabled Component
                     if(!component.Enabled) continue;
                     
+                    // Fixed Update
                     component.OnFixedUpdate();
                 }
             }
