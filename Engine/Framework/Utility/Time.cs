@@ -25,10 +25,12 @@ namespace Hybrid
         private static readonly double FrameFrequency = SDL.GetPerformanceFrequency();
         private static ulong FramePrevious = SDL.GetPerformanceCounter();
         private static ulong FrameStart = SDL.GetPerformanceCounter();
+        private static float Smoothed;
         
         
         internal static void BeforeFrame()
         {
+            // Calculate Start
             FrameStart = SDL.GetPerformanceCounter();
             
             // Calculate Elapsed
@@ -45,7 +47,13 @@ namespace Hybrid
             Time.FixedFrameTime += Time.DeltaTime;
             Time.FrameTime = Time.UnscaledDeltaTime * 1000f;
             
-            Time.Fps = 1f / Time.UnscaledDeltaTime;
+            // Calculate Fps
+            if (Time.UnscaledDeltaTime > 0f)
+            {
+                var fps = 1f / Time.UnscaledDeltaTime;
+                Smoothed = (Smoothed * 0.9f) + (fps * 0.1f);
+                Time.Fps = Smoothed;
+            }
 
             // Calculate Spiral Prevention
             float maximum = FixedDeltaTime * 12;

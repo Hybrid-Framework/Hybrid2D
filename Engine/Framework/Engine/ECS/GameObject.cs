@@ -4,7 +4,7 @@ namespace Hybrid
 {
     public partial class GameObject : Behaviour
     {
-        internal List<Component> Components { get; set; } = new List<Component>();
+        internal List<Component> Components { get; private set; } = new List<Component>();
         public string Layer { get; set; } = "Default";
         public string Tag { get; set; } = "Default";
         private Scene Scene { get; }
@@ -34,9 +34,10 @@ namespace Hybrid
         {
             if (!IsDestroyed())
             {
-                // Destroy All Components For This GameObject
+                // For Each Component In GameObject
                 foreach (var component in GetComponents())
                 {
+                    // Destroy Component
                     Object.Destroy(component);
                 }
                 

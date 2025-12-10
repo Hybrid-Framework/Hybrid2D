@@ -6,7 +6,7 @@ namespace App
     {
         public override void OnSceneOpen()
         {
-            for (int i = 0; i < 16000; i++)
+            for (int i = 0; i < 8192; i++)
             {
                 GameObject gameObject = new GameObject($"Child ({i})");
             }

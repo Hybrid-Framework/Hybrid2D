@@ -4,6 +4,8 @@ namespace Hybrid
 {
     public abstract partial class Behaviour : Object
     {
+        private readonly HashSet<Type> RequireComponentsProcessing = new();
+        
         public GameObject GameObject { get; internal set; }
         public Transform Transform { get; internal set; }
         
@@ -13,13 +15,10 @@ namespace Hybrid
             get => _Enabled;
             set
             {
-                if (this is Component component)
+                if (value != _Enabled && this is Component component)
                 {
-                    if (value != _Enabled)
-                    {
-                        if(value) component.OnComponentEnable();
-                        if(!value) component.OnComponentDisable();
-                    }
+                    if(value) component.OnEnable();
+                    if(!value) component.OnDisable();
                 }
 
                 _Enabled = value;
@@ -49,7 +48,7 @@ namespace Hybrid
             // Component Type
             var type = component.GetType();
             
-            // Invalid Component
+            // Invalid Type
             if (!typeof(Component).IsAssignableFrom(type))
                 throw new Exception($"Type '{type.Name}' does not inherit from Component");
             
@@ -61,6 +60,28 @@ namespace Hybrid
                     throw new Exception($"Can't have multiple instances of '{type.Name}' on GameObject '{GameObject.Name}'");
                 }
             }
+            
+            // Require Component
+            if (Attribute.IsDefined(type, typeof(RequireComponentAttribute)))
+            {
+                // Processing Component
+                if (!GameObject.RequireComponentsProcessing.Add(type))
+                    return component;
+                
+                // For Each Required Component
+                foreach (RequireComponentAttribute required in type.GetCustomAttributes(typeof(RequireComponentAttribute), true))
+                {
+                    // Find Component
+                    if (!GetComponent(required.Type))
+                    {
+                        // Attach & Return
+                        AddComponent(required.Type);
+                    }
+                }
+                
+                // Finished Processing
+                GameObject.RequireComponentsProcessing.Remove(type);
+            }
 
             // Set Properties
             component.GameObject = this.GameObject;
@@ -68,23 +89,8 @@ namespace Hybrid
             component.Name = this.Name;
             
             // Add To GameObject
-            GameObject.Components.Add(component);
-            
-            // Require Component
-            if (Attribute.IsDefined(type, typeof(RequireComponentAttribute)))
-            {
-                // For Each Required Component
-                foreach (RequireComponentAttribute required in type.GetCustomAttributes(typeof(RequireComponentAttribute), true))
-                {
-                    if (!GetComponent(required.Type))
-                    {
-                        // Add Component
-                        AddComponent(required.Type);
-                    }
-                }
-            }
-            
             // Debug.Log($"Component '{component.GetType()}' added to GameObject '{GameObject.Name}'");
+            GameObject.Components.Add(component);
             return component;
         }
     }
@@ -108,7 +114,7 @@ namespace Hybrid
             if (type == null || GameObject == null)
                 return null;
             
-            // Invalid Component
+            // Invalid Type
             if (!typeof(Component).IsAssignableFrom(type))
                 throw new Exception($"Type '{type.Name}' does not inherit from Component");
             
@@ -128,17 +134,9 @@ namespace Hybrid
     // Get Components
     public abstract partial class Behaviour
     {
-        public List<Component> GetComponents()
+        public List<Component> GetComponents(Type type = null)
         {
-            if (GameObject == null)
-                return new List<Component>();
-
-            return GameObject.Components.ToList();
-        }
-        
-        public List<Component> GetComponents(Type type)
-        {
-            return GetComponentsInternal(type);
+            return GetComponentsInternal(type ?? typeof(Component));
         }
 
         public List<T> GetComponents<T>() where T : Component
@@ -152,7 +150,7 @@ namespace Hybrid
             if (type == null || GameObject == null)
                 return new List<Component>();
             
-            // Invalid Component
+            // Invalid Type
             if (!typeof(Component).IsAssignableFrom(type))
                 throw new Exception($"Type '{type.Name}' does not inherit from Component");
 
@@ -194,7 +192,7 @@ namespace Hybrid
             // Component Type
             var type = component.GetType();
             
-            // Invalid Component
+            // Invalid Type
             if (!typeof(Component).IsAssignableFrom(type))
                 throw new Exception($"Type '{type.Name}' does not inherit from Component");
 

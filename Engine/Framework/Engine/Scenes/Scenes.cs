@@ -35,24 +35,24 @@ namespace Hybrid
                     if (!component.DidAwake)
                     {
                         component.DidAwake = true;
-                        component.OnComponentAwake();
+                        component.OnAwake();
                     }
                     
                     // Start
                     if (!component.DidStart)
                     {
                         component.DidStart = true;
-                        component.OnComponentStart();
+                        component.OnStart();
                     }
                     
                     // Update
-                    component.OnComponentUpdate();
+                    component.OnUpdate();
                 }
             }
         }
         
-        // Late Update
-        internal override void OnLateUpdate()
+        // Physics
+        internal override void OnPhysics()
         {
             // For Each Object In Scene
             foreach (var gameObject in GetActiveScene().RootGameObjects)
@@ -67,28 +67,7 @@ namespace Hybrid
                     if(!component.Enabled) continue;
                     
                     // Late Update
-                    component.OnComponentLateUpdate();
-                }
-            }
-        }
-
-        // Fixed Update
-        internal override void OnFixedUpdate()
-        {
-            // For Each Object In Scene
-            foreach (var gameObject in GetActiveScene().RootGameObjects)
-            {
-                // Skip Disabled GameObject
-                if(!gameObject.Enabled) continue;
-                
-                // For Each Component In Children & Parent
-                foreach (var component in gameObject.Components)
-                {
-                    // Skip Disabled Component
-                    if(!component.Enabled) continue;
-                    
-                    // Fixed Update
-                    component.OnComponentFixedUpdate();
+                    component.OnPhysics();
                 }
             }
         }
@@ -128,9 +107,11 @@ namespace Hybrid
 
             if (Active != null)
             {
+                // Close Scene
                 Close(Active);
             }
 
+            // Open Scene
             Open(scene);
         }
 
@@ -150,9 +131,10 @@ namespace Hybrid
             if (scene == null)
                 throw new Exception("Failed to close invalid scene");
 
-            // Destroy Every GameObject In Scene
-            foreach (var gameObject in GetActiveScene().RootGameObjects.ToArray())
+            // For Each GameObject In Scene
+            foreach (var gameObject in GetActiveScene().GetRootGameObjects())
             {
+                // Destroy GameObject
                 Object.Destroy(gameObject);
             }
             

@@ -8,7 +8,7 @@ namespace Hybrid
         private readonly Guid Guid = Guid.NewGuid();
         private bool Destroying { get; set; }
         private bool Destroyed { get; set; }
-
+        
         private string _Name { get; set; }
         public string Name
         {
@@ -23,7 +23,6 @@ namespace Hybrid
                 return _Name;
             }
         }
-        
 
         internal Object()
         {
@@ -33,7 +32,11 @@ namespace Hybrid
             
             Name = GetType().Name;
         }
-
+    }
+    
+    // Destroying
+    public partial class Object
+    {
         public static void Destroy(Object obj)
         {
             if (obj != null)

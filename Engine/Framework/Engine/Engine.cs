@@ -47,13 +47,12 @@ namespace Hybrid
             // Fixed Update
             while (Time.FixedFrameTime >= Time.FixedDeltaTime)
             {
-                OnFixedUpdate();
+                OnPhysics();
                 Time.FixedFrameTime -= Time.FixedDeltaTime;
             }
             
             // Update
             OnUpdate();
-            OnLateUpdate();
             
             // Render
             OnRender();
@@ -102,26 +101,14 @@ namespace Hybrid
         }
     }
     
-    // Fixed Update
+    // Physics
     internal partial class Engine
     {
-        internal override void OnFixedUpdate()
+        internal override void OnPhysics()
         {
             foreach (var module in GetModules())
             {
-                module.OnFixedUpdate();
-            }
-        }
-    }
-
-    // Late Update
-    internal partial class Engine
-    {
-        internal override void OnLateUpdate()
-        {
-            foreach (var module in GetModules())
-            {
-                module.OnLateUpdate();
+                module.OnPhysics();
             }
         }
     }

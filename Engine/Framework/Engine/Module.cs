@@ -56,8 +56,7 @@ namespace Hybrid
         internal virtual void OnInitialize() {}
         internal virtual void OnRender() {}
         internal virtual void OnUpdate() {}
-        internal virtual void OnFixedUpdate() {}
-        internal virtual void OnLateUpdate() {}
+        internal virtual void OnPhysics() {}
         internal virtual void OnDispose() {}
         
         protected Module()
