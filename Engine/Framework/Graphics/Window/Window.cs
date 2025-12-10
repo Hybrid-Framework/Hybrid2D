@@ -55,10 +55,14 @@ namespace Hybrid
             Handle = SDL.CreateWindow(config.Title, config.Width, config.Height, Flags.GetFlags());
             Size = new Vector2(config.Width, config.Height);
         
-            // Window Icon
-            var icon = SDL_image.Load(config.Icon);
-            SDL.SetWindowIcon(Handle, icon);
-            SDL.DestroySurface(icon);
+            // Icon
+            if (!web)
+            {
+                // Set Window Icon (Web handled)
+                var icon = SDL_image.Load(config.Icon);
+                SDL.SetWindowIcon(Handle, icon);
+                SDL.DestroySurface(icon);
+            }
             
             base.OnInitialize();
         }

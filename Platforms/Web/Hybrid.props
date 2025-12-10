@@ -2,7 +2,13 @@
     
 <!-- Settings -->
     <PropertyGroup>
-        <EmccExtraLDFlags>--embed-file ../../App/Resources@/</EmccExtraLDFlags>
+        <EmccExtraLDFlags>
+            -O3
+            -ffast-math
+            -sUSE_PTHREADS=0
+            -sALLOW_MEMORY_GROWTH=1
+            --embed-file ../../App/Resources@/
+        </EmccExtraLDFlags>
         <WasmAllowUndefinedSymbols>true</WasmAllowUndefinedSymbols>
         <WasmEmitSymbolMap>true</WasmEmitSymbolMap>
     </PropertyGroup>

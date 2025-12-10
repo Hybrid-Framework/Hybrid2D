@@ -48,7 +48,7 @@ namespace Hybrid
                 obj.Destroyed = true;
 
                 // Output
-                if (obj is GameObject) Debug.Log("Destroyed: " + name);
+                // if (obj is GameObject) Debug.Log("Destroyed: " + name);
             }
         }
 

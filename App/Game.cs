@@ -6,8 +6,13 @@ namespace App
     {
         public override void OnSceneOpen()
         {
-            GameObject obj1 = new GameObject("Object 1");
-            GameObject obj2 = new GameObject("Object 2");
+            GameObject parent = new GameObject("Parent");
+
+            for (int i = 0; i < 50000; i++)
+            {
+                GameObject child = new GameObject($"Child ({i})");
+                child.Transform.SetParent(parent.Transform);
+            }
         }
 
         public override void OnSceneClose()

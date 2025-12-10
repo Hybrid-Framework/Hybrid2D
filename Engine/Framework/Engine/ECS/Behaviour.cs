@@ -263,7 +263,7 @@ namespace Hybrid
                 }
             }
             
-            Debug.Log($"Component '{component.GetType()}' added to GameObject '{GameObject.Name}'");
+            // Debug.Log($"Component '{component.GetType()}' added to GameObject '{GameObject.Name}'");
             return component;
         }
     }
@@ -709,7 +709,7 @@ namespace Hybrid
                 
                 // Remove From GameObject
                 GameObject.Components.Remove(component);
-                Debug.Log($"Component '{type.Name}' destroy on GameObject '{GameObject.Name}'");
+                // Debug.Log($"Component '{type.Name}' destroy on GameObject '{GameObject.Name}'");
                 return true;
             }
 
