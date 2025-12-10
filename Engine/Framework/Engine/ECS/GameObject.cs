@@ -5,29 +5,30 @@ namespace Hybrid
     public partial class GameObject : Behaviour
     {
         internal List<Component> Components { get; private set; } = new List<Component>();
+        internal Scene Scene { get; private set; } = null;
         public string Layer { get; set; } = "Default";
         public string Tag { get; set; } = "Default";
-        private Scene Scene { get; }
         
         
         // Constructor
-        public GameObject(string name)
+        public GameObject(string name = null)
         {
             // Assign
             Name = name ?? Name;
             GameObject = this;
             
             // Create Transform
-            Transform = AddComponentInternal(new Transform(this));
+            Transform = AddComponentInternal(new Transform
+            {
+                GameObject = this.GameObject,
+                Transform = this.Transform,
+                Name = this.Name
+            });
             
             // Add To Scene
             Scene = Scenes.GetActiveScene();
             Scene.AddObject(this);
-            
-            // Activate
-            Enabled = true;
         }
-        
 
         // Dispose
         internal override void OnDispose()

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace Hybrid
 {
@@ -31,12 +32,18 @@ namespace Hybrid
     {
         public Component AddComponent(Type type)
         {
-            return AddComponentInternal((Component)Activator.CreateInstance(type));
+            return AddComponentInternal
+            (
+                (Component)Activator.CreateInstance(type, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, null, null)
+            );
         }
         
         public T AddComponent<T>() where T : Component
         {
-            return AddComponentInternal((Component)Activator.CreateInstance(typeof(T))) as T;
+            return AddComponentInternal
+            (
+                (T)Activator.CreateInstance(typeof(T), BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, null, null)
+            );
         }
 
         internal T AddComponentInternal<T>(T component) where T : Component
@@ -55,6 +62,7 @@ namespace Hybrid
             // Disallow Multiple Component
             if (Attribute.IsDefined(type, typeof(DisallowMultipleComponentAttribute)))
             {
+                // Has Component
                 if (GetComponent<T>())
                 {
                     throw new Exception($"Can't have multiple instances of '{type.Name}' on GameObject '{GameObject.Name}'");
@@ -199,35 +207,29 @@ namespace Hybrid
             // Check For Component
             if (GameObject.Components.Contains(component))
             {
-                // Disallow Destroy Component
-                if (Attribute.IsDefined(type, typeof(DisallowDestroyComponentAttribute)))
-                {
-                    if (!GameObject.IsDestroying())
-                    {
-                        throw new Exception($"Can't destroy Component '{type.Name}' on GameObject '{GameObject.Name}' because it isn't destroyable");
-                    }
-                }
-                
                 // Require Component
                 if (!GameObject.IsDestroying())
                 {
                     // For Each Component
                     foreach (var checkComponent in GameObject.Components)
                     {
+                        // Component Type
+                        var checkComponentType = checkComponent.GetType();
+                        
                         // For Each Required Component
-                        foreach (RequireComponentAttribute required in checkComponent.GetType().GetCustomAttributes(typeof(RequireComponentAttribute), true))
+                        foreach (RequireComponentAttribute required in checkComponentType.GetCustomAttributes(typeof(RequireComponentAttribute), true))
                         {
                             if (required.Type == type)
                             {
-                                throw new Exception($"Can't destroy Component '{type.Name}' on GameObject '{GameObject.Name}' because Component '{checkComponent.GetType().Name}' requires it");
+                                throw new Exception($"Can't destroy Component '{type.Name}' on GameObject '{GameObject.Name}' because Component '{checkComponentType.Name}' requires it");
                             }
                         }
                     }
                 }
                 
                 // Remove From GameObject
-                GameObject.Components.Remove(component);
                 // Debug.Log($"Component '{type.Name}' destroy on GameObject '{GameObject.Name}'");
+                GameObject.Components.Remove(component);
                 return true;
             }
 

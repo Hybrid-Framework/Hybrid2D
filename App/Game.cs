@@ -8,7 +8,7 @@ namespace App
         {
             for (int i = 0; i < 8192; i++)
             {
-                GameObject gameObject = new GameObject($"Child ({i})");
+                GameObject gameObject = new GameObject($"{i}");
             }
         }
 
