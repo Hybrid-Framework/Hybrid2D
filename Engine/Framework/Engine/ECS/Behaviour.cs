@@ -209,7 +209,8 @@ namespace Hybrid
         internal T AddComponentInternal<T>(T component) where T : Component
         {
             // Invalid Component
-            if (component == null || GameObject == null) return null;
+            if (component == null || GameObject == null)
+                return null;
             
             // Component Type
             var type = component.GetType();
@@ -270,7 +271,8 @@ namespace Hybrid
         internal Component GetComponentInternal(Type type)
         {
             // Invalid Component
-            if (type == null || GameObject == null) return null;
+            if (type == null || GameObject == null)
+                return null;
             
             // Invalid Component
             if (!typeof(Component).IsAssignableFrom(type))
@@ -292,6 +294,14 @@ namespace Hybrid
     // Get Components
     public abstract partial class Behaviour
     {
+        public Component[] GetComponents()
+        {
+            if (GameObject == null)
+                return Array.Empty<Component>();
+
+            return GameObject.Components.ToArray();
+        }
+        
         public Component[] GetComponents(Type type)
         {
             return GetComponentsInternal(type);
@@ -305,7 +315,8 @@ namespace Hybrid
         internal Component[] GetComponentsInternal(Type type)
         {
             // Invalid Component
-            if (type == null || GameObject == null) return Array.Empty<Component>();
+            if (type == null || GameObject == null)
+                return Array.Empty<Component>();
             
             // Invalid Component
             if (!typeof(Component).IsAssignableFrom(type))
@@ -343,7 +354,8 @@ namespace Hybrid
         internal Component GetComponentInChildrenInternal(Type type, bool parent = false)
         {
             // Invalid Component
-            if (type == null || GameObject == null) return null;
+            if (type == null || GameObject == null)
+                return null;
             
             // Invalid Component
             if (!typeof(Component).IsAssignableFrom(type))
@@ -381,7 +393,8 @@ namespace Hybrid
         internal Component[] GetComponentsInChildrenInternal(Type type, bool parent = false)
         {
             // Invalid Component
-            if (type == null || GameObject == null) return Array.Empty<Component>();
+            if (type == null || GameObject == null)
+                return Array.Empty<Component>();
             
             // Invalid Component
             if (!typeof(Component).IsAssignableFrom(type))
@@ -422,7 +435,8 @@ namespace Hybrid
         internal Component GetComponentInParentInternal(Type type)
         {
             // Invalid Component
-            if (type == null || GameObject == null) return null;
+            if (type == null || GameObject == null)
+                return null;
             
             // Invalid Component
             if (!typeof(Component).IsAssignableFrom(type))
@@ -460,7 +474,8 @@ namespace Hybrid
         internal Component[] GetComponentsInParentInternal(Type type)
         {
             // Invalid Component
-            if (type == null || GameObject == null) return Array.Empty<Component>();
+            if (type == null || GameObject == null)
+                return Array.Empty<Component>();
             
             // Invalid Component
             if (!typeof(Component).IsAssignableFrom(type))
@@ -485,6 +500,145 @@ namespace Hybrid
         }
     }
     
+    // Get Component Index
+    public abstract partial class Behaviour
+    {
+        public int GetComponentIndex(Component component)
+        {
+            return GetComponentIndexInternal(component);
+        }
+
+        public int GetComponentIndex<T>() where T : Component
+        {
+            return GetComponentIndexInternal(GetComponent<T>());
+        }
+        
+        internal int GetComponentIndexInternal(Component component)
+        {
+            // Invalid Component
+            if (component == null || GameObject == null)
+                return -1;
+            
+            // Invalid Component
+            if (!typeof(Component).IsAssignableFrom(component.GetType()))
+                throw new Exception($"Type '{component.GetType().Name}' does not inherit from Component");
+
+            // Return Index Of This Component
+            return GameObject.Components.IndexOf(component);
+        }
+    }
+    
+    // Get Component At Index
+    public abstract partial class Behaviour
+    {
+        public Component GetComponentAtIndex(int index)
+        {
+            return GetComponentAtIndexInternal(index);
+        }
+
+        public T GetComponentAtIndex<T>(int index) where T : Component
+        {
+            return GetComponentAtIndexInternal(index) as T;
+        }
+        
+        internal Component GetComponentAtIndexInternal(int index)
+        {
+            // Invalid Component
+            if (GameObject == null)
+                return null;
+
+            // Find Component At Index
+            if (index >= 0 && index < GameObject.Components.Count)
+            {
+                return GameObject.Components[index];
+            }
+
+            return null;
+        }
+    }
+    
+    // Get Component Count
+    public abstract partial class Behaviour
+    {
+        public int GetComponentCount()
+        {
+            if (GameObject == null)
+                return 0;
+
+            return GameObject.Components.Count;
+        }
+        
+        public int GetComponentCount(Type type)
+        {
+            return GetComponentCountInternal(type);
+        }
+
+        public int GetComponentCount<T>() where T : Component
+        {
+            return GetComponentCountInternal(typeof(T));
+        }
+        
+        internal int GetComponentCountInternal(Type type)
+        {
+            // Invalid Component
+            if (type == null || GameObject == null)
+                return 0;
+            
+            // Invalid Component
+            if (!typeof(Component).IsAssignableFrom(type))
+                throw new Exception($"Type '{type.Name}' does not inherit from Component");
+
+            // Return Found Components Count
+            return GameObject.GetComponents(type).Length;
+        }
+    }
+    
+    // Try Get Component
+    public abstract partial class Behaviour
+    {
+        public bool TryGetComponent(Type type, out Component component)
+        {
+            if (TryGetComponentInternal(type, out var c))
+            {
+                component = c;
+                return true;
+            }
+
+            component = null;
+            return false;
+        }
+
+        public bool TryGetComponent<T>(out T component) where T : Component
+        {
+            if (TryGetComponentInternal(typeof(T), out var c) && c is T t)
+            {
+                component = t;
+                return true;
+            }
+
+            component = null;
+            return false;
+        }
+        
+        internal bool TryGetComponentInternal(Type type, out Component component)
+        {
+            // Invalid Component
+            if (type == null || GameObject == null)
+            {
+                component = null;
+                return false;
+            }
+            
+            // Invalid Component
+            if (!typeof(Component).IsAssignableFrom(type))
+                throw new Exception($"Type '{type.Name}' does not inherit from Component");
+
+            // Get Component
+            component = GetComponent(type);
+            return component != null;
+        }
+    }
+    
     // Destroy Component
     public abstract partial class Behaviour
     {
@@ -501,7 +655,8 @@ namespace Hybrid
         internal bool DestroyComponentInternal<T>(T component) where T : Component
         {
             // Invalid Component
-            if (component == null || GameObject == null) return false;
+            if (component == null || GameObject == null)
+                return false;
             
             // Component Type
             var type = component.GetType();
@@ -546,21 +701,6 @@ namespace Hybrid
             }
 
             return false;
-        }
-    }
-    
-    // Get All Components
-    public abstract partial class Behaviour
-    {
-        public Component[] GetComponents()
-        {
-            // Invalid GameObject
-            if (GameObject == null)
-            {
-                return Array.Empty<Component>();
-            }
-            
-            return GameObject.Components.ToArray();
         }
     }
 }
