@@ -6,6 +6,7 @@ namespace Hybrid
     public abstract partial class Object : IEquatable<Object>
     {
         private readonly Guid Guid = Guid.NewGuid();
+        
         private bool Destroying { get; set; }
         private bool Destroyed { get; set; }
         

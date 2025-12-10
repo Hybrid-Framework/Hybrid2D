@@ -3,21 +3,21 @@
 namespace Hybrid
 {
     // Scene API
-    public abstract partial class Scene
+    public abstract class Scene
     {
-        internal List<GameObject> RootGameObjects { get; private set; } = new List<GameObject>();
+        internal HashSet<GameObject> RootGameObjects { get; private set; } = new HashSet<GameObject>();
         public string Name => GetType().Name;
         
         
         internal void AddObject(GameObject gameObject)
         {
-            // Debug.Log($"Added '{gameObject.Name}' to scene root GameObjects");
+            Debug.Log($"Added '{gameObject.Name}' to scene root objects");
             RootGameObjects.Add(gameObject);
         }
 
         internal void RemoveObject(GameObject gameObject)
         {
-            // Debug.Log($"Removed '{gameObject.Name}' from scene root GameObjects");
+            Debug.Log($"Removed '{gameObject.Name}' from scene root objects");
             RootGameObjects.Remove(gameObject);
         }
         

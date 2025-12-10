@@ -13,7 +13,7 @@ namespace Hybrid
         // Constructor
         public GameObject(string name = null)
         {
-            // Assign
+            // Properties
             Name = name ?? Name;
             GameObject = this;
             

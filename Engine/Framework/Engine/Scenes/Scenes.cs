@@ -12,6 +12,7 @@ namespace Hybrid
             if (Platform.GetConfig().Scene == null)
                 throw new Exception("No valid scene in config file");
             
+            // Load Config Scene
             Load(Platform.GetConfig().Scene);
             base.OnInitialize();
         }
