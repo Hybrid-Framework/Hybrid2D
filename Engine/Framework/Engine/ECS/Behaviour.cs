@@ -113,7 +113,7 @@ namespace Hybrid
                 throw new Exception($"Type '{type.Name}' does not inherit from Component");
             
             // Find Matching Component
-            foreach (var component in GetComponents())
+            foreach (var component in GameObject.Components)
             {
                 if (type.IsAssignableFrom(component.GetType()))
                 {
@@ -128,29 +128,29 @@ namespace Hybrid
     // Get Components
     public abstract partial class Behaviour
     {
-        public Component[] GetComponents()
+        public List<Component> GetComponents()
         {
             if (GameObject == null)
-                return Array.Empty<Component>();
+                return new List<Component>();
 
-            return GameObject.Components.ToArray();
+            return GameObject.Components.ToList();
         }
         
-        public Component[] GetComponents(Type type)
+        public List<Component> GetComponents(Type type)
         {
             return GetComponentsInternal(type);
         }
 
-        public T[] GetComponents<T>() where T : Component
+        public List<T> GetComponents<T>() where T : Component
         {
-            return GetComponentsInternal(typeof(T)).Cast<T>().ToArray();
+            return GetComponentsInternal(typeof(T)).Cast<T>().ToList();
         }
         
-        internal Component[] GetComponentsInternal(Type type)
+        internal List<Component> GetComponentsInternal(Type type)
         {
             // Invalid Component
             if (type == null || GameObject == null)
-                return Array.Empty<Component>();
+                return new List<Component>();
             
             // Invalid Component
             if (!typeof(Component).IsAssignableFrom(type))
@@ -160,7 +160,7 @@ namespace Hybrid
             var results = new List<Component>();
             
             // Find All Matching Components
-            foreach (var component in GetComponents())
+            foreach (var component in GameObject.Components)
             {
                 if (type.IsAssignableFrom(component.GetType()))
                 {
@@ -168,7 +168,7 @@ namespace Hybrid
                 }
             }
 
-            return results.ToArray();
+            return results;
         }
     }
     
@@ -199,7 +199,7 @@ namespace Hybrid
                 throw new Exception($"Type '{type.Name}' does not inherit from Component");
 
             // Check For Component
-            if (GetComponents().Contains(component))
+            if (GameObject.Components.Contains(component))
             {
                 // Disallow Destroy Component
                 if (Attribute.IsDefined(type, typeof(DisallowDestroyComponentAttribute)))
@@ -214,7 +214,7 @@ namespace Hybrid
                 if (!GameObject.IsDestroying())
                 {
                     // For Each Component
-                    foreach (var checkComponent in GetComponents())
+                    foreach (var checkComponent in GameObject.Components)
                     {
                         // For Each Required Component
                         foreach (RequireComponentAttribute required in checkComponent.GetType().GetCustomAttributes(typeof(RequireComponentAttribute), true))

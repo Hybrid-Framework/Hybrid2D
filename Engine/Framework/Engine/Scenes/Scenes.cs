@@ -20,13 +20,13 @@ namespace Hybrid
         internal override void OnUpdate()
         {
             // For Each Object In Scene
-            foreach (var gameObject in GetActiveScene().GetRootGameObjects())
+            foreach (var gameObject in GetActiveScene().RootGameObjects)
             {
                 // Skip Disabled GameObject
                 if(!gameObject.Enabled) continue;
                 
                 // For Each Component In Children & Parent
-                foreach (var component in gameObject.GetComponents())
+                foreach (var component in gameObject.Components)
                 {
                     // Skip Disabled Component
                     if(!component.Enabled) continue;
@@ -55,13 +55,13 @@ namespace Hybrid
         internal override void OnLateUpdate()
         {
             // For Each Object In Scene
-            foreach (var gameObject in GetActiveScene().GetRootGameObjects())
+            foreach (var gameObject in GetActiveScene().RootGameObjects)
             {
                 // Skip Disabled GameObject
                 if(!gameObject.Enabled) continue;
                 
                 // For Each Component In Children & Parent
-                foreach (var component in gameObject.GetComponents())
+                foreach (var component in gameObject.Components)
                 {
                     // Skip Disabled Component
                     if(!component.Enabled) continue;
@@ -76,13 +76,13 @@ namespace Hybrid
         internal override void OnFixedUpdate()
         {
             // For Each Object In Scene
-            foreach (var gameObject in GetActiveScene().GetRootGameObjects())
+            foreach (var gameObject in GetActiveScene().RootGameObjects)
             {
                 // Skip Disabled GameObject
                 if(!gameObject.Enabled) continue;
                 
                 // For Each Component In Children & Parent
-                foreach (var component in gameObject.GetComponents())
+                foreach (var component in gameObject.Components)
                 {
                     // Skip Disabled Component
                     if(!component.Enabled) continue;
@@ -151,7 +151,7 @@ namespace Hybrid
                 throw new Exception("Failed to close invalid scene");
 
             // Destroy Every GameObject In Scene
-            foreach (var gameObject in GetActiveScene().GetRootGameObjects())
+            foreach (var gameObject in GetActiveScene().RootGameObjects.ToArray())
             {
                 Object.Destroy(gameObject);
             }

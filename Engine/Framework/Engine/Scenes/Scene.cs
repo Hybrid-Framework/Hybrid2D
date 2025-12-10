@@ -5,7 +5,7 @@ namespace Hybrid
     // Scene API
     public abstract partial class Scene
     {
-        private readonly List<GameObject> RootGameObjects = new List<GameObject>();
+        internal List<GameObject> RootGameObjects { get; private set; } = new List<GameObject>();
         public string Name => GetType().Name;
         
         
@@ -21,9 +21,9 @@ namespace Hybrid
             RootGameObjects.Remove(gameObject);
         }
         
-        public GameObject[] GetRootGameObjects()
+        public List<GameObject> GetRootGameObjects()
         {
-            return RootGameObjects.ToArray();
+            return RootGameObjects.ToList();
         }
         
         public virtual void OnSceneOpen()
