@@ -27,13 +27,12 @@ namespace Hybrid
         // Render
         internal override void OnRender()
         {
-            // Presentation (Black box)
-            SDL.SetRenderDrawColor(Handle, 0, 0, 0, 255);
-            SDL.RenderClear(Handle);
+            // TODO: PRESENTATION SUCH AS LETTERBOX, ETC
+            // THIS ALREADY WORKS BUT NO BLACK BARS
             
-            // Presentation
+            // Clear
             SDL.SetRenderDrawColor(Handle, 255, 128, 128, 255);
-            SDL.RenderFillRect(Handle, null);
+            SDL.RenderClear(Handle);
             
             // Rendering
             SDL.SetRenderDrawColor(Handle, 255, 255, 255, 255);

@@ -8,7 +8,7 @@ namespace App
         {
             GameObject parent = new GameObject("Parent");
 
-            for (int i = 0; i < 50000; i++)
+            for (int i = 0; i < 16000; i++)
             {
                 GameObject child = new GameObject($"Child ({i})");
                 child.Transform.SetParent(parent.Transform);
