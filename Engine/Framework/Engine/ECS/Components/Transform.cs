@@ -190,21 +190,4 @@ namespace Hybrid
             return Children.Count;
         }
     }
-
-    // Transform API
-    public partial class Transform
-    {
-        public Transform Find(string name)
-        {
-            foreach (var child in GetChildrenRecursive())
-            {
-                if (child.Name == name)
-                {
-                    return child;
-                }
-            }
-
-            return null;
-        }
-    }
 }

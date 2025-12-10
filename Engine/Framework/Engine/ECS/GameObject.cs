@@ -57,22 +57,14 @@ namespace Hybrid
     // GameObject
     public partial class GameObject
     {
+        public void SetActive(bool enabled)
+        {
+            Enabled = enabled;
+        }
+        
         public Scene GetScene()
         {
             return Scene;
-        }
-
-        public GameObject Find(string name)
-        {
-            foreach (var child in Transform.GetChildrenRecursive())
-            {
-                if (child.GameObject.Name == name)
-                {
-                    return child.GameObject;
-                }
-            }
-
-            return null;
         }
     }
 }

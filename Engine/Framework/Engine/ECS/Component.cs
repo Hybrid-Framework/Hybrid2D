@@ -12,7 +12,7 @@ namespace Hybrid
             {
                 if (GameObject.DestroyComponentInternal(this))
                 {
-                    OnDestroy();
+                    OnComponentDestroy();
                     
                     GameObject = null;
                     Transform = null;
@@ -26,23 +26,72 @@ namespace Hybrid
     // Component API
     public abstract partial class Component
     {
-        public bool DidAwake { get; internal set; } = false;
-        public bool DidStart { get; internal set; } = false;
+        internal bool DidAwake { get; set; } = false;
+        internal bool DidStart { get; set; } = false;
         
-        public virtual void OnAwake() { }
 
-        public virtual void OnStart() { }
-        
-        public virtual void OnEnable() { }
-        
-        public virtual void OnDisable() { }
-        
-        public virtual void OnUpdate() { }
-        
-        public virtual void OnFixedUpdate() { }
-        
-        public virtual void OnLateUpdate() { }
-        
-        public virtual void OnDestroy() { }
+        internal virtual void OnComponentAwake()
+        {
+            if (this is Script script)
+            {
+                script.OnAwake();
+            }
+        }
+
+        internal virtual void OnComponentStart()
+        {
+            if (this is Script script)
+            {
+                script.OnStart();
+            }
+        }
+
+        internal virtual void OnComponentEnable()
+        {
+            if (this is Script script)
+            {
+                script.OnEnable();
+            }
+        }
+
+        internal virtual void OnComponentDisable()
+        {
+            if (this is Script script)
+            {
+                script.OnDisable();
+            }
+        }
+
+        internal virtual void OnComponentUpdate()
+        {
+            if (this is Script script)
+            {
+                script.OnUpdate();
+            }
+        }
+
+        internal virtual void OnComponentFixedUpdate()
+        {
+            if (this is Script script)
+            {
+                script.OnFixedUpdate();
+            }
+        }
+
+        internal virtual void OnComponentLateUpdate()
+        {
+            if (this is Script script)
+            {
+                script.OnLateUpdate();
+            }
+        }
+
+        internal virtual void OnComponentDestroy()
+        {
+            if (this is Script script)
+            {
+                script.OnDestroy();
+            }
+        }
     }
 }

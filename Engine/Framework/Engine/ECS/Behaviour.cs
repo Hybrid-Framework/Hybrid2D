@@ -17,13 +17,26 @@ namespace Hybrid
                 {
                     if (value != _Enabled)
                     {
-                        if(value) component.OnEnable();
-                        if(!value) component.OnDisable();
+                        if(value) component.OnComponentEnable();
+                        if(!value) component.OnComponentDisable();
                     }
                 }
 
                 _Enabled = value;
             }
+        }
+        
+        public GameObject Find(string name)
+        {
+            foreach (var child in Transform.GetChildrenRecursive())
+            {
+                if (child.GameObject.Name == name)
+                {
+                    return child.GameObject;
+                }
+            }
+
+            return null;
         }
     }
 
