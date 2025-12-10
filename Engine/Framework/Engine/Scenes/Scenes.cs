@@ -26,7 +26,7 @@ namespace Hybrid
                 if(!gameObject.Enabled) continue;
                 
                 // For Each Component In Children & Parent
-                foreach (var component in gameObject.GetComponentsInChildren<Component>(true))
+                foreach (var component in gameObject.GetComponents())
                 {
                     // Skip Disabled Component
                     if(!component.Enabled) continue;
@@ -61,7 +61,7 @@ namespace Hybrid
                 if(!gameObject.Enabled) continue;
                 
                 // For Each Component In Children & Parent
-                foreach (var component in gameObject.GetComponentsInChildren<Component>(true))
+                foreach (var component in gameObject.GetComponents())
                 {
                     // Skip Disabled Component
                     if(!component.Enabled) continue;
@@ -82,7 +82,7 @@ namespace Hybrid
                 if(!gameObject.Enabled) continue;
                 
                 // For Each Component In Children & Parent
-                foreach (var component in gameObject.GetComponentsInChildren<Component>(true))
+                foreach (var component in gameObject.GetComponents())
                 {
                     // Skip Disabled Component
                     if(!component.Enabled) continue;

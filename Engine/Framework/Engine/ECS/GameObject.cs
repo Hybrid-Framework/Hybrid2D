@@ -11,7 +11,7 @@ namespace Hybrid
         
         
         // Constructor
-        public GameObject(string name, Transform parent = null)
+        public GameObject(string name)
         {
             // Assign
             Name = name ?? Name;
@@ -34,12 +34,6 @@ namespace Hybrid
         {
             if (!IsDestroyed())
             {
-                // Destroy All Children Of This GameObject
-                foreach (var child in Transform.GetChildrenRecursive(true))
-                {
-                    Object.Destroy(child.GameObject);
-                }
-                
                 // Destroy All Components For This GameObject
                 foreach (var component in GetComponents())
                 {
