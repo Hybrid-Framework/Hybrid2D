@@ -11,13 +11,13 @@ namespace Hybrid
         
         internal void AddObject(GameObject gameObject)
         {
-            Debug.Log($"Added '{gameObject.Name}' to scene root objects");
+            // Debug.Log($"Added '{gameObject.Name}' to scene root objects");
             RootGameObjects.Add(gameObject);
         }
 
         internal void RemoveObject(GameObject gameObject)
         {
-            Debug.Log($"Removed '{gameObject.Name}' from scene root objects");
+            // Debug.Log($"Removed '{gameObject.Name}' from scene root objects");
             RootGameObjects.Remove(gameObject);
         }
         

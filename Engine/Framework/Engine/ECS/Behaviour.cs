@@ -142,21 +142,21 @@ namespace Hybrid
     // Get Components
     public abstract partial class Behaviour
     {
-        public List<Component> GetComponents(Type type = null)
+        public Component[] GetComponents(Type type = null)
         {
-            return GetComponentsInternal(type ?? typeof(Component));
+            return GetComponentsInternal(type ?? typeof(Component)).ToArray();
         }
 
-        public List<T> GetComponents<T>() where T : Component
+        public T[] GetComponents<T>() where T : Component
         {
-            return GetComponentsInternal(typeof(T)).Cast<T>().ToList();
+            return GetComponentsInternal(typeof(T)).Cast<T>().ToArray();
         }
         
-        internal List<Component> GetComponentsInternal(Type type)
+        internal Component[] GetComponentsInternal(Type type)
         {
             // Invalid Component
             if (type == null || GameObject == null)
-                return new List<Component>();
+                return Array.Empty<Component>();
             
             // Invalid Type
             if (!typeof(Component).IsAssignableFrom(type))
@@ -174,7 +174,7 @@ namespace Hybrid
                 }
             }
 
-            return results;
+            return results.ToArray();
         }
     }
     
@@ -205,7 +205,7 @@ namespace Hybrid
                 throw new Exception($"Type '{type.Name}' does not inherit from Component");
 
             // Check For Component
-            if (GameObject.Components.Contains(component))
+            if (HasComponent(component))
             {
                 // Require Component
                 if (!GameObject.IsDestroying())
@@ -231,6 +231,28 @@ namespace Hybrid
                 // Debug.Log($"Component '{type.Name}' destroy on GameObject '{GameObject.Name}'");
                 GameObject.Components.Remove(component);
                 return true;
+            }
+
+            return false;
+        }
+    }
+    
+    // Has Component
+    public abstract partial class Behaviour
+    {
+        private bool HasComponent(Component component)
+        {
+            // Invalid Component
+            if (component == null || GameObject == null)
+                return false;
+            
+            // Find Matching Component
+            foreach (var c in GameObject.Components)
+            {
+                if (c == component)
+                {
+                    return true;
+                }
             }
 
             return false;
