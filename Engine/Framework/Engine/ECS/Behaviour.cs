@@ -42,20 +42,21 @@ namespace Hybrid
 
         internal void SendMessageInternal(string methodName, object parameter = null, SendMessageOptions options = SendMessageOptions.RequireReceiver)
         {
+            // Invalid GameObject
+            if(GameObject == null || Transform == null)
+                return;
+            
             bool invoked = false;
 
-            if (GameObject != null)
+            foreach (var component in GameObject.Components)
             {
-                foreach (var component in GameObject.Components)
-                {
-                    var method = component.GetType().GetMethod(methodName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                var method = component.GetType().GetMethod(methodName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 
-                    if (method != null)
-                    {
-                        var parameters = method.GetParameters().Length > 0 ? new[] { parameter } : null;
-                        method.Invoke(component, parameters);
-                        invoked = true;
-                    }
+                if (method != null)
+                {
+                    var parameters = method.GetParameters().Length > 0 ? new[] { parameter } : null;
+                    method.Invoke(component, parameters);
+                    invoked = true;
                 }
             }
 
@@ -63,7 +64,7 @@ namespace Hybrid
             {
                 if (!invoked)
                 {
-                    throw new Exception($"SendMessage: No receiver found for method '{methodName}' on GameObject '{GameObject?.Name}'");
+                    throw new Exception($"No receiver found for method '{methodName}' on GameObject '{GameObject.Name}'");
                 }
             }
         }
@@ -84,20 +85,21 @@ namespace Hybrid
 
         internal void BroadcastMessageInternal(string methodName, object parameter = null, SendMessageOptions options = SendMessageOptions.RequireReceiver)
         {
+            // Invalid GameObject
+            if(GameObject == null || Transform == null)
+                return;
+            
             bool invoked = false;
 
-            if (GameObject != null)
+            foreach (var component in Transform.GetComponentsInChildren(true))
             {
-                foreach (var component in Transform.GetComponentsInChildren(true))
-                {
-                    var method = component.GetType().GetMethod(methodName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                var method = component.GetType().GetMethod(methodName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 
-                    if (method != null)
-                    {
-                        var parameters = method.GetParameters().Length > 0 ? new[] { parameter } : null;
-                        method.Invoke(component, parameters);
-                        invoked = true;
-                    }
+                if (method != null)
+                {
+                    var parameters = method.GetParameters().Length > 0 ? new[] { parameter } : null;
+                    method.Invoke(component, parameters);
+                    invoked = true;
                 }
             }
 
@@ -105,7 +107,7 @@ namespace Hybrid
             {
                 if (!invoked)
                 {
-                    throw new Exception($"SendMessage: No receiver found for method '{methodName}' on GameObject '{GameObject?.Name}'");
+                    throw new Exception($"No receiver found for method '{methodName}' on GameObject '{GameObject.Name}'");
                 }
             }
         }
