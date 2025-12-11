@@ -1,5 +1,5 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
+using System;
 
 namespace Hybrid
 {
@@ -26,6 +26,220 @@ namespace Hybrid
             }
         }
     }
+    
+    // Find By Types
+    public abstract partial class Behaviour
+    {
+        public static GameObject[] FindGameObjectsByName(string name, bool activeOnly = false)
+        {
+            var results = new List<GameObject>();
+            
+            // For Each Root GameObject In Scene
+            foreach (var gameObject in Scenes.GetActiveScene().RootGameObjects)
+            {
+                // If Active Only And Disabled
+                if(activeOnly && !gameObject.Enabled) continue;
+                
+                // For Each Child Of GameObject (Including Parent)
+                foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
+                {
+                    // If Active Only And Disabled
+                    if(activeOnly && !child.Enabled) continue;
+                    
+                    if (child.GameObject.Name == name)
+                    {
+                        results.Add(child.GameObject);
+                    }
+                }
+            }
+
+            return results.ToArray();
+        }
+        
+        public static GameObject FindGameObjectByName(string name, bool activeOnly = false)
+        {
+            // For Each Root GameObject In Scene
+            foreach (var gameObject in Scenes.GetActiveScene().RootGameObjects)
+            {
+                // If Active Only And Disabled
+                if(activeOnly && !gameObject.Enabled) continue;
+                
+                // For Each Child Of GameObject (Including Parent)
+                foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
+                {
+                    // If Active Only And Disabled
+                    if(activeOnly && !child.Enabled) continue;
+                    
+                    if (child.GameObject.Name == name)
+                    {
+                        return child.GameObject;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public static GameObject[] FindGameObjectsByLayer(string layer, bool activeOnly = false)
+        {
+            var results = new List<GameObject>();
+            
+            // For Each Root GameObject In Scene
+            foreach (var gameObject in Scenes.GetActiveScene().RootGameObjects)
+            {
+                // If Active Only And Disabled
+                if(activeOnly && !gameObject.Enabled) continue;
+                
+                // For Each Child Of GameObject (Including Parent)
+                foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
+                {
+                    // If Active Only And Disabled
+                    if(activeOnly && !child.Enabled) continue;
+                    
+                    if (child.GameObject.Layer == layer)
+                    {
+                        results.Add(child.GameObject);
+                    }
+                }
+            }
+
+            return results.ToArray();
+        }
+        
+        public static GameObject FindGameObjectByLayer(string layer, bool activeOnly = false)
+        {
+            // For Each Root GameObject In Scene
+            foreach (var gameObject in Scenes.GetActiveScene().RootGameObjects)
+            {
+                // If Active Only And Disabled
+                if(activeOnly && !gameObject.Enabled) continue;
+                
+                // For Each Child Of GameObject (Including Parent)
+                foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
+                {
+                    // If Active Only And Disabled
+                    if(activeOnly && !child.Enabled) continue;
+                    
+                    if (child.GameObject.Layer == layer)
+                    {
+                        return child.GameObject;
+                    }
+                }
+            }
+
+            return null;
+        }
+        
+        public static GameObject[] FindGameObjectsByTag(string tag, bool activeOnly = false)
+        {
+            var results = new List<GameObject>();
+            
+            // For Each Root GameObject In Scene
+            foreach (var gameObject in Scenes.GetActiveScene().RootGameObjects)
+            {
+                // If Active Only And Disabled
+                if(activeOnly && !gameObject.Enabled) continue;
+                
+                // For Each Child Of GameObject (Including Parent)
+                foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
+                {
+                    // If Active Only And Disabled
+                    if(activeOnly && !child.Enabled) continue;
+                    
+                    if (child.GameObject.Tag == tag)
+                    {
+                        results.Add(child.GameObject);
+                    }
+                }
+            }
+
+            return results.ToArray();
+        }
+        
+        public static GameObject FindGameObjectByTag(string tag, bool activeOnly = false)
+        {
+            // For Each Root GameObject In Scene
+            foreach (var gameObject in Scenes.GetActiveScene().RootGameObjects)
+            {
+                // If Active Only And Disabled
+                if(activeOnly && !gameObject.Enabled) continue;
+                
+                // For Each Child Of GameObject (Including Parent)
+                foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
+                {
+                    // If Active Only And Disabled
+                    if(activeOnly && !child.Enabled) continue;
+                    
+                    if (child.GameObject.Tag == tag)
+                    {
+                        return child.GameObject;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public static T[] FindObjectsByType<T>(bool activeOnly = false) where T : Object
+        {
+            var results = new List<T>();
+            
+            // For Each Root GameObject In Scene
+            foreach (var gameObject in Scenes.GetActiveScene().RootGameObjects)
+            {
+                // If Active Only And Disabled
+                if(activeOnly && !gameObject.Enabled) continue;
+                
+                if (typeof(T).IsAssignableFrom(gameObject.GetType()))
+                {
+                    results.Add(gameObject as T);
+                }
+
+                // For Each Child Components Of GameObject (Including Parent)
+                foreach (var component in gameObject.Transform.GetComponentsInChildren<Component>(true))
+                {
+                    // If Active Only And Disabled
+                    if(activeOnly && !component.Enabled) continue;
+                    
+                    if (typeof(T).IsAssignableFrom(component.GetType()))
+                    {
+                        results.Add(component as T);
+                    }
+                }
+            }
+
+            return results.ToArray();
+        }
+        
+        public static T FindObjectByType<T>(bool activeOnly = false) where T : Object
+        {
+            // For Each Root GameObject In Scene
+            foreach (var gameObject in Scenes.GetActiveScene().RootGameObjects)
+            {
+                // If Active Only And Disabled
+                if(activeOnly && !gameObject.Enabled) continue;
+                
+                if (typeof(T).IsAssignableFrom(gameObject.GetType()))
+                {
+                    return gameObject as T;
+                }
+
+                // For Each Child Components Of GameObject (Including Parent)
+                foreach (var component in gameObject.Transform.GetComponentsInChildren<Component>(true))
+                {
+                    // If Active Only And Disabled
+                    if(activeOnly && !component.Enabled) continue;
+                    
+                    if (typeof(T).IsAssignableFrom(component.GetType()))
+                    {
+                        return component as T;
+                    }
+                }
+            }
+
+            return null;
+        }
+    }
 
     // Add Component
     public abstract partial class Behaviour
@@ -48,8 +262,12 @@ namespace Hybrid
 
         internal T AddComponentInternal<T>(T component) where T : Component
         {
+            // Invalid GameObject
+            if (GameObject == null)
+                return null;
+            
             // Invalid Component
-            if (component == null || GameObject == null)
+            if (component == null)
                 return null;
             
             // Component Type
@@ -118,8 +336,12 @@ namespace Hybrid
         
         internal Component GetComponentInternal(Type type)
         {
-            // Invalid Component
-            if (type == null || GameObject == null)
+            // Invalid GameObject
+            if (GameObject == null)
+                return null;
+            
+            // Invalid Type
+            if (type == null)
                 return null;
             
             // Invalid Type
@@ -159,8 +381,12 @@ namespace Hybrid
         
         internal Component[] GetComponentsInternal(Type type)
         {
-            // Invalid Component
-            if (type == null || GameObject == null)
+            // Invalid GameObject
+            if (GameObject == null)
+                return Array.Empty<Component>();
+            
+            // Invalid Type
+            if (type == null)
                 return Array.Empty<Component>();
             
             // Invalid Type
@@ -198,8 +424,12 @@ namespace Hybrid
         
         internal Component GetComponentInParentInternal(Type type, bool includeSelf = false)
         {
-            // Invalid Component
-            if (type == null || GameObject == null)
+            // Invalid GameObject
+            if (GameObject == null)
+                return null;
+            
+            // Invalid Type
+            if (type == null)
                 return null;
             
             // Invalid Type
@@ -241,8 +471,12 @@ namespace Hybrid
         
         internal Component[] GetComponentsInParentInternal(Type type, bool includeSelf = false)
         {
-            // Invalid Component
-            if (type == null || GameObject == null)
+            // Invalid GameObject
+            if (GameObject == null)
+                return Array.Empty<Component>();
+            
+            // Invalid Type
+            if (type == null)
                 return Array.Empty<Component>();
             
             // Invalid Type
@@ -285,8 +519,12 @@ namespace Hybrid
         
         internal Component GetComponentInChildrenInternal(Type type, bool includeSelf = false)
         {
-            // Invalid Component
-            if (type == null || GameObject == null)
+            // Invalid GameObject
+            if (GameObject == null)
+                return null;
+            
+            // Invalid Type
+            if (type == null)
                 return null;
             
             // Invalid Type
@@ -325,8 +563,12 @@ namespace Hybrid
         
         internal Component[] GetComponentsInChildrenInternal(Type type, bool includeSelf = false)
         {
-            // Invalid Component
-            if (type == null || GameObject == null)
+            // Invalid GameObject
+            if (GameObject == null)
+                return null;
+            
+            // Invalid Type
+            if (type == null)
                 return Array.Empty<Component>();
             
             // Invalid Type
@@ -373,8 +615,12 @@ namespace Hybrid
         
         internal int GetComponentCountInternal(Type type)
         {
-            // Invalid Component
-            if (type == null || GameObject == null)
+            // Invalid GameObject
+            if (GameObject == null)
+                return 0;
+            
+            // Invalid Type
+            if (type == null)
                 return 0;
             
             // Invalid Type
@@ -411,8 +657,12 @@ namespace Hybrid
         
         internal int GetComponentIndexInternal(Type type)
         {
-            // Invalid Component
-            if (type == null || GameObject == null)
+            // Invalid GameObject
+            if (GameObject == null)
+                return -1;
+            
+            // Invalid Type
+            if (type == null)
                 return -1;
             
             // Invalid Type
@@ -447,8 +697,12 @@ namespace Hybrid
         
         internal Component GetComponentAtIndexInternal(Type type, int index)
         {
-            // Invalid Component
-            if (type == null || GameObject == null)
+            // Invalid GameObject
+            if (GameObject == null)
+                return null;
+            
+            // Invalid Type
+            if (type == null)
                 return null;
             
             // Invalid Type
@@ -495,8 +749,12 @@ namespace Hybrid
             // Invalid
             component = null;
             
-            // Invalid Component
-            if (type == null || GameObject == null)
+            // Invalid GameObject
+            if (GameObject == null)
+                return false;
+            
+            // Invalid Type
+            if (type == null)
                 return false;
 
             // Invalid Type
@@ -537,8 +795,12 @@ namespace Hybrid
 
         internal bool HasComponentInternal<T>(T component) where T : Component
         {
+            // Invalid GameObject
+            if (GameObject == null)
+                return false;
+            
             // Invalid Component
-            if (component == null || GameObject == null)
+            if (component == null)
                 return false;
             
             // Component Type
@@ -581,8 +843,12 @@ namespace Hybrid
 
         internal bool DestroyComponentInternal<T>(T component) where T : Component
         {
+            // Invalid GameObject
+            if (GameObject == null)
+                return false;
+            
             // Invalid Component
-            if (component == null || GameObject == null)
+            if (component == null)
                 return false;
             
             // Component Type

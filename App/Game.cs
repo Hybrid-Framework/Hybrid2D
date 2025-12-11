@@ -7,19 +7,14 @@ namespace App
         public override void OnSceneOpen()
         {
             GameObject parent = new GameObject("Parent");
+            GameObject child = new GameObject("child");
+            
             var t1 = parent.AddComponent<TestComponent>();
             var t2 = parent.AddComponent<TestComponent>();
 
-            for (int g = 0; g < 32; g++)
+            foreach (var found in GameObject.FindObjectsByType<Object>())
             {
-                GameObject group = new GameObject($"Group({g})");
-                group.Transform.SetParent(parent.Transform);
-                
-                for (int i = 0; i < 250; i++)
-                {
-                    GameObject child = new GameObject($"Group({g}) Child({i})");
-                    child.Transform.SetParent(group.Transform);
-                }
+                Debug.Log(found);
             }
         }
 
