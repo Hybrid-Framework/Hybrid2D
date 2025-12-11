@@ -27,6 +27,90 @@ namespace Hybrid
         }
     }
     
+    // Send Message
+    public abstract partial class Behaviour
+    {
+        public void SendMessage(string methodName, object parameter = null, SendMessageOptions options = SendMessageOptions.RequireReceiver)
+        {
+            SendMessageInternal(methodName, parameter, options);
+        }
+
+        public void SendMessage(string methodName, SendMessageOptions options = SendMessageOptions.RequireReceiver)
+        {
+            SendMessageInternal(methodName, null, options);
+        }
+
+        internal void SendMessageInternal(string methodName, object parameter = null, SendMessageOptions options = SendMessageOptions.RequireReceiver)
+        {
+            bool invoked = false;
+
+            if (GameObject != null)
+            {
+                foreach (var component in GameObject.Components)
+                {
+                    var method = component.GetType().GetMethod(methodName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+
+                    if (method != null)
+                    {
+                        var parameters = method.GetParameters().Length > 0 ? new[] { parameter } : null;
+                        method.Invoke(component, parameters);
+                        invoked = true;
+                    }
+                }
+            }
+
+            if (options == SendMessageOptions.RequireReceiver)
+            {
+                if (!invoked)
+                {
+                    throw new Exception($"SendMessage: No receiver found for method '{methodName}' on GameObject '{GameObject?.Name}'");
+                }
+            }
+        }
+    }
+    
+    // Broadcast Message
+    public abstract partial class Behaviour
+    {
+        public void BroadcastMessage(string methodName, object parameter = null, SendMessageOptions options = SendMessageOptions.RequireReceiver)
+        {
+            BroadcastMessageInternal(methodName, parameter, options);
+        }
+        
+        public void BroadcastMessage(string methodName, SendMessageOptions options = SendMessageOptions.RequireReceiver)
+        {
+            BroadcastMessageInternal(methodName, null, options);
+        }
+
+        internal void BroadcastMessageInternal(string methodName, object parameter = null, SendMessageOptions options = SendMessageOptions.RequireReceiver)
+        {
+            bool invoked = false;
+
+            if (GameObject != null)
+            {
+                foreach (var component in Transform.GetComponentsInChildren(true))
+                {
+                    var method = component.GetType().GetMethod(methodName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+
+                    if (method != null)
+                    {
+                        var parameters = method.GetParameters().Length > 0 ? new[] { parameter } : null;
+                        method.Invoke(component, parameters);
+                        invoked = true;
+                    }
+                }
+            }
+
+            if (options == SendMessageOptions.RequireReceiver)
+            {
+                if (!invoked)
+                {
+                    throw new Exception($"SendMessage: No receiver found for method '{methodName}' on GameObject '{GameObject?.Name}'");
+                }
+            }
+        }
+    }
+    
     // Find By Types
     public abstract partial class Behaviour
     {
@@ -459,6 +543,11 @@ namespace Hybrid
     // Get Components In Parent
     public abstract partial class Behaviour
     {
+        public Component[] GetComponentsInParent(bool includeSelf = false)
+        {
+            return GetComponentsInParentInternal(typeof(Component), includeSelf).ToArray();
+        }
+        
         public Component[] GetComponentsInParent(Type type, bool includeSelf = false)
         {
             return GetComponentsInParentInternal(type, includeSelf).ToArray();
@@ -551,6 +640,11 @@ namespace Hybrid
     // Get Components
     public abstract partial class Behaviour
     {
+        public Component[] GetComponentsInChildren(bool includeSelf = false)
+        {
+            return GetComponentsInChildrenInternal(typeof(Component), includeSelf).ToArray();
+        }
+        
         public Component[] GetComponentsInChildren(Type type, bool includeSelf = false)
         {
             return GetComponentsInChildrenInternal(type, includeSelf).ToArray();

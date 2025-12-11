@@ -8,14 +8,11 @@ namespace App
         {
             GameObject parent = new GameObject("Parent");
             GameObject child = new GameObject("child");
+            child.Transform.SetParent(parent.Transform);
+            parent.AddComponent<Player>();
+            child.AddComponent<Player>();
             
-            var t1 = parent.AddComponent<TestComponent>();
-            var t2 = parent.AddComponent<TestComponent>();
-
-            foreach (var found in GameObject.FindObjectsByType<Object>())
-            {
-                Debug.Log(found);
-            }
+            parent.BroadcastMessage("Hello", null, SendMessageOptions.DontRequireReceiver);
         }
 
         public override void OnSceneClose()
