@@ -59,8 +59,8 @@ namespace Hybrid
             }
         }
         
-        // Physics
-        internal override void OnPhysics()
+        // Fixed Update
+        internal override void OnFixedUpdate()
         {
             // For Each Root GameObject In Scene
             foreach (var gameObject in GetActiveScene().RootGameObjects)
@@ -80,8 +80,8 @@ namespace Hybrid
                         // Skip Disabled Component
                         if (!component.Enabled) continue;
 
-                        // Late Update
-                        component.OnPhysics();
+                        // Fixed Update
+                        component.OnFixedUpdate();
                     }
                 }
             }

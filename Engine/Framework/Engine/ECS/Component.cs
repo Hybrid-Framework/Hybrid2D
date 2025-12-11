@@ -41,7 +41,7 @@ namespace Hybrid
 
         public virtual void OnUpdate() { }
 
-        public virtual void OnPhysics() { }
+        public virtual void OnFixedUpdate() { }
 
         public virtual void OnDestroy() { }
     }

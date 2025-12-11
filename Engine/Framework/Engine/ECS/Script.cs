@@ -15,7 +15,7 @@ namespace Hybrid
 
         public override void OnUpdate() { } // Called once per frame
 
-        public override void OnPhysics() { } // Called at fixed rate of Time.FixedDeltaTime
+        public override void OnFixedUpdate() { } // Called at fixed rate of Time.FixedDeltaTime
 
         public override void OnDestroy() { } // Called before object is destroy
     }

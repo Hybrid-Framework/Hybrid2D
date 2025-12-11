@@ -29,10 +29,9 @@ namespace Hybrid
     }
     
     // Module
-    public class Module
+    public abstract class Module
     {
         internal static List<Module> Modules { get; private set; } = new List<Module>();
-        
         
         internal static T Register<T>(T module) where T : Module
         {
@@ -56,12 +55,7 @@ namespace Hybrid
         internal virtual void OnInitialize() {}
         internal virtual void OnRender() {}
         internal virtual void OnUpdate() {}
-        internal virtual void OnPhysics() {}
+        internal virtual void OnFixedUpdate() {}
         internal virtual void OnDispose() {}
-        
-        protected Module()
-        {
-            
-        }
     }
 }
