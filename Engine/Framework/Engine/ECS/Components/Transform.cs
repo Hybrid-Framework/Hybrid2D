@@ -45,11 +45,11 @@ namespace Hybrid
     // Child
     public sealed partial class Transform
     {
-        public Transform[] GetChildrenRecursive(bool includeParent = false)
+        public Transform[] GetChildrenRecursive(bool includeSelf = false)
         {
             var result = new List<Transform>();
 
-            if (includeParent)
+            if (includeSelf)
             {
                 result.Add(this);
             }

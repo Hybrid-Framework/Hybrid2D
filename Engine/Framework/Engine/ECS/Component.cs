@@ -11,7 +11,7 @@ namespace Hybrid
             if (GameObject != null)
             {
                 // Destroy Component
-                if (GameObject.DestroyComponentInternal(this))
+                if (GameObject.DestroyComponent(this))
                 {
                     OnDestroy();
                     
