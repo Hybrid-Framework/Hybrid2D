@@ -20,34 +20,41 @@ namespace Hybrid
         // Update
         internal override void OnUpdate()
         {
-            // For Each Object In Scene
+            // For Each Root GameObject In Scene
             foreach (var gameObject in GetActiveScene().RootGameObjects)
             {
                 // Skip Disabled GameObject
                 if(!gameObject.Enabled) continue;
-                
-                // For Each Component In Children & Parent
-                foreach (var component in gameObject.Components)
+
+                // For Each Child In GameObject (Including Parent)
+                foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
                 {
-                    // Skip Disabled Component
-                    if(!component.Enabled) continue;
+                    // Skip Disabled Child
+                    if(!child.Enabled) continue;
                     
-                    // Awake
-                    if (!component.DidAwake)
+                    // For Each Component
+                    foreach (var component in child.GameObject.Components)
                     {
-                        component.DidAwake = true;
-                        component.OnAwake();
-                    }
+                        // Skip Disabled Component
+                        if(!component.Enabled) continue;
                     
-                    // Start
-                    if (!component.DidStart)
-                    {
-                        component.DidStart = true;
-                        component.OnStart();
-                    }
+                        // Awake
+                        if (!component.DidAwake)
+                        {
+                            component.DidAwake = true;
+                            component.OnAwake();
+                        }
                     
-                    // Update
-                    component.OnUpdate();
+                        // Start
+                        if (!component.DidStart)
+                        {
+                            component.DidStart = true;
+                            component.OnStart();
+                        }
+                    
+                        // Update
+                        component.OnUpdate();
+                    }
                 }
             }
         }
@@ -55,20 +62,27 @@ namespace Hybrid
         // Physics
         internal override void OnPhysics()
         {
-            // For Each Object In Scene
+            // For Each Root GameObject In Scene
             foreach (var gameObject in GetActiveScene().RootGameObjects)
             {
                 // Skip Disabled GameObject
                 if(!gameObject.Enabled) continue;
-                
-                // For Each Component In Children & Parent
-                foreach (var component in gameObject.Components)
+
+                // For Each Child In GameObject (Including Parent)
+                foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
                 {
-                    // Skip Disabled Component
-                    if(!component.Enabled) continue;
+                    // Skip Disabled Child
+                    if(!child.Enabled) continue;
                     
-                    // Late Update
-                    component.OnPhysics();
+                    // For Each Component
+                    foreach (var component in child.GameObject.Components)
+                    {
+                        // Skip Disabled Component
+                        if (!component.Enabled) continue;
+
+                        // Late Update
+                        component.OnPhysics();
+                    }
                 }
             }
         }
@@ -76,8 +90,10 @@ namespace Hybrid
         // Dispose
         internal override void OnDispose()
         {
+            // Get Active Scene
             if (Active != null)
             {
+                // Close Scene
                 Close(Active);
             }
             
@@ -95,6 +111,7 @@ namespace Hybrid
 
         public static Scene GetActiveScene()
         {
+            // Invalid Scene
             if (Active == null)
                 throw new Exception("No valid active scene loaded");
             
@@ -103,6 +120,7 @@ namespace Hybrid
         
         public static void Load(Scene scene)
         {
+            // Invalid Scene
             if (scene == null)
                 throw new Exception($"Failed to load invalid scene");
 
@@ -118,8 +136,10 @@ namespace Hybrid
 
         private static void Open(Scene scene)
         {
+            // Set Active
             Active = scene;
             
+            // Invalid Scene
             if (scene == null)
                 throw new Exception("Failed to open invalid scene");
             
@@ -129,6 +149,7 @@ namespace Hybrid
 
         private static void Close(Scene scene)
         {
+            // Invalid Scene
             if (scene == null)
                 throw new Exception("Failed to close invalid scene");
 

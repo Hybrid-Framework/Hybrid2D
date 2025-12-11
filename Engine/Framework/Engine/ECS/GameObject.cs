@@ -35,6 +35,13 @@ namespace Hybrid
         {
             if (!IsDestroyed())
             {
+                // For Each Child In GameObject
+                foreach (var child in Transform.GetChildrenRecursive())
+                {
+                    // Destroy Child GameObject
+                    Object.Destroy(child.GameObject);
+                }
+                
                 // For Each Component In GameObject
                 foreach (var component in GetComponents())
                 {

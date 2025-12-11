@@ -6,19 +6,24 @@ namespace App
     {
         public override void OnSceneOpen()
         {
-            Transform parent = new GameObject("ParentObj").Transform;
-            Transform one = new GameObject("One").Transform;
-            Transform two = new GameObject("Two").Transform;
-            Transform three = new GameObject("Three").Transform;
-            
-            one.SetParent(parent);
-            two.SetParent(parent);
-            three.SetParent(parent);
+            GameObject parent = new GameObject("Parent");
 
-            foreach (var c in parent.GetChildren())
+            for (int g = 0; g < 16; g++)
             {
-                Debug.Log(c.Name);
+                GameObject group = new GameObject($"Group({g})");
+                group.Transform.SetParent(parent.Transform);
+                
+                for (int i = 0; i < 500; i++)
+                {
+                    GameObject child = new GameObject($"Group({g}) Child({i})");
+                    child.Transform.SetParent(group.Transform);
+                }
             }
+
+            // foreach (var child in parent.Transform.GetChildrenRecursive(true))
+            // {
+            //     // Debug.Log(child.Name);
+            // }
         }
 
         public override void OnSceneClose()

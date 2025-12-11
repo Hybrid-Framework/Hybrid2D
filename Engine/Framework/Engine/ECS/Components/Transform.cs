@@ -47,7 +47,7 @@ namespace Hybrid
     {
         public Transform[] GetChildrenRecursive(bool includeParent = false)
         {
-            List<Transform> result = new List<Transform>();
+            var result = new List<Transform>();
 
             if (includeParent)
             {
@@ -63,7 +63,11 @@ namespace Hybrid
                 }
             }
 
-            Collect(this);
+            if (Children.Count > 0)
+            {
+                Collect(this);
+            }
+            
             return result.ToArray();
         }
         
@@ -163,7 +167,7 @@ namespace Hybrid
             Children.Add(child);
             child.Parent = this;
             Scenes.GetActiveScene().RemoveObject(child.GameObject);
-            Debug.Log($"Child '{child.Name}' added to parent '{Name}'");
+            // Debug.Log($"Child '{child.Name}' added to parent '{Name}' ");
         }
 
         private void RemoveChild(Transform child)
@@ -176,7 +180,7 @@ namespace Hybrid
             child.Parent = null;
             Children.Remove(child);
             Scenes.GetActiveScene().AddObject(child.GameObject);
-            Debug.Log($"Child '{child.Name}' removed from parent '{Name}'");
+            // Debug.Log($"Child '{child.Name}' removed from parent '{Name}' ");
         }
     }
 }
