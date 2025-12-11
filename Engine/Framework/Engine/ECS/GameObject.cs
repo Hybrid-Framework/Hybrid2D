@@ -18,12 +18,10 @@ namespace Hybrid
             GameObject = this;
             
             // Create Transform
-            Transform = AddComponentInternal(new Transform
-            {
-                GameObject = this.GameObject,
-                Transform = this.Transform,
-                Name = this.Name
-            });
+            Transform = AddComponent<Transform>();
+            Transform.Transform = Transform;
+            Transform.GameObject = GameObject;
+            Transform.Name = Name;
             
             // Add To Scene
             Scene = Scenes.GetActiveScene();

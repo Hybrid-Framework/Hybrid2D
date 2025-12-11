@@ -10,9 +10,8 @@ namespace App
             GameObject child = new GameObject("child");
             child.Transform.SetParent(parent.Transform);
             parent.AddComponent<Player>();
-            child.AddComponent<Player>();
             
-            parent.BroadcastMessage("Hello", null, SendMessageOptions.DontRequireReceiver);
+            child.BroadcastMessageUpwards("Hello", 2, SendMessageOptions.DontRequireReceiver);
         }
 
         public override void OnSceneClose()

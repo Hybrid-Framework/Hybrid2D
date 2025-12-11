@@ -113,6 +113,49 @@ namespace Hybrid
         }
     }
     
+    // Broadcast Message Upwards
+    public abstract partial class Behaviour
+    {
+        public void BroadcastMessageUpwards(string methodName, object parameter = null, SendMessageOptions options = SendMessageOptions.RequireReceiver)
+        {
+            BroadcastMessageUpwardsInternal(methodName, parameter, options);
+        }
+
+        public void BroadcastMessageUpwards(string methodName, SendMessageOptions options = SendMessageOptions.RequireReceiver)
+        {
+            BroadcastMessageUpwardsInternal(methodName, null, options);
+        }
+
+        internal void BroadcastMessageUpwardsInternal(string methodName, object parameter = null, SendMessageOptions options = SendMessageOptions.RequireReceiver)
+        {
+            // Invalid GameObject
+            if(GameObject == null || Transform == null)
+                return;
+            
+            bool invoked = false;
+
+            foreach (var component in Transform.GetComponentsInParent(true))
+            {
+                var method = component.GetType().GetMethod(methodName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+
+                if (method != null)
+                {
+                    var parameters = method.GetParameters().Length > 0 ? new[] { parameter } : null;
+                    method.Invoke(component, parameters);
+                    invoked = true;
+                }
+            }
+
+            if (options == SendMessageOptions.RequireReceiver)
+            {
+                if (!invoked)
+                {
+                    throw new Exception($"No receiver found for method '{methodName}' on GameObject '{GameObject.Name}'");
+                }
+            }
+        }
+    }
+    
     // Find By Types
     public abstract partial class Behaviour
     {
