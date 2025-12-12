@@ -3,6 +3,7 @@ using System;
 
 namespace Hybrid
 {
+    // Behaviour
     public abstract partial class Behaviour : Object
     {
         private GameObject _GameObject { get; set; }
@@ -12,7 +13,6 @@ namespace Hybrid
             get
             {
                 ThrowOnDestroyed();
-                
                 return _GameObject;
             }
         }
@@ -24,7 +24,6 @@ namespace Hybrid
             get
             {
                 ThrowOnDestroyed();
-                
                 return _Transform;
             }
         }
@@ -35,8 +34,6 @@ namespace Hybrid
             get => _Name;
             set
             {
-                ThrowOnDestroyed();
-                
                 if (GameObject != null)
                 {
                     GameObject._Name = value;
@@ -62,7 +59,7 @@ namespace Hybrid
     }
     
     // Send Message
-    public abstract partial class Behaviour
+    public partial class Behaviour
     {
         public void SendMessage(string methodName, object parameter = null, SendMessageOptions options = SendMessageOptions.RequireReceiver)
         {
@@ -103,7 +100,7 @@ namespace Hybrid
     }
     
     // Broadcast Message
-    public abstract partial class Behaviour
+    public partial class Behaviour
     {
         public void BroadcastMessage(string methodName, object parameter = null, SendMessageOptions options = SendMessageOptions.RequireReceiver)
         {
@@ -144,7 +141,7 @@ namespace Hybrid
     }
     
     // Broadcast Message Upwards
-    public abstract partial class Behaviour
+    public partial class Behaviour
     {
         public void BroadcastMessageUpwards(string methodName, object parameter = null, SendMessageOptions options = SendMessageOptions.RequireReceiver)
         {
@@ -185,7 +182,7 @@ namespace Hybrid
     }
     
     // Find By Types
-    public abstract partial class Behaviour
+    public partial class Behaviour
     {
         public static GameObject[] FindGameObjectsByName(string name, bool activeOnly = false)
         {

@@ -2,6 +2,7 @@
 
 namespace Hybrid
 {
+    // GameObject
     public partial class GameObject : Behaviour
     {
         internal List<Component> Components { get; private set; } = new List<Component>();
@@ -67,6 +68,19 @@ namespace Hybrid
         public Scene GetScene()
         {
             return Scene;
+        }
+
+        public GameObject Find(string name)
+        {
+            foreach (Transform child in Transform.GetChildrenRecursive(true))
+            {
+                if (child.Name == name)
+                {
+                    return child.GameObject;
+                }
+            }
+
+            return null;
         }
     }
 }

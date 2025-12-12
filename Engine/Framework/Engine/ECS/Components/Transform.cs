@@ -2,6 +2,7 @@
 
 namespace Hybrid
 {
+    // Transform
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Transform))]
     public sealed partial class Transform : Component
@@ -22,8 +23,25 @@ namespace Hybrid
         }
     }
 
+    // Transform
+    public partial class Transform
+    {
+        public Transform Find(string name)
+        {
+            foreach (Transform child in Transform.GetChildrenRecursive(true))
+            {
+                if (child.Name == name)
+                {
+                    return child;
+                }
+            }
+
+            return null;
+        }
+    }
+
     // Parent
-    public sealed partial class Transform
+    public partial class Transform
     {
         public void SetParent(Transform parent)
         {
@@ -54,7 +72,7 @@ namespace Hybrid
     }
 
     // Child
-    public sealed partial class Transform
+    public partial class Transform
     {
         internal Transform[] GetChildrenRecursive(bool includeSelf = false)
         {
