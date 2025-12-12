@@ -3,14 +3,8 @@
 namespace Hybrid
 {
     // Resource
-    public class Resource : Object
+    public abstract class Resource : Object
     {
         public string Path { get; internal set; } = "Unknown";
-        
-
-        internal Resource()
-        {
-            
-        }
     }
 }

@@ -15,8 +15,6 @@ namespace Hybrid
 
         internal override void OnDispose()
         {
-            base.OnDispose();
-
             if (Handle != null)
             {
                 SDL.DestroyTexture(Handle);
@@ -24,6 +22,7 @@ namespace Hybrid
             }
 
             Array.Clear(Pixels);
+            base.OnDispose();
         }
     }
     

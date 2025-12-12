@@ -46,8 +46,6 @@ namespace Hybrid
             // Create Resource
             Resource instance = Create<T>(path);
             Cache[path] = instance;
-
-            // Return
             return (T)instance;
         }
         

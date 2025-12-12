@@ -15,13 +15,13 @@ namespace Hybrid
         
         internal override void OnDispose()
         {
-            base.OnDispose();
-            
             if (Handle != null)
             {
                 SDL_ttf.CloseFont(Handle);
                 Handle = null;
             }
+            
+            base.OnDispose();
         }
     }
 
