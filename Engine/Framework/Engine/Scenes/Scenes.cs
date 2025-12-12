@@ -42,18 +42,18 @@ namespace Hybrid
                         if (!component.DidAwake)
                         {
                             component.DidAwake = true;
-                            component.OnAwake();
+                            component.OnComponentAwake();
                         }
                     
                         // Start
                         if (!component.DidStart)
                         {
                             component.DidStart = true;
-                            component.OnStart();
+                            component.OnComponentStart();
                         }
                     
                         // Update
-                        component.OnUpdate();
+                        component.OnComponentUpdate();
                     }
                 }
             }
@@ -81,7 +81,7 @@ namespace Hybrid
                         if (component == null || !component.Enabled) continue;
 
                         // Fixed Update
-                        component.OnFixedUpdate();
+                        component.OnComponentFixedUpdate();
                     }
                 }
             }

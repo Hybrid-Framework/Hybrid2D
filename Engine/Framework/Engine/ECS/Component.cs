@@ -13,7 +13,7 @@ namespace Hybrid
                 // Destroy Component
                 if (GameObject.DestroyComponent(this))
                 {
-                    OnDestroy();
+                    OnComponentDestroy();
                 }
             }
             
@@ -35,27 +35,69 @@ namespace Hybrid
             {
                 if (value != _Enabled)
                 {
-                    if(value) OnEnable();
-                    if(!value) OnDisable();
+                    if(value) OnComponentEnable();
+                    if(!value) OnComponentDisable();
                 }
 
                 _Enabled = value;
             }
         }
-        
 
-        public virtual void OnAwake() { }
 
-        public virtual void OnStart() { }
+        internal virtual void OnComponentAwake()
+        {
+            if (this is Script script)
+            {
+                script.OnAwake();
+            }
+        }
 
-        public virtual void OnEnable() { }
+        internal virtual void OnComponentStart()
+        {
+            if (this is Script script)
+            {
+                script.OnStart();
+            }
+        }
 
-        public virtual void OnDisable() { }
+        internal virtual void OnComponentEnable()
+        {
+            if (this is Script script)
+            {
+                script.OnEnable();
+            }
+        }
 
-        public virtual void OnUpdate() { }
+        internal virtual void OnComponentDisable()
+        {
+            if (this is Script script)
+            {
+                script.OnDisable();
+            }
+        }
 
-        public virtual void OnFixedUpdate() { }
+        internal virtual void OnComponentUpdate()
+        {
+            if (this is Script script)
+            {
+                script.OnUpdate();
+            }
+        }
 
-        public virtual void OnDestroy() { }
+        internal virtual void OnComponentFixedUpdate()
+        {
+            if (this is Script script)
+            {
+                script.OnFixedUpdate();
+            }
+        }
+
+        internal virtual void OnComponentDestroy()
+        {
+            if (this is Script script)
+            {
+                script.OnDestroy();
+            }
+        }
     }
 }
