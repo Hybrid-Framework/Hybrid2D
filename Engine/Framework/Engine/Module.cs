@@ -31,7 +31,7 @@ namespace Hybrid
     // Module
     public abstract class Module
     {
-        internal static List<Module> Modules { get; private set; } = new List<Module>();
+        private static readonly List<Module> Modules = new();
         
         internal static T Register<T>(T module) where T : Module
         {

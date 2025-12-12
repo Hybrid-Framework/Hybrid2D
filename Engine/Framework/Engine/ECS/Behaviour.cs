@@ -61,20 +61,18 @@ namespace Hybrid
     // Send Message
     public partial class Behaviour
     {
-        public void SendMessage(string methodName, object parameter = null, SendMessageOptions options = SendMessageOptions.RequireReceiver)
+        public void SendMessage(string methodName, object parameter, SendMessageOptions options)
         {
             SendMessageInternal(methodName, parameter, options);
         }
 
-        public void SendMessage(string methodName, SendMessageOptions options = SendMessageOptions.RequireReceiver)
+        public void SendMessage(string methodName, SendMessageOptions options)
         {
             SendMessageInternal(methodName, null, options);
         }
 
-        internal void SendMessageInternal(string methodName, object parameter = null, SendMessageOptions options = SendMessageOptions.RequireReceiver)
+        internal void SendMessageInternal(string methodName, object parameter, SendMessageOptions options)
         {
-            ThrowOnDestroyed();
-            
             bool invoked = false;
 
             foreach (var component in GameObject.Components)
@@ -93,7 +91,7 @@ namespace Hybrid
             {
                 if (!invoked)
                 {
-                    throw new Exception($"No receiver found for method '{methodName}' on GameObject '{GameObject.Name}'");
+                    throw new Exception($"Send Message: No receiver found for method '{methodName}' on GameObject '{GameObject.Name}'");
                 }
             }
         }
@@ -102,20 +100,18 @@ namespace Hybrid
     // Broadcast Message
     public partial class Behaviour
     {
-        public void BroadcastMessage(string methodName, object parameter = null, SendMessageOptions options = SendMessageOptions.RequireReceiver)
+        public void BroadcastMessage(string methodName, object parameter, SendMessageOptions options)
         {
             BroadcastMessageInternal(methodName, parameter, options);
         }
         
-        public void BroadcastMessage(string methodName, SendMessageOptions options = SendMessageOptions.RequireReceiver)
+        public void BroadcastMessage(string methodName, SendMessageOptions options)
         {
             BroadcastMessageInternal(methodName, null, options);
         }
 
-        internal void BroadcastMessageInternal(string methodName, object parameter = null, SendMessageOptions options = SendMessageOptions.RequireReceiver)
+        internal void BroadcastMessageInternal(string methodName, object parameter, SendMessageOptions options)
         {
-            ThrowOnDestroyed();
-            
             bool invoked = false;
 
             foreach (var component in GameObject.GetComponentsInChildren(true))
@@ -134,7 +130,7 @@ namespace Hybrid
             {
                 if (!invoked)
                 {
-                    throw new Exception($"No receiver found for method '{methodName}' on GameObject '{GameObject.Name}'");
+                    throw new Exception($"Broadcast Message: No receiver found for method '{methodName}' on GameObject '{GameObject.Name}'");
                 }
             }
         }
@@ -143,20 +139,18 @@ namespace Hybrid
     // Broadcast Message Upwards
     public partial class Behaviour
     {
-        public void BroadcastMessageUpwards(string methodName, object parameter = null, SendMessageOptions options = SendMessageOptions.RequireReceiver)
+        public void BroadcastMessageUpwards(string methodName, object parameter, SendMessageOptions options)
         {
             BroadcastMessageUpwardsInternal(methodName, parameter, options);
         }
 
-        public void BroadcastMessageUpwards(string methodName, SendMessageOptions options = SendMessageOptions.RequireReceiver)
+        public void BroadcastMessageUpwards(string methodName, SendMessageOptions options)
         {
             BroadcastMessageUpwardsInternal(methodName, null, options);
         }
 
-        internal void BroadcastMessageUpwardsInternal(string methodName, object parameter = null, SendMessageOptions options = SendMessageOptions.RequireReceiver)
+        internal void BroadcastMessageUpwardsInternal(string methodName, object parameter, SendMessageOptions options)
         {
-            ThrowOnDestroyed();
-            
             bool invoked = false;
 
             foreach (var component in GameObject.GetComponentsInParent(true))
@@ -175,7 +169,7 @@ namespace Hybrid
             {
                 if (!invoked)
                 {
-                    throw new Exception($"No receiver found for method '{methodName}' on GameObject '{GameObject.Name}'");
+                    throw new Exception($"Broadcast Message Upwards: No receiver found for method '{methodName}' on GameObject '{GameObject.Name}'");
                 }
             }
         }
@@ -449,7 +443,7 @@ namespace Hybrid
             if (Attribute.IsDefined(type, typeof(DisallowMultipleComponentAttribute)))
             {
                 // Has Component
-                if (GetComponent<T>())
+                if (HasComponent(type))
                 {
                     throw new Exception($"Can't have multiple instances of '{type.Name}' on GameObject '{Name}'");
                 }
@@ -466,7 +460,7 @@ namespace Hybrid
                 foreach (RequireComponentAttribute required in type.GetCustomAttributes(typeof(RequireComponentAttribute), true))
                 {
                     // Find Component
-                    if (!GetComponent(required.Type))
+                    if (!HasComponent(required.Type))
                     {
                         // Attach & Return
                         AddComponent(required.Type);

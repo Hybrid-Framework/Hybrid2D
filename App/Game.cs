@@ -8,7 +8,7 @@ namespace App
         {
             var transform = new GameObject("Parent").Transform;
             var child = new GameObject("Child").Transform;
-            Object.Destroy(transform.GameObject);
+            child.SetParent(transform);
         }
 
         public override void OnSceneClose()
