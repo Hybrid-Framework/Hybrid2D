@@ -18,7 +18,6 @@ namespace Hybrid
         internal override void OnDispose()
         {
             SetParent(null);
-            
             base.OnDispose();
         }
     }

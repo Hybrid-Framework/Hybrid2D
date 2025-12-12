@@ -8,7 +8,14 @@ namespace Hybrid
         private readonly Guid Guid = Guid.NewGuid();
         private bool Destroying { get; set; }
         private bool Destroyed { get; set; }
-        
+
+
+        internal Object()
+        {
+            // Invalid Scene
+            if (Scenes.GetActiveScene() == null)
+                throw new Exception($"Can't create '{GetType().Name}' with no scene loaded");
+        }
         
         public static void Destroy(Object obj)
         {
