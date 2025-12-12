@@ -48,7 +48,7 @@ namespace Hybrid
             // Clear Existing Parent
             if (Transform.Parent != null)
             {
-                Transform.Parent.RemoveChild(this);
+                Transform.Parent.RemoveChild(Transform);
             }
 
             // Assign Parent
@@ -80,7 +80,7 @@ namespace Hybrid
 
             if (includeSelf)
             {
-                result.Add(this);
+                result.Add(Transform);
             }
 
             void Collect(Transform current)
@@ -94,7 +94,7 @@ namespace Hybrid
 
             if (Transform.Children.Count > 0)
             {
-                Collect(this);
+                Collect(Transform);
             }
             
             return result.ToArray();
