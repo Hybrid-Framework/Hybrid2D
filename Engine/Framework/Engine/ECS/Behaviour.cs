@@ -5,8 +5,6 @@ namespace Hybrid
 {
     public abstract partial class Behaviour : Object
     {
-        private readonly HashSet<Type> RequireComponentsProcessing = new();
-        
         private GameObject _GameObject { get; set; }
         public GameObject GameObject
         {
@@ -123,7 +121,7 @@ namespace Hybrid
             
             bool invoked = false;
 
-            foreach (var component in Transform.GetComponentsInChildren(true))
+            foreach (var component in GameObject.GetComponentsInChildren(true))
             {
                 var method = component.GetType().GetMethod(methodName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 
@@ -164,7 +162,7 @@ namespace Hybrid
             
             bool invoked = false;
 
-            foreach (var component in Transform.GetComponentsInParent(true))
+            foreach (var component in GameObject.GetComponentsInParent(true))
             {
                 var method = component.GetType().GetMethod(methodName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 
@@ -368,7 +366,7 @@ namespace Hybrid
                 }
 
                 // For Each Child Components Of GameObject (Including Parent)
-                foreach (var component in gameObject.Transform.GetComponentsInChildren<Component>(true))
+                foreach (var component in gameObject.GetComponentsInChildren<Component>(true))
                 {
                     // If Active Only And Disabled
                     if(component == null) continue;
@@ -399,7 +397,7 @@ namespace Hybrid
                 }
 
                 // For Each Child Components Of GameObject (Including Parent)
-                foreach (var component in gameObject.Transform.GetComponentsInChildren<Component>(true))
+                foreach (var component in gameObject.GetComponentsInChildren<Component>(true))
                 {
                     // If Active Only And Disabled
                     if(component == null) continue;
@@ -415,10 +413,12 @@ namespace Hybrid
             return null;
         }
     }
-
+    
     // Add Component
-    public abstract partial class Behaviour
+    public partial class Behaviour
     {
+        private readonly HashSet<Type> Processing = new();
+        
         public Component AddComponent(Type type)
         {
             return AddComponentInternal
@@ -437,8 +437,6 @@ namespace Hybrid
 
         internal T AddComponentInternal<T>(T component) where T : Component
         {
-            ThrowOnDestroyed();
-            
             // Invalid Component
             if (component == null)
                 return null;
@@ -456,7 +454,7 @@ namespace Hybrid
                 // Has Component
                 if (GetComponent<T>())
                 {
-                    throw new Exception($"Can't have multiple instances of '{type.Name}' on GameObject '{GameObject.Name}'");
+                    throw new Exception($"Can't have multiple instances of '{type.Name}' on GameObject '{Name}'");
                 }
             }
             
@@ -464,7 +462,7 @@ namespace Hybrid
             if (Attribute.IsDefined(type, typeof(RequireComponentAttribute)))
             {
                 // Processing Component
-                if (!GameObject.RequireComponentsProcessing.Add(type))
+                if (!Processing.Add(type))
                     return component;
                 
                 // For Each Required Component
@@ -479,7 +477,7 @@ namespace Hybrid
                 }
                 
                 // Finished Processing
-                GameObject.RequireComponentsProcessing.Remove(type);
+                Processing.Remove(type);
             }
 
             // Set Properties
@@ -488,14 +486,14 @@ namespace Hybrid
             component.Name = this.Name;
             
             // Add To GameObject
-            // Debug.Log($"Component '{component.GetType()}' added to GameObject '{GameObject.Name}'");
+            // Debug.Log($"Component '{component.GetType()}' added to GameObject '{Name}'");
             GameObject.Components.Add(component);
             return component;
         }
     }
 
     // Get Component
-    public abstract partial class Behaviour
+    public partial class Behaviour
     {
         public Component GetComponent(Type type)
         {
@@ -509,8 +507,6 @@ namespace Hybrid
         
         internal Component GetComponentInternal(Type type)
         {
-            ThrowOnDestroyed();
-            
             // Invalid Type
             if (type == null)
                 return null;
@@ -533,7 +529,7 @@ namespace Hybrid
     }
     
     // Get Components
-    public abstract partial class Behaviour
+    public partial class Behaviour
     {
         public Component[] GetComponents()
         {
@@ -552,8 +548,6 @@ namespace Hybrid
         
         internal Component[] GetComponentsInternal(Type type)
         {
-            ThrowOnDestroyed();
-            
             // Invalid Type
             if (type == null)
                 return Array.Empty<Component>();
@@ -579,7 +573,7 @@ namespace Hybrid
     }
     
     // Get Component In Parent
-    public abstract partial class Behaviour
+    public partial class Behaviour
     {
         public Component GetComponentInParent(Type type, bool includeSelf = false)
         {
@@ -593,8 +587,6 @@ namespace Hybrid
         
         internal Component GetComponentInParentInternal(Type type, bool includeSelf = false)
         {
-            ThrowOnDestroyed();
-            
             // Invalid Type
             if (type == null)
                 return null;
@@ -624,7 +616,7 @@ namespace Hybrid
     }
     
     // Get Components In Parent
-    public abstract partial class Behaviour
+    public partial class Behaviour
     {
         public Component[] GetComponentsInParent(bool includeSelf = false)
         {
@@ -643,8 +635,6 @@ namespace Hybrid
         
         internal Component[] GetComponentsInParentInternal(Type type, bool includeSelf = false)
         {
-            ThrowOnDestroyed();
-            
             // Invalid Type
             if (type == null)
                 return Array.Empty<Component>();
@@ -675,7 +665,7 @@ namespace Hybrid
     }
     
     // Get Component In Children
-    public abstract partial class Behaviour
+    public partial class Behaviour
     {
         public Component GetComponentInChildren(Type type, bool includeSelf = false)
         {
@@ -689,8 +679,6 @@ namespace Hybrid
         
         internal Component GetComponentInChildrenInternal(Type type, bool includeSelf = false)
         {
-            ThrowOnDestroyed();
-            
             // Invalid Type
             if (type == null)
                 return null;
@@ -700,7 +688,7 @@ namespace Hybrid
                 throw new Exception($"Type '{type.Name}' does not inherit from Component");
             
             // For Each Child In GameObject
-            foreach (var child in GameObject.Transform.GetChildrenRecursive(includeSelf))
+            foreach (var child in Transform.GetChildrenRecursive(includeSelf))
             {
                 // For Each Component In Child
                 foreach (var component in child.GameObject.Components)
@@ -717,7 +705,7 @@ namespace Hybrid
     }
     
     // Get Components
-    public abstract partial class Behaviour
+    public partial class Behaviour
     {
         public Component[] GetComponentsInChildren(bool includeSelf = false)
         {
@@ -736,8 +724,6 @@ namespace Hybrid
         
         internal Component[] GetComponentsInChildrenInternal(Type type, bool includeSelf = false)
         {
-            ThrowOnDestroyed();
-            
             // Invalid Type
             if (type == null)
                 return Array.Empty<Component>();
@@ -750,7 +736,7 @@ namespace Hybrid
             var results = new List<Component>();
             
             // For Each Child In GameObject
-            foreach (var child in GameObject.Transform.GetChildrenRecursive(includeSelf))
+            foreach (var child in Transform.GetChildrenRecursive(includeSelf))
             {
                 // For Each Component In Child
                 foreach (var component in child.GameObject.Components)
@@ -767,7 +753,7 @@ namespace Hybrid
     }
     
     // Get Component Count
-    public abstract partial class Behaviour
+    public partial class Behaviour
     {
         public int GetComponentCount()
         {
@@ -786,8 +772,6 @@ namespace Hybrid
         
         internal int GetComponentCountInternal(Type type)
         {
-            ThrowOnDestroyed();
-            
             // Invalid Type
             if (type == null)
                 return 0;
@@ -812,7 +796,7 @@ namespace Hybrid
     }
     
     // Get Component Index
-    public abstract partial class Behaviour
+    public partial class Behaviour
     {
         public int GetComponentIndex(Type type)
         {
@@ -826,8 +810,6 @@ namespace Hybrid
         
         internal int GetComponentIndexInternal(Type type)
         {
-            ThrowOnDestroyed();
-            
             // Invalid Type
             if (type == null)
                 return -1;
@@ -850,7 +832,7 @@ namespace Hybrid
     }
     
     // Get Component At Index
-    public abstract partial class Behaviour
+    public partial class Behaviour
     {
         public Component GetComponentAtIndex(int index)
         {
@@ -864,8 +846,6 @@ namespace Hybrid
         
         internal Component GetComponentAtIndexInternal(Type type, int index)
         {
-            ThrowOnDestroyed();
-            
             // Invalid Type
             if (type == null)
                 return null;
@@ -890,7 +870,7 @@ namespace Hybrid
     }
     
     // Try & Get Component
-    public abstract partial class Behaviour
+    public partial class Behaviour
     {
         public bool TryGetComponent(Type type, out Component component)
         {
@@ -911,8 +891,6 @@ namespace Hybrid
         
         internal bool TryGetComponentInternal(Type type, out Component component)
         {
-            ThrowOnDestroyed();
-            
             // Invalid
             component = null;
             
@@ -939,7 +917,7 @@ namespace Hybrid
     }
     
     // Has Component
-    public abstract partial class Behaviour
+    public partial class Behaviour
     {
         public bool HasComponent(Component component)
         {
@@ -958,8 +936,6 @@ namespace Hybrid
 
         internal bool HasComponentInternal<T>(T component) where T : Component
         {
-            ThrowOnDestroyed();
-            
             // Invalid Component
             if (component == null)
                 return false;
@@ -985,7 +961,7 @@ namespace Hybrid
     }
 
     // Destroy Component
-    public abstract partial class Behaviour
+    public partial class Behaviour
     {
         internal bool DestroyComponent(Component component)
         {
@@ -1004,8 +980,6 @@ namespace Hybrid
 
         internal bool DestroyComponentInternal<T>(T component) where T : Component
         {
-            ThrowOnDestroyed();
-            
             // Invalid Component
             if (component == null)
                 return false;
@@ -1021,7 +995,7 @@ namespace Hybrid
             if (HasComponent(component))
             {
                 // Require Component
-                if (!GameObject.IsDestroying())
+                if (!IsDestroying())
                 {
                     // For Each Component
                     foreach (var checkComponent in GameObject.Components)
@@ -1031,14 +1005,14 @@ namespace Hybrid
                         {
                             if (required.Type == type)
                             {
-                                throw new Exception($"Can't destroy Component '{type.Name}' on GameObject '{GameObject.Name}' because Component '{checkComponent.GetType().Name}' requires it");
+                                throw new Exception($"Can't destroy Component '{type.Name}' on GameObject '{Name}' because Component '{checkComponent.GetType().Name}' requires it");
                             }
                         }
                     }
                 }
                 
                 // Remove From GameObject
-                // Debug.Log($"Component '{type.Name}' destroy on GameObject '{GameObject.Name}'");
+                // Debug.Log($"Component '{type.Name}' destroy on GameObject '{Name}'");
                 GameObject.Components.Remove(component);
                 return true;
             }

@@ -12,6 +12,14 @@ namespace Hybrid
         public Vector2 Position;
         public float Rotation;
         public Vector2 Scale;
+
+
+        internal override void OnDispose()
+        {
+            SetParent(null);
+            
+            base.OnDispose();
+        }
     }
 
     // Parent
@@ -20,32 +28,35 @@ namespace Hybrid
         public void SetParent(Transform parent)
         {
             // Clear Existing Parent
-            if (Parent != null) Parent.RemoveChild(this);
+            if (Transform.Parent != null)
+            {
+                Transform.Parent.RemoveChild(this);
+            }
 
             // Assign Parent
             if (parent != null)
             {
                 // Clear Parent From This
-                if (parent.IsChildOf(this))
+                if (parent.IsChildOf(Transform))
                 {
                     parent.SetParent(null);
                 }
                 
                 // Set Parent
-                parent.AddChild(this);
+                parent.AddChild(Transform);
             }
         }
 
         public Transform GetParent()
         {
-            return Parent;
+            return Transform.Parent;
         }
     }
 
     // Child
     public sealed partial class Transform
     {
-        public Transform[] GetChildrenRecursive(bool includeSelf = false)
+        internal Transform[] GetChildrenRecursive(bool includeSelf = false)
         {
             var result = new List<Transform>();
 
@@ -56,14 +67,14 @@ namespace Hybrid
 
             void Collect(Transform current)
             {
-                foreach (var child in current.Children)
+                foreach (var child in current.Transform.Children)
                 {
                     result.Add(child);
                     Collect(child);
                 }
             }
 
-            if (Children.Count > 0)
+            if (Transform.Children.Count > 0)
             {
                 Collect(this);
             }
@@ -73,12 +84,12 @@ namespace Hybrid
         
         public Transform[] GetChildren()
         {
-            return Children.ToArray();
+            return Transform.Children.ToArray();
         }
 
         public int ChildCount()
         {
-            return Children.Count;
+            return Transform.Children.Count;
         }
         
         public Transform GetChild(int index)
@@ -87,7 +98,7 @@ namespace Hybrid
             {
                 if (index >= 0 && index < ChildCount())
                 {
-                    return Children[index];
+                    return Transform.Children[index];
                 }
             }
 
@@ -96,7 +107,7 @@ namespace Hybrid
         
         public bool IsChildOf(Transform parent)
         {
-            Transform current = Parent;
+            Transform current = Transform.Parent;
 
             while (current != null)
             {
@@ -105,7 +116,7 @@ namespace Hybrid
                     return true;
                 }
 
-                current = current.Parent;
+                current = current.Transform.Parent;
             }
 
             return false;
@@ -114,33 +125,33 @@ namespace Hybrid
         public int GetSiblingIndex()
         {
             // Invalid Parent
-            if (Parent == null)
+            if (Transform.Parent == null)
                 return -1;
             
             // Get Position
-            return Parent.Children.IndexOf(this);
+            return Transform.Parent.Children.IndexOf(this);
         }
 
         public void SetSiblingIndex(int index)
         {
             // Invalid Parent
-            if(Parent == null)
+            if(Transform.Parent == null)
                 return;
             
             // Invalid Parent
-            if(Parent.ChildCount() <= 0)
+            if(Transform.Parent.ChildCount() <= 0)
                 return;
             
             // Set Position
-            index = Math.Clamp(index, 0, Parent.ChildCount() - 1);
-            Parent.Children.RemoveAt(GetSiblingIndex());
-            Parent.Children.Insert(index, this);
+            index = Math.Clamp(index, 0, Transform.Parent.ChildCount() - 1);
+            Transform.Parent.Children.RemoveAt(GetSiblingIndex());
+            Transform.Parent.Children.Insert(index, this);
         }
 
         public void SetAsFirstSibling()
         {
             // Invalid Parent
-            if(Parent == null)
+            if(Transform.Parent == null)
                 return;
             
             // Set First
@@ -150,11 +161,11 @@ namespace Hybrid
         public void SetAsLastSibling()
         {
             // Invalid Parent
-            if(Parent == null)
+            if(Transform.Parent == null)
                 return;
             
             // Set Last
-            SetSiblingIndex(Parent.ChildCount() - 1);
+            SetSiblingIndex(Transform.Parent.ChildCount() - 1);
         }
         
         private void AddChild(Transform child)
@@ -164,10 +175,10 @@ namespace Hybrid
                 return;
 
             // Attach
-            Children.Add(child);
             child.Parent = this;
+            Transform.Children.Add(child);
             Scenes.GetActiveScene().RemoveObject(child.GameObject);
-            // Debug.Log($"Child '{child.Name}' added to parent '{Name}' ");
+            Debug.Log($"Child '{child.Name}' added to parent '{Name}' ");
         }
 
         private void RemoveChild(Transform child)
@@ -178,9 +189,9 @@ namespace Hybrid
 
             // Detach
             child.Parent = null;
-            Children.Remove(child);
+            Transform.Children.Remove(child);
             Scenes.GetActiveScene().AddObject(child.GameObject);
-            // Debug.Log($"Child '{child.Name}' removed from parent '{Name}' ");
+            Debug.Log($"Child '{child.Name}' removed from parent '{Name}' ");
         }
     }
 }
