@@ -3,7 +3,7 @@
 namespace Hybrid
 {
     // Engine
-    internal partial class Engine : Module<Engine>
+    internal sealed partial class Engine : Module<Engine>
     {
         internal bool Initialized { get; private set; }
         internal bool IsRunning { get; private set; }

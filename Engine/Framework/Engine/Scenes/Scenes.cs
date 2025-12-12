@@ -3,7 +3,7 @@
 namespace Hybrid
 {
     // Internal
-    public partial class Scenes : Module<Scenes>
+    public sealed partial class Scenes : Module<Scenes>
     {
         // Initialize
         internal override void OnInitialize()

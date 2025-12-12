@@ -3,7 +3,7 @@
 namespace Hybrid
 {
     // Internal
-    public unsafe partial class Graphics : Module<Graphics>
+    public sealed unsafe class Graphics : Module<Graphics>
     {
         private Graphics() { }
         

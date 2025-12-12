@@ -3,7 +3,7 @@
 namespace Hybrid
 {
     // Internal
-    public unsafe partial class Window : Module<Window>
+    public sealed unsafe partial class Window : Module<Window>
     {
         private Window() { }
         

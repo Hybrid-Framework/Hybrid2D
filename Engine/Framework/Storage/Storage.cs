@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    public partial class Storage : Module<Storage>
+    public sealed partial class Storage : Module<Storage>
     {
         private Storage() { }
 

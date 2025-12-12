@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    public class Input : Module<Input>
+    public sealed class Input : Module<Input>
     {
         private Input() { }
 

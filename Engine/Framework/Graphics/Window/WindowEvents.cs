@@ -2,6 +2,7 @@
 
 namespace Hybrid
 {
+    // Window Events
     internal class WindowEvents
     {
         internal void Push(SDL.EventType e)

@@ -2,6 +2,7 @@
 
 namespace Hybrid
 {
+    // Window Flags
     internal class WindowFlags
     {
         private static SDL.WindowFlags Flags

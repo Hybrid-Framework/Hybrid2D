@@ -3,7 +3,7 @@
 namespace Hybrid
 {
     // GameObject
-    public partial class GameObject : Behaviour
+    public sealed partial class GameObject : Behaviour
     {
         internal List<Component> Components { get; private set; } = new List<Component>();
         internal Scene Scene { get; private set; } = null;

@@ -3,7 +3,7 @@
 namespace Hybrid
 {
     // Internal API
-    public partial class Resources : Module<Resources>
+    public sealed partial class Resources : Module<Resources>
     {
         private Resources() { }
 

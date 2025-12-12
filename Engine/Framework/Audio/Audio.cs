@@ -3,7 +3,7 @@
 namespace Hybrid
 {
     // Internal
-    public unsafe partial class Audio : Module<Audio>
+    public sealed unsafe partial class Audio : Module<Audio>
     {
         private Audio() { }
         
