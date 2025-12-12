@@ -4,6 +4,8 @@
 
 A lightweight cross-platform game framework
 
+Inspried by Unity
+
 ⚠️ IN DEVELOPMENT ⚠️
 
 ![Windows](https://custom-icon-badges.demolab.com/badge/Windows-000000?logo=windows11&logoColor=white)
@@ -32,12 +34,12 @@ Getting started...
 * 🚀 4. Build & launch your game
 
 
-<h2 id="platforms">🖥️ Platforms</h2>
+<h2 id="platforms">🖥️ Cross-platform</h2>
 
 Currently supports these platforms:
   * **Desktop:** Windows, Mac, Linux
   * **Mobile:** Android, iOS
-  * **Web:** Browser
+  * **Web:** Browsers
 
 
 <h2 id="dependencies">📦 Dependencies</h2>
