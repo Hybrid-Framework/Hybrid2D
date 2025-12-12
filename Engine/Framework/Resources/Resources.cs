@@ -90,7 +90,7 @@ namespace Hybrid
                 throw new Exception($"Unsupported resource type {typeof(T)}");
             }
             
-            instance.Name = path;
+            instance.Path = path;
             return instance as T;
         }
     }

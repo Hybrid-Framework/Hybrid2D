@@ -5,8 +5,6 @@ namespace Hybrid
 {
     public abstract partial class Behaviour : Object
     {
-        private readonly HashSet<Type> RequireComponentsProcessing = new();
-        
         public GameObject GameObject { get; internal set; }
         public Transform Transform { get; internal set; }
         
@@ -24,6 +22,43 @@ namespace Hybrid
 
                 _Enabled = value;
             }
+        }
+        
+        private string _Name { get; set; }
+        public string Name
+        {
+            get
+            {
+                if (GameObject.IsDestroyed())
+                {
+                    return $"{_Name} (Destroyed)";
+                }
+
+                return _Name;
+            }
+            set
+            {
+                if (GameObject != null)
+                {
+                    GameObject._Name = value;
+
+                    foreach (var component in GameObject.Components)
+                    {
+                        component._Name = value;
+                    }
+                }
+                
+                _Name = value;
+            }
+        }
+
+        internal Behaviour()
+        {
+            // Invalid Scene
+            if (Scenes.GetActiveScene() == null)
+                throw new Exception($"Can't create '{GetType().Name}' with no scene loaded");
+            
+            Name = GetType().Name;
         }
     }
     
@@ -373,6 +408,9 @@ namespace Hybrid
     // Add Component
     public abstract partial class Behaviour
     {
+        private readonly HashSet<Type> RequireComponentsProcessing = new();
+        
+        
         public Component AddComponent(Type type)
         {
             return AddComponentInternal

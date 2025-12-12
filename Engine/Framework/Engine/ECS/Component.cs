@@ -14,9 +14,6 @@ namespace Hybrid
                 if (GameObject.DestroyComponent(this))
                 {
                     OnDestroy();
-                    
-                    GameObject = null;
-                    Transform = null;
                 }
             }
             

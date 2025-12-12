@@ -6,12 +6,16 @@ namespace App
     {
         public override void OnSceneOpen()
         {
-            GameObject parent = new GameObject("Parent");
-            GameObject child = new GameObject("child");
-            child.Transform.SetParent(parent.Transform);
-            parent.AddComponent<Player>();
+            var gameObject = new GameObject("Parent");
+            var component = gameObject.AddComponent<TestComponent>();
+
+            gameObject.Name = "Test 1";
+            component.Name = "Test 2";
             
-            child.BroadcastMessageUpwards("Hello", 2, SendMessageOptions.DontRequireReceiver);
+            Object.Destroy(gameObject);
+            
+            Debug.Log(component.Name);
+            Debug.Log(gameObject.Name);
         }
 
         public override void OnSceneClose()

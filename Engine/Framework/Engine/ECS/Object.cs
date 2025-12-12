@@ -10,34 +10,7 @@ namespace Hybrid
         private bool Destroying { get; set; }
         private bool Destroyed { get; set; }
         
-        private string _Name { get; set; }
-        public string Name
-        {
-            set => _Name = value;
-            get
-            {
-                if (Destroyed)
-                {
-                    return $"{_Name} (Destroyed)";
-                }
-
-                return _Name;
-            }
-        }
-
-        internal Object()
-        {
-            // Invalid Scene
-            if (Scenes.GetActiveScene() == null)
-                throw new Exception($"Can't create '{GetType().Name}' with no scene loaded");
-            
-            Name = GetType().Name;
-        }
-    }
-    
-    // Destroying
-    public partial class Object
-    {
+        
         public static void Destroy(Object obj)
         {
             if (obj != null)
@@ -45,14 +18,10 @@ namespace Hybrid
                 // Mark For Destroying
                 if(obj.Destroying) return;
                 obj.Destroying = true;
-                var name = obj.Name;
                 
                 // Destroy
                 obj.OnDispose();
                 obj.Destroyed = true;
-
-                // Output
-                // if (obj is GameObject) Debug.Log("Destroyed: " + name);
             }
         }
 
