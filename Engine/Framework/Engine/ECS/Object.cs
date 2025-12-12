@@ -6,7 +6,6 @@ namespace Hybrid
     public abstract partial class Object : IEquatable<Object>
     {
         private readonly Guid Guid = Guid.NewGuid();
-        
         private bool Destroying { get; set; }
         private bool Destroyed { get; set; }
         
@@ -22,6 +21,19 @@ namespace Hybrid
                 // Destroy
                 obj.OnDispose();
                 obj.Destroyed = true;
+            }
+        }
+
+        internal virtual void ThrowOnDestroyed()
+        {
+            if (Destroyed)
+            {
+                if (this is Behaviour behaviour)
+                {
+                    throw new NullReferenceException($"Trying to access ({GetType().Name}) on GameObject '{behaviour.Name}' but it has been destroyed");
+                }
+                
+                throw new NullReferenceException($"Trying to access ({GetType().Name}) but it has been destroyed");
             }
         }
 

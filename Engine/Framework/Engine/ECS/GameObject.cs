@@ -8,6 +8,7 @@ namespace Hybrid
         internal Scene Scene { get; private set; } = null;
         public string Layer { get; set; } = "Default";
         public string Tag { get; set; } = "Default";
+        public bool Active { get; set; } = true;
         
         
         // Constructor
@@ -19,8 +20,8 @@ namespace Hybrid
             
             // Create Transform
             Transform = AddComponent<Transform>();
-            Transform.Transform = Transform;
             Transform.GameObject = GameObject;
+            Transform.Transform = Transform;
             Transform.Name = Name;
             
             // Add To Scene
@@ -58,9 +59,9 @@ namespace Hybrid
     // GameObject
     public partial class GameObject
     {
-        public void SetActive(bool enabled)
+        public void SetActive(bool active)
         {
-            Enabled = enabled;
+            Active = active;
         }
         
         public Scene GetScene()

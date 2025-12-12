@@ -23,20 +23,20 @@ namespace Hybrid
             // For Each Root GameObject In Scene
             foreach (var gameObject in GetActiveScene().RootGameObjects)
             {
-                // Skip Disabled GameObject
-                if(!gameObject.Enabled) continue;
+                // Skip Invalid GameObject
+                if(gameObject == null || !gameObject.Active) continue;
 
                 // For Each Child In GameObject (Including Parent)
                 foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
                 {
-                    // Skip Disabled Child
-                    if(!child.Enabled) continue;
+                    // Skip Invalid Child
+                    if(child == null || !child.Enabled) continue;
                     
                     // For Each Component
                     foreach (var component in child.GameObject.Components)
                     {
-                        // Skip Disabled Component
-                        if(!component.Enabled) continue;
+                        // Skip Invalid Component
+                        if(component == null || !component.Enabled) continue;
                     
                         // Awake
                         if (!component.DidAwake)
@@ -65,20 +65,20 @@ namespace Hybrid
             // For Each Root GameObject In Scene
             foreach (var gameObject in GetActiveScene().RootGameObjects)
             {
-                // Skip Disabled GameObject
-                if(!gameObject.Enabled) continue;
+                // Skip Invalid GameObject
+                if(gameObject == null || !gameObject.Active) continue;
 
                 // For Each Child In GameObject (Including Parent)
                 foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
                 {
-                    // Skip Disabled Child
-                    if(!child.Enabled) continue;
+                    // Skip Invalid Child
+                    if(child == null || !child.Enabled) continue;
                     
                     // For Each Component
                     foreach (var component in child.GameObject.Components)
                     {
-                        // Skip Disabled Component
-                        if (!component.Enabled) continue;
+                        // Skip Invalid Component
+                        if (component == null || !component.Enabled) continue;
 
                         // Fixed Update
                         component.OnFixedUpdate();

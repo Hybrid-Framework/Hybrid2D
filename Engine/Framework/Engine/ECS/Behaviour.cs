@@ -5,39 +5,40 @@ namespace Hybrid
 {
     public abstract partial class Behaviour : Object
     {
-        public GameObject GameObject { get; internal set; }
-        public Transform Transform { get; internal set; }
+        private readonly HashSet<Type> RequireComponentsProcessing = new();
         
-        private bool _Enabled { get; set; } = true;
-        public bool Enabled
+        private GameObject _GameObject { get; set; }
+        public GameObject GameObject
         {
-            get => _Enabled;
-            set
+            internal set => _GameObject = value;
+            get
             {
-                if (value != _Enabled && this is Component component)
-                {
-                    if(value) component.OnEnable();
-                    if(!value) component.OnDisable();
-                }
+                ThrowOnDestroyed();
+                
+                return _GameObject;
+            }
+        }
 
-                _Enabled = value;
+        private Transform _Transform { get; set; }
+        public Transform Transform
+        {
+            internal set => _Transform = value;
+            get
+            {
+                ThrowOnDestroyed();
+                
+                return _Transform;
             }
         }
         
         private string _Name { get; set; }
         public string Name
         {
-            get
-            {
-                if (GameObject.IsDestroyed())
-                {
-                    return $"{_Name} (Destroyed)";
-                }
-
-                return _Name;
-            }
+            get => _Name;
             set
             {
+                ThrowOnDestroyed();
+                
                 if (GameObject != null)
                 {
                     GameObject._Name = value;
@@ -77,9 +78,7 @@ namespace Hybrid
 
         internal void SendMessageInternal(string methodName, object parameter = null, SendMessageOptions options = SendMessageOptions.RequireReceiver)
         {
-            // Invalid GameObject
-            if(GameObject == null || Transform == null)
-                return;
+            ThrowOnDestroyed();
             
             bool invoked = false;
 
@@ -120,9 +119,7 @@ namespace Hybrid
 
         internal void BroadcastMessageInternal(string methodName, object parameter = null, SendMessageOptions options = SendMessageOptions.RequireReceiver)
         {
-            // Invalid GameObject
-            if(GameObject == null || Transform == null)
-                return;
+            ThrowOnDestroyed();
             
             bool invoked = false;
 
@@ -163,9 +160,7 @@ namespace Hybrid
 
         internal void BroadcastMessageUpwardsInternal(string methodName, object parameter = null, SendMessageOptions options = SendMessageOptions.RequireReceiver)
         {
-            // Invalid GameObject
-            if(GameObject == null || Transform == null)
-                return;
+            ThrowOnDestroyed();
             
             bool invoked = false;
 
@@ -202,12 +197,14 @@ namespace Hybrid
             foreach (var gameObject in Scenes.GetActiveScene().RootGameObjects)
             {
                 // If Active Only And Disabled
-                if(activeOnly && !gameObject.Enabled) continue;
+                if(gameObject == null) continue;
+                if(activeOnly && !gameObject.Active) continue;
                 
                 // For Each Child Of GameObject (Including Parent)
                 foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
                 {
                     // If Active Only And Disabled
+                    if(child == null) continue;
                     if(activeOnly && !child.Enabled) continue;
                     
                     if (child.GameObject.Name == name)
@@ -226,12 +223,14 @@ namespace Hybrid
             foreach (var gameObject in Scenes.GetActiveScene().RootGameObjects)
             {
                 // If Active Only And Disabled
-                if(activeOnly && !gameObject.Enabled) continue;
+                if(gameObject == null) continue;
+                if(activeOnly && !gameObject.Active) continue;
                 
                 // For Each Child Of GameObject (Including Parent)
                 foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
                 {
                     // If Active Only And Disabled
+                    if(child == null) continue;
                     if(activeOnly && !child.Enabled) continue;
                     
                     if (child.GameObject.Name == name)
@@ -252,12 +251,14 @@ namespace Hybrid
             foreach (var gameObject in Scenes.GetActiveScene().RootGameObjects)
             {
                 // If Active Only And Disabled
-                if(activeOnly && !gameObject.Enabled) continue;
+                if(gameObject == null) continue;
+                if(activeOnly && !gameObject.Active) continue;
                 
                 // For Each Child Of GameObject (Including Parent)
                 foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
                 {
                     // If Active Only And Disabled
+                    if(child == null) continue;
                     if(activeOnly && !child.Enabled) continue;
                     
                     if (child.GameObject.Layer == layer)
@@ -276,12 +277,14 @@ namespace Hybrid
             foreach (var gameObject in Scenes.GetActiveScene().RootGameObjects)
             {
                 // If Active Only And Disabled
-                if(activeOnly && !gameObject.Enabled) continue;
+                if(gameObject == null) continue;
+                if(activeOnly && !gameObject.Active) continue;
                 
                 // For Each Child Of GameObject (Including Parent)
                 foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
                 {
                     // If Active Only And Disabled
+                    if(child == null) continue;
                     if(activeOnly && !child.Enabled) continue;
                     
                     if (child.GameObject.Layer == layer)
@@ -302,12 +305,14 @@ namespace Hybrid
             foreach (var gameObject in Scenes.GetActiveScene().RootGameObjects)
             {
                 // If Active Only And Disabled
-                if(activeOnly && !gameObject.Enabled) continue;
+                if(gameObject == null) continue;
+                if(activeOnly && !gameObject.Active) continue;
                 
                 // For Each Child Of GameObject (Including Parent)
                 foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
                 {
                     // If Active Only And Disabled
+                    if(child == null) continue;
                     if(activeOnly && !child.Enabled) continue;
                     
                     if (child.GameObject.Tag == tag)
@@ -326,12 +331,14 @@ namespace Hybrid
             foreach (var gameObject in Scenes.GetActiveScene().RootGameObjects)
             {
                 // If Active Only And Disabled
-                if(activeOnly && !gameObject.Enabled) continue;
+                if(gameObject == null) continue;
+                if(activeOnly && !gameObject.Active) continue;
                 
                 // For Each Child Of GameObject (Including Parent)
                 foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
                 {
                     // If Active Only And Disabled
+                    if(child == null) continue;
                     if(activeOnly && !child.Enabled) continue;
                     
                     if (child.GameObject.Tag == tag)
@@ -352,7 +359,8 @@ namespace Hybrid
             foreach (var gameObject in Scenes.GetActiveScene().RootGameObjects)
             {
                 // If Active Only And Disabled
-                if(activeOnly && !gameObject.Enabled) continue;
+                if(gameObject == null) continue;
+                if(activeOnly && !gameObject.Active) continue;
                 
                 if (typeof(T).IsAssignableFrom(gameObject.GetType()))
                 {
@@ -363,6 +371,7 @@ namespace Hybrid
                 foreach (var component in gameObject.Transform.GetComponentsInChildren<Component>(true))
                 {
                     // If Active Only And Disabled
+                    if(component == null) continue;
                     if(activeOnly && !component.Enabled) continue;
                     
                     if (typeof(T).IsAssignableFrom(component.GetType()))
@@ -381,7 +390,8 @@ namespace Hybrid
             foreach (var gameObject in Scenes.GetActiveScene().RootGameObjects)
             {
                 // If Active Only And Disabled
-                if(activeOnly && !gameObject.Enabled) continue;
+                if(gameObject == null) continue;
+                if(activeOnly && !gameObject.Active) continue;
                 
                 if (typeof(T).IsAssignableFrom(gameObject.GetType()))
                 {
@@ -392,6 +402,7 @@ namespace Hybrid
                 foreach (var component in gameObject.Transform.GetComponentsInChildren<Component>(true))
                 {
                     // If Active Only And Disabled
+                    if(component == null) continue;
                     if(activeOnly && !component.Enabled) continue;
                     
                     if (typeof(T).IsAssignableFrom(component.GetType()))
@@ -408,9 +419,6 @@ namespace Hybrid
     // Add Component
     public abstract partial class Behaviour
     {
-        private readonly HashSet<Type> RequireComponentsProcessing = new();
-        
-        
         public Component AddComponent(Type type)
         {
             return AddComponentInternal
@@ -429,9 +437,7 @@ namespace Hybrid
 
         internal T AddComponentInternal<T>(T component) where T : Component
         {
-            // Invalid GameObject
-            if (GameObject == null)
-                return null;
+            ThrowOnDestroyed();
             
             // Invalid Component
             if (component == null)
@@ -503,9 +509,7 @@ namespace Hybrid
         
         internal Component GetComponentInternal(Type type)
         {
-            // Invalid GameObject
-            if (GameObject == null)
-                return null;
+            ThrowOnDestroyed();
             
             // Invalid Type
             if (type == null)
@@ -548,9 +552,7 @@ namespace Hybrid
         
         internal Component[] GetComponentsInternal(Type type)
         {
-            // Invalid GameObject
-            if (GameObject == null)
-                return Array.Empty<Component>();
+            ThrowOnDestroyed();
             
             // Invalid Type
             if (type == null)
@@ -591,9 +593,7 @@ namespace Hybrid
         
         internal Component GetComponentInParentInternal(Type type, bool includeSelf = false)
         {
-            // Invalid GameObject
-            if (GameObject == null)
-                return null;
+            ThrowOnDestroyed();
             
             // Invalid Type
             if (type == null)
@@ -643,9 +643,7 @@ namespace Hybrid
         
         internal Component[] GetComponentsInParentInternal(Type type, bool includeSelf = false)
         {
-            // Invalid GameObject
-            if (GameObject == null)
-                return Array.Empty<Component>();
+            ThrowOnDestroyed();
             
             // Invalid Type
             if (type == null)
@@ -691,9 +689,7 @@ namespace Hybrid
         
         internal Component GetComponentInChildrenInternal(Type type, bool includeSelf = false)
         {
-            // Invalid GameObject
-            if (GameObject == null)
-                return null;
+            ThrowOnDestroyed();
             
             // Invalid Type
             if (type == null)
@@ -740,9 +736,7 @@ namespace Hybrid
         
         internal Component[] GetComponentsInChildrenInternal(Type type, bool includeSelf = false)
         {
-            // Invalid GameObject
-            if (GameObject == null)
-                return null;
+            ThrowOnDestroyed();
             
             // Invalid Type
             if (type == null)
@@ -792,9 +786,7 @@ namespace Hybrid
         
         internal int GetComponentCountInternal(Type type)
         {
-            // Invalid GameObject
-            if (GameObject == null)
-                return 0;
+            ThrowOnDestroyed();
             
             // Invalid Type
             if (type == null)
@@ -834,9 +826,7 @@ namespace Hybrid
         
         internal int GetComponentIndexInternal(Type type)
         {
-            // Invalid GameObject
-            if (GameObject == null)
-                return -1;
+            ThrowOnDestroyed();
             
             // Invalid Type
             if (type == null)
@@ -874,9 +864,7 @@ namespace Hybrid
         
         internal Component GetComponentAtIndexInternal(Type type, int index)
         {
-            // Invalid GameObject
-            if (GameObject == null)
-                return null;
+            ThrowOnDestroyed();
             
             // Invalid Type
             if (type == null)
@@ -923,12 +911,10 @@ namespace Hybrid
         
         internal bool TryGetComponentInternal(Type type, out Component component)
         {
+            ThrowOnDestroyed();
+            
             // Invalid
             component = null;
-            
-            // Invalid GameObject
-            if (GameObject == null)
-                return false;
             
             // Invalid Type
             if (type == null)
@@ -972,9 +958,7 @@ namespace Hybrid
 
         internal bool HasComponentInternal<T>(T component) where T : Component
         {
-            // Invalid GameObject
-            if (GameObject == null)
-                return false;
+            ThrowOnDestroyed();
             
             // Invalid Component
             if (component == null)
@@ -1020,9 +1004,7 @@ namespace Hybrid
 
         internal bool DestroyComponentInternal<T>(T component) where T : Component
         {
-            // Invalid GameObject
-            if (GameObject == null)
-                return false;
+            ThrowOnDestroyed();
             
             // Invalid Component
             if (component == null)

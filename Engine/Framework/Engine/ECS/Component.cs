@@ -27,6 +27,22 @@ namespace Hybrid
         public bool DidAwake { get; internal set; } = false;
         public bool DidStart { get; internal set; } = false;
         
+        private bool _Enabled { get; set; } = true;
+        public bool Enabled
+        {
+            get => _Enabled;
+            set
+            {
+                if (value != _Enabled)
+                {
+                    if(value) OnEnable();
+                    if(!value) OnDisable();
+                }
+
+                _Enabled = value;
+            }
+        }
+        
 
         public virtual void OnAwake() { }
 

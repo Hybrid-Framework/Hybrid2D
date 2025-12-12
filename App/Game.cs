@@ -9,13 +9,10 @@ namespace App
             var gameObject = new GameObject("Parent");
             var component = gameObject.AddComponent<TestComponent>();
 
-            gameObject.Name = "Test 1";
-            component.Name = "Test 2";
+            gameObject.Name = "Hello!";
+            component.Name = "Hello!";
             
-            Object.Destroy(gameObject);
-            
-            Debug.Log(component.Name);
-            Debug.Log(gameObject.Name);
+            Object.Destroy(component);
         }
 
         public override void OnSceneClose()
