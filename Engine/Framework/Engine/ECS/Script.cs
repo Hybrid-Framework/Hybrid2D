@@ -42,11 +42,6 @@ namespace Hybrid
         {
             Coroutines.StopAllCoroutines(this);
         }
-
-        public int GetCoroutinesCount()
-        {
-            return Coroutines.GetCoroutinesCount(this);
-        }
     }
 
     // Script API

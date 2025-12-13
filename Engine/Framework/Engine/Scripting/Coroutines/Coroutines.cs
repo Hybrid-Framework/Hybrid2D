@@ -10,6 +10,7 @@ namespace Hybrid
     {
         private static readonly Dictionary<object, List<Coroutine>> Map = new();
         
+        
         internal override void OnUpdate()
         {
             base.OnUpdate();
@@ -20,8 +21,27 @@ namespace Hybrid
             base.OnFixedUpdate();
         }
 
+        internal override void OnEndOfFrame()
+        {
+            base.OnEndOfFrame();
+        }
+
+        // Dispose
         internal override void OnDispose()
         {
+            // For Each Coroutines List
+            foreach (var coroutines in Map.Values)
+            {
+                // For Each Coroutine
+                foreach (var coroutine in coroutines)
+                {
+                    // Stop
+                    coroutine.Stop();
+                }
+            }
+            
+            // Clear
+            Map.Clear();
             base.OnDispose();
         }
     }
@@ -33,9 +53,6 @@ namespace Hybrid
         {
             if (owner != null && enumerator != null)
             {
-                // Create Coroutine
-                Coroutine coroutine = new Coroutine(owner, enumerator.Method.Name, enumerator());
-
                 // Create Map Entry for owner
                 if (!Map.TryGetValue(owner, out var list))
                 {
@@ -43,8 +60,8 @@ namespace Hybrid
                     Map[owner] = list;
                 }
 
-                // Assign Coroutine
-                Debug.Log($"Coroutine '{enumerator.Method.Name}' started on '{owner.GetType().Name}'");
+                // Create Coroutine
+                var coroutine = new Coroutine(owner, enumerator.Method.Name, enumerator());
                 list.Add(coroutine);
                 return coroutine;
             }
@@ -68,9 +85,6 @@ namespace Hybrid
                     // Invalid IEnumerator
                     if (method.Invoke(owner, null) is IEnumerator enumerator)
                     {
-                        // Create Coroutine
-                        Coroutine coroutine = new Coroutine(owner, name, enumerator);
-
                         // Create Map Entry for owner
                         if (!Map.TryGetValue(owner, out var list))
                         {
@@ -78,8 +92,8 @@ namespace Hybrid
                             Map[owner] = list;
                         }
 
-                        // Assign Coroutine
-                        Debug.Log($"Coroutine '{name}' started on '{owner.GetType().Name}'");
+                        // Create Coroutine
+                        var coroutine = new Coroutine(owner, name, enumerator);
                         list.Add(coroutine);
                         return coroutine;
                     }
@@ -90,7 +104,6 @@ namespace Hybrid
         }
     }
     
-    
     // Stop Coroutine
     internal partial class Coroutines
     {
@@ -99,24 +112,16 @@ namespace Hybrid
             if (owner != null && coroutine != null)
             {
                 // Find Owners Coroutines
-                if (Map.TryGetValue(owner, out var list))
+                if (Map.TryGetValue(owner, out var coroutines))
                 {
-                    // Stop & Remove All Coroutines With Name
-                    for (int i = list.Count - 1; i >= 0; i--)
+                    // For Each Coroutine
+                    foreach(var c in coroutines)
                     {
-                        if (list[i] == coroutine)
+                        // Stop
+                        if (c == coroutine)
                         {
-                            Debug.Log($"Coroutine '{list[i].Name}' stopped on '{owner.GetType().Name}'");
-
-                            list[i].Stop();
-                            list.RemoveAt(i);
+                            c.Stop();
                         }
-                    }
-
-                    // Remove Empty
-                    if (list.Count == 0)
-                    {
-                        Map.Remove(owner);
                     }
                 }
             }
@@ -139,24 +144,16 @@ namespace Hybrid
                     if (method.Invoke(owner, null) is IEnumerator enumerator)
                     {
                         // Find Owners Coroutines
-                        if (Map.TryGetValue(owner, out var list))
+                        if (Map.TryGetValue(owner, out var coroutines))
                         {
-                            // Stop & Remove All Coroutines With Name
-                            for (int i = list.Count - 1; i >= 0; i--)
+                            // For Each Coroutine
+                            foreach(var c in coroutines)
                             {
-                                if (list[i].Name == name)
+                                // Stop
+                                if (c.Name == name)
                                 {
-                                    Debug.Log($"Coroutine '{name}' stopped on '{owner.GetType().Name}'");
-
-                                    list[i].Stop();
-                                    list.RemoveAt(i);
+                                    c.Stop();
                                 }
-                            }
-
-                            // Remove Empty
-                            if (list.Count == 0)
-                            {
-                                Map.Remove(owner);
                             }
                         }
                     }
@@ -173,35 +170,16 @@ namespace Hybrid
             if (owner != null)
             {
                 // Find Owners Coroutines
-                if (Map.TryGetValue(owner, out var list))
+                if (Map.TryGetValue(owner, out var coroutines))
                 {
-                    // Stop All Coroutines
-                    for (int i = list.Count - 1; i >= 0; i--)
+                    // For Each Coroutine
+                    foreach(var c in coroutines)
                     {
-                        Debug.Log($"Coroutine '{list[i].Name}' stopped on '{owner.GetType().Name}'");
-
-                        list[i].Stop();
-                        list.RemoveAt(i);
+                        // Stop
+                        c.Stop();
                     }
-
-                    // Remove Empty
-                    Map.Remove(owner);
                 }
             }
-        }
-    }
-    
-    // Get Coroutines Count
-    internal partial class Coroutines
-    {
-        internal static int GetCoroutinesCount(object owner)
-        {
-            if (Map.TryGetValue(owner, out var list))
-            {
-                return list.Count;
-            }
-
-            return 0;
         }
     }
 }

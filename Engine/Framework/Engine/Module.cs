@@ -17,11 +17,6 @@ namespace Hybrid
             if (_Instance == null)
             {
                 _Instance = Activator.CreateInstance(typeof(T), nonPublic: true) as T;
-
-                if (_Instance != null)
-                {
-                    _Instance.OnInitialize();
-                }
             }
 
             return _Instance;
@@ -31,7 +26,8 @@ namespace Hybrid
     // Module
     public abstract class Module
     {
-        private static readonly List<Module> Modules = new();
+        private static readonly List<Module> Modules = new List<Module>();
+        
         
         internal static T Register<T>(T module) where T : Module
         {
@@ -51,11 +47,14 @@ namespace Hybrid
             return Modules.ToArray();
         }
         
+        internal virtual void OnStartOfFrame() {}
         internal virtual void OnEvent(SDL.Event e) {}
         internal virtual void OnInitialize() {}
-        internal virtual void OnRender() {}
         internal virtual void OnUpdate() {}
         internal virtual void OnFixedUpdate() {}
+        internal virtual void OnRender() {}
+        internal virtual void OnEndOfFrame() {}
+        
         internal virtual void OnDispose() {}
     }
 }

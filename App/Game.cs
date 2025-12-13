@@ -8,20 +8,7 @@ namespace App
         {
             var gameObject = new GameObject("Parent");
             var player = gameObject.AddComponent<Player>();
-
-            // Start
-            var coroutine1 = player.StartCoroutine("Example1");
-            var coroutine2 = player.StartCoroutine(player.Example1);
-            
-            // Stop
-            // player.StopCoroutine("Example1");
-            // player.StopCoroutine(coroutine1);
-            
-            // Stop All
-            // player.StopAllCoroutines();
-            
-            // Debug Total
-            Debug.Log("Total: " + player.GetCoroutinesCount());
+            player.StartCoroutine("Example1");
         }
 
         public override void OnSceneClose()

@@ -25,12 +25,18 @@ namespace Hybrid
             Register(Coroutines.FindOrCreate());
             Register(Input.FindOrCreate());
             Register(Scenes.FindOrCreate());
+
+            // Initialize
+            OnInitialize();
         }
         
         internal void MainLoop()
         {
             // Frame Time
             Time.BeforeFrame();
+            
+            // Start Frame
+            OnStartOfFrame();
             
             // Events
             while (Platform.GetEvents().PollEvents(out SDL.Event e))
@@ -58,6 +64,9 @@ namespace Hybrid
             // Render
             OnRender();
             
+            // End Frame
+            OnEndOfFrame();
+            
             // Frame Limit
             Time.AfterFrame();
         }
@@ -75,6 +84,30 @@ namespace Hybrid
             }
             
             SDL.Quit();
+        }
+    }
+    
+    // Initialize
+    internal partial class Engine
+    {
+        internal override void OnInitialize()
+        {
+            foreach (var module in GetModules())
+            {
+                module.OnInitialize();
+            }
+        }
+    }
+    
+    // Start Of Frame
+    internal partial class Engine
+    {
+        internal override void OnStartOfFrame()
+        {
+            foreach (var module in GetModules())
+            {
+                module.OnStartOfFrame();
+            }
         }
     }
     
@@ -122,6 +155,18 @@ namespace Hybrid
             foreach (var module in GetModules())
             {
                 module.OnRender();
+            }
+        }
+    }
+    
+    // End Of Frame
+    internal partial class Engine
+    {
+        internal override void OnEndOfFrame()
+        {
+            foreach (var module in GetModules())
+            {
+                module.OnEndOfFrame();
             }
         }
     }
