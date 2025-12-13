@@ -10,7 +10,7 @@ namespace App
             
             var gameObject = new GameObject("Parent");
             var player = gameObject.AddComponent<Player>();
-            player.StartCoroutine("Example1");
+            var coroutine = player.StartCoroutine("Example1");
         }
 
         public override void OnSceneClose()

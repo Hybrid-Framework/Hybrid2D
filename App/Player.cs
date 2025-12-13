@@ -8,7 +8,7 @@ namespace App
     {
         public IEnumerator Example1()
         {
-            yield return new WaitForSeconds(1);
+            yield return StartCoroutine(Example2);
         }
         
         public IEnumerator Example2()

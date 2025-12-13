@@ -11,6 +11,7 @@ namespace Hybrid
         internal object Owner { get; set; }
         internal string Name { get; set; }
         internal bool Done { get; set; }
+        internal bool Paused { get; set; }
         
 
         internal Coroutine(object owner, string name, IEnumerator enumerator)
@@ -20,12 +21,19 @@ namespace Hybrid
             this.Owner = owner;
             this.Name = name;
             this.Done = false;
+            this.Paused = false;
         }
         
         public void MoveNext()
         {
             if (!Done && Enumerator != null)
             {
+                // Pause
+                if (Paused)
+                {
+                    return;
+                }
+                
                 // Process Instruction
                 if (Instruction != null)
                 {
@@ -69,6 +77,16 @@ namespace Hybrid
                 // Assign Instruction
                 Instruction = Enumerator.Current as YieldInstruction;
             }
+        }
+
+        public void Pause()
+        {
+            Paused = true;
+        }
+
+        public void Resume()
+        {
+            Paused = false;
         }
         
         public void Stop()
