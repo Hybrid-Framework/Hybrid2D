@@ -1,9 +1,56 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Collections;
+using System;
 
 namespace Hybrid
 {
+    // Internal
+    public partial class Script : Component
+    {
+        // Dispose
+        internal override void OnDispose()
+        {
+            StopAllCoroutines();
+            base.OnDispose();
+        }
+    }
+    
+    // Coroutines API
+    public partial class Script
+    {
+        public Coroutine StartCoroutine(string name)
+        {
+            return Coroutines.StartCoroutine(this, name);
+        }
+        
+        public Coroutine StartCoroutine(Func<IEnumerator> enumerator)
+        {
+            return Coroutines.StartCoroutine(this, enumerator);
+        }
+
+        public void StopCoroutine(string name)
+        {
+            Coroutines.StopCoroutine(this, name);
+        }
+
+        public void StopCoroutine(Coroutine coroutine)
+        {
+            Coroutines.StopCoroutine(this, coroutine);
+        }
+        
+        public void StopAllCoroutines()
+        {
+            Coroutines.StopAllCoroutines(this);
+        }
+
+        public int GetCoroutinesCount()
+        {
+            return Coroutines.GetCoroutinesCount(this);
+        }
+    }
+
     // Script API
-    public class Script : Component
+    public partial class Script
     {
         public virtual void OnAwake() { } // Called before start when created
 

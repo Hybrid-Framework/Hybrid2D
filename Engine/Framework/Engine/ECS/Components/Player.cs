@@ -1,12 +1,19 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Collections;
+using System;
 
 namespace Hybrid
 {
     public class Player : Script
     {
-        public void Hello(int number)
+        public IEnumerator Example1()
         {
-            Debug.Log("Hello From Player: " + number);
+            yield return null;
+        }
+        
+        public IEnumerator Example2()
+        {
+            yield return null;
         }
     }
 }

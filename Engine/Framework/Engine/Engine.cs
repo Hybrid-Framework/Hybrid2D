@@ -22,6 +22,7 @@ namespace Hybrid
             Register(Window.FindOrCreate());
             Register(Graphics.FindOrCreate());
             Register(Resources.FindOrCreate());
+            Register(Coroutines.FindOrCreate());
             Register(Input.FindOrCreate());
             Register(Scenes.FindOrCreate());
         }

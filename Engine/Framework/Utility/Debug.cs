@@ -10,12 +10,17 @@ namespace Hybrid
             Console.WriteLine($"[LOG] {message}");
         }
 
-        public static void Warn(object message)
+        public static void Warning(object message)
         {
             Console.WriteLine($"[WARNING] {message}");
         }
 
         public static void Error(object message)
+        {
+            Console.WriteLine($"[ERROR] {message}");
+        }
+        
+        public static void Exception(object message)
         {
             throw new Exception($"[ERROR] {message}");
         }
