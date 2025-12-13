@@ -11,6 +11,7 @@ namespace Hybrid
         internal override void OnDispose()
         {
             StopAllCoroutines();
+            
             base.OnDispose();
         }
     }

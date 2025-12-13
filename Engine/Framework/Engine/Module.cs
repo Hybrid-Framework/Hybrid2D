@@ -31,12 +31,20 @@ namespace Hybrid
         
         internal static T Register<T>(T module) where T : Module
         {
+            // Invalid Module
+            if (module == null)
+                return null;
+            
             Modules.Add(module);
             return module;
         }
 
         internal static T UnRegister<T>(T module) where T : Module
         {
+            // Invalid Module
+            if (module == null)
+                return null;
+            
             Modules.Remove(module);
             module.OnDispose();
             return module;
@@ -44,6 +52,10 @@ namespace Hybrid
 
         internal static Module[] GetModules()
         {
+            // Invalid Modules
+            if (Modules == null || Modules.Count <= 0)
+                return Array.Empty<Module>();
+
             return Modules.ToArray();
         }
         
@@ -51,6 +63,7 @@ namespace Hybrid
         internal virtual void OnEvent(SDL.Event e) {}
         internal virtual void OnInitialize() {}
         internal virtual void OnUpdate() {}
+        internal virtual void OnLateUpdate() {}
         internal virtual void OnFixedUpdate() {}
         internal virtual void OnRender() {}
         internal virtual void OnEndOfFrame() {}

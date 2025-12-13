@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    public class WaitForEndOfFrame : YieldInstruction
+    public sealed class WaitForEndOfFrame : YieldInstruction
     {
         
     }

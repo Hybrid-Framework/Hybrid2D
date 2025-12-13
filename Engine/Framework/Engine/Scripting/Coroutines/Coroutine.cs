@@ -4,7 +4,7 @@ using System;
 
 namespace Hybrid
 {
-    public class Coroutine : YieldInstruction
+    public sealed class Coroutine : YieldInstruction
     {
         internal YieldInstruction Instruction { get; set; }
         internal IEnumerator Enumerator { get; set; }
@@ -24,36 +24,41 @@ namespace Hybrid
         
         public void MoveNext()
         {
-            // Invalid Coroutine
-            if (Done || Enumerator == null)
+            if (!Done && Enumerator != null)
             {
-                Done = true;
-                return;
-            }
+                // Process Instruction
+                if (Instruction != null)
+                {
+                    // Coroutine
+                    if (Instruction is Coroutine coroutine)
+                    {
+                        if (!coroutine.Done)
+                        {
+                            return;
+                        }
+                    }
+                    
+                    // Wait For Seconds
+                    if (Instruction is WaitForSeconds wait)
+                    {
+                        if ((wait.Remaining -= Time.DeltaTime) > 0f)
+                        {
+                            return;
+                        }
+                    }
+                    
+                    Instruction = null;
+                }
 
-            // Process Instruction
-            if (Instruction != null)
-            {
-                Debug.Log($"Process Instruction: {Instruction} for {Name} on {Owner.GetType().Name}");
-            }
+                // Step Coroutine
+                if (!Enumerator.MoveNext())
+                {
+                    Stop();
+                    return;
+                }
 
-            // Stop Coroutine
-            if (!Enumerator.MoveNext())
-            {
-                Done = true;
-                return;
-            }
-
-            // Assign Instruction
-            if (Enumerator.Current is YieldInstruction instruction)
-            {
-                Instruction = instruction;
-                Debug.Log($"Assign Instruction: {Instruction} for {Name} on {Owner.GetType().Name}");
-            }
-            else
-            {
-                Instruction = null;
-                Debug.Log($"Assign Instruction: null for {Name} on {Owner.GetType().Name}");
+                // Assign Instruction
+                Instruction = Enumerator.Current as YieldInstruction;
             }
         }
         

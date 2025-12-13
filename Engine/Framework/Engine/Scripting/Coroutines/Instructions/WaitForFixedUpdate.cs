@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    public class WaitForFixedUpdate : YieldInstruction
+    public sealed class WaitForFixedUpdate : YieldInstruction
     {
         
     }

@@ -10,19 +10,78 @@ namespace Hybrid
     {
         private static readonly Dictionary<object, List<Coroutine>> Map = new();
         
-        
+        // Update
         internal override void OnUpdate()
         {
+            foreach (var list in Map.Values)
+            {
+                for (int i = list.Count - 1; i >= 0; i--)
+                {
+                    var coroutine = list[i];
+
+                    if (coroutine.Done)
+                    {
+                        list.RemoveAt(i);
+                        continue;
+                    }
+                    
+                    if (coroutine.Instruction is WaitForFixedUpdate) continue;
+                    if (coroutine.Instruction is WaitForEndOfFrame) continue;
+                    
+                    coroutine.MoveNext();
+                }
+            }
+            
             base.OnUpdate();
         }
 
+        // Fixed Update
         internal override void OnFixedUpdate()
         {
+            foreach (var list in Map.Values)
+            {
+                for (int i = list.Count - 1; i >= 0; i--)
+                {
+                    var coroutine = list[i];
+
+                    if (coroutine.Done)
+                    {
+                        list.RemoveAt(i);
+                        continue;
+                    }
+
+                    if (coroutine.Instruction is WaitForFixedUpdate)
+                    {
+                        coroutine.MoveNext();
+                    }
+                }
+            }
+            
             base.OnFixedUpdate();
         }
 
+        // End Of Frame
         internal override void OnEndOfFrame()
         {
+            foreach (var list in Map.Values)
+            {
+                for (int i = list.Count - 1; i >= 0; i--)
+                {
+                    var coroutine = list[i];
+
+                    if (coroutine.Done)
+                    {
+                        list.RemoveAt(i);
+                        continue;
+                    }
+                    
+                    if (coroutine.Instruction is WaitForEndOfFrame)
+                    {
+                        coroutine.MoveNext();
+                    }
+                }
+            }
+            
             base.OnEndOfFrame();
         }
 
@@ -35,7 +94,6 @@ namespace Hybrid
                 // For Each Coroutine
                 foreach (var coroutine in coroutines)
                 {
-                    // Stop
                     coroutine.Stop();
                 }
             }
@@ -117,7 +175,6 @@ namespace Hybrid
                     // For Each Coroutine
                     foreach(var c in coroutines)
                     {
-                        // Stop
                         if (c == coroutine)
                         {
                             c.Stop();
@@ -149,7 +206,6 @@ namespace Hybrid
                             // For Each Coroutine
                             foreach(var c in coroutines)
                             {
-                                // Stop
                                 if (c.Name == name)
                                 {
                                     c.Stop();
@@ -175,7 +231,6 @@ namespace Hybrid
                     // For Each Coroutine
                     foreach(var c in coroutines)
                     {
-                        // Stop
                         c.Stop();
                     }
                 }

@@ -2,8 +2,13 @@
 
 namespace Hybrid
 {
-    public class WaitForSeconds : YieldInstruction
+    public sealed class WaitForSeconds : YieldInstruction
     {
-        
+        internal float Remaining { get; set; }
+
+        public WaitForSeconds(float seconds)
+        {
+            Remaining = seconds;
+        }
     }
 }

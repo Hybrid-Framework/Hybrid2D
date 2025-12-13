@@ -60,6 +60,9 @@ namespace Hybrid
             
             // Update
             OnUpdate();
+
+            // Late Update
+            OnLateUpdate();
             
             // Render
             OnRender();
@@ -143,6 +146,18 @@ namespace Hybrid
             foreach (var module in GetModules())
             {
                 module.OnFixedUpdate();
+            }
+        }
+    }
+    
+    // Late Update
+    internal partial class Engine
+    {
+        internal override void OnLateUpdate()
+        {
+            foreach (var module in GetModules())
+            {
+                module.OnLateUpdate();
             }
         }
     }

@@ -4,7 +4,7 @@ using System;
 
 namespace Hybrid
 {
-    public class YieldInstruction
+    public abstract class YieldInstruction
     {
         
     }
