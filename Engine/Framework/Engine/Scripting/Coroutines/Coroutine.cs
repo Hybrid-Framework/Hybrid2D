@@ -39,9 +39,18 @@ namespace Hybrid
                     }
                     
                     // Wait For Seconds
-                    if (Instruction is WaitForSeconds wait)
+                    else if (Instruction is WaitForSeconds wait)
                     {
                         if ((wait.Remaining -= Time.DeltaTime) > 0f)
+                        {
+                            return;
+                        }
+                    }
+                    
+                    // Wait For Frames
+                    else if (Instruction is WaitForFrames frames)
+                    {
+                        if ((frames.Remaining -= 1) > 0f)
                         {
                             return;
                         }

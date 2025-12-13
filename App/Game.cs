@@ -6,6 +6,8 @@ namespace App
     {
         public override void OnSceneOpen()
         {
+            Application.TargetFrameRate = 60;
+            
             var gameObject = new GameObject("Parent");
             var player = gameObject.AddComponent<Player>();
             player.StartCoroutine("Example1");

@@ -8,14 +8,12 @@ namespace App
     {
         public IEnumerator Example1()
         {
-            yield return new WaitForFixedUpdate();
-            yield return StartCoroutine(Example2);
-            yield return new WaitForEndOfFrame();
+            yield return new WaitForSeconds(1);
         }
         
         public IEnumerator Example2()
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForFrames(60);
         }
     }
 }
