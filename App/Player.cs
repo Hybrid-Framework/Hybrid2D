@@ -4,7 +4,7 @@ using Hybrid;
 
 namespace App
 {
-    public class Player : Script
+    public class Player : MonoBehaviour
     {
         public IEnumerator Example1()
         {

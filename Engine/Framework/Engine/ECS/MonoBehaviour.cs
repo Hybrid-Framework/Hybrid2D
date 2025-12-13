@@ -5,7 +5,7 @@ using System;
 namespace Hybrid
 {
     // Internal
-    public partial class Script : Component
+    public partial class MonoBehaviour : Component
     {
         // Dispose
         internal override void OnDispose()
@@ -17,7 +17,7 @@ namespace Hybrid
     }
     
     // Coroutines API
-    public partial class Script
+    public partial class MonoBehaviour
     {
         public Coroutine StartCoroutine(string name)
         {
@@ -46,7 +46,7 @@ namespace Hybrid
     }
 
     // Script API
-    public partial class Script
+    public partial class MonoBehaviour
     {
         public virtual void OnAwake() { } // Called before start when created
 

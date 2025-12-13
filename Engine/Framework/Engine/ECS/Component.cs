@@ -46,57 +46,57 @@ namespace Hybrid
 
         internal virtual void OnComponentAwake()
         {
-            if (this is Script script)
+            if (this is MonoBehaviour monoBehaviour)
             {
-                script.OnAwake();
+                monoBehaviour.OnAwake();
             }
         }
 
         internal virtual void OnComponentStart()
         {
-            if (this is Script script)
+            if (this is MonoBehaviour monoBehaviour)
             {
-                script.OnStart();
+                monoBehaviour.OnStart();
             }
         }
 
         internal virtual void OnComponentEnable()
         {
-            if (this is Script script)
+            if (this is MonoBehaviour monoBehaviour)
             {
-                script.OnEnable();
+                monoBehaviour.OnEnable();
             }
         }
 
         internal virtual void OnComponentDisable()
         {
-            if (this is Script script)
+            if (this is MonoBehaviour monoBehaviour)
             {
-                script.OnDisable();
+                monoBehaviour.OnDisable();
             }
         }
 
         internal virtual void OnComponentUpdate()
         {
-            if (this is Script script)
+            if (this is MonoBehaviour monoBehaviour)
             {
-                script.OnUpdate();
+                monoBehaviour.OnUpdate();
             }
         }
 
         internal virtual void OnComponentFixedUpdate()
         {
-            if (this is Script script)
+            if (this is MonoBehaviour monoBehaviour)
             {
-                script.OnFixedUpdate();
+                monoBehaviour.OnFixedUpdate();
             }
         }
 
         internal virtual void OnComponentDestroy()
         {
-            if (this is Script script)
+            if (this is MonoBehaviour monoBehaviour)
             {
-                script.OnDestroy();
+                monoBehaviour.OnDestroy();
             }
         }
     }
