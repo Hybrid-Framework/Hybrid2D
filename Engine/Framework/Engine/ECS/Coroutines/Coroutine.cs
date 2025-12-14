@@ -9,13 +9,13 @@ namespace Hybrid
     {
         internal YieldInstruction Instruction { get; set; }
         internal IEnumerator Enumerator { get; set; }
-        internal object Owner { get; set; }
+        internal Object Owner { get; set; }
         internal string Name { get; set; }
         internal bool Done { get; set; }
         internal bool Paused { get; set; }
         
 
-        internal Coroutine(object owner, string name, IEnumerator enumerator)
+        internal Coroutine(Object owner, string name, IEnumerator enumerator)
         {
             Debug.Log($"Coroutine '{name}' started on '{owner.GetType().Name}'");
             this.Enumerator = enumerator;

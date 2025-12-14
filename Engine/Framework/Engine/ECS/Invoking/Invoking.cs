@@ -7,7 +7,7 @@ namespace Hybrid
     // Internal
     internal sealed partial class Invoking : Module<Invoking>
     {
-        private static readonly Dictionary<object, List<Invoke>> AllInvokes = new();
+        private static readonly Dictionary<Object, List<Invoke>> AllInvokes = new();
         
         
         // Update
@@ -62,7 +62,7 @@ namespace Hybrid
     // Invoking
     internal partial class Invoking
     {
-        internal static void StartInvokeRepeating(object owner, string name, float delay, float repeat)
+        internal static void StartInvokeRepeating(Object owner, string name, float delay, float repeat)
         {
             if (owner != null)
             {
@@ -95,7 +95,7 @@ namespace Hybrid
             }
         }
         
-        internal static void StartInvoke(object owner, string name, float delay)
+        internal static void StartInvoke(Object owner, string name, float delay)
         {
             if (owner != null)
             {
@@ -128,7 +128,7 @@ namespace Hybrid
             }
         }
 
-        internal static void StopInvoke(object owner, string name)
+        internal static void StopInvoke(Object owner, string name)
         {
             if (owner != null)
             {
@@ -147,7 +147,7 @@ namespace Hybrid
             }
         }
         
-        internal static void StopAllInvokes(object owner)
+        internal static void StopAllInvokes(Object owner)
         {
             if (owner != null)
             {

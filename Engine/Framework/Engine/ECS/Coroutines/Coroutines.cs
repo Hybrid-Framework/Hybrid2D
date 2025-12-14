@@ -7,7 +7,7 @@ namespace Hybrid
     // Internal
     internal sealed partial class Coroutines : Module<Coroutines>
     {
-        private static readonly Dictionary<object, List<Coroutine>> AllCoroutines = new();
+        private static readonly Dictionary<Object, List<Coroutine>> AllCoroutines = new();
         
         
         // Update
@@ -139,7 +139,7 @@ namespace Hybrid
     // Coroutines
     internal partial class Coroutines
     {
-        internal static Coroutine StartCoroutine(object owner, IEnumerator enumerator)
+        internal static Coroutine StartCoroutine(Object owner, IEnumerator enumerator)
         {
             if (owner != null && enumerator != null)
             {
@@ -159,7 +159,7 @@ namespace Hybrid
             return null;
         }
         
-        internal static void StopCoroutine(object owner, Coroutine coroutine)
+        internal static void StopCoroutine(Object owner, Coroutine coroutine)
         {
             if (owner != null && coroutine != null)
             {
@@ -178,7 +178,7 @@ namespace Hybrid
             }
         }
         
-        internal static void StopAllCoroutines(object owner)
+        internal static void StopAllCoroutines(Object owner)
         {
             if (owner != null)
             {

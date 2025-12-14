@@ -5,7 +5,7 @@ namespace Hybrid
     // Invoke
     internal sealed class Invoke
     {
-        public object Owner;
+        public Object Owner;
         public Action Action;
         public string Name;
         public float Delay;
@@ -14,7 +14,7 @@ namespace Hybrid
         public bool Done;
 
         
-        internal Invoke(object owner, Action action, string name, float delay, float repeat, bool looping)
+        internal Invoke(Object owner, Action action, string name, float delay, float repeat, bool looping)
         {
             Debug.Log($"Invoke '{name}' started on '{owner.GetType().Name}'");
             this.Owner = owner;
