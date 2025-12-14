@@ -7,9 +7,11 @@ namespace App
         public override void OnSceneOpen()
         {
             var player = new GameObject().AddComponent<Player>();
-            player.InvokeRepeating("InvokeExample1", 1, 1);
-            player.Invoke("InvokeExample1", 0);
-            player.Invoke("InvokeExample2", 0);
+            player.StartInvoke("InvokeExample1", 1, 1);
+            player.StartInvoke("InvokeExample2", 1, 1);
+            player.StartInvoke("InvokeExample3", 1, 1);
+            player.StopInvoke("InvokeExample1");
+            player.StopAllInvokes();
         }
 
         public override void OnSceneClose()

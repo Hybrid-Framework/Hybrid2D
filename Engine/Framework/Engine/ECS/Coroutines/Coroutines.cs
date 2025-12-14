@@ -124,14 +124,10 @@ namespace Hybrid
         // Dispose
         internal override void OnDispose()
         {
-            // For Each Coroutines List
-            foreach (var coroutines in AllCoroutines.Values)
+            // For Each Owner
+            foreach (var owner in AllCoroutines.Keys.ToArray())
             {
-                // For Each Coroutine
-                foreach (var coroutine in coroutines)
-                {
-                    coroutine.Stop();
-                }
+                StopAllCoroutines(owner);
             }
             
             // Clear

@@ -49,7 +49,7 @@ namespace Hybrid
             Done = true;
             
             Debug.Log($"Invoke '{Name}' stopped on '{Owner.GetType().Name}'");
-            Invoking.CancelInvoke(Owner, Name);
+            Invoking.StopInvoke(Owner, Name);
         }
     }
 }
