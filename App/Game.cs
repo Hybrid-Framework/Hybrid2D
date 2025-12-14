@@ -8,9 +8,8 @@ namespace App
         {
             Application.TargetFrameRate = 60;
             
-            var gameObject = new GameObject("Parent");
-            var player = gameObject.AddComponent<Player>();
-            var coroutine = player.StartCoroutine("Example1");
+            var player = new GameObject("GameObject").AddComponent<Player>();
+            var coroutine = player.StartCoroutine(player.Example1(3));
         }
 
         public override void OnSceneClose()
