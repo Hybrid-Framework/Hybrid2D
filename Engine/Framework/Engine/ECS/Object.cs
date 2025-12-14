@@ -1,4 +1,6 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Collections;
+using System;
 
 namespace Hybrid
 {
@@ -17,10 +19,25 @@ namespace Hybrid
                 throw new Exception($"Can't create '{GetType().Name}' with no scene loaded");
         }
         
-        public static void Destroy(Object obj)
+        public static void Destroy(Object obj, float delay = 0)
         {
             if (obj != null)
             {
+                // Delay
+                if (delay > 0)
+                {
+                    // Local Coroutine
+                    IEnumerator DestroyCoroutine()
+                    {
+                        yield return new WaitForSeconds(delay);
+                        Destroy(obj);
+                    }
+                    
+                    // Destroy After Seconds
+                    Coroutines.StartCoroutine(obj, DestroyCoroutine());
+                    return;
+                }
+                
                 // Mark For Destroying
                 if(obj.Destroying) return;
                 obj.Destroying = true;
@@ -28,6 +45,12 @@ namespace Hybrid
                 // Destroy
                 obj.OnDispose();
                 obj.Destroyed = true;
+
+                // Debug
+                if (obj is GameObject gameObject)
+                {
+                    Debug.Log($"Destroyed: " + gameObject.Name);
+                }
             }
         }
 

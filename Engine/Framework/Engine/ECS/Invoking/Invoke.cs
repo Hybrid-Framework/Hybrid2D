@@ -5,13 +5,13 @@ namespace Hybrid
     // Invoke
     internal sealed class Invoke
     {
-        public Object Owner;
-        public Action Action;
-        public string Name;
-        public float Delay;
-        public float Repeat;
-        public bool Looping;
-        public bool Done;
+        internal Object Owner;
+        internal Action Action;
+        internal string Name;
+        internal float Delay;
+        internal float Repeat;
+        internal bool Looping;
+        internal bool Done;
 
         
         internal Invoke(Object owner, Action action, string name, float delay, float repeat, bool looping)
