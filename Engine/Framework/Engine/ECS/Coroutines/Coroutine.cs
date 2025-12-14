@@ -4,6 +4,7 @@ using System;
 
 namespace Hybrid
 {
+    // Coroutine
     public sealed class Coroutine : YieldInstruction
     {
         internal YieldInstruction Instruction { get; set; }

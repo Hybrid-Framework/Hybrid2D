@@ -62,7 +62,7 @@ namespace Hybrid
     // Invoking
     internal partial class Invoking
     {
-        internal static void StartInvoke(object owner, string name, float delay, float repeat = 0)
+        internal static void StartInvokeRepeating(object owner, string name, float delay, float repeat)
         {
             if (owner != null)
             {
@@ -88,7 +88,40 @@ namespace Hybrid
                             AllInvokes[owner] = list;
                         }
 
-                        var invoke = new Invoke(owner, action, name, Time.Timer + delay, repeat);
+                        var invoke = new Invoke(owner, action, name, Time.Timer + delay, repeat, true);
+                        list.Add(invoke);
+                    }
+                }
+            }
+        }
+        
+        internal static void StartInvoke(object owner, string name, float delay)
+        {
+            if (owner != null)
+            {
+                var method = owner.GetType().GetMethod(name,
+                    BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance |
+                    BindingFlags.FlattenHierarchy);
+
+                // Invalid Method
+                if (method != null)
+                {
+                    // Invalid Parameters
+                    if (method.GetParameters().Length <= 0)
+                    {
+                        // Cancel Previous
+                        StopInvoke(owner, name);
+                        
+                        // Create Invoke
+                        var action = (Action)Delegate.CreateDelegate(typeof(Action), owner, method);
+
+                        if (!AllInvokes.TryGetValue(owner, out var list))
+                        {
+                            list = new List<Invoke>();
+                            AllInvokes[owner] = list;
+                        }
+
+                        var invoke = new Invoke(owner, action, name, Time.Timer + delay, 0, false);
                         list.Add(invoke);
                     }
                 }
@@ -105,7 +138,6 @@ namespace Hybrid
                     // For Each Invoke
                     foreach (var invoke in invokes)
                     {
-                        // If Match Name Or Name Is Null
                         if (invoke.Name == name)
                         {
                             invoke.Stop();

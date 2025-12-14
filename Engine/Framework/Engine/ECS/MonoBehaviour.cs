@@ -20,12 +20,17 @@ namespace Hybrid
     // Invoke API
     public partial class MonoBehaviour
     {
-        public void StartInvoke(string name, float time, float repeat = 0)
+        public void StartInvokeRepeating(string name, float delay, float repeat)
         {
-            Invoking.StartInvoke(this, name, time, repeat);
+            Invoking.StartInvokeRepeating(this, name, delay, repeat);
+        }
+        
+        public void StartInvoke(string name, float delay)
+        {
+            Invoking.StartInvoke(this, name, delay);
         }
 
-        public void StopInvoke(string name = null)
+        public void StopInvoke(string name)
         {
             Invoking.StopInvoke(this, name);
         }

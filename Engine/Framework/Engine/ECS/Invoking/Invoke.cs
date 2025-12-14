@@ -2,6 +2,7 @@
 
 namespace Hybrid
 {
+    // Invoke
     internal sealed class Invoke
     {
         public object Owner;
@@ -9,10 +10,11 @@ namespace Hybrid
         public string Name;
         public float Delay;
         public float Repeat;
+        public bool Looping;
         public bool Done;
 
         
-        internal Invoke(object owner, Action action, string name, float delay, float repeat)
+        internal Invoke(object owner, Action action, string name, float delay, float repeat, bool looping)
         {
             Debug.Log($"Invoke '{name}' started on '{owner.GetType().Name}'");
             this.Owner = owner;
@@ -20,6 +22,7 @@ namespace Hybrid
             this.Name = name;
             this.Delay = delay;
             this.Repeat = repeat;
+            this.Looping = looping;
             this.Done = false;
         }
 
@@ -31,7 +34,7 @@ namespace Hybrid
                 {
                     Action?.Invoke();
 
-                    if (Repeat > 0)
+                    if (Looping)
                     {
                         Delay = Time.Timer + Repeat;
                     }
