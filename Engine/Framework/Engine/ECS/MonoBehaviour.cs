@@ -11,11 +11,36 @@ namespace Hybrid
         internal override void OnDispose()
         {
             StopAllCoroutines();
+            CancelInvoke();
             
             base.OnDispose();
         }
     }
     
+    // Invoke API
+    public partial class MonoBehaviour
+    {
+        public void InvokeRepeating(string name, float time, float repeat)
+        {
+            Invoking.InvokeRepeating(this, name, time, repeat);
+        }
+        
+        public void Invoke(string name, float time)
+        {
+            Invoking.Invoke(this, name, time);
+        }
+
+        public void CancelInvoke(string name = null)
+        {
+            Invoking.CancelInvoke(this, name);
+        }
+
+        public bool IsInvoking(string name = null)
+        {
+            return Invoking.IsInvoking(this, name);
+        }
+    }
+
     // Coroutines API
     public partial class MonoBehaviour
     {

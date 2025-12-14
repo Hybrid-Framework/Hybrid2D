@@ -9,78 +9,115 @@ namespace Hybrid
     {
         private static readonly Dictionary<object, List<Coroutine>> AllCoroutines = new();
         
+        
         // Update
         internal override void OnUpdate()
         {
-            foreach (var list in AllCoroutines.Values)
+            // For Each Owner
+            foreach (var owner in AllCoroutines.Keys.ToArray())
             {
-                for (int i = list.Count - 1; i >= 0; i--)
+                // For Each Coroutine List In Owner
+                if (AllCoroutines.TryGetValue(owner, out var list))
                 {
-                    var coroutine = list[i];
-
-                    if (coroutine.Done)
+                    // Process Coroutines
+                    for (int i = list.Count - 1; i >= 0; i--)
                     {
-                        list.RemoveAt(i);
-                        continue;
+                        var coroutine = list[i];
+
+                        if (coroutine.Done)
+                        {
+                            list.RemoveAt(i);
+                            continue;
+                        }
+
+                        if (coroutine.Instruction is WaitForFixedUpdate) continue;
+                        if (coroutine.Instruction is WaitForEndOfFrame) continue;
+
+                        coroutine.MoveNext();
                     }
                     
-                    if (coroutine.Instruction is WaitForFixedUpdate) continue;
-                    if (coroutine.Instruction is WaitForEndOfFrame) continue;
-                    
-                    coroutine.MoveNext();
+                    // Remove Owner
+                    if (list.Count == 0)
+                    {
+                        AllCoroutines.Remove(owner);
+                    }
                 }
             }
-            
+
             base.OnUpdate();
         }
 
         // Fixed Update
         internal override void OnFixedUpdate()
         {
-            foreach (var list in AllCoroutines.Values)
+            // For Each Owner
+            foreach (var owner in AllCoroutines.Keys.ToArray())
             {
-                for (int i = list.Count - 1; i >= 0; i--)
+                // For Each Coroutine List In Owner
+                if (AllCoroutines.TryGetValue(owner, out var list))
                 {
-                    var coroutine = list[i];
-
-                    if (coroutine.Done)
+                    // Process Coroutines
+                    for (int i = list.Count - 1; i >= 0; i--)
                     {
-                        list.RemoveAt(i);
-                        continue;
+                        var coroutine = list[i];
+
+                        if (coroutine.Done)
+                        {
+                            list.RemoveAt(i);
+                            continue;
+                        }
+
+                        if (coroutine.Instruction is WaitForFixedUpdate)
+                        {
+                            coroutine.MoveNext();
+                        }
                     }
-
-                    if (coroutine.Instruction is WaitForFixedUpdate)
+                    
+                    // Remove Owner
+                    if (list.Count == 0)
                     {
-                        coroutine.MoveNext();
+                        AllCoroutines.Remove(owner);
                     }
                 }
             }
-            
+
             base.OnFixedUpdate();
         }
 
         // End Of Frame
         internal override void OnEndOfFrame()
         {
-            foreach (var list in AllCoroutines.Values)
+            // For Each Owner
+            foreach (var owner in AllCoroutines.Keys.ToArray())
             {
-                for (int i = list.Count - 1; i >= 0; i--)
+                // For Each Coroutine List In Owner
+                if (AllCoroutines.TryGetValue(owner, out var list))
                 {
-                    var coroutine = list[i];
-
-                    if (coroutine.Done)
+                    // Process Coroutines
+                    for (int i = list.Count - 1; i >= 0; i--)
                     {
-                        list.RemoveAt(i);
-                        continue;
+                        var coroutine = list[i];
+
+                        if (coroutine.Done)
+                        {
+                            list.RemoveAt(i);
+                            continue;
+                        }
+
+                        if (coroutine.Instruction is WaitForEndOfFrame)
+                        {
+                            coroutine.MoveNext();
+                        }
                     }
                     
-                    if (coroutine.Instruction is WaitForEndOfFrame)
+                    // Remove Owner
+                    if (list.Count == 0)
                     {
-                        coroutine.MoveNext();
+                        AllCoroutines.Remove(owner);
                     }
                 }
             }
-            
+
             base.OnEndOfFrame();
         }
 
@@ -103,7 +140,7 @@ namespace Hybrid
         }
     }
     
-    // Start Coroutine
+    // Coroutines
     internal partial class Coroutines
     {
         internal static Coroutine StartCoroutine(object owner, IEnumerator enumerator)

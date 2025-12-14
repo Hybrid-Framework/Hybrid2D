@@ -15,5 +15,15 @@ namespace App
         {
             yield return new WaitForSeconds(seconds);
         }
+
+        public void InvokeExample1()
+        {
+            Debug.Log("Invoke Example 1 Called");
+        }
+
+        public void InvokeExample2(int timer)
+        {
+            Debug.Log("Invoke Example 2 Called: " + timer);
+        }
     }
 }

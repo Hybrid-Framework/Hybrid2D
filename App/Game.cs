@@ -7,7 +7,9 @@ namespace App
         public override void OnSceneOpen()
         {
             var player = new GameObject().AddComponent<Player>();
-            var coroutine = player.StartCoroutine(player.Example1(3));
+            player.InvokeRepeating("InvokeExample1", 1, 1);
+            player.Invoke("InvokeExample1", 0);
+            player.Invoke("InvokeExample2", 0);
         }
 
         public override void OnSceneClose()
