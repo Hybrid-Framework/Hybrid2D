@@ -6,14 +6,14 @@ namespace App
 {
     public class Player : MonoBehaviour
     {
-        public IEnumerator Example1(float seconds)
+        public IEnumerator Example1()
         {
-            yield return StartCoroutine(Example2(seconds));
+            yield return StartCoroutine(Example2);
         }
         
-        public IEnumerator Example2(float seconds)
+        public IEnumerator Example2()
         {
-            yield return new WaitForSeconds(3);
+            yield return new WaitForFrames(60);
         }
     }
 }

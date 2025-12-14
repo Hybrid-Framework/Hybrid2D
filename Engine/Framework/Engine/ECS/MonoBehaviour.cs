@@ -19,9 +19,19 @@ namespace Hybrid
     // Coroutines API
     public partial class MonoBehaviour
     {
-        public Coroutine StartCoroutine(IEnumerator enumerator)
+        public Coroutine StartCoroutine(string name)
+        {
+            return Coroutines.StartCoroutine(this, name);
+        }
+        
+        public Coroutine StartCoroutine(Func<IEnumerator> enumerator)
         {
             return Coroutines.StartCoroutine(this, enumerator);
+        }
+
+        public void StopCoroutine(string name)
+        {
+            Coroutines.StopCoroutine(this, name);
         }
 
         public void StopCoroutine(Coroutine coroutine)
