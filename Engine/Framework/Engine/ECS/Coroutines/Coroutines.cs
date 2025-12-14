@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Collections;
-using System.Reflection;
 using System;
 
 namespace Hybrid
@@ -8,12 +7,12 @@ namespace Hybrid
     // Internal
     internal sealed partial class Coroutines : Module<Coroutines>
     {
-        private static readonly Dictionary<object, List<Coroutine>> Map = new();
+        private static readonly Dictionary<object, List<Coroutine>> AllCoroutines = new();
         
         // Update
         internal override void OnUpdate()
         {
-            foreach (var list in Map.Values)
+            foreach (var list in AllCoroutines.Values)
             {
                 for (int i = list.Count - 1; i >= 0; i--)
                 {
@@ -38,7 +37,7 @@ namespace Hybrid
         // Fixed Update
         internal override void OnFixedUpdate()
         {
-            foreach (var list in Map.Values)
+            foreach (var list in AllCoroutines.Values)
             {
                 for (int i = list.Count - 1; i >= 0; i--)
                 {
@@ -63,7 +62,7 @@ namespace Hybrid
         // End Of Frame
         internal override void OnEndOfFrame()
         {
-            foreach (var list in Map.Values)
+            foreach (var list in AllCoroutines.Values)
             {
                 for (int i = list.Count - 1; i >= 0; i--)
                 {
@@ -89,7 +88,7 @@ namespace Hybrid
         internal override void OnDispose()
         {
             // For Each Coroutines List
-            foreach (var coroutines in Map.Values)
+            foreach (var coroutines in AllCoroutines.Values)
             {
                 // For Each Coroutine
                 foreach (var coroutine in coroutines)
@@ -99,7 +98,7 @@ namespace Hybrid
             }
             
             // Clear
-            Map.Clear();
+            AllCoroutines.Clear();
             base.OnDispose();
         }
     }
@@ -107,70 +106,32 @@ namespace Hybrid
     // Start Coroutine
     internal partial class Coroutines
     {
-        internal static Coroutine StartCoroutine(object owner, Func<IEnumerator> enumerator)
+        internal static Coroutine StartCoroutine(object owner, IEnumerator enumerator)
         {
             if (owner != null && enumerator != null)
             {
                 // Create Map Entry for owner
-                if (!Map.TryGetValue(owner, out var list))
+                if (!AllCoroutines.TryGetValue(owner, out var list))
                 {
                     list = new List<Coroutine>();
-                    Map[owner] = list;
+                    AllCoroutines[owner] = list;
                 }
 
                 // Create Coroutine
-                var coroutine = new Coroutine(owner, enumerator.Method.Name, enumerator());
+                var coroutine = new Coroutine(owner, GetName(enumerator), enumerator);
                 list.Add(coroutine);
                 return coroutine;
             }
 
             return null;
         }
-
-        internal static Coroutine StartCoroutine(object owner, string name)
-        {
-            // Invalid Owner
-            if (owner != null)
-            {
-                // Find Method Using Reflection
-                var method = owner.GetType().GetMethod(name,
-                    BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance |
-                    BindingFlags.FlattenHierarchy);
-
-                // Invalid Method
-                if (method != null)
-                {
-                    // Invalid IEnumerator
-                    if (method.Invoke(owner, null) is IEnumerator enumerator)
-                    {
-                        // Create Map Entry for owner
-                        if (!Map.TryGetValue(owner, out var list))
-                        {
-                            list = new List<Coroutine>();
-                            Map[owner] = list;
-                        }
-
-                        // Create Coroutine
-                        var coroutine = new Coroutine(owner, name, enumerator);
-                        list.Add(coroutine);
-                        return coroutine;
-                    }
-                }
-            }
-
-            return null;
-        }
-    }
-    
-    // Stop Coroutine
-    internal partial class Coroutines
-    {
+        
         internal static void StopCoroutine(object owner, Coroutine coroutine)
         {
             if (owner != null && coroutine != null)
             {
                 // Find Owners Coroutines
-                if (Map.TryGetValue(owner, out var coroutines))
+                if (AllCoroutines.TryGetValue(owner, out var coroutines))
                 {
                     // For Each Coroutine
                     foreach(var c in coroutines)
@@ -183,50 +144,13 @@ namespace Hybrid
                 }
             }
         }
-
-        internal static void StopCoroutine(object owner, string name)
-        {
-            // Invalid Owner
-            if (owner != null)
-            {
-                // Find Method Using Reflection
-                var method = owner.GetType().GetMethod(name,
-                    BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance |
-                    BindingFlags.FlattenHierarchy);
-
-                // Invalid Method
-                if (method != null)
-                {
-                    // Invalid IEnumerator
-                    if (method.Invoke(owner, null) is IEnumerator enumerator)
-                    {
-                        // Find Owners Coroutines
-                        if (Map.TryGetValue(owner, out var coroutines))
-                        {
-                            // For Each Coroutine
-                            foreach(var c in coroutines)
-                            {
-                                if (c.Name == name)
-                                {
-                                    c.Stop();
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
-    // Stop All Coroutines
-    internal partial class Coroutines
-    {
+        
         internal static void StopAllCoroutines(object owner)
         {
             if (owner != null)
             {
                 // Find Owners Coroutines
-                if (Map.TryGetValue(owner, out var coroutines))
+                if (AllCoroutines.TryGetValue(owner, out var coroutines))
                 {
                     // For Each Coroutine
                     foreach(var c in coroutines)
@@ -235,6 +159,20 @@ namespace Hybrid
                     }
                 }
             }
+        }
+        
+        private static string GetName(IEnumerator enumerator)
+        {
+            var name = enumerator.GetType().Name;
+            int start = name.IndexOf('<');
+            int end = name.IndexOf('>');
+
+            if (start >= 0 && end > start)
+            {
+                return name.Substring(start + 1, end - start - 1);
+            }
+
+            return name;
         }
     }
 }
