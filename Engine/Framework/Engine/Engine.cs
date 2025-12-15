@@ -15,16 +15,14 @@ namespace Hybrid
             {
                 StartMainLoop();
                 MainLoop();
-                
-                return true;
             }
             catch (Exception exception)
             {
                 Console.WriteLine($"[EXCEPTION] {exception.Message}\n{exception.StackTrace}");
                 Quit();
-                
-                return false;
             }
+            
+            return IsRunning;
         }
         
         private void StartMainLoop()
