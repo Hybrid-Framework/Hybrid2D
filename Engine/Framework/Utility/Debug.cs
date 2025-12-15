@@ -5,29 +5,64 @@ namespace Hybrid
     // Debug API
     public static class Debug
     {
+        enum LogType
+        {
+            Log,
+            Error,
+            Warning,
+            Exception
+        }
+        
         public static void Log(object message)
         {
-            Console.WriteLine($"[LOG] {message}");
-        }
-
-        public static void LogWarning(object message)
-        {
-            Console.WriteLine($"[WARNING] {message}");
+            Show(message, LogType.Log);
         }
 
         public static void LogError(object message)
         {
-            Console.WriteLine($"[ERROR] {message}");
+            Show(message, LogType.Error);
         }
         
-        public static void LogMessage(string tag, object message)
+        public static void LogWarning(object message)
         {
-            Console.WriteLine($"[{tag}] {message}");
+            Show(message, LogType.Warning);
         }
         
         public static void LogException(object message)
         {
-            throw new Exception($"{message}");
+            Show(message, LogType.Exception);
+        }
+
+        private static void Show(object message, LogType type)
+        {
+            switch (type)
+            {
+                case LogType.Log:
+                {
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.WriteLine($"[LOG] {message}");
+                    break;
+                }
+                case LogType.Error:
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"[ERROR] {message}");
+                    break;
+                }
+                case LogType.Warning:
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine($"[WARNING] {message}");
+                    break;
+                }
+                case LogType.Exception:
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    throw new Exception($"{message}");
+                }
+            }
+            
+            Console.ForegroundColor = ConsoleColor.Black;
         }
     }
 }
