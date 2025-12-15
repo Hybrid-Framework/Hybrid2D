@@ -40,8 +40,6 @@ namespace Hybrid
                     }
                 }
             }
-            
-            base.OnUpdate();
         }
 
         // Dispose
@@ -55,7 +53,6 @@ namespace Hybrid
             
             // Clear
             AllInvokes.Clear();
-            base.OnDispose();
         }
     }
 

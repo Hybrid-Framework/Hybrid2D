@@ -7,13 +7,11 @@ namespace Hybrid
     // Internal
     public partial class MonoBehaviour : Component
     {
-        // Dispose
-        internal override void OnDispose()
+        // Destroy
+        internal override void OnComponentDestroy()
         {
             StopAllCoroutines();
             StopAllInvokes();
-            
-            base.OnDispose();
         }
     }
     

@@ -16,8 +16,6 @@ namespace Hybrid
                     OnComponentDestroy();
                 }
             }
-            
-            base.OnDispose();
         }
     }
     

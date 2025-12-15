@@ -16,8 +16,6 @@ namespace Hybrid
                 channels = 2,
                 freq = 44100
             });
-            
-            base.OnInitialize();
         }
         
         // Dispose
@@ -28,8 +26,6 @@ namespace Hybrid
                 SDL_mixer.DestroyMixer(Handle);
                 Handle = null;
             }
-            
-            base.OnDispose();
         }
     }
 

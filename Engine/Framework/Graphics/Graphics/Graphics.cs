@@ -20,8 +20,6 @@ namespace Hybrid
         {
             // Render Creation
             Handle = SDL.CreateRenderer(Window.Handle, null);
-            
-            base.OnInitialize();
         }
         
         // Render
@@ -40,8 +38,6 @@ namespace Hybrid
             
             // Present
             SDL.RenderPresent(Handle);
-            
-            base.OnRender();
         }
 
         // Dispose
@@ -52,8 +48,6 @@ namespace Hybrid
                 SDL.DestroyRenderer(Handle);
                 Handle = null;
             }
-            
-            base.OnDispose();
         }
     }
 }

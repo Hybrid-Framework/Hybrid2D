@@ -63,8 +63,6 @@ namespace Hybrid
                 SDL.SetWindowIcon(Handle, icon);
                 SDL.DestroySurface(icon);
             }
-            
-            base.OnInitialize();
         }
 
         // Events
@@ -91,8 +89,6 @@ namespace Hybrid
                     break;
                 }
             }
-            
-            base.OnEvent(e);
         }
         
         // Dispose
@@ -103,8 +99,6 @@ namespace Hybrid
                 SDL.DestroyWindow(Handle);
                 Handle = null;
             }
-            
-            base.OnDispose();
         }
     }
 

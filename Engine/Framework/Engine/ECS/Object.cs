@@ -45,12 +45,6 @@ namespace Hybrid
                 // Destroy
                 obj.OnDispose();
                 obj.Destroyed = true;
-
-                // Debug
-                if (obj is GameObject gameObject)
-                {
-                    Debug.Log($"Destroyed: " + gameObject.Name);
-                }
             }
         }
 

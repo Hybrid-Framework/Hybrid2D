@@ -7,9 +7,27 @@ namespace Hybrid
     {
         internal bool Initialized { get; private set; }
         internal bool IsRunning { get; private set; }
+
         
+        internal bool Run()
+        {
+            try
+            {
+                StartMainLoop();
+                MainLoop();
+                
+                return true;
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine($"[EXCEPTION] {exception.Message}\n{exception.StackTrace}");
+                Quit();
+                
+                return false;
+            }
+        }
         
-        internal void StartMainLoop()
+        private void StartMainLoop()
         {
             // Initialize
             if (Initialized) return;
@@ -31,7 +49,7 @@ namespace Hybrid
             OnInitialize();
         }
         
-        internal void MainLoop()
+        private void MainLoop()
         {
             // Frame Time
             Time.BeforeFrame();

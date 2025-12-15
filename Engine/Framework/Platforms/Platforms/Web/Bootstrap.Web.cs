@@ -30,16 +30,14 @@ namespace Hybrid
         protected static void Run()
         {
             Emscripten.SetMainLoopTiming(Emscripten.Mode.RequestFrameAnimation, 1);
-            Engine.Instance.StartMainLoop();
             
-            if (Engine.Instance.IsRunning)
+            if (Engine.Instance.Run())
             {
-                Engine.Instance.MainLoop();
+                // Run application
                 return;
             }
             
             Emscripten.CancelMainLoop();
-            Engine.Instance.Quit();
         }
     }
 }

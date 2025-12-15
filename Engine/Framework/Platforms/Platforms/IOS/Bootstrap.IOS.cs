@@ -29,14 +29,11 @@ namespace Hybrid
         
         protected static int Run(int argc, IntPtr argv)
         {
-            Engine.Instance.StartMainLoop();
-            
-            while (Engine.Instance.IsRunning)
+            while (Engine.Instance.Run())
             {
-                Engine.Instance.MainLoop();
+                // Run application
             }
-
-            Engine.Instance.Quit();
+            
             return 0;
         }
     }

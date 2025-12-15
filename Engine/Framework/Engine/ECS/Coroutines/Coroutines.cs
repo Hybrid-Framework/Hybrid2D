@@ -43,8 +43,6 @@ namespace Hybrid
                     }
                 }
             }
-
-            base.OnUpdate();
         }
 
         // Fixed Update
@@ -80,8 +78,6 @@ namespace Hybrid
                     }
                 }
             }
-
-            base.OnFixedUpdate();
         }
 
         // End Of Frame
@@ -117,8 +113,6 @@ namespace Hybrid
                     }
                 }
             }
-
-            base.OnEndOfFrame();
         }
 
         // Dispose
@@ -132,7 +126,6 @@ namespace Hybrid
             
             // Clear
             AllCoroutines.Clear();
-            base.OnDispose();
         }
     }
     

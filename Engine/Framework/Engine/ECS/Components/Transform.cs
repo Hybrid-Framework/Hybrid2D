@@ -15,10 +15,9 @@ namespace Hybrid
         public Vector2 Scale;
 
 
-        internal override void OnDispose()
+        internal override void OnComponentDestroy()
         {
             SetParent(null);
-            base.OnDispose();
         }
     }
 

@@ -27,14 +27,10 @@ namespace Hybrid
 
         protected static void Run()
         {
-            Engine.Instance.StartMainLoop();
-            
-            while (Engine.Instance.IsRunning)
+            while (Engine.Instance.Run())
             {
-                Engine.Instance.MainLoop();
+                // Run application
             }
-            
-            Engine.Instance.Quit();
         }
     }
 }

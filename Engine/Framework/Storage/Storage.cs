@@ -9,13 +9,13 @@ namespace Hybrid
         // Initialize
         internal override void OnInitialize()
         {
-            base.OnInitialize();
+            
         }
 
         // Dispose
         internal override void OnDispose()
         {
-            base.OnDispose();
+            
         }
     }
     
@@ -26,7 +26,7 @@ namespace Hybrid
             get => SDL.GetBasePath();
         }
         
-        public static void ShowFiles()
+        public static void ShowResources()
         {
             foreach (var file in Directory.GetFiles(BasePath))
             {

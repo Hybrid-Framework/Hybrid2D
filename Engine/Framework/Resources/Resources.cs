@@ -19,8 +19,6 @@ namespace Hybrid
             
             // Empty
             Cache.Clear();
-            
-            base.OnDispose();
         }
     }
     

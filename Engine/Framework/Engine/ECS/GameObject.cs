@@ -52,8 +52,6 @@ namespace Hybrid
                 // Remove From Scene
                 Scene.RemoveObject(GameObject);
             }
-            
-            base.OnDispose();
         }
     }
 

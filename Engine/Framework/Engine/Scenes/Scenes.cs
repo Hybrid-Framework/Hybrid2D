@@ -14,7 +14,6 @@ namespace Hybrid
             
             // Load Config Scene
             Load(Platform.GetConfig().Scene);
-            base.OnInitialize();
         }
 
         // Update
@@ -96,8 +95,6 @@ namespace Hybrid
                 // Close Scene
                 Close(Active);
             }
-            
-            base.OnDispose();
         }
     }
 
