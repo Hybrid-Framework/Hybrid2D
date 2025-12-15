@@ -54,69 +54,30 @@ namespace Hybrid
         }
     }
     
-    // Send Message
-    public partial class Behaviour
-    {
-        public void SendMessage(string methodName, object parameter, SendMessageOptions options)
-        {
-            SendMessageInternal(methodName, parameter, options);
-        }
-
-        public void SendMessage(string methodName, SendMessageOptions options)
-        {
-            SendMessageInternal(methodName, null, options);
-        }
-
-        internal void SendMessageInternal(string methodName, object parameter, SendMessageOptions options)
-        {
-            bool invoked = false;
-
-            foreach (var component in GameObject.Components)
-            {
-                var method = component.GetType().GetMethod(methodName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-
-                if (method != null)
-                {
-                    var parameters = method.GetParameters().Length > 0 ? new[] { parameter } : null;
-                    method.Invoke(component, parameters);
-                    invoked = true;
-                }
-            }
-
-            if (options == SendMessageOptions.RequireReceiver)
-            {
-                if (!invoked)
-                {
-                    throw new Exception($"Send Message: No receiver found for method '{methodName}' on GameObject '{GameObject.Name}'");
-                }
-            }
-        }
-    }
-    
     // Broadcast Message
     public partial class Behaviour
     {
-        public void BroadcastMessage(string methodName, object parameter, SendMessageOptions options)
+        public void BroadcastMessage(string name, object value, SendMessageOptions options)
         {
-            BroadcastMessageInternal(methodName, parameter, options);
+            BroadcastMessageInternal(name, value, options);
         }
         
-        public void BroadcastMessage(string methodName, SendMessageOptions options)
+        public void BroadcastMessage(string name, SendMessageOptions options)
         {
-            BroadcastMessageInternal(methodName, null, options);
+            BroadcastMessageInternal(name, null, options);
         }
 
-        internal void BroadcastMessageInternal(string methodName, object parameter, SendMessageOptions options)
+        internal void BroadcastMessageInternal(string name, object value, SendMessageOptions options)
         {
             bool invoked = false;
 
             foreach (var component in GameObject.GetComponentsInChildren(true))
             {
-                var method = component.GetType().GetMethod(methodName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                var method = component.GetType().GetMethod(name, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 
                 if (method != null)
                 {
-                    var parameters = method.GetParameters().Length > 0 ? new[] { parameter } : null;
+                    var parameters = method.GetParameters().Length > 0 ? new[] { value } : null;
                     method.Invoke(component, parameters);
                     invoked = true;
                 }
@@ -126,36 +87,36 @@ namespace Hybrid
             {
                 if (!invoked)
                 {
-                    throw new Exception($"Broadcast Message: No receiver found for method '{methodName}' on GameObject '{GameObject.Name}'");
+                    throw new Exception($"Broadcast Message: No receiver found for method '{name}'");
                 }
             }
         }
     }
     
-    // Broadcast Message Upwards
+    // Send Message
     public partial class Behaviour
     {
-        public void BroadcastMessageUpwards(string methodName, object parameter, SendMessageOptions options)
+        public void SendMessage(string name, object value, SendMessageOptions options)
         {
-            BroadcastMessageUpwardsInternal(methodName, parameter, options);
+            SendMessageInternal(name, value, options);
         }
 
-        public void BroadcastMessageUpwards(string methodName, SendMessageOptions options)
+        public void SendMessage(string name, SendMessageOptions options)
         {
-            BroadcastMessageUpwardsInternal(methodName, null, options);
+            SendMessageInternal(name, null, options);
         }
 
-        internal void BroadcastMessageUpwardsInternal(string methodName, object parameter, SendMessageOptions options)
+        internal void SendMessageInternal(string name, object value, SendMessageOptions options)
         {
             bool invoked = false;
 
-            foreach (var component in GameObject.GetComponentsInParent(true))
+            foreach (var component in GameObject.Components)
             {
-                var method = component.GetType().GetMethod(methodName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                var method = component.GetType().GetMethod(name, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 
                 if (method != null)
                 {
-                    var parameters = method.GetParameters().Length > 0 ? new[] { parameter } : null;
+                    var parameters = method.GetParameters().Length > 0 ? new[] { value } : null;
                     method.Invoke(component, parameters);
                     invoked = true;
                 }
@@ -165,7 +126,46 @@ namespace Hybrid
             {
                 if (!invoked)
                 {
-                    throw new Exception($"Broadcast Message Upwards: No receiver found for method '{methodName}' on GameObject '{GameObject.Name}'");
+                    throw new Exception($"Send Message: No receiver found for method '{name}'");
+                }
+            }
+        }
+    }
+    
+    // Send Message Upwards
+    public partial class Behaviour
+    {
+        public void SendMessageUpwards(string name, object value, SendMessageOptions options)
+        {
+            SendMessageUpwardsInternal(name, value, options);
+        }
+
+        public void SendMessageUpwards(string name, SendMessageOptions options)
+        {
+            SendMessageUpwardsInternal(name, null, options);
+        }
+
+        internal void SendMessageUpwardsInternal(string name, object value, SendMessageOptions options)
+        {
+            bool invoked = false;
+
+            foreach (var component in GameObject.GetComponentsInParent(true))
+            {
+                var method = component.GetType().GetMethod(name, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+
+                if (method != null)
+                {
+                    var parameters = method.GetParameters().Length > 0 ? new[] { value } : null;
+                    method.Invoke(component, parameters);
+                    invoked = true;
+                }
+            }
+
+            if (options == SendMessageOptions.RequireReceiver)
+            {
+                if (!invoked)
+                {
+                    throw new Exception($"Send Message Upwards: No receiver found for method '{name}'");
                 }
             }
         }
