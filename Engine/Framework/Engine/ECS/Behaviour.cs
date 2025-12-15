@@ -978,11 +978,11 @@ namespace Hybrid
             if (!typeof(Component).IsAssignableFrom(type))
                 throw new Exception($"Type '{type.Name}' does not inherit from Component");
 
-            // Check For Component Instance
+            // Has Component
             if (HasComponent(component))
             {
-                // Require Component
-                if (!IsDestroying())
+                // Check Destroying
+                if (!IsDestroying(this))
                 {
                     // For Each Component
                     foreach (var checkComponent in GameObject.Components)

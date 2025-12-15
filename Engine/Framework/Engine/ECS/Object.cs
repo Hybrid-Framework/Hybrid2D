@@ -16,7 +16,26 @@ namespace Hybrid
         {
             // Invalid Scene
             if (Scenes.GetActiveScene() == null)
+            {
                 throw new Exception($"Can't create '{GetType().Name}' with no scene loaded");
+            }
+        }
+
+        internal virtual void OnDispose()
+        {
+            // Internal dispose
+        }
+    }
+    
+    // Object Destruction
+    public partial class Object
+    {
+        internal virtual void ThrowOnDestroyed()
+        {
+            if (Destroyed)
+            {
+                throw new NullReferenceException($"Trying to access ({GetType().Name}) but it has been destroyed");
+            }
         }
         
         public static void Destroy(Object obj, float delay = 0)
@@ -47,33 +66,25 @@ namespace Hybrid
                 obj.Destroyed = true;
             }
         }
-
-        internal virtual void ThrowOnDestroyed()
-        {
-            if (Destroyed)
-            {
-                if (this is Behaviour behaviour)
-                {
-                    throw new NullReferenceException($"Trying to access ({GetType().Name}) on GameObject '{behaviour.Name}' but it has been destroyed");
-                }
-                
-                throw new NullReferenceException($"Trying to access ({GetType().Name}) but it has been destroyed");
-            }
-        }
-
-        internal virtual void OnDispose()
-        {
-            // Internal dispose
-        }
         
-        public bool IsDestroying()
+        internal static bool IsDestroying(Object obj)
         {
-            return Destroying;
+            if (ReferenceEquals(obj, null))
+            {
+                return false;
+            }
+            
+            return obj.Destroying;
         }
 
-        public bool IsDestroyed()
+        internal static bool IsDestroyed(Object obj)
         {
-            return Destroyed;
+            if (ReferenceEquals(obj, null))
+            {
+                return false;
+            }
+            
+            return obj.Destroyed;
         }
     }
 

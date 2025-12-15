@@ -33,7 +33,7 @@ namespace Hybrid
         // Dispose
         internal override void OnDispose()
         {
-            if (!IsDestroyed())
+            if (!IsDestroyed(this))
             {
                 // For Each Child In GameObject
                 foreach (var child in Transform.GetChildrenRecursive())
