@@ -10,7 +10,9 @@ namespace Hybrid
         {
             // Invalid Scene
             if (Platform.GetConfig().Scene == null)
-                throw new Exception("No valid scene in config file");
+            {
+                Debug.LogException("No valid scene in config file");
+            }
             
             // Load Config Scene
             Load(Platform.GetConfig().Scene);
@@ -19,40 +21,43 @@ namespace Hybrid
         // Update
         internal override void OnUpdate()
         {
-            // For Each Root GameObject In Scene
-            foreach (var gameObject in GetActiveScene().RootGameObjects)
+            if (GetActiveScene() != null)
             {
-                // Skip Invalid GameObject
-                if(gameObject == null || !gameObject.Active) continue;
-
-                // For Each Child In GameObject (Including Parent)
-                foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
+                // For Each Root GameObject In Scene
+                foreach (var gameObject in GetActiveScene().RootGameObjects)
                 {
-                    // Skip Invalid Child
-                    if(child == null || !child.Enabled) continue;
-                    
-                    // For Each Component
-                    foreach (var component in child.GameObject.Components)
+                    // Skip Invalid GameObject
+                    if (gameObject == null || !gameObject.Active) continue;
+
+                    // For Each Child In GameObject (Including Parent)
+                    foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
                     {
-                        // Skip Invalid Component
-                        if(component == null || !component.Enabled) continue;
-                    
-                        // Awake
-                        if (!component.DidAwake)
+                        // Skip Invalid Child
+                        if (child == null || !child.Enabled) continue;
+
+                        // For Each Component
+                        foreach (var component in child.GameObject.Components)
                         {
-                            component.DidAwake = true;
-                            component.OnComponentAwake();
+                            // Skip Invalid Component
+                            if (component == null || !component.Enabled) continue;
+
+                            // Awake
+                            if (!component.DidAwake)
+                            {
+                                component.DidAwake = true;
+                                component.OnComponentAwake();
+                            }
+
+                            // Start
+                            if (!component.DidStart)
+                            {
+                                component.DidStart = true;
+                                component.OnComponentStart();
+                            }
+
+                            // Update
+                            component.OnComponentUpdate();
                         }
-                    
-                        // Start
-                        if (!component.DidStart)
-                        {
-                            component.DidStart = true;
-                            component.OnComponentStart();
-                        }
-                    
-                        // Update
-                        component.OnComponentUpdate();
                     }
                 }
             }
@@ -61,26 +66,29 @@ namespace Hybrid
         // Fixed Update
         internal override void OnFixedUpdate()
         {
-            // For Each Root GameObject In Scene
-            foreach (var gameObject in GetActiveScene().RootGameObjects)
+            if (GetActiveScene() != null)
             {
-                // Skip Invalid GameObject
-                if(gameObject == null || !gameObject.Active) continue;
-
-                // For Each Child In GameObject (Including Parent)
-                foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
+                // For Each Root GameObject In Scene
+                foreach (var gameObject in GetActiveScene().RootGameObjects)
                 {
-                    // Skip Invalid Child
-                    if(child == null || !child.Enabled) continue;
-                    
-                    // For Each Component
-                    foreach (var component in child.GameObject.Components)
-                    {
-                        // Skip Invalid Component
-                        if (component == null || !component.Enabled) continue;
+                    // Skip Invalid GameObject
+                    if(gameObject == null || !gameObject.Active) continue;
 
-                        // Fixed Update
-                        component.OnComponentFixedUpdate();
+                    // For Each Child In GameObject (Including Parent)
+                    foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
+                    {
+                        // Skip Invalid Child
+                        if(child == null || !child.Enabled) continue;
+                    
+                        // For Each Component
+                        foreach (var component in child.GameObject.Components)
+                        {
+                            // Skip Invalid Component
+                            if (component == null || !component.Enabled) continue;
+
+                            // Fixed Update
+                            component.OnComponentFixedUpdate();
+                        }
                     }
                 }
             }
@@ -90,10 +98,10 @@ namespace Hybrid
         internal override void OnDispose()
         {
             // Get Active Scene
-            if (Active != null)
+            if (GetActiveScene() != null)
             {
                 // Close Scene
-                Close(Active);
+                Close(GetActiveScene());
             }
         }
     }
@@ -110,7 +118,10 @@ namespace Hybrid
         {
             // Invalid Scene
             if (Active == null)
-                throw new Exception("No valid active scene loaded");
+            {
+                Debug.LogError($"No active scene loaded");
+                return null;
+            }
             
             return Active;
         }
@@ -119,7 +130,10 @@ namespace Hybrid
         {
             // Invalid Scene
             if (scene == null)
-                throw new Exception($"Failed to load invalid scene");
+            {
+                Debug.LogError($"Failed to load invalid scene");
+                return;
+            }
 
             if (Active != null)
             {
@@ -133,14 +147,16 @@ namespace Hybrid
 
         private static void Open(Scene scene)
         {
-            // Set Active
-            Active = scene;
-            
             // Invalid Scene
             if (scene == null)
-                throw new Exception("Failed to open invalid scene");
+            {
+                Debug.LogError("Failed to open invalid scene");
+                return;
+            }
             
-            // Debug.Log($"Scene '{scene.Name}' opened");
+            // Set Active
+            Active = scene;
+            Debug.Log($"Scene '{scene.Name}' opened");
             scene.OnSceneOpen();
         }
 
@@ -148,18 +164,24 @@ namespace Hybrid
         {
             // Invalid Scene
             if (scene == null)
-                throw new Exception("Failed to close invalid scene");
-
-            // For Each GameObject In Scene
-            foreach (var gameObject in GetActiveScene().GetRootGameObjects())
             {
-                // Destroy GameObject
-                Object.Destroy(gameObject);
+                Debug.LogWarning("Failed to close invalid scene");
+                return;
             }
+
+            if (GetActiveScene() != null)
+            {
+                // For Each GameObject In Scene
+                foreach (var gameObject in GetActiveScene().GetRootGameObjects())
+                {
+                    // Destroy GameObject
+                    Object.Destroy(gameObject);
+                }
             
-            // Debug.Log($"Scene '{scene.Name}' closed");
-            scene.OnSceneClose();
-            Active = null;
+                Debug.Log($"Scene '{scene.Name}' closed");
+                scene.OnSceneClose();
+                Active = null;
+            }
         }
     }
 }
