@@ -19,7 +19,9 @@ namespace Hybrid
             catch (Exception exception)
             {
                 Debug.Exception($"{exception.Message}", Debug.ExceptionType.Normal);
-                Quit();
+                {
+                    Quit();
+                }
             }
             
             return IsRunning;
@@ -72,7 +74,9 @@ namespace Hybrid
             while (Time.FixedFrameTime >= Time.FixedDeltaTime)
             {
                 OnFixedUpdate();
-                Time.FixedFrameTime -= Time.FixedDeltaTime;
+                {
+                    Time.FixedFrameTime -= Time.FixedDeltaTime;
+                }
             }
             
             // Update

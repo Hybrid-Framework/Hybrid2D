@@ -96,11 +96,13 @@ namespace Hybrid
                     if (exception == ExceptionType.Fatal)
                     {
                         throw new Exception($"{message}");
+                        break;
                     }
 
                     if (exception == ExceptionType.Silent)
                     {
                         Environment.Exit(1);
+                        break;
                     }
 
                     break;
