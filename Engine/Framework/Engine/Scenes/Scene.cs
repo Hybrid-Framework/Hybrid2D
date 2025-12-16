@@ -5,21 +5,10 @@ namespace Hybrid
     // Scene API
     public abstract class Scene
     {
-        internal HashSet<GameObject> RootGameObjects { get; private set; } = new HashSet<GameObject>();
-        public string Name => GetType().Name;
+        internal HashSet<GameObject> RootGameObjects { get; set; } = new HashSet<GameObject>();
+        internal string Name { get; set; }
+        internal int Index { get; set; }
         
-        
-        internal void AddObject(GameObject gameObject)
-        {
-            // Debug.Log($"Added '{gameObject.Name}' to scene root objects");
-            RootGameObjects.Add(gameObject);
-        }
-
-        internal void RemoveObject(GameObject gameObject)
-        {
-            // Debug.Log($"Removed '{gameObject.Name}' from scene root objects");
-            RootGameObjects.Remove(gameObject);
-        }
         
         public List<GameObject> GetRootGameObjects()
         {
@@ -34,6 +23,16 @@ namespace Hybrid
         public virtual void OnSceneClose()
         {
             // Called when scene finished closing
+        }
+
+        public string GetName()
+        {
+            return Name;
+        }
+        
+        public int GetIndex()
+        {
+            return Index;
         }
     }
 }

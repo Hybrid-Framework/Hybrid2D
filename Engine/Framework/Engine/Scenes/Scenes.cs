@@ -1,58 +1,92 @@
-﻿using System;
+﻿using System.Reflection;
+using System;
 
 namespace Hybrid
 {
     // Internal
     public sealed partial class Scenes : Module<Scenes>
     {
+        internal static HashSet<GameObject> ObjectQueue = new HashSet<GameObject>();
+        internal static List<SceneData> AllScenes = new List<SceneData>();
+        public static Scene ActiveScene { get; internal set; }
+        
+        
         // Initialize
         internal override void OnInitialize()
         {
-            // Invalid Scene
-            if (Platform.GetConfig().Scene == null)
-                throw new Exception("No valid scene in config file");
+            var scenes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes()).Where(t => t.GetCustomAttribute<SceneAttribute>() != null).ToList();
+
+            if (scenes.Count > 0)
+            {
+                foreach (var type in scenes)
+                {
+                    var attribute = type.GetCustomAttribute<SceneAttribute>()!;
+
+                    // Check duplicate name
+                    if (AllScenes.Any(s => s.SceneName == attribute.Name))
+                    {
+                        throw new Exception($"Duplicate scene name '{attribute.Name}' found please ensure each scene is unique");
+                    }
+
+                    // Check duplicate index
+                    if (AllScenes.Any(s => s.SceneIndex == attribute.Index))
+                    {
+                        throw new Exception($"Duplicate scene index '{attribute.Index}' found please ensure each scene is unique");
+                    }
+
+                    AllScenes.Add(new SceneData(type, attribute.Name, attribute.Index));
+                }
+            }
+            else
+            {
+                throw new Exception("No Scenes Found!");
+            }
             
-            // Load Config Scene
-            Load(Platform.GetConfig().Scene);
+            // Load First Scene
+            Load(AllScenes.Min(s => s.SceneIndex));
         }
 
         // Update
         internal override void OnUpdate()
         {
-            // For Each Root GameObject In Scene
-            foreach (var gameObject in GetActiveScene().RootGameObjects)
+            // Scene
+            if (ActiveScene != null)
             {
-                // Skip Invalid GameObject
-                if(gameObject == null || !gameObject.Active) continue;
-
-                // For Each Child In GameObject (Including Parent)
-                foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
+                // For Each Root GameObject In Scene
+                foreach (var gameObject in ActiveScene.RootGameObjects)
                 {
-                    // Skip Invalid Child
-                    if(child == null || !child.Enabled) continue;
-                    
-                    // For Each Component
-                    foreach (var component in child.GameObject.Components)
+                    // Skip Invalid GameObject
+                    if(gameObject == null || !gameObject.Active) continue;
+
+                    // For Each Child In GameObject (Including Parent)
+                    foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
                     {
-                        // Skip Invalid Component
-                        if(component == null || !component.Enabled) continue;
+                        // Skip Invalid Child
+                        if(child == null || !child.Enabled) continue;
                     
-                        // Awake
-                        if (!component.DidAwake)
+                        // For Each Component
+                        foreach (var component in child.GameObject.Components)
                         {
-                            component.DidAwake = true;
-                            component.OnComponentAwake();
-                        }
+                            // Skip Invalid Component
+                            if(component == null || !component.Enabled) continue;
                     
-                        // Start
-                        if (!component.DidStart)
-                        {
-                            component.DidStart = true;
-                            component.OnComponentStart();
-                        }
+                            // Awake
+                            if (!component.DidAwake)
+                            {
+                                component.DidAwake = true;
+                                component.OnComponentAwake();
+                            }
                     
-                        // Update
-                        component.OnComponentUpdate();
+                            // Start
+                            if (!component.DidStart)
+                            {
+                                component.DidStart = true;
+                                component.OnComponentStart();
+                            }
+                    
+                            // Update
+                            component.OnComponentUpdate();
+                        }
                     }
                 }
             }
@@ -61,26 +95,30 @@ namespace Hybrid
         // Fixed Update
         internal override void OnFixedUpdate()
         {
-            // For Each Root GameObject In Scene
-            foreach (var gameObject in GetActiveScene().RootGameObjects)
+            // Scene
+            if (ActiveScene != null)
             {
-                // Skip Invalid GameObject
-                if(gameObject == null || !gameObject.Active) continue;
-
-                // For Each Child In GameObject (Including Parent)
-                foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
+                // For Each Root GameObject In Scene
+                foreach (var gameObject in ActiveScene.RootGameObjects)
                 {
-                    // Skip Invalid Child
-                    if(child == null || !child.Enabled) continue;
-                    
-                    // For Each Component
-                    foreach (var component in child.GameObject.Components)
-                    {
-                        // Skip Invalid Component
-                        if (component == null || !component.Enabled) continue;
+                    // Skip Invalid GameObject
+                    if(gameObject == null || !gameObject.Active) continue;
 
-                        // Fixed Update
-                        component.OnComponentFixedUpdate();
+                    // For Each Child In GameObject (Including Parent)
+                    foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
+                    {
+                        // Skip Invalid Child
+                        if(child == null || !child.Enabled) continue;
+                    
+                        // For Each Component
+                        foreach (var component in child.GameObject.Components)
+                        {
+                            // Skip Invalid Component
+                            if (component == null || !component.Enabled) continue;
+
+                            // Fixed Update
+                            component.OnComponentFixedUpdate();
+                        }
                     }
                 }
             }
@@ -90,10 +128,40 @@ namespace Hybrid
         internal override void OnDispose()
         {
             // Get Active Scene
-            if (Active != null)
+            if (ActiveScene != null)
             {
                 // Close Scene
-                Close(Active);
+                Close(ActiveScene);
+            }
+        }
+    }
+    
+    // Scene API
+    public partial class Scenes
+    {
+        internal static void AddObject(GameObject gameObject)
+        {
+            if (!Object.IsDestroyed(gameObject))
+            {
+                if (ActiveScene != null)
+                {
+                    ObjectQueue.Remove(gameObject);
+                    
+                    ActiveScene.RootGameObjects.Add(gameObject);
+                    gameObject.Scene = ActiveScene;
+                    return;
+                }
+                
+                ObjectQueue.Add(gameObject);
+            }
+        }
+        
+        internal static void RemoveObject(GameObject gameObject)
+        {
+            if (ActiveScene != null)
+            {
+                ActiveScene.RootGameObjects.Remove(gameObject);
+                ObjectQueue.Remove(gameObject);
             }
         }
     }
@@ -101,65 +169,124 @@ namespace Hybrid
     // Scene API
     public partial class Scenes
     {
-        private static Scene Active
+        public static void Load(int index)
         {
-            get; set;
-        }
-
-        public static Scene GetActiveScene()
-        {
-            // Invalid Scene
-            if (Active == null)
-                throw new Exception("No valid active scene loaded");
+            var found = AllScenes.FirstOrDefault(s => s.SceneIndex == index);
             
-            return Active;
-        }
-        
-        public static void Load(Scene scene)
-        {
             // Invalid Scene
-            if (scene == null)
-                throw new Exception($"Failed to load invalid scene");
-
-            if (Active != null)
+            if (found != null)
             {
                 // Close Scene
-                Close(Active);
-            }
+                if (ActiveScene != null)
+                {
+                    // Already Loaded
+                    if (ActiveScene.Index == index)
+                    {
+                        Debug.Warning($"Scene '{index}' already loaded");
+                        return;
+                    }
+                    
+                    Close(ActiveScene);
+                }
 
-            // Open Scene
-            Open(scene);
+                // Create Scene
+                var scene = (Scene)Activator.CreateInstance(found.SceneType, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, null, null);
+                scene?.Index = found.SceneIndex;
+                scene?.Name = found.SceneName;
+                Open(scene);
+            }
+            else
+            {
+                throw new Exception($"Failed to load scene with index {index}");
+            }
+        }
+        
+        public static void Load(string name)
+        {
+            var found = AllScenes.FirstOrDefault(s => s.SceneName == name);
+            
+            // Invalid Scene
+            if (found != null)
+            {
+                // Close Scene
+                if (ActiveScene != null)
+                {
+                    // Already Loaded
+                    if (ActiveScene.Name == name)
+                    {
+                        Debug.Warning($"Scene '{name}' already loaded");
+                        return;
+                    }
+                    
+                    Close(ActiveScene);
+                }
+
+                // Open Scene
+                var scene = (Scene)Activator.CreateInstance(found.SceneType, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, null, null);
+                scene?.Index = found.SceneIndex;
+                scene?.Name = found.SceneName;
+                Open(scene);
+            }
+            else
+            {
+                throw new Exception($"Failed to load scene with name {name}");
+            }
         }
 
         private static void Open(Scene scene)
         {
-            // Set Active
-            Active = scene;
-            
             // Invalid Scene
-            if (scene == null)
-                throw new Exception("Failed to open invalid scene");
-            
-            // Debug.Log($"Scene '{scene.Name}' opened");
-            scene.OnSceneOpen();
+            if (scene != null)
+            {
+                // Set Scene
+                ActiveScene = scene;
+                
+                // For Each Object In Queue
+                foreach (var gameObject in ObjectQueue.ToArray())
+                {
+                    // Add To Scene
+                    AddObject(gameObject);
+                }
+                
+                Debug.Log($"Scene '{scene.Name}' opened");
+                scene.OnSceneOpen();
+                
+                ObjectQueue.Clear();
+            }
+            else
+            {
+                throw new Exception($"Failed to open invalid scene");
+            }
         }
 
         private static void Close(Scene scene)
         {
-            // Invalid Scene
-            if (scene == null)
-                throw new Exception("Failed to close invalid scene");
-
-            // For Each GameObject In Scene
-            foreach (var gameObject in GetActiveScene().GetRootGameObjects())
+            if (scene != null)
             {
-                // Destroy GameObject
-                Object.Destroy(gameObject);
+                // For Each GameObject In Scene
+                foreach (var gameObject in scene.GetRootGameObjects())
+                {
+                    // Don't Destroy On Load
+                    if (Object.IsDontDestroyOnLoad(gameObject))
+                    {
+                        // Add To Queue For Next Scene
+                        ObjectQueue.Add(gameObject);
+                        continue;
+                    }
+                    
+                    // Destroy GameObject
+                    Object.Destroy(gameObject);
+                }
+                
+                Debug.Log($"Scene '{scene.Name}' closed");
+                scene.OnSceneClose();
+                
+                ActiveScene = null;
             }
-            
-            // Debug.Log($"Scene '{scene.Name}' closed");
-            scene.OnSceneClose();
-            Active = null;
+            else
+            {
+                throw new Exception($"Failed to close invalid scene");
+            }
         }
     }
 }

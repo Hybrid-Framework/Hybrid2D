@@ -8,18 +8,11 @@ namespace Hybrid
     public abstract partial class Object : IEquatable<Object>
     {
         private readonly Guid Guid = Guid.NewGuid();
-        private bool Destroying { get; set; }
-        private bool Destroyed { get; set; }
-
-
-        internal Object()
-        {
-            // Invalid Scene
-            if (Scenes.GetActiveScene() == null)
-            {
-                throw new Exception($"Can't create '{GetType().Name}' with no scene loaded");
-            }
-        }
+        
+        private bool MarkedDontDestroyOnLoad { get; set; }
+        private bool MarkedDestroying { get; set; }
+        private bool MarkedDestroyed { get; set; }
+        
 
         internal virtual void OnDispose()
         {
@@ -30,6 +23,14 @@ namespace Hybrid
     // Object Destruction
     public partial class Object
     {
+        public static void DontDestroyOnLoad(Object obj)
+        {
+            if (obj != null)
+            {
+                obj.MarkedDontDestroyOnLoad = true;
+            }
+        }
+        
         public static void Destroy(Object obj, float delay = 0)
         {
             if (obj != null)
@@ -50,13 +51,24 @@ namespace Hybrid
                 }
                 
                 // Mark For Destroying
-                if(obj.Destroying) return;
-                obj.Destroying = true;
+                if(obj.MarkedDestroying) return;
+                obj.MarkedDestroying = true;
                 
                 // Destroy
                 obj.OnDispose();
-                obj.Destroyed = true;
+                obj.MarkedDestroyed = true;
+                obj.MarkedDontDestroyOnLoad = false;
             }
+        }
+
+        internal static bool IsDontDestroyOnLoad(Object obj)
+        {
+            if (ReferenceEquals(obj, null))
+            {
+                return false;
+            }
+
+            return obj.MarkedDontDestroyOnLoad;
         }
         
         internal static bool IsDestroying(Object obj)
@@ -66,7 +78,7 @@ namespace Hybrid
                 return false;
             }
             
-            return obj.Destroying;
+            return obj.MarkedDestroying;
         }
 
         internal static bool IsDestroyed(Object obj)
@@ -76,7 +88,7 @@ namespace Hybrid
                 return false;
             }
             
-            return obj.Destroyed;
+            return obj.MarkedDestroyed;
         }
     }
 
@@ -85,7 +97,7 @@ namespace Hybrid
     {
         public static implicit operator bool(Object obj)
         {
-            return obj is not null && !obj.Destroyed;
+            return obj is not null && !obj.MarkedDestroyed;
         }
         
         public static bool operator !=(Object a, Object b)
@@ -95,8 +107,8 @@ namespace Hybrid
 
         public static bool operator ==(Object a, Object b)
         {
-            if (a is null) return b?.Destroyed ?? true;
-            if (b is null) return a.Destroyed;
+            if (a is null) return b?.MarkedDestroyed ?? true;
+            if (b is null) return a.MarkedDestroyed;
             
             return ReferenceEquals(a, b);
         }
@@ -123,12 +135,12 @@ namespace Hybrid
 
         public override string ToString()
         {
-            return !Destroyed ? $"{GetType().Name}" : $"{GetType().Name} (Destroyed)";
+            return !MarkedDestroyed ? $"{GetType().Name}" : $"{GetType().Name} (Destroyed)";
         }
 
         public int GetInstanceID()
         {
-            return !Destroyed ? Guid.GetHashCode() : 0;
+            return !MarkedDestroyed ? Guid.GetHashCode() : 0;
         }
     }
 }

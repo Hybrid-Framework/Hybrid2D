@@ -5,8 +5,6 @@ namespace App
     // Config
     public class Config : Hybrid.Config
     {
-        public override Scene Scene { get; set; } = new Game();
-
         public override string Icon { get; set; } = "Icon.png";
         public override string Title { get; set; } = "Hybrid";
 

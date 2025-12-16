@@ -193,24 +193,27 @@ namespace Hybrid
         public static GameObject[] FindGameObjectsByName(string name, bool activeOnly = false)
         {
             var results = new List<GameObject>();
-            
-            // For Each Root GameObject In Scene
-            foreach (var gameObject in Scenes.GetActiveScene().RootGameObjects)
+
+            if (Scenes.ActiveScene != null)
             {
-                // If Active Only And Disabled
-                if(gameObject == null) continue;
-                if(activeOnly && !gameObject.Active) continue;
-                
-                // For Each Child Of GameObject (Including Parent)
-                foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
+                // For Each Root GameObject In Scene
+                foreach (var gameObject in Scenes.ActiveScene.RootGameObjects)
                 {
                     // If Active Only And Disabled
-                    if(child == null) continue;
-                    if(activeOnly && !child.Enabled) continue;
-                    
-                    if (child.GameObject.Name == name)
+                    if (gameObject == null) continue;
+                    if (activeOnly && !gameObject.Active) continue;
+
+                    // For Each Child Of GameObject (Including Parent)
+                    foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
                     {
-                        results.Add(child.GameObject);
+                        // If Active Only And Disabled
+                        if (child == null) continue;
+                        if (activeOnly && !child.Enabled) continue;
+
+                        if (child.GameObject.Name == name)
+                        {
+                            results.Add(child.GameObject);
+                        }
                     }
                 }
             }
@@ -220,23 +223,26 @@ namespace Hybrid
         
         public static GameObject FindGameObjectByName(string name, bool activeOnly = false)
         {
-            // For Each Root GameObject In Scene
-            foreach (var gameObject in Scenes.GetActiveScene().RootGameObjects)
+            if (Scenes.ActiveScene != null)
             {
-                // If Active Only And Disabled
-                if(gameObject == null) continue;
-                if(activeOnly && !gameObject.Active) continue;
-                
-                // For Each Child Of GameObject (Including Parent)
-                foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
+                // For Each Root GameObject In Scene
+                foreach (var gameObject in Scenes.ActiveScene.RootGameObjects)
                 {
                     // If Active Only And Disabled
-                    if(child == null) continue;
-                    if(activeOnly && !child.Enabled) continue;
-                    
-                    if (child.GameObject.Name == name)
+                    if (gameObject == null) continue;
+                    if (activeOnly && !gameObject.Active) continue;
+
+                    // For Each Child Of GameObject (Including Parent)
+                    foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
                     {
-                        return child.GameObject;
+                        // If Active Only And Disabled
+                        if (child == null) continue;
+                        if (activeOnly && !child.Enabled) continue;
+
+                        if (child.GameObject.Name == name)
+                        {
+                            return child.GameObject;
+                        }
                     }
                 }
             }
@@ -247,24 +253,27 @@ namespace Hybrid
         public static GameObject[] FindGameObjectsByLayer(string layer, bool activeOnly = false)
         {
             var results = new List<GameObject>();
-            
-            // For Each Root GameObject In Scene
-            foreach (var gameObject in Scenes.GetActiveScene().RootGameObjects)
+
+            if (Scenes.ActiveScene != null)
             {
-                // If Active Only And Disabled
-                if(gameObject == null) continue;
-                if(activeOnly && !gameObject.Active) continue;
-                
-                // For Each Child Of GameObject (Including Parent)
-                foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
+                // For Each Root GameObject In Scene
+                foreach (var gameObject in Scenes.ActiveScene.RootGameObjects)
                 {
                     // If Active Only And Disabled
-                    if(child == null) continue;
-                    if(activeOnly && !child.Enabled) continue;
-                    
-                    if (child.GameObject.Layer == layer)
+                    if (gameObject == null) continue;
+                    if (activeOnly && !gameObject.Active) continue;
+
+                    // For Each Child Of GameObject (Including Parent)
+                    foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
                     {
-                        results.Add(child.GameObject);
+                        // If Active Only And Disabled
+                        if (child == null) continue;
+                        if (activeOnly && !child.Enabled) continue;
+
+                        if (child.GameObject.Layer == layer)
+                        {
+                            results.Add(child.GameObject);
+                        }
                     }
                 }
             }
@@ -274,23 +283,26 @@ namespace Hybrid
         
         public static GameObject FindGameObjectByLayer(string layer, bool activeOnly = false)
         {
-            // For Each Root GameObject In Scene
-            foreach (var gameObject in Scenes.GetActiveScene().RootGameObjects)
+            if (Scenes.ActiveScene != null)
             {
-                // If Active Only And Disabled
-                if(gameObject == null) continue;
-                if(activeOnly && !gameObject.Active) continue;
-                
-                // For Each Child Of GameObject (Including Parent)
-                foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
+                // For Each Root GameObject In Scene
+                foreach (var gameObject in Scenes.ActiveScene.RootGameObjects)
                 {
                     // If Active Only And Disabled
-                    if(child == null) continue;
-                    if(activeOnly && !child.Enabled) continue;
-                    
-                    if (child.GameObject.Layer == layer)
+                    if (gameObject == null) continue;
+                    if (activeOnly && !gameObject.Active) continue;
+
+                    // For Each Child Of GameObject (Including Parent)
+                    foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
                     {
-                        return child.GameObject;
+                        // If Active Only And Disabled
+                        if (child == null) continue;
+                        if (activeOnly && !child.Enabled) continue;
+
+                        if (child.GameObject.Layer == layer)
+                        {
+                            return child.GameObject;
+                        }
                     }
                 }
             }
@@ -301,24 +313,27 @@ namespace Hybrid
         public static GameObject[] FindGameObjectsByTag(string tag, bool activeOnly = false)
         {
             var results = new List<GameObject>();
-            
-            // For Each Root GameObject In Scene
-            foreach (var gameObject in Scenes.GetActiveScene().RootGameObjects)
+
+            if (Scenes.ActiveScene != null)
             {
-                // If Active Only And Disabled
-                if(gameObject == null) continue;
-                if(activeOnly && !gameObject.Active) continue;
-                
-                // For Each Child Of GameObject (Including Parent)
-                foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
+                // For Each Root GameObject In Scene
+                foreach (var gameObject in Scenes.ActiveScene.RootGameObjects)
                 {
                     // If Active Only And Disabled
-                    if(child == null) continue;
-                    if(activeOnly && !child.Enabled) continue;
-                    
-                    if (child.GameObject.Tag == tag)
+                    if (gameObject == null) continue;
+                    if (activeOnly && !gameObject.Active) continue;
+
+                    // For Each Child Of GameObject (Including Parent)
+                    foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
                     {
-                        results.Add(child.GameObject);
+                        // If Active Only And Disabled
+                        if (child == null) continue;
+                        if (activeOnly && !child.Enabled) continue;
+
+                        if (child.GameObject.Tag == tag)
+                        {
+                            results.Add(child.GameObject);
+                        }
                     }
                 }
             }
@@ -328,23 +343,26 @@ namespace Hybrid
         
         public static GameObject FindGameObjectByTag(string tag, bool activeOnly = false)
         {
-            // For Each Root GameObject In Scene
-            foreach (var gameObject in Scenes.GetActiveScene().RootGameObjects)
+            if (Scenes.ActiveScene != null)
             {
-                // If Active Only And Disabled
-                if(gameObject == null) continue;
-                if(activeOnly && !gameObject.Active) continue;
-                
-                // For Each Child Of GameObject (Including Parent)
-                foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
+                // For Each Root GameObject In Scene
+                foreach (var gameObject in Scenes.ActiveScene.RootGameObjects)
                 {
                     // If Active Only And Disabled
-                    if(child == null) continue;
-                    if(activeOnly && !child.Enabled) continue;
-                    
-                    if (child.GameObject.Tag == tag)
+                    if (gameObject == null) continue;
+                    if (activeOnly && !gameObject.Active) continue;
+
+                    // For Each Child Of GameObject (Including Parent)
+                    foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
                     {
-                        return child.GameObject;
+                        // If Active Only And Disabled
+                        if (child == null) continue;
+                        if (activeOnly && !child.Enabled) continue;
+
+                        if (child.GameObject.Tag == tag)
+                        {
+                            return child.GameObject;
+                        }
                     }
                 }
             }
@@ -355,29 +373,32 @@ namespace Hybrid
         public static T[] FindObjectsByType<T>(bool activeOnly = false) where T : Object
         {
             var results = new List<T>();
-            
-            // For Each Root GameObject In Scene
-            foreach (var gameObject in Scenes.GetActiveScene().RootGameObjects)
-            {
-                // If Active Only And Disabled
-                if(gameObject == null) continue;
-                if(activeOnly && !gameObject.Active) continue;
-                
-                if (typeof(T).IsAssignableFrom(gameObject.GetType()))
-                {
-                    results.Add(gameObject as T);
-                }
 
-                // For Each Child Components Of GameObject (Including Parent)
-                foreach (var component in gameObject.GetComponentsInChildren<Component>(true))
+            if (Scenes.ActiveScene != null)
+            {
+                // For Each Root GameObject In Scene
+                foreach (var gameObject in Scenes.ActiveScene.RootGameObjects)
                 {
                     // If Active Only And Disabled
-                    if(component == null) continue;
-                    if(activeOnly && !component.Enabled) continue;
-                    
-                    if (typeof(T).IsAssignableFrom(component.GetType()))
+                    if (gameObject == null) continue;
+                    if (activeOnly && !gameObject.Active) continue;
+
+                    if (typeof(T).IsAssignableFrom(gameObject.GetType()))
                     {
-                        results.Add(component as T);
+                        results.Add(gameObject as T);
+                    }
+
+                    // For Each Child Components Of GameObject (Including Parent)
+                    foreach (var component in gameObject.GetComponentsInChildren<Component>(true))
+                    {
+                        // If Active Only And Disabled
+                        if (component == null) continue;
+                        if (activeOnly && !component.Enabled) continue;
+
+                        if (typeof(T).IsAssignableFrom(component.GetType()))
+                        {
+                            results.Add(component as T);
+                        }
                     }
                 }
             }
@@ -387,28 +408,31 @@ namespace Hybrid
         
         public static T FindObjectByType<T>(bool activeOnly = false) where T : Object
         {
-            // For Each Root GameObject In Scene
-            foreach (var gameObject in Scenes.GetActiveScene().RootGameObjects)
+            if (Scenes.ActiveScene != null)
             {
-                // If Active Only And Disabled
-                if(gameObject == null) continue;
-                if(activeOnly && !gameObject.Active) continue;
-                
-                if (typeof(T).IsAssignableFrom(gameObject.GetType()))
-                {
-                    return gameObject as T;
-                }
-
-                // For Each Child Components Of GameObject (Including Parent)
-                foreach (var component in gameObject.GetComponentsInChildren<Component>(true))
+                // For Each Root GameObject In Scene
+                foreach (var gameObject in Scenes.ActiveScene.RootGameObjects)
                 {
                     // If Active Only And Disabled
-                    if(component == null) continue;
-                    if(activeOnly && !component.Enabled) continue;
-                    
-                    if (typeof(T).IsAssignableFrom(component.GetType()))
+                    if(gameObject == null) continue;
+                    if(activeOnly && !gameObject.Active) continue;
+                
+                    if (typeof(T).IsAssignableFrom(gameObject.GetType()))
                     {
-                        return component as T;
+                        return gameObject as T;
+                    }
+
+                    // For Each Child Components Of GameObject (Including Parent)
+                    foreach (var component in gameObject.GetComponentsInChildren<Component>(true))
+                    {
+                        // If Active Only And Disabled
+                        if(component == null) continue;
+                        if(activeOnly && !component.Enabled) continue;
+                    
+                        if (typeof(T).IsAssignableFrom(component.GetType()))
+                        {
+                            return component as T;
+                        }
                     }
                 }
             }

@@ -6,7 +6,7 @@ namespace Hybrid
     public sealed partial class GameObject : Behaviour
     {
         internal List<Component> Components { get; private set; } = new List<Component>();
-        internal Scene Scene { get; private set; } = null;
+        internal Scene Scene { get; set; }
         
         private string _Layer { get; set; } = "Default";
         public string Layer
@@ -83,8 +83,7 @@ namespace Hybrid
             Transform.Transform = Transform;
             
             // Scene
-            Scene = Scenes.GetActiveScene();
-            Scene.AddObject(this);
+            Scenes.AddObject(this);
             
             // Name
             Name = name ?? Name;
@@ -110,7 +109,7 @@ namespace Hybrid
                 }
                 
                 // Remove From Scene
-                Scene.RemoveObject(GameObject);
+                Scenes.RemoveObject(this);
             }
         }
     }
