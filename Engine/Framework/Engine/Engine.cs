@@ -19,7 +19,8 @@ namespace Hybrid
             catch (Exception exception)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"{exception.Message} at [{exception.TargetSite}]\n{exception.StackTrace}");
+                var finalException = exception.InnerException ?? exception;
+                Console.WriteLine($"{finalException.Message} at [{finalException.TargetSite}]\n{finalException.StackTrace}");
                 Quit();
             }
             
