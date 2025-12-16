@@ -5,59 +5,94 @@ namespace Hybrid
     // Debug API
     public static class Debug
     {
-        enum LogType
+        public enum ExceptionType { Fatal, Silent }
+        private enum LogType { Log, Error, Warning, Exception }
+        
+        
+        public static void Log(object message, bool trace = false)
         {
-            Log,
-            Error,
-            Warning,
-            Exception
+            Display(message, LogType.Log, trace);
         }
         
-        public static void Log(object message)
+        public static void Error(object message, bool trace = false)
         {
-            Show(message, LogType.Log);
+            Display(message, LogType.Error, trace);
+        }
+        
+        public static void Warning(object message, bool trace = false)
+        {
+            Display(message, LogType.Warning, trace);
+        }
+        
+        public static void Exception(object message, ExceptionType type = ExceptionType.Fatal)
+        {
+            Display(message, LogType.Exception, false, type);
+        }
+        
+        public static void Assert(bool condition, object message = null, ExceptionType type = ExceptionType.Fatal)
+        {
+            if (!condition)
+            {
+                Display(message, LogType.Exception, false, type);
+            }
         }
 
-        public static void LogError(object message)
+        private static void Display(object message, LogType logType, bool trace = false, ExceptionType exceptionType = ExceptionType.Fatal)
         {
-            Show(message, LogType.Error);
-        }
-        
-        public static void LogWarning(object message)
-        {
-            Show(message, LogType.Warning);
-        }
-        
-        public static void LogException(object message)
-        {
-            Show(message, LogType.Exception);
-        }
-
-        private static void Show(object message, LogType type)
-        {
-            switch (type)
+            switch (logType)
             {
                 case LogType.Log:
                 {
                     Console.ForegroundColor = ConsoleColor.Black;
+                    
+                    if (trace)
+                    {
+                        Console.WriteLine($"[LOG] {message}\n{Environment.StackTrace}");
+                        break;
+                    }
+                    
                     Console.WriteLine($"[LOG] {message}");
                     break;
                 }
-                case LogType.Error:
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"[ERROR] {message}");
-                    break;
-                }
+                
                 case LogType.Warning:
                 {
                     Console.ForegroundColor = ConsoleColor.Yellow;
+                    
+                    if (trace)
+                    {
+                        Console.WriteLine($"[WARNING] {message}\n{Environment.StackTrace}");
+                        break;
+                    }
+                    
                     Console.WriteLine($"[WARNING] {message}");
                     break;
                 }
+                
+                case LogType.Error:
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+
+                    if (trace)
+                    {
+                        Console.WriteLine($"[ERROR] {message}\n{Environment.StackTrace}");
+                        break;
+                    }
+                    
+                    Console.WriteLine($"[ERROR] {message}");
+                    break;
+                }
+                
                 case LogType.Exception:
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
+
+                    if (exceptionType == ExceptionType.Silent)
+                    {
+                        Console.WriteLine($"[EXCEPTION] {message}\n{Environment.StackTrace}");
+                        break;
+                    }
+                    
                     throw new Exception($"{message}");
                 }
             }

@@ -18,7 +18,7 @@ namespace Hybrid
             }
             catch (Exception exception)
             {
-                Console.WriteLine($"[EXCEPTION] {exception.Message}\n{exception.StackTrace}");
+                Debug.Exception($"{exception.Message}", Debug.ExceptionType.Silent);
                 Quit();
             }
             

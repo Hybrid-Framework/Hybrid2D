@@ -12,7 +12,11 @@ namespace Hybrid
             internal set => _GameObject = value;
             get
             {
-                ThrowOnDestroyed();
+                if (IsDestroyed(_GameObject))
+                {
+                    throw new Exception($"Trying to access ({typeof(GameObject)}) but it has been destroyed");
+                }
+                
                 return _GameObject;
             }
         }
@@ -23,7 +27,11 @@ namespace Hybrid
             internal set => _Transform = value;
             get
             {
-                ThrowOnDestroyed();
+                if (IsDestroyed(_Transform))
+                {
+                    throw new Exception($"Trying to access ({typeof(Transform)}) but it has been destroyed");
+                }
+                
                 return _Transform;
             }
         }
@@ -31,7 +39,15 @@ namespace Hybrid
         private string _Name { get; set; }
         public string Name
         {
-            get => _Name;
+            get
+            {
+                if (IsDestroyed(GameObject))
+                {
+                    return _Name + " (Destroyed)";
+                }
+                
+                return _Name;
+            }
             set
             {
                 if (GameObject != null)

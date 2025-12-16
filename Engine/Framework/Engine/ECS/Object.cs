@@ -30,14 +30,6 @@ namespace Hybrid
     // Object Destruction
     public partial class Object
     {
-        internal virtual void ThrowOnDestroyed()
-        {
-            if (Destroyed)
-            {
-                throw new NullReferenceException($"Trying to access ({GetType().Name}) but it has been destroyed");
-            }
-        }
-        
         public static void Destroy(Object obj, float delay = 0)
         {
             if (obj != null)
@@ -131,12 +123,12 @@ namespace Hybrid
 
         public override string ToString()
         {
-            return GetType().Name;
+            return !Destroyed ? $"{GetType().Name}" : $"{GetType().Name} (Destroyed)";
         }
 
         public int GetInstanceID()
         {
-            return Guid.GetHashCode();
+            return !Destroyed ? Guid.GetHashCode() : 0;
         }
     }
 }
