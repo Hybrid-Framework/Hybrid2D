@@ -18,7 +18,7 @@ namespace Hybrid
             }
             catch (Exception exception)
             {
-                Debug.Exception($"{exception.Message}", Debug.ExceptionType.Silent);
+                Debug.Exception($"{exception.Message}", Debug.ExceptionType.Normal);
                 Quit();
             }
             

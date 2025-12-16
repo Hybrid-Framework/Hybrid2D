@@ -5,7 +5,7 @@ namespace Hybrid
     // Debug API
     public static class Debug
     {
-        public enum ExceptionType { Fatal, Silent }
+        public enum ExceptionType { Normal, Fatal, Silent }
         private enum LogType { Log, Error, Warning, Exception }
         
         
@@ -24,12 +24,12 @@ namespace Hybrid
             Display(message, LogType.Warning, trace);
         }
         
-        public static void Exception(object message, ExceptionType type = ExceptionType.Fatal)
+        public static void Exception(object message, ExceptionType type)
         {
             Display(message, LogType.Exception, false, type);
         }
         
-        public static void Assert(bool condition, object message = null, ExceptionType type = ExceptionType.Fatal)
+        public static void Assert(bool condition, object message, ExceptionType type)
         {
             if (!condition)
             {
@@ -37,9 +37,9 @@ namespace Hybrid
             }
         }
 
-        private static void Display(object message, LogType logType, bool trace = false, ExceptionType exceptionType = ExceptionType.Fatal)
+        private static void Display(object message, LogType log, bool trace = false, ExceptionType exception = ExceptionType.Fatal)
         {
-            switch (logType)
+            switch (log)
             {
                 case LogType.Log:
                 {
@@ -87,13 +87,23 @@ namespace Hybrid
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
 
-                    if (exceptionType == ExceptionType.Silent)
+                    if (exception == ExceptionType.Normal)
                     {
                         Console.WriteLine($"[EXCEPTION] {message}\n{Environment.StackTrace}");
                         break;
                     }
-                    
-                    throw new Exception($"{message}");
+
+                    if (exception == ExceptionType.Fatal)
+                    {
+                        throw new Exception($"{message}");
+                    }
+
+                    if (exception == ExceptionType.Silent)
+                    {
+                        Environment.Exit(1);
+                    }
+
+                    break;
                 }
             }
             
