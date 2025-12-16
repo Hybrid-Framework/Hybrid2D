@@ -18,7 +18,8 @@ namespace Hybrid
             }
             catch (Exception exception)
             {
-                Debug.Exception($"{exception.Message}", Debug.ExceptionType.Normal);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"{exception.Message} at [{exception.TargetSite}]\n{exception.StackTrace}");
                 Quit();
             }
             

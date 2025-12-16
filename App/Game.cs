@@ -1,4 +1,5 @@
-﻿using Hybrid;
+﻿using System;
+using Hybrid;
 
 namespace App
 {
@@ -6,7 +7,7 @@ namespace App
     {
         public override void OnSceneOpen()
         {
-            var gameObject = new GameObject();
+            
         }
 
         public override void OnSceneClose()
