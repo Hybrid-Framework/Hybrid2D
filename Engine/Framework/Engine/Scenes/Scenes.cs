@@ -6,9 +6,11 @@ namespace Hybrid
     // Internal
     public sealed partial class Scenes : Module<Scenes>
     {
-        internal static HashSet<GameObject> ObjectQueue = new HashSet<GameObject>();
-        internal static List<SceneData> AllScenes = new List<SceneData>();
-        public static Scene ActiveScene { get; internal set; }
+        private Scenes() {}
+        
+        internal static HashSet<GameObject> SceneQueue { get; set; } = new();
+        internal static List<SceneData> AllScenes { get; set; } = new();
+        internal static Scene ActiveScene { get; set; }
         
         
         // Initialize
@@ -135,40 +137,15 @@ namespace Hybrid
             }
         }
     }
-    
-    // Scene API
-    public partial class Scenes
-    {
-        internal static void AddObject(GameObject gameObject)
-        {
-            if (!Object.IsDestroyed(gameObject))
-            {
-                if (ActiveScene != null)
-                {
-                    ObjectQueue.Remove(gameObject);
-                    
-                    ActiveScene.RootGameObjects.Add(gameObject);
-                    gameObject.Scene = ActiveScene;
-                    return;
-                }
-                
-                ObjectQueue.Add(gameObject);
-            }
-        }
-        
-        internal static void RemoveObject(GameObject gameObject)
-        {
-            if (ActiveScene != null)
-            {
-                ActiveScene.RootGameObjects.Remove(gameObject);
-                ObjectQueue.Remove(gameObject);
-            }
-        }
-    }
 
     // Scene API
     public partial class Scenes
     {
+        public static Scene GetActiveScene()
+        {
+            return ActiveScene;
+        }
+        
         public static void Load(int index)
         {
             var found = AllScenes.FirstOrDefault(s => s.SceneIndex == index);
@@ -240,18 +217,17 @@ namespace Hybrid
             {
                 // Set Scene
                 ActiveScene = scene;
+                Debug.Log($"Scene '{scene.Name}' opened");
                 
                 // For Each Object In Queue
-                foreach (var gameObject in ObjectQueue.ToArray())
+                foreach (var gameObject in SceneQueue.ToArray())
                 {
                     // Add To Scene
                     AddObject(gameObject);
                 }
                 
-                Debug.Log($"Scene '{scene.Name}' opened");
                 scene.OnSceneOpen();
-                
-                ObjectQueue.Clear();
+                SceneQueue.Clear();
             }
             else
             {
@@ -264,13 +240,13 @@ namespace Hybrid
             if (scene != null)
             {
                 // For Each GameObject In Scene
-                foreach (var gameObject in scene.GetRootGameObjects())
+                foreach (var gameObject in scene.RootGameObjects.ToArray())
                 {
                     // Don't Destroy On Load
                     if (Object.IsDontDestroyOnLoad(gameObject))
                     {
                         // Add To Queue For Next Scene
-                        ObjectQueue.Add(gameObject);
+                        SceneQueue.Add(gameObject);
                         continue;
                     }
                     
@@ -280,12 +256,39 @@ namespace Hybrid
                 
                 Debug.Log($"Scene '{scene.Name}' closed");
                 scene.OnSceneClose();
-                
                 ActiveScene = null;
             }
             else
             {
                 throw new Exception($"Failed to close invalid scene");
+            }
+        }
+        
+        internal static void AddObject(GameObject gameObject)
+        {
+            if (!Object.IsDestroyed(gameObject))
+            {
+                if (ActiveScene != null)
+                {
+                    SceneQueue.Remove(gameObject);
+                    
+                    Debug.Log($"GameObject '{gameObject.Name}' added to Scene '{ActiveScene.Name}' root objects");
+                    ActiveScene.RootGameObjects.Add(gameObject);
+                    gameObject.Scene = ActiveScene;
+                    return;
+                }
+                
+                SceneQueue.Add(gameObject);
+            }
+        }
+        
+        internal static void RemoveObject(GameObject gameObject)
+        {
+            if (ActiveScene != null)
+            {
+                Debug.Log($"GameObject '{gameObject.Name}' removed from Scene '{ActiveScene.Name}' root objects");
+                ActiveScene.RootGameObjects.Remove(gameObject);
+                SceneQueue.Remove(gameObject);
             }
         }
     }
