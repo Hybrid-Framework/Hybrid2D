@@ -8,10 +8,9 @@ namespace Hybrid
         // Dispose
         internal override void OnDispose()
         {
-            if (GameObject != null)
+            if (!IsDestroyed(this))
             {
-                // Destroy Component
-                if (GameObject.DestroyComponent(this))
+                if (DestroyComponent(this))
                 {
                     OnComponentDestroy();
                 }
@@ -22,22 +21,33 @@ namespace Hybrid
     // Component API
     public abstract partial class Component
     {
-        public bool DidAwake { get; internal set; } = false;
-        public bool DidStart { get; internal set; } = false;
+        internal bool DidAwake { get; set; } = false;
+        internal bool DidStart { get; set; } = false;
         
         private bool _Enabled { get; set; } = true;
         public bool Enabled
         {
-            get => _Enabled;
+            get
+            {
+                if (IsDestroyed(this))
+                {
+                    return false;
+                }
+                
+                return _Enabled;
+            }
             set
             {
-                if (value != _Enabled)
+                if (!IsDestroyed(this))
                 {
-                    if(value) OnComponentEnable();
-                    if(!value) OnComponentDisable();
-                }
+                    if (value != _Enabled)
+                    {
+                        if (value) OnComponentEnable();
+                        if (!value) OnComponentDisable();
+                    }
 
-                _Enabled = value;
+                    _Enabled = value;
+                }
             }
         }
 

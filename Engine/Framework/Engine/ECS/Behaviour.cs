@@ -41,7 +41,7 @@ namespace Hybrid
         {
             get
             {
-                if (IsDestroyed(GameObject))
+                if (IsDestroyed(_GameObject))
                 {
                     return _Name + " (Destroyed)";
                 }
@@ -50,7 +50,7 @@ namespace Hybrid
             }
             set
             {
-                if (GameObject != null)
+                if (!IsDestroyed(_GameObject))
                 {
                     GameObject._Name = value;
 
@@ -58,15 +58,15 @@ namespace Hybrid
                     {
                         component._Name = value;
                     }
+                    
+                    _Name = value;
                 }
-                
-                _Name = value;
             }
         }
 
         internal Behaviour()
         {
-            Name = GetType().Name;
+            _Name = GetType().Name;
         }
     }
     
