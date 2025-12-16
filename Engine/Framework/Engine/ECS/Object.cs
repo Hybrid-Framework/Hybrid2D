@@ -30,6 +30,14 @@ namespace Hybrid
     // Object Destruction
     public partial class Object
     {
+        internal virtual void ThrowOnDestroyed()
+        {
+            if (Destroyed)
+            {
+                throw new NullReferenceException($"Trying to access ({GetType().Name}) but it has been destroyed");
+            }
+        }
+        
         public static void Destroy(Object obj, float delay = 0)
         {
             if (obj != null)

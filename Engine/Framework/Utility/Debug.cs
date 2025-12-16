@@ -43,23 +43,22 @@ namespace Hybrid
                     Console.WriteLine($"[LOG] {message}");
                     break;
                 }
+                case LogType.Error:
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"[ERROR] {message}");
+                    break;
+                }
                 case LogType.Warning:
                 {
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine($"[WARNING] {message}");
                     break;
                 }
-                case LogType.Error:
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"[ERROR] {message}\n{Environment.StackTrace}");
-                    break;
-                }
                 case LogType.Exception:
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     throw new Exception($"{message}");
-                    break;
                 }
             }
             
