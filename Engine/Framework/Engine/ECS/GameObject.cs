@@ -9,27 +9,7 @@ namespace Hybrid
         internal Scene Scene { get; private set; } = null;
         public string Layer { get; set; } = "Default";
         public string Tag { get; set; } = "Default";
-
-        public bool _Active { get; set; } = true;
-        public bool Active
-        {
-            get
-            {
-                if (IsDestroyed(this))
-                {
-                    return false;
-                }
-                
-                return _Active;
-            }
-            set
-            {
-                if (!IsDestroyed(this))
-                {
-                    Active = value;
-                }
-            }
-        }
+        public bool Active { get; set; } = true;
         
         
         // Constructor
@@ -59,14 +39,14 @@ namespace Hybrid
                 foreach (var child in Transform.GetChildrenRecursive())
                 {
                     // Destroy Child GameObject
-                    Destroy(child.GameObject);
+                    Object.Destroy(child.GameObject);
                 }
                 
                 // For Each Component In GameObject
                 foreach (var component in GetComponents())
                 {
                     // Destroy Component
-                    Destroy(component);
+                    Object.Destroy(component);
                 }
                 
                 // Remove From Scene

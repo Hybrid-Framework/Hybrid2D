@@ -1,6 +1,4 @@
-﻿using System;
-using Hybrid;
-using Object = Hybrid.Object;
+﻿using Hybrid;
 
 namespace App
 {
@@ -9,10 +7,6 @@ namespace App
         public override void OnSceneOpen()
         {
             var gameObject = new GameObject();
-            Object.Destroy(gameObject);
-            gameObject.Name = "Hello";
-
-            throw new Exception("Failed");
         }
 
         public override void OnSceneClose()

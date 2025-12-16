@@ -8,10 +8,10 @@ namespace Hybrid
         // Dispose
         internal override void OnDispose()
         {
-            if (!IsDestroyed(this))
+            if (GameObject != null)
             {
                 // Destroy Component
-                if (DestroyComponent(this))
+                if (GameObject.DestroyComponent(this))
                 {
                     OnComponentDestroy();
                 }
@@ -28,27 +28,16 @@ namespace Hybrid
         private bool _Enabled { get; set; } = true;
         public bool Enabled
         {
-            get
-            {
-                if (IsDestroyed(this))
-                {
-                    return false;
-                }
-
-                return _Enabled;
-            }
+            get => _Enabled;
             set
             {
-                if (!IsDestroyed(this))
+                if (value != _Enabled)
                 {
-                    if (value != _Enabled)
-                    {
-                        if(value) OnComponentEnable();
-                        if(!value) OnComponentDisable();
-                    }
-
-                    _Enabled = value;
+                    if(value) OnComponentEnable();
+                    if(!value) OnComponentDisable();
                 }
+
+                _Enabled = value;
             }
         }
 
@@ -57,10 +46,7 @@ namespace Hybrid
         {
             if (this is MonoBehaviour monoBehaviour)
             {
-                if (!IsDestroyed(this))
-                {
-                    monoBehaviour.OnAwake();
-                }
+                monoBehaviour.OnAwake();
             }
         }
 
@@ -68,10 +54,7 @@ namespace Hybrid
         {
             if (this is MonoBehaviour monoBehaviour)
             {
-                if (!IsDestroyed(this))
-                {
-                    monoBehaviour.OnStart();
-                }
+                monoBehaviour.OnStart();
             }
         }
 
@@ -79,10 +62,7 @@ namespace Hybrid
         {
             if (this is MonoBehaviour monoBehaviour)
             {
-                if (!IsDestroyed(this))
-                {
-                    monoBehaviour.OnEnable();
-                }
+                monoBehaviour.OnEnable();
             }
         }
 
@@ -90,10 +70,7 @@ namespace Hybrid
         {
             if (this is MonoBehaviour monoBehaviour)
             {
-                if (!IsDestroyed(this))
-                {
-                    monoBehaviour.OnDisable();
-                }
+                monoBehaviour.OnDisable();
             }
         }
 
@@ -101,10 +78,7 @@ namespace Hybrid
         {
             if (this is MonoBehaviour monoBehaviour)
             {
-                if (!IsDestroyed(this))
-                {
-                    monoBehaviour.OnUpdate();
-                }
+                monoBehaviour.OnUpdate();
             }
         }
 
@@ -112,10 +86,7 @@ namespace Hybrid
         {
             if (this is MonoBehaviour monoBehaviour)
             {
-                if (!IsDestroyed(this))
-                {
-                    monoBehaviour.OnFixedUpdate();
-                }
+                monoBehaviour.OnFixedUpdate();
             }
         }
 
@@ -123,10 +94,7 @@ namespace Hybrid
         {
             if (this is MonoBehaviour monoBehaviour)
             {
-                if (!IsDestroyed(this))
-                {
-                    monoBehaviour.OnDestroy();
-                }
+                monoBehaviour.OnDestroy();
             }
         }
     }
