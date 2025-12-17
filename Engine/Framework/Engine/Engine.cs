@@ -16,12 +16,9 @@ namespace Hybrid
                 StartMainLoop();
                 MainLoop();
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                var finalException = exception.InnerException ?? exception;
-                Console.WriteLine($"{finalException.Message} at [{finalException.TargetSite}]\n{finalException.StackTrace}");
-                Quit();
+                Exceptions.Execute(ex);
             }
             
             return IsRunning;

@@ -61,7 +61,7 @@ namespace Hybrid
             throw new Exception($"{message}");
         }
 
-        private static void SetColor(ConsoleColor color)
+        public static void SetColor(ConsoleColor color)
         {
             try
             {

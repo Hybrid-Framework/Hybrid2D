@@ -8,5 +8,13 @@
         <AssemblyName>Hybrid</AssemblyName>
         <Nullable>disable</Nullable>
     </PropertyGroup>
-    
+
+    <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+        <DefineConstants>DEBUG</DefineConstants>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)'=='Release'">
+        <DefineConstants>RELEASE</DefineConstants>
+    </PropertyGroup>
+
 </Project>
