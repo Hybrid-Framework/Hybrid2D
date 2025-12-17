@@ -7,7 +7,7 @@ namespace Hybrid
     {
         public static void Log(object message, bool trace = false)
         {
-            Console.ForegroundColor = ConsoleColor.Black;
+            SetColor(ConsoleColor.Black);
                     
             if (trace)
             {
@@ -20,7 +20,7 @@ namespace Hybrid
         
         public static void Warning(object message, bool trace = false)
         {
-            Console.ForegroundColor = ConsoleColor.Yellow;
+            SetColor(ConsoleColor.Yellow);
                     
             if (trace)
             {
@@ -33,7 +33,7 @@ namespace Hybrid
         
         public static void Error(object message, bool trace = false)
         {
-            Console.ForegroundColor = ConsoleColor.Red;
+            SetColor(ConsoleColor.Red);
 
             if (trace)
             {
@@ -46,7 +46,7 @@ namespace Hybrid
         
         public static void Assert(bool condition, object message)
         {
-            Console.ForegroundColor = ConsoleColor.Red;
+            SetColor(ConsoleColor.Red);
             
             if (condition)
             {
@@ -56,9 +56,21 @@ namespace Hybrid
         
         public static void Exception(object message)
         {
-            Console.ForegroundColor = ConsoleColor.Red;
+            SetColor(ConsoleColor.Red);
 
             throw new Exception($"{message}");
+        }
+
+        private static void SetColor(ConsoleColor color)
+        {
+            try
+            {
+                Console.ForegroundColor = color;
+            }
+            catch (Exception exception)
+            {
+                // Unsupported platform
+            }
         }
     }
 }
