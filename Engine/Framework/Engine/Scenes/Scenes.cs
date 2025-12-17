@@ -8,45 +8,45 @@ namespace Hybrid
     {
         private Scenes() {}
         
-        internal static HashSet<GameObject> SceneQueue { get; set; } = new();
-        internal static List<SceneData> AllScenes { get; set; } = new();
-        internal static Scene ActiveScene { get; set; }
+        internal static Dictionary<string, Type> ScenesByName { get; private set; } = new Dictionary<string, Type>();
+        internal static Dictionary<int, Type> ScenesByIndex { get; private set; } = new Dictionary<int, Type>();
+        internal static HashSet<GameObject> SceneQueue { get; private set; } = new HashSet<GameObject>();
+        internal static Scene ActiveScene { get; private set; }
         
         
         // Initialize
         internal override void OnInitialize()
         {
-            var scenes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes()).Where(t => t.GetCustomAttribute<SceneAttribute>() != null).ToList();
+            var types = AppDomain.CurrentDomain
+                .GetAssemblies().SelectMany(a => a.GetTypes())
+                .Where(t => t.GetCustomAttribute<SceneAttribute>() != null).ToList();
 
-            if (scenes.Count > 0)
+            foreach (var type in types)
             {
-                foreach (var type in scenes)
+                var attribute = type.GetCustomAttribute<SceneAttribute>()!;
+
+                if (ScenesByIndex.ContainsKey(attribute.Index))
                 {
-                    var attribute = type.GetCustomAttribute<SceneAttribute>()!;
-
-                    // Check duplicate name
-                    if (AllScenes.Any(s => s.SceneName == attribute.Name))
-                    {
-                        throw new Exception($"Duplicate scene name '{attribute.Name}' found please ensure each scene is unique");
-                    }
-
-                    // Check duplicate index
-                    if (AllScenes.Any(s => s.SceneIndex == attribute.Index))
-                    {
-                        throw new Exception($"Duplicate scene index '{attribute.Index}' found please ensure each scene is unique");
-                    }
-
-                    AllScenes.Add(new SceneData(type, attribute.Name, attribute.Index));
+                    throw new Exception($"Duplicate scene index '{attribute.Index}'");
                 }
+
+                if (ScenesByName.ContainsKey(attribute.Name))
+                {
+                    throw new Exception($"Duplicate scene name '{attribute.Name}'");
+                }
+
+                ScenesByIndex[attribute.Index] = type;
+                ScenesByName[attribute.Name] = type;
             }
-            else
+
+            if (ScenesByName.Count == 0)
             {
                 throw new Exception("No Scenes Found!");
             }
-            
-            // Load First Scene
-            Load(AllScenes.Min(s => s.SceneIndex));
+
+            Load(ScenesByIndex.Keys.Min());
         }
+
 
         // Update
         internal override void OnUpdate()
@@ -148,11 +148,10 @@ namespace Hybrid
         
         public static void Load(int index)
         {
-            var found = AllScenes.FirstOrDefault(s => s.SceneIndex == index);
-            
-            // Invalid Scene
-            if (found != null)
+            if (ScenesByIndex.TryGetValue(index, out var type))
             {
+                var attribute = type.GetCustomAttribute<SceneAttribute>()!;
+                
                 // Close Scene
                 if (ActiveScene != null)
                 {
@@ -167,9 +166,9 @@ namespace Hybrid
                 }
 
                 // Create Scene
-                var scene = (Scene)Activator.CreateInstance(found.SceneType, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, null, null);
-                scene?.Index = found.SceneIndex;
-                scene?.Name = found.SceneName;
+                var scene = (Scene)Activator.CreateInstance(type, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, null, null);
+                scene?.Index = attribute.Index;
+                scene?.Name = attribute.Name;
                 Open(scene);
             }
             else
@@ -180,11 +179,10 @@ namespace Hybrid
         
         public static void Load(string name)
         {
-            var found = AllScenes.FirstOrDefault(s => s.SceneName == name);
-            
-            // Invalid Scene
-            if (found != null)
+            if (ScenesByName.TryGetValue(name, out var type))
             {
+                var attribute = type.GetCustomAttribute<SceneAttribute>()!;
+
                 // Close Scene
                 if (ActiveScene != null)
                 {
@@ -199,9 +197,9 @@ namespace Hybrid
                 }
 
                 // Open Scene
-                var scene = (Scene)Activator.CreateInstance(found.SceneType, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, null, null);
-                scene?.Index = found.SceneIndex;
-                scene?.Name = found.SceneName;
+                var scene = (Scene)Activator.CreateInstance(type, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, null, null);
+                scene?.Index = attribute.Index;
+                scene?.Name = attribute.Name;
                 Open(scene);
             }
             else
