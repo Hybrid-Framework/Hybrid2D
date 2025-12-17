@@ -118,6 +118,48 @@ namespace Hybrid
             }
         }
         
+        // Late Update
+        internal override void OnLateUpdate()
+        {
+            // Scene
+            if (ActiveScene != null)
+            {
+                // For Each Root GameObject In Scene
+                foreach (var gameObject in ActiveScene.GetRootGameObjects())
+                {
+                    // Skip Invalid GameObject
+                    if(gameObject == null || !gameObject.Active) continue;
+
+                    // For Each Child In GameObject (Including Parent)
+                    foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
+                    {
+                        // Skip Invalid Child
+                        if(child == null || !child.Enabled) continue;
+                    
+                        // For Each Component
+                        foreach (var component in child.GameObject.Components)
+                        {
+                            // Skip Invalid Component
+                            if (component == null || !component.Enabled) continue;
+                            
+                            try
+                            {
+                                // Late Update
+                                if (component.DidAwake && component.DidStart)
+                                {
+                                    component.OnComponentLateUpdate();
+                                }
+                            }
+                            catch(Exception ex)
+                            {
+                                Exceptions.Execute(ex);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
         // Fixed Update
         internal override void OnFixedUpdate()
         {
@@ -177,6 +219,9 @@ namespace Hybrid
     {
         public static Scene GetActiveScene()
         {
+            if (ActiveScene == null)
+                throw new Exception("No valid scene loaded");
+            
             return ActiveScene;
         }
         
@@ -287,8 +332,8 @@ namespace Hybrid
                     // For Each GameObject In Scene
                     foreach (var gameObject in scene.GetRootGameObjects())
                     {
-                        // Don't Destroy On Load
-                        if (Object.IsDontDestroyOnLoad(gameObject))
+                        // Don't Destroy On Load but remove if destroyed or quitting application
+                        if (Object.IsDontDestroyOnLoad(gameObject) && !Engine.Instance.IsQuit)
                         {
                             // Add To Queue For Next Scene
                             SceneQueue.Add(gameObject);

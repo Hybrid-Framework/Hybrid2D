@@ -12,7 +12,6 @@ namespace App
         public override void OnSceneOpen()
         {
             Object.DontDestroyOnLoad(gameObject);
-            throw new Exception("Failed");
         }
 
         public override void OnSceneClose()

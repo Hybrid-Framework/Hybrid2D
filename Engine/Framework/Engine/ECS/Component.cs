@@ -91,6 +91,14 @@ namespace Hybrid
                 monoBehaviour.OnUpdate();
             }
         }
+        
+        internal virtual void OnComponentLateUpdate()
+        {
+            if (this is MonoBehaviour monoBehaviour)
+            {
+                monoBehaviour.OnLateUpdate();
+            }
+        }
 
         internal virtual void OnComponentFixedUpdate()
         {

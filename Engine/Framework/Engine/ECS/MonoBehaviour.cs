@@ -71,6 +71,8 @@ namespace Hybrid
 
         public virtual void OnUpdate() { } // Called once per frame
 
+        public virtual void OnLateUpdate() { } // Called after update
+        
         public virtual void OnFixedUpdate() { } // Called at fixed rate of Time.FixedDeltaTime
 
         public virtual void OnDestroy() { } // Called before object is destroy

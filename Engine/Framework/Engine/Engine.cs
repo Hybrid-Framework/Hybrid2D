@@ -7,6 +7,7 @@ namespace Hybrid
     {
         internal bool Initialized { get; private set; }
         internal bool IsRunning { get; private set; }
+        internal bool IsQuit { get; private set; }
 
         
         internal bool Run()
@@ -30,6 +31,7 @@ namespace Hybrid
             if (Initialized) return;
             Initialized = true;
             IsRunning = true;
+            IsQuit = false;
 
             // Create & Initialize Modules
             Register(Storage.FindOrCreate());
@@ -95,6 +97,7 @@ namespace Hybrid
             // Quit Application
             if (!IsRunning) return;
             IsRunning = false;
+            IsQuit = true;
             
             // Unregister & Dispose Modules
             foreach(var module in GetModules().Reverse())
