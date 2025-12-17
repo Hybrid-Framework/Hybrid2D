@@ -8,19 +8,33 @@ namespace Hybrid
     {
         private Scenes() {}
         
-        internal static HashSet<GameObject> SceneQueue { get; set; } = new();
-        internal static List<SceneData> AllScenes { get; set; } = new();
+        internal static HashSet<SceneInformation> AllScenes { get; set; } = new HashSet<SceneInformation>();
+        internal static HashSet<GameObject> SceneQueue { get; set; } = new HashSet<GameObject>();
         internal static Scene ActiveScene { get; set; }
+        
+        internal class SceneInformation
+        {
+            internal string SceneName;
+            internal Type SceneType;
+            internal int SceneIndex;
+
+            internal SceneInformation(Type type, string name, int index)
+            {
+                this.SceneIndex = index;
+                this.SceneType = type;
+                this.SceneName = name;
+            }
+        }
         
         
         // Initialize
         internal override void OnInitialize()
         {
-            var scenes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes()).Where(t => t.GetCustomAttribute<SceneAttribute>() != null).ToList();
+            var information = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes()).Where(t => t.GetCustomAttribute<SceneAttribute>() != null).ToList();
 
-            if (scenes.Count > 0)
+            if (information.Count > 0)
             {
-                foreach (var type in scenes)
+                foreach (var type in information)
                 {
                     var attribute = type.GetCustomAttribute<SceneAttribute>()!;
 
@@ -36,7 +50,7 @@ namespace Hybrid
                         throw new Exception($"Duplicate scene index '{attribute.Index}' found please ensure each scene is unique");
                     }
 
-                    AllScenes.Add(new SceneData(type, attribute.Name, attribute.Index));
+                    AllScenes.Add(new SceneInformation(type, attribute.Name, attribute.Index));
                 }
             }
             else
@@ -148,10 +162,11 @@ namespace Hybrid
         
         public static void Load(int index)
         {
-            var found = AllScenes.FirstOrDefault(s => s.SceneIndex == index);
+            // Get Scene Information by Index
+            var information = AllScenes.FirstOrDefault(s => s.SceneIndex == index);
             
             // Invalid Scene
-            if (found != null)
+            if (information != null)
             {
                 // Close Scene
                 if (ActiveScene != null)
@@ -167,9 +182,9 @@ namespace Hybrid
                 }
 
                 // Create Scene
-                var scene = (Scene)Activator.CreateInstance(found.SceneType, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, null, null);
-                scene?.Index = found.SceneIndex;
-                scene?.Name = found.SceneName;
+                var scene = (Scene)Activator.CreateInstance(information.SceneType, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, null, null);
+                scene?.Index = information.SceneIndex;
+                scene?.Name = information.SceneName;
                 Open(scene);
             }
             else
@@ -180,10 +195,11 @@ namespace Hybrid
         
         public static void Load(string name)
         {
-            var found = AllScenes.FirstOrDefault(s => s.SceneName == name);
+            // Get Scene Information by Name
+            var information = AllScenes.FirstOrDefault(s => s.SceneName == name);
             
             // Invalid Scene
-            if (found != null)
+            if (information != null)
             {
                 // Close Scene
                 if (ActiveScene != null)
@@ -199,9 +215,9 @@ namespace Hybrid
                 }
 
                 // Open Scene
-                var scene = (Scene)Activator.CreateInstance(found.SceneType, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, null, null);
-                scene?.Index = found.SceneIndex;
-                scene?.Name = found.SceneName;
+                var scene = (Scene)Activator.CreateInstance(information.SceneType, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, null, null);
+                scene?.Index = information.SceneIndex;
+                scene?.Name = information.SceneName;
                 Open(scene);
             }
             else
