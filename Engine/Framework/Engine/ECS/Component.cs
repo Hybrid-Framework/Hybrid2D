@@ -107,6 +107,14 @@ namespace Hybrid
                 monoBehaviour.OnFixedUpdate();
             }
         }
+        
+        internal virtual void OnComponentRender()
+        {
+            if (this is MonoBehaviour monoBehaviour)
+            {
+                // Scripts don't have access to direct rendering
+            }
+        }
 
         internal virtual void OnComponentDestroy()
         {

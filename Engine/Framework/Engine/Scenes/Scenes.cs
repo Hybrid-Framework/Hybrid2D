@@ -201,6 +201,48 @@ namespace Hybrid
                 }
             }
         }
+        
+        // Render
+        internal override void OnRender()
+        {
+            // Scene
+            if (ActiveScene != null)
+            {
+                // For Each Root GameObject In Scene
+                foreach (var gameObject in ActiveScene.GetRootGameObjects())
+                {
+                    // Skip Invalid GameObject
+                    if(gameObject == null || !gameObject.Active) continue;
+
+                    // For Each Child In GameObject (Including Parent)
+                    foreach (var child in gameObject.Transform.GetChildrenRecursive(true))
+                    {
+                        // Skip Invalid Child
+                        if(child == null || !child.Enabled) continue;
+                    
+                        // For Each Component
+                        foreach (var component in child.GameObject.Components)
+                        {
+                            // Skip Invalid Component
+                            if (component == null || !component.Enabled) continue;
+                            
+                            try
+                            {
+                                // Render
+                                if (component.DidAwake && component.DidStart)
+                                {
+                                    component.OnComponentRender();
+                                }
+                            }
+                            catch(Exception ex)
+                            {
+                                Exceptions.Execute(ex);
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         // Dispose
         internal override void OnDispose()
@@ -309,6 +351,7 @@ namespace Hybrid
                         AddObject(gameObject);
                     }
                     
+                    // Call
                     scene.OnSceneOpen();
                     SceneQueue.Clear();
                 }
@@ -329,6 +372,9 @@ namespace Hybrid
             {
                 try
                 {
+                    // Call
+                    scene.OnSceneClose();
+                    
                     // For Each GameObject In Scene
                     foreach (var gameObject in scene.GetRootGameObjects())
                     {
@@ -345,7 +391,6 @@ namespace Hybrid
                     }
                     
                     Debug.Log($"Scene '{scene.Name}' closed");
-                    scene.OnSceneClose();
                     ActiveScene = null;
                 }
                 catch (Exception ex)
