@@ -18,11 +18,9 @@ namespace Hybrid
             if (Handle != null)
             {
                 SDL.DestroyTexture(Handle);
+                Array.Clear(Pixels);
                 Handle = null;
             }
-
-            Array.Clear(Pixels);
-            base.OnDispose();
         }
     }
     

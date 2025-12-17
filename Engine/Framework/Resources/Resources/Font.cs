@@ -20,8 +20,6 @@ namespace Hybrid
                 SDL_ttf.CloseFont(Handle);
                 Handle = null;
             }
-            
-            base.OnDispose();
         }
     }
 

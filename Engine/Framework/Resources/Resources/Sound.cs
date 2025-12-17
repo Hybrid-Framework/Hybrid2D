@@ -20,8 +20,6 @@ namespace Hybrid
                 SDL_mixer.DestroyAudio(Handle);
                 Handle = null;
             }
-            
-            base.OnDispose();
         }
     }
 

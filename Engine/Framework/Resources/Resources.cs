@@ -11,7 +11,7 @@ namespace Hybrid
         internal override void OnDispose()
         {
             // For Each Resource In Cache
-            foreach (var resource in Cache)
+            foreach (var resource in Cache.ToArray())
             {
                 // Unload
                 Unload(resource.Key);
@@ -96,13 +96,19 @@ namespace Hybrid
     {
         private static Texture CreateTexture(string path)
         {
-            // Load surface
+            // Load Surface From File
             var surface = SDL_image.Load(path);
-            if (surface == null) throw new Exception($"Failed to load texture '{path}': {SDL.GetError()}");
+            
+            // Invalid Surface
+            if (surface == null)
+                throw new Exception($"Failed to load texture '{path}': {SDL.GetError()}");
 
             // Convert surface to RGBA32 format
             var converted = SDL.ConvertSurface(surface, SDL.PixelFormat.RGBA32);
-            if (converted == null) throw new Exception($"Failed to convert texture '{path}' to RGBA32: {SDL.GetError()}");
+            
+            // Invalid Convert
+            if (converted == null)
+                throw new Exception($"Failed to convert texture '{path}' to RGBA32: {SDL.GetError()}");
 
             // Surface Data
             int width  = converted->width;
@@ -149,9 +155,12 @@ namespace Hybrid
     {
         private static Sound CreateSound(string path)
         {
-            // Load Audio
+            // Load Sound From File
             var sound = SDL_mixer.LoadAudio(Audio.Handle, path, false);
-            if (sound == null) throw new Exception($"Failed to load audio '{path}': {SDL.GetError()}");
+            
+            // Invalid Sound
+            if (sound == null)
+                throw new Exception($"Failed to load audio '{path}': {SDL.GetError()}");
 
             // Create Audio
             return new Sound(sound);
@@ -165,7 +174,10 @@ namespace Hybrid
         {
             // Load Font From File
             var font = SDL_ttf.OpenFont(path, 32);
-            if (font == null) throw new Exception($"Failed to load font '{path}': {SDL.GetError()}");
+            
+            // Invalid Font
+            if (font == null)
+                throw new Exception($"Failed to load font '{path}': {SDL.GetError()}");
 
             // Create Font
             return new Font(font);
