@@ -12,7 +12,7 @@ namespace Hybrid
         internal static void SetPlatform(Platform platform, Config config)
         {
             if(platform == null || config == null)
-                throw new Exception("Invalid Parameters");
+                throw new Exception($"Invalid Platform Parameters {typeof(Platform)} {typeof(Config)}");
             
             Current = platform;
             Config = config;

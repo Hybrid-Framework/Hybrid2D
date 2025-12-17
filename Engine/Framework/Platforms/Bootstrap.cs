@@ -11,15 +11,12 @@ namespace Hybrid
         public static void Mac(Config Config) => Entry(new MacBootstrap(), Config);
         public static void IOS(Config Config) => Entry(new IOSBootstrap(), Config);
         public static void Web(Config Config) => Entry(new WebBootstrap(), Config);
-
-        protected static bool Initialized { get; private set; }
         
         
         protected static void Entry(Bootstrap bootstrap, Config config)
         {
             // Initialize
-            if(Initialized) return;
-            Initialized = true;
+            if (Engine.Instance.Initialized) return;
             
             // Bootstrap
             bootstrap.Execute(config);
@@ -27,7 +24,7 @@ namespace Hybrid
 
         protected virtual void Execute(Config config)
         {
-            // Platform specific bootstrap call
+            // Platform specific bootstrap
         }
     }
 }
