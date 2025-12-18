@@ -110,7 +110,7 @@ namespace Hybrid
                             }
                             catch (Exception ex)
                             {
-                                Exceptions.Execute(ex);
+                                Exceptions.Throw(ex);
                             }
                         }
                     }
@@ -152,7 +152,7 @@ namespace Hybrid
                             }
                             catch(Exception ex)
                             {
-                                Exceptions.Execute(ex);
+                                Exceptions.Throw(ex);
                             }
                         }
                     }
@@ -194,7 +194,7 @@ namespace Hybrid
                             }
                             catch(Exception ex)
                             {
-                                Exceptions.Execute(ex);
+                                Exceptions.Throw(ex);
                             }
                         }
                     }
@@ -236,7 +236,7 @@ namespace Hybrid
                             }
                             catch(Exception ex)
                             {
-                                Exceptions.Execute(ex);
+                                Exceptions.Throw(ex);
                             }
                         }
                     }
@@ -357,7 +357,7 @@ namespace Hybrid
                 }
                 catch (Exception ex)
                 {
-                    Exceptions.Execute(ex);
+                    Exceptions.Throw(ex);
                 }
             }
             else
@@ -395,7 +395,7 @@ namespace Hybrid
                 }
                 catch (Exception ex)
                 {
-                    Exceptions.Execute(ex);
+                    Exceptions.Throw(ex);
                 }
             }
             else

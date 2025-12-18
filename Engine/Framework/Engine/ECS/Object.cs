@@ -55,13 +55,23 @@ namespace Hybrid
                 obj.MarkedDestroying = true;
                 
                 // Destroy
-                obj.OnDispose();
-                obj.MarkedDestroyed = true;
-                obj.MarkedDontDestroyOnLoad = false;
+                try
+                {
+                    obj.OnDispose();
+                    obj.MarkedDestroyed = true;
+                    obj.MarkedDontDestroyOnLoad = false;
+                }
+                catch (Exception ex)
+                {
+                    obj.MarkedDestroyed = false;
+                    obj.MarkedDestroying = false;
+                    
+                    Exceptions.Throw(ex);
+                }
             }
         }
 
-        internal static bool IsDontDestroyOnLoad(Object obj)
+        public static bool IsDontDestroyOnLoad(Object obj)
         {
             if (ReferenceEquals(obj, null))
             {
@@ -71,7 +81,7 @@ namespace Hybrid
             return obj.MarkedDontDestroyOnLoad;
         }
         
-        internal static bool IsDestroying(Object obj)
+        public static bool IsDestroying(Object obj)
         {
             if (ReferenceEquals(obj, null))
             {
@@ -81,7 +91,7 @@ namespace Hybrid
             return obj.MarkedDestroying;
         }
 
-        internal static bool IsDestroyed(Object obj)
+        public static bool IsDestroyed(Object obj)
         {
             if (ReferenceEquals(obj, null))
             {

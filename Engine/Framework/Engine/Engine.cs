@@ -19,7 +19,7 @@ namespace Hybrid
             }
             catch (Exception ex)
             {
-                Exceptions.Execute(ex);
+                Exceptions.Throw(ex);
             }
             
             return IsRunning;

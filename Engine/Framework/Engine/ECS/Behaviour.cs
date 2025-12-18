@@ -6,42 +6,15 @@ namespace Hybrid
     // Behaviour
     public abstract partial class Behaviour : Object
     {
-        private GameObject _GameObject { get; set; }
-        public GameObject GameObject
-        {
-            internal set => _GameObject = value;
-            get
-            {
-                if (IsDestroyed(_GameObject))
-                {
-                    throw new Exception($"Trying to access ({typeof(GameObject)}) but it has been destroyed");
-                }
-                
-                return _GameObject;
-            }
-        }
-
-        private Transform _Transform { get; set; }
-        public Transform Transform
-        {
-            internal set => _Transform = value;
-            get
-            {
-                if (IsDestroyed(_Transform))
-                {
-                    throw new Exception($"Trying to access ({typeof(Transform)}) but it has been destroyed");
-                }
-                
-                return _Transform;
-            }
-        }
+        public GameObject GameObject { get; set; }
+        public Transform Transform { get; set; }
         
         private string _Name { get; set; }
         public string Name
         {
             get
             {
-                if (IsDestroyed(_GameObject))
+                if (IsDestroyed(GameObject))
                 {
                     return _Name + " (Destroyed)";
                 }
@@ -50,7 +23,7 @@ namespace Hybrid
             }
             set
             {
-                if (!IsDestroyed(_GameObject))
+                if (!IsDestroyed(GameObject))
                 {
                     GameObject._Name = value;
 
@@ -1022,7 +995,7 @@ namespace Hybrid
             if (HasComponent(component))
             {
                 // Check Destroying
-                if (!IsDestroying(this))
+                if (!IsDestroying(GameObject))
                 {
                     // For Each Component
                     foreach (var checkComponent in GameObject.Components)
@@ -1032,7 +1005,7 @@ namespace Hybrid
                         {
                             if (required.Type == type)
                             {
-                                throw new Exception($"Can't destroy Component '{type.Name}' on GameObject '{Name}' because Component '{checkComponent.GetType().Name}' requires it");
+                                throw new Exception($"Can't destroy Component '{type.Name}' because Component '{checkComponent.GetType().Name}' requires it");
                             }
                         }
                     }
