@@ -61,7 +61,7 @@ namespace Hybrid
                 }
                 
                 // Destroy
-                if (!obj.MarkedDestroying)
+                if (!IsDestroying(obj))
                 {
                     // Mark Destroying
                     obj.MarkedDestroying = true;
@@ -70,11 +70,15 @@ namespace Hybrid
                     {
                         // Dispose
                         obj.OnDispose();
-                    
-                        // Mark All
-                        obj.MarkedDestroyed = true;
-                        obj.MarkedDestroying = false;
-                        obj.MarkedDontDestroyOnLoad = false;
+                        {
+                            // Mark All
+                            obj.MarkedDestroyed = true;
+                            obj.MarkedDestroying = false;
+                            obj.MarkedDontDestroyOnLoad = false;
+                        
+                            // Debug Information
+                            // Debug.Log($"{obj.GetType().Name} Destroyed");
+                        }
                     }
                     catch (Exception ex)
                     {

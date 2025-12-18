@@ -21,22 +21,22 @@ namespace Hybrid
     {
         public void StartInvokeRepeating(string name, float delay, float repeat)
         {
-            Invoking.StartInvokeRepeating(this, name, delay, repeat);
+            Invokes.StartInvokeRepeating(this, name, delay, repeat);
         }
         
         public void StartInvoke(string name, float delay)
         {
-            Invoking.StartInvoke(this, name, delay);
+            Invokes.StartInvoke(this, name, delay);
         }
 
         public void StopInvoke(string name)
         {
-            Invoking.StopInvoke(this, name);
+            Invokes.StopInvoke(this, name);
         }
 
         public void StopAllInvokes()
         {
-            Invoking.StopAllInvokes(this);
+            Invokes.StopAllInvokes(this);
         }
     }
 

@@ -5,7 +5,7 @@ using System;
 namespace Hybrid
 {
     // Internal
-    internal sealed partial class Invoking : Module<Invoking>
+    internal sealed partial class Invokes : Module<Invokes>
     {
         private static readonly Dictionary<Object, List<Invoke>> AllInvokes = new();
         
@@ -46,9 +46,12 @@ namespace Hybrid
         internal override void OnDispose()
         {
             // For Each Owner
-            foreach (var owner in AllInvokes.Keys.ToArray())
+            foreach (var invokes in AllInvokes.Values.ToArray())
             {
-                StopAllInvokes(owner);
+                foreach (var invoke in invokes)
+                {
+                    invoke.Stop();
+                }
             }
             
             // Clear
@@ -56,8 +59,8 @@ namespace Hybrid
         }
     }
 
-    // Invoking
-    internal partial class Invoking
+    // Invokes
+    internal partial class Invokes
     {
         internal static void StartInvokeRepeating(Object owner, string name, float delay, float repeat)
         {

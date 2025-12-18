@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Text.RegularExpressions;
+using System.Collections.Generic;
 using System.Collections;
 using System;
 
@@ -119,9 +120,12 @@ namespace Hybrid
         internal override void OnDispose()
         {
             // For Each Owner
-            foreach (var owner in AllCoroutines.Keys.ToArray())
+            foreach (var coroutines in AllCoroutines.Values.ToArray())
             {
-                StopAllCoroutines(owner);
+                foreach (var coroutine in coroutines)
+                {
+                    coroutine.Stop();
+                }
             }
             
             // Clear
@@ -190,12 +194,11 @@ namespace Hybrid
         private static string GetName(IEnumerator enumerator)
         {
             var name = enumerator.GetType().Name;
-            int start = name.IndexOf('<');
-            int end = name.IndexOf('>');
+            var match = Regex.Match(name, "<([^<>]+)>");
 
-            if (start >= 0 && end > start)
+            if (match.Success)
             {
-                return name.Substring(start + 1, end - start - 1);
+                return match.Groups[1].Value;
             }
 
             return name;

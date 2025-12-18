@@ -16,7 +16,7 @@ namespace Hybrid
         
         internal Invoke(Object owner, Action action, string name, float delay, float repeat, bool looping)
         {
-            Debug.Log($"Invoke '{name}' started on '{owner.GetType().Name}'");
+            // Debug.Log($"Invoke '{name}' started on '{owner.GetType().Name}'");
             this.Owner = owner;
             this.Action = action;
             this.Name = name;
@@ -26,7 +26,7 @@ namespace Hybrid
             this.Done = false;
         }
 
-        public void MoveNext()
+        internal void MoveNext()
         {
             if (!Done)
             {
@@ -46,13 +46,13 @@ namespace Hybrid
             }
         }
 
-        public void Stop()
+        internal void Stop()
         {
             if(Done) return;
             Done = true;
             
-            Debug.Log($"Invoke '{Name}' stopped on '{Owner.GetType().Name}'");
-            Invoking.StopInvoke(Owner, Name);
+            // Debug.Log($"Invoke '{Name}' stopped on '{Owner.GetType().Name}'");
+            Invokes.StopInvoke(Owner, Name);
         }
     }
 }
