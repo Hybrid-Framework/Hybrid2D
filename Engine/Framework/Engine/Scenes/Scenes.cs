@@ -412,7 +412,7 @@ namespace Hybrid
                 {
                     SceneQueue.Remove(gameObject);
                     
-                    Debug.Log($"GameObject '{gameObject.Name}' added to Scene '{ActiveScene.Name}' root objects");
+                    // Debug.Log($"GameObject '{gameObject.Name}' added to Scene '{ActiveScene.Name}' root objects");
                     ActiveScene.RootGameObjects.Add(gameObject);
                     gameObject.Scene = ActiveScene;
                     return;
@@ -426,7 +426,7 @@ namespace Hybrid
         {
             if (ActiveScene != null)
             {
-                Debug.Log($"GameObject '{gameObject.Name}' removed from Scene '{ActiveScene.Name}' root objects");
+                // Debug.Log($"GameObject '{gameObject.Name}' removed from Scene '{ActiveScene.Name}' root objects");
                 ActiveScene.RootGameObjects.Remove(gameObject);
                 SceneQueue.Remove(gameObject);
             }

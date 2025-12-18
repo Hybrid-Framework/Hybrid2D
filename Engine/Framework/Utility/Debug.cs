@@ -5,6 +5,18 @@ namespace Hybrid
     // Debug API
     public static class Debug
     {
+        public static void SetColor(ConsoleColor color)
+        {
+            try
+            {
+                Console.ForegroundColor = color;
+            }
+            catch (PlatformNotSupportedException)
+            {
+                // Unsupported platform
+            }
+        }
+        
         public static void Log(object message, bool trace = false)
         {
             SetColor(ConsoleColor.Black);
@@ -59,18 +71,6 @@ namespace Hybrid
             SetColor(ConsoleColor.Red);
             
             throw new Exception($"{message}");
-        }
-
-        public static void SetColor(ConsoleColor color)
-        {
-            try
-            {
-                Console.ForegroundColor = color;
-            }
-            catch (PlatformNotSupportedException)
-            {
-                // Unsupported platform
-            }
         }
     }
 }

@@ -25,15 +25,25 @@ namespace Hybrid
     {
         public static void DontDestroyOnLoad(Object obj)
         {
-            if (obj != null)
+            if (!IsDestroyed(obj))
             {
-                obj.MarkedDontDestroyOnLoad = true;
+                if (obj is Behaviour behaviour)
+                {
+                    if (behaviour.GameObject.Transform.Parent != null)
+                    {
+                        Debug.Warning($"Can only call '{nameof(DontDestroyOnLoad)}' on root Objects");
+                        return;
+                    }
+            
+                    behaviour.GameObject.MarkedDontDestroyOnLoad = true;
+                    behaviour.MarkedDontDestroyOnLoad = true;
+                }
             }
         }
         
         public static void Destroy(Object obj, float delay = 0)
         {
-            if (obj != null)
+            if (!IsDestroyed(obj))
             {
                 // Delay
                 if (delay > 0)
@@ -59,6 +69,7 @@ namespace Hybrid
                 {
                     obj.OnDispose();
                     obj.MarkedDestroyed = true;
+                    obj.MarkedDestroying = false;
                     obj.MarkedDontDestroyOnLoad = false;
                 }
                 catch (Exception ex)

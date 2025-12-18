@@ -7,7 +7,7 @@ namespace App
     {
         public override void OnSceneOpen()
         {
-            
+            Debug.Log(Scenes.GetActiveScene().GetRootGameObjects().Count);
         }
 
         public override void OnSceneClose()

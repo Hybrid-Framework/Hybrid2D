@@ -82,11 +82,11 @@ namespace Hybrid
             Transform.GameObject = GameObject;
             Transform.Transform = Transform;
             
-            // Scene
-            Scenes.AddObject(this);
-            
             // Name
             Name = name ?? Name;
+            
+            // Scene
+            Scenes.AddObject(this);
         }
 
         // Dispose
