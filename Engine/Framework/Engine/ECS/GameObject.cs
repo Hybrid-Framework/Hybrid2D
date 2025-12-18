@@ -26,6 +26,10 @@ namespace Hybrid
                 {
                     _Layer = value;
                 }
+                else
+                {
+                    Debug.Warning($"Can't set property 'Layer' on '{GetType().Name}' that has been destroyed");
+                }
             }
         }
         
@@ -47,6 +51,10 @@ namespace Hybrid
                 {
                     _Tag = value;
                 }
+                else
+                {
+                    Debug.Warning($"Can't set property 'Tag' on '{GetType().Name}' that has been destroyed");
+                }
             }
         }
         
@@ -67,6 +75,10 @@ namespace Hybrid
                 if (!IsDestroyed(this))
                 {
                     _Active = value;
+                }
+                else
+                {
+                    Debug.Warning($"Can't set property 'Active' on '{GetType().Name}' that has been destroyed");
                 }
             }
         }

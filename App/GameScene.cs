@@ -7,7 +7,14 @@ namespace App
     {
         public override void OnSceneOpen()
         {
-            Debug.Log(Scenes.GetActiveScene().GetRootGameObjects().Count);
+            GameObject gameObject = new GameObject("Hello");
+            var test = gameObject.AddComponent<TestComponent>();
+            
+            Object.Destroy(gameObject);
+
+            Debug.Log(test.GameObject.Active);
+            Debug.Log(test.GameObject.Name);
+            Debug.Log(test.Name);
         }
 
         public override void OnSceneClose()

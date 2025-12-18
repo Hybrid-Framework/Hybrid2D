@@ -6,8 +6,8 @@ namespace Hybrid
     // Behaviour
     public abstract partial class Behaviour : Object
     {
-        public GameObject GameObject { get; set; }
-        public Transform Transform { get; set; }
+        public GameObject GameObject { get; internal set; }
+        public Transform Transform { get; internal set; }
         
         private string _Name { get; set; }
         public string Name
@@ -23,7 +23,7 @@ namespace Hybrid
             }
             set
             {
-                if (!IsDestroyed(GameObject))
+                if (!IsDestroyed(this))
                 {
                     GameObject._Name = value;
 
@@ -33,6 +33,10 @@ namespace Hybrid
                     }
                     
                     _Name = value;
+                }
+                else
+                {
+                    Debug.Warning($"Can't set property 'Name' on '{GetType().Name}' that has been destroyed");
                 }
             }
         }

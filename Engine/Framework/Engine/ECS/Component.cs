@@ -48,6 +48,10 @@ namespace Hybrid
 
                     _Enabled = value;
                 }
+                else
+                {
+                    Debug.Warning($"Can't set property 'Enabled' on '{GetType().Name}' that has been destroyed");
+                }
             }
         }
 
