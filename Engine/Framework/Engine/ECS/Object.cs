@@ -60,24 +60,31 @@ namespace Hybrid
                     return;
                 }
                 
-                // Mark For Destroying
-                if(obj.MarkedDestroying) return;
-                obj.MarkedDestroying = true;
-                
                 // Destroy
-                try
+                if (!obj.MarkedDestroying)
                 {
-                    obj.OnDispose();
-                    obj.MarkedDestroyed = true;
-                    obj.MarkedDestroying = false;
-                    obj.MarkedDontDestroyOnLoad = false;
-                }
-                catch (Exception ex)
-                {
-                    obj.MarkedDestroyed = false;
-                    obj.MarkedDestroying = false;
+                    // Mark Destroying
+                    obj.MarkedDestroying = true;
                     
-                    Exceptions.Throw(ex);
+                    try
+                    {
+                        // Dispose
+                        obj.OnDispose();
+                    
+                        // Mark All
+                        obj.MarkedDestroyed = true;
+                        obj.MarkedDestroying = false;
+                        obj.MarkedDontDestroyOnLoad = false;
+                    }
+                    catch (Exception ex)
+                    {
+                        // Unmark All
+                        obj.MarkedDestroyed = false;
+                        obj.MarkedDestroying = false;
+                    
+                        // Throw Exception
+                        Exceptions.Throw(ex);
+                    }
                 }
             }
         }

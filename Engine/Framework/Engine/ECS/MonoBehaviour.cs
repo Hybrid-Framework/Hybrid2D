@@ -12,6 +12,7 @@ namespace Hybrid
         {
             StopAllCoroutines();
             StopAllInvokes();
+            OnDestroy();
         }
     }
     
@@ -75,6 +76,6 @@ namespace Hybrid
         
         public virtual void OnFixedUpdate() { } // Called at fixed rate of Time.FixedDeltaTime
 
-        public virtual void OnDestroy() { } // Called before object is destroy
+        public virtual void OnDestroy() { } // Called before object is destroyed
     }
 }
