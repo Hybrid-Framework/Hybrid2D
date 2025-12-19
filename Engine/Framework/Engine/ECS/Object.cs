@@ -20,27 +20,9 @@ namespace Hybrid
         }
     }
     
-    // Object Destruction
+    // Destroy
     public partial class Object
     {
-        public static void DontDestroyOnLoad(Object obj)
-        {
-            if (!IsDestroyed(obj))
-            {
-                if (obj is Behaviour behaviour)
-                {
-                    if (behaviour.GameObject.Transform.Parent != null)
-                    {
-                        Debug.Warning($"Can only call '{nameof(DontDestroyOnLoad)}' on root Objects");
-                        return;
-                    }
-            
-                    behaviour.GameObject.MarkedDontDestroyOnLoad = true;
-                    behaviour.MarkedDontDestroyOnLoad = true;
-                }
-            }
-        }
-        
         public static void Destroy(Object obj, float delay = 0)
         {
             if (!IsDestroyed(obj))
@@ -92,18 +74,8 @@ namespace Hybrid
                 }
             }
         }
-
-        public static bool IsDontDestroyOnLoad(Object obj)
-        {
-            if (ReferenceEquals(obj, null))
-            {
-                return false;
-            }
-
-            return obj.MarkedDontDestroyOnLoad;
-        }
         
-        public static bool IsDestroying(Object obj)
+        internal static bool IsDestroying(Object obj)
         {
             if (ReferenceEquals(obj, null))
             {
@@ -121,6 +93,38 @@ namespace Hybrid
             }
             
             return obj.MarkedDestroyed;
+        }
+    }
+
+    // Dont Destroy On Load
+    public partial class Object
+    {
+        public static void DontDestroyOnLoad(Object obj)
+        {
+            if (!IsDestroyed(obj))
+            {
+                if (obj is Behaviour behaviour)
+                {
+                    if (behaviour.GameObject.Transform.Parent != null)
+                    {
+                        Debug.Warning($"Can only call '{nameof(DontDestroyOnLoad)}' on root Objects");
+                        return;
+                    }
+            
+                    behaviour.GameObject.MarkedDontDestroyOnLoad = true;
+                    behaviour.MarkedDontDestroyOnLoad = true;
+                }
+            }
+        }
+        
+        internal static bool IsDontDestroyOnLoad(Object obj)
+        {
+            if (ReferenceEquals(obj, null))
+            {
+                return false;
+            }
+
+            return obj.MarkedDontDestroyOnLoad;
         }
     }
 
@@ -172,7 +176,7 @@ namespace Hybrid
 
         public int GetInstanceID()
         {
-            return !MarkedDestroyed ? Guid.GetHashCode() : 0;
+            return Guid.GetHashCode();
         }
     }
 }

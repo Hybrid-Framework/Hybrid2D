@@ -9,7 +9,7 @@ namespace Hybrid
             Debug.SetColor(ConsoleColor.Red);
             
             var exception = ex.InnerException ?? ex;
-            Console.WriteLine($"[EXCEPTION] {exception.Message}\n{exception.StackTrace}");
+            Console.WriteLine($"[{exception.GetType().Name}] {exception.Message}\n{exception.StackTrace}");
             
             #if DEBUG
             Engine.Instance.Quit();
