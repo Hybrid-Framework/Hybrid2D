@@ -10,13 +10,12 @@ namespace Hybrid
         private readonly Guid Guid = Guid.NewGuid();
         
         private bool MarkedDontDestroyOnLoad { get; set; }
-        private bool MarkedDestroying { get; set; }
-        private bool MarkedDestroyed { get; set; }
+        private bool Destroyed { get; set; }
         
 
         internal virtual void OnDispose()
         {
-            // Internal dispose
+            // base dispose
         }
     }
     
@@ -41,58 +40,59 @@ namespace Hybrid
                     Coroutines.StartCoroutine(obj, DestroyCoroutine());
                     return;
                 }
-                
-                // Destroy
-                if (!IsDestroying(obj))
+
+                // Destroy later
+                Objects.MarkObjectForDestroying(obj);
+            }
+        }
+
+        public static void DestroyImmediate(Object obj)
+        {
+            if (!IsDestroying(obj))
+            { 
+                try
                 {
-                    // Mark Destroying
-                    obj.MarkedDestroying = true;
-                    
-                    try
+                    // Dispose
+                    obj.OnDispose();
                     {
-                        // Dispose
-                        obj.OnDispose();
-                        {
-                            // Mark All
-                            obj.MarkedDestroyed = true;
-                            obj.MarkedDestroying = false;
-                            obj.MarkedDontDestroyOnLoad = false;
+                        // Destroy
+                        obj.Destroyed = true;
+                        obj.MarkedDontDestroyOnLoad = false;
                         
-                            // Debug Information
-                            // Debug.Log($"{obj.GetType().Name} Destroyed");
-                        }
+                        // Debug Information
+                        Debug.Log($"{obj.GetType().Name} Destroyed");
                     }
-                    catch (Exception ex)
-                    {
-                        // Unmark All
-                        obj.MarkedDestroyed = false;
-                        obj.MarkedDestroying = false;
+                }
+                catch (Exception ex)
+                {
+                    // Undo Destroy
+                    Objects.UnMarkObjectForDestroying(obj);
+                    obj.Destroyed = false;
                     
-                        // Throw Exception
-                        Exceptions.Throw(ex);
-                    }
+                    // Throw Exception
+                    Exceptions.Throw(ex);
                 }
             }
         }
         
         internal static bool IsDestroying(Object obj)
         {
-            if (ReferenceEquals(obj, null))
+            if (Objects.IsMarkedForDestroying(obj))
             {
-                return false;
+                return true;
             }
             
-            return obj.MarkedDestroying;
+            return IsDestroyed(obj);
         }
 
         public static bool IsDestroyed(Object obj)
         {
             if (ReferenceEquals(obj, null))
             {
-                return false;
+                return true;
             }
             
-            return obj.MarkedDestroyed;
+            return obj.Destroyed;
         }
     }
 
@@ -133,7 +133,7 @@ namespace Hybrid
     {
         public static implicit operator bool(Object obj)
         {
-            return obj is not null && !obj.MarkedDestroyed;
+            return obj is not null && !obj.Destroyed;
         }
         
         public static bool operator !=(Object a, Object b)
@@ -143,8 +143,8 @@ namespace Hybrid
 
         public static bool operator ==(Object a, Object b)
         {
-            if (a is null) return b?.MarkedDestroyed ?? true;
-            if (b is null) return a.MarkedDestroyed;
+            if (a is null) return b?.Destroyed ?? true;
+            if (b is null) return a.Destroyed;
             
             return ReferenceEquals(a, b);
         }
@@ -171,7 +171,7 @@ namespace Hybrid
 
         public override string ToString()
         {
-            return !MarkedDestroyed ? $"{GetType().Name}" : $"{GetType().Name} (Destroyed)";
+            return !Destroyed ? $"{GetType().Name}" : $"Null";
         }
 
         public int GetInstanceID()

@@ -15,7 +15,7 @@ namespace Hybrid
             {
                 if (IsDestroyed(this))
                 {
-                    return "Destroyed";
+                    return "Null";
                 }
 
                 return _Layer;
@@ -40,7 +40,7 @@ namespace Hybrid
             {
                 if (IsDestroyed(this))
                 {
-                    return "Destroyed";
+                    return "Null";
                 }
 
                 return _Tag;

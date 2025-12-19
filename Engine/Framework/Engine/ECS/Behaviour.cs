@@ -16,7 +16,7 @@ namespace Hybrid
             {
                 if (IsDestroyed(GameObject))
                 {
-                    return _Name + " (Destroyed)";
+                    return "Null";
                 }
                 
                 return _Name;

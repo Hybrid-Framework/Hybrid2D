@@ -8,8 +8,10 @@ namespace App
         public override void OnSceneOpen()
         {
             GameObject gameObject = new GameObject("Hello");
-            var test = gameObject.AddComponent<Player>();
-            Object.Destroy(gameObject, 1);
+            Object.Destroy(gameObject);
+
+            gameObject.Name = "V2";
+            Debug.Log(gameObject.Name);
         }
 
         public override void OnSceneClose()

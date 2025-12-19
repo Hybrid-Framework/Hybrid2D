@@ -41,6 +41,7 @@ namespace Hybrid
             Register(Resources.FindOrCreate());
             Register(Coroutines.FindOrCreate());
             Register(Invokes.FindOrCreate());
+            Register(Objects.FindOrCreate());
             Register(Input.FindOrCreate());
             Register(Scenes.FindOrCreate());
 
