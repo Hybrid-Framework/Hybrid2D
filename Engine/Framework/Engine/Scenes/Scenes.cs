@@ -378,14 +378,6 @@ namespace Hybrid
                     // For Each GameObject In Scene
                     foreach (var gameObject in scene.GetRootGameObjects())
                     {
-                        // Don't Destroy On Load but remove if destroyed or quitting application
-                        if (Object.IsDontDestroyOnLoad(gameObject) && !Engine.Instance.IsQuit)
-                        {
-                            // Add To Queue For Next Scene
-                            SceneQueue.Add(gameObject);
-                            continue;
-                        }
-
                         // Destroy GameObject
                         Object.Destroy(gameObject);
                     }

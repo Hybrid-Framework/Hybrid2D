@@ -7,11 +7,7 @@ namespace App
     {
         public override void OnSceneOpen()
         {
-            GameObject gameObject = new GameObject("Hello");
-            Object.Destroy(gameObject);
-
-            gameObject.Name = "V2";
-            Debug.Log(gameObject.Name);
+            
         }
 
         public override void OnSceneClose()

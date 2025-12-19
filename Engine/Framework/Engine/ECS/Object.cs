@@ -96,38 +96,6 @@ namespace Hybrid
         }
     }
 
-    // Dont Destroy On Load
-    public partial class Object
-    {
-        public static void DontDestroyOnLoad(Object obj)
-        {
-            if (!IsDestroying(obj))
-            {
-                if (obj is Behaviour behaviour)
-                {
-                    if (behaviour.GameObject.Transform.Parent != null)
-                    {
-                        Debug.Warning($"Can only call '{nameof(DontDestroyOnLoad)}' on root Objects");
-                        return;
-                    }
-            
-                    behaviour.GameObject.MarkedDontDestroyOnLoad = true;
-                    behaviour.MarkedDontDestroyOnLoad = true;
-                }
-            }
-        }
-        
-        internal static bool IsDontDestroyOnLoad(Object obj)
-        {
-            if (ReferenceEquals(obj, null))
-            {
-                return false;
-            }
-
-            return obj.MarkedDontDestroyOnLoad;
-        }
-    }
-
     // Operators
     public partial class Object
     {
