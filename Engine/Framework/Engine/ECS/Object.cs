@@ -8,14 +8,12 @@ namespace Hybrid
     public abstract partial class Object : IEquatable<Object>
     {
         private readonly Guid Guid = Guid.NewGuid();
-        
-        private bool MarkedDontDestroyOnLoad { get; set; }
         private bool Destroyed { get; set; }
         
-
+        
         internal virtual void OnDispose()
         {
-            // base dispose
+            // Base OnDispose
         }
     }
     
@@ -57,7 +55,6 @@ namespace Hybrid
                     {
                         // Destroy
                         obj.Destroyed = true;
-                        obj.MarkedDontDestroyOnLoad = false;
                         
                         // Debug Information
                         Debug.Log($"{obj.GetType().Name} Destroyed at {Time.FrameCount}");

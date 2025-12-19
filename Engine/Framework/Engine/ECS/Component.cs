@@ -21,8 +21,8 @@ namespace Hybrid
     // Component API
     public abstract partial class Component
     {
-        internal bool DidAwake { get; set; } = false;
-        internal bool DidStart { get; set; } = false;
+        public bool DidAwake { get; internal set; } = false;
+        public bool DidStart { get; internal set; } = false;
         
         private bool _Enabled { get; set; } = true;
         public bool Enabled
