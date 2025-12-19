@@ -13,6 +13,7 @@ namespace Hybrid
         public static float Timer { get; internal set; }
 
         public static float FixedFrameTime { get; internal set; }
+        public static uint FrameCount { get; internal set; }
         public static float FrameTime { get; internal set; }
         public static float Fps { get; internal set; }
         
@@ -46,6 +47,8 @@ namespace Hybrid
             
             Time.FixedFrameTime += Time.DeltaTime;
             Time.FrameTime = Time.UnscaledDeltaTime * 1000f;
+
+            Time.FrameCount += 1;
             
             // Calculate Fps
             if (Time.UnscaledDeltaTime > 0f)

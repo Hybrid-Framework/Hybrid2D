@@ -3,7 +3,7 @@
 namespace App
 {
     [Scene("Game", index: 0)]
-    public class GameScene : Scene
+    public class Game : Scene
     {
         public override void OnSceneOpen()
         {

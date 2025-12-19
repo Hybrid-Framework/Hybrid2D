@@ -26,10 +26,6 @@ namespace Hybrid
                 {
                     _Layer = value;
                 }
-                else
-                {
-                    Debug.Warning($"Can't set property 'Layer' on '{GetType().Name}' that has been destroyed");
-                }
             }
         }
         
@@ -51,10 +47,6 @@ namespace Hybrid
                 {
                     _Tag = value;
                 }
-                else
-                {
-                    Debug.Warning($"Can't set property 'Tag' on '{GetType().Name}' that has been destroyed");
-                }
             }
         }
         
@@ -75,10 +67,6 @@ namespace Hybrid
                 if (!IsDestroyed(this))
                 {
                     _Active = value;
-                }
-                else
-                {
-                    Debug.Warning($"Can't set property 'Active' on '{GetType().Name}' that has been destroyed");
                 }
             }
         }
@@ -104,25 +92,22 @@ namespace Hybrid
         // Dispose
         internal override void OnDispose()
         {
-            if (!IsDestroyed(this))
+            // For Each Child In GameObject
+            foreach (var child in Transform.GetChildrenRecursive())
             {
-                // For Each Child In GameObject
-                foreach (var child in Transform.GetChildrenRecursive())
-                {
-                    // Destroy Child GameObject
-                    Destroy(child.GameObject);
-                }
-                
-                // For Each Component In GameObject
-                foreach (var component in GetComponents())
-                {
-                    // Destroy Component
-                    Destroy(component);
-                }
-                
-                // Remove From Scene
-                Scenes.RemoveObject(this);
+                // Destroy Child GameObject
+                Destroy(child.GameObject);
             }
+            
+            // For Each Component In GameObject
+            foreach (var component in GetComponents())
+            {
+                // Destroy Component
+                Destroy(component);
+            }
+            
+            // Remove From Scene
+            Scenes.RemoveObject(this);
         }
     }
 
@@ -131,32 +116,21 @@ namespace Hybrid
     {
         public void SetActive(bool active)
         {
-            if (!IsDestroyed(this))
-            {
-                Active = active;
-            }
+            Active = active;
         }
         
         public Scene GetScene()
         {
-            if (!IsDestroyed(this))
-            {
-                return Scene;
-            }
-
-            return null;
+            return Scene;
         }
 
         public GameObject Find(string name)
         {
-            if (!IsDestroyed(this))
+            foreach (Transform child in Transform.GetChildrenRecursive(true))
             {
-                foreach (Transform child in Transform.GetChildrenRecursive(true))
+                if (child.Name == name)
                 {
-                    if (child.Name == name)
-                    {
-                        return child.GameObject;
-                    }
+                    return child.GameObject;
                 }
             }
 

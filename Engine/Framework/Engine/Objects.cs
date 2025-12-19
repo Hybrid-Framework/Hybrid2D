@@ -5,18 +5,22 @@ namespace Hybrid
     // Objects
     internal sealed class Objects : Module<Objects>
     {
-        private static readonly List<Object> ObjectsMarkedForDestroying = new List<Object>();
+        private static readonly HashSet<Object> ObjectsMarkedForDestroying = new HashSet<Object>();
         
         
         internal override void OnEndOfFrame()
         {
+            // For Each Object Marked For Destroying
             foreach (var obj in ObjectsMarkedForDestroying.ToArray())
             {
-                UnMarkObjectForDestroying(obj);
+                // Destroy
                 Object.DestroyImmediate(obj);
+                
+                // Remove Entry
+                UnMarkObjectForDestroying(obj);
             }
         }
-        
+
         internal static void MarkObjectForDestroying(Object obj)
         {
             if (!IsMarkedForDestroying(obj))

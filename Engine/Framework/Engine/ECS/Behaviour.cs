@@ -14,7 +14,7 @@ namespace Hybrid
         {
             get
             {
-                if (IsDestroyed(GameObject))
+                if (IsDestroyed(this))
                 {
                     return "Null";
                 }
@@ -33,10 +33,6 @@ namespace Hybrid
                     }
                     
                     _Name = value;
-                }
-                else
-                {
-                    Debug.Warning($"Can't set property 'Name' on '{GetType().Name}' that has been destroyed");
                 }
             }
         }

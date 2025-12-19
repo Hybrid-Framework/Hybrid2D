@@ -29,26 +29,26 @@ namespace Hybrid
                 // Delay
                 if (delay > 0)
                 {
-                    // Local Coroutine
+                    // Destroy Coroutine
                     IEnumerator DestroyCoroutine()
                     {
                         yield return new WaitForSeconds(delay);
                         Destroy(obj);
                     }
                     
-                    // Destroy After Seconds
+                    // Destroy After Delay
                     Coroutines.StartCoroutine(obj, DestroyCoroutine());
                     return;
                 }
 
-                // Destroy later
+                // Destroy At End Of Frame
                 Objects.MarkObjectForDestroying(obj);
             }
         }
 
         public static void DestroyImmediate(Object obj)
         {
-            if (!IsDestroying(obj))
+            if (!IsDestroyed(obj))
             { 
                 try
                 {
@@ -60,7 +60,7 @@ namespace Hybrid
                         obj.MarkedDontDestroyOnLoad = false;
                         
                         // Debug Information
-                        Debug.Log($"{obj.GetType().Name} Destroyed");
+                        Debug.Log($"{obj.GetType().Name} Destroyed at {Time.FrameCount}");
                     }
                 }
                 catch (Exception ex)
@@ -75,7 +75,7 @@ namespace Hybrid
             }
         }
         
-        internal static bool IsDestroying(Object obj)
+        public static bool IsDestroying(Object obj)
         {
             if (Objects.IsMarkedForDestroying(obj))
             {
@@ -101,7 +101,7 @@ namespace Hybrid
     {
         public static void DontDestroyOnLoad(Object obj)
         {
-            if (!IsDestroyed(obj))
+            if (!IsDestroying(obj))
             {
                 if (obj is Behaviour behaviour)
                 {
