@@ -8,22 +8,12 @@ namespace Hybrid
         // End Of Frame
         internal override void OnEndOfFrame()
         {
-            DestroyObjectsRecursive();
+            // Destroy Objects
+            DestroyObjects();
         }
 
         // Dispose
         internal override void OnDispose()
-        {
-            DestroyObjectsRecursive();
-        }
-    }
-    
-    internal partial class Objects
-    {
-        private static readonly HashSet<Object> ObjectsMarkedForDestroying = new HashSet<Object>();
-
-
-        internal static void DestroyObjectsRecursive()
         {
             // While There Is Objects To Be Destroyed
             while (ObjectsMarkedForDestroying.Count > 0)
@@ -32,8 +22,14 @@ namespace Hybrid
                 DestroyObjects();
             }
         }
+    }
+    
+    internal partial class Objects
+    {
+        private static readonly HashSet<Object> ObjectsMarkedForDestroying = new HashSet<Object>();
+        
 
-        internal static void DestroyObjects()
+        private static void DestroyObjects()
         {
             // For Each Object Marked For Destroying
             foreach (var obj in ObjectsMarkedForDestroying.ToArray())

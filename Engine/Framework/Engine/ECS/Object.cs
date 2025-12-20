@@ -22,7 +22,7 @@ namespace Hybrid
     {
         public static void Destroy(Object obj, float delay = 0)
         {
-            if (!IsDestroyed(obj))
+            if (!Object.IsDestroyed(obj))
             {
                 // Delay
                 if (delay > 0)
@@ -39,17 +39,20 @@ namespace Hybrid
                     return;
                 }
 
-                // Destroy At End Of Frame
+                // Mark For Destroying
                 Objects.MarkObjectForDestroying(obj);
             }
         }
 
         public static void DestroyImmediate(Object obj)
         {
-            if (!IsDestroyed(obj))
-            { 
+            if (!Object.IsDestroyed(obj))
+            {
                 try
                 {
+                    // Mark For Destroying
+                    Objects.MarkObjectForDestroying(obj);
+                    
                     // Dispose
                     obj.OnDispose();
                     {
@@ -70,9 +73,6 @@ namespace Hybrid
                     Exceptions.Throw(ex);
                 }
             }
-            
-            // Destroy Objects Immediately
-            Objects.DestroyObjectsRecursive();
         }
         
         public static bool IsDestroying(Object obj)

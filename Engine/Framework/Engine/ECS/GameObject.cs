@@ -97,22 +97,25 @@ namespace Hybrid
         // Dispose
         internal override void OnDispose()
         {
-            // For Each Child In GameObject
-            foreach (var child in Transform.GetChildrenRecursive())
+            if (!Object.IsDestroyed(this))
             {
-                // Destroy Child GameObject
-                Destroy(child.GameObject);
-            }
+                // For Each Child In GameObject
+                foreach (var child in Transform.GetChildrenRecursive())
+                {
+                    // Destroy Child GameObject
+                    Object.DestroyImmediate(child.GameObject);
+                }
             
-            // For Each Component In GameObject
-            foreach (var component in GetComponents())
-            {
-                // Destroy Component
-                Destroy(component);
-            }
+                // For Each Component In GameObject
+                foreach (var component in GetComponents())
+                {
+                    // Destroy Component
+                    Object.DestroyImmediate(component);
+                }
             
-            // Remove From Scene
-            Scenes.RemoveObject(this);
+                // Remove From Scene
+                Scenes.RemoveObject(this);
+            }
         }
     }
 
