@@ -6,8 +6,13 @@ namespace Hybrid
     public abstract class Scene
     {
         internal HashSet<GameObject> RootGameObjects { get; set; } = new HashSet<GameObject>();
-        internal string Name { get; set; }
-        internal int Index { get; set; }
+
+        public bool IsActiveScene => Scenes.GetActiveScene() == this;
+        public bool IsLoaded { get; internal set; }
+        
+        public string Name { get; internal set; }
+        public Type Type { get; internal set; }
+        public int Index { get; internal set; }
         
         
         public List<GameObject> GetRootGameObjects()
@@ -23,16 +28,6 @@ namespace Hybrid
         public virtual void OnSceneClose()
         {
             // Called when scene finished closing
-        }
-
-        public string GetName()
-        {
-            return Name;
-        }
-        
-        public int GetIndex()
-        {
-            return Index;
         }
     }
 }

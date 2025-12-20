@@ -74,6 +74,11 @@ namespace Hybrid
         
         public GameObject(string name = null)
         {
+            if (Scenes.GetActiveScene() == null)
+            {
+                throw new Exception("Can't create GameObject's with no scene loaded\n" + "You should only create objects in 'OnSceneOpen' or after the scene has loaded");
+            }
+            
             // GameObject
             GameObject = this;
             

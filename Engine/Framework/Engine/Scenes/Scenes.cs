@@ -8,68 +8,65 @@ namespace Hybrid
     {
         private Scenes() {}
         
-        internal static HashSet<SceneInformation> AllScenes { get; set; } = new HashSet<SceneInformation>();
-        internal static HashSet<GameObject> SceneQueue { get; set; } = new HashSet<GameObject>();
+        internal static HashSet<Scene> AllScenes { get; set; } = new HashSet<Scene>();
         internal static Scene ActiveScene { get; set; }
-        
-        internal class SceneInformation
-        {
-            internal string SceneName;
-            internal Type SceneType;
-            internal int SceneIndex;
-
-            internal SceneInformation(Type type, string name, int index)
-            {
-                this.SceneIndex = index;
-                this.SceneType = type;
-                this.SceneName = name;
-            }
-        }
         
         
         // Initialize
         internal override void OnInitialize()
         {
-            var information = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes()).Where(t => t.GetCustomAttribute<SceneAttribute>() != null).ToList();
+            // Get All Types With Attribute SceneAttribute
+            var types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes()).Where(t => t.GetCustomAttribute<SceneAttribute>() != null).ToList();
 
-            if (information.Count > 0)
+            // For Each Type
+            foreach (var type in types)
             {
-                foreach (var type in information)
+                // Get Information From Attribute
+                var attribute = type.GetCustomAttribute<SceneAttribute>()!;
+
+                // Check duplicate name
+                if (AllScenes.Any(s => s.Name == attribute.Name))
                 {
-                    var attribute = type.GetCustomAttribute<SceneAttribute>()!;
+                    throw new Exception($"Duplicate scene name '{attribute.Name}' found please ensure each scene is unique");
+                }
 
-                    // Check duplicate name
-                    if (AllScenes.Any(s => s.SceneName == attribute.Name))
-                    {
-                        throw new Exception($"Duplicate scene name '{attribute.Name}' found please ensure each scene is unique");
-                    }
+                // Check duplicate index
+                if (AllScenes.Any(s => s.Index == attribute.Index))
+                {
+                    throw new Exception($"Duplicate scene index '{attribute.Index}' found please ensure each scene is unique");
+                }
 
-                    // Check duplicate index
-                    if (AllScenes.Any(s => s.SceneIndex == attribute.Index))
-                    {
-                        throw new Exception($"Duplicate scene index '{attribute.Index}' found please ensure each scene is unique");
-                    }
+                // Create Instance
+                var scene = (Scene)Activator.CreateInstance(type, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, null, null);
+                scene?.Index = attribute.Index;
+                scene?.Name = attribute.Name;
+                scene?.Type = type;
 
-                    AllScenes.Add(new SceneInformation(type, attribute.Name, attribute.Index));
+                // Add Scene
+                if (scene != null)
+                {
+                    AllScenes.Add(scene);
                 }
             }
-            else
+            
+            // Invalid Scenes
+            if(AllScenes.Count == 0)
             {
-                throw new Exception("No Scenes Found!");
+                throw new Exception("No valid scenes found");
             }
             
-            // Load First Scene
-            Load(AllScenes.Min(s => s.SceneIndex));
+            // Load Scene
+            LoadScene(AllScenes.Min(s => s.Index), SceneMode.Single);
         }
-
+        
         // Update
         internal override void OnUpdate()
         {
-            // Scene
-            if (ActiveScene != null)
+            // For Each Active Scene
+            foreach(var scene in GetActiveScenes())
             {
                 // For Each Root GameObject In Scene
-                foreach (var gameObject in ActiveScene.GetRootGameObjects())
+                foreach (var gameObject in scene.GetRootGameObjects())
                 {
                     // Skip Invalid GameObject
                     if(gameObject == null || !gameObject.Active) continue;
@@ -121,11 +118,11 @@ namespace Hybrid
         // Late Update
         internal override void OnLateUpdate()
         {
-            // Scene
-            if (ActiveScene != null)
+            // For Each Active Scene
+            foreach(var scene in GetActiveScenes())
             {
                 // For Each Root GameObject In Scene
-                foreach (var gameObject in ActiveScene.GetRootGameObjects())
+                foreach (var gameObject in scene.GetRootGameObjects())
                 {
                     // Skip Invalid GameObject
                     if(gameObject == null || !gameObject.Active) continue;
@@ -163,11 +160,11 @@ namespace Hybrid
         // Fixed Update
         internal override void OnFixedUpdate()
         {
-            // Scene
-            if (ActiveScene != null)
+            // For Each Active Scene
+            foreach(var scene in GetActiveScenes())
             {
                 // For Each Root GameObject In Scene
-                foreach (var gameObject in ActiveScene.GetRootGameObjects())
+                foreach (var gameObject in scene.GetRootGameObjects())
                 {
                     // Skip Invalid GameObject
                     if(gameObject == null || !gameObject.Active) continue;
@@ -205,11 +202,11 @@ namespace Hybrid
         // Render
         internal override void OnRender()
         {
-            // Scene
-            if (ActiveScene != null)
+            // For Each Active Scene
+            foreach(var scene in GetActiveScenes())
             {
                 // For Each Root GameObject In Scene
-                foreach (var gameObject in ActiveScene.GetRootGameObjects())
+                foreach (var gameObject in scene.GetRootGameObjects())
                 {
                     // Skip Invalid GameObject
                     if(gameObject == null || !gameObject.Active) continue;
@@ -247,11 +244,11 @@ namespace Hybrid
         // Dispose
         internal override void OnDispose()
         {
-            // Get Active Scene
-            if (ActiveScene != null)
+            // For Each Active Scene
+            foreach (var scene in GetActiveScenes())
             {
                 // Close Scene
-                Close(ActiveScene);
+                CloseScene(scene);
             }
         }
     }
@@ -261,138 +258,186 @@ namespace Hybrid
     {
         public static Scene GetActiveScene()
         {
-            if (ActiveScene == null)
-                throw new Exception("No valid scene loaded");
-            
             return ActiveScene;
         }
+
+        public static void SetActiveScene(Scene scene)
+        {
+            if (scene == null || !scene.IsLoaded)
+            {
+                Debug.Warning($"Can only call '{nameof(SetActiveScene)}' on a valid loaded scene");
+                return;
+            }
+
+            ActiveScene = scene;
+        }
         
-        public static void Load(int index)
+        public static Scene[] GetActiveScenes()
+        {
+            List<Scene> results = new List<Scene>();
+            
+            foreach (var scene in AllScenes)
+            {
+                if (scene.IsLoaded)
+                {
+                    results.Add(scene);
+                }
+            }
+
+            return results.ToArray();
+        }
+
+        public static Scene GetSceneByName(string name)
+        {
+            foreach (var scene in AllScenes)
+            {
+                if (scene.Name == name)
+                {
+                    return scene;
+                }
+            }
+
+            return null;
+        }
+        
+        public static Scene GetSceneByIndex(int index)
+        {
+            foreach (var scene in AllScenes)
+            {
+                if (scene.Index == index)
+                {
+                    return scene;
+                }
+            }
+
+            return null;
+        }
+
+        public static void LoadScene(int index, SceneMode mode)
         {
             // Get Scene Information by Index
-            var information = AllScenes.FirstOrDefault(s => s.SceneIndex == index);
-            
-            // Invalid Scene
-            if (information != null)
-            {
-                // Close Scene
-                if (ActiveScene != null)
-                {
-                    // Already Loaded
-                    if (ActiveScene.Index == index)
-                    {
-                        Debug.Warning($"Scene '{index}' already loaded");
-                        return;
-                    }
-                    
-                    Close(ActiveScene);
-                }
+            var scene = GetSceneByIndex(index);
 
-                // Create Scene
-                var scene = (Scene)Activator.CreateInstance(information.SceneType, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, null, null);
-                scene?.Index = information.SceneIndex;
-                scene?.Name = information.SceneName;
-                Open(scene);
-            }
-            else
+            // Invalid Scene
+            if (scene == null)
             {
-                throw new Exception($"Failed to load scene with index {index}");
+                Debug.Warning($"Failed to load scene: '{index}'");
+                return;
             }
+            
+            // Load Scene
+            LoadScene(scene, mode);
         }
-        
-        public static void Load(string name)
+
+        public static void LoadScene(string name, SceneMode mode)
         {
             // Get Scene Information by Name
-            var information = AllScenes.FirstOrDefault(s => s.SceneName == name);
+            var scene = GetSceneByName(name);
+
+            // Invalid Scene
+            if (scene == null)
+            {
+                Debug.Warning($"Failed to load scene: '{name}'");
+                return;
+            }
             
-            // Invalid Scene
-            if (information != null)
-            {
-                // Close Scene
-                if (ActiveScene != null)
-                {
-                    // Already Loaded
-                    if (ActiveScene.Name == name)
-                    {
-                        Debug.Warning($"Scene '{name}' already loaded");
-                        return;
-                    }
-                    
-                    Close(ActiveScene);
-                }
+            // Load Scene
+            LoadScene(scene, mode);
+        }
 
-                // Open Scene
-                var scene = (Scene)Activator.CreateInstance(information.SceneType, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, null, null);
-                scene?.Index = information.SceneIndex;
-                scene?.Name = information.SceneName;
-                Open(scene);
-            }
-            else
+        private static void LoadScene(Scene scene, SceneMode mode)
+        {
+            if (scene.IsLoaded)
             {
-                throw new Exception($"Failed to load scene with name {name}");
+                // Scene Already Loaded
+                Debug.Warning($"Scene '{scene.Name}' already loaded");
+                return;
+            }
+            
+            if (mode == SceneMode.Single)
+            {
+                // For Each Active Scene
+                foreach (var active in GetActiveScenes())
+                {
+                    // Close Scene
+                    CloseScene(active);
+                }
+            }
+            
+            // Open Scene
+            OpenScene(scene);
+        }
+
+        private static void OpenScene(Scene scene)
+        {
+            if (scene == null)
+            {
+                Debug.Warning($"Failed to open invalid scene");
+                return;
+            }
+            
+            try
+            {
+                AddScene(scene);
+                
+                Debug.Log($"Scene '{scene.Name}' opened");
+                scene.OnSceneOpen();
+            }
+            catch (Exception ex)
+            {
+                Exceptions.Throw(ex);
             }
         }
 
-        private static void Open(Scene scene)
+        private static void CloseScene(Scene scene)
         {
-            // Invalid Scene
-            if (scene != null)
+            if (scene == null)
             {
-                try
-                {
-                    // Set Scene
-                    ActiveScene = scene;
-                    Debug.Log($"Scene '{scene.Name}' opened");
-
-                    // For Each Object In Queue
-                    foreach (var gameObject in SceneQueue.ToArray())
-                    {
-                        // Add To Scene
-                        AddObject(gameObject);
-                    }
-                    
-                    // Call
-                    scene.OnSceneOpen();
-                    SceneQueue.Clear();
-                }
-                catch (Exception ex)
-                {
-                    Exceptions.Throw(ex);
-                }
+                Debug.Warning($"Failed to close invalid scene");
+                return;
             }
-            else
+            
+            try
             {
-                throw new Exception($"Failed to open invalid scene");
+                scene.OnSceneClose();
+                
+                // For Each GameObject In Scene
+                foreach (var gameObject in scene.GetRootGameObjects())
+                {
+                    // Destroy
+                    Object.Destroy(gameObject);
+                }
+                
+                Debug.Log($"Scene '{scene.Name}' closed");
+                RemoveScene(scene);
+            }
+            catch (Exception ex)
+            {
+                Exceptions.Throw(ex);
+            }
+        }
+    }
+    
+    // Objects
+    public partial class Scenes
+    {
+        private static void AddScene(Scene scene)
+        {
+            scene.IsLoaded = true;
+
+            if (!scene.IsActiveScene)
+            {
+                ActiveScene = scene;
             }
         }
 
-        private static void Close(Scene scene)
+        private static void RemoveScene(Scene scene)
         {
-            if (scene != null)
+            scene.IsLoaded = false;
+
+            if (scene.IsActiveScene)
             {
-                try
-                {
-                    // Call
-                    scene.OnSceneClose();
-                    
-                    // For Each GameObject In Scene
-                    foreach (var gameObject in scene.GetRootGameObjects())
-                    {
-                        // Destroy GameObject
-                        Object.Destroy(gameObject);
-                    }
-                    
-                    Debug.Log($"Scene '{scene.Name}' closed");
-                    ActiveScene = null;
-                }
-                catch (Exception ex)
-                {
-                    Exceptions.Throw(ex);
-                }
-            }
-            else
-            {
-                throw new Exception($"Failed to close invalid scene");
+                ActiveScene = null;
             }
         }
         
@@ -400,27 +445,25 @@ namespace Hybrid
         {
             if (!Object.IsDestroyed(gameObject))
             {
-                if (ActiveScene != null)
-                {
-                    SceneQueue.Remove(gameObject);
-                    
-                    // Debug.Log($"GameObject '{gameObject.Name}' added to Scene '{ActiveScene.Name}' root objects");
-                    ActiveScene.RootGameObjects.Add(gameObject);
-                    gameObject.Scene = ActiveScene;
-                    return;
-                }
+                var scene = GetActiveScene();
                 
-                SceneQueue.Add(gameObject);
+                if (scene != null)
+                {
+                    Debug.Log($"GameObject '{gameObject.Name}' added to Scene '{scene.Name}' root objects");
+                    scene.RootGameObjects.Add(gameObject);
+                    gameObject.Scene = scene;
+                }
             }
         }
         
         internal static void RemoveObject(GameObject gameObject)
         {
-            if (ActiveScene != null)
+            var scene = gameObject.GetScene();
+            
+            if (scene != null)
             {
-                // Debug.Log($"GameObject '{gameObject.Name}' removed from Scene '{ActiveScene.Name}' root objects");
-                ActiveScene.RootGameObjects.Remove(gameObject);
-                SceneQueue.Remove(gameObject);
+                Debug.Log($"GameObject '{gameObject.Name}' removed from Scene '{scene.Name}' root objects");
+                scene.RootGameObjects.Remove(gameObject);
             }
         }
     }

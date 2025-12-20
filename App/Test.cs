@@ -1,14 +1,13 @@
-﻿using System;
-using Hybrid;
+﻿using Hybrid;
 
 namespace App
 {
-    [Scene("Game", index: 0)]
-    public class Game : Scene
+    [Scene("Test", index: 1)]
+    public class Test : Scene
     {
         public override void OnSceneOpen()
         {
-            GameObject gameObject = new GameObject("TestObj");
+            
         }
 
         public override void OnSceneClose()

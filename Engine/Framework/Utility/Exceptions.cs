@@ -4,7 +4,7 @@ namespace Hybrid
 {
     internal static class Exceptions
     {
-        internal static void Throw(Exception ex)
+        internal static void Throw(Exception ex, bool fatal = false)
         {
             Debug.SetColor(ConsoleColor.Red);
             
@@ -13,6 +13,8 @@ namespace Hybrid
             
             #if DEBUG
             Engine.Instance.Quit();
+            #elif RELEASE
+            if(fatal) Engine.Instance.Quit();
             #endif
         }
     }

@@ -57,7 +57,7 @@ namespace Hybrid
                         obj.Destroyed = true;
                         
                         // Debug Information
-                        Debug.Log($"{obj.GetType().Name} Destroyed at {Time.FrameCount}");
+                        Debug.Log($"{obj.GetType().Name} Destroyed");
                     }
                 }
                 catch (Exception ex)

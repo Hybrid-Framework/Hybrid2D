@@ -167,10 +167,11 @@ namespace Hybrid
         {
             var results = new List<GameObject>();
 
-            if (Scenes.ActiveScene != null)
+            // For Each Active Scene
+            foreach(var scene in Scenes.GetActiveScenes())
             {
                 // For Each Root GameObject In Scene
-                foreach (var gameObject in Scenes.ActiveScene.RootGameObjects)
+                foreach (var gameObject in scene.RootGameObjects)
                 {
                     // If Active Only And Disabled
                     if (gameObject == null) continue;
@@ -196,10 +197,11 @@ namespace Hybrid
         
         public static GameObject FindGameObjectByName(string name, bool activeOnly = false)
         {
-            if (Scenes.ActiveScene != null)
+            // For Each Active Scene
+            foreach(var scene in Scenes.GetActiveScenes())
             {
                 // For Each Root GameObject In Scene
-                foreach (var gameObject in Scenes.ActiveScene.RootGameObjects)
+                foreach (var gameObject in scene.RootGameObjects)
                 {
                     // If Active Only And Disabled
                     if (gameObject == null) continue;
@@ -227,10 +229,11 @@ namespace Hybrid
         {
             var results = new List<GameObject>();
 
-            if (Scenes.ActiveScene != null)
+            // For Each Active Scene
+            foreach(var scene in Scenes.GetActiveScenes())
             {
                 // For Each Root GameObject In Scene
-                foreach (var gameObject in Scenes.ActiveScene.RootGameObjects)
+                foreach (var gameObject in scene.RootGameObjects)
                 {
                     // If Active Only And Disabled
                     if (gameObject == null) continue;
@@ -256,10 +259,11 @@ namespace Hybrid
         
         public static GameObject FindGameObjectByLayer(string layer, bool activeOnly = false)
         {
-            if (Scenes.ActiveScene != null)
+            // For Each Active Scene
+            foreach(var scene in Scenes.GetActiveScenes())
             {
                 // For Each Root GameObject In Scene
-                foreach (var gameObject in Scenes.ActiveScene.RootGameObjects)
+                foreach (var gameObject in scene.RootGameObjects)
                 {
                     // If Active Only And Disabled
                     if (gameObject == null) continue;
@@ -287,10 +291,11 @@ namespace Hybrid
         {
             var results = new List<GameObject>();
 
-            if (Scenes.ActiveScene != null)
+            // For Each Active Scene
+            foreach(var scene in Scenes.GetActiveScenes())
             {
                 // For Each Root GameObject In Scene
-                foreach (var gameObject in Scenes.ActiveScene.RootGameObjects)
+                foreach (var gameObject in scene.RootGameObjects)
                 {
                     // If Active Only And Disabled
                     if (gameObject == null) continue;
@@ -316,10 +321,11 @@ namespace Hybrid
         
         public static GameObject FindGameObjectByTag(string tag, bool activeOnly = false)
         {
-            if (Scenes.ActiveScene != null)
+            // For Each Active Scene
+            foreach(var scene in Scenes.GetActiveScenes())
             {
                 // For Each Root GameObject In Scene
-                foreach (var gameObject in Scenes.ActiveScene.RootGameObjects)
+                foreach (var gameObject in scene.RootGameObjects)
                 {
                     // If Active Only And Disabled
                     if (gameObject == null) continue;
@@ -347,10 +353,11 @@ namespace Hybrid
         {
             var results = new List<T>();
 
-            if (Scenes.ActiveScene != null)
+            // For Each Active Scene
+            foreach(var scene in Scenes.GetActiveScenes())
             {
                 // For Each Root GameObject In Scene
-                foreach (var gameObject in Scenes.ActiveScene.RootGameObjects)
+                foreach (var gameObject in scene.RootGameObjects)
                 {
                     // If Active Only And Disabled
                     if (gameObject == null) continue;
@@ -381,10 +388,11 @@ namespace Hybrid
         
         public static T FindObjectByType<T>(bool activeOnly = false) where T : Object
         {
-            if (Scenes.ActiveScene != null)
+            // For Each Active Scene
+            foreach(var scene in Scenes.GetActiveScenes())
             {
                 // For Each Root GameObject In Scene
-                foreach (var gameObject in Scenes.ActiveScene.RootGameObjects)
+                foreach (var gameObject in scene.RootGameObjects)
                 {
                     // If Active Only And Disabled
                     if(gameObject == null) continue;

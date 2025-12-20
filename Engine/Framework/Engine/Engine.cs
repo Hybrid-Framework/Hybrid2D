@@ -19,7 +19,7 @@ namespace Hybrid
             }
             catch (Exception ex)
             {
-                Exceptions.Throw(ex);
+                Exceptions.Throw(ex, true);
             }
             
             return IsRunning;
@@ -41,8 +41,8 @@ namespace Hybrid
             Register(Resources.FindOrCreate());
             Register(Coroutines.FindOrCreate());
             Register(Invokes.FindOrCreate());
-            Register(Objects.FindOrCreate());
             Register(Input.FindOrCreate());
+            Register(Objects.FindOrCreate());
             Register(Scenes.FindOrCreate());
 
             // Initialize
