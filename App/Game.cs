@@ -8,7 +8,8 @@ namespace App
     {
         public override void OnSceneOpen()
         {
-            GameObject gameObject = new GameObject("TestObj");
+            GameObject gameObject = new GameObject("GameObj");
+            Scenes.LoadScene(1, SceneMode.Single);
         }
 
         public override void OnSceneClose()

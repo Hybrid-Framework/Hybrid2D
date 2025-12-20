@@ -57,7 +57,7 @@ namespace Hybrid
                         obj.Destroyed = true;
                         
                         // Debug Information
-                        Debug.Log($"{obj.GetType().Name} Destroyed");
+                        Debug.Log($"{obj.GetType().Name} Destroyed at {Time.FrameCount}");
                     }
                 }
                 catch (Exception ex)
@@ -70,6 +70,9 @@ namespace Hybrid
                     Exceptions.Throw(ex);
                 }
             }
+            
+            // Destroy Objects Immediately
+            Objects.DestroyObjectsRecursive();
         }
         
         public static bool IsDestroying(Object obj)

@@ -404,8 +404,8 @@ namespace Hybrid
                 // For Each GameObject In Scene
                 foreach (var gameObject in scene.GetRootGameObjects())
                 {
-                    // Destroy
-                    Object.Destroy(gameObject);
+                    // Destroy Immediately
+                    Object.DestroyImmediate(gameObject);
                 }
                 
                 Debug.Log($"Scene '{scene.Name}' closed");
@@ -449,7 +449,7 @@ namespace Hybrid
                 
                 if (scene != null)
                 {
-                    Debug.Log($"GameObject '{gameObject.Name}' added to Scene '{scene.Name}' root objects");
+                    // Debug.Log($"GameObject '{gameObject.Name}' added to Scene '{scene.Name}' root objects");
                     scene.RootGameObjects.Add(gameObject);
                     gameObject.Scene = scene;
                 }
@@ -462,7 +462,7 @@ namespace Hybrid
             
             if (scene != null)
             {
-                Debug.Log($"GameObject '{gameObject.Name}' removed from Scene '{scene.Name}' root objects");
+                // Debug.Log($"GameObject '{gameObject.Name}' removed from Scene '{scene.Name}' root objects");
                 scene.RootGameObjects.Remove(gameObject);
             }
         }
