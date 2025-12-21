@@ -1,6 +1,4 @@
-﻿using System;
-using Hybrid;
-using Object = Hybrid.Object;
+﻿using Hybrid;
 
 namespace App
 {
@@ -10,12 +8,9 @@ namespace App
         public override void OnSceneOpen()
         {
             GameObject gameObject = new GameObject();
-            GameObject child = new GameObject();
-            child.Transform.SetParent(gameObject.Transform);
+            Object.DontDestroyOnLoad(gameObject);
             
-            Object.DestroyImmediate(gameObject);
-
-            Debug.Log("Scene: " + gameObject.GetScene()?.Name);
+            Scenes.LoadScene(1, LoadSceneMode.Single);
         }
 
         public override void OnSceneClose()

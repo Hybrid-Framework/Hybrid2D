@@ -1,4 +1,7 @@
-﻿using System.Reflection;
+﻿using System.Collections.Generic;
+using System.Collections;
+using System.Reflection;
+using System.Linq;
 using System;
 
 namespace Hybrid
@@ -430,10 +433,14 @@ namespace Hybrid
             
             try
             {
-                ActiveScene = scene;
                 scene.IsLoaded = true;
+
+                if (scene != DontDestroyOnLoad)
+                {
+                    ActiveScene = scene;
+                    Debug.Log($"Scene '{scene.Name}' opened");
+                }
                 
-                Debug.Log($"Scene '{scene.Name}' opened");
                 scene.OnSceneOpen();
             }
             catch (Exception ex)
@@ -461,9 +468,13 @@ namespace Hybrid
                     Object.DestroyImmediate(gameObject);
                 }
                 
-                Debug.Log($"Scene '{scene.Name}' closed");
                 scene.IsLoaded = false;
-                ActiveScene = null;
+                
+                if (scene != DontDestroyOnLoad)
+                {
+                    Debug.Log($"Scene '{scene.Name}' closed");
+                    ActiveScene = null;
+                }
             }
             catch (Exception ex)
             {
@@ -483,7 +494,6 @@ namespace Hybrid
             {
                 if (scene != null)
                 {
-                    Debug.Log($"GameObject '{gameObject.Name}' added to Scene '{scene.Name}' root objects");
                     scene.RootGameObjects.Add(gameObject);
                     
                     // For Each Child In GameObject Including Self
@@ -492,6 +502,8 @@ namespace Hybrid
                         // Set Scene
                         child.GameObject.Scene = scene;
                     }
+                    
+                    Debug.Log($"GameObject '{gameObject.Name}' added to Scene '{scene.Name}' root objects");
                 }
             }
         }
@@ -502,7 +514,6 @@ namespace Hybrid
             
             if (scene != null)
             {
-                Debug.Log($"GameObject '{gameObject.Name}' removed from Scene '{scene.Name}' root objects");
                 scene.RootGameObjects.Remove(gameObject);
 
                 // If Root GameObject
@@ -515,6 +526,8 @@ namespace Hybrid
                         child.GameObject.Scene = null;
                     }
                 }
+                
+                Debug.Log($"GameObject '{gameObject.Name}' removed from Scene '{scene.Name}' root objects");
             }
         }
     }

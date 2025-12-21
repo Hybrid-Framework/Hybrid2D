@@ -1,11 +1,14 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Collections;
+using System.Linq;
+using System;
 
 namespace Hybrid
 {
     // Scene API
     public abstract class Scene
     {
-        internal HashSet<GameObject> RootGameObjects { get; set; } = new HashSet<GameObject>();
+        internal HashSet<GameObject> RootGameObjects { get; private set; } = new HashSet<GameObject>();
 
         public bool IsActiveScene => Scenes.GetActiveScene() == this;
         public bool IsLoaded { get; internal set; }
