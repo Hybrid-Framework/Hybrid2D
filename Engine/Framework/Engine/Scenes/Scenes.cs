@@ -8,8 +8,9 @@ namespace Hybrid
     {
         private Scenes() {}
         
-        internal static HashSet<Scene> AllScenes { get; set; } = new HashSet<Scene>();
-        internal static Scene ActiveScene { get; set; }
+        internal static HashSet<Scene> AllScenes { get; private set; } = new HashSet<Scene>();
+        internal static Scene DontDestroyOnLoad { get; private set; }
+        internal static Scene ActiveScene { get; private set; }
         
         
         // Initialize
@@ -45,6 +46,13 @@ namespace Hybrid
                 // Add Scene
                 if (scene != null)
                 {
+                    // Dont Destroy On Load Scene
+                    if (scene.Type == typeof(DontDestroyOnLoad))
+                    {
+                        DontDestroyOnLoad = scene;
+                        continue;
+                    }
+                    
                     AllScenes.Add(scene);
                 }
             }
@@ -56,7 +64,8 @@ namespace Hybrid
             }
             
             // Load Scene
-            LoadScene(AllScenes.Min(s => s.Index), SceneMode.Single);
+            LoadScene(DontDestroyOnLoad, LoadSceneMode.Single);
+            LoadScene(AllScenes.Min(s => s.Index), LoadSceneMode.Single);
         }
         
         // Update
@@ -272,9 +281,9 @@ namespace Hybrid
             ActiveScene = scene;
         }
         
-        public static Scene[] GetActiveScenes()
+        internal static Scene[] GetActiveScenes()
         {
-            List<Scene> results = new List<Scene>();
+            List<Scene> results = new List<Scene>() { DontDestroyOnLoad };
             
             foreach (var scene in AllScenes)
             {
@@ -312,8 +321,48 @@ namespace Hybrid
 
             return null;
         }
+        
+        public static void MoveGameObjectToScene(GameObject gameObject, Scene scene)
+        {
+            if (scene == null || !scene.IsLoaded || gameObject == null)
+            {
+                Debug.Warning("Can only move valid object to an active valid scene");
+                return;
+            }
 
-        public static void LoadScene(int index, SceneMode mode)
+            AddObject(gameObject, scene);
+        }
+        
+        public static void MoveGameObjectsToScene(GameObject[] gameObjects, Scene scene)
+        {
+            if (scene == null || !scene.IsLoaded || gameObjects == null || gameObjects.Length == 0)
+            {
+                Debug.Warning("Can only move valid objects to an active valid scene");
+                return;
+            }
+
+            foreach (var gameObject in gameObjects)
+            {
+                AddObject(gameObject, scene);
+            }
+        }
+
+        public static void MergeScenes(Scene source, Scene destination)
+        {
+            if (source == null || !source.IsLoaded || destination == null || !destination.IsLoaded)
+            {
+                Debug.Warning("Can only merge scenes if both scenes are active valid scenes");
+                return;
+            }
+
+            // Move All GameObjects To Destination Scene
+            MoveGameObjectsToScene(source.GetRootGameObjects(), destination);
+            
+            // Close Source Scene
+            CloseScene(source);
+        }
+
+        public static void LoadScene(int index, LoadSceneMode mode)
         {
             // Get Scene Information by Index
             var scene = GetSceneByIndex(index);
@@ -329,7 +378,7 @@ namespace Hybrid
             LoadScene(scene, mode);
         }
 
-        public static void LoadScene(string name, SceneMode mode)
+        public static void LoadScene(string name, LoadSceneMode mode)
         {
             // Get Scene Information by Name
             var scene = GetSceneByName(name);
@@ -345,7 +394,7 @@ namespace Hybrid
             LoadScene(scene, mode);
         }
 
-        private static void LoadScene(Scene scene, SceneMode mode)
+        private static void LoadScene(Scene scene, LoadSceneMode mode)
         {
             if (scene.IsLoaded)
             {
@@ -354,13 +403,16 @@ namespace Hybrid
                 return;
             }
             
-            if (mode == SceneMode.Single)
+            if (mode == LoadSceneMode.Single)
             {
                 // For Each Active Scene
-                foreach (var active in GetActiveScenes())
+                foreach (var active in AllScenes.ToArray())
                 {
-                    // Close Scene
-                    CloseScene(active);
+                    if (active.IsLoaded)
+                    {
+                        // Close Scene
+                        CloseScene(active);
+                    }
                 }
             }
             
@@ -378,7 +430,8 @@ namespace Hybrid
             
             try
             {
-                AddScene(scene);
+                ActiveScene = scene;
+                scene.IsLoaded = true;
                 
                 Debug.Log($"Scene '{scene.Name}' opened");
                 scene.OnSceneOpen();
@@ -409,7 +462,8 @@ namespace Hybrid
                 }
                 
                 Debug.Log($"Scene '{scene.Name}' closed");
-                RemoveScene(scene);
+                scene.IsLoaded = false;
+                ActiveScene = null;
             }
             catch (Exception ex)
             {
@@ -421,37 +475,23 @@ namespace Hybrid
     // Objects
     public partial class Scenes
     {
-        private static void AddScene(Scene scene)
+        internal static void AddObject(GameObject gameObject, Scene scene)
         {
-            scene.IsLoaded = true;
-
-            if (!scene.IsActiveScene)
-            {
-                ActiveScene = scene;
-            }
-        }
-
-        private static void RemoveScene(Scene scene)
-        {
-            scene.IsLoaded = false;
-
-            if (scene.IsActiveScene)
-            {
-                ActiveScene = null;
-            }
-        }
-        
-        internal static void AddObject(GameObject gameObject)
-        {
+            RemoveObject(gameObject);
+            
             if (!Object.IsDestroyed(gameObject))
             {
-                var scene = GetActiveScene();
-                
                 if (scene != null)
                 {
-                    // Debug.Log($"GameObject '{gameObject.Name}' added to Scene '{scene.Name}' root objects");
+                    Debug.Log($"GameObject '{gameObject.Name}' added to Scene '{scene.Name}' root objects");
                     scene.RootGameObjects.Add(gameObject);
-                    gameObject.Scene = scene;
+                    
+                    // For Each Child In GameObject Including Self
+                    foreach (Transform child in gameObject.Transform.GetChildrenRecursive(true))
+                    {
+                        // Set Scene
+                        child.GameObject.Scene = scene;
+                    }
                 }
             }
         }
@@ -462,8 +502,19 @@ namespace Hybrid
             
             if (scene != null)
             {
-                // Debug.Log($"GameObject '{gameObject.Name}' removed from Scene '{scene.Name}' root objects");
+                Debug.Log($"GameObject '{gameObject.Name}' removed from Scene '{scene.Name}' root objects");
                 scene.RootGameObjects.Remove(gameObject);
+
+                // If Root GameObject
+                if (gameObject.Transform.Parent == null)
+                {
+                    // For Each Child In GameObject Including Self
+                    foreach (Transform child in gameObject.Transform.GetChildrenRecursive(true))
+                    {
+                        // Remove Scene
+                        child.GameObject.Scene = null;
+                    }
+                }
             }
         }
     }

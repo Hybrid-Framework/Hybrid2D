@@ -15,9 +15,9 @@ namespace Hybrid
         public int Index { get; internal set; }
         
         
-        public List<GameObject> GetRootGameObjects()
+        public GameObject[] GetRootGameObjects()
         {
-            return RootGameObjects.ToList();
+            return RootGameObjects.ToArray();
         }
         
         public virtual void OnSceneOpen()

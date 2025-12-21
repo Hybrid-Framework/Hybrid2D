@@ -206,7 +206,7 @@ namespace Hybrid
             // Detach
             child.Parent = null;
             Transform.Children.Remove(child);
-            Scenes.AddObject(child.GameObject);
+            Scenes.AddObject(child.GameObject, child.GameObject.GetScene());
             // Debug.Log($"Child '{child.Name}' removed from parent '{Name}' ");
         }
     }

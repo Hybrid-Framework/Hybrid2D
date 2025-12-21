@@ -9,12 +9,13 @@ namespace App
     {
         public override void OnSceneOpen()
         {
-            GameObject gameObject = new GameObject("Parent");
-            GameObject child1 = new GameObject("Child 1");
-            GameObject child2 = new GameObject("Child 2");
+            GameObject gameObject = new GameObject();
+            GameObject child = new GameObject();
+            child.Transform.SetParent(gameObject.Transform);
             
-            child2.Transform.SetParent(child1.Transform);
-            child1.Transform.SetParent(gameObject.Transform);
+            Object.DestroyImmediate(gameObject);
+
+            Debug.Log("Scene: " + gameObject.GetScene()?.Name);
         }
 
         public override void OnSceneClose()

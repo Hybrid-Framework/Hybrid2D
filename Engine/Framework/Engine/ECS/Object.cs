@@ -74,6 +74,23 @@ namespace Hybrid
                 }
             }
         }
+
+        public static void DontDestroyOnLoad(Object obj)
+        {
+            if (!Object.IsDestroyed(obj))
+            {
+                if (obj is Behaviour behaviour)
+                {
+                    if (behaviour.GameObject.Transform.Parent != null)
+                    {
+                        Debug.Warning($"Can only call '{nameof(DontDestroyOnLoad)}' on objects that don't have a parent");
+                        return;
+                    }
+                    
+                    Scenes.MoveGameObjectToScene(behaviour.GameObject, Scenes.DontDestroyOnLoad);
+                }
+            }
+        }
         
         public static bool IsDestroying(Object obj)
         {

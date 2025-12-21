@@ -91,7 +91,7 @@ namespace Hybrid
             Name = name ?? Name;
             
             // Scene
-            Scenes.AddObject(this);
+            Scenes.AddObject(this, Scenes.GetActiveScene());
         }
 
         // Dispose

@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    public enum SceneMode
+    public enum LoadSceneMode
     {
         Single,
         Additive
