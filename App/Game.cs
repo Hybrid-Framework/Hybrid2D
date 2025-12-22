@@ -7,10 +7,10 @@ namespace App
     {
         public override void OnSceneOpen()
         {
-            GameObject gameObject = new GameObject();
-            Object.DontDestroyOnLoad(gameObject);
+            Application.TargetFrameRate = 60;
             
-            Scenes.LoadScene(1, LoadSceneMode.Single);
+            GameObject gameObject = new GameObject();
+            Object.Destroy(gameObject, 1.5f);
         }
 
         public override void OnSceneClose()

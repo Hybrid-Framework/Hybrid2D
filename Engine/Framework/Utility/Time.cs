@@ -13,8 +13,8 @@ namespace Hybrid
         public static float Timer { get; internal set; }
 
         public static float FixedFrameTime { get; internal set; }
-        public static uint FrameCount { get; internal set; }
         public static float FrameTime { get; internal set; }
+        public static int FrameCount { get; internal set; }
         public static float Fps { get; internal set; }
         
         public static float TimeScale { get; set; } = 1f;
@@ -24,8 +24,8 @@ namespace Hybrid
     public static partial class Time
     {
         private static readonly double FrameFrequency = SDL.GetPerformanceFrequency();
-        private static ulong FramePrevious = SDL.GetPerformanceCounter();
-        private static ulong FrameStart = SDL.GetPerformanceCounter();
+        private static long FramePrevious = SDL.GetPerformanceCounter();
+        private static long FrameStart = SDL.GetPerformanceCounter();
         private static float Smoothed;
         
         
