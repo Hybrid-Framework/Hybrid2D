@@ -34,7 +34,7 @@ namespace Hybrid
             
             // Rendering
             SDL.SetRenderDrawColor(Handle, 255, 255, 255, 255);
-            SDL.RenderDebugText(Handle, 10, 10, $"FPS: {Time.FramesPerSecond.ToString("N0")}");
+            SDL.RenderDebugText(Handle, 10, 10, $"FPS: {Time.FramesPerSecond.ToString("N0")} MS: {Time.FrameTime}");
             
             // Present
             SDL.RenderPresent(Handle);

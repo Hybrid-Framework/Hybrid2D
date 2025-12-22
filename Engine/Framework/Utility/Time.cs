@@ -11,7 +11,7 @@ namespace Hybrid
         public static float FramesPerSecond { get; internal set; }
         public static bool InFixedTimeStep { get; internal set; }
         public static uint FrameCount { get; internal set; }
-
+        
         public static float FixedUnscaledDeltaTime { get; internal set; }
         public static float UnscaledDeltaTime { get; internal set; }
         public static float SmoothDeltaTime { get; internal set; }
@@ -24,21 +24,22 @@ namespace Hybrid
         public static float UnscaledTimer { get; internal set; }
         public static float FixedTimer { get; internal set; }
         public static float Timer { get; internal set; }
+    }
+    
+    // Internal
+    public static partial class Time
+    {
+        private static double FrameFrequency { get; set; } = SDL.GetPerformanceFrequency();
+        private static long FramePrevious { get; set; } = SDL.GetPerformanceCounter();
+        private static long FrameStart  { get; set; } = SDL.GetPerformanceCounter();
+        
+        internal static Stopwatch SceneWatch { get; set; } = Stopwatch.StartNew();
+        internal static Stopwatch RealWatch { get; set; } = Stopwatch.StartNew();
         
         internal static float FixedUnscaledFrameTime { get; set; }
         internal static float UnscaledFrameTime { get; set; }
         internal static float FixedFrameTime { get; set; }
         internal static float FrameTime { get; set; }
-    }
-    
-    // Frame
-    public static partial class Time
-    {
-        internal static double FrameFrequency { get; set; } = SDL.GetPerformanceFrequency();
-        internal static Stopwatch SceneWatch { get; set; } = Stopwatch.StartNew();
-        internal static Stopwatch RealWatch { get; set; } = Stopwatch.StartNew();
-        internal static long FramePrevious { get; set; }
-        internal static long FrameStart  { get; set; }
         
         
         internal static void BeforeFrame()
