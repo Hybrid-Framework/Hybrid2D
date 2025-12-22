@@ -441,6 +441,7 @@ namespace Hybrid
                     Debug.Log($"Scene '{scene.Name}' opened");
                 }
                 
+                Time.SceneWatch.Restart();
                 scene.OnSceneOpen();
             }
             catch (Exception ex)

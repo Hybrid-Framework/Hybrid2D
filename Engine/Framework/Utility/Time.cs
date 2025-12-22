@@ -17,8 +17,9 @@ namespace Hybrid
         public static float SmoothDeltaTime { get; internal set; }
         public static float FixedDeltaTime { get; set; } = 0.02f;
         public static float DeltaTime { get; internal set; }
-        
-        public static float RealTimeSinceStartup { get; internal set; }
+
+        public static float RealTimeSinceSceneStartup => (float)Time.SceneWatch.Elapsed.TotalSeconds;
+        public static float RealTimeSinceStartup => (float)Time.RealWatch.Elapsed.TotalSeconds;
         public static float FixedUnscaledTimer { get; internal set; }
         public static float UnscaledTimer { get; internal set; }
         public static float FixedTimer { get; internal set; }
@@ -33,20 +34,21 @@ namespace Hybrid
     // Frame
     public static partial class Time
     {
-        private static readonly double FrameFrequency = SDL.GetPerformanceFrequency();
-        private static readonly Stopwatch Stopwatch = Stopwatch.StartNew();
-        private static long FramePrevious;
-        private static long FrameStart;
+        internal static double FrameFrequency { get; set; } = SDL.GetPerformanceFrequency();
+        internal static Stopwatch SceneWatch { get; set; } = Stopwatch.StartNew();
+        internal static Stopwatch RealWatch { get; set; } = Stopwatch.StartNew();
+        internal static long FramePrevious { get; set; }
+        internal static long FrameStart  { get; set; }
         
         
         internal static void BeforeFrame()
         {
             // Start
-            FrameStart = SDL.GetPerformanceCounter();
+            Time.FrameStart = SDL.GetPerformanceCounter();
             
             // Elapsed
-            var elapsed = (FrameStart - FramePrevious) / FrameFrequency;
-            FramePrevious = FrameStart;
+            var elapsed = (Time.FrameStart - Time.FramePrevious) / Time.FrameFrequency;
+            Time.FramePrevious = Time.FrameStart;
             
             // Delta Time
             Time.UnscaledDeltaTime = (float)elapsed;
@@ -55,7 +57,6 @@ namespace Hybrid
             Time.FixedUnscaledDeltaTime = Time.TimeScale > 0 ? Time.FixedDeltaTime / Time.TimeScale : Time.FixedDeltaTime;
             
             // Timers
-            Time.RealTimeSinceStartup = (float)Stopwatch.Elapsed.TotalSeconds;
             Time.UnscaledTimer += Time.UnscaledDeltaTime;
             Time.Timer += Time.DeltaTime;
             
@@ -70,9 +71,9 @@ namespace Hybrid
             Time.FrameCount += 1;
             
             // Fixed Spiral Prevention
-            if (FixedFrameTime > (FixedDeltaTime * 12))
+            if (Time.FixedFrameTime > (Time.FixedDeltaTime * 12))
             {
-                FixedFrameTime = FixedDeltaTime * 12;
+                Time.FixedFrameTime = Time.FixedDeltaTime * 12;
             }
         }
         
@@ -82,16 +83,16 @@ namespace Hybrid
             if (Application.TargetFrameRate > 0 && !Application.VSync)
             {
                 // Calculate Remaining
-                var Target = 1f / Application.TargetFrameRate;
+                var target = 1f / Application.TargetFrameRate;
                 
-                var FrameEnd = SDL.GetPerformanceCounter();
-                var FrameElapsed = (FrameEnd - FrameStart) / FrameFrequency;
-                var FrameRemaining = Target - FrameElapsed;
+                var frameEnd = SDL.GetPerformanceCounter();
+                var frameElapsed = (frameEnd - Time.FrameStart) / Time.FrameFrequency;
+                var frameRemaining = target - frameElapsed;
 
-                if (FrameRemaining > 0.0)
+                if (frameRemaining > 0.0)
                 {
                     // Sleep for (Remaining) nanoseconds
-                    SDL.DelayPrecise((ulong)(FrameRemaining * 1_000_000_000.0));
+                    SDL.DelayPrecise((ulong)(frameRemaining * 1_000_000_000.0));
                 }
             }
         }
