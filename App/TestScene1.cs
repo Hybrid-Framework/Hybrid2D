@@ -7,7 +7,7 @@ namespace App
     {
         public override void OnSceneOpen()
         {
-            Application.TargetFrameRate = 60;
+            
         }
 
         public override void OnSceneClose()

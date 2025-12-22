@@ -76,6 +76,7 @@ namespace Hybrid
             {
                 OnFixedUpdate();
                 {
+                    Time.FixedTimer += Time.FixedDeltaTime;
                     Time.FixedFrameTime -= Time.FixedDeltaTime;
                 }
             }
