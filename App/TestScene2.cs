@@ -2,8 +2,8 @@
 
 namespace App
 {
-    [Scene("Testing", index: 2)]
-    public class Testing : Scene
+    [Scene("Test Scene 2", index: 2)]
+    public class TestScene2 : Scene
     {
         public override void OnSceneOpen()
         {

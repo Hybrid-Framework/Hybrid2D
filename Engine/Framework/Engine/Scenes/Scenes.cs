@@ -503,7 +503,7 @@ namespace Hybrid
                         child.GameObject.Scene = scene;
                     }
                     
-                    Debug.Log($"GameObject '{gameObject.Name}' added to Scene '{scene.Name}' root objects");
+                    // Debug.Log($"GameObject '{gameObject.Name}' added to Scene '{scene.Name}' root objects");
                 }
             }
         }
@@ -527,7 +527,7 @@ namespace Hybrid
                     }
                 }
                 
-                Debug.Log($"GameObject '{gameObject.Name}' removed from Scene '{scene.Name}' root objects");
+                // Debug.Log($"GameObject '{gameObject.Name}' removed from Scene '{scene.Name}' root objects");
             }
         }
     }

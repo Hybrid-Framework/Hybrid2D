@@ -2,15 +2,12 @@
 
 namespace App
 {
-    [Scene("Game", index: 0)]
-    public class Game : Scene
+    [Scene("Test Scene 1", index: 1)]
+    public class TestScene1 : Scene
     {
         public override void OnSceneOpen()
         {
             Application.TargetFrameRate = 60;
-            
-            GameObject gameObject = new GameObject();
-            Object.Destroy(gameObject, 1.5f);
         }
 
         public override void OnSceneClose()

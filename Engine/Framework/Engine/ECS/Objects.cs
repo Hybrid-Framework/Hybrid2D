@@ -31,7 +31,6 @@ namespace Hybrid
     {
         private static readonly HashSet<Object> ObjectsMarkedForDestroying = new HashSet<Object>();
         
-
         private static void DestroyObjects()
         {
             // For Each Object Marked For Destroying

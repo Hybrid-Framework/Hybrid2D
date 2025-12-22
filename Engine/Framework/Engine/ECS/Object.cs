@@ -22,7 +22,7 @@ namespace Hybrid
     {
         public static void Destroy(Object obj, float delay = 0)
         {
-            if (!Object.IsDestroyed(obj))
+            if (!IsDestroyed(obj))
             {
                 // Delay
                 if (delay > 0)
@@ -46,7 +46,7 @@ namespace Hybrid
 
         public static void DestroyImmediate(Object obj)
         {
-            if (!Object.IsDestroyed(obj))
+            if (!IsDestroyed(obj))
             {
                 try
                 {
@@ -77,7 +77,7 @@ namespace Hybrid
 
         public static void DontDestroyOnLoad(Object obj)
         {
-            if (!Object.IsDestroyed(obj))
+            if (!IsDestroyed(obj))
             {
                 if (obj is Behaviour behaviour)
                 {
@@ -92,7 +92,7 @@ namespace Hybrid
             }
         }
         
-        public static bool IsDestroying(Object obj)
+        internal static bool IsDestroying(Object obj)
         {
             if (Objects.IsMarkedForDestroying(obj))
             {
@@ -102,7 +102,7 @@ namespace Hybrid
             return IsDestroyed(obj);
         }
 
-        public static bool IsDestroyed(Object obj)
+        internal static bool IsDestroyed(Object obj)
         {
             if (ReferenceEquals(obj, null))
             {

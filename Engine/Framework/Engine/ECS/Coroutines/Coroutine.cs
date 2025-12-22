@@ -17,7 +17,7 @@ namespace Hybrid
 
         internal Coroutine(Object owner, string name, IEnumerator enumerator)
         {
-            Debug.Log($"Coroutine '{name}' started on '{owner.GetType().Name}'");
+            // Debug.Log($"Coroutine '{name}' started on '{owner.GetType().Name}'");
             this.Enumerator = enumerator;
             this.Owner = owner;
             this.Name = name;
@@ -96,7 +96,7 @@ namespace Hybrid
             if(Done) return;
             Done = true;
             
-            Debug.Log($"Coroutine '{Name}' stopped on '{Owner.GetType().Name}'");
+            // Debug.Log($"Coroutine '{Name}' stopped on '{Owner.GetType().Name}'");
             Coroutines.StopCoroutine(Owner, this);
         }
     }

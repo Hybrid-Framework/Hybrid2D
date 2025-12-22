@@ -76,9 +76,10 @@ namespace Hybrid
         
         public GameObject(string name = null)
         {
+            // Invalid Scene
             if (Scenes.GetActiveScene() == null)
             {
-                throw new Exception("Can't create GameObject's with no scene loaded\n" + "You should only create objects in 'OnSceneOpen' or after the scene has loaded");
+                throw new Exception("Can't create GameObject's with no scene loaded\n" + "You should only create GameObject's in 'OnSceneOpen' or after the scene has loaded");
             }
             
             // GameObject
@@ -99,20 +100,20 @@ namespace Hybrid
         // Dispose
         internal override void OnDispose()
         {
-            if (!Object.IsDestroyed(this))
+            if (!IsDestroyed(this))
             {
                 // For Each Child In GameObject
                 foreach (var child in Transform.GetChildrenRecursive())
                 {
                     // Destroy Child GameObject
-                    Object.DestroyImmediate(child.GameObject);
+                    DestroyImmediate(child.GameObject);
                 }
             
                 // For Each Component In GameObject
                 foreach (var component in GetComponents())
                 {
                     // Destroy Component
-                    Object.DestroyImmediate(component);
+                    DestroyImmediate(component);
                 }
             
                 // Remove From Scene
