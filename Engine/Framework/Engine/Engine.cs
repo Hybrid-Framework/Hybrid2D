@@ -74,15 +74,16 @@ namespace Hybrid
             // Fixed Update
             while (Time.FixedFrameTime >= Time.FixedDeltaTime)
             {
-                Time.IsFixedTimeStep = true;
+                Time.InFixedTimeStep = true;
                 
                 OnFixedUpdate();
                 {
+                    Time.FixedUnscaledTimer += Time.FixedUnscaledDeltaTime;
                     Time.FixedTimer += Time.FixedDeltaTime;
-                    Time.FixedFrameTime -= Time.FixedDeltaTime;
                 }
                 
-                Time.IsFixedTimeStep = false;
+                Time.FixedFrameTime -= Time.FixedDeltaTime;
+                Time.InFixedTimeStep = false;
             }
             
             // Update
