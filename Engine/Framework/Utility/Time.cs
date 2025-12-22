@@ -6,9 +6,11 @@ namespace Hybrid
     // Time
     public static partial class Time
     {
+        public static bool IsFixedTimeStep { get; internal set; }
+        
         public static float FramesPerSecond { get; internal set; }
         public static uint FrameCount { get; internal set; }
-        
+
         public static float UnscaledDeltaTime { get; internal set; }
         public static float SmoothDeltaTime { get; internal set; }
         public static float FixedDeltaTime { get; set; } = 0.02f;
