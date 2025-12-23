@@ -7,7 +7,7 @@ namespace App
     {
         public override void OnSceneOpen()
         {
-            
+            GameObject gameObject = new GameObject("Obj");
         }
 
         public override void OnSceneClose()

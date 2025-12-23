@@ -51,14 +51,14 @@ namespace Hybrid
             }
         }
         
-        private string _Tag { get; set; } = "Default";
-        public string Tag
+        private Tag _Tag { get; set; } = Tags.Untagged;
+        public Tag Tag
         {
             get
             {
                 if (IsDestroyed(this))
                 {
-                    return "Null";
+                    return new Tag("Destroyed");
                 }
 
                 return _Tag;
@@ -289,7 +289,7 @@ namespace Hybrid
             return null;
         }
         
-        public static GameObject[] FindGameObjectsByTag(string tag, bool activeOnly = false)
+        public static GameObject[] FindGameObjectsByTag(Tag tag, bool activeOnly = false)
         {
             var results = new List<GameObject>();
 
@@ -321,7 +321,7 @@ namespace Hybrid
             return results.ToArray();
         }
         
-        public static GameObject FindGameObjectByTag(string tag, bool activeOnly = false)
+        public static GameObject FindGameObjectByTag(Tag tag, bool activeOnly = false)
         {
             // For Each Active Scene
             foreach(var scene in Scenes.GetActiveScenes())
