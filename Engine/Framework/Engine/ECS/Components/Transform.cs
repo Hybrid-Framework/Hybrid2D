@@ -62,12 +62,30 @@ namespace Hybrid
                 
                 // Set Parent
                 parent.AddChild(Transform);
+
+                // Set Scene To Parent Scene
+                foreach (var child in parent.GetChildrenRecursive(true))
+                {
+                    child.GameObject.Scene = parent.GameObject.Scene;
+                }
             }
         }
 
         public Transform GetParent()
         {
             return Transform.Parent;
+        }
+        
+        public Transform GetRootParent()
+        {
+            Transform current = Transform;
+
+            while (current.Parent != null)
+            {
+                current = current.Parent;
+            }
+
+            return current;
         }
     }
 
