@@ -7,91 +7,106 @@ namespace Hybrid
     public static class Tags
     {
         private static readonly List<Tag> AllTags = new List<Tag>();
-        public static readonly Tag Untagged = new Tag("Untagged");
-        public const int MaxTags = 256;
+        internal static readonly Tag Untagged = new("Untagged");
+        internal const int MaxTags = 256;
 
         static Tags()
         {
             AllTags.Add(Untagged);
+            
+            for (int i = 1; i < MaxTags; i++)
+            {
+                AllTags.Add(new Tag(string.Empty));
+            }
         }
         
-
+        
         public static Tag CreateTag(string name)
         {
-            // Invalid Tag
-            if (string.IsNullOrEmpty(name))
-            {
-                Debug.Warning("Tag is empty");
-                {
-                    return Untagged;
-                }
-            }
-
-            // Maximum Tag
-            if (AllTags.Count >= MaxTags)
-            {
-                Debug.Warning($"Maximum tags '{MaxTags}' reached");
-                {
-                    return Untagged;
-                }
-            }
-
             // Existing Tag
-            if (AllTags.Any(t => string.Equals(t.Name, name, StringComparison.OrdinalIgnoreCase)))
+            if (AllTags.Select(l => l.Name).Concat([ Untagged.Name ]).Any(n => string.Equals(n, name, StringComparison.OrdinalIgnoreCase)))
             {
                 Debug.Warning($"Tag '{name}' already exists");
                 {
                     return Untagged;
                 }
             }
-
-            // Create
-            var tag = new Tag(name);
-            AllTags.Add(tag);
-            return tag;
+            
+            // Invalid Tag
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                Debug.Warning("Tag is empty");
+                {
+                    return Untagged;
+                }
+            }
+            
+            // Create Tag
+            var tag = AllTags.FirstOrDefault(t => string.Equals(t.Name, string.Empty, StringComparison.OrdinalIgnoreCase));
+            {
+                if (tag == null)
+                {
+                    Debug.Warning($"Maximum tags '{MaxTags}' reached");
+                    {
+                        return Untagged;
+                    }
+                }
+            
+                tag.Name = name;
+                return tag;
+            }
         }
-
+        
         public static void DeleteTag(string name)
         {
-            // Required Tag
+            // Existing Tag
             if (string.Equals(name, Untagged.Name, StringComparison.OrdinalIgnoreCase))
             {
-                Debug.Warning($"Can't remove required '{Untagged.Name}' tag");
+                Debug.Warning($"Can't remove required '{name}' tag");
+                {
+                    return;
+                }
+            }
+            
+            // Invalid Tag
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                Debug.Warning("Tag is empty");
                 {
                     return;
                 }
             }
 
-            Tag tag = GetTag(name);
-            
-            // If Valid Tag
-            if (tag != null && tag != Untagged)
+            // Delete Tag
+            var index = GetTagIndex(name);
             {
-                // For Each GameObject Using Tag
-                foreach (var gameObject in GameObject.FindGameObjectsByTag(tag))
+                if (index >= 0)
                 {
-                    // Set Untagged
-                    gameObject.Tag = Untagged;
-                }
+                    foreach (var gameObject in GameObject.FindGameObjectsByTag(AllTags[index]))
+                    {
+                        gameObject.Tag = Untagged;
+                    }
                 
-                // Remove
-                AllTags.Remove(tag);
+                    AllTags[index].Name = string.Empty;
+                }
             }
         }
-
+        
         public static Tag GetTag(string name)
         {
-            Tag tag = AllTags.FirstOrDefault(t => string.Equals(t.Name, name, StringComparison.OrdinalIgnoreCase));
-
-            if (tag == null)
+            // Get Tag By Name
+            var tag = AllTags.FirstOrDefault(t => string.Equals(t.Name, name, StringComparison.OrdinalIgnoreCase));
             {
-                Debug.Warning($"Tag '{name}' not found");
+                if (tag == null)
                 {
-                    return Untagged;
+                    Debug.Warning($"Tag '{name}' not found");
+                    {
+                        return Untagged;
+                    }
                 }
-            }
 
-            return tag;
+                return tag;
+            }
         }
 
         public static Tag GetTag(int index)
@@ -105,6 +120,21 @@ namespace Hybrid
             }
 
             return AllTags[index];
+        }
+        
+        public static string GetTagName(int index)
+        {
+            // Find Tag Name
+            if (index < 0 || index >= AllTags.Count)
+            {
+                Debug.Warning($"Tag '{index}' not found");
+                {
+                    return Untagged.Name;
+                }
+            }
+
+            // Return
+            return AllTags[index].Name;
         }
         
         public static int GetTagIndex(string name)
@@ -125,19 +155,14 @@ namespace Hybrid
             }
         }
         
-        public static string GetTagName(int index)
+        public static string GetTagName(Tag tag)
         {
-            // Find Tag Name
-            if (index < 0 || index >= AllTags.Count)
-            {
-                Debug.Warning($"Tag '{index}' not found");
-                {
-                    return Untagged.Name;
-                }
-            }
-
-            // Return
-            return AllTags[index].Name;
+            return GetTagName(GetTagIndex(tag));
+        }
+        
+        public static int GetTagIndex(Tag tag)
+        {
+            return GetTagIndex(tag.Name);
         }
 
         public static Tag[] GetTags()

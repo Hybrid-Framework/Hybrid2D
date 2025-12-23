@@ -7,18 +7,16 @@ namespace App
     {
         public override void OnSceneOpen()
         {
+            Application.TargetFrameRate = 60;
+            
             GameObject gameObject = new GameObject("Obj");
-
-            Layers.CreateLayer("Layer 1");
-            Layers.CreateLayer("Layer 2");
-            Layers.CreateLayer("Layer 3");
+            gameObject.Tag = Tags.CreateTag("Hello");
             
-            gameObject.Layer.Set(Layers.Everything);
-            gameObject.Layer.Set(Layers.Nothing);
+            Debug.Log(gameObject.Tag);
             
-            gameObject.Layer.ResetToDefault();
+            Tags.DeleteTag("Hello");
             
-            Debug.Log(gameObject.Layer);
+            Debug.Log(gameObject.Tag);
         }
 
         public override void OnSceneClose()

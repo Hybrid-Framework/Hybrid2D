@@ -10,46 +10,35 @@ namespace Hybrid
 
         internal LayerMask()
         {
-            ResetToDefault();
+            Default();
         }
     }
     
     // Layer Mask
     public partial class LayerMask
     {
-        public void ResetToDefault()
+        public void Default()
         {
             mask = 1u << Layers.GetLayerIndex(Layers.Default);
         }
 
-        public void Set(Layer layer)
+        public void Everything()
         {
-            // Nothing
-            if (layer == Layers.Nothing)
-            {
-                ResetToDefault();
-            }
-            
-            // Everything
-            else if (layer == Layers.Everything)
-            {
-                ResetToDefault();
+            Default();
                 
-                foreach (var lyr in Layers.GetLayers())
-                {
-                    mask |= 1u << Layers.GetLayerIndex(lyr);
-                }
-            }
-            
-            // Layer
-            else
+            foreach (var lyr in Layers.GetLayers())
             {
-                int index = Layers.GetLayerIndex(layer);
+                mask |= 1u << Layers.GetLayerIndex(lyr);
+            }
+        }
+
+        public void Add(Layer layer)
+        {
+            int index = Layers.GetLayerIndex(layer);
                 
-                if (index >= 0)
-                {
-                    mask |= 1u << index;
-                }
+            if (index >= 0)
+            {
+                mask |= 1u << index;
             }
         }
 
@@ -64,7 +53,7 @@ namespace Hybrid
 
             if (mask == 0)
             {
-                ResetToDefault();
+                Default();
             }
         }
 

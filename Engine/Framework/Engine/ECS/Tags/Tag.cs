@@ -4,7 +4,7 @@ namespace Hybrid
 {
     public class Tag
     {
-        public string Name { get; private set; }
+        internal string Name { get; set; }
 
         internal Tag(string name)
         {
