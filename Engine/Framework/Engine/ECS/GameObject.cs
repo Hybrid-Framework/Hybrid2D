@@ -30,14 +30,14 @@ namespace Hybrid
             }
         }
         
-        private string _Layer { get; set; } = "Default";
-        public string Layer
+        private LayerMask _Layer { get; set; } = new LayerMask();
+        public LayerMask Layer
         {
             get
             {
                 if (IsDestroyed(this))
                 {
-                    return "Null";
+                    return new LayerMask();
                 }
 
                 return _Layer;
@@ -58,7 +58,7 @@ namespace Hybrid
             {
                 if (IsDestroyed(this))
                 {
-                    return new Tag("Destroyed");
+                    return Tags.Untagged;
                 }
 
                 return _Tag;
@@ -227,7 +227,7 @@ namespace Hybrid
             return null;
         }
 
-        public static GameObject[] FindGameObjectsByLayer(string layer, bool activeOnly = false)
+        public static GameObject[] FindGameObjectsByLayer(Layer layer, bool activeOnly = false)
         {
             var results = new List<GameObject>();
 
@@ -248,7 +248,7 @@ namespace Hybrid
                         if (child == null) continue;
                         if (activeOnly && !child.Enabled) continue;
 
-                        if (child.GameObject.Layer == layer)
+                        if (child.GameObject.Layer.Contains(layer))
                         {
                             results.Add(child.GameObject);
                         }
@@ -259,7 +259,7 @@ namespace Hybrid
             return results.ToArray();
         }
         
-        public static GameObject FindGameObjectByLayer(string layer, bool activeOnly = false)
+        public static GameObject FindGameObjectByLayer(Layer layer, bool activeOnly = false)
         {
             // For Each Active Scene
             foreach(var scene in Scenes.GetActiveScenes())
@@ -278,7 +278,7 @@ namespace Hybrid
                         if (child == null) continue;
                         if (activeOnly && !child.Enabled) continue;
 
-                        if (child.GameObject.Layer == layer)
+                        if (child.GameObject.Layer.Contains(layer))
                         {
                             return child.GameObject;
                         }

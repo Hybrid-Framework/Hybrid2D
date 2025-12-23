@@ -8,7 +8,7 @@ namespace Hybrid
     {
         private static readonly List<Tag> AllTags = new List<Tag>();
         public static readonly Tag Untagged = new Tag("Untagged");
-        public static readonly int MaxTags = 256;
+        public const int MaxTags = 256;
 
         static Tags()
         {
@@ -16,7 +16,7 @@ namespace Hybrid
         }
         
 
-        public static Tag AddTag(string name)
+        public static Tag CreateTag(string name)
         {
             // Invalid Tag
             if (string.IsNullOrEmpty(name))
@@ -51,7 +51,7 @@ namespace Hybrid
             return tag;
         }
 
-        public static void RemoveTag(string name)
+        public static void DeleteTag(string name)
         {
             // Required Tag
             if (string.Equals(name, Untagged.Name, StringComparison.OrdinalIgnoreCase))
@@ -105,6 +105,39 @@ namespace Hybrid
             }
 
             return AllTags[index];
+        }
+        
+        public static int GetTagIndex(string name)
+        {
+            // Find Tag Index
+            for (int i = 0; i < AllTags.Count; i++)
+            {
+                if (string.Equals(AllTags[i].Name, name, StringComparison.OrdinalIgnoreCase))
+                {
+                    return i;
+                }
+            }
+            
+            // Fallback
+            Debug.Warning($"Tag '{name}' not found");
+            {
+                return -1;
+            }
+        }
+        
+        public static string GetTagName(int index)
+        {
+            // Find Tag Name
+            if (index < 0 || index >= AllTags.Count)
+            {
+                Debug.Warning($"Tag '{index}' not found");
+                {
+                    return Untagged.Name;
+                }
+            }
+
+            // Return
+            return AllTags[index].Name;
         }
 
         public static Tag[] GetTags()
