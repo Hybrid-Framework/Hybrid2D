@@ -9,6 +9,8 @@ namespace Hybrid
     [RequireComponent(typeof(Transform))]
     public sealed partial class Transform : Component
     {
+        internal Transform() { }
+        
         internal List<Transform> Children { get; private set; } = new List<Transform>();
         internal Transform Parent { get; private set; }
         
@@ -203,6 +205,16 @@ namespace Hybrid
             // Set Last
             SetSiblingIndex(Transform.Parent.ChildCount() - 1);
         }
+
+        public void DetachChildren()
+        {
+            // For Each Immediate Child
+            foreach (var child in Transform.GetChildren())
+            {
+                // Remove
+                RemoveChild(child);
+            }
+        }
         
         private void AddChild(Transform child)
         {
@@ -226,7 +238,7 @@ namespace Hybrid
             // Detach
             child.Parent = null;
             Transform.Children.Remove(child);
-            Scenes.AddObject(child.GameObject, child.GameObject.GetScene());
+            Scenes.AddObject(child.GameObject, child.GameObject.Scene);
             // Debug.Log($"Child '{child.Name}' removed from parent '{Name}' ");
         }
     }

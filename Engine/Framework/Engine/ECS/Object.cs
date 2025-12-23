@@ -113,6 +113,82 @@ namespace Hybrid
         }
     }
 
+    // Find By Type
+    public partial class Object
+    {
+        public static T[] FindObjectsByType<T>(bool activeOnly = false) where T : Object
+        {
+            var results = new List<T>();
+
+            // For Each Active Scene
+            foreach(var scene in Scenes.GetActiveScenes())
+            {
+                // For Each Root GameObject In Scene
+                foreach (var gameObject in scene.GetRootGameObjects())
+                {
+                    // If Active Only And Disabled
+                    if (gameObject == null) continue;
+                    if (activeOnly && !gameObject.Active) continue;
+
+                    if (typeof(T).IsAssignableFrom(gameObject.GetType()))
+                    {
+                        results.Add(gameObject as T);
+                    }
+
+                    // For Each Child Components Of GameObject (Including Parent)
+                    foreach (var component in gameObject.GetComponentsInChildren<Component>(true))
+                    {
+                        // If Active Only And Disabled
+                        if (component == null) continue;
+                        if (activeOnly && !component.Enabled) continue;
+
+                        if (typeof(T).IsAssignableFrom(component.GetType()))
+                        {
+                            results.Add(component as T);
+                        }
+                    }
+                }
+            }
+
+            return results.ToArray();
+        }
+        
+        public static T FindObjectByType<T>(bool activeOnly = false) where T : Object
+        {
+            // For Each Active Scene
+            foreach(var scene in Scenes.GetActiveScenes())
+            {
+                // For Each Root GameObject In Scene
+                foreach (var gameObject in scene.GetRootGameObjects())
+                {
+                    // If Active Only And Disabled
+                    if(gameObject == null) continue;
+                    if(activeOnly && !gameObject.Active) continue;
+                
+                    if (typeof(T).IsAssignableFrom(gameObject.GetType()))
+                    {
+                        return gameObject as T;
+                    }
+
+                    // For Each Child Components Of GameObject (Including Parent)
+                    foreach (var component in gameObject.GetComponentsInChildren<Component>(true))
+                    {
+                        // If Active Only And Disabled
+                        if(component == null) continue;
+                        if(activeOnly && !component.Enabled) continue;
+                    
+                        if (typeof(T).IsAssignableFrom(component.GetType()))
+                        {
+                            return component as T;
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+    }
+
     // Operators
     public partial class Object
     {

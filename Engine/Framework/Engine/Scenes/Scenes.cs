@@ -511,7 +511,7 @@ namespace Hybrid
         
         internal static void RemoveObject(GameObject gameObject)
         {
-            var scene = gameObject.GetScene();
+            var scene = gameObject.Scene;
             
             if (scene != null)
             {
