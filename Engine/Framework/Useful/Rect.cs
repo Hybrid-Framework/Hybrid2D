@@ -33,7 +33,7 @@ namespace Hybrid
     {
         internal static SDL.FRect? SDLFRect(Rect? rect)
         {
-            if (!rect.HasValue) return null;
+            if (!rect.HasValue) return new SDL.FRect();
 
             return new SDL.FRect
             {
@@ -46,7 +46,7 @@ namespace Hybrid
         
         internal static SDL.Rect? SDLRect(Rect? rect)
         {
-            if (!rect.HasValue) return null;
+            if (!rect.HasValue) return new SDL.Rect();
 
             return new SDL.Rect
             {
