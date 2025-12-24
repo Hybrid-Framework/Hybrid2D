@@ -260,7 +260,7 @@ namespace Hybrid
             foreach (var scene in GetActiveScenes())
             {
                 // Close Scene
-                CloseScene(scene);
+                Close(scene);
             }
         }
     }
@@ -362,7 +362,20 @@ namespace Hybrid
             MoveGameObjectsToScene(source.GetRootGameObjects(), destination);
             
             // Close Source Scene
-            CloseScene(source);
+            Close(source);
+        }
+        
+        public static void LoadScene(Scene scene, LoadSceneMode mode)
+        {
+            // Invalid Scene
+            if (scene == null)
+            {
+                Debug.Warning($"Failed to load scene");
+                return;
+            }
+            
+            // Load Scene
+            Load(scene, mode);
         }
 
         public static void LoadScene(int index, LoadSceneMode mode)
@@ -378,7 +391,7 @@ namespace Hybrid
             }
             
             // Load Scene
-            LoadScene(scene, mode);
+            Load(scene, mode);
         }
 
         public static void LoadScene(string name, LoadSceneMode mode)
@@ -394,73 +407,68 @@ namespace Hybrid
             }
             
             // Load Scene
-            LoadScene(scene, mode);
+            Load(scene, mode);
         }
 
-        private static void LoadScene(Scene scene, LoadSceneMode mode)
+        private static void Load(Scene scene, LoadSceneMode mode)
         {
-            if (scene.IsLoaded)
-            {
-                // Scene Already Loaded
-                Debug.Warning($"Scene '{scene.Name}' already loaded");
-                return;
-            }
-            
-            if (mode == LoadSceneMode.Single)
-            {
-                // For Each Active Scene
-                foreach (var active in AllScenes.ToArray())
-                {
-                    if (active.IsLoaded)
-                    {
-                        // Close Scene
-                        CloseScene(active);
-                    }
-                }
-            }
-            
-            // Open Scene
-            OpenScene(scene);
-        }
-
-        private static void OpenScene(Scene scene)
-        {
-            if (scene == null)
-            {
-                Debug.Warning($"Failed to open invalid scene");
-                return;
-            }
-            
             try
             {
-                scene.IsLoaded = true;
-
-                if (scene != DontDestroyOnLoad)
+                if (scene.IsLoaded)
                 {
-                    ActiveScene = scene;
-                    Debug.Log($"Scene '{scene.Name}' opened");
+                    // Scene Already Loaded
+                    Debug.Warning($"Scene '{scene.Name}' already loaded");
+                    return;
                 }
-                
-                Time.SceneWatch.Restart();
-                scene.OnSceneOpen();
+
+                if (mode == LoadSceneMode.Single)
+                {
+                    // For Each Active Scene
+                    foreach (var active in AllScenes.ToArray())
+                    {
+                        if (active.IsLoaded)
+                        {
+                            // Close Scene
+                            Close(active);
+                        }
+                    }
+                }
+
+                // Open Scene
+                Open(scene);
             }
             catch (Exception ex)
             {
-                Exceptions.Throw(ex);
+                Exceptions.Throw(ex, true);
             }
         }
 
-        private static void CloseScene(Scene scene)
+        private static void Open(Scene scene)
         {
-            if (scene == null)
+            if (scene != null)
             {
-                Debug.Warning($"Failed to close invalid scene");
-                return;
+                if (scene != DontDestroyOnLoad)
+                {
+                    ActiveScene = scene;
+                    Time.SceneWatch.Restart();
+                    Debug.Log($"Scene '{scene.Name}' opened");
+                }
+                
+                scene.IsLoaded = true;
+                scene.OnSceneOpen();
             }
-            
-            try
+            else
+            {
+                Debug.Warning($"Failed to open invalid scene");
+            }
+        }
+
+        private static void Close(Scene scene)
+        {
+            if (scene != null)
             {
                 scene.OnSceneClose();
+                scene.IsLoaded = false;
                 
                 // For Each GameObject In Scene
                 foreach (var gameObject in scene.GetRootGameObjects())
@@ -469,17 +477,15 @@ namespace Hybrid
                     Object.DestroyImmediate(gameObject);
                 }
                 
-                scene.IsLoaded = false;
-                
                 if (scene != DontDestroyOnLoad)
                 {
                     Debug.Log($"Scene '{scene.Name}' closed");
                     ActiveScene = null;
                 }
             }
-            catch (Exception ex)
+            else
             {
-                Exceptions.Throw(ex);
+                Debug.Warning($"Failed to close invalid scene");
             }
         }
     }
@@ -491,20 +497,15 @@ namespace Hybrid
         {
             RemoveObject(gameObject);
             
-            if (!Object.IsDestroyed(gameObject))
+            if (!Object.IsDestroyed(gameObject) && scene != null)
             {
-                if (scene != null)
+                // Debug.Log($"GameObject '{gameObject.Name}' added to Scene '{scene.Name}' root objects");
+                scene.RootGameObjects.Add(gameObject);
+                
+                // Set Scene For All Children
+                foreach (Transform child in gameObject.Transform.GetChildrenRecursive(true))
                 {
-                    scene.RootGameObjects.Add(gameObject);
-                    
-                    // For Each Child In GameObject Including Self
-                    foreach (Transform child in gameObject.Transform.GetChildrenRecursive(true))
-                    {
-                        // Set Scene
-                        child.GameObject.Scene = scene;
-                    }
-                    
-                    // Debug.Log($"GameObject '{gameObject.Name}' added to Scene '{scene.Name}' root objects");
+                    child.GameObject.Scene = scene;
                 }
             }
         }
@@ -515,21 +516,11 @@ namespace Hybrid
             
             if (scene != null)
             {
-                scene.RootGameObjects.Remove(gameObject);
-
-                // If Root GameObject
-                if (gameObject.Transform.Parent == null)
-                {
-                    // For Each Child In GameObject Including Self
-                    foreach (Transform child in gameObject.Transform.GetChildrenRecursive(true))
-                    {
-                        // Remove Scene
-                        child.GameObject.Scene = null;
-                    }
-                }
-                
                 // Debug.Log($"GameObject '{gameObject.Name}' removed from Scene '{scene.Name}' root objects");
+                scene.RootGameObjects.Remove(gameObject);
             }
+            
+            gameObject.Scene = null;
         }
     }
 }

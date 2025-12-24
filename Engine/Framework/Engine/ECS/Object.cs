@@ -57,6 +57,7 @@ namespace Hybrid
                     obj.OnDispose();
                     {
                         // Destroy
+                        Objects.UnMarkObjectForDestroying(obj);
                         obj.Destroyed = true;
                         
                         // Debug Information
@@ -99,7 +100,7 @@ namespace Hybrid
                 return true;
             }
             
-            return IsDestroyed(obj);
+            return false;
         }
 
         internal static bool IsDestroyed(Object obj)

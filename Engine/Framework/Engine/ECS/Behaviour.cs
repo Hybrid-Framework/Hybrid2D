@@ -743,7 +743,7 @@ namespace Hybrid
             if (HasComponent(component))
             {
                 // Check Destroying
-                if (!IsDestroying(GameObject))
+                if (!IsDestroying(GameObject) && !IsDestroyed(GameObject))
                 {
                     // For Each Component
                     foreach (var checkComponent in GameObject.Components)

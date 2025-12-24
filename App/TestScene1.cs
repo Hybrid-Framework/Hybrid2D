@@ -10,13 +10,16 @@ namespace App
             Application.TargetFrameRate = 60;
             
             GameObject gameObject = new GameObject("Obj");
-            gameObject.Tag = Tags.CreateTag("Hello");
+            GameObject child = new GameObject("Child");
+            child.Transform.SetParent(gameObject.Transform);
+
+            Debug.Log("GameObject: " + gameObject.Scene?.Name);
+            Debug.Log("Child: " + child.Scene?.Name);
             
-            Debug.Log(gameObject.Tag);
+            Object.DestroyImmediate(gameObject);
             
-            Tags.DeleteTag("Hello");
-            
-            Debug.Log(gameObject.Tag);
+            Debug.Log("GameObject: " + gameObject.Scene?.Name);
+            Debug.Log("Child: " + child.Scene?.Name);
         }
 
         public override void OnSceneClose()
