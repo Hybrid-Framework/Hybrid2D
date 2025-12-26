@@ -3,7 +3,7 @@
 namespace Hybrid
 {
     // Internal
-    public unsafe partial class Sound : Resource
+    public unsafe partial class AudioClip : Resource
     {
         // SDL Audio Handle
         internal SDL.Audio* Handle
@@ -23,10 +23,10 @@ namespace Hybrid
         }
     }
 
-    // Sound API
-    public unsafe partial class Sound
+    // Audio Clip API
+    public unsafe partial class AudioClip
     {
-        internal Sound(SDL.Audio* handle)
+        internal AudioClip(SDL.Audio* handle)
         {
             Handle = handle;
         }

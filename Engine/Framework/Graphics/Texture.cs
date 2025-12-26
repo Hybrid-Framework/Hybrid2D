@@ -31,7 +31,8 @@ namespace Hybrid
         public Texture(Texture texture, TextureAccess access = TextureAccess.Static, TextureScaling scaling = TextureScaling.Pixel)
         {
             // Invalid Texture
-            if (texture == null) throw new ArgumentNullException(nameof(texture));
+            if (texture == null)
+                throw new Exception("Invalid texture parameter");
 
             // Create Texture
             {
@@ -72,29 +73,6 @@ namespace Hybrid
                 );
             }
 
-            // Apply
-            Scaling = scaling;
-            Apply();
-        }
-        
-        // Create Texture with pixels
-        internal Texture(byte[] pixels, int width, int height, TextureAccess access = TextureAccess.Static, TextureScaling scaling = TextureScaling.Pixel)
-        {
-            // Create Texture
-            {
-                Width = width;
-                Height = height;
-                Pixels = pixels;
-                Handle = SDL.CreateTexture
-                (
-                    Graphics.Handle,
-                    SDL.PixelFormat.RGBA32,
-                    (SDL.TextureAccess)access,
-                    Width,
-                    Height
-                );
-            }
-            
             // Apply
             Scaling = scaling;
             Apply();
@@ -199,16 +177,19 @@ namespace Hybrid
         public int Width
         {
             get;
+            internal set;
         }
 
         public int Height
         {
             get;
+            internal set;
         }
 
         public byte[] Pixels
         {
             get;
+            internal set;
         }
         
         public Vector2 Size

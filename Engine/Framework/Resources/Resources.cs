@@ -13,84 +13,39 @@ namespace Hybrid
         // Dispose
         internal override void OnDispose()
         {
-            // For Each Resource In Cache
-            foreach (var resource in Cache.ToArray())
+            // For Each Resource In Resources
+            foreach (var resource in AllResources.ToArray())
             {
-                // Unload
-                Unload(resource.Key);
+                // Destroy
+                Object.Destroy(resource);
             }
             
             // Empty
-            Cache.Clear();
+            AllResources.Clear();
         }
     }
     
     // Resources API
     public partial class Resources
     {
-        private static readonly Dictionary<string, Resource> Cache = new Dictionary<string, Resource>();
+        private static readonly List<Resource> AllResources = new List<Resource>();
         
         
-        public static T Load<T>(string path) where T : Resource
+        public static T Create<T>(string path) where T : Resource
         {
-            // Fetch Resource From Cache
-            if (Cache.TryGetValue(path, out var cached))
+            Resource resource = typeof(T) switch
             {
-                // If Not Destroyed
-                if (cached != null)
-                {
-                    // Return Cache
-                    return cached as T;
-                }
-            }
+                var t when t == typeof(AudioClip) => CreateSound(path),
+                var t when t == typeof(Texture) => CreateTexture(path),
+                var t when t == typeof(Font) => CreateFont(path),
+                
+                _ => throw new Exception($"Unsupported resource type {typeof(T)}")
+            };
 
             // Create Resource
-            Resource instance = Create<T>(path);
-            Cache[path] = instance;
-            return (T)instance;
-        }
-        
-        public static void Unload(string path)
-        {
-            // Fetch Resource From Cache
-            if (Cache.TryGetValue(path, out var cached))
-            {
-                // Destroy & Remove
-                Object.Destroy(cached);
-                Cache.Remove(path);
-            }
-        }
-
-        private static T Create<T>(string path) where T : Resource
-        {
-            Resource instance;
-            
-            // Create Texture Resource
-            if (typeof(T) == typeof(Texture))
-            {
-                instance = CreateTexture(path);
-            }
-            
-            // Create Audio Resource
-            else if (typeof(T) == typeof(Sound))
-            {
-                instance = CreateSound(path);
-            }
-            
-            // Create Font Resource
-            else if (typeof(T) == typeof(Font))
-            {
-                instance = CreateFont(path);
-            }
-
-            // Fallback
-            else
-            {
-                throw new Exception($"Unsupported resource type {typeof(T)}");
-            }
-            
-            instance.Path = path;
-            return instance as T;
+            AllResources.Add(resource);
+            resource.Path = path;
+            return resource as T;
         }
     }
     
@@ -149,24 +104,27 @@ namespace Hybrid
             SDL.DestroySurface(surface);
 
             // Create Texture
-            return new Texture(pixels, width, height);
+            var texture = new Texture(width, height);
+            texture.Pixels = pixels;
+            texture.Apply();
+            return texture;
         }
     }
     
-    // Sound Resources
+    // Audio Resources
     public unsafe partial class Resources
     {
-        private static Sound CreateSound(string path)
+        private static AudioClip CreateSound(string path)
         {
             // Load Sound From File
-            var sound = SDL_mixer.LoadAudio(Audio.Handle, path, false);
+            var audio = SDL_mixer.LoadAudio(Audio.Handle, path, false);
             
             // Invalid Sound
-            if (sound == null)
+            if (audio == null)
                 throw new Exception($"Failed to load audio '{path}': {SDL.GetError()}");
 
-            // Create Audio
-            return new Sound(sound);
+            // Create Audio Clip
+            return new AudioClip(audio);
         }
     }
     
