@@ -92,6 +92,19 @@ namespace Hybrid
                 }
             }
         }
+
+        internal static bool ThrowOnDestroy(Object obj)
+        {
+            if (!IsDestroying(obj) && IsDestroyed(obj))
+            {
+                if (!ReferenceEquals(obj, null))
+                {
+                    throw new Exception($"The object type '{obj.GetType()}' has been destroyed but you are still trying to access it");
+                }
+            }
+
+            return false;
+        }
         
         internal static bool IsDestroying(Object obj)
         {
