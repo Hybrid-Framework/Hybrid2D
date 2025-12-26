@@ -104,16 +104,16 @@ namespace Hybrid
     // Texture API
     public unsafe partial class Texture
     {
-        public void SetPixel(int x, int y, Color color)
+        public void SetPixel(int x, int y, Color32 color32)
         {
             if (x >= 0 && y >= 0 && x < Width && y < Height)
             {
                 int index = (y * Width + x) * 4;
                 
-                Pixels[index + 0] = color.R;
-                Pixels[index + 1] = color.G;
-                Pixels[index + 2] = color.B;
-                Pixels[index + 3] = color.A;
+                Pixels[index + 0] = color32.R;
+                Pixels[index + 1] = color32.G;
+                Pixels[index + 2] = color32.B;
+                Pixels[index + 3] = color32.A;
                 return;
             }
             
@@ -121,7 +121,7 @@ namespace Hybrid
             throw new Exception($"Invalid position '({x}, {y})' in texture size: '{Size}'");
         }
     
-        public Color GetPixel(int x, int y)
+        public Color32 GetPixel(int x, int y)
         {
             if (x >= 0 && y >= 0 && x < Width && y < Height)
             {
@@ -132,21 +132,21 @@ namespace Hybrid
                 byte b = Pixels[index + 2];
                 byte a = Pixels[index + 3];
 
-                return new Color(r, g, b, a);
+                return new Color32(r, g, b, a);
             }
             
             // Invalid Position
             throw new Exception($"Invalid position '({x}, {y})' in texture size: '{Size}'");
         }
         
-        public void SetPixels(Color[] colors)
+        public void SetPixels(Color32[] colors)
         {
             if (colors.Length == (Width * Height))
             {
                 for (int i = 0; i < colors.Length; i++)
                 {
                     int index = i * 4;
-                    Color c = colors[i];
+                    Color32 c = colors[i];
 
                     Pixels[index + 0] = c.R;
                     Pixels[index + 1] = c.G;
@@ -161,10 +161,10 @@ namespace Hybrid
             throw new Exception($"Array length '{colors.Length}' must match the texture size: '{Width * Height}'");
         }
         
-        public Color[] GetPixels()
+        public Color32[] GetPixels()
         {
             int count = (Width * Height);
-            Color[] result = new Color[count];
+            Color32[] result = new Color32[count];
 
             for (int i = 0; i < count; i++)
             {
@@ -175,7 +175,7 @@ namespace Hybrid
                 byte b = Pixels[index + 2];
                 byte a = Pixels[index + 3];
 
-                result[i] = new Color(r, g, b, a);
+                result[i] = new Color32(r, g, b, a);
             }
 
             return result;
