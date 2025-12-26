@@ -35,8 +35,8 @@ namespace Hybrid
         {
             Resource resource = typeof(T) switch
             {
-                var t when t == typeof(AudioClip) => CreateSound(path),
                 var t when t == typeof(Texture) => CreateTexture(path),
+                var t when t == typeof(Sound) => CreateSound(path),
                 var t when t == typeof(Font) => CreateFont(path),
                 
                 _ => throw new Exception($"Unsupported resource type {typeof(T)}")
@@ -114,17 +114,17 @@ namespace Hybrid
     // Audio Resources
     public unsafe partial class Resources
     {
-        private static AudioClip CreateSound(string path)
+        private static Sound CreateSound(string path)
         {
-            // Load Sound From File
+            // Load Audio From File
             var audio = SDL_mixer.LoadAudio(Audio.Handle, path, false);
             
-            // Invalid Sound
+            // Invalid Audio
             if (audio == null)
                 throw new Exception($"Failed to load audio '{path}': {SDL.GetError()}");
 
-            // Create Audio Clip
-            return new AudioClip(audio);
+            // Create Sound
+            return new Sound(audio);
         }
     }
     
