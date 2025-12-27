@@ -14,7 +14,17 @@ namespace Hybrid
 
         internal void SetValue(float value)
         {
-            this.Value = value;
+            Value = value;
+        }
+        
+        internal void SetValue(float value, float min, float max)
+        {
+            Value = Maths.Clamp(value, min, max);
+        }
+
+        internal void Reset()
+        {
+            Value = 0f;
         }
     }
 }

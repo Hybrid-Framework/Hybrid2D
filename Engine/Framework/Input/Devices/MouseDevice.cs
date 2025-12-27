@@ -22,25 +22,12 @@ namespace Hybrid
         // Reset
         internal override void OnReset()
         {
-            Delta.SetValue(Vector2.Zero);
-            ScrollDelta.SetValue(Vector2.Zero);
+            ScrollDelta.Reset();
+            Delta.Reset();
             
             foreach (var key in Keys.Values)
             {
-                switch (key.GetState())
-                {
-                    case InputState.Press | InputState.Down:
-                    {
-                        key.SetState(InputState.Down);
-                        break;
-                    }
-                    
-                    case InputState.Release:
-                    {
-                        key.SetState(InputState.None);
-                        break;
-                    }
-                }
+                key.Reset();
             }
         }
         
@@ -48,19 +35,6 @@ namespace Hybrid
         {
             switch (e.type)
             {
-                // Mouse Up
-                case SDL.EventType.MouseButtonUp:
-                {
-                    var key = Remap(e.mouseButton.button);
-        
-                    if (Keys.TryGetValue(key, out var inputKey))
-                    {
-                        inputKey.SetState(InputState.Release);
-                    }
-                    
-                    break;
-                }
-
                 // Mouse Down
                 case SDL.EventType.MouseButtonDown:
                 {
@@ -69,6 +43,19 @@ namespace Hybrid
                     if (Keys.TryGetValue(key, out var inputKey))
                     {
                         inputKey.SetState(InputState.Press | InputState.Down);
+                    }
+                    
+                    break;
+                }
+                
+                // Mouse Up
+                case SDL.EventType.MouseButtonUp:
+                {
+                    var key = Remap(e.mouseButton.button);
+        
+                    if (Keys.TryGetValue(key, out var inputKey))
+                    {
+                        inputKey.SetState(InputState.Release);
                     }
                     
                     break;
@@ -85,9 +72,7 @@ namespace Hybrid
                 // Mouse Wheel
                 case SDL.EventType.MouseWheel:
                 {
-                    float x = Maths.Clamp(e.mouseWheel.x, -1, 1);
-                    float y = Maths.Clamp(e.mouseWheel.y, -1, 1);
-                    ScrollDelta.SetValue(new Vector2(x, y));
+                    ScrollDelta.SetValue(e.mouseWheel.x, e.mouseWheel.y, -1, 1);
                     break;
                 }
             }
@@ -97,7 +82,7 @@ namespace Hybrid
         {
             if (Keys.TryGetValue(button, out var inputKey))
             {
-                return inputKey.Press();
+                return inputKey.IsPressed();
             }
 
             return false;
@@ -107,7 +92,7 @@ namespace Hybrid
         {
             if (Keys.TryGetValue(button, out var inputKey))
             {
-                return inputKey.Down();
+                return inputKey.IsDown();
             }
 
             return false;
@@ -117,7 +102,7 @@ namespace Hybrid
         {
             if (Keys.TryGetValue(button, out var inputKey))
             {
-                return inputKey.Release();
+                return inputKey.IsReleased();
             }
 
             return false;

@@ -7,7 +7,7 @@ namespace App
     {
         public override void OnSceneOpen()
         {
-            Application.TargetFrameRate = 30;
+            Application.TargetFrameRate = 60;
             
             GameObject gameObject = new GameObject("Inputs");
             gameObject.AddComponent<Inputs>();

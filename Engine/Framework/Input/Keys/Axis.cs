@@ -1,8 +1,8 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
 
-internal static unsafe partial class SDL
+namespace Hybrid
 {
-    public enum GamepadAxis
+    public enum Axis
     {
         LeftStickX = 0,
         LeftStickY = 1,

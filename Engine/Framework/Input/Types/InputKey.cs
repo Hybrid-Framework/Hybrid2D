@@ -17,17 +17,35 @@ namespace Hybrid
             return State;
         }
 
-        internal bool Press()
+        internal void Reset()
+        {
+            switch (State)
+            {
+                case InputState.Press | InputState.Down:
+                {
+                    State = InputState.Down;
+                    break;
+                }
+                    
+                case InputState.Release:
+                {
+                    State = InputState.None;
+                    break;
+                }
+            }
+        }
+        
+        internal bool IsDown()
+        {
+            return State.HasFlag(InputState.Down);
+        }
+
+        internal bool IsPressed()
         {
             return State.HasFlag(InputState.Press);
         }
         
-        internal bool Down()
-        {
-            return State.HasFlag(InputState.Down);
-        }
-        
-        internal bool Release()
+        internal bool IsReleased()
         {
             return State.HasFlag(InputState.Release);
         }

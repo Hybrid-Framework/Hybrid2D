@@ -21,20 +21,7 @@ namespace Hybrid
         {
             foreach (var key in Keys.Values)
             {
-                switch (key.GetState())
-                {
-                    case InputState.Press | InputState.Down:
-                    {
-                        key.SetState(InputState.Down);
-                        break;
-                    }
-                    
-                    case InputState.Release:
-                    {
-                        key.SetState(InputState.None);
-                        break;
-                    }
-                }
+                key.Reset();
             }
         }
 
@@ -45,19 +32,6 @@ namespace Hybrid
             {
                 switch (e.type)
                 {
-                    // Keyboard Up
-                    case SDL.EventType.KeyboardButtonUp:
-                    {
-                        var key = (Key)e.keyboard.keyCode;
-            
-                        if (Keys.TryGetValue(key, out var inputKey))
-                        {
-                            inputKey.SetState(InputState.Release);;
-                        }
-                        
-                        break;
-                    }
-
                     // Keyboard Down
                     case SDL.EventType.KeyboardButtonDown:
                     {
@@ -70,6 +44,19 @@ namespace Hybrid
                         
                         break;
                     }
+                    
+                    // Keyboard Up
+                    case SDL.EventType.KeyboardButtonUp:
+                    {
+                        var key = (Key)e.keyboard.keyCode;
+            
+                        if (Keys.TryGetValue(key, out var inputKey))
+                        {
+                            inputKey.SetState(InputState.Release);
+                        }
+                        
+                        break;
+                    }
                 }
             }
         }
@@ -78,7 +65,7 @@ namespace Hybrid
         {
             if (Keys.TryGetValue(key, out var inputKey))
             {
-                return inputKey.Press();
+                return inputKey.IsPressed();
             }
 
             return false;
@@ -88,7 +75,7 @@ namespace Hybrid
         {
             if (Keys.TryGetValue(key, out var inputKey))
             {
-                return inputKey.Down();
+                return inputKey.IsDown();
             }
 
             return false;
@@ -98,7 +85,7 @@ namespace Hybrid
         {
             if (Keys.TryGetValue(key, out var inputKey))
             {
-                return inputKey.Release();
+                return inputKey.IsReleased();
             }
 
             return false;
