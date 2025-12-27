@@ -28,12 +28,12 @@ namespace Hybrid
         // Events
         internal override void OnEvent(SDL.Event e)
         {
-            if (!e.keyboard.repeat)
+            switch (e.type)
             {
-                switch (e.type)
+                // Keyboard Down
+                case SDL.EventType.KeyboardButtonDown:
                 {
-                    // Keyboard Down
-                    case SDL.EventType.KeyboardButtonDown:
+                    if (!e.keyboard.repeat)
                     {
                         var key = (Key)e.keyboard.keyCode;
             
@@ -41,22 +41,25 @@ namespace Hybrid
                         {
                             inputKey.SetState(InputState.Press | InputState.Down);
                         }
-                        
-                        break;
                     }
+                        
+                    break;
+                }
                     
-                    // Keyboard Up
-                    case SDL.EventType.KeyboardButtonUp:
+                // Keyboard Up
+                case SDL.EventType.KeyboardButtonUp:
+                {
+                    if (!e.keyboard.repeat)
                     {
                         var key = (Key)e.keyboard.keyCode;
-            
+
                         if (Keys.TryGetValue(key, out var inputKey))
                         {
                             inputKey.SetState(InputState.Release);
                         }
-                        
-                        break;
                     }
+
+                    break;
                 }
             }
         }

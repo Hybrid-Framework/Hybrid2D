@@ -64,8 +64,8 @@ namespace Hybrid
                 // Mouse Motion
                 case SDL.EventType.MouseMotion:
                 {
-                    Delta.SetValue(new Vector2(e.mouseMotion.x_relative, e.mouseMotion.y_relative));
-                    Position.SetValue(new Vector2(e.mouseMotion.x, e.mouseMotion.y));
+                    Delta.SetValue(e.mouseMotion.x_relative, e.mouseMotion.y_relative);
+                    Position.SetValue(e.mouseMotion.x, e.mouseMotion.y);
                     break;
                 }
                 
