@@ -7,19 +7,10 @@ namespace App
     {
         public override void OnSceneOpen()
         {
-            Application.TargetFrameRate = 60;
+            Application.TargetFrameRate = 30;
             
-            GameObject gameObject = new GameObject("Obj");
-            GameObject child = new GameObject("Child");
-            child.Transform.SetParent(gameObject.Transform);
-
-            Debug.Log("GameObject: " + gameObject.Scene?.Name);
-            Debug.Log("Child: " + child.Scene?.Name);
-            
-            Object.DestroyImmediate(gameObject);
-            
-            Debug.Log("GameObject: " + gameObject.Scene?.Name);
-            Debug.Log("Child: " + child.Scene?.Name);
+            GameObject gameObject = new GameObject("Inputs");
+            gameObject.AddComponent<Inputs>();
         }
 
         public override void OnSceneClose()

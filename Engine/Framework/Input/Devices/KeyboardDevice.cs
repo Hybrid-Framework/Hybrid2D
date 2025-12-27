@@ -1,0 +1,107 @@
+﻿using System.Collections.Generic;
+using System;
+
+namespace Hybrid
+{
+    internal class KeyboardDevice : InputDevice
+    {
+        internal Dictionary<Key, InputKey> Keys { get; private set; } = new Dictionary<Key, InputKey>();
+
+        internal KeyboardDevice()
+        {
+            foreach (Key key in Enum.GetValues(typeof(Key)))
+            {
+                Keys.Add(key, new InputKey());
+            }
+        }
+        
+        
+        // Reset
+        internal override void OnReset()
+        {
+            foreach (var key in Keys.Values)
+            {
+                switch (key.GetState())
+                {
+                    case InputState.Press | InputState.Down:
+                    {
+                        key.SetState(InputState.Down);
+                        break;
+                    }
+                    
+                    case InputState.Release:
+                    {
+                        key.SetState(InputState.None);
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Events
+        internal override void OnEvent(SDL.Event e)
+        {
+            if (!e.keyboard.repeat)
+            {
+                switch (e.type)
+                {
+                    // Keyboard Up
+                    case SDL.EventType.KeyboardButtonUp:
+                    {
+                        var key = (Key)e.keyboard.keyCode;
+            
+                        if (Keys.TryGetValue(key, out var inputKey))
+                        {
+                            inputKey.SetState(InputState.Release);;
+                        }
+                        
+                        break;
+                    }
+
+                    // Keyboard Down
+                    case SDL.EventType.KeyboardButtonDown:
+                    {
+                        var key = (Key)e.keyboard.keyCode;
+            
+                        if (Keys.TryGetValue(key, out var inputKey))
+                        {
+                            inputKey.SetState(InputState.Press | InputState.Down);
+                        }
+                        
+                        break;
+                    }
+                }
+            }
+        }
+
+        internal bool GetKey(Key key)
+        {
+            if (Keys.TryGetValue(key, out var inputKey))
+            {
+                return inputKey.Press();
+            }
+
+            return false;
+        }
+        
+        internal bool GetKeyDown(Key key)
+        {
+            if (Keys.TryGetValue(key, out var inputKey))
+            {
+                return inputKey.Down();
+            }
+
+            return false;
+        }
+        
+        internal bool GetKeyUp(Key key)
+        {
+            if (Keys.TryGetValue(key, out var inputKey))
+            {
+                return inputKey.Release();
+            }
+
+            return false;
+        }
+    }
+}
