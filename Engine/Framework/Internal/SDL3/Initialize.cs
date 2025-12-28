@@ -4,6 +4,7 @@ internal static unsafe partial class SDL
 {
     public static void Initialize()
     {
+        SDL.SetHint(SDL.SDL_HINT_WINDOWS_RAW_KEYBOARD, "1");
         SDL.SetMainReady();
         
         if (!SDL.Init(SDL.InitFlags.Everything))

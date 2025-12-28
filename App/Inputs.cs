@@ -6,64 +6,70 @@ namespace App
     {
         public override void OnUpdate()
         {
-            if (Input.GetKey(Key.Space))
+            for (int i = 0; i < 4; i++)
             {
-                Debug.Log("Space Press");
-            }
-            
-            if (Input.GetKeyDown(Key.Space))
-            {
-                Debug.Log("Space Down");
-            }
-            
-            if (Input.GetKeyUp(Key.Space))
-            {
-                Debug.Log("Space Release");
-            }
+                for (int b = 0; b < 16; b++)
+                {
+                    if (Input.GetMouseButton(b, i))
+                    {
+                        Debug.Log($"Mouse {i} {b} Press");
+                    }
 
-            for (int i = 0; i < 3; i++)
+                    if (Input.GetMouseButtonDown(b, i))
+                    {
+                        Debug.Log($"Mouse {i} {b} Down");
+                    }
+
+                    if (Input.GetMouseButtonUp(b, i))
+                    {
+                        Debug.Log($"Mouse {i} {b} Release");
+                    }
+                }
+            }
+            
+            for (int i = 0; i < 4; i++)
             {
-                if (Input.GetMouseButton(i))
+                if (Input.GetKey(Key.Space, i))
                 {
-                    Debug.Log($"Mouse {i}: Press");
+                    Debug.Log($"Keyboard {i} Press");
                 }
-                
-                if (Input.GetMouseButtonDown(i))
+
+                if (Input.GetKeyDown(Key.Space, i))
                 {
-                    Debug.Log($"Mouse {i}: Down");
+                    Debug.Log($"Keyboard {i} Down");
                 }
-                
-                if (Input.GetMouseButtonUp(i))
+
+                if (Input.GetKeyUp(Key.Space, i))
                 {
-                    Debug.Log($"Mouse {i}: Release");
+                    Debug.Log($"Keyboard {i} Release");
                 }
             }
 
             for (int i = 0; i < 4; i++)
             {
-                if (Input.GetButton(Button.South, i))
+                if (Input.GetGamepadButton(Button.South, i))
                 {
                     Debug.Log($"Gamepad {i}: Press");
                 }
                 
-                if (Input.GetButtonDown(Button.South, i))
+                if (Input.GetGamepadButtonDown(Button.South, i))
                 {
                     Debug.Log($"Gamepad {i}: Down");
                 }
                 
-                if (Input.GetButtonUp(Button.South, i))
+                if (Input.GetGamepadButtonUp(Button.South, i))
                 {
                     Debug.Log($"Gamepad {i}: Release");
                 }
                 
-                if (Input.GetAxis(Axis.LeftTrigger, i) != 0)
+                if (Input.GetGamepadAxis(Axis.LeftTrigger, i) != 0)
                 {
-                    Debug.Log($"Gamepad {i}: Y: {Input.GetAxis(Axis.LeftTrigger, i)}");
+                    Debug.Log($"Gamepad {i}: Y: {Input.GetGamepadAxis(Axis.LeftTrigger, i)}");
                 }
                 
-                if (Input.GetAxis(Axis.RightTrigger, i) != 0)
+                if (Input.GetGamepadAxis(Axis.RightTrigger, i) != 0)
                 {
-                    Debug.Log($"Gamepad {i}: X: {Input.GetAxis(Axis.RightTrigger, i)}");
+                    Debug.Log($"Gamepad {i}: X: {Input.GetGamepadAxis(Axis.RightTrigger, i)}");
                 }
             }
         }

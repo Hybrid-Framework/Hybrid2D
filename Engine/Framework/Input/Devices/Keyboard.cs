@@ -3,12 +3,18 @@ using System;
 
 namespace Hybrid
 {
-    internal class KeyboardDevice : InputDevice
+    internal unsafe class Keyboard : InputDevice
     {
         internal Dictionary<Key, InputKey> Keys { get; private set; } = new Dictionary<Key, InputKey>();
-
-        internal KeyboardDevice()
+        internal uint DeviceID;
+        internal int PlayerID;
+        
+        
+        internal Keyboard(uint deviceID, int playerID)
         {
+            this.DeviceID = deviceID;
+            this.PlayerID = playerID;
+            
             foreach (Key key in Enum.GetValues(typeof(Key)))
             {
                 Keys.Add(key, new InputKey());
@@ -38,37 +44,31 @@ namespace Hybrid
                 // Keyboard Up
                 case SDL.EventType.KeyboardButtonUp:
                 {
-                    if (!e.keyboard.repeat)
+                    var key = (Key)e.keyboard.keyCode;
+
+                    if (Keys.TryGetValue(key, out var inputKey))
                     {
-                        var key = (Key)e.keyboard.keyCode;
-
-                        if (Keys.TryGetValue(key, out var inputKey))
-                        {
-                            inputKey.SetState(InputState.Release);
-                        }
+                        inputKey.SetState(InputState.Release);
                     }
-
+                    
                     break;
                 }
                 
                 // Keyboard Down
                 case SDL.EventType.KeyboardButtonDown:
                 {
-                    if (!e.keyboard.repeat)
-                    {
-                        var key = (Key)e.keyboard.keyCode;
+                    var key = (Key)e.keyboard.keyCode;
             
-                        if (Keys.TryGetValue(key, out var inputKey))
-                        {
-                            inputKey.SetState(InputState.Press | InputState.Down);
-                        }
+                    if (Keys.TryGetValue(key, out var inputKey))
+                    {
+                        inputKey.SetState(InputState.Press | InputState.Down);
                     }
-                        
+                    
                     break;
                 }
             }
         }
-
+        
         internal bool GetKey(Key key)
         {
             if (Keys.TryGetValue(key, out var inputKey))

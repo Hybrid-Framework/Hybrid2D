@@ -7,15 +7,17 @@ namespace Hybrid
     {
         internal Dictionary<Button, InputKey> Keys { get; private set; } = new Dictionary<Button, InputKey>();
         internal Dictionary<Axis, InputAxis> Axis { get; private set; } = new Dictionary<Axis, InputAxis>();
-        internal SDL.Gamepad* Handle;
-        internal uint GamepadID;
-        internal int Index;
+        internal SDL.Gamepad* Handle { get; private set; }
+        internal float DeadZone { get; private set; }
+        internal uint DeviceID { get; private set; }
+        internal int PlayerID { get; private set; }
         
-        internal Gamepad(SDL.Gamepad* handle, uint gamepadID, int index)
+        
+        internal Gamepad(SDL.Gamepad* handle, uint deviceID, int playerID)
         {
-            this.GamepadID = gamepadID;
+            this.DeviceID = deviceID;
+            this.PlayerID = playerID;
             this.Handle = handle;
-            this.Index = index;
             
             foreach (Button key in Enum.GetValues(typeof(Button)))
             {
@@ -27,7 +29,6 @@ namespace Hybrid
                 Axis.Add(axis, new InputAxis());
             }
         }
-        
         
         // Dispose
         internal override void OnDispose()
@@ -97,7 +98,7 @@ namespace Hybrid
                         float raw = e.gamepadAxis.value;
                         float value = raw >= 0 ? raw / 32767.0f : raw / 32768.0f;
 
-                        if (Maths.Abs(value) >= Input.DeadZone)
+                        if (Maths.Abs(value) >= DeadZone)
                         {
                             inputAxis.SetValue(value);
                         }
@@ -108,7 +109,17 @@ namespace Hybrid
             }
         }
 
-        internal float GetAxis(Axis axis)
+        internal float GetGamepadDeadZone()
+        {
+            return DeadZone;
+        }
+
+        internal void SetGamepadDeadZone(float value)
+        {
+            DeadZone = Maths.Clamp(value, 0, 1);
+        }
+
+        internal float GetGamepadAxis(Axis axis)
         {
             if (Axis.TryGetValue(axis, out var inputAxis))
             {
@@ -118,7 +129,7 @@ namespace Hybrid
             return 0;
         }
         
-        internal bool GetButton(Button button)
+        internal bool GetGamepadButton(Button button)
         {
             if (Keys.TryGetValue(button, out var inputKey))
             {
@@ -128,7 +139,7 @@ namespace Hybrid
             return false;
         }
         
-        internal bool GetButtonDown(Button button)
+        internal bool GetGamepadButtonDown(Button button)
         {
             if (Keys.TryGetValue(button, out var inputKey))
             {
@@ -138,7 +149,7 @@ namespace Hybrid
             return false;
         }
         
-        internal bool GetButtonUp(Button button)
+        internal bool GetGamepadButtonUp(Button button)
         {
             if (Keys.TryGetValue(button, out var inputKey))
             {
