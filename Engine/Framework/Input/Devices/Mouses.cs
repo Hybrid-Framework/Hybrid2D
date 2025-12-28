@@ -89,9 +89,9 @@ namespace Hybrid
 
         private Mouse CreateMouse(uint deviceID)
         {
-            var instance = GetMouseByDeviceID(deviceID);
+            var found = GetMouseByDeviceID(deviceID);
             
-            if (instance == null)
+            if (found == null)
             {
                 for (int i = 0; i < MaxMice; i++)
                 {
@@ -106,7 +106,7 @@ namespace Hybrid
                 }
             }
             
-            return instance;
+            return found;
         }
 
         private void DestroyMouse(uint deviceID)

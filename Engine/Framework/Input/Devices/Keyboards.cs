@@ -67,9 +67,9 @@ namespace Hybrid
 
         private Keyboard CreateKeyboard(uint deviceID)
         {
-            var instance = GetKeyboardByDeviceID(deviceID);
+            var found = GetKeyboardByDeviceID(deviceID);
             
-            if (instance == null)
+            if (found == null)
             {
                 for (int i = 0; i < MaxKeyboards; i++)
                 {
@@ -84,7 +84,7 @@ namespace Hybrid
                 }
             }
             
-            return instance;
+            return found;
         }
 
         private void DestroyKeyboard(uint deviceID)

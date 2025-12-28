@@ -39,7 +39,7 @@ namespace Hybrid
     // Keyboard
     public partial class Input
     {
-        public static bool GetKey(Key key, int playerID = -1)
+        public static bool GetKey(Key key, int playerID = 0)
         {
             var keyboard = Keyboards.GetKeyboardByPlayerID(playerID);
 
@@ -51,7 +51,7 @@ namespace Hybrid
             return false;
         }
         
-        public static bool GetKeyDown(Key key, int playerID = -1)
+        public static bool GetKeyDown(Key key, int playerID = 0)
         {
             var keyboard = Keyboards.GetKeyboardByPlayerID(playerID);
 
@@ -63,7 +63,7 @@ namespace Hybrid
             return false;
         }
         
-        public static bool GetKeyUp(Key key, int playerID = -1)
+        public static bool GetKeyUp(Key key, int playerID = 0)
         {
             var keyboard = Keyboards.GetKeyboardByPlayerID(playerID);
 
@@ -79,7 +79,7 @@ namespace Hybrid
     // Mouse
     public partial class Input
     {
-        public static Vector2 MouseScrollDelta(int playerID = -1)
+        public static Vector2 MouseScrollDelta(int playerID = 0)
         {
             var mouse = Mouses.GetMouseByPlayerID(playerID);
 
@@ -91,7 +91,7 @@ namespace Hybrid
             return Vector2.Zero;
         }
         
-        public static Vector2 MousePosition(int playerID = -1)
+        public static Vector2 MousePosition(int playerID = 0)
         {
             var mouse = Mouses.GetMouseByPlayerID(playerID);
 
@@ -103,7 +103,7 @@ namespace Hybrid
             return Vector2.Zero;
         }
         
-        public static Vector2 MouseDelta(int playerID = -1)
+        public static Vector2 MouseDelta(int playerID = 0)
         {
             var mouse = Mouses.GetMouseByPlayerID(playerID);
 
@@ -115,7 +115,7 @@ namespace Hybrid
             return Vector2.Zero;
         }
         
-        public static bool GetMouseButton(int button, int playerID = -1)
+        public static bool GetMouseButton(int button, int playerID = 0)
         {
             var mouse = Mouses.GetMouseByPlayerID(playerID);
 
@@ -127,7 +127,7 @@ namespace Hybrid
             return false;
         }
         
-        public static bool GetMouseButtonDown(int button, int playerID = -1)
+        public static bool GetMouseButtonDown(int button, int playerID = 0)
         {
             var mouse = Mouses.GetMouseByPlayerID(playerID);
 
@@ -139,7 +139,7 @@ namespace Hybrid
             return false;
         }
         
-        public static bool GetMouseButtonUp(int button, int playerID = -1)
+        public static bool GetMouseButtonUp(int button, int playerID = 0)
         {
             var mouse = Mouses.GetMouseByPlayerID(playerID);
 
@@ -155,7 +155,7 @@ namespace Hybrid
     // Gamepad
     public partial class Input
     {
-        public static float GetGamepadDeadZone(int playerID = -1)
+        public static float GetGamepadDeadZone(int playerID = 0)
         {
             var gamepad = Gamepads.GetGamepadByPlayerID(playerID);
 
@@ -167,7 +167,7 @@ namespace Hybrid
             return 0;
         }
         
-        public static void SetGamepadDeadZone(float value, int playerID = -1)
+        public static void SetGamepadDeadZone(float value, int playerID = 0)
         {
             var gamepad = Gamepads.GetGamepadByPlayerID(playerID);
 
@@ -177,7 +177,7 @@ namespace Hybrid
             }
         }
         
-        public static float GetGamepadAxis(Axis axis, int playerID = -1)
+        public static float GetGamepadAxis(Axis axis, int playerID = 0)
         {
             var gamepad = Gamepads.GetGamepadByPlayerID(playerID);
 
@@ -189,7 +189,7 @@ namespace Hybrid
             return 0;
         }
         
-        public static bool GetGamepadButton(Button button, int playerID = -1)
+        public static bool GetGamepadButton(Button button, int playerID = 0)
         {
             var gamepad = Gamepads.GetGamepadByPlayerID(playerID);
 
@@ -201,7 +201,7 @@ namespace Hybrid
             return false;
         }
         
-        public static bool GetGamepadButtonDown(Button button, int playerID = -1)
+        public static bool GetGamepadButtonDown(Button button, int playerID = 0)
         {
             var gamepad = Gamepads.GetGamepadByPlayerID(playerID);
 
@@ -213,7 +213,7 @@ namespace Hybrid
             return false;
         }
         
-        public static bool GetGamepadButtonUp(Button button, int playerID = -1)
+        public static bool GetGamepadButtonUp(Button button, int playerID = 0)
         {
             var gamepad = Gamepads.GetGamepadByPlayerID(playerID);
 

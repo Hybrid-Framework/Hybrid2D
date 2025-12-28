@@ -7,7 +7,16 @@ namespace Hybrid
     {
         internal readonly List<Gamepad> AllGamepads = new List<Gamepad>();
         internal const int MaxGamepads = 4;
-        
+
+        // Constructor
+        internal Gamepads()
+        {
+            // Register Gamepads
+            foreach (var gamepad in SDL.GetGamepads(out var count))
+            {
+                CreateGamepad(gamepad);
+            }
+        }
 
         // Dispose
         internal override void OnDispose()
@@ -66,7 +75,14 @@ namespace Hybrid
                     
                     break;
                 }
-
+                
+                // Gamepad Connected
+                case SDL.EventType.GamepadDeviceAdded:
+                {
+                    CreateGamepad(e.gamepadDevice.gamepadID);
+                    break;
+                }
+                
                 // Gamepad Disconnected
                 case SDL.EventType.GamepadDeviceRemoved:
                 {
@@ -78,9 +94,9 @@ namespace Hybrid
 
         internal Gamepad CreateGamepad(uint deviceID)
         {
-            var instance = GetGamepadByDeviceID(deviceID);
+            var found = GetGamepadByDeviceID(deviceID);
             
-            if (instance == null)
+            if (found == null)
             {
                 for (int i = 0; i < MaxGamepads; i++)
                 {
@@ -100,7 +116,7 @@ namespace Hybrid
                 }
             }
 
-            return instance;
+            return found;
         }
 
         internal void DestroyGamepad(uint deviceID)
