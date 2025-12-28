@@ -9,26 +9,24 @@ namespace Hybrid
 
         internal static KeyboardDevice KeyboardDevice = new KeyboardDevice();
         internal static MouseDevice MouseDevice = new MouseDevice();
+        internal static Gamepads Gamepads = new Gamepads();
 
 
         internal override void OnStartOfFrame()
         {
-            KeyboardDevice.OnReset();
-            MouseDevice.OnReset();
+            Gamepads.OnReset();
         }
 
         // Events
         internal override void OnEvent(SDL.Event e)
         {
-            KeyboardDevice.OnEvent(e);
-            MouseDevice.OnEvent(e);
+            Gamepads.OnEvent(e);
         }
 
         // Dispose
         internal override void OnDispose()
         {
-            KeyboardDevice.OnDispose();
-            MouseDevice.OnDispose();
+            Gamepads.OnDispose();
         }
     }
 
@@ -72,6 +70,65 @@ namespace Hybrid
         public static bool GetMouseButtonUp(int button)
         {
             return MouseDevice.GetMouseButtonUp(button);
+        }
+    }
+    
+    // Gamepad
+    public partial class Input
+    {
+        private static float _DeadZone { get; set; }
+        public static float DeadZone
+        {
+            get => _DeadZone;
+            set => _DeadZone = Maths.Clamp(value, 0, 1);
+        }
+        
+        public static float GetAxis(Axis axis, int player)
+        {
+            var gamepad = Gamepads.GetGamepadByIndex(player);
+
+            if (gamepad != null)
+            {
+                return gamepad.GetAxis(axis);
+            }
+            
+            return 0;
+        }
+        
+        public static bool GetButton(Button button, int player)
+        {
+            var gamepad = Gamepads.GetGamepadByIndex(player);
+
+            if (gamepad != null)
+            {
+                return gamepad.GetButton(button);
+            }
+            
+            return false;
+        }
+        
+        public static bool GetButtonDown(Button button, int player)
+        {
+            var gamepad = Gamepads.GetGamepadByIndex(player);
+
+            if (gamepad != null)
+            {
+                return gamepad.GetButtonDown(button);
+            }
+            
+            return false;
+        }
+        
+        public static bool GetButtonUp(Button button, int player)
+        {
+            var gamepad = Gamepads.GetGamepadByIndex(player);
+
+            if (gamepad != null)
+            {
+                return gamepad.GetButtonUp(button);
+            }
+            
+            return false;
         }
     }
 }

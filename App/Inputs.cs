@@ -39,9 +39,32 @@ namespace App
                 }
             }
 
-            if (Input.MouseScrollDelta.X != 0 || Input.MouseScrollDelta.Y != 0)
+            for (int i = 0; i < 4; i++)
             {
-                Debug.Log(Input.MouseScrollDelta.X + " " + Input.MouseScrollDelta.Y);
+                if (Input.GetButton(Button.South, i))
+                {
+                    Debug.Log($"Gamepad {i}: Press");
+                }
+                
+                if (Input.GetButtonDown(Button.South, i))
+                {
+                    Debug.Log($"Gamepad {i}: Down");
+                }
+                
+                if (Input.GetButtonUp(Button.South, i))
+                {
+                    Debug.Log($"Gamepad {i}: Release");
+                }
+                
+                if (Input.GetAxis(Axis.LeftTrigger, i) != 0)
+                {
+                    Debug.Log($"Gamepad {i}: Y: {Input.GetAxis(Axis.LeftTrigger, i)}");
+                }
+                
+                if (Input.GetAxis(Axis.RightTrigger, i) != 0)
+                {
+                    Debug.Log($"Gamepad {i}: X: {Input.GetAxis(Axis.RightTrigger, i)}");
+                }
             }
         }
     }

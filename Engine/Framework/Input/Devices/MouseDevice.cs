@@ -18,6 +18,11 @@ namespace Hybrid
             }
         }
         
+        // Dispose
+        internal override void OnDispose()
+        {
+            Keys.Clear();
+        }
         
         // Reset
         internal override void OnReset()
@@ -35,19 +40,6 @@ namespace Hybrid
         {
             switch (e.type)
             {
-                // Mouse Down
-                case SDL.EventType.MouseButtonDown:
-                {
-                    var key = Remap(e.mouseButton.button);
-        
-                    if (Keys.TryGetValue(key, out var inputKey))
-                    {
-                        inputKey.SetState(InputState.Press | InputState.Down);
-                    }
-                    
-                    break;
-                }
-                
                 // Mouse Up
                 case SDL.EventType.MouseButtonUp:
                 {
@@ -56,6 +48,19 @@ namespace Hybrid
                     if (Keys.TryGetValue(key, out var inputKey))
                     {
                         inputKey.SetState(InputState.Release);
+                    }
+                    
+                    break;
+                }
+                
+                // Mouse Down
+                case SDL.EventType.MouseButtonDown:
+                {
+                    var key = Remap(e.mouseButton.button);
+        
+                    if (Keys.TryGetValue(key, out var inputKey))
+                    {
+                        inputKey.SetState(InputState.Press | InputState.Down);
                     }
                     
                     break;

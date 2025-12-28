@@ -11,6 +11,14 @@ internal static unsafe partial class SDL
         return SDL_HasGamepad();
     }
     
+    // Get Gamepad Name for ID
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern byte* SDL_GetGamepadNameForID(uint keyboardID);
+    public static string GetGamepadNameForID(uint keyboardID)
+    {
+        return Utf8ToString(SDL_GetGamepadNameForID(keyboardID));
+    }
+    
     // Gamepad Connected
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_GamepadConnected(SDL.Gamepad* gamepad);
@@ -126,8 +134,16 @@ internal static unsafe partial class SDL
     // Get Gamepads
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern IntPtr SDL_GetGamepads(out int count);
-    public static IntPtr GetGamepads(out int count)
+    public static uint[] GetGamepads(out int count)
     {
-        return SDL_GetGamepads(out count);
+        IntPtr ptr = SDL_GetGamepads(out count);
+
+        if (ptr == IntPtr.Zero || count == 0)
+            return Array.Empty<uint>();
+
+        uint[] ids = new uint[count];
+        Marshal.Copy(ptr, (int[])(object)ids, 0, count);
+        SDL_free(ptr);
+        return ids;
     }
 }

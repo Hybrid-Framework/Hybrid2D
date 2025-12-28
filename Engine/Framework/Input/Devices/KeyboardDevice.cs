@@ -15,7 +15,12 @@ namespace Hybrid
             }
         }
         
-        
+        // Dispose
+        internal override void OnDispose()
+        {
+            Keys.Clear();
+        }
+
         // Reset
         internal override void OnReset()
         {
@@ -30,22 +35,6 @@ namespace Hybrid
         {
             switch (e.type)
             {
-                // Keyboard Down
-                case SDL.EventType.KeyboardButtonDown:
-                {
-                    if (!e.keyboard.repeat)
-                    {
-                        var key = (Key)e.keyboard.keyCode;
-            
-                        if (Keys.TryGetValue(key, out var inputKey))
-                        {
-                            inputKey.SetState(InputState.Press | InputState.Down);
-                        }
-                    }
-                        
-                    break;
-                }
-                    
                 // Keyboard Up
                 case SDL.EventType.KeyboardButtonUp:
                 {
@@ -59,6 +48,22 @@ namespace Hybrid
                         }
                     }
 
+                    break;
+                }
+                
+                // Keyboard Down
+                case SDL.EventType.KeyboardButtonDown:
+                {
+                    if (!e.keyboard.repeat)
+                    {
+                        var key = (Key)e.keyboard.keyCode;
+            
+                        if (Keys.TryGetValue(key, out var inputKey))
+                        {
+                            inputKey.SetState(InputState.Press | InputState.Down);
+                        }
+                    }
+                        
                     break;
                 }
             }
