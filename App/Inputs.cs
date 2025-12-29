@@ -7,11 +7,11 @@ namespace App
     {
         public override void OnUpdate()
         {
-            var modifiers = Input.GetKeyModifiers();
+            var modifiers = Input.GetKeyModifier(Modifier.CapLock);
 
-            if (modifiers != Modifier.None)
+            if (modifiers)
             {
-                Debug.Log(modifiers);
+                Debug.Log("Pressed");
             }
         }
     }

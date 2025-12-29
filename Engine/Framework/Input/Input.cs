@@ -43,17 +43,20 @@ namespace Hybrid
     // Keyboard
     public partial class Input
     {
-        public static Modifier GetKeyModifiers(InputPlayer player = InputPlayer.Any)
+        public static bool GetKeyModifier(Modifier modifier, InputPlayer player = InputPlayer.Any)
         {
             foreach (var keyboard in Keyboards.AllKeyboards)
             {
                 if (keyboard.Player == player || player == InputPlayer.Any)
                 {
-                    return keyboard.GetKeyModifiers();
+                    if (keyboard.GetKeyModifier(modifier))
+                    {
+                        return true;
+                    }
                 }
             }
             
-            return Modifier.None;
+            return false;
         }
         
         public static bool GetKey(Key key, InputPlayer player = InputPlayer.Any)

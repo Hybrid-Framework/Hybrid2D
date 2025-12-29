@@ -83,9 +83,9 @@ namespace Hybrid
             }
         }
         
-        internal Modifier GetKeyModifiers()
+        internal bool GetKeyModifier(Modifier modifier)
         {
-            return (Modifier)SDL.GetModState();
+            return ((Modifier)SDL.GetModState() & modifier) != 0;
         }
         
         internal bool GetKey(Key key)
