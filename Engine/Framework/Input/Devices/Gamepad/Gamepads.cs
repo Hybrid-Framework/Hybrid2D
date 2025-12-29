@@ -14,7 +14,7 @@ namespace Hybrid
         {
             foreach (var gamepad in AllGamepads.ToArray())
             {
-                DestroyGamepad(gamepad.DeviceID);
+                DestroyGamepad(gamepad.Device);
             }
         }
 
@@ -81,23 +81,25 @@ namespace Hybrid
             }
         }
 
-        internal Gamepad CreateGamepad(uint deviceID)
+        internal Gamepad CreateGamepad(uint device)
         {
-            var found = GetGamepadByDeviceID(deviceID);
+            var found = GetGamepadByDevice(device);
             
             if (found == null)
             {
                 for (int i = 0; i < MaxGamepads; i++)
                 {
-                    if (GetGamepadByPlayerID(i) == null)
+                    var player = (InputPlayer)i;
+                    
+                    if (GetGamepadByPlayer(player) == null)
                     {
-                        var handle = SDL.OpenGamepad(deviceID);
+                        var handle = SDL.OpenGamepad(device);
 
                         if (handle != null)
                         {
-                            Debug.Log($"Gamepad {deviceID} {i} added");
+                            Debug.Log($"Gamepad {device} {player} connected");
                             
-                            var gamepad = new Gamepad(handle, deviceID, i);
+                            var gamepad = new Gamepad(handle, device, player);
                             AllGamepads.Add(gamepad);
                             return gamepad;
                         }
@@ -108,24 +110,24 @@ namespace Hybrid
             return found;
         }
 
-        internal void DestroyGamepad(uint deviceID)
+        internal void DestroyGamepad(uint device)
         {
-            var gamepad = GetGamepadByDeviceID(deviceID);
+            var gamepad = GetGamepadByDevice(device);
             
             if (gamepad != null)
             {
-                Debug.Log($"Gamepad {gamepad.DeviceID} {gamepad.PlayerID} removed");
+                Debug.Log($"Gamepad {gamepad.Device} {gamepad.Player} disconnected");
                 
                 AllGamepads.Remove(gamepad);
                 gamepad.OnDispose();
             }
         }
         
-        internal Gamepad GetGamepadByPlayerID(int playerID)
+        internal Gamepad GetGamepadByPlayer(InputPlayer player)
         {
             foreach (var gamepad in AllGamepads)
             {
-                if (gamepad.PlayerID == playerID)
+                if (gamepad.Player == player)
                 {
                     return gamepad;
                 }
@@ -134,11 +136,11 @@ namespace Hybrid
             return null;
         }
 
-        internal Gamepad GetGamepadByDeviceID(uint deviceID)
+        internal Gamepad GetGamepadByDevice(uint device)
         {
             foreach (var gamepad in AllGamepads)
             {
-                if (gamepad.DeviceID == deviceID)
+                if (gamepad.Device == device)
                 {
                     return gamepad;
                 }

@@ -9,14 +9,14 @@ namespace Hybrid
         internal InputVector ScrollDelta { get; private set; } = new InputVector();
         internal InputVector Position { get; private set; } = new InputVector();
         internal InputVector Delta { get; private set; } = new InputVector();
-        internal uint DeviceID;
-        internal int PlayerID;
+        internal InputPlayer Player;
+        internal uint Device;
         
         
-        internal Mouse(uint deviceID, int playerID)
+        internal Mouse(uint device, InputPlayer player)
         {
-            this.PlayerID = playerID;
-            this.DeviceID = deviceID;
+            this.Device = device;
+            this.Player = player;
 
             for (int i = 0; i < 8; i++)
             {

@@ -14,7 +14,7 @@ namespace Hybrid
         {
             foreach (var touchscreen in AllTouchscreens.ToArray())
             {
-                DestroyTouchscreen(touchscreen.DeviceID);
+                DestroyTouchscreen(touchscreen.Device);
             }
         }
 
@@ -48,19 +48,21 @@ namespace Hybrid
             }
         }
 
-        private Touchscreen CreateTouchscreen(ulong deviceID)
+        private Touchscreen CreateTouchscreen(ulong device)
         {
-            var found = GetTouchscreenByDeviceID(deviceID);
+            var found = GetTouchscreenByDevice(device);
             
             if (found == null)
             {
                 for (int i = 0; i < MaxTouchscreens; i++)
                 {
-                    if (GetTouchscreenByPlayerID(i) == null)
+                    var player = (InputPlayer)i;
+                    
+                    if (GetTouchscreenByPlayer(player) == null)
                     {
-                        Debug.Log($"Touchscreen {deviceID} {i} added");
+                        Debug.Log($"Touchscreen {device} {player} connected");
                         
-                        var touchscreen = new Touchscreen(deviceID, i);
+                        var touchscreen = new Touchscreen(device, player);
                         AllTouchscreens.Add(touchscreen);
                         return touchscreen;
                     }
@@ -70,24 +72,24 @@ namespace Hybrid
             return found;
         }
 
-        private void DestroyTouchscreen(ulong deviceID)
+        private void DestroyTouchscreen(ulong device)
         {
-            var touchscreen = GetTouchscreenByDeviceID(deviceID);
+            var touchscreen = GetTouchscreenByDevice(device);
             
             if (touchscreen != null)
             {
-                Debug.Log($"Touchscreen {touchscreen.DeviceID} {touchscreen.PlayerID} removed");
+                Debug.Log($"Touchscreen {touchscreen.Device} {touchscreen.Player} disconnected");
                 
                 AllTouchscreens.Remove(touchscreen);
                 touchscreen.OnDispose();
             }
         }
         
-        internal Touchscreen GetTouchscreenByPlayerID(int playerID)
+        internal Touchscreen GetTouchscreenByPlayer(InputPlayer player)
         {
             foreach (var touchscreen in AllTouchscreens)
             {
-                if (touchscreen.PlayerID == playerID)
+                if (touchscreen.Player == player)
                 {
                     return touchscreen;
                 }
@@ -96,11 +98,11 @@ namespace Hybrid
             return null;
         }
 
-        internal Touchscreen GetTouchscreenByDeviceID(ulong deviceID)
+        internal Touchscreen GetTouchscreenByDevice(ulong device)
         {
             foreach (var touchscreen in AllTouchscreens)
             {
-                if (touchscreen.DeviceID == deviceID)
+                if (touchscreen.Device == device)
                 {
                     return touchscreen;
                 }

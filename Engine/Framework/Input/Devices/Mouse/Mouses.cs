@@ -14,7 +14,7 @@ namespace Hybrid
         {
             foreach (var mouse in AllMice.ToArray())
             {
-                DestroyMouse(mouse.DeviceID);
+                DestroyMouse(mouse.Device);
             }
         }
 
@@ -85,19 +85,21 @@ namespace Hybrid
             }
         }
 
-        private Mouse CreateMouse(uint deviceID)
+        private Mouse CreateMouse(uint device)
         {
-            var found = GetMouseByDeviceID(deviceID);
+            var found = GetMouseByDevice(device);
             
             if (found == null)
             {
                 for (int i = 0; i < MaxMice; i++)
                 {
-                    if (GetMouseByPlayerID(i) == null)
+                    var player = (InputPlayer)i;
+                    
+                    if (GetMouseByPlayer(player) == null)
                     {
-                        Debug.Log($"Mouse {deviceID} {i} added");
+                        Debug.Log($"Mouse {device} {player} connected");
                         
-                        var mouse = new Mouse(deviceID, i);
+                        var mouse = new Mouse(device, player);
                         AllMice.Add(mouse);
                         return mouse;
                     }
@@ -107,24 +109,24 @@ namespace Hybrid
             return found;
         }
 
-        private void DestroyMouse(uint deviceID)
+        private void DestroyMouse(uint device)
         {
-            var mouse = GetMouseByDeviceID(deviceID);
+            var mouse = GetMouseByDevice(device);
             
             if (mouse != null)
             {
-                Debug.Log($"Mouse {mouse.DeviceID} {mouse.PlayerID} removed");
+                Debug.Log($"Mouse {mouse.Device} {mouse.Player} disconnected");
                 
                 AllMice.Remove(mouse);
                 mouse.OnDispose();
             }
         }
         
-        internal Mouse GetMouseByPlayerID(int playerID)
+        internal Mouse GetMouseByPlayer(InputPlayer player)
         {
             foreach (var mouse in AllMice)
             {
-                if (mouse.PlayerID == playerID)
+                if (mouse.Player == player)
                 {
                     return mouse;
                 }
@@ -133,11 +135,11 @@ namespace Hybrid
             return null;
         }
 
-        internal Mouse GetMouseByDeviceID(uint deviceID)
+        internal Mouse GetMouseByDevice(uint device)
         {
             foreach (var mouse in AllMice)
             {
-                if (mouse.DeviceID == deviceID)
+                if (mouse.Device == device)
                 {
                     return mouse;
                 }

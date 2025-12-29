@@ -7,14 +7,14 @@ namespace Hybrid
     {
         internal List<Touch> Touches = new List<Touch>();
         internal const int MaxTouches = 8;
-        internal ulong DeviceID;
-        internal int PlayerID;
+        internal InputPlayer Player;
+        internal ulong Device;
         
         
-        internal Touchscreen(ulong deviceID, int playerID)
+        internal Touchscreen(ulong device, InputPlayer player)
         {
-            this.DeviceID = deviceID;
-            this.PlayerID = playerID;
+            this.Device = device;
+            this.Player = player;
 
             for (int i = 0; i < MaxTouches; i++)
             {
@@ -90,9 +90,9 @@ namespace Hybrid
             }
         }
         
-        internal Touch GetTouch(int index)
+        internal Touch GetTouch(int finger)
         {
-            return Touches[(int)Maths.Clamp(index, 0, MaxTouches - 1)];
+            return Touches[(int)Maths.Clamp(finger, 0, MaxTouches - 1)];
         }
     }
 }

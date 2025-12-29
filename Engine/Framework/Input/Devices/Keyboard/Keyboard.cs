@@ -6,14 +6,14 @@ namespace Hybrid
     internal class Keyboard : InputDevice
     {
         internal Dictionary<Key, InputKey> Keys { get; private set; } = new Dictionary<Key, InputKey>();
-        internal uint DeviceID;
-        internal int PlayerID;
+        internal InputPlayer Player;
+        internal uint Device;
         
         
-        internal Keyboard(uint deviceID, int playerID)
+        internal Keyboard(uint device, InputPlayer player)
         {
-            this.DeviceID = deviceID;
-            this.PlayerID = playerID;
+            this.Device = device;
+            this.Player = player;
             
             foreach (Key key in Enum.GetValues(typeof(Key)))
             {

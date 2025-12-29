@@ -14,7 +14,7 @@ namespace Hybrid
         {
             foreach (var keyboard in AllKeyboards.ToArray())
             {
-                DestroyKeyboard(keyboard.DeviceID);
+                DestroyKeyboard(keyboard.Device);
             }
         }
 
@@ -63,19 +63,21 @@ namespace Hybrid
             }
         }
 
-        private Keyboard CreateKeyboard(uint deviceID)
+        private Keyboard CreateKeyboard(uint device)
         {
-            var found = GetKeyboardByDeviceID(deviceID);
+            var found = GetKeyboardByDevice(device);
             
             if (found == null)
             {
                 for (int i = 0; i < MaxKeyboards; i++)
                 {
-                    if (GetKeyboardByPlayerID(i) == null)
+                    var player = (InputPlayer)i;
+                    
+                    if (GetKeyboardByPlayer(player) == null)
                     {
-                        Debug.Log($"Keyboard {deviceID} {i} added");
+                        Debug.Log($"Keyboard {device} {player} connected");
                         
-                        var keyboard = new Keyboard(deviceID, i);
+                        var keyboard = new Keyboard(device, player);
                         AllKeyboards.Add(keyboard);
                         return keyboard;
                     }
@@ -85,24 +87,24 @@ namespace Hybrid
             return found;
         }
 
-        private void DestroyKeyboard(uint deviceID)
+        private void DestroyKeyboard(uint device)
         {
-            var keyboard = GetKeyboardByDeviceID(deviceID);
+            var keyboard = GetKeyboardByDevice(device);
             
             if (keyboard != null)
             {
-                Debug.Log($"Keyboard {keyboard.DeviceID} {keyboard.PlayerID} removed");
+                Debug.Log($"Keyboard {keyboard.Device} {keyboard.Player} disconnected");
                 
                 AllKeyboards.Remove(keyboard);
                 keyboard.OnDispose();
             }
         }
         
-        internal Keyboard GetKeyboardByPlayerID(int playerID)
+        internal Keyboard GetKeyboardByPlayer(InputPlayer player)
         {
             foreach (var keyboard in AllKeyboards)
             {
-                if (keyboard.PlayerID == playerID)
+                if (keyboard.Player == player)
                 {
                     return keyboard;
                 }
@@ -111,11 +113,11 @@ namespace Hybrid
             return null;
         }
 
-        internal Keyboard GetKeyboardByDeviceID(uint deviceID)
+        internal Keyboard GetKeyboardByDevice(uint device)
         {
             foreach (var keyboard in AllKeyboards)
             {
-                if (keyboard.DeviceID == deviceID)
+                if (keyboard.Device == device)
                 {
                     return keyboard;
                 }

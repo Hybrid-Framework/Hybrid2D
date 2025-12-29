@@ -43,37 +43,49 @@ namespace Hybrid
     // Keyboard
     public partial class Input
     {
-        public static bool GetKey(Key key, int playerID = 0)
+        public static bool GetKey(Key key, InputPlayer player = InputPlayer.Any)
         {
-            var keyboard = Keyboards.GetKeyboardByPlayerID(playerID);
-
-            if (keyboard != null)
+            foreach (var keyboard in Keyboards.AllKeyboards)
             {
-                return keyboard.GetKey(key);
+                if (keyboard.Player == player || player == InputPlayer.Any)
+                {
+                    if (keyboard.GetKey(key))
+                    {
+                        return true;
+                    }
+                }
             }
             
             return false;
         }
         
-        public static bool GetKeyDown(Key key, int playerID = 0)
+        public static bool GetKeyDown(Key key, InputPlayer player = InputPlayer.Any)
         {
-            var keyboard = Keyboards.GetKeyboardByPlayerID(playerID);
-
-            if (keyboard != null)
+            foreach (var keyboard in Keyboards.AllKeyboards)
             {
-                return keyboard.GetKeyDown(key);
+                if (keyboard.Player == player || player == InputPlayer.Any)
+                {
+                    if (keyboard.GetKeyDown(key))
+                    {
+                        return true;
+                    }
+                }
             }
             
             return false;
         }
         
-        public static bool GetKeyUp(Key key, int playerID = 0)
+        public static bool GetKeyUp(Key key, InputPlayer player = InputPlayer.Any)
         {
-            var keyboard = Keyboards.GetKeyboardByPlayerID(playerID);
-
-            if (keyboard != null)
+            foreach (var keyboard in Keyboards.AllKeyboards)
             {
-                return keyboard.GetKeyUp(key);
+                if (keyboard.Player == player || player == InputPlayer.Any)
+                {
+                    if (keyboard.GetKeyUp(key))
+                    {
+                        return true;
+                    }
+                }
             }
             
             return false;
@@ -83,73 +95,88 @@ namespace Hybrid
     // Mouse
     public partial class Input
     {
-        public static Vector2 MouseScrollDelta(int playerID = 0)
+        public static Vector2 MouseScrollDelta(InputPlayer player = InputPlayer.Any)
         {
-            var mouse = Mouses.GetMouseByPlayerID(playerID);
-
-            if (mouse != null)
+            foreach (var mouse in Mouses.AllMice)
             {
-                return mouse.ScrollDelta.GetState();
+                if (mouse.Player == player || player == InputPlayer.Any)
+                {
+                    return mouse.ScrollDelta.GetState();
+                }
             }
             
             return Vector2.Zero;
         }
         
-        public static Vector2 MousePosition(int playerID = 0)
+        public static Vector2 MousePosition(InputPlayer player = InputPlayer.Any)
         {
-            var mouse = Mouses.GetMouseByPlayerID(playerID);
-
-            if (mouse != null)
+            foreach (var mouse in Mouses.AllMice)
             {
-                return mouse.Position.GetState();
+                if (mouse.Player == player || player == InputPlayer.Any)
+                {
+                    return mouse.Position.GetState();
+                }
             }
             
             return Vector2.Zero;
         }
         
-        public static Vector2 MouseDelta(int playerID = 0)
+        public static Vector2 MouseDelta(InputPlayer player = InputPlayer.Any)
         {
-            var mouse = Mouses.GetMouseByPlayerID(playerID);
-
-            if (mouse != null)
+            foreach (var mouse in Mouses.AllMice)
             {
-                return mouse.Delta.GetState();
+                if (mouse.Player == player || player == InputPlayer.Any)
+                {
+                    return mouse.Delta.GetState();
+                }
             }
             
             return Vector2.Zero;
         }
         
-        public static bool GetMouseButton(int button, int playerID = 0)
+        public static bool GetMouseButton(int button, InputPlayer player = InputPlayer.Any)
         {
-            var mouse = Mouses.GetMouseByPlayerID(playerID);
-
-            if (mouse != null)
+            foreach (var mouse in Mouses.AllMice)
             {
-                return mouse.GetMouseButton(button);
+                if (mouse.Player == player || player == InputPlayer.Any)
+                {
+                    if (mouse.GetMouseButton(button))
+                    {
+                        return true;
+                    }
+                }
             }
             
             return false;
         }
         
-        public static bool GetMouseButtonDown(int button, int playerID = 0)
+        public static bool GetMouseButtonDown(int button, InputPlayer player = InputPlayer.Any)
         {
-            var mouse = Mouses.GetMouseByPlayerID(playerID);
-
-            if (mouse != null)
+            foreach (var mouse in Mouses.AllMice)
             {
-                return mouse.GetMouseButtonDown(button);
+                if (mouse.Player == player || player == InputPlayer.Any)
+                {
+                    if (mouse.GetMouseButtonDown(button))
+                    {
+                        return true;
+                    }
+                }
             }
             
             return false;
         }
         
-        public static bool GetMouseButtonUp(int button, int playerID = 0)
+        public static bool GetMouseButtonUp(int button, InputPlayer player = InputPlayer.Any)
         {
-            var mouse = Mouses.GetMouseByPlayerID(playerID);
-
-            if (mouse != null)
+            foreach (var mouse in Mouses.AllMice)
             {
-                return mouse.GetMouseButtonUp(button);
+                if (mouse.Player == player || player == InputPlayer.Any)
+                {
+                    if (mouse.GetMouseButtonUp(button))
+                    {
+                        return true;
+                    }
+                }
             }
             
             return false;
@@ -159,71 +186,62 @@ namespace Hybrid
     // Gamepad
     public partial class Input
     {
-        public static float GetGamepadDeadZone(int playerID = 0)
+        public static float GetGamepadAxis(Axis axis, InputPlayer player = InputPlayer.Any)
         {
-            var gamepad = Gamepads.GetGamepadByPlayerID(playerID);
-
-            if (gamepad != null)
+            foreach (var gamepad in Gamepads.AllGamepads)
             {
-                return gamepad.GetGamepadDeadZone();
+                if (gamepad.Player == player || player == InputPlayer.Any)
+                {
+                    return gamepad.GetAxis(axis);
+                }
             }
             
             return 0;
         }
         
-        public static void SetGamepadDeadZone(float value, int playerID = 0)
+        public static bool GetGamepadButton(Button button, InputPlayer player = InputPlayer.Any)
         {
-            var gamepad = Gamepads.GetGamepadByPlayerID(playerID);
-
-            if (gamepad != null)
+            foreach (var gamepad in Gamepads.AllGamepads)
             {
-                gamepad.SetGamepadDeadZone(value);
-            }
-        }
-        
-        public static float GetGamepadAxis(Axis axis, int playerID = 0)
-        {
-            var gamepad = Gamepads.GetGamepadByPlayerID(playerID);
-
-            if (gamepad != null)
-            {
-                return gamepad.GetGamepadAxis(axis);
-            }
-            
-            return 0;
-        }
-        
-        public static bool GetGamepadButton(Button button, int playerID = 0)
-        {
-            var gamepad = Gamepads.GetGamepadByPlayerID(playerID);
-
-            if (gamepad != null)
-            {
-                return gamepad.GetGamepadButton(button);
+                if (gamepad.Player == player || player == InputPlayer.Any)
+                {
+                    if (gamepad.GetButton(button))
+                    {
+                        return true;
+                    }
+                }
             }
             
             return false;
         }
         
-        public static bool GetGamepadButtonDown(Button button, int playerID = 0)
+        public static bool GetGamepadButtonDown(Button button, InputPlayer player = InputPlayer.Any)
         {
-            var gamepad = Gamepads.GetGamepadByPlayerID(playerID);
-
-            if (gamepad != null)
+            foreach (var gamepad in Gamepads.AllGamepads)
             {
-                return gamepad.GetGamepadButtonDown(button);
+                if (gamepad.Player == player || player == InputPlayer.Any)
+                {
+                    if (gamepad.GetButtonDown(button))
+                    {
+                        return true;
+                    }
+                }
             }
             
             return false;
         }
         
-        public static bool GetGamepadButtonUp(Button button, int playerID = 0)
+        public static bool GetGamepadButtonUp(Button button, InputPlayer player = InputPlayer.Any)
         {
-            var gamepad = Gamepads.GetGamepadByPlayerID(playerID);
-
-            if (gamepad != null)
+            foreach (var gamepad in Gamepads.AllGamepads)
             {
-                return gamepad.GetGamepadButtonUp(button);
+                if (gamepad.Player == player || player == InputPlayer.Any)
+                {
+                    if (gamepad.GetButtonUp(button))
+                    {
+                        return true;
+                    }
+                }
             }
             
             return false;
@@ -233,37 +251,14 @@ namespace Hybrid
     // Touch
     public partial class Input
     {
-        private static bool _SimulateTouchesWithMouse { get; set; } = true;
-        public static bool SimulateTouchesWithMouse
+        public static Touch GetTouch(int finger, InputPlayer player = InputPlayer.Any)
         {
-            get
+            foreach (var touchscreen in Touchscreens.AllTouchscreens)
             {
-                return _SimulateTouchesWithMouse;
-            }
-            set
-            {
-                if (value)
+                if (touchscreen.Player == player || player == InputPlayer.Any)
                 {
-                    SDL.SetHint(SDL.SDL_HINT_MOUSE_TOUCH_EVENTS, "1");
-                    SDL.SetHint(SDL.SDL_HINT_TOUCH_MOUSE_EVENTS, "1");
+                    return touchscreen.GetTouch(finger);
                 }
-                else
-                {
-                    SDL.SetHint(SDL.SDL_HINT_MOUSE_TOUCH_EVENTS, "0");
-                    SDL.SetHint(SDL.SDL_HINT_TOUCH_MOUSE_EVENTS, "0");
-                }
-
-                _SimulateTouchesWithMouse = value;
-            }
-        }
-        
-        public static Touch GetTouch(int index, int playerID = 0)
-        {
-            var touchscreen = Touchscreens.GetTouchscreenByPlayerID(playerID);
-
-            if (touchscreen != null)
-            {
-                return touchscreen.GetTouch(index);
             }
 
             return null;
