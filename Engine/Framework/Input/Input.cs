@@ -229,4 +229,44 @@ namespace Hybrid
             return false;
         }
     }
+    
+    // Touch
+    public partial class Input
+    {
+        private static bool _SimulateTouchesWithMouse { get; set; } = true;
+        public static bool SimulateTouchesWithMouse
+        {
+            get
+            {
+                return _SimulateTouchesWithMouse;
+            }
+            set
+            {
+                if (value)
+                {
+                    SDL.SetHint(SDL.SDL_HINT_MOUSE_TOUCH_EVENTS, "1");
+                    SDL.SetHint(SDL.SDL_HINT_TOUCH_MOUSE_EVENTS, "1");
+                }
+                else
+                {
+                    SDL.SetHint(SDL.SDL_HINT_MOUSE_TOUCH_EVENTS, "0");
+                    SDL.SetHint(SDL.SDL_HINT_TOUCH_MOUSE_EVENTS, "0");
+                }
+
+                _SimulateTouchesWithMouse = value;
+            }
+        }
+        
+        public static Touch GetTouch(int index, int playerID = 0)
+        {
+            var touchscreen = Touchscreens.GetTouchscreenByPlayerID(playerID);
+
+            if (touchscreen != null)
+            {
+                return touchscreen.GetTouch(index);
+            }
+
+            return null;
+        }
+    }
 }

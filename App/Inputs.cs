@@ -14,12 +14,12 @@ namespace App
                     {
                         Debug.Log($"Mouse {i} {b} Press");
                     }
-
+            
                     if (Input.GetMouseButtonDown(b, i))
                     {
                         Debug.Log($"Mouse {i} {b} Down");
                     }
-
+            
                     if (Input.GetMouseButtonUp(b, i))
                     {
                         Debug.Log($"Mouse {i} {b} Release");
@@ -33,12 +33,12 @@ namespace App
                 {
                     Debug.Log($"Keyboard {i} Press");
                 }
-
+            
                 if (Input.GetKeyDown(Key.Space, i))
                 {
                     Debug.Log($"Keyboard {i} Down");
                 }
-
+            
                 if (Input.GetKeyUp(Key.Space, i))
                 {
                     Debug.Log($"Keyboard {i} Release");
@@ -70,6 +70,22 @@ namespace App
                 if (Input.GetGamepadAxis(Axis.RightTrigger, i) != 0)
                 {
                     Debug.Log($"Gamepad {i}: X: {Input.GetGamepadAxis(Axis.RightTrigger, i)}");
+                }
+            }
+
+            for (int i = 0; i < 4; i++)
+            {
+                for (int t = 0; t < 8; t++)
+                {
+                    var touch = Input.GetTouch(t, i);
+                    
+                    if (touch != null)
+                    {
+                        if (touch.GetPhase() != Phase.None)
+                        {
+                            Debug.Log($"Touch {t} Device: {i} Phase: {Input.GetTouch(t, i).GetPhase()}");
+                        }
+                    }
                 }
             }
         }

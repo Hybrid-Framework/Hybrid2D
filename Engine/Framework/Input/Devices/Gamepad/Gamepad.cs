@@ -123,7 +123,7 @@ namespace Hybrid
         {
             if (Axis.TryGetValue(axis, out var inputAxis))
             {
-                return inputAxis.GetValue();
+                return inputAxis.GetState();
             }
 
             return 0;
