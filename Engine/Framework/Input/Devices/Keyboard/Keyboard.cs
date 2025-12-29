@@ -72,7 +72,7 @@ namespace Hybrid
                             {
                                 if (Keys.TryGetValue(key, out var inputKey))
                                 {
-                                    inputKey.SetState(State.Press | State.Down);
+                                    inputKey.SetState(State.Down | State.Hold);
                                 }
                             }
                         }
@@ -92,7 +92,7 @@ namespace Hybrid
         {
             if (Keys.TryGetValue(key, out var inputKey))
             {
-                return inputKey.IsPressed();
+                return inputKey.Held();
             }
 
             return false;
@@ -102,7 +102,7 @@ namespace Hybrid
         {
             if (Keys.TryGetValue(key, out var inputKey))
             {
-                return inputKey.IsDown();
+                return inputKey.Down();
             }
 
             return false;
@@ -112,7 +112,7 @@ namespace Hybrid
         {
             if (Keys.TryGetValue(key, out var inputKey))
             {
-                return inputKey.IsReleased();
+                return inputKey.Released();
             }
 
             return false;

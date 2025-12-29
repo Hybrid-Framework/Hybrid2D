@@ -7,11 +7,19 @@ namespace App
     {
         public override void OnUpdate()
         {
-            var modifiers = Input.GetKeyModifier(Modifier.CapLock);
-
-            if (modifiers)
+            if (Input.GetKeyDown(Key.A))
             {
-                Debug.Log("Pressed");
+                Debug.Log("Down");
+            }
+            
+            if (Input.GetKey(Key.A))
+            {
+                Debug.Log("Hold");
+            }
+            
+            if (Input.GetKeyUp(Key.A))
+            {
+                Debug.Log("Released");
             }
         }
     }

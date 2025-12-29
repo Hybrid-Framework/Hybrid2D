@@ -19,35 +19,30 @@ namespace Hybrid
 
         internal void Reset()
         {
-            switch (State)
+            if (Down())
             {
-                case State.Press | State.Down:
-                {
-                    State = State.Down;
-                    break;
-                }
-                    
-                case State.Release:
-                {
-                    State = State.None;
-                    break;
-                }
+                State = State.Hold;
+            }
+
+            if (Released())
+            {
+                State = State.None;
             }
         }
         
-        internal bool IsDown()
+        internal bool Down()
         {
-            return State.HasFlag(State.Down);
+            return (State & State.Down) != 0;
         }
 
-        internal bool IsPressed()
+        internal bool Held()
         {
-            return State.HasFlag(State.Press);
+            return (State & State.Hold) != 0;
         }
         
-        internal bool IsReleased()
+        internal bool Released()
         {
-            return State.HasFlag(State.Release);
+            return (State & State.Release) != 0;
         }
     }
 }
