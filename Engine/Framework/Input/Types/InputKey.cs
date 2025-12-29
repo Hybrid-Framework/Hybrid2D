@@ -4,15 +4,15 @@ namespace Hybrid
 {
     internal class InputKey
     {
-        private InputState State = InputState.None;
+        private State State = State.None;
         
         
-        internal void SetState(InputState state)
+        internal void SetState(State state)
         {
             this.State = state;
         }
 
-        internal InputState GetState()
+        internal State GetState()
         {
             return State;
         }
@@ -21,15 +21,15 @@ namespace Hybrid
         {
             switch (State)
             {
-                case InputState.Press | InputState.Down:
+                case State.Press | State.Down:
                 {
-                    State = InputState.Down;
+                    State = State.Down;
                     break;
                 }
                     
-                case InputState.Release:
+                case State.Release:
                 {
-                    State = InputState.None;
+                    State = State.None;
                     break;
                 }
             }
@@ -37,17 +37,17 @@ namespace Hybrid
         
         internal bool IsDown()
         {
-            return State.HasFlag(InputState.Down);
+            return State.HasFlag(State.Down);
         }
 
         internal bool IsPressed()
         {
-            return State.HasFlag(InputState.Press);
+            return State.HasFlag(State.Press);
         }
         
         internal bool IsReleased()
         {
-            return State.HasFlag(InputState.Release);
+            return State.HasFlag(State.Release);
         }
     }
 }

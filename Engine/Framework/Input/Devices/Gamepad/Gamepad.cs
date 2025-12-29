@@ -69,7 +69,7 @@ namespace Hybrid
 
                     if (Keys.TryGetValue(key, out var inputKey))
                     {
-                        inputKey.SetState(InputState.Release);
+                        inputKey.SetState(State.Release);
                     }
                     
                     break;
@@ -82,7 +82,7 @@ namespace Hybrid
             
                     if (Keys.TryGetValue(key, out var inputKey))
                     {
-                        inputKey.SetState(InputState.Press | InputState.Down);
+                        inputKey.SetState(State.Press | State.Down);
                     }
                     
                     break;
@@ -100,7 +100,7 @@ namespace Hybrid
 
                         if (Maths.Abs(value) >= DeadZone)
                         {
-                            inputAxis.SetValue(value);
+                            inputAxis.SetState(value);
                         }
                     }
                     

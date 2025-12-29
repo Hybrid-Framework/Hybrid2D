@@ -3,7 +3,7 @@ using System;
 
 namespace Hybrid
 {
-    internal unsafe class Keyboards : InputDevice
+    internal class Keyboards : InputDevice
     {
         internal readonly List<Keyboard> AllKeyboards = new List<Keyboard>();
         internal const int MaxKeyboards = 4;
@@ -12,12 +12,10 @@ namespace Hybrid
         // Dispose
         internal override void OnDispose()
         {
-            foreach (var keyboard in AllKeyboards)
+            foreach (var keyboard in AllKeyboards.ToArray())
             {
-                keyboard.OnDispose();
+                DestroyKeyboard(keyboard.DeviceID);
             }
-            
-            AllKeyboards.Clear();
         }
 
         // Reset

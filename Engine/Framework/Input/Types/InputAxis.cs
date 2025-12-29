@@ -12,12 +12,12 @@ namespace Hybrid
             return Value;
         }
 
-        internal void SetValue(float value)
+        internal void SetState(float value)
         {
             Value = value;
         }
         
-        internal void SetValue(float value, float min, float max)
+        internal void GetState(float value, float min, float max)
         {
             Value = Maths.Clamp(value, min, max);
         }

@@ -3,12 +3,12 @@ using System;
 
 namespace Hybrid
 {
-    internal unsafe class Mouse : InputDevice
+    internal class Mouse : InputDevice
     {
         internal Dictionary<int, InputKey> Keys { get; private set; } = new Dictionary<int, InputKey>();
-        internal InputVector MouseScrollDelta { get; private set; } = new InputVector();
-        internal InputVector MousePosition { get; private set; } = new InputVector();
-        internal InputVector MouseDelta { get; private set; } = new InputVector();
+        internal InputVector ScrollDelta { get; private set; } = new InputVector();
+        internal InputVector Position { get; private set; } = new InputVector();
+        internal InputVector Delta { get; private set; } = new InputVector();
         internal uint DeviceID;
         internal int PlayerID;
         
@@ -33,8 +33,8 @@ namespace Hybrid
         // Reset
         internal override void OnReset()
         {
-            MouseScrollDelta.Reset();
-            MouseDelta.Reset();
+            ScrollDelta.Reset();
+            Delta.Reset();
             
             foreach (var key in Keys.Values)
             {
@@ -54,7 +54,7 @@ namespace Hybrid
 
                     if (Keys.TryGetValue(key, out var inputKey))
                     {
-                        inputKey.SetState(InputState.Release);
+                        inputKey.SetState(State.Release);
                     }
                     
                     break;
@@ -67,7 +67,7 @@ namespace Hybrid
             
                     if (Keys.TryGetValue(key, out var inputKey))
                     {
-                        inputKey.SetState(InputState.Press | InputState.Down);
+                        inputKey.SetState(State.Press | State.Down);
                     }
                     
                     break;
@@ -76,15 +76,15 @@ namespace Hybrid
                 // Mouse Motion
                 case SDL.EventType.MouseMotion:
                 {
-                    MouseDelta.SetValue(e.mouseMotion.x_relative, e.mouseMotion.y_relative);
-                    MousePosition.SetValue(e.mouseMotion.x, e.mouseMotion.y);
+                    Delta.SetState(e.mouseMotion.x_relative, e.mouseMotion.y_relative);
+                    Position.SetState(e.mouseMotion.x, e.mouseMotion.y);
                     break;
                 }
                 
                 // Mouse Wheel
                 case SDL.EventType.MouseWheel:
                 {
-                    MouseScrollDelta.SetValue(e.mouseWheel.x, e.mouseWheel.y, -1, 1);
+                    ScrollDelta.SetState(e.mouseWheel.x, e.mouseWheel.y, -1, 1);
                     break;
                 }
             }

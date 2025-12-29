@@ -3,7 +3,7 @@ using System;
 
 namespace Hybrid
 {
-    internal unsafe class Keyboard : InputDevice
+    internal class Keyboard : InputDevice
     {
         internal Dictionary<Key, InputKey> Keys { get; private set; } = new Dictionary<Key, InputKey>();
         internal uint DeviceID;
@@ -48,7 +48,7 @@ namespace Hybrid
 
                     if (Keys.TryGetValue(key, out var inputKey))
                     {
-                        inputKey.SetState(InputState.Release);
+                        inputKey.SetState(State.Release);
                     }
                     
                     break;
@@ -61,7 +61,7 @@ namespace Hybrid
             
                     if (Keys.TryGetValue(key, out var inputKey))
                     {
-                        inputKey.SetState(InputState.Press | InputState.Down);
+                        inputKey.SetState(State.Press | State.Down);
                     }
                     
                     break;

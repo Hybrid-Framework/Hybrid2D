@@ -7,6 +7,7 @@ namespace Hybrid
     {
         private Input() { }
 
+        internal static Touchscreens Touchscreens { get; private set; } = new Touchscreens();
         internal static Keyboards Keyboards { get; private set; } = new Keyboards();
         internal static Gamepads Gamepads { get; private set; } = new Gamepads();
         internal static Mouses Mouses { get; private set; } = new Mouses();
@@ -14,6 +15,7 @@ namespace Hybrid
 
         internal override void OnStartOfFrame()
         {
+            Touchscreens.OnReset();
             Keyboards.OnReset();
             Gamepads.OnReset();
             Mouses.OnReset();
@@ -22,6 +24,7 @@ namespace Hybrid
         // Events
         internal override void OnEvent(SDL.Event e)
         {
+            Touchscreens.OnEvent(e);
             Keyboards.OnEvent(e);
             Gamepads.OnEvent(e);
             Mouses.OnEvent(e);
@@ -30,6 +33,7 @@ namespace Hybrid
         // Dispose
         internal override void OnDispose()
         {
+            Touchscreens.OnDispose();
             Keyboards.OnDispose();
             Gamepads.OnDispose();
             Mouses.OnDispose();
@@ -85,7 +89,7 @@ namespace Hybrid
 
             if (mouse != null)
             {
-                return mouse.MouseScrollDelta.GetValue();
+                return mouse.ScrollDelta.GetState();
             }
             
             return Vector2.Zero;
@@ -97,7 +101,7 @@ namespace Hybrid
 
             if (mouse != null)
             {
-                return mouse.MousePosition.GetValue();
+                return mouse.Position.GetState();
             }
             
             return Vector2.Zero;
@@ -109,7 +113,7 @@ namespace Hybrid
 
             if (mouse != null)
             {
-                return mouse.MouseDelta.GetValue();
+                return mouse.Delta.GetState();
             }
             
             return Vector2.Zero;

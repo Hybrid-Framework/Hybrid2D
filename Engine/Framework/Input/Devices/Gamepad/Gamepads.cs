@@ -7,26 +7,15 @@ namespace Hybrid
     {
         internal readonly List<Gamepad> AllGamepads = new List<Gamepad>();
         internal const int MaxGamepads = 4;
-
-        // Constructor
-        internal Gamepads()
-        {
-            // Register Gamepads
-            foreach (var gamepad in SDL.GetGamepads(out var count))
-            {
-                CreateGamepad(gamepad);
-            }
-        }
+        
 
         // Dispose
         internal override void OnDispose()
         {
-            foreach (var gamepad in AllGamepads)
+            foreach (var gamepad in AllGamepads.ToArray())
             {
-                gamepad.OnDispose();
+                DestroyGamepad(gamepad.DeviceID);
             }
-            
-            AllGamepads.Clear();
         }
 
         // Reset

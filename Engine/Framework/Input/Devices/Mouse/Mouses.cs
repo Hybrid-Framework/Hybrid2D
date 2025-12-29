@@ -3,7 +3,7 @@ using System;
 
 namespace Hybrid
 {
-    internal unsafe class Mouses : InputDevice
+    internal class Mouses : InputDevice
     {
         internal readonly List<Mouse> AllMice = new List<Mouse>();
         internal const int MaxMice = 4;
@@ -12,12 +12,10 @@ namespace Hybrid
         // Dispose
         internal override void OnDispose()
         {
-            foreach (var mouse in AllMice)
+            foreach (var mouse in AllMice.ToArray())
             {
-                mouse.OnDispose();
+                DestroyMouse(mouse.DeviceID);
             }
-            
-            AllMice.Clear();
         }
 
         // Reset
