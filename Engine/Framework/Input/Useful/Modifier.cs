@@ -1,10 +1,9 @@
-﻿using System.Runtime.InteropServices;
-using System;
+﻿using System;
 
-internal static unsafe partial class SDL
+namespace Hybrid
 {
     [Flags]
-    public enum KeyModifier : ushort
+    public enum Modifier : ushort
     {
         None = 0,
         

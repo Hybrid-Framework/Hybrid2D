@@ -44,11 +44,18 @@ namespace Hybrid
                 // Keyboard Up
                 case SDL.EventType.KeyboardButtonUp:
                 {
-                    var key = (Key)e.keyboard.keyCode;
-
-                    if (Keys.TryGetValue(key, out var inputKey))
+                    if (!e.keyboard.repeat)
                     {
-                        inputKey.SetState(State.Release);
+                        var key = (Key)e.keyboard.keyCode;
+                        {
+                            if (key != Key.Unknown)
+                            {
+                                if (Keys.TryGetValue(key, out var inputKey))
+                                {
+                                    inputKey.SetState(State.Release);
+                                }
+                            }
+                        }
                     }
                     
                     break;
@@ -57,16 +64,28 @@ namespace Hybrid
                 // Keyboard Down
                 case SDL.EventType.KeyboardButtonDown:
                 {
-                    var key = (Key)e.keyboard.keyCode;
-            
-                    if (Keys.TryGetValue(key, out var inputKey))
+                    if (!e.keyboard.repeat)
                     {
-                        inputKey.SetState(State.Press | State.Down);
+                        var key = (Key)e.keyboard.keyCode;
+                        {
+                            if (key != Key.Unknown)
+                            {
+                                if (Keys.TryGetValue(key, out var inputKey))
+                                {
+                                    inputKey.SetState(State.Press | State.Down);
+                                }
+                            }
+                        }
                     }
                     
                     break;
                 }
             }
+        }
+        
+        internal Modifier GetKeyModifiers()
+        {
+            return (Modifier)SDL.GetModState();
         }
         
         internal bool GetKey(Key key)
