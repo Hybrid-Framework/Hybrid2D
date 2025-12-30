@@ -31,17 +31,24 @@ namespace Hybrid
     // SDL
     public partial struct RectInt
     {
-        internal static SDL.FRect? SDLFRect(RectInt? rect)
+        internal RectInt(SDL.Rect? rect)
         {
-            if (!rect.HasValue) return new SDL.FRect();
+            if (!rect.HasValue) return;
 
-            return new SDL.FRect
-            {
-                x = rect.Value.X,
-                y = rect.Value.Y,
-                w = (float)rect.Value.W,
-                h = (float)rect.Value.H,
-            };
+            this.X = Maths.RoundToInt(rect.Value.x);
+            this.Y = Maths.RoundToInt(rect.Value.y);
+            this.W = Maths.RoundToInt(rect.Value.w);
+            this.H = Maths.RoundToInt(rect.Value.h);
+        }
+        
+        internal RectInt(SDL.RectInt? rect)
+        {
+            if (!rect.HasValue) return;
+
+            this.X = rect.Value.x;
+            this.Y = rect.Value.y;
+            this.W = rect.Value.w;
+            this.H = rect.Value.h;
         }
         
         internal static SDL.Rect? SDLRect(RectInt? rect)
@@ -49,6 +56,19 @@ namespace Hybrid
             if (!rect.HasValue) return new SDL.Rect();
 
             return new SDL.Rect
+            {
+                x = rect.Value.X,
+                y = rect.Value.Y,
+                w = rect.Value.W,
+                h = rect.Value.H,
+            };
+        }
+        
+        internal static SDL.RectInt? SDLRectInt(RectInt? rect)
+        {
+            if (!rect.HasValue) return new SDL.RectInt();
+
+            return new SDL.RectInt
             {
                 x = rect.Value.X,
                 y = rect.Value.Y,

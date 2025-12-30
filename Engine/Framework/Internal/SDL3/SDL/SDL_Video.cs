@@ -201,8 +201,8 @@ internal static unsafe partial class SDL
     
     // Get Window Safe Area
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_GetWindowSafeArea(SDL.Window* window, out SDL.Rect rect);
-    public static bool GetWindowSafeArea(SDL.Window* window, out SDL.Rect rect)
+    private static extern SDL.Bool SDL_GetWindowSafeArea(SDL.Window* window, out SDL.RectInt rect);
+    public static bool GetWindowSafeArea(SDL.Window* window, out SDL.RectInt rect)
     {
         return SDL_GetWindowSafeArea(window, out rect);
     }

@@ -3,11 +3,11 @@
 internal static unsafe partial class SDL
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct FRect
+    public struct RectInt
     {
-        public float x;
-        public float y;
-        public float w;
-        public float h;
+        public int x;
+        public int y;
+        public int w;
+        public int h;
     }
 }

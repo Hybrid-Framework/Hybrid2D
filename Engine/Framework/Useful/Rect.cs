@@ -31,11 +31,31 @@ namespace Hybrid
     // SDL
     public partial struct Rect
     {
-        internal static SDL.FRect? SDLFRect(Rect? rect)
+        internal Rect(SDL.Rect? rect)
         {
-            if (!rect.HasValue) return new SDL.FRect();
+            if (!rect.HasValue) return;
 
-            return new SDL.FRect
+            this.X = rect.Value.x;
+            this.Y = rect.Value.y;
+            this.W = rect.Value.w;
+            this.H = rect.Value.h;
+        }
+        
+        internal Rect(SDL.RectInt? rect)
+        {
+            if (!rect.HasValue) return;
+
+            this.X = rect.Value.x;
+            this.Y = rect.Value.y;
+            this.W = rect.Value.w;
+            this.H = rect.Value.h;
+        }
+        
+        internal static SDL.Rect? SDLRect(Rect? rect)
+        {
+            if (!rect.HasValue) return new SDL.Rect();
+
+            return new SDL.Rect
             {
                 x = rect.Value.X,
                 y = rect.Value.Y,
@@ -44,11 +64,11 @@ namespace Hybrid
             };
         }
         
-        internal static SDL.Rect? SDLRect(Rect? rect)
+        internal static SDL.RectInt? SDLRectInt(Rect? rect)
         {
-            if (!rect.HasValue) return new SDL.Rect();
+            if (!rect.HasValue) return new SDL.RectInt();
 
-            return new SDL.Rect
+            return new SDL.RectInt
             {
                 x = Maths.RoundToInt(rect.Value.X),
                 y = Maths.RoundToInt(rect.Value.Y),
