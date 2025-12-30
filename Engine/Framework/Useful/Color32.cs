@@ -88,7 +88,7 @@ namespace Hybrid
         }
     }
     
-    // SDL
+    // Operators
     public partial struct Color32
     {
         public static explicit operator Color32(Color c)
@@ -102,9 +102,20 @@ namespace Hybrid
             );
         }
         
-        internal static SDL.Color SDLColor(Color32 color32)
+        internal static Color32 FromSDL(SDL.Color32 color)
         {
-            return new SDL.Color
+            return new Color32
+            {
+                R = color.r,
+                G = color.g,
+                B = color.b,
+                A = color.a,
+            };
+        }
+        
+        internal static SDL.Color32 ToSDL(Color32 color32)
+        {
+            return new SDL.Color32
             {
                 r = color32.R,
                 g = color32.G,

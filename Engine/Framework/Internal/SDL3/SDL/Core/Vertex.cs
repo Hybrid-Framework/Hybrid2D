@@ -6,7 +6,7 @@ internal static unsafe partial class SDL
     public struct Vertex
     {
         public SDL.FPoint position;
-        public SDL.FColor color;
+        public SDL.Color color;
         public SDL.FPoint uv;
     }
 }

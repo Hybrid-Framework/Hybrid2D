@@ -5,9 +5,9 @@ internal static unsafe partial class SDL
     [StructLayout(LayoutKind.Sequential)]
     public struct Color
     {
-        public byte r;
-        public byte g;
-        public byte b;
-        public byte a;
+        public float r;
+        public float g;
+        public float b;
+        public float a;
     }
 }

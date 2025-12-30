@@ -3,11 +3,11 @@
 internal static unsafe partial class SDL
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct FColor
+    public struct Color32
     {
-        public float r;
-        public float g;
-        public float b;
-        public float a;
+        public byte r;
+        public byte g;
+        public byte b;
+        public byte a;
     }
 }
