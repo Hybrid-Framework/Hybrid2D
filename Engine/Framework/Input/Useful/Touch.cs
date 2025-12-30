@@ -4,8 +4,8 @@ namespace Hybrid
 {
     public class Touch
     {
+        internal InputVector PositionDelta { get; private set; } = new InputVector();
         internal InputVector Position { get; private set; } = new InputVector();
-        internal InputVector Delta { get; private set; } = new InputVector();
         internal Phase Phase { get; private set; }
         internal int Finger { get; private set; }
         
@@ -27,7 +27,7 @@ namespace Hybrid
         
         internal void Reset()
         {
-            Delta.Reset();
+            PositionDelta.Reset();
 
             if (Phase == Phase.Ended || Phase == Phase.Canceled)
             {
@@ -45,23 +45,23 @@ namespace Hybrid
                 Phase = Phase.Stationary;
             }
         }
+        
+        public Vector2 TouchPositionDelta()
+        {
+            return PositionDelta.GetState();
+        }
 
-        public Vector2 GetPosition()
+        public Vector2 TouchPosition()
         {
             return Position.GetState();
         }
 
-        public Vector2 GetDelta()
-        {
-            return Delta.GetState();
-        }
-
-        public int GetFinger()
+        public int TouchFinger()
         {
             return Finger;
         }
 
-        public Phase GetPhase()
+        public Phase TouchPhase()
         {
             return Phase;
         }

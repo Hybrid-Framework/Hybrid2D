@@ -6,9 +6,9 @@ namespace Hybrid
     internal class Mouse : InputDevice
     {
         internal Dictionary<int, InputKey> Keys { get; private set; } = new Dictionary<int, InputKey>();
+        internal InputVector PositionDelta { get; private set; } = new InputVector();
         internal InputVector ScrollDelta { get; private set; } = new InputVector();
         internal InputVector Position { get; private set; } = new InputVector();
-        internal InputVector Delta { get; private set; } = new InputVector();
         internal InputPlayer Player;
         internal uint Device;
         
@@ -33,8 +33,8 @@ namespace Hybrid
         // Reset
         internal override void OnReset()
         {
+            PositionDelta.Reset();
             ScrollDelta.Reset();
-            Delta.Reset();
             
             foreach (var key in Keys.Values)
             {
@@ -76,7 +76,7 @@ namespace Hybrid
                 // Mouse Motion
                 case SDL.EventType.MouseMotion:
                 {
-                    Delta.SetState(e.mouseMotion.x_relative, e.mouseMotion.y_relative);
+                    PositionDelta.SetState(e.mouseMotion.x_relative, e.mouseMotion.y_relative);
                     Position.SetState(e.mouseMotion.x, e.mouseMotion.y);
                     break;
                 }

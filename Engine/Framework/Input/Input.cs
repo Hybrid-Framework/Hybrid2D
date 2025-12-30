@@ -10,7 +10,7 @@ namespace Hybrid
         internal static Touchscreens Touchscreens { get; private set; } = new Touchscreens();
         internal static Keyboards Keyboards { get; private set; } = new Keyboards();
         internal static Gamepads Gamepads { get; private set; } = new Gamepads();
-        internal static Mouses Mouses { get; private set; } = new Mouses();
+        internal static Mice Mice { get; private set; } = new Mice();
 
 
         internal override void OnStartOfFrame()
@@ -18,7 +18,7 @@ namespace Hybrid
             Touchscreens.OnReset();
             Keyboards.OnReset();
             Gamepads.OnReset();
-            Mouses.OnReset();
+            Mice.OnReset();
         }
 
         // Events
@@ -27,7 +27,7 @@ namespace Hybrid
             Touchscreens.OnEvent(e);
             Keyboards.OnEvent(e);
             Gamepads.OnEvent(e);
-            Mouses.OnEvent(e);
+            Mice.OnEvent(e);
         }
 
         // Dispose
@@ -36,7 +36,7 @@ namespace Hybrid
             Touchscreens.OnDispose();
             Keyboards.OnDispose();
             Gamepads.OnDispose();
-            Mouses.OnDispose();
+            Mice.OnDispose();
         }
     }
 
@@ -111,9 +111,22 @@ namespace Hybrid
     // Mouse
     public partial class Input
     {
+        public static Vector2 MousePositionDelta(InputPlayer player = InputPlayer.Any)
+        {
+            foreach (var mouse in Mice.AllMice)
+            {
+                if (mouse.Player == player || player == InputPlayer.Any)
+                {
+                    return mouse.PositionDelta.GetState();
+                }
+            }
+            
+            return Vector2.Zero;
+        }
+        
         public static Vector2 MouseScrollDelta(InputPlayer player = InputPlayer.Any)
         {
-            foreach (var mouse in Mouses.AllMice)
+            foreach (var mouse in Mice.AllMice)
             {
                 if (mouse.Player == player || player == InputPlayer.Any)
                 {
@@ -126,7 +139,7 @@ namespace Hybrid
         
         public static Vector2 MousePosition(InputPlayer player = InputPlayer.Any)
         {
-            foreach (var mouse in Mouses.AllMice)
+            foreach (var mouse in Mice.AllMice)
             {
                 if (mouse.Player == player || player == InputPlayer.Any)
                 {
@@ -137,22 +150,9 @@ namespace Hybrid
             return Vector2.Zero;
         }
         
-        public static Vector2 MouseDelta(InputPlayer player = InputPlayer.Any)
-        {
-            foreach (var mouse in Mouses.AllMice)
-            {
-                if (mouse.Player == player || player == InputPlayer.Any)
-                {
-                    return mouse.Delta.GetState();
-                }
-            }
-            
-            return Vector2.Zero;
-        }
-        
         public static bool GetMouseButton(int button, InputPlayer player = InputPlayer.Any)
         {
-            foreach (var mouse in Mouses.AllMice)
+            foreach (var mouse in Mice.AllMice)
             {
                 if (mouse.Player == player || player == InputPlayer.Any)
                 {
@@ -168,7 +168,7 @@ namespace Hybrid
         
         public static bool GetMouseButtonDown(int button, InputPlayer player = InputPlayer.Any)
         {
-            foreach (var mouse in Mouses.AllMice)
+            foreach (var mouse in Mice.AllMice)
             {
                 if (mouse.Player == player || player == InputPlayer.Any)
                 {
@@ -184,7 +184,7 @@ namespace Hybrid
         
         public static bool GetMouseButtonUp(int button, InputPlayer player = InputPlayer.Any)
         {
-            foreach (var mouse in Mouses.AllMice)
+            foreach (var mouse in Mice.AllMice)
             {
                 if (mouse.Player == player || player == InputPlayer.Any)
                 {

@@ -3,7 +3,7 @@ using System;
 
 namespace Hybrid
 {
-    internal class Mouses : InputDevice
+    internal class Mice : InputDevice
     {
         internal readonly List<Mouse> AllMice = new List<Mouse>();
         internal const int MaxMice = 4;

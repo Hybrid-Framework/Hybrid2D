@@ -7,19 +7,14 @@ namespace App
     {
         public override void OnUpdate()
         {
-            if (Input.GetKeyDown(Key.A))
-            {
-                Debug.Log("Down");
-            }
+            var touch = Input.GetTouch(0);
             
-            if (Input.GetKey(Key.A))
+            if (touch != null)
             {
-                Debug.Log("Hold");
-            }
-            
-            if (Input.GetKeyUp(Key.A))
-            {
-                Debug.Log("Released");
+                if (touch.TouchPhase() != Phase.None)
+                {
+                    Debug.Log($"Touch: {touch.TouchFinger()} Phase: {touch.TouchPhase()} Position: {touch.TouchPosition().X},{touch.TouchPosition().Y} Delta: {touch.TouchPositionDelta().X},{touch.TouchPositionDelta().Y}");
+                }
             }
         }
     }

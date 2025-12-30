@@ -44,45 +44,22 @@ namespace Hybrid
             {
                 // Touch Up
                 case SDL.EventType.TouchFingerUp:
-                {
-                    var touch = GetTouch((int)e.touchFinger.fingerID);
-                    {
-                        touch.SetState(Phase.Ended);
-                    }
-                    
-                    break;
-                }
-                
-                // Touch Down
                 case SDL.EventType.TouchFingerDown:
-                {
-                    var touch = GetTouch((int)e.touchFinger.fingerID);
-                    {
-                        touch.SetState(Phase.Began);
-                    }
-                    
-                    break;
-                }
-                
-                // Touch Motion
                 case SDL.EventType.TouchFingerMotion:
-                {
-                    var touch = GetTouch((int)e.touchFinger.fingerID);
-                    {
-                        touch.Delta.SetState(e.touchFinger.x_delta, e.touchFinger.y_delta);
-                        touch.Position.SetState(e.touchFinger.x, e.touchFinger.y);
-                        touch.SetState(Phase.Moved);
-                    }
-                    
-                    break;
-                }
-                
-                // Touch Cancel
                 case SDL.EventType.TouchFingerCancel:
                 {
-                    var touch = GetTouch((int)e.touchFinger.fingerID);
+                    var touch = GetTouch((int)e.touchFinger.fingerID - 1);
                     {
-                        touch.SetState(Phase.Canceled);
+                        touch.PositionDelta.SetState(e.touchFinger.x_delta * Window.GetWidth(), e.touchFinger.y_delta * Window.GetHeight());
+                        touch.Position.SetState(e.touchFinger.x * Window.GetWidth(), e.touchFinger.y * Window.GetHeight());
+
+                        switch (e.type)
+                        {
+                            case SDL.EventType.TouchFingerUp: touch.SetState(Phase.Ended);break;
+                            case SDL.EventType.TouchFingerDown: touch.SetState(Phase.Began); break;
+                            case SDL.EventType.TouchFingerMotion: touch.SetState(Phase.Moved); break;
+                            case SDL.EventType.TouchFingerCancel: touch.SetState(Phase.Canceled); break;
+                        }
                     }
                     
                     break;
