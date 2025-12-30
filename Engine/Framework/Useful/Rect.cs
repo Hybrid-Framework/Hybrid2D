@@ -31,27 +31,31 @@ namespace Hybrid
     // SDL
     public partial struct Rect
     {
-        internal Rect(SDL.Rect? rect)
+        public static explicit operator Rect(RectInt rect)
         {
-            if (!rect.HasValue) return;
-
-            this.X = rect.Value.x;
-            this.Y = rect.Value.y;
-            this.W = rect.Value.w;
-            this.H = rect.Value.h;
+            return new Rect
+            {
+                X = rect.X,
+                Y = rect.Y,
+                W = rect.W,
+                H = rect.H,
+            };
         }
         
-        internal Rect(SDL.RectInt? rect)
+        internal static Rect? FromSDL(SDL.Rect? rect)
         {
-            if (!rect.HasValue) return;
+            if (!rect.HasValue) return new Rect();
 
-            this.X = rect.Value.x;
-            this.Y = rect.Value.y;
-            this.W = rect.Value.w;
-            this.H = rect.Value.h;
+            return new Rect
+            {
+                X = rect.Value.x,
+                Y = rect.Value.y,
+                W = rect.Value.w,
+                H = rect.Value.h,
+            };
         }
-        
-        internal static SDL.Rect? SDLRect(Rect? rect)
+
+        internal static SDL.Rect? ToSDL(Rect? rect)
         {
             if (!rect.HasValue) return new SDL.Rect();
 
@@ -61,19 +65,6 @@ namespace Hybrid
                 y = rect.Value.Y,
                 w = rect.Value.W,
                 h = rect.Value.H,
-            };
-        }
-        
-        internal static SDL.RectInt? SDLRectInt(Rect? rect)
-        {
-            if (!rect.HasValue) return new SDL.RectInt();
-
-            return new SDL.RectInt
-            {
-                x = Maths.RoundToInt(rect.Value.X),
-                y = Maths.RoundToInt(rect.Value.Y),
-                w = Maths.RoundToInt(rect.Value.W),
-                h = Maths.RoundToInt(rect.Value.H),
             };
         }
     }
