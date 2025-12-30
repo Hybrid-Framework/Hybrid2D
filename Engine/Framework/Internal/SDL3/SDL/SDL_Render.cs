@@ -207,8 +207,8 @@ internal static unsafe partial class SDL
 
     // Render Points
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_RenderPoints(SDL.Renderer* renderer, SDL.FPoint[] points, int count);
-    public static bool RenderPoints(SDL.Renderer* renderer, SDL.FPoint[] points, int count)
+    private static extern SDL.Bool SDL_RenderPoints(SDL.Renderer* renderer, SDL.Point[] points, int count);
+    public static bool RenderPoints(SDL.Renderer* renderer, SDL.Point[] points, int count)
     {
         return SDL_RenderPoints(renderer, points, count);
     }
@@ -223,8 +223,8 @@ internal static unsafe partial class SDL
     
     // Render Lines
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_RenderLines(SDL.Renderer* renderer, SDL.FPoint[] points, int count);
-    public static bool RenderLines(SDL.Renderer* renderer, SDL.FPoint[] points, int count)
+    private static extern SDL.Bool SDL_RenderLines(SDL.Renderer* renderer, SDL.Point[] points, int count);
+    public static bool RenderLines(SDL.Renderer* renderer, SDL.Point[] points, int count)
     {
         return SDL_RenderLines(renderer, points, count);
     }

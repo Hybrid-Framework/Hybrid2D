@@ -7,11 +7,11 @@ namespace App
     {
         public override void OnAwake()
         {
-            Color32 color32 = new Color32() { R = 255, G = 255, B = 255, A = 255 };
-            Color color = (Color)color32;
+            Point point = new Point() { X = 1.5f, Y = 2.3f };
+            PointInt pointInt = (PointInt)point;
             
-            Debug.Log($"Color32 {color32.R} {color32.G} {color32.B} {color32.A}");
-            Debug.Log($"Color {color.R} {color.G} {color.B} {color.A}");
+            Debug.Log($"Point {point.X} {point.Y}");
+            Debug.Log($"PointInt {pointInt.X} {pointInt.Y}");
         }
 
         public override void OnUpdate()

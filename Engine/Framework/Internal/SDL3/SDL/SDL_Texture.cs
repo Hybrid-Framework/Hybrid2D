@@ -131,8 +131,8 @@ internal static unsafe partial class SDL
     
     // Render Texture Rotated
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_RenderTextureRotated(SDL.Renderer* renderer, SDL.Texture* texture, SDL.Rect* src, SDL.Rect* dst, double angle, SDL.FPoint* center, SDL.FlipMode flip);
-    public static bool RenderTextureRotated(SDL.Renderer* renderer, SDL.Texture* texture, SDL.Rect? src, SDL.Rect? dst, double angle, SDL.FPoint? center, SDL.FlipMode flip)
+    private static extern SDL.Bool SDL_RenderTextureRotated(SDL.Renderer* renderer, SDL.Texture* texture, SDL.Rect* src, SDL.Rect* dst, double angle, SDL.Point* center, SDL.FlipMode flip);
+    public static bool RenderTextureRotated(SDL.Renderer* renderer, SDL.Texture* texture, SDL.Rect? src, SDL.Rect? dst, double angle, SDL.Point? center, SDL.FlipMode flip)
     {
         SDL.Rect s = src.GetValueOrDefault();
         var sv = (src.HasValue ? &s : null);
@@ -140,7 +140,7 @@ internal static unsafe partial class SDL
         SDL.Rect d = dst.GetValueOrDefault();
         var dv = (dst.HasValue ? &d : null);
         
-        SDL.FPoint c = center.GetValueOrDefault();
+        SDL.Point c = center.GetValueOrDefault();
         var cv = (center.HasValue ? &c : null);
         
         return SDL_RenderTextureRotated(renderer, texture, sv, dv, angle, cv, flip);
@@ -148,19 +148,19 @@ internal static unsafe partial class SDL
     
     // Render Texture Affine
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_RenderTextureAffine(SDL.Renderer* renderer, SDL.Texture* texture, SDL.Rect* src, SDL.FPoint* origin, SDL.FPoint* right, SDL.FPoint* down);
-    public static bool RenderTextureAffine(SDL.Renderer* renderer, SDL.Texture* texture, SDL.Rect? src, SDL.FPoint? origin, SDL.FPoint? right, SDL.FPoint? down)
+    private static extern SDL.Bool SDL_RenderTextureAffine(SDL.Renderer* renderer, SDL.Texture* texture, SDL.Rect* src, SDL.Point* origin, SDL.Point* right, SDL.Point* down);
+    public static bool RenderTextureAffine(SDL.Renderer* renderer, SDL.Texture* texture, SDL.Rect? src, SDL.Point? origin, SDL.Point? right, SDL.Point? down)
     {
         SDL.Rect s = src.GetValueOrDefault();
         var sv = (src.HasValue ? &s : null);
         
-        SDL.FPoint o = origin.GetValueOrDefault();
+        SDL.Point o = origin.GetValueOrDefault();
         var ov = (origin.HasValue ? &o : null);
         
-        SDL.FPoint r = right.GetValueOrDefault();
+        SDL.Point r = right.GetValueOrDefault();
         var rv = (right.HasValue ? &r : null);
         
-        SDL.FPoint d = down.GetValueOrDefault();
+        SDL.Point d = down.GetValueOrDefault();
         var dv = (down.HasValue ? &d : null);
         
         return SDL_RenderTextureAffine(renderer, texture, sv, ov, rv, dv);
