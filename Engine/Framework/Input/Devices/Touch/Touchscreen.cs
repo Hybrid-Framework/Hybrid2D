@@ -3,7 +3,7 @@ using System;
 
 namespace Hybrid
 {
-    internal class Touchscreen : InputDevice
+    internal class TouchScreen : InputDevice
     {
         internal List<Touch> Touches = new List<Touch>();
         internal const int MaxTouches = 8;
@@ -11,7 +11,7 @@ namespace Hybrid
         internal ulong Device;
         
         
-        internal Touchscreen(ulong device, Player player)
+        internal TouchScreen(ulong device, Player player)
         {
             this.Device = device;
             this.Player = player;

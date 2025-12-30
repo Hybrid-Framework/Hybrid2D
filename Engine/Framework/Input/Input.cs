@@ -7,7 +7,8 @@ namespace Hybrid
     {
         private Input() { }
 
-        internal static Touchscreens Touchscreens { get; private set; } = new Touchscreens();
+        internal static TouchScreenKeyboard TouchScreenKeyboard { get; private set; } = new TouchScreenKeyboard();
+        internal static TouchScreens TouchScreens { get; private set; } = new TouchScreens();
         internal static Keyboards Keyboards { get; private set; } = new Keyboards();
         internal static Gamepads Gamepads { get; private set; } = new Gamepads();
         internal static Mice Mice { get; private set; } = new Mice();
@@ -15,7 +16,8 @@ namespace Hybrid
 
         internal override void OnStartOfFrame()
         {
-            Touchscreens.OnReset();
+            TouchScreenKeyboard.OnReset();
+            TouchScreens.OnReset();
             Keyboards.OnReset();
             Gamepads.OnReset();
             Mice.OnReset();
@@ -24,7 +26,8 @@ namespace Hybrid
         // Events
         internal override void OnEvent(SDL.Event e)
         {
-            Touchscreens.OnEvent(e);
+            TouchScreenKeyboard.OnEvent(e);
+            TouchScreens.OnEvent(e);
             Keyboards.OnEvent(e);
             Gamepads.OnEvent(e);
             Mice.OnEvent(e);
@@ -33,7 +36,8 @@ namespace Hybrid
         // Dispose
         internal override void OnDispose()
         {
-            Touchscreens.OnDispose();
+            TouchScreenKeyboard.OnDispose();
+            TouchScreens.OnDispose();
             Keyboards.OnDispose();
             Gamepads.OnDispose();
             Mice.OnDispose();
@@ -269,7 +273,7 @@ namespace Hybrid
     {
         public static Touch GetTouch(int finger, Player player = Player.Any)
         {
-            foreach (var touchscreen in Touchscreens.AllTouchscreens)
+            foreach (var touchscreen in TouchScreens.AllTouchscreens)
             {
                 if (touchscreen.Player == player || player == Player.Any)
                 {

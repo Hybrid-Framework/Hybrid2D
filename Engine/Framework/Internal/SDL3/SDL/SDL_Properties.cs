@@ -3,6 +3,22 @@ using System;
 
 internal static unsafe partial class SDL
 {
+    // Create Properties
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern uint SDL_CreateProperties();
+    public static uint CreateProperties()
+    {
+        return SDL_CreateProperties();
+    }
+    
+    // Destroy Properties
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern void SDL_DestroyProperties(uint props);
+    public static void DestroyProperties(uint props)
+    {
+        SDL_DestroyProperties(props);
+    }
+    
     // Set Pointer Property
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_SetPointerProperty(uint property, byte* name, IntPtr value);

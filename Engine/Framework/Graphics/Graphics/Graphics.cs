@@ -35,6 +35,8 @@ namespace Hybrid
             // Rendering
             SDL.SetRenderDrawColor(Handle, 255, 255, 255, 255);
             SDL.RenderDebugText(Handle, 10, 10, $"FPS: {Time.FramesPerSecond.ToString("N0")} MS: {Time.FrameTime}");
+            SDL.RenderDebugText(Handle, 10, 30, $"Visible: {TouchScreenKeyboard.Visible()}");
+            SDL.RenderDebugText(Handle, 10, 50, $"Text: {TouchScreenKeyboard.Text}");
             
             // Present
             SDL.RenderPresent(Handle);

@@ -3,9 +3,9 @@ using System;
 
 namespace Hybrid
 {
-    internal class Touchscreens : InputDevice
+    internal class TouchScreens : InputDevice
     {
-        internal readonly List<Touchscreen> AllTouchscreens = new List<Touchscreen>();
+        internal readonly List<TouchScreen> AllTouchscreens = new List<TouchScreen>();
         internal const int MaxTouchscreens = 4;
         
 
@@ -48,7 +48,7 @@ namespace Hybrid
             }
         }
 
-        private Touchscreen CreateTouchscreen(ulong device)
+        private TouchScreen CreateTouchscreen(ulong device)
         {
             var found = GetTouchscreenByDevice(device);
             
@@ -62,7 +62,7 @@ namespace Hybrid
                     {
                         Debug.Log($"Touchscreen {device} {player} connected");
                         
-                        var touchscreen = new Touchscreen(device, player);
+                        var touchscreen = new TouchScreen(device, player);
                         AllTouchscreens.Add(touchscreen);
                         return touchscreen;
                     }
@@ -85,7 +85,7 @@ namespace Hybrid
             }
         }
         
-        internal Touchscreen GetTouchscreenByPlayer(Player player)
+        internal TouchScreen GetTouchscreenByPlayer(Player player)
         {
             foreach (var touchscreen in AllTouchscreens)
             {
@@ -98,7 +98,7 @@ namespace Hybrid
             return null;
         }
 
-        internal Touchscreen GetTouchscreenByDevice(ulong device)
+        internal TouchScreen GetTouchscreenByDevice(ulong device)
         {
             foreach (var touchscreen in AllTouchscreens)
             {

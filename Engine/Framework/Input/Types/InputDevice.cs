@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    internal class InputDevice
+    public abstract class InputDevice
     {
         internal virtual void OnEvent(SDL.Event e) { }
         internal virtual void OnDispose() { }

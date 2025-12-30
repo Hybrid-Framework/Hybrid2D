@@ -33,7 +33,7 @@ namespace Hybrid
             };
         }
         
-        internal static PointInt? FromSDL(SDL.PointInt? point)
+        internal static PointInt FromSDL(SDL.PointInt? point)
         {
             if (!point.HasValue) return new PointInt();
 

@@ -42,7 +42,7 @@ namespace Hybrid
             };
         }
         
-        internal static Rect? FromSDL(SDL.Rect? rect)
+        internal static Rect FromSDL(SDL.Rect? rect)
         {
             if (!rect.HasValue) return new Rect();
 
