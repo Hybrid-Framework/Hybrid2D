@@ -56,7 +56,7 @@ namespace Hybrid
             {
                 for (int i = 0; i < MaxTouchscreens; i++)
                 {
-                    var player = (InputPlayer)i;
+                    var player = (Player)i;
                     
                     if (GetTouchscreenByPlayer(player) == null)
                     {
@@ -85,7 +85,7 @@ namespace Hybrid
             }
         }
         
-        internal Touchscreen GetTouchscreenByPlayer(InputPlayer player)
+        internal Touchscreen GetTouchscreenByPlayer(Player player)
         {
             foreach (var touchscreen in AllTouchscreens)
             {

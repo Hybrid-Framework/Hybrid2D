@@ -71,7 +71,7 @@ namespace Hybrid
             {
                 for (int i = 0; i < MaxKeyboards; i++)
                 {
-                    var player = (InputPlayer)i;
+                    var player = (Player)i;
                     
                     if (GetKeyboardByPlayer(player) == null)
                     {
@@ -100,7 +100,7 @@ namespace Hybrid
             }
         }
         
-        internal Keyboard GetKeyboardByPlayer(InputPlayer player)
+        internal Keyboard GetKeyboardByPlayer(Player player)
         {
             foreach (var keyboard in AllKeyboards)
             {

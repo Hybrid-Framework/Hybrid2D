@@ -6,11 +6,11 @@ namespace Hybrid
     internal class Keyboard : InputDevice
     {
         internal Dictionary<Key, InputKey> Keys { get; private set; } = new Dictionary<Key, InputKey>();
-        internal InputPlayer Player;
+        internal Player Player;
         internal uint Device;
         
         
-        internal Keyboard(uint device, InputPlayer player)
+        internal Keyboard(uint device, Player player)
         {
             this.Device = device;
             this.Player = player;

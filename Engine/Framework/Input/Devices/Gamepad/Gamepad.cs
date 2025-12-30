@@ -10,11 +10,11 @@ namespace Hybrid
         internal InputAxis DeadZone { get; private set; } = new InputAxis();
         
         internal SDL.Gamepad* Handle { get; private set; }
-        internal InputPlayer Player { get; private set; }
+        internal Player Player { get; private set; }
         internal uint Device { get; private set; }
         
         
-        internal Gamepad(SDL.Gamepad* handle, uint device, InputPlayer player)
+        internal Gamepad(SDL.Gamepad* handle, uint device, Player player)
         {
             this.Device = device;
             this.Player = player;

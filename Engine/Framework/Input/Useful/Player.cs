@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    public enum InputPlayer : int
+    public enum Player : int
     {
         Any = -1,
         One = 0,

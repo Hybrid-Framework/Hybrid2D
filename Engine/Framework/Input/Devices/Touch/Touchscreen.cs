@@ -7,11 +7,11 @@ namespace Hybrid
     {
         internal List<Touch> Touches = new List<Touch>();
         internal const int MaxTouches = 8;
-        internal InputPlayer Player;
+        internal Player Player;
         internal ulong Device;
         
         
-        internal Touchscreen(ulong device, InputPlayer player)
+        internal Touchscreen(ulong device, Player player)
         {
             this.Device = device;
             this.Player = player;

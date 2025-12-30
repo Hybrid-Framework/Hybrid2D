@@ -9,11 +9,11 @@ namespace Hybrid
         internal InputVector PositionDelta { get; private set; } = new InputVector();
         internal InputVector ScrollDelta { get; private set; } = new InputVector();
         internal InputVector Position { get; private set; } = new InputVector();
-        internal InputPlayer Player;
+        internal Player Player;
         internal uint Device;
         
         
-        internal Mouse(uint device, InputPlayer player)
+        internal Mouse(uint device, Player player)
         {
             this.Device = device;
             this.Player = player;

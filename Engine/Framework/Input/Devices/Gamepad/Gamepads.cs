@@ -89,7 +89,7 @@ namespace Hybrid
             {
                 for (int i = 0; i < MaxGamepads; i++)
                 {
-                    var player = (InputPlayer)i;
+                    var player = (Player)i;
                     
                     if (GetGamepadByPlayer(player) == null)
                     {
@@ -123,7 +123,7 @@ namespace Hybrid
             }
         }
         
-        internal Gamepad GetGamepadByPlayer(InputPlayer player)
+        internal Gamepad GetGamepadByPlayer(Player player)
         {
             foreach (var gamepad in AllGamepads)
             {

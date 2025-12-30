@@ -43,11 +43,11 @@ namespace Hybrid
     // Keyboard
     public partial class Input
     {
-        public static bool GetKeyModifier(Modifier modifier, InputPlayer player = InputPlayer.Any)
+        public static bool GetKeyModifier(Modifier modifier, Player player = Player.Any)
         {
             foreach (var keyboard in Keyboards.AllKeyboards)
             {
-                if (keyboard.Player == player || player == InputPlayer.Any)
+                if (keyboard.Player == player || player == Player.Any)
                 {
                     if (keyboard.GetKeyModifier(modifier))
                     {
@@ -59,11 +59,11 @@ namespace Hybrid
             return false;
         }
         
-        public static bool GetKey(Key key, InputPlayer player = InputPlayer.Any)
+        public static bool GetKey(Key key, Player player = Player.Any)
         {
             foreach (var keyboard in Keyboards.AllKeyboards)
             {
-                if (keyboard.Player == player || player == InputPlayer.Any)
+                if (keyboard.Player == player || player == Player.Any)
                 {
                     if (keyboard.GetKey(key))
                     {
@@ -75,11 +75,11 @@ namespace Hybrid
             return false;
         }
         
-        public static bool GetKeyDown(Key key, InputPlayer player = InputPlayer.Any)
+        public static bool GetKeyDown(Key key, Player player = Player.Any)
         {
             foreach (var keyboard in Keyboards.AllKeyboards)
             {
-                if (keyboard.Player == player || player == InputPlayer.Any)
+                if (keyboard.Player == player || player == Player.Any)
                 {
                     if (keyboard.GetKeyDown(key))
                     {
@@ -91,11 +91,11 @@ namespace Hybrid
             return false;
         }
         
-        public static bool GetKeyUp(Key key, InputPlayer player = InputPlayer.Any)
+        public static bool GetKeyUp(Key key, Player player = Player.Any)
         {
             foreach (var keyboard in Keyboards.AllKeyboards)
             {
-                if (keyboard.Player == player || player == InputPlayer.Any)
+                if (keyboard.Player == player || player == Player.Any)
                 {
                     if (keyboard.GetKeyUp(key))
                     {
@@ -111,11 +111,11 @@ namespace Hybrid
     // Mouse
     public partial class Input
     {
-        public static Vector2 MousePositionDelta(InputPlayer player = InputPlayer.Any)
+        public static Vector2 MousePositionDelta(Player player = Player.Any)
         {
             foreach (var mouse in Mice.AllMice)
             {
-                if (mouse.Player == player || player == InputPlayer.Any)
+                if (mouse.Player == player || player == Player.Any)
                 {
                     return mouse.PositionDelta.GetState();
                 }
@@ -124,11 +124,11 @@ namespace Hybrid
             return Vector2.Zero;
         }
         
-        public static Vector2 MouseScrollDelta(InputPlayer player = InputPlayer.Any)
+        public static Vector2 MouseScrollDelta(Player player = Player.Any)
         {
             foreach (var mouse in Mice.AllMice)
             {
-                if (mouse.Player == player || player == InputPlayer.Any)
+                if (mouse.Player == player || player == Player.Any)
                 {
                     return mouse.ScrollDelta.GetState();
                 }
@@ -137,11 +137,11 @@ namespace Hybrid
             return Vector2.Zero;
         }
         
-        public static Vector2 MousePosition(InputPlayer player = InputPlayer.Any)
+        public static Vector2 MousePosition(Player player = Player.Any)
         {
             foreach (var mouse in Mice.AllMice)
             {
-                if (mouse.Player == player || player == InputPlayer.Any)
+                if (mouse.Player == player || player == Player.Any)
                 {
                     return mouse.Position.GetState();
                 }
@@ -150,11 +150,11 @@ namespace Hybrid
             return Vector2.Zero;
         }
         
-        public static bool GetMouseButton(int button, InputPlayer player = InputPlayer.Any)
+        public static bool GetMouseButton(int button, Player player = Player.Any)
         {
             foreach (var mouse in Mice.AllMice)
             {
-                if (mouse.Player == player || player == InputPlayer.Any)
+                if (mouse.Player == player || player == Player.Any)
                 {
                     if (mouse.GetMouseButton(button))
                     {
@@ -166,11 +166,11 @@ namespace Hybrid
             return false;
         }
         
-        public static bool GetMouseButtonDown(int button, InputPlayer player = InputPlayer.Any)
+        public static bool GetMouseButtonDown(int button, Player player = Player.Any)
         {
             foreach (var mouse in Mice.AllMice)
             {
-                if (mouse.Player == player || player == InputPlayer.Any)
+                if (mouse.Player == player || player == Player.Any)
                 {
                     if (mouse.GetMouseButtonDown(button))
                     {
@@ -182,11 +182,11 @@ namespace Hybrid
             return false;
         }
         
-        public static bool GetMouseButtonUp(int button, InputPlayer player = InputPlayer.Any)
+        public static bool GetMouseButtonUp(int button, Player player = Player.Any)
         {
             foreach (var mouse in Mice.AllMice)
             {
-                if (mouse.Player == player || player == InputPlayer.Any)
+                if (mouse.Player == player || player == Player.Any)
                 {
                     if (mouse.GetMouseButtonUp(button))
                     {
@@ -202,11 +202,11 @@ namespace Hybrid
     // Gamepad
     public partial class Input
     {
-        public static float GetGamepadAxis(Axis axis, InputPlayer player = InputPlayer.Any)
+        public static float GetGamepadAxis(Axis axis, Player player = Player.Any)
         {
             foreach (var gamepad in Gamepads.AllGamepads)
             {
-                if (gamepad.Player == player || player == InputPlayer.Any)
+                if (gamepad.Player == player || player == Player.Any)
                 {
                     return gamepad.GetAxis(axis);
                 }
@@ -215,11 +215,11 @@ namespace Hybrid
             return 0;
         }
         
-        public static bool GetGamepadButton(Button button, InputPlayer player = InputPlayer.Any)
+        public static bool GetGamepadButton(Button button, Player player = Player.Any)
         {
             foreach (var gamepad in Gamepads.AllGamepads)
             {
-                if (gamepad.Player == player || player == InputPlayer.Any)
+                if (gamepad.Player == player || player == Player.Any)
                 {
                     if (gamepad.GetButton(button))
                     {
@@ -231,11 +231,11 @@ namespace Hybrid
             return false;
         }
         
-        public static bool GetGamepadButtonDown(Button button, InputPlayer player = InputPlayer.Any)
+        public static bool GetGamepadButtonDown(Button button, Player player = Player.Any)
         {
             foreach (var gamepad in Gamepads.AllGamepads)
             {
-                if (gamepad.Player == player || player == InputPlayer.Any)
+                if (gamepad.Player == player || player == Player.Any)
                 {
                     if (gamepad.GetButtonDown(button))
                     {
@@ -247,11 +247,11 @@ namespace Hybrid
             return false;
         }
         
-        public static bool GetGamepadButtonUp(Button button, InputPlayer player = InputPlayer.Any)
+        public static bool GetGamepadButtonUp(Button button, Player player = Player.Any)
         {
             foreach (var gamepad in Gamepads.AllGamepads)
             {
-                if (gamepad.Player == player || player == InputPlayer.Any)
+                if (gamepad.Player == player || player == Player.Any)
                 {
                     if (gamepad.GetButtonUp(button))
                     {
@@ -267,11 +267,11 @@ namespace Hybrid
     // Touch
     public partial class Input
     {
-        public static Touch GetTouch(int finger, InputPlayer player = InputPlayer.Any)
+        public static Touch GetTouch(int finger, Player player = Player.Any)
         {
             foreach (var touchscreen in Touchscreens.AllTouchscreens)
             {
-                if (touchscreen.Player == player || player == InputPlayer.Any)
+                if (touchscreen.Player == player || player == Player.Any)
                 {
                     return touchscreen.GetTouch(finger);
                 }

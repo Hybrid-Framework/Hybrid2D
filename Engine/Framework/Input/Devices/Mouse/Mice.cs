@@ -93,7 +93,7 @@ namespace Hybrid
             {
                 for (int i = 0; i < MaxMice; i++)
                 {
-                    var player = (InputPlayer)i;
+                    var player = (Player)i;
                     
                     if (GetMouseByPlayer(player) == null)
                     {
@@ -122,7 +122,7 @@ namespace Hybrid
             }
         }
         
-        internal Mouse GetMouseByPlayer(InputPlayer player)
+        internal Mouse GetMouseByPlayer(Player player)
         {
             foreach (var mouse in AllMice)
             {
