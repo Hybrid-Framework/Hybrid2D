@@ -3,7 +3,6 @@ using System;
 
 internal static unsafe partial class SDL
 {
-    
     // Has Gamepad
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_HasGamepad();
