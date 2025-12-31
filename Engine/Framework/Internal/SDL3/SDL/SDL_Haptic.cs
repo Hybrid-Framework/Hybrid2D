@@ -19,6 +19,15 @@ internal static unsafe partial class SDL
         SDL_CloseHaptic(haptic);
     }
     
+    // Has Haptic
+    public static bool HasHaptic()
+    {
+        SDL.GetHaptics(out var count);
+        {
+            return count > 0;
+        }
+    }
+    
     // Get Haptic Name for ID
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern byte* SDL_GetHapticNameForID(uint gamepadID);
@@ -57,6 +66,28 @@ internal static unsafe partial class SDL
     public static bool IsJoystickHaptic(SDL.Joystick* joystick)
     {
         return SDL_IsJoystickHaptic(joystick);
+    }
+    
+    // Open Haptic From Mouse
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Haptic* SDL_OpenHapticFromMouse();
+    private static SDL.Haptic* OpenHapticFromMouse()
+    {
+        return SDL_OpenHapticFromMouse();
+    }
+    
+    // Open Haptic From Joystick
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Haptic* SDL_OpenHapticFromJoystick(SDL.Joystick* joystick);
+    public static SDL.Haptic* OpenHapticFromJoystick(SDL.Joystick* joystick)
+    {
+        return SDL_OpenHapticFromJoystick(joystick);
+    }
+
+    // Open Haptic From Gamepad
+    public static SDL.Haptic* OpenHapticFromGamepad(SDL.Gamepad* gamepad)
+    {
+        return SDL_OpenHapticFromJoystick(SDL.GetJoystickFromGamepad(gamepad));
     }
     
     // Haptic Rumble Supported
