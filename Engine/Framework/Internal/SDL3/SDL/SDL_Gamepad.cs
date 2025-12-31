@@ -3,6 +3,7 @@ using System;
 
 internal static unsafe partial class SDL
 {
+    
     // Has Gamepad
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_HasGamepad();
@@ -13,10 +14,10 @@ internal static unsafe partial class SDL
     
     // Get Gamepad Name for ID
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern byte* SDL_GetGamepadNameForID(uint keyboardID);
-    public static string GetGamepadNameForID(uint keyboardID)
+    private static extern byte* SDL_GetGamepadNameForID(uint gamepadID);
+    public static string GetGamepadNameForID(uint gamepadID)
     {
-        return Utf8ToString(SDL_GetGamepadNameForID(keyboardID));
+        return Utf8ToString(SDL_GetGamepadNameForID(gamepadID));
     }
     
     // Gamepad Connected
@@ -59,30 +60,6 @@ internal static unsafe partial class SDL
         return SDL_GetGamepadID(gamepad);
     }
     
-    // Get Gamepad From Player Index
-    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Gamepad* SDL_GetGamepadFromPlayerIndex(int player);
-    public static SDL.Gamepad* GetGamepadFromPlayerIndex(int player)
-    {
-        return SDL_GetGamepadFromPlayerIndex(player);
-    }
-    
-    // Get Gamepad Player Index
-    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern int SDL_GetGamepadPlayerIndex(SDL.Gamepad* gamepad);
-    public static int GetGamepadPlayerIndex(SDL.Gamepad* gamepad)
-    {
-        return SDL_GetGamepadPlayerIndex(gamepad);
-    }
-    
-    // Set Gamepad Player Index
-    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_SetGamepadPlayerIndex(SDL.Gamepad* gamepad, int player);
-    public static bool SetGamepadPlayerIndex(SDL.Gamepad* gamepad, int player)
-    {
-        return SDL_SetGamepadPlayerIndex(gamepad, player);
-    }
-    
     // Set Gamepad Events Enabled
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern void SDL_SetGamepadEventsEnabled(SDL.Bool enabled);
@@ -91,20 +68,12 @@ internal static unsafe partial class SDL
         SDL_SetGamepadEventsEnabled(enabled);
     }
     
-    // Gamepad Has Button
+    // Gamepad Events Enabled
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_GamepadHasButton(SDL.Gamepad* gamepad, SDL.GamepadButton button);
-    public static bool GamepadHasButton(SDL.Gamepad* gamepad, SDL.GamepadButton button)
+    private static extern SDL.Bool SDL_GamepadEventsEnabled();
+    public static bool GamepadEventsEnabled()
     {
-        return SDL_GamepadHasButton(gamepad, button);
-    }
-    
-    // Gamepad Has Axis
-    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_GamepadHasAxis(SDL.Gamepad* gamepad, SDL.GamepadAxis axis);
-    public static bool GamepadHasAxis(SDL.Gamepad* gamepad, SDL.GamepadAxis axis)
-    {
-        return SDL_GamepadHasAxis(gamepad, axis);
+        return SDL_GamepadEventsEnabled();
     }
     
     // Rumble Gamepad
@@ -113,6 +82,14 @@ internal static unsafe partial class SDL
     public static bool RumbleGamepad(SDL.Gamepad* gamepad, ushort low, ushort high, uint ms)
     {
         return SDL_RumbleGamepad(gamepad, low, high, ms);
+    }
+    
+    // Rumble Gamepad Triggers
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool SDL_RumbleGamepadTriggers(SDL.Gamepad* gamepad, ushort left, ushort right, uint ms);
+    public static bool RumbleGamepadTriggers(SDL.Gamepad* gamepad, ushort left, ushort right, uint ms)
+    {
+        return SDL_RumbleGamepadTriggers(gamepad, left, right, ms);
     }
     
     // Open Gamepad

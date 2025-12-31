@@ -43,6 +43,14 @@ internal static unsafe partial class SDL
         MouseDeviceAdded = 1028,
         MouseDeviceRemoved = 1029,
         
+        JoystickAxisMotion = 1536,
+        JoystickBallMotion = 1537,
+        JoystickHatMotion = 1538,
+        JoystickButtonDown = 1539,
+        JoystickButtonUp = 1540,
+        JoystickAdded = 1541,
+        JoystickRemoved = 1542,
+        
         GamepadButtonUp = 1618,
         GamepadButtonDown = 1617,
         GamepadAxisMotion = 1616,
