@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Globalization;
+using System;
 
 namespace Hybrid
 {
@@ -123,13 +124,17 @@ namespace Hybrid
                     return;
                 }
 
-                int remaining = MaxCharacters - Text.Length;
-                {
-                    if (remaining <= 0) return;
+                var textInfo  = new StringInfo(Text);
+                var inputInfo = new StringInfo(input);
 
-                    if (input.Length > remaining)
+                int current = textInfo.LengthInTextElements;
+                int remaining = MaxCharacters - current;
+
+                if (remaining > 0)
+                {
+                    if (inputInfo.LengthInTextElements > remaining)
                     {
-                        input = input.Substring(0, remaining);
+                        input = inputInfo.SubstringByTextElements(0, remaining);
                     }
 
                     Text += input;
@@ -141,14 +146,17 @@ namespace Hybrid
         {
             if (!string.IsNullOrEmpty(Text))
             {
-                Text = Text.Substring(0, Text.Length - 1);
+                var info = new StringInfo(Text);
+                {
+                    Text = info.SubstringByTextElements(0, info.LengthInTextElements - 1);
+                }
             }
         }
         
         private static void Reset()
         {
+            Text = string.Empty;
             MaxCharacters = 0;
-            Text = "";
         }
     }
 }
