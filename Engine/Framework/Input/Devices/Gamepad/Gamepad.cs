@@ -49,11 +49,6 @@ namespace Hybrid
         // Reset
         internal override void OnReset()
         {
-            foreach (var axis in Axis.Values)
-            {
-                axis.Reset();
-            }
-            
             foreach (var key in Keys.Values)
             {
                 key.Reset();
@@ -105,6 +100,10 @@ namespace Hybrid
                         {
                             inputAxis.SetState(value);
                         }
+                        else
+                        {
+                            inputAxis.Reset();
+                        }
                     }
                     
                     break;
@@ -150,6 +149,14 @@ namespace Hybrid
             }
 
             return false;
+        }
+
+        internal void Rumble(ushort low, ushort high, uint ms)
+        {
+            if (Handle != null)
+            {
+                SDL.RumbleGamepad(Handle, low, high, ms);
+            }
         }
     }
 }

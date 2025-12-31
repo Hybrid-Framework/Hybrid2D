@@ -266,6 +266,17 @@ namespace Hybrid
             
             return false;
         }
+        
+        public static void GamepadRumble(ushort low, ushort high, uint ms, Player player = Player.Any)
+        {
+            foreach (var gamepad in Gamepads.AllGamepads)
+            {
+                if (gamepad.Player == player || player == Player.Any)
+                {
+                    gamepad.Rumble(low, high, ms);
+                }
+            }
+        }
     }
     
     // Touch
