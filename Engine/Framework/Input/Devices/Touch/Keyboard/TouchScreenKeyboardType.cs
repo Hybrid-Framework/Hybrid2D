@@ -8,6 +8,7 @@ namespace Hybrid
         Name = 1,
         Email = 2,
         Username = 3,
+        Password = 4,
         Numeric = 6,
     }
 }

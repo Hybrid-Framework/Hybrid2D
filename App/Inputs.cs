@@ -13,7 +13,7 @@ namespace App
             {
                 if (touch.TouchPhase() == Phase.Began)
                 {
-                    TouchScreenKeyboard.Open();
+                    TouchScreenKeyboard.Open(TouchScreenKeyboardType.Password);
                 }
             }
         }

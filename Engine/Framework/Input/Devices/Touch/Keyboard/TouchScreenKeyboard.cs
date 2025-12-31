@@ -56,6 +56,25 @@ namespace Hybrid
 
     public unsafe partial class TouchScreenKeyboard
     {
+        public static string DisplayText
+        {
+            get
+            {
+                if (Type == TouchScreenKeyboardType.Password)
+                {
+                    return new string('*', Text.Length);
+                }
+
+                return Text;
+            }
+        }
+        
+        public static TouchScreenKeyboardType Type
+        {
+            private set;
+            get;
+        }
+        
         public static int MaxCharacters
         {
             private set;
@@ -85,6 +104,7 @@ namespace Hybrid
 
                 // Settings
                 MaxCharacters = maxCharacters;
+                Type = type;
             }
         }
 
@@ -155,6 +175,7 @@ namespace Hybrid
         
         private static void Reset()
         {
+            Type = TouchScreenKeyboardType.Default;
             Text = string.Empty;
             MaxCharacters = 0;
         }
