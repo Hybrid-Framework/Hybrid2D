@@ -4,6 +4,8 @@ internal static unsafe partial class SDL
 {
     public enum KeyCode : uint
     {
+        Unknown = 0,
+        
         A = 0x00000061u,
         B = 0x00000062u,
         C = 0x00000063u,

@@ -5,13 +5,12 @@ namespace Hybrid
 {
     internal unsafe class Gamepad : InputDevice
     {
-        internal Dictionary<Button, InputKey> Keys { get; private set; } = new Dictionary<Button, InputKey>();
-        internal Dictionary<Axis, InputAxis> Axis { get; private set; } = new Dictionary<Axis, InputAxis>();
-        internal InputAxis DeadZone { get; private set; } = new InputAxis();
-        
-        internal SDL.Gamepad* Handle { get; private set; }
-        internal Player Player { get; private set; }
-        internal uint Device { get; private set; }
+        internal readonly Dictionary<Button, State> Buttons = new Dictionary<Button, State>();
+        internal readonly Dictionary<Axis, float> Axis = new Dictionary<Axis, float>();
+        internal float DeadZone = 0.2f;
+        internal SDL.Gamepad* Handle;
+        internal Player Player;
+        internal uint Device;
         
         
         internal Gamepad(SDL.Gamepad* handle, uint device, Player player)
@@ -20,17 +19,15 @@ namespace Hybrid
             this.Player = player;
             this.Handle = handle;
             
-            foreach (Button key in Enum.GetValues(typeof(Button)))
+            foreach (Button button in Enum.GetValues(typeof(Button)))
             {
-                Keys.Add(key, new InputKey());
+                Buttons.Add(button, State.None);
             }
             
             foreach (Axis axis in Enum.GetValues(typeof(Axis)))
             {
-                Axis.Add(axis, new InputAxis());
+                Axis.Add(axis, 0);
             }
-            
-            DeadZone.SetState(0.2f);
         }
         
         // Dispose
@@ -42,16 +39,24 @@ namespace Hybrid
                 Handle = null;
             }
             
-            Keys.Clear();
+            Buttons.Clear();
             Axis.Clear();
         }
 
         // Reset
         internal override void OnReset()
         {
-            foreach (var key in Keys.Values)
+            foreach (var button in Buttons.Keys)
             {
-                key.Reset();
+                if (GetButtonDown(button))
+                {
+                    Buttons[button] = State.Hold;
+                }
+
+                if (GetButtonUp(button))
+                {
+                    Buttons[button] = State.None;
+                }
             }
         }
 
@@ -63,11 +68,12 @@ namespace Hybrid
                 // Gamepad Up
                 case SDL.EventType.GamepadButtonUp:
                 {
-                    var key = (Button)e.gamepadButton.button;
-
-                    if (Keys.TryGetValue(key, out var inputKey))
+                    var button = (Button)e.gamepadButton.button;
                     {
-                        inputKey.SetState(State.Release);
+                        if (Buttons.ContainsKey(button))
+                        {
+                            Buttons[button] = State.Release;
+                        }
                     }
                     
                     break;
@@ -76,11 +82,12 @@ namespace Hybrid
                 // Gamepad Down
                 case SDL.EventType.GamepadButtonDown:
                 {
-                    var key = (Button)e.gamepadButton.button;
-            
-                    if (Keys.TryGetValue(key, out var inputKey))
+                    var button = (Button)e.gamepadButton.button;
                     {
-                        inputKey.SetState(State.Down | State.Hold);
+                        if (Buttons.ContainsKey(button))
+                        {
+                            Buttons[button] = State.Down | State.Hold;
+                        }
                     }
                     
                     break;
@@ -91,41 +98,37 @@ namespace Hybrid
                 {
                     var axis = (Axis)e.gamepadAxis.axis;
             
-                    if (Axis.TryGetValue(axis, out var inputAxis))
+                    if (Axis.ContainsKey(axis))
                     {
                         float raw = e.gamepadAxis.value;
                         float value = raw >= 0 ? raw / 32767.0f : raw / 32768.0f;
 
-                        if (Maths.Abs(value) >= DeadZone.GetState())
+                        if (Maths.Abs(value) < DeadZone)
                         {
-                            inputAxis.SetState(value);
+                            value = 0f;
                         }
-                        else
-                        {
-                            inputAxis.Reset();
-                        }
+                        
+                        Axis[axis] = value;
                     }
                     
                     break;
                 }
             }
         }
-
-        internal float GetAxis(Axis axis)
-        {
-            if (Axis.TryGetValue(axis, out var inputAxis))
-            {
-                return inputAxis.GetState();
-            }
-
-            return 0;
-        }
         
+        internal void Rumble(ushort low, ushort high, uint ms)
+        {
+            if (Handle != null)
+            {
+                SDL.RumbleGamepad(Handle, low, high, ms);
+            }
+        }
+
         internal bool GetButton(Button button)
         {
-            if (Keys.TryGetValue(button, out var inputKey))
+            if (Buttons.TryGetValue(button, out var state))
             {
-                return inputKey.Held();
+                return (state & State.Hold) != 0;
             }
 
             return false;
@@ -133,9 +136,9 @@ namespace Hybrid
         
         internal bool GetButtonDown(Button button)
         {
-            if (Keys.TryGetValue(button, out var inputKey))
+            if (Buttons.TryGetValue(button, out var state))
             {
-                return inputKey.Down();
+                return (state & State.Down) != 0;
             }
 
             return false;
@@ -143,20 +146,17 @@ namespace Hybrid
         
         internal bool GetButtonUp(Button button)
         {
-            if (Keys.TryGetValue(button, out var inputKey))
+            if (Buttons.TryGetValue(button, out var state))
             {
-                return inputKey.Released();
+                return (state & State.Release) != 0;
             }
 
             return false;
         }
-
-        internal void Rumble(ushort low, ushort high, uint ms)
+        
+        internal float GetAxis(Axis axis)
         {
-            if (Handle != null)
-            {
-                SDL.RumbleGamepad(Handle, low, high, ms);
-            }
+            return Axis.GetValueOrDefault(axis);
         }
     }
 }

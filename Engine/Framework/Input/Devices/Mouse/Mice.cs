@@ -32,43 +32,13 @@ namespace Hybrid
         {
             switch (e.type)
             {
-                // Mouse Up
-                case SDL.EventType.MouseButtonUp:
-                {
-                    var mouse = CreateMouse(e.mouseButton.mouseID);
-                    {
-                        mouse?.OnEvent(e);
-                    }
-                    
-                    break;
-                }
-                
-                // Mouse Down
+                // Mouse
                 case SDL.EventType.MouseButtonDown:
-                {
-                    var mouse = CreateMouse(e.mouseButton.mouseID);
-                    {
-                        mouse?.OnEvent(e);
-                    }
-                    
-                    break;
-                }
-
-                // Mouse Motion
+                case SDL.EventType.MouseButtonUp:
                 case SDL.EventType.MouseMotion:
-                {
-                    var mouse = CreateMouse(e.mouseMotion.mouseID);
-                    {
-                        mouse?.OnEvent(e);
-                    }
-                    
-                    break;
-                }
-
-                // Mouse Wheel
                 case SDL.EventType.MouseWheel:
                 {
-                    var mouse = CreateMouse(e.mouseWheel.mouseID);
+                    var mouse = CreateMouse(e.mouseDevice.mouseID);
                     {
                         mouse?.OnEvent(e);
                     }

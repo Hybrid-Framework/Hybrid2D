@@ -115,39 +115,39 @@ namespace Hybrid
     // Mouse
     public partial class Input
     {
-        public static Vector2 MousePositionDelta(Player player = Player.Any)
+        public static Vector2 GetMousePositionDelta(Player player = Player.Any)
         {
             foreach (var mouse in Mice.AllMice)
             {
                 if (mouse.Player == player || player == Player.Any)
                 {
-                    return mouse.PositionDelta.GetState();
+                    return mouse.GetPositonDelta();
                 }
             }
             
             return Vector2.Zero;
         }
         
-        public static Vector2 MouseScrollDelta(Player player = Player.Any)
+        public static Vector2 GetMouseScrollDelta(Player player = Player.Any)
         {
             foreach (var mouse in Mice.AllMice)
             {
                 if (mouse.Player == player || player == Player.Any)
                 {
-                    return mouse.ScrollDelta.GetState();
+                    return mouse.GetScrollDelta();
                 }
             }
             
             return Vector2.Zero;
         }
         
-        public static Vector2 MousePosition(Player player = Player.Any)
+        public static Vector2 GetMousePosition(Player player = Player.Any)
         {
             foreach (var mouse in Mice.AllMice)
             {
                 if (mouse.Player == player || player == Player.Any)
                 {
-                    return mouse.Position.GetState();
+                    return mouse.GetPositon();
                 }
             }
             

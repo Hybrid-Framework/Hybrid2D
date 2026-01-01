@@ -32,7 +32,7 @@ namespace Hybrid
         {
             switch (e.type)
             {
-                // Touch Up
+                // Touch
                 case SDL.EventType.TouchFingerUp:
                 case SDL.EventType.TouchFingerDown:
                 case SDL.EventType.TouchFingerMotion:

@@ -32,32 +32,12 @@ namespace Hybrid
         {
             switch (e.type)
             {
-                // Gamepad Up
+                // Gamepad
                 case SDL.EventType.GamepadButtonUp:
-                {
-                    var gamepad = CreateGamepad(e.gamepadButton.gamepadID);
-                    {
-                        gamepad?.OnEvent(e);
-                    }
-                    
-                    break;
-                }
-                
-                // Gamepad Down
                 case SDL.EventType.GamepadButtonDown:
-                {
-                    var gamepad = CreateGamepad(e.gamepadButton.gamepadID);
-                    {
-                        gamepad?.OnEvent(e);
-                    }
-                    
-                    break;
-                }
-                
-                // Gamepad Axis
                 case SDL.EventType.GamepadAxisMotion:
                 {
-                    var gamepad = CreateGamepad(e.gamepadAxis.gamepadID);
+                    var gamepad = CreateGamepad(e.gamepadDevice.gamepadID);
                     {
                         gamepad?.OnEvent(e);
                     }

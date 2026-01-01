@@ -32,23 +32,19 @@ namespace Hybrid
         {
             switch (e.type)
             {
-                // Keyboard Up
+                // Keyboard
                 case SDL.EventType.KeyboardButtonUp:
-                {
-                    var keyboard = CreateKeyboard(e.keyboard.keyboardID);
-                    {
-                        keyboard?.OnEvent(e);
-                    }
-                    
-                    break;
-                }
-                
-                // Keyboard Down
                 case SDL.EventType.KeyboardButtonDown:
                 {
-                    var keyboard = CreateKeyboard(e.keyboard.keyboardID);
+                    if (!e.keyboard.repeat)
                     {
-                        keyboard?.OnEvent(e);
+                        if (e.keyboard.keyCode != SDL.KeyCode.Unknown)
+                        {
+                            var keyboard = CreateKeyboard(e.keyboard.keyboardID);
+                            {
+                                keyboard?.OnEvent(e);
+                            }
+                        }
                     }
                     
                     break;

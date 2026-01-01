@@ -5,10 +5,10 @@ namespace Hybrid
 {
     internal class Mouse : InputDevice
     {
-        internal Dictionary<int, InputKey> Keys { get; private set; } = new Dictionary<int, InputKey>();
-        internal InputVector PositionDelta { get; private set; } = new InputVector();
-        internal InputVector ScrollDelta { get; private set; } = new InputVector();
-        internal InputVector Position { get; private set; } = new InputVector();
+        internal readonly Dictionary<int, State> Buttons = new Dictionary<int, State>();
+        internal Vector2 PositionDelta = Vector2.Zero;
+        internal Vector2 ScrollDelta = Vector2.Zero;
+        internal Vector2 Position = Vector2.Zero;
         internal Player Player;
         internal uint Device;
         
@@ -20,25 +20,33 @@ namespace Hybrid
 
             for (int i = 0; i < 8; i++)
             {
-                Keys.Add(i, new InputKey());
+                Buttons.Add(i, State.None);
             }
         }
         
         // Dispose
         internal override void OnDispose()
         {
-            Keys.Clear();
+            Buttons.Clear();
         }
 
         // Reset
         internal override void OnReset()
         {
-            PositionDelta.Reset();
-            ScrollDelta.Reset();
+            PositionDelta = Vector2.Zero;
+            ScrollDelta = Vector2.Zero;
             
-            foreach (var key in Keys.Values)
+            foreach (var button in Buttons.Keys)
             {
-                key.Reset();
+                if (GetMouseButtonDown(button))
+                {
+                    Buttons[button] = State.Hold;
+                }
+
+                if (GetMouseButtonUp(button))
+                {
+                    Buttons[button] = State.None;
+                }
             }
         }
 
@@ -50,11 +58,12 @@ namespace Hybrid
                 // Mouse Up
                 case SDL.EventType.MouseButtonUp:
                 {
-                    var key = Remap(e.mouseButton.button);
-
-                    if (Keys.TryGetValue(key, out var inputKey))
+                    var button = Remap(e.mouseButton.button);
                     {
-                        inputKey.SetState(State.Release);
+                        if (Buttons.ContainsKey(button))
+                        {
+                            Buttons[button] = State.Release;
+                        }
                     }
                     
                     break;
@@ -63,28 +72,29 @@ namespace Hybrid
                 // Mouse Down
                 case SDL.EventType.MouseButtonDown:
                 {
-                    var key = Remap(e.mouseButton.button);
-            
-                    if (Keys.TryGetValue(key, out var inputKey))
+                    var button = Remap(e.mouseButton.button);
                     {
-                        inputKey.SetState(State.Down | State.Hold);
+                        if (Buttons.ContainsKey(button))
+                        {
+                            Buttons[button] = State.Down | State.Hold;
+                        }
                     }
                     
-                    break;
-                }
-
-                // Mouse Motion
-                case SDL.EventType.MouseMotion:
-                {
-                    PositionDelta.SetState(e.mouseMotion.x_relative, e.mouseMotion.y_relative);
-                    Position.SetState(e.mouseMotion.x, e.mouseMotion.y);
                     break;
                 }
                 
                 // Mouse Wheel
                 case SDL.EventType.MouseWheel:
                 {
-                    ScrollDelta.SetState(e.mouseWheel.x, e.mouseWheel.y, -1, 1);
+                    ScrollDelta = new Vector2(Maths.Clamp(e.mouseWheel.x, -1, 1), Maths.Clamp(e.mouseWheel.y, -1, 1));
+                    break;
+                }
+
+                // Mouse Motion
+                case SDL.EventType.MouseMotion:
+                {
+                    PositionDelta = new Vector2(e.mouseMotion.x_relative, e.mouseMotion.y_relative);
+                    Position = new Vector2(e.mouseMotion.x, e.mouseMotion.y);
                     break;
                 }
             }
@@ -92,9 +102,9 @@ namespace Hybrid
         
         internal bool GetMouseButton(int button)
         {
-            if (Keys.TryGetValue(button, out var inputKey))
+            if (Buttons.TryGetValue(button, out var state))
             {
-                return inputKey.Held();
+                return (state & State.Hold) != 0;
             }
 
             return false;
@@ -102,9 +112,9 @@ namespace Hybrid
         
         internal bool GetMouseButtonDown(int button)
         {
-            if (Keys.TryGetValue(button, out var inputKey))
+            if (Buttons.TryGetValue(button, out var state))
             {
-                return inputKey.Down();
+                return (state & State.Down) != 0;
             }
 
             return false;
@@ -112,12 +122,27 @@ namespace Hybrid
         
         internal bool GetMouseButtonUp(int button)
         {
-            if (Keys.TryGetValue(button, out var inputKey))
+            if (Buttons.TryGetValue(button, out var state))
             {
-                return inputKey.Released();
+                return (state & State.Release) != 0;
             }
 
             return false;
+        }
+        
+        internal Vector2 GetPositonDelta()
+        {
+            return PositionDelta;
+        }
+        
+        internal Vector2 GetScrollDelta()
+        {
+            return ScrollDelta;
+        }
+
+        internal Vector2 GetPositon()
+        {
+            return Position;
         }
         
         private int Remap(byte button)

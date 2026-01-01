@@ -7,20 +7,35 @@ namespace App
     {
         public override void OnUpdate()
         {
-            if (Input.GetGamepadAxis(Axis.LeftTrigger) != 0)
+            if (Input.GetMouseButtonDown(0))
             {
-                Input.GamepadRumble(ushort.MaxValue, ushort.MaxValue, 1);
+                Debug.Log("Down");
             }
             
-            if (Input.GetGamepadAxis(Axis.RightTrigger) != 0)
+            if (Input.GetMouseButton(0))
             {
-                Input.GamepadRumble(ushort.MaxValue, ushort.MaxValue, 1);
+                Debug.Log("Hold");
             }
-
-            if (Input.GetGamepadButton(Button.South))
+            
+            if (Input.GetMouseButtonUp(0))
             {
-                Input.GamepadRumble(ushort.MaxValue, ushort.MaxValue, 1);
+                Debug.Log("Release");
             }
+            
+            if (Input.GetMouseScrollDelta().X != 0 || Input.GetMouseScrollDelta().Y != 0)
+            {
+                Debug.Log($"Scroll: {Input.GetMouseScrollDelta().X}, {Input.GetMouseScrollDelta().Y}");
+            }
+            
+            // if (Input.GetMousePositionDelta().X != 0 || Input.GetMousePositionDelta().Y != 0)
+            // {
+            //     Debug.Log($"Delta: {Input.GetMousePositionDelta().X}, {Input.GetMousePositionDelta().Y}");
+            // }
+            //
+            // if (Input.GetMousePosition().X != 0 || Input.GetMousePosition().Y != 0)
+            // {
+            //     Debug.Log($"Position: {Input.GetMousePosition().X}, {Input.GetMousePosition().Y}");
+            // }
         }
     }
 }

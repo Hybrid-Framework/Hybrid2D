@@ -5,7 +5,7 @@ namespace Hybrid
 {
     internal class TouchScreen : InputDevice
     {
-        internal List<Touch> Touches = new List<Touch>();
+        internal readonly List<Touch> Touches = new List<Touch>();
         internal const int MaxTouches = 8;
         internal Player Player;
         internal ulong Device;
@@ -50,15 +50,15 @@ namespace Hybrid
                 {
                     var touch = GetTouch((int)e.touchFinger.fingerID - 1);
                     {
-                        touch.PositionDelta.SetState(e.touchFinger.x_delta * Window.GetWidth(), e.touchFinger.y_delta * Window.GetHeight());
-                        touch.Position.SetState(e.touchFinger.x * Window.GetWidth(), e.touchFinger.y * Window.GetHeight());
+                        touch.PositionDelta = new Vector2(e.touchFinger.x_delta * Window.GetWidth(), e.touchFinger.y_delta * Window.GetHeight());
+                        touch.Position = new Vector2(e.touchFinger.x * Window.GetWidth(), e.touchFinger.y * Window.GetHeight());
 
                         switch (e.type)
                         {
-                            case SDL.EventType.TouchFingerUp: touch.SetState(Phase.Ended);break;
-                            case SDL.EventType.TouchFingerDown: touch.SetState(Phase.Began); break;
-                            case SDL.EventType.TouchFingerMotion: touch.SetState(Phase.Moved); break;
-                            case SDL.EventType.TouchFingerCancel: touch.SetState(Phase.Canceled); break;
+                            case SDL.EventType.TouchFingerUp: touch.Phase = Phase.Ended;break;
+                            case SDL.EventType.TouchFingerDown: touch.Phase = Phase.Began; break;
+                            case SDL.EventType.TouchFingerMotion: touch.Phase = Phase.Moved; break;
+                            case SDL.EventType.TouchFingerCancel: touch.Phase = Phase.Canceled; break;
                         }
                     }
                     
