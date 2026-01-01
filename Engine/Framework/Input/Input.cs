@@ -7,6 +7,8 @@ namespace Hybrid
     public sealed partial class Input : Module<Input>
     {
         internal static Dictionary<string, InputAction> Actions { get; private set; } = new Dictionary<string, InputAction>();
+        internal static Dictionary<string, InputVector> Vectors { get; private set; } = new Dictionary<string, InputVector>();
+        internal static Dictionary<string, InputAxis> Axes { get; private set; } = new Dictionary<string, InputAxis>();
         
         internal static TouchScreenKeyboard TouchScreenKeyboard { get; private set; } = new TouchScreenKeyboard();
         internal static TouchScreens TouchScreens { get; private set; } = new TouchScreens();
@@ -58,10 +60,10 @@ namespace Hybrid
                 action = new InputAction(name);
                 Actions[name] = action;
             }
-            
+
             return action;
         }
-        
+
         public static void DestroyAction(string name)
         {
             Actions.Remove(name);
@@ -96,15 +98,65 @@ namespace Hybrid
 
             return false;
         }
+    }
+    
+    // Axis
+    public partial class Input
+    {
+        public static InputAxis CreateAxis(string name)
+        {
+            if (!Axes.TryGetValue(name, out InputAxis axis))
+            {
+                axis = new InputAxis(name);
+                Axes[name] = axis;
+            }
 
+            return axis;
+        }
+
+        public static void DestroyAxis(string name)
+        {
+            Axes.Remove(name);
+        }
+        
         public static float GetAxis(string name)
         {
-            if (Actions.TryGetValue(name, out InputAction action))
+            if (Axes.TryGetValue(name, out InputAxis axis))
             {
-                return action.GetAxis();
+                return axis.Value();
             }
 
             return 0;
+        }
+    }
+    
+    // Vector
+    public partial class Input
+    {
+        public static InputVector CreateVector(string name)
+        {
+            if (!Vectors.TryGetValue(name, out InputVector vector))
+            {
+                vector = new InputVector(name);
+                Vectors[name] = vector;
+            }
+
+            return vector;
+        }
+
+        public static void DestroyVector(string name)
+        {
+            Vectors.Remove(name);
+        }
+        
+        public static Vector2 GetVector(string name)
+        {
+            if (Vectors.TryGetValue(name, out InputVector vector))
+            {
+                return vector.Value();
+            }
+
+            return Vector2.Zero;
         }
     }
 

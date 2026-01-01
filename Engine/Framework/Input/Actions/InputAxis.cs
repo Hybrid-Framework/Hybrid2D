@@ -1,19 +1,48 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System;
 
 namespace Hybrid
 {
-    internal class InputAxis
+    public class InputAxis
     {
-        private readonly Func<float> ValueFunction;
+        private readonly List<Func<float>> ValueFunctions = new List<Func<float>>();
+        private string Name { get; set; }
         
-        internal InputAxis(Func<float> Value)
+        
+        internal InputAxis(string name)
         {
-            this.ValueFunction = Value;
+            this.Name = name;
+        }
+        
+        public void Add(Func<float> Value)
+        {
+            if (Value != null)
+            {
+                ValueFunctions.Add(Value);
+            }
+        }
+        
+        public void Remove(Func<float> Value)
+        {
+            if (Value != null)
+            {
+                ValueFunctions.Remove(Value);
+            }
         }
 
         public float Value()
         {
-            return ValueFunction();
+            foreach (var function in ValueFunctions)
+            {
+                var value = function();
+                
+                if (value != 0)
+                {
+                    return value;
+                }
+            }
+
+            return 0;
         }
 
         public bool Negative()

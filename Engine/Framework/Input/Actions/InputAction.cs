@@ -5,43 +5,60 @@ namespace Hybrid
 {
     public class InputAction
     {
-        private readonly List<InputAxis> Axis = new List<InputAxis>();
-        private readonly List<InputKey> Keys = new List<InputKey>();
-        internal string Name;
+        private readonly List<Func<bool>> GetKeyDownFunctions = new List<Func<bool>>();
+        private readonly List<Func<bool>> GetKeyUpFunctions = new List<Func<bool>>();
+        private readonly List<Func<bool>> GetKeyFunctions = new List<Func<bool>>();
+        private string Name { get; set; }
+        
         
         internal InputAction(string name)
         {
             this.Name = name;
         }
         
-        public void Add(Func<bool> GetKey, Func<bool> GetKeyDown, Func<bool> GetKeyUp)
+        public void Add(Func<bool> GetKey = null, Func<bool> GetKeyDown = null, Func<bool> GetKeyUp = null)
         {
-            Keys.Add(new InputKey(GetKey, GetKeyDown, GetKeyUp));
+            if (GetKey != null)
+            {
+                GetKeyFunctions.Add(GetKey);
+            }
+
+            if (GetKeyUp != null)
+            {
+                GetKeyUpFunctions.Add(GetKeyUp);
+            }
+
+            if (GetKeyDown != null)
+            {
+                GetKeyDownFunctions.Add(GetKeyDown);
+            }
         }
         
-        public void Add(Func<float> Value)
+        public void Remove(Func<bool> GetKey, Func<bool> GetKeyDown, Func<bool> GetKeyUp)
         {
-            Axis.Add(new InputAxis(Value));
+            if (GetKey != null)
+            {
+                GetKeyFunctions.Remove(GetKey);
+            }
+
+            if (GetKeyUp != null)
+            {
+                GetKeyUpFunctions.Remove(GetKeyUp);
+            }
+
+            if (GetKeyDown != null)
+            {
+                GetKeyDownFunctions.Remove(GetKeyDown);
+            }
         }
         
         public bool GetKey()
         {
-            foreach (var key in Keys)
+            foreach (var function in GetKeyFunctions)
             {
-                if (key.GetKey())
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        public bool GetKeyDown()
-        {
-            foreach (var key in Keys)
-            {
-                if (key.GetKeyDown())
+                var value = function();
+                
+                if (value)
                 {
                     return true;
                 }
@@ -52,9 +69,11 @@ namespace Hybrid
         
         public bool GetKeyUp()
         {
-            foreach (var key in Keys)
+            foreach (var function in GetKeyUpFunctions)
             {
-                if (key.GetKeyUp())
+                var value = function();
+                
+                if (value)
                 {
                     return true;
                 }
@@ -62,18 +81,20 @@ namespace Hybrid
 
             return false;
         }
-
-        public float GetAxis()
+        
+        public bool GetKeyDown()
         {
-            foreach (var axis in Axis)
+            foreach (var function in GetKeyDownFunctions)
             {
-                if (axis.Value() > 0)
+                var value = function();
+                
+                if (value)
                 {
-                    return axis.Value();
+                    return true;
                 }
             }
 
-            return 0;
+            return false;
         }
     }
 }

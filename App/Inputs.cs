@@ -6,6 +6,8 @@ namespace App
     public class Inputs : MonoBehaviour
     {
         private readonly InputAction action = Input.CreateAction("Action");
+        private readonly InputVector stick = Input.CreateVector("Stick");
+        private readonly InputAxis axis = Input.CreateAxis("Horizontal");
         
         public override void OnAwake()
         {
@@ -16,21 +18,21 @@ namespace App
                 GetKeyDown: () => Input.GetMouseButtonDown(1)
             );
             
-            action.Add
+            action.Remove
             (
-                GetKey: () => Input.GetMouseButton(0),
-                GetKeyUp: () => Input.GetMouseButtonUp(0),
-                GetKeyDown: () => Input.GetMouseButtonDown(0)
+                GetKey: () => Input.GetMouseButton(1),
+                GetKeyUp: () => Input.GetMouseButtonUp(1),
+                GetKeyDown: () => Input.GetMouseButtonDown(1)
             );
-            
-            action.Add
+
+            axis.Add
             (
-                Value: () => Input.GetGamepadAxis(Axis.LeftTrigger)
+                Value: () => Input.GetGamepadAxis(Axis.LeftStickX)
             );
-            
-            action.Add
+
+            stick.Add
             (
-                Value: () => Input.GetGamepadAxis(Axis.RightTrigger)
+                Value: () => new Vector2(Input.GetGamepadAxis(Axis.LeftStickX), Input.GetGamepadAxis(Axis.LeftStickY))
             );
         }
 
@@ -51,9 +53,14 @@ namespace App
                 Debug.Log("Action Up");
             }
 
-            if (Input.GetAxis("Action") != 0)
+            if (Input.GetAxis("Horizontal") != 0)
             {
-                Debug.Log("Action Axis: " + Input.GetAxis("Action"));
+                // Debug.Log("Axis: " + Input.GetAxis("Horizontal"));
+            }
+            
+            if (Input.GetVector("Stick").X != 0 || Input.GetVector("Stick").Y != 0)
+            {
+                Debug.Log("Stick: " + Input.GetVector("Stick").X + ", " + Input.GetVector("Stick").Y);
             }
         }
     }
