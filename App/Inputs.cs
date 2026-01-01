@@ -5,42 +5,41 @@ namespace App
 {
     public class Inputs : MonoBehaviour
     {
+        private readonly InputAction action = Input.CreateAction("Jump");
+        
+        public override void OnAwake()
+        {
+            action.Add
+            (
+                GetKey: () => Input.GetGamepadAxis(Axis.LeftStickX) != 0,
+                GetKeyUp: () => Input.GetGamepadAxis(Axis.LeftStickX) != 0,
+                GetKeyDown: () => Input.GetGamepadAxis(Axis.LeftStickX) != 0
+            );
+            
+            action.Add
+            (
+                GetKey: () => Input.GetMouseButton(0),
+                GetKeyUp: () => Input.GetMouseButtonUp(0),
+                GetKeyDown: () => Input.GetMouseButtonDown(0)
+            );
+        }
+
         public override void OnUpdate()
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetButtonDown("Jump"))
             {
                 Debug.Log("Down");
             }
             
-            if (Input.GetMouseButton(0))
+            if (Input.GetButton("Jump"))
             {
-                Debug.Log("Hold");
+                Debug.Log("Press");
             }
             
-            if (Input.GetMouseButtonUp(0))
+            if (Input.GetButtonUp("Jump"))
             {
-                Debug.Log("Release");
+                Debug.Log("Up");
             }
-            
-            if (Input.GetGamepadAxis(Axis.LeftStickX) != 0 || Input.GetGamepadAxis(Axis.LeftStickY) != 0)
-            {
-                Debug.Log($"Scroll: {Input.GetGamepadAxis(Axis.LeftStickX)}, {Input.GetGamepadAxis(Axis.LeftStickY)}");
-            }
-            
-            if (Input.GetGamepadAxis(Axis.RightStickX) != 0 || Input.GetGamepadAxis(Axis.RightStickY) != 0)
-            {
-                Debug.Log($"Scroll: {Input.GetGamepadAxis(Axis.RightStickX)}, {Input.GetGamepadAxis(Axis.RightStickY)}");
-            }
-            
-            // if (Input.GetMousePositionDelta().X != 0 || Input.GetMousePositionDelta().Y != 0)
-            // {
-            //     Debug.Log($"Delta: {Input.GetMousePositionDelta().X}, {Input.GetMousePositionDelta().Y}");
-            // }
-            //
-            // if (Input.GetMousePosition().X != 0 || Input.GetMousePosition().Y != 0)
-            // {
-            //     Debug.Log($"Position: {Input.GetMousePosition().X}, {Input.GetMousePosition().Y}");
-            // }
         }
     }
 }

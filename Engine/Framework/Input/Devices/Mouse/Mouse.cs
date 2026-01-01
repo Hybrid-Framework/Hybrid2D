@@ -40,7 +40,7 @@ namespace Hybrid
             {
                 if (GetMouseButtonDown(button))
                 {
-                    Buttons[button] = State.Hold;
+                    Buttons[button] = State.Press;
                 }
 
                 if (GetMouseButtonUp(button))
@@ -76,7 +76,7 @@ namespace Hybrid
                     {
                         if (Buttons.ContainsKey(button))
                         {
-                            Buttons[button] = State.Down | State.Hold;
+                            Buttons[button] = State.Down | State.Press;
                         }
                     }
                     
@@ -104,7 +104,7 @@ namespace Hybrid
         {
             if (Buttons.TryGetValue(button, out var state))
             {
-                return (state & State.Hold) != 0;
+                return (state & State.Press) != 0;
             }
 
             return false;

@@ -34,7 +34,7 @@ namespace Hybrid
             {
                 if (GetKeyDown(key))
                 {
-                    Keys[key] = State.Hold;
+                    Keys[key] = State.Press;
                 }
 
                 if (GetKeyUp(key))
@@ -70,7 +70,7 @@ namespace Hybrid
                     {
                         if (Keys.ContainsKey(key))
                         {
-                            Keys[key] = State.Down | State.Hold;
+                            Keys[key] = State.Down | State.Press;
                         }
                     }
                     
@@ -91,7 +91,7 @@ namespace Hybrid
         {
             if (Keys.TryGetValue(key, out var state))
             {
-                return (state & State.Hold) != 0;
+                return (state & State.Press) != 0;
             }
 
             return false;

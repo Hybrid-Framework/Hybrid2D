@@ -1,19 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Hybrid
 {
     // Internal
     public sealed partial class Input : Module<Input>
     {
-        private Input() { }
-
+        internal static Dictionary<string, InputAction> Actions { get; private set; } = new Dictionary<string, InputAction>();
+        
         internal static TouchScreenKeyboard TouchScreenKeyboard { get; private set; } = new TouchScreenKeyboard();
         internal static TouchScreens TouchScreens { get; private set; } = new TouchScreens();
         internal static Keyboards Keyboards { get; private set; } = new Keyboards();
         internal static Gamepads Gamepads { get; private set; } = new Gamepads();
         internal static Mice Mice { get; private set; } = new Mice();
 
+        private Input() { }
 
+        
+        // Start Of Frame
         internal override void OnStartOfFrame()
         {
             TouchScreenKeyboard.OnReset();
@@ -41,6 +45,36 @@ namespace Hybrid
             Keyboards.OnDispose();
             Gamepads.OnDispose();
             Mice.OnDispose();
+        }
+    }
+    
+    // Actions
+    public partial class Input
+    {
+        public static InputAction CreateAction(string name)
+        {
+            if (!Actions.TryGetValue(name, out InputAction action))
+            {
+                action = new InputAction(name);
+                Actions[name] = action;
+            }
+            
+            return action;
+        }
+        
+        public static bool GetButton(string name)
+        {
+            return Actions.GetValueOrDefault(name).GetKey();
+        }
+
+        public static bool GetButtonDown(string name)
+        {
+            return Actions.GetValueOrDefault(name).GetKeyDown();
+        }
+        
+        public static bool GetButtonUp(string name)
+        {
+            return Actions.GetValueOrDefault(name).GetKeyUp();
         }
     }
 

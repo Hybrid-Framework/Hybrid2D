@@ -7,7 +7,7 @@ namespace Hybrid
     {
         None    = 0,
         Down    = 1 << 0,
-        Hold    = 1 << 1,
+        Press   = 1 << 1,
         Release = 1 << 2,
     }
 }
