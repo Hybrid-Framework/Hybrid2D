@@ -5,15 +5,15 @@ namespace App
 {
     public class Inputs : MonoBehaviour
     {
-        private readonly InputAction action = Input.CreateAction("Jump");
+        private readonly InputAction action = Input.CreateAction("Action");
         
         public override void OnAwake()
         {
             action.Add
             (
-                GetKey: () => Input.GetGamepadAxis(Axis.LeftStickX) != 0,
-                GetKeyUp: () => Input.GetGamepadAxis(Axis.LeftStickX) != 0,
-                GetKeyDown: () => Input.GetGamepadAxis(Axis.LeftStickX) != 0
+                GetKey: () => Input.GetMouseButton(1),
+                GetKeyUp: () => Input.GetMouseButtonUp(1),
+                GetKeyDown: () => Input.GetMouseButtonDown(1)
             );
             
             action.Add
@@ -22,23 +22,38 @@ namespace App
                 GetKeyUp: () => Input.GetMouseButtonUp(0),
                 GetKeyDown: () => Input.GetMouseButtonDown(0)
             );
+            
+            action.Add
+            (
+                Value: () => Input.GetGamepadAxis(Axis.LeftTrigger)
+            );
+            
+            action.Add
+            (
+                Value: () => Input.GetGamepadAxis(Axis.RightTrigger)
+            );
         }
 
         public override void OnUpdate()
         {
-            if (Input.GetButtonDown("Jump"))
+            if (Input.GetButtonDown("Action"))
             {
-                Debug.Log("Down");
+                Debug.Log("Action Down");
             }
             
-            if (Input.GetButton("Jump"))
+            if (Input.GetButton("Action"))
             {
-                Debug.Log("Press");
+                Debug.Log("Action Press");
             }
             
-            if (Input.GetButtonUp("Jump"))
+            if (Input.GetButtonUp("Action"))
             {
-                Debug.Log("Up");
+                Debug.Log("Action Up");
+            }
+
+            if (Input.GetAxis("Action") != 0)
+            {
+                Debug.Log("Action Axis: " + Input.GetAxis("Action"));
             }
         }
     }

@@ -38,12 +38,12 @@ namespace Hybrid
             
             foreach (var button in Buttons.Keys)
             {
-                if (GetMouseButtonDown(button))
+                if (GetKeyDown(button))
                 {
                     Buttons[button] = State.Press;
                 }
 
-                if (GetMouseButtonUp(button))
+                if (GetKeyUp(button))
                 {
                     Buttons[button] = State.None;
                 }
@@ -100,7 +100,7 @@ namespace Hybrid
             }
         }
         
-        internal bool GetMouseButton(int button)
+        internal bool GetKey(int button)
         {
             if (Buttons.TryGetValue(button, out var state))
             {
@@ -110,7 +110,7 @@ namespace Hybrid
             return false;
         }
         
-        internal bool GetMouseButtonDown(int button)
+        internal bool GetKeyDown(int button)
         {
             if (Buttons.TryGetValue(button, out var state))
             {
@@ -120,7 +120,7 @@ namespace Hybrid
             return false;
         }
         
-        internal bool GetMouseButtonUp(int button)
+        internal bool GetKeyUp(int button)
         {
             if (Buttons.TryGetValue(button, out var state))
             {

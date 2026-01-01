@@ -62,19 +62,49 @@ namespace Hybrid
             return action;
         }
         
+        public static void DestroyAction(string name)
+        {
+            Actions.Remove(name);
+        }
+        
         public static bool GetButton(string name)
         {
-            return Actions.GetValueOrDefault(name).GetKey();
+            if (Actions.TryGetValue(name, out InputAction action))
+            {
+                return action.GetKey();
+            }
+
+            return false;
         }
 
         public static bool GetButtonDown(string name)
         {
-            return Actions.GetValueOrDefault(name).GetKeyDown();
+            if (Actions.TryGetValue(name, out InputAction action))
+            {
+                return action.GetKeyDown();
+            }
+
+            return false;
         }
         
         public static bool GetButtonUp(string name)
         {
-            return Actions.GetValueOrDefault(name).GetKeyUp();
+            if (Actions.TryGetValue(name, out InputAction action))
+            {
+                return action.GetKeyUp();
+            }
+
+            return false;
+        }
+
+        public static float GetAxis(string name)
+        {
+            if (Actions.TryGetValue(name, out InputAction action))
+            {
+                return action.GetAxis();
+            }
+
+            return 0;
         }
     }
 
@@ -194,7 +224,7 @@ namespace Hybrid
             {
                 if (mouse.Player == player || player == Player.Any)
                 {
-                    if (mouse.GetMouseButton(button))
+                    if (mouse.GetKey(button))
                     {
                         return true;
                     }
@@ -210,7 +240,7 @@ namespace Hybrid
             {
                 if (mouse.Player == player || player == Player.Any)
                 {
-                    if (mouse.GetMouseButtonDown(button))
+                    if (mouse.GetKeyDown(button))
                     {
                         return true;
                     }
@@ -226,7 +256,7 @@ namespace Hybrid
             {
                 if (mouse.Player == player || player == Player.Any)
                 {
-                    if (mouse.GetMouseButtonUp(button))
+                    if (mouse.GetKeyUp(button))
                     {
                         return true;
                     }
@@ -259,7 +289,7 @@ namespace Hybrid
             {
                 if (gamepad.Player == player || player == Player.Any)
                 {
-                    if (gamepad.GetButton(button))
+                    if (gamepad.GetKey(button))
                     {
                         return true;
                     }
@@ -275,7 +305,7 @@ namespace Hybrid
             {
                 if (gamepad.Player == player || player == Player.Any)
                 {
-                    if (gamepad.GetButtonDown(button))
+                    if (gamepad.GetKeyDown(button))
                     {
                         return true;
                     }
@@ -291,7 +321,7 @@ namespace Hybrid
             {
                 if (gamepad.Player == player || player == Player.Any)
                 {
-                    if (gamepad.GetButtonUp(button))
+                    if (gamepad.GetKeyUp(button))
                     {
                         return true;
                     }

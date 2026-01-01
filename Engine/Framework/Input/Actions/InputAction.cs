@@ -5,6 +5,7 @@ namespace Hybrid
 {
     public class InputAction
     {
+        private readonly List<InputAxis> Axis = new List<InputAxis>();
         private readonly List<InputKey> Keys = new List<InputKey>();
         internal string Name;
         
@@ -16,6 +17,11 @@ namespace Hybrid
         public void Add(Func<bool> GetKey, Func<bool> GetKeyDown, Func<bool> GetKeyUp)
         {
             Keys.Add(new InputKey(GetKey, GetKeyDown, GetKeyUp));
+        }
+        
+        public void Add(Func<float> Value)
+        {
+            Axis.Add(new InputAxis(Value));
         }
         
         public bool GetKey()
@@ -55,6 +61,19 @@ namespace Hybrid
             }
 
             return false;
+        }
+
+        public float GetAxis()
+        {
+            foreach (var axis in Axis)
+            {
+                if (axis.Value() > 0)
+                {
+                    return axis.Value();
+                }
+            }
+
+            return 0;
         }
     }
 }
