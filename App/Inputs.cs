@@ -22,9 +22,14 @@ namespace App
                 Debug.Log("Release");
             }
             
-            if (Input.GetMouseScrollDelta().X != 0 || Input.GetMouseScrollDelta().Y != 0)
+            if (Input.GetGamepadAxis(Axis.LeftStickX) != 0 || Input.GetGamepadAxis(Axis.LeftStickY) != 0)
             {
-                Debug.Log($"Scroll: {Input.GetMouseScrollDelta().X}, {Input.GetMouseScrollDelta().Y}");
+                Debug.Log($"Scroll: {Input.GetGamepadAxis(Axis.LeftStickX)}, {Input.GetGamepadAxis(Axis.LeftStickY)}");
+            }
+            
+            if (Input.GetGamepadAxis(Axis.RightStickX) != 0 || Input.GetGamepadAxis(Axis.RightStickY) != 0)
+            {
+                Debug.Log($"Scroll: {Input.GetGamepadAxis(Axis.RightStickX)}, {Input.GetGamepadAxis(Axis.RightStickY)}");
             }
             
             // if (Input.GetMousePositionDelta().X != 0 || Input.GetMousePositionDelta().Y != 0)

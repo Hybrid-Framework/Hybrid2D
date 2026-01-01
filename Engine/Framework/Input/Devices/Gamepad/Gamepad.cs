@@ -103,6 +103,11 @@ namespace Hybrid
                         float raw = e.gamepadAxis.value;
                         float value = raw >= 0 ? raw / 32767.0f : raw / 32768.0f;
 
+                        if (axis == Hybrid.Axis.LeftStickY || axis == Hybrid.Axis.RightStickY)
+                        {
+                            value *= -1;
+                        }
+
                         if (Maths.Abs(value) < DeadZone)
                         {
                             value = 0f;

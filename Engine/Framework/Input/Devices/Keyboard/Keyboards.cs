@@ -40,7 +40,7 @@ namespace Hybrid
                     {
                         if (e.keyboard.keyCode != SDL.KeyCode.Unknown)
                         {
-                            var keyboard = CreateKeyboard(e.keyboard.keyboardID);
+                            var keyboard = CreateKeyboard(e.keyboardDevice.keyboardID);
                             {
                                 keyboard?.OnEvent(e);
                             }
