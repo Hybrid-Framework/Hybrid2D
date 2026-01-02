@@ -3,7 +3,7 @@
 namespace Hybrid
 {
     [Flags]
-    internal enum State
+    internal enum KeyState
     {
         None    = 0,
         Down    = 1 << 0,

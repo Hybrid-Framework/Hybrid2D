@@ -3,7 +3,7 @@
 namespace Hybrid
 {
     [Flags]
-    public enum Modifier : ushort
+    public enum KeyModifier : ushort
     {
         None = 0,
         

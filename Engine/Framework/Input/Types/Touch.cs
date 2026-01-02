@@ -6,7 +6,7 @@ namespace Hybrid
     {
         internal Vector2 PositionDelta = Vector2.Zero;
         internal Vector2 Position = Vector2.Zero;
-        internal Phase Phase = Phase.None;
+        internal TouchPhase TouchPhase = TouchPhase.None;
         internal readonly int Finger;
         internal float Pressure;
         
@@ -20,20 +20,20 @@ namespace Hybrid
         {
             PositionDelta = Vector2.Zero;
 
-            if (Phase == Phase.Ended || Phase == Phase.Canceled)
+            if (TouchPhase == TouchPhase.Ended || TouchPhase == TouchPhase.Canceled)
             {
                 Position = Vector2.Zero;
-                Phase = Phase.None;
+                TouchPhase = TouchPhase.None;
             }
 
-            if (Phase == Phase.Began)
+            if (TouchPhase == TouchPhase.Began)
             {
-                Phase = Phase.Stationary;
+                TouchPhase = TouchPhase.Stationary;
             }
 
-            if (Phase == Phase.Moved)
+            if (TouchPhase == TouchPhase.Moved)
             {
-                Phase = Phase.Stationary;
+                TouchPhase = TouchPhase.Stationary;
             }
         }
         
@@ -57,9 +57,9 @@ namespace Hybrid
             return Finger;
         }
 
-        public Phase GetPhase()
+        public TouchPhase GetPhase()
         {
-            return Phase;
+            return TouchPhase;
         }
     }
 }

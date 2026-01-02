@@ -13,31 +13,39 @@ namespace App
         {
             action.Add
             (
-                GetKey: () => Input.GetMouseButton(1),
-                GetKeyUp: () => Input.GetMouseButtonUp(1),
-                GetKeyDown: () => Input.GetMouseButtonDown(1)
-            );
-            
-            action.Remove
-            (
-                GetKey: () => Input.GetMouseButton(1),
-                GetKeyUp: () => Input.GetMouseButtonUp(1),
-                GetKeyDown: () => Input.GetMouseButtonDown(1)
-            );
-
-            axis.Add
-            (
-                Value: () => Input.GetGamepadAxis(Axis.LeftStickX)
+                GetKey: () => Input.GetMouseButton(MouseButton.Left),
+                GetKeyUp: () => Input.GetMouseButtonUp(MouseButton.Left),
+                GetKeyDown: () => Input.GetMouseButtonDown(MouseButton.Left)
             );
 
             stick.Add
             (
-                Value: () => new Vector2(Input.GetGamepadAxis(Axis.LeftStickX), Input.GetGamepadAxis(Axis.LeftStickY))
+                Value: () => new Vector2(Input.GetMouseAxis(MouseAxis.MouseX), Input.GetMouseAxis(MouseAxis.MouseY))
+            );
+            
+            stick.Add
+            (
+                Value: () => new Vector2(Input.GetMouseAxis(MouseAxis.ScrollX), Input.GetMouseAxis(MouseAxis.ScrollY))
             );
         }
 
         public override void OnUpdate()
         {
+            if (Input.GetMouseButtonDown(MouseButton.Left))
+            {
+                Debug.Log("Left Mouse");
+            }
+            
+            if (Input.GetMouseButtonDown(MouseButton.Middle))
+            {
+                Debug.Log("Middle Mouse");
+            }
+            
+            if (Input.GetMouseButtonDown(MouseButton.Right))
+            {
+                Debug.Log("Right Mouse");
+            }
+            
             if (Input.GetButtonDown("Action"))
             {
                 Debug.Log("Action Down");

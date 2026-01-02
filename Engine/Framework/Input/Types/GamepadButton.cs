@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    public enum Button
+    public enum GamepadButton
     {
         South = 0,
         East = 1,

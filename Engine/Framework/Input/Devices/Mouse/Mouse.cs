@@ -5,7 +5,8 @@ namespace Hybrid
 {
     internal class Mouse : InputDevice
     {
-        internal readonly Dictionary<int, State> Buttons = new Dictionary<int, State>();
+        internal readonly Dictionary<MouseButton, KeyState> Buttons = new Dictionary<MouseButton, KeyState>();
+        internal readonly Dictionary<MouseAxis, float> Axis = new Dictionary<MouseAxis, float>();
         internal Vector2 PositionDelta = Vector2.Zero;
         internal Vector2 ScrollDelta = Vector2.Zero;
         internal Vector2 Position = Vector2.Zero;
@@ -18,9 +19,14 @@ namespace Hybrid
             this.Device = device;
             this.Player = player;
 
-            for (int i = 0; i < 8; i++)
+            foreach (MouseButton button in Enum.GetValues(typeof(MouseButton)))
             {
-                Buttons.Add(i, State.None);
+                Buttons.Add(button, KeyState.None);
+            }
+            
+            foreach (MouseAxis axis in Enum.GetValues(typeof(MouseAxis)))
+            {
+                Axis.Add(axis, 0);
             }
         }
         
@@ -28,6 +34,7 @@ namespace Hybrid
         internal override void OnDispose()
         {
             Buttons.Clear();
+            Axis.Clear();
         }
 
         // Reset
@@ -35,17 +42,22 @@ namespace Hybrid
         {
             PositionDelta = Vector2.Zero;
             ScrollDelta = Vector2.Zero;
-            
+
+            foreach (var axis in Axis.Keys)
+            {
+                Axis[axis] = 0f;
+            }
+
             foreach (var button in Buttons.Keys)
             {
                 if (GetKeyDown(button))
                 {
-                    Buttons[button] = State.Press;
+                    Buttons[button] = KeyState.Press;
                 }
 
                 if (GetKeyUp(button))
                 {
-                    Buttons[button] = State.None;
+                    Buttons[button] = KeyState.None;
                 }
             }
         }
@@ -62,7 +74,7 @@ namespace Hybrid
                     {
                         if (Buttons.ContainsKey(button))
                         {
-                            Buttons[button] = State.Release;
+                            Buttons[button] = KeyState.Release;
                         }
                     }
                     
@@ -76,7 +88,7 @@ namespace Hybrid
                     {
                         if (Buttons.ContainsKey(button))
                         {
-                            Buttons[button] = State.Down | State.Press;
+                            Buttons[button] = KeyState.Down | KeyState.Press;
                         }
                     }
                     
@@ -86,48 +98,69 @@ namespace Hybrid
                 // Mouse Wheel
                 case SDL.EventType.MouseWheel:
                 {
-                    ScrollDelta = new Vector2(Maths.Clamp(e.mouseWheel.x, -1, 1), Maths.Clamp(e.mouseWheel.y, -1, 1));
+                    var x = Maths.Clamp(e.mouseWheel.x, -1, 1);
+                    var y = Maths.Clamp(e.mouseWheel.y, -1, 1);
+                    
+                    ScrollDelta = new Vector2(x, y);
+                    
+                    Axis[MouseAxis.ScrollX] = x;
+                    Axis[MouseAxis.ScrollY] = y;
+                    
                     break;
                 }
 
                 // Mouse Motion
                 case SDL.EventType.MouseMotion:
                 {
-                    PositionDelta = new Vector2(e.mouseMotion.x_relative, e.mouseMotion.y_relative);
-                    Position = new Vector2(e.mouseMotion.x, e.mouseMotion.y);
+                    var x = e.mouseMotion.x;
+                    var y = e.mouseMotion.y;
+                    var deltaX = e.mouseMotion.x_relative;
+                    var deltaY = e.mouseMotion.y_relative;
+                    
+                    PositionDelta = new Vector2(deltaX, deltaY);
+                    Position = new Vector2(x, y);
+                    
+                    Axis[MouseAxis.MouseX] = deltaX;
+                    Axis[MouseAxis.MouseY] = deltaY;
+                    
                     break;
                 }
             }
         }
         
-        internal bool GetKey(int button)
+        internal bool GetKey(MouseButton button)
         {
             if (Buttons.TryGetValue(button, out var state))
             {
-                return (state & State.Press) != 0;
+                return (state & KeyState.Press) != 0;
             }
 
             return false;
         }
         
-        internal bool GetKeyDown(int button)
+        internal bool GetKeyDown(MouseButton button)
         {
             if (Buttons.TryGetValue(button, out var state))
             {
-                return (state & State.Down) != 0;
+                return (state & KeyState.Down) != 0;
             }
 
             return false;
         }
         
-        internal bool GetKeyUp(int button)
+        internal bool GetKeyUp(MouseButton button)
         {
             if (Buttons.TryGetValue(button, out var state))
             {
-                return (state & State.Release) != 0;
+                return (state & KeyState.Release) != 0;
             }
 
             return false;
+        }
+        
+        internal float GetAxis(MouseAxis axis)
+        {
+            return Axis.GetValueOrDefault(axis);
         }
         
         internal Vector2 GetPositonDelta()
@@ -145,28 +178,14 @@ namespace Hybrid
             return Position;
         }
         
-        private int Remap(byte button)
+        private MouseButton Remap(byte button)
         {
             return button switch
             {
-                1 => 0,
-                3 => 1,
-                2 => 2,
-                4 => 3,
-                5 => 4,
-                6 => 5,
-                7 => 6,
-                8 => 7,
-                9 => 8,
-                10 => 9,
-                11 => 10,
-                12 => 11,
-                13 => 12,
-                14 => 13,
-                15 => 14,
-                16 => 15,
-                
-                _ => -1
+                1 => MouseButton.Left,
+                2 => MouseButton.Middle,
+                3 => MouseButton.Right,
+                _ => MouseButton.Unknown
             };
         }
     }

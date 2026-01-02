@@ -56,10 +56,10 @@ namespace Hybrid
 
                         switch (e.type)
                         {
-                            case SDL.EventType.TouchFingerUp: touch.Phase = Phase.Ended;break;
-                            case SDL.EventType.TouchFingerDown: touch.Phase = Phase.Began; break;
-                            case SDL.EventType.TouchFingerMotion: touch.Phase = Phase.Moved; break;
-                            case SDL.EventType.TouchFingerCancel: touch.Phase = Phase.Canceled; break;
+                            case SDL.EventType.TouchFingerUp: touch.TouchPhase = TouchPhase.Ended;break;
+                            case SDL.EventType.TouchFingerDown: touch.TouchPhase = TouchPhase.Began; break;
+                            case SDL.EventType.TouchFingerMotion: touch.TouchPhase = TouchPhase.Moved; break;
+                            case SDL.EventType.TouchFingerCancel: touch.TouchPhase = TouchPhase.Canceled; break;
                         }
                     }
                     
@@ -79,7 +79,7 @@ namespace Hybrid
 
             foreach (var touch in Touches)
             {
-                if (touch.Phase != Phase.None)
+                if (touch.TouchPhase != TouchPhase.None)
                 {
                     count += 1;
                 }

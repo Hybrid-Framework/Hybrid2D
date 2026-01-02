@@ -5,7 +5,7 @@ namespace Hybrid
 {
     internal class Keyboard : InputDevice
     {
-        internal readonly Dictionary<Key, State> Keys = new Dictionary<Key, State>();
+        internal readonly Dictionary<Key, KeyState> Keys = new Dictionary<Key, KeyState>();
         internal Player Player;
         internal uint Device;
         
@@ -17,7 +17,7 @@ namespace Hybrid
             
             foreach (Key key in Enum.GetValues(typeof(Key)))
             {
-                Keys.Add(key, State.None);
+                Keys.Add(key, KeyState.None);
             }
         }
         
@@ -34,12 +34,12 @@ namespace Hybrid
             {
                 if (GetKeyDown(key))
                 {
-                    Keys[key] = State.Press;
+                    Keys[key] = KeyState.Press;
                 }
 
                 if (GetKeyUp(key))
                 {
-                    Keys[key] = State.None;
+                    Keys[key] = KeyState.None;
                 }
             }
         }
@@ -56,7 +56,7 @@ namespace Hybrid
                     {
                         if (Keys.ContainsKey(key))
                         {
-                            Keys[key] = State.Release;
+                            Keys[key] = KeyState.Release;
                         }
                     }
                     
@@ -70,7 +70,7 @@ namespace Hybrid
                     {
                         if (Keys.ContainsKey(key))
                         {
-                            Keys[key] = State.Down | State.Press;
+                            Keys[key] = KeyState.Down | KeyState.Press;
                         }
                     }
                     
@@ -79,11 +79,11 @@ namespace Hybrid
             }
         }
         
-        internal bool GetKeyModifier(Modifier modifier)
+        internal bool GetKeyModifier(KeyModifier keyModifier)
         {
-            Modifier current = (Modifier)SDL.GetModState();
+            KeyModifier current = (KeyModifier)SDL.GetModState();
             {
-                return (current & modifier) != 0;
+                return (current & keyModifier) != 0;
             }
         }
         
@@ -91,7 +91,7 @@ namespace Hybrid
         {
             if (Keys.TryGetValue(key, out var state))
             {
-                return (state & State.Press) != 0;
+                return (state & KeyState.Press) != 0;
             }
 
             return false;
@@ -101,7 +101,7 @@ namespace Hybrid
         {
             if (Keys.TryGetValue(key, out var state))
             {
-                return (state & State.Down) != 0;
+                return (state & KeyState.Down) != 0;
             }
 
             return false;
@@ -111,7 +111,7 @@ namespace Hybrid
         {
             if (Keys.TryGetValue(key, out var state))
             {
-                return (state & State.Release) != 0;
+                return (state & KeyState.Release) != 0;
             }
 
             return false;

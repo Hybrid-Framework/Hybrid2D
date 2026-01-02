@@ -5,8 +5,8 @@ namespace Hybrid
 {
     internal unsafe class Gamepad : InputDevice
     {
-        internal readonly Dictionary<Button, State> Buttons = new Dictionary<Button, State>();
-        internal readonly Dictionary<Axis, float> Axis = new Dictionary<Axis, float>();
+        internal readonly Dictionary<GamepadButton, KeyState> Buttons = new Dictionary<GamepadButton, KeyState>();
+        internal readonly Dictionary<GamepadAxis, float> Axis = new Dictionary<GamepadAxis, float>();
         internal float DeadZone = 0.2f;
         internal SDL.Gamepad* Handle;
         internal Player Player;
@@ -19,12 +19,12 @@ namespace Hybrid
             this.Player = player;
             this.Handle = handle;
             
-            foreach (Button button in Enum.GetValues(typeof(Button)))
+            foreach (GamepadButton button in Enum.GetValues(typeof(GamepadButton)))
             {
-                Buttons.Add(button, State.None);
+                Buttons.Add(button, KeyState.None);
             }
             
-            foreach (Axis axis in Enum.GetValues(typeof(Axis)))
+            foreach (GamepadAxis axis in Enum.GetValues(typeof(GamepadAxis)))
             {
                 Axis.Add(axis, 0);
             }
@@ -50,12 +50,12 @@ namespace Hybrid
             {
                 if (GetKeyDown(button))
                 {
-                    Buttons[button] = State.Press;
+                    Buttons[button] = KeyState.Press;
                 }
 
                 if (GetKeyUp(button))
                 {
-                    Buttons[button] = State.None;
+                    Buttons[button] = KeyState.None;
                 }
             }
         }
@@ -68,11 +68,11 @@ namespace Hybrid
                 // Gamepad Up
                 case SDL.EventType.GamepadButtonUp:
                 {
-                    var button = (Button)e.gamepadButton.button;
+                    var button = (GamepadButton)e.gamepadButton.button;
                     {
                         if (Buttons.ContainsKey(button))
                         {
-                            Buttons[button] = State.Release;
+                            Buttons[button] = KeyState.Release;
                         }
                     }
                     
@@ -82,11 +82,11 @@ namespace Hybrid
                 // Gamepad Down
                 case SDL.EventType.GamepadButtonDown:
                 {
-                    var button = (Button)e.gamepadButton.button;
+                    var button = (GamepadButton)e.gamepadButton.button;
                     {
                         if (Buttons.ContainsKey(button))
                         {
-                            Buttons[button] = State.Down | State.Press;
+                            Buttons[button] = KeyState.Down | KeyState.Press;
                         }
                     }
                     
@@ -96,14 +96,14 @@ namespace Hybrid
                 // Gamepad Axis
                 case SDL.EventType.GamepadAxisMotion:
                 {
-                    var axis = (Axis)e.gamepadAxis.axis;
+                    var axis = (GamepadAxis)e.gamepadAxis.axis;
             
                     if (Axis.ContainsKey(axis))
                     {
                         float raw = e.gamepadAxis.value;
                         float value = raw >= 0 ? raw / 32767.0f : raw / 32768.0f;
 
-                        if (axis == Hybrid.Axis.LeftStickY || axis == Hybrid.Axis.RightStickY)
+                        if (axis == GamepadAxis.LeftStickY || axis == GamepadAxis.RightStickY)
                         {
                             value *= -1;
                         }
@@ -129,37 +129,37 @@ namespace Hybrid
             }
         }
 
-        internal bool GetKey(Button button)
+        internal bool GetKey(GamepadButton button)
         {
             if (Buttons.TryGetValue(button, out var state))
             {
-                return (state & State.Press) != 0;
+                return (state & KeyState.Press) != 0;
             }
 
             return false;
         }
         
-        internal bool GetKeyDown(Button button)
+        internal bool GetKeyDown(GamepadButton button)
         {
             if (Buttons.TryGetValue(button, out var state))
             {
-                return (state & State.Down) != 0;
+                return (state & KeyState.Down) != 0;
             }
 
             return false;
         }
         
-        internal bool GetKeyUp(Button button)
+        internal bool GetKeyUp(GamepadButton button)
         {
             if (Buttons.TryGetValue(button, out var state))
             {
-                return (state & State.Release) != 0;
+                return (state & KeyState.Release) != 0;
             }
 
             return false;
         }
         
-        internal float GetAxis(Axis axis)
+        internal float GetAxis(GamepadAxis axis)
         {
             return Axis.GetValueOrDefault(axis);
         }

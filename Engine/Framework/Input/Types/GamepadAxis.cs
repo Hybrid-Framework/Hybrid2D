@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    public enum Axis
+    public enum GamepadAxis
     {
         LeftStickX = 0,
         LeftStickY = 1,
