@@ -71,5 +71,20 @@ namespace Hybrid
         {
             return Touches[(int)Maths.Clamp(finger, 0, MaxTouches - 1)];
         }
+        
+        internal int TouchCount()
+        {
+            int count = 0;
+
+            foreach (var touch in Touches)
+            {
+                if (touch.Phase != Phase.None)
+                {
+                    count += 1;
+                }
+            }
+
+            return count;
+        }
     }
 }

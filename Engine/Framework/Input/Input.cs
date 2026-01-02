@@ -383,7 +383,7 @@ namespace Hybrid
             return false;
         }
         
-        public static void GamepadRumble(ushort low, ushort high, uint ms, Player player = Player.Any)
+        public static void SetGamepadRumble(ushort low, ushort high, uint ms, Player player = Player.Any)
         {
             foreach (var gamepad in Gamepads.AllGamepads)
             {
@@ -398,6 +398,22 @@ namespace Hybrid
     // Touch
     public partial class Input
     {
+        public static int TouchCount(Player player = Player.Any)
+        {
+            foreach (var touchscreen in TouchScreens.AllTouchscreens)
+            {
+                if (touchscreen.Player == player || player == Player.Any)
+                {
+                    if (touchscreen.TouchCount() > 0)
+                    {
+                        return touchscreen.TouchCount();
+                    }
+                }
+            }
+
+            return 0;
+        }
+        
         public static Touch GetTouch(int finger, Player player = Player.Any)
         {
             foreach (var touchscreen in TouchScreens.AllTouchscreens)
