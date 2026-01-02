@@ -8,6 +8,7 @@ namespace Hybrid
         internal Vector2 Position = Vector2.Zero;
         internal Phase Phase = Phase.None;
         internal readonly int Finger;
+        internal float Pressure;
         
         
         internal Touch(int finger)
@@ -44,6 +45,11 @@ namespace Hybrid
         public Vector2 GetPosition()
         {
             return Position;
+        }
+
+        public float GetPressure()
+        {
+            return Pressure;
         }
 
         public int GetFinger()
