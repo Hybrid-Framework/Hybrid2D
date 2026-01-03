@@ -10,7 +10,7 @@ namespace Hybrid
         internal static TouchScreens TouchScreens { get; private set; } = new TouchScreens();
         internal static Keyboards Keyboards { get; private set; } = new Keyboards();
         internal static Gamepads Gamepads { get; private set; } = new Gamepads();
-        internal static Mice Mice { get; private set; } = new Mice();
+        internal static Mouses Mouses { get; private set; } = new Mouses();
 
         private Input() { }
 
@@ -22,7 +22,7 @@ namespace Hybrid
             TouchScreens.OnReset();
             Keyboards.OnReset();
             Gamepads.OnReset();
-            Mice.OnReset();
+            Mouses.OnReset();
         }
 
         // Events
@@ -32,7 +32,7 @@ namespace Hybrid
             TouchScreens.OnEvent(e);
             Keyboards.OnEvent(e);
             Gamepads.OnEvent(e);
-            Mice.OnEvent(e);
+            Mouses.OnEvent(e);
         }
 
         // Dispose
@@ -42,27 +42,29 @@ namespace Hybrid
             TouchScreens.OnDispose();
             Keyboards.OnDispose();
             Gamepads.OnDispose();
-            Mice.OnDispose();
+            Mouses.OnDispose();
         }
     }
 
     // Keyboard
     public partial class Input
     {
-        public static bool GetKeyboardModifier(KeyModifier keyModifier, Player player = Player.Any)
+        public static float GetKeyboardAxis(KeyboardAxis axis, Player player = Player.Any)
         {
             foreach (var keyboard in Keyboards.AllKeyboards)
             {
                 if (keyboard.Player == player || player == Player.Any)
                 {
-                    if (keyboard.GetModifier(keyModifier))
+                    var value = keyboard.GetAxis(axis);
+
+                    if (value != 0)
                     {
-                        return true;
+                        return value;
                     }
                 }
             }
             
-            return false;
+            return 0;
         }
         
         public static bool GetKeyboardButton(KeyboardButton keyboardButton, Player player = Player.Any)
@@ -119,7 +121,7 @@ namespace Hybrid
     {
         public static float GetMouseAxis(MouseAxis axis, Player player = Player.Any)
         {
-            foreach (var mouse in Mice.AllMice)
+            foreach (var mouse in Mouses.AllMouses)
             {
                 if (mouse.Player == player || player == Player.Any)
                 {
@@ -137,7 +139,7 @@ namespace Hybrid
         
         public static Vector2 GetMousePositionDelta(Player player = Player.Any)
         {
-            foreach (var mouse in Mice.AllMice)
+            foreach (var mouse in Mouses.AllMouses)
             {
                 if (mouse.Player == player || player == Player.Any)
                 {
@@ -155,7 +157,7 @@ namespace Hybrid
         
         public static Vector2 GetMouseScrollDelta(Player player = Player.Any)
         {
-            foreach (var mouse in Mice.AllMice)
+            foreach (var mouse in Mouses.AllMouses)
             {
                 if (mouse.Player == player || player == Player.Any)
                 {
@@ -173,7 +175,7 @@ namespace Hybrid
         
         public static Vector2 GetMousePosition(Player player = Player.Any)
         {
-            foreach (var mouse in Mice.AllMice)
+            foreach (var mouse in Mouses.AllMouses)
             {
                 if (mouse.Player == player || player == Player.Any)
                 {
@@ -191,7 +193,7 @@ namespace Hybrid
         
         public static bool GetMouseButton(MouseButton button, Player player = Player.Any)
         {
-            foreach (var mouse in Mice.AllMice)
+            foreach (var mouse in Mouses.AllMouses)
             {
                 if (mouse.Player == player || player == Player.Any)
                 {
@@ -207,7 +209,7 @@ namespace Hybrid
         
         public static bool GetMouseButtonUp(MouseButton button, Player player = Player.Any)
         {
-            foreach (var mouse in Mice.AllMice)
+            foreach (var mouse in Mouses.AllMouses)
             {
                 if (mouse.Player == player || player == Player.Any)
                 {
@@ -223,7 +225,7 @@ namespace Hybrid
         
         public static bool GetMouseButtonDown(MouseButton button, Player player = Player.Any)
         {
-            foreach (var mouse in Mice.AllMice)
+            foreach (var mouse in Mouses.AllMouses)
             {
                 if (mouse.Player == player || player == Player.Any)
                 {
@@ -330,7 +332,7 @@ namespace Hybrid
             {
                 if (touchscreen.Player == player || player == Player.Any)
                 {
-                    var value = touchscreen.TouchCount();
+                    var value = touchscreen.GetTouchCount();
                     
                     if (value > 0)
                     {

@@ -73,7 +73,7 @@ namespace Hybrid
             return Touches[(int)Maths.Clamp(finger, 0, MaxTouches - 1)];
         }
         
-        internal int TouchCount()
+        internal int GetTouchCount()
         {
             int count = 0;
 

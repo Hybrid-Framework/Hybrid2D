@@ -2,7 +2,7 @@
 
 internal static unsafe partial class SDL
 {
-    public enum GamepadAxis
+    public enum GamepadAxis : byte
     {
         LeftStickX = 0,
         LeftStickY = 1,

@@ -6,7 +6,7 @@ namespace Hybrid
     internal unsafe class Gamepad : InputDevice
     {
         internal readonly Dictionary<GamepadButton, State> Buttons = new Dictionary<GamepadButton, State>();
-        internal readonly Dictionary<GamepadAxis, float> Axis = new Dictionary<GamepadAxis, float>();
+        internal readonly Dictionary<GamepadAxis, float> Axes = new Dictionary<GamepadAxis, float>();
         internal float DeadZone = 0.2f;
         internal SDL.Gamepad* Handle;
         internal Player Player;
@@ -26,7 +26,7 @@ namespace Hybrid
             
             foreach (GamepadAxis axis in Enum.GetValues(typeof(GamepadAxis)))
             {
-                Axis.Add(axis, 0);
+                Axes.Add(axis, 0);
             }
         }
         
@@ -38,9 +38,6 @@ namespace Hybrid
                 SDL.CloseGamepad(Handle);
                 Handle = null;
             }
-            
-            Buttons.Clear();
-            Axis.Clear();
         }
 
         // Reset
@@ -68,11 +65,22 @@ namespace Hybrid
                 // Gamepad Up
                 case SDL.EventType.GamepadButtonUp:
                 {
-                    var button = (GamepadButton)e.gamepadButton.button;
+                    var button = InputMapping.GetGamepadButtonFromSDL(e.gamepadButton.button);
                     {
-                        if (Buttons.ContainsKey(button))
+                        if (button != GamepadButton.Unknown)
                         {
-                            Buttons[button] = State.Release;
+                            if (Buttons.ContainsKey(button))
+                            {
+                                Buttons[button] = State.Release;
+                            }
+                        }
+                        
+                        switch (button)
+                        {
+                            case GamepadButton.DpadRight: Axes[GamepadAxis.DpadX] -= 1; break;
+                            case GamepadButton.DpadLeft: Axes[GamepadAxis.DpadX] += 1; break;
+                            case GamepadButton.DpadDown: Axes[GamepadAxis.DpadY] += 1; break;
+                            case GamepadButton.DpadUp: Axes[GamepadAxis.DpadY] -= 1; break;
                         }
                     }
                     
@@ -82,11 +90,22 @@ namespace Hybrid
                 // Gamepad Down
                 case SDL.EventType.GamepadButtonDown:
                 {
-                    var button = (GamepadButton)e.gamepadButton.button;
+                    var button = InputMapping.GetGamepadButtonFromSDL(e.gamepadButton.button);
                     {
-                        if (Buttons.ContainsKey(button))
+                        if (button != GamepadButton.Unknown)
                         {
-                            Buttons[button] = State.Down | State.Press;
+                            if (Buttons.ContainsKey(button))
+                            {
+                                Buttons[button] = State.Down | State.Press;
+                            }
+                        }
+                        
+                        switch (button)
+                        {
+                            case GamepadButton.DpadRight: Axes[GamepadAxis.DpadX] += 1; break;
+                            case GamepadButton.DpadLeft: Axes[GamepadAxis.DpadX] -= 1; break;
+                            case GamepadButton.DpadDown: Axes[GamepadAxis.DpadY] -= 1; break;
+                            case GamepadButton.DpadUp: Axes[GamepadAxis.DpadY] += 1; break;
                         }
                     }
                     
@@ -96,17 +115,21 @@ namespace Hybrid
                 // Gamepad Axis
                 case SDL.EventType.GamepadAxisMotion:
                 {
-                    var axis = (GamepadAxis)e.gamepadAxis.axis;
-            
-                    if (Axis.ContainsKey(axis))
+                    var axis = InputMapping.GetGamepadAxisFromSDL(e.gamepadAxis.axis);
                     {
-                        float raw = e.gamepadAxis.value;
-                        float value = raw >= 0 ? raw / 32767.0f : raw / 32768.0f;
+                        if (axis != GamepadAxis.Unknown)
+                        {
+                            if (Axes.ContainsKey(axis))
+                            {
+                                float raw = e.gamepadAxis.value;
+                                float value = raw >= 0 ? raw / 32767.0f : raw / 32768.0f;
 
-                        if (axis == GamepadAxis.LeftY || axis == GamepadAxis.RightY) value *= -1;
-                        if (Maths.Abs(value) < DeadZone) value = 0f;
+                                if (axis == GamepadAxis.LeftY || axis == GamepadAxis.RightY) value *= -1;
+                                if (Maths.Abs(value) < DeadZone) value = 0f;
                         
-                        Axis[axis] = value;
+                                Axes[axis] = value;
+                            }
+                        }
                     }
                     
                     break;
@@ -146,7 +169,7 @@ namespace Hybrid
         
         internal float GetAxis(GamepadAxis axis)
         {
-            return Axis.GetValueOrDefault(axis);
+            return Axes.GetValueOrDefault(axis);
         }
     }
 }

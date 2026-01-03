@@ -3,16 +3,16 @@ using System;
 
 namespace Hybrid
 {
-    internal class Mice : InputDevice
+    internal class Mouses : InputDevice
     {
-        internal readonly List<Mouse> AllMice = new List<Mouse>();
+        internal readonly List<Mouse> AllMouses = new List<Mouse>();
         internal const int MaxMice = 4;
         
 
         // Dispose
         internal override void OnDispose()
         {
-            foreach (var mouse in AllMice.ToArray())
+            foreach (var mouse in AllMouses.ToArray())
             {
                 DestroyMouse(mouse.Device);
             }
@@ -21,7 +21,7 @@ namespace Hybrid
         // Reset
         internal override void OnReset()
         {
-            foreach (var mouse in AllMice)
+            foreach (var mouse in AllMouses)
             {
                 mouse.OnReset();
             }
@@ -70,7 +70,7 @@ namespace Hybrid
                         Debug.Log($"Mouse {device} {player} connected");
                         
                         var mouse = new Mouse(device, player);
-                        AllMice.Add(mouse);
+                        AllMouses.Add(mouse);
                         return mouse;
                     }
                 }
@@ -87,14 +87,14 @@ namespace Hybrid
             {
                 Debug.Log($"Mouse {mouse.Device} {mouse.Player} disconnected");
                 
-                AllMice.Remove(mouse);
+                AllMouses.Remove(mouse);
                 mouse.OnDispose();
             }
         }
         
         internal Mouse GetMouseByPlayer(Player player)
         {
-            foreach (var mouse in AllMice)
+            foreach (var mouse in AllMouses)
             {
                 if (mouse.Player == player)
                 {
@@ -107,7 +107,7 @@ namespace Hybrid
 
         internal Mouse GetMouseByDevice(uint device)
         {
-            foreach (var mouse in AllMice)
+            foreach (var mouse in AllMouses)
             {
                 if (mouse.Device == device)
                 {

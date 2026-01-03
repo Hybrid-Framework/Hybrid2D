@@ -6,6 +6,7 @@ namespace Hybrid
     internal class Keyboard : InputDevice
     {
         internal readonly Dictionary<KeyboardButton, State> Buttons = new Dictionary<KeyboardButton, State>();
+        internal readonly Dictionary<KeyboardAxis, float> Axes = new Dictionary<KeyboardAxis, float>();
         internal Player Player;
         internal uint Device;
         
@@ -19,12 +20,11 @@ namespace Hybrid
             {
                 Buttons.Add(key, State.None);
             }
-        }
-        
-        // Dispose
-        internal override void OnDispose()
-        {
-            Buttons.Clear();
+            
+            foreach (KeyboardAxis axis in Enum.GetValues(typeof(KeyboardAxis)))
+            {
+                Axes.Add(axis, 0);
+            }
         }
 
         // Reset
@@ -52,11 +52,26 @@ namespace Hybrid
                 // Keyboard Up
                 case SDL.EventType.KeyboardButtonUp:
                 {
-                    var key = (KeyboardButton)e.keyboard.keyCode;
+                    var button = InputMapping.GetKeyboardButtonFromSDL(e.keyboard.keyCode);
                     {
-                        if (Buttons.ContainsKey(key))
+                        if (button != KeyboardButton.Unknown)
                         {
-                            Buttons[key] = State.Release;
+                            if (Buttons.ContainsKey(button))
+                            {
+                                Buttons[button] = State.Release;
+                            }
+                        }
+                        
+                        switch (button)
+                        {
+                            case KeyboardButton.RightArrow: Axes[KeyboardAxis.ArrowX] -= 1; break;
+                            case KeyboardButton.LeftArrow: Axes[KeyboardAxis.ArrowX] += 1; break;
+                            case KeyboardButton.DownArrow: Axes[KeyboardAxis.ArrowY] += 1; break;
+                            case KeyboardButton.UpArrow: Axes[KeyboardAxis.ArrowY] -= 1; break;
+                            case KeyboardButton.D: Axes[KeyboardAxis.KeyboardX] -= 1; break;
+                            case KeyboardButton.A: Axes[KeyboardAxis.KeyboardX] += 1; break;
+                            case KeyboardButton.S: Axes[KeyboardAxis.KeyboardY] += 1; break;
+                            case KeyboardButton.W: Axes[KeyboardAxis.KeyboardY] -= 1; break;
                         }
                     }
                     
@@ -66,11 +81,26 @@ namespace Hybrid
                 // Keyboard Down
                 case SDL.EventType.KeyboardButtonDown:
                 {
-                    var key = (KeyboardButton)e.keyboard.keyCode;
+                    var button = InputMapping.GetKeyboardButtonFromSDL(e.keyboard.keyCode);
                     {
-                        if (Buttons.ContainsKey(key))
+                        if (button != KeyboardButton.Unknown)
                         {
-                            Buttons[key] = State.Down | State.Press;
+                            if (Buttons.ContainsKey(button))
+                            {
+                                Buttons[button] = State.Down | State.Press;
+                            }
+                        }
+                        
+                        switch (button)
+                        {
+                            case KeyboardButton.RightArrow: Axes[KeyboardAxis.ArrowX] += 1; break;
+                            case KeyboardButton.LeftArrow: Axes[KeyboardAxis.ArrowX] -= 1; break;
+                            case KeyboardButton.DownArrow: Axes[KeyboardAxis.ArrowY] -= 1; break;
+                            case KeyboardButton.UpArrow: Axes[KeyboardAxis.ArrowY] += 1; break;
+                            case KeyboardButton.D: Axes[KeyboardAxis.KeyboardX] += 1; break;
+                            case KeyboardButton.A: Axes[KeyboardAxis.KeyboardX] -= 1; break;
+                            case KeyboardButton.S: Axes[KeyboardAxis.KeyboardY] -= 1; break;
+                            case KeyboardButton.W: Axes[KeyboardAxis.KeyboardY] += 1; break;
                         }
                     }
                     
@@ -79,17 +109,9 @@ namespace Hybrid
             }
         }
         
-        internal bool GetModifier(KeyModifier keyModifier)
+        internal bool GetButton(KeyboardButton button)
         {
-            KeyModifier current = (KeyModifier)SDL.GetModState();
-            {
-                return (current & keyModifier) != 0;
-            }
-        }
-        
-        internal bool GetButton(KeyboardButton keyboardButton)
-        {
-            if (Buttons.TryGetValue(keyboardButton, out var state))
+            if (Buttons.TryGetValue(button, out var state))
             {
                 return (state & State.Press) != 0;
             }
@@ -97,9 +119,9 @@ namespace Hybrid
             return false;
         }
         
-        internal bool GetButtonUp(KeyboardButton keyboardButton)
+        internal bool GetButtonUp(KeyboardButton button)
         {
-            if (Buttons.TryGetValue(keyboardButton, out var state))
+            if (Buttons.TryGetValue(button, out var state))
             {
                 return (state & State.Release) != 0;
             }
@@ -107,14 +129,19 @@ namespace Hybrid
             return false;
         }
         
-        internal bool GetButtonDown(KeyboardButton keyboardButton)
+        internal bool GetButtonDown(KeyboardButton button)
         {
-            if (Buttons.TryGetValue(keyboardButton, out var state))
+            if (Buttons.TryGetValue(button, out var state))
             {
                 return (state & State.Down) != 0;
             }
 
             return false;
+        }
+        
+        internal float GetAxis(KeyboardAxis axis)
+        {
+            return Axes.GetValueOrDefault(axis);
         }
     }
 }
