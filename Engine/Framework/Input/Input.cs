@@ -119,24 +119,6 @@ namespace Hybrid
     // Mouse
     public partial class Input
     {
-        public static float GetMouseAxis(MouseAxis axis, Player player = Player.Any)
-        {
-            foreach (var mouse in Mouses.AllMouses)
-            {
-                if (mouse.Player == player || player == Player.Any)
-                {
-                    var value = mouse.GetAxis(axis);
-
-                    if (value != 0)
-                    {
-                        return value;
-                    }
-                }
-            }
-            
-            return 0;
-        }
-        
         public static Vector2 GetMousePositionDelta(Player player = Player.Any)
         {
             foreach (var mouse in Mouses.AllMouses)
@@ -189,6 +171,24 @@ namespace Hybrid
             }
             
             return Vector2.Zero;
+        }
+        
+        public static float GetMouseAxis(MouseAxis axis, Player player = Player.Any)
+        {
+            foreach (var mouse in Mouses.AllMouses)
+            {
+                if (mouse.Player == player || player == Player.Any)
+                {
+                    var value = mouse.GetAxis(axis);
+
+                    if (value != 0)
+                    {
+                        return value;
+                    }
+                }
+            }
+            
+            return 0;
         }
         
         public static bool GetMouseButton(MouseButton button, Player player = Player.Any)

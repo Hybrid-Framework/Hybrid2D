@@ -5,7 +5,7 @@ namespace Hybrid
 {
     internal static class InputMapping
     {
-        private static readonly Dictionary<SDL.KeyCode, KeyboardButton> SDLKeyCodeMap = new()
+        private static readonly Dictionary<SDL.KeyCode, KeyboardButton> SDLKeyboardButtonMap = new()
         {
             { SDL.KeyCode.A, KeyboardButton.A },
             { SDL.KeyCode.B, KeyboardButton.B },
@@ -124,7 +124,7 @@ namespace Hybrid
 
         internal static KeyboardButton GetKeyboardButtonFromSDL(SDL.KeyCode keyCode)
         {
-            return SDLKeyCodeMap.GetValueOrDefault(keyCode);
+            return SDLKeyboardButtonMap.GetValueOrDefault(keyCode);
         }
         
         internal static GamepadButton GetGamepadButtonFromSDL(SDL.GamepadButton button)

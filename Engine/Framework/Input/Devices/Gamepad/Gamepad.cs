@@ -5,10 +5,11 @@ namespace Hybrid
 {
     internal unsafe class Gamepad : InputDevice
     {
+        internal SDL.Gamepad* Handle;
+        
         internal readonly Dictionary<GamepadButton, State> Buttons = new Dictionary<GamepadButton, State>();
         internal readonly Dictionary<GamepadAxis, float> Axes = new Dictionary<GamepadAxis, float>();
         internal float DeadZone = 0.2f;
-        internal SDL.Gamepad* Handle;
         internal Player Player;
         internal uint Device;
         
