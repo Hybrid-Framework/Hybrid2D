@@ -5,7 +5,7 @@ namespace Hybrid
 {
     internal class Keyboard : InputDevice
     {
-        internal readonly Dictionary<Key, KeyState> Keys = new Dictionary<Key, KeyState>();
+        internal readonly Dictionary<KeyboardButton, State> Buttons = new Dictionary<KeyboardButton, State>();
         internal Player Player;
         internal uint Device;
         
@@ -15,31 +15,31 @@ namespace Hybrid
             this.Device = device;
             this.Player = player;
             
-            foreach (Key key in Enum.GetValues(typeof(Key)))
+            foreach (KeyboardButton key in Enum.GetValues(typeof(KeyboardButton)))
             {
-                Keys.Add(key, KeyState.None);
+                Buttons.Add(key, State.None);
             }
         }
         
         // Dispose
         internal override void OnDispose()
         {
-            Keys.Clear();
+            Buttons.Clear();
         }
 
         // Reset
         internal override void OnReset()
         {
-            foreach (var key in Keys.Keys)
+            foreach (var key in Buttons.Keys)
             {
-                if (GetKeyDown(key))
+                if (GetButtonDown(key))
                 {
-                    Keys[key] = KeyState.Press;
+                    Buttons[key] = State.Press;
                 }
 
-                if (GetKeyUp(key))
+                if (GetButtonUp(key))
                 {
-                    Keys[key] = KeyState.None;
+                    Buttons[key] = State.None;
                 }
             }
         }
@@ -52,11 +52,11 @@ namespace Hybrid
                 // Keyboard Up
                 case SDL.EventType.KeyboardButtonUp:
                 {
-                    var key = (Key)e.keyboard.keyCode;
+                    var key = (KeyboardButton)e.keyboard.keyCode;
                     {
-                        if (Keys.ContainsKey(key))
+                        if (Buttons.ContainsKey(key))
                         {
-                            Keys[key] = KeyState.Release;
+                            Buttons[key] = State.Release;
                         }
                     }
                     
@@ -66,11 +66,11 @@ namespace Hybrid
                 // Keyboard Down
                 case SDL.EventType.KeyboardButtonDown:
                 {
-                    var key = (Key)e.keyboard.keyCode;
+                    var key = (KeyboardButton)e.keyboard.keyCode;
                     {
-                        if (Keys.ContainsKey(key))
+                        if (Buttons.ContainsKey(key))
                         {
-                            Keys[key] = KeyState.Down | KeyState.Press;
+                            Buttons[key] = State.Down | State.Press;
                         }
                     }
                     
@@ -79,7 +79,7 @@ namespace Hybrid
             }
         }
         
-        internal bool GetKeyModifier(KeyModifier keyModifier)
+        internal bool GetModifier(KeyModifier keyModifier)
         {
             KeyModifier current = (KeyModifier)SDL.GetModState();
             {
@@ -87,31 +87,31 @@ namespace Hybrid
             }
         }
         
-        internal bool GetKey(Key key)
+        internal bool GetButton(KeyboardButton keyboardButton)
         {
-            if (Keys.TryGetValue(key, out var state))
+            if (Buttons.TryGetValue(keyboardButton, out var state))
             {
-                return (state & KeyState.Press) != 0;
+                return (state & State.Press) != 0;
             }
 
             return false;
         }
         
-        internal bool GetKeyDown(Key key)
+        internal bool GetButtonUp(KeyboardButton keyboardButton)
         {
-            if (Keys.TryGetValue(key, out var state))
+            if (Buttons.TryGetValue(keyboardButton, out var state))
             {
-                return (state & KeyState.Down) != 0;
+                return (state & State.Release) != 0;
             }
 
             return false;
         }
         
-        internal bool GetKeyUp(Key key)
+        internal bool GetButtonDown(KeyboardButton keyboardButton)
         {
-            if (Keys.TryGetValue(key, out var state))
+            if (Buttons.TryGetValue(keyboardButton, out var state))
             {
-                return (state & KeyState.Release) != 0;
+                return (state & State.Down) != 0;
             }
 
             return false;

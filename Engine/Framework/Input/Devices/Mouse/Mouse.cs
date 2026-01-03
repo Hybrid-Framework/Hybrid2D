@@ -5,7 +5,7 @@ namespace Hybrid
 {
     internal class Mouse : InputDevice
     {
-        internal readonly Dictionary<MouseButton, KeyState> Buttons = new Dictionary<MouseButton, KeyState>();
+        internal readonly Dictionary<MouseButton, State> Buttons = new Dictionary<MouseButton, State>();
         internal readonly Dictionary<MouseAxis, float> Axis = new Dictionary<MouseAxis, float>();
         internal Vector2 PositionDelta = Vector2.Zero;
         internal Vector2 ScrollDelta = Vector2.Zero;
@@ -21,7 +21,7 @@ namespace Hybrid
 
             foreach (MouseButton button in Enum.GetValues(typeof(MouseButton)))
             {
-                Buttons.Add(button, KeyState.None);
+                Buttons.Add(button, State.None);
             }
             
             foreach (MouseAxis axis in Enum.GetValues(typeof(MouseAxis)))
@@ -50,14 +50,14 @@ namespace Hybrid
 
             foreach (var button in Buttons.Keys)
             {
-                if (GetKeyDown(button))
+                if (GetButtonDown(button))
                 {
-                    Buttons[button] = KeyState.Press;
+                    Buttons[button] = State.Press;
                 }
 
-                if (GetKeyUp(button))
+                if (GetButtonUp(button))
                 {
-                    Buttons[button] = KeyState.None;
+                    Buttons[button] = State.None;
                 }
             }
         }
@@ -74,7 +74,7 @@ namespace Hybrid
                     {
                         if (Buttons.ContainsKey(button))
                         {
-                            Buttons[button] = KeyState.Release;
+                            Buttons[button] = State.Release;
                         }
                     }
                     
@@ -88,7 +88,7 @@ namespace Hybrid
                     {
                         if (Buttons.ContainsKey(button))
                         {
-                            Buttons[button] = KeyState.Down | KeyState.Press;
+                            Buttons[button] = State.Down | State.Press;
                         }
                     }
                     
@@ -128,31 +128,31 @@ namespace Hybrid
             }
         }
         
-        internal bool GetKey(MouseButton button)
+        internal bool GetButton(MouseButton button)
         {
             if (Buttons.TryGetValue(button, out var state))
             {
-                return (state & KeyState.Press) != 0;
+                return (state & State.Press) != 0;
             }
 
             return false;
         }
         
-        internal bool GetKeyDown(MouseButton button)
+        internal bool GetButtonUp(MouseButton button)
         {
             if (Buttons.TryGetValue(button, out var state))
             {
-                return (state & KeyState.Down) != 0;
+                return (state & State.Release) != 0;
             }
 
             return false;
         }
         
-        internal bool GetKeyUp(MouseButton button)
+        internal bool GetButtonDown(MouseButton button)
         {
             if (Buttons.TryGetValue(button, out var state))
             {
-                return (state & KeyState.Release) != 0;
+                return (state & State.Down) != 0;
             }
 
             return false;
@@ -185,6 +185,7 @@ namespace Hybrid
                 1 => MouseButton.Left,
                 2 => MouseButton.Middle,
                 3 => MouseButton.Right,
+                
                 _ => MouseButton.Unknown
             };
         }

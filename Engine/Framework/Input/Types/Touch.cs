@@ -4,9 +4,9 @@ namespace Hybrid
 {
     public class Touch
     {
+        internal TouchPhase TouchPhase = TouchPhase.None;
         internal Vector2 PositionDelta = Vector2.Zero;
         internal Vector2 Position = Vector2.Zero;
-        internal TouchPhase TouchPhase = TouchPhase.None;
         internal readonly int Finger;
         internal float Pressure;
         

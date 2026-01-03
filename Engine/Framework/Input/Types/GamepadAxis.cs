@@ -4,11 +4,13 @@ namespace Hybrid
 {
     public enum GamepadAxis
     {
-        LeftStickX = 0,
-        LeftStickY = 1,
+        DpadX = 6,
+        DpadY = 7,
+        LeftX = 0,
+        LeftY = 1,
+        RightX = 2,
+        RightY = 3,
         LeftTrigger = 4,
-        RightStickX = 2,
-        RightStickY = 3,
         RightTrigger = 5,
     }
 }
