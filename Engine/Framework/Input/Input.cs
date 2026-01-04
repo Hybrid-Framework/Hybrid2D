@@ -70,6 +70,23 @@ namespace Hybrid
             InputActions.DestroyAction<T>(name);
         }
         
+        public static float GetAxis(string name)
+        {
+            var axis = InputActions.GetAction<InputAxis>(name);
+            
+            if (axis != null)
+            {
+                var value = axis.Value();
+
+                if (value != 0)
+                {
+                    return value;
+                }
+            }
+
+            return 0;
+        }
+        
         public static bool GetButton(string name)
         {
             var button = InputActions.GetAction<InputButton>(name);
@@ -113,40 +130,6 @@ namespace Hybrid
             }
 
             return false;
-        }
-
-        public static float GetAxis(string name)
-        {
-            var axis = InputActions.GetAction<InputAxis>(name);
-            
-            if (axis != null)
-            {
-                var value = axis.Value();
-
-                if (value != 0)
-                {
-                    return value;
-                }
-            }
-
-            return 0;
-        }
-        
-        public static Vector2 GetVector(string name)
-        {
-            var vector = InputActions.GetAction<InputVector>(name);
-            
-            if (vector != null)
-            {
-                var value = vector.Value();
-
-                if (value.X != 0 || value.Y != 0)
-                {
-                    return value;
-                }
-            }
-
-            return Vector2.Zero;
         }
     }
 
@@ -417,14 +400,39 @@ namespace Hybrid
     // Virtual
     public partial class Input
     {
-        public static VirtualDevice CreateVirtualDevice(Player player)
+        public static VirtualDevice GetVirtualDevice(Player player = Player.Any)
+        {
+            return VirtualDevices.GetByPlayer(player);
+        }
+        
+        public static VirtualDevice CreateVirtualDevice(Player player = Player.Any)
         {
             return VirtualDevices.Create((ulong)player);
         }
         
-        public static void DestroyVirtualDevice(Player player)
+        public static void DestroyVirtualDevice(Player player = Player.Any)
         {
             VirtualDevices.Destroy((ulong)player);
+        }
+        
+        public static float GetVirtualAxis(string name, Player player = Player.Any)
+        {
+            return 0;
+        }
+        
+        public static bool GetVirtualButton(string name, Player player = Player.Any)
+        {
+            return false;
+        }
+        
+        public static bool GetVirtualButtonUp(string name, Player player = Player.Any)
+        {
+            return false;
+        }
+        
+        public static bool GetVirtualButtonDown(string name, Player player = Player.Any)
+        {
+            return false;
         }
     }
     

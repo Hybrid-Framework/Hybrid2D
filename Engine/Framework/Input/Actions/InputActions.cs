@@ -7,7 +7,6 @@ namespace Hybrid
     internal class InputActions
     {
         private readonly Dictionary<string, InputButton> Buttons = new Dictionary<string, InputButton>();
-        private readonly Dictionary<string, InputVector> Vectors = new Dictionary<string, InputVector>();
         private readonly Dictionary<string, InputAxis> Axes = new Dictionary<string, InputAxis>();
         
         
@@ -33,16 +32,6 @@ namespace Hybrid
 
                 return axis as T;
             }
-            else if (typeof(T) == typeof(InputVector))
-            {
-                if (!Vectors.TryGetValue(name, out var vector))
-                {
-                    vector = new InputVector(name);
-                    Vectors[name] = vector;
-                }
-
-                return vector as T;
-            }
             else
             {
                 throw new Exception($"Unsupported inputAction type: {typeof(T)}");
@@ -61,11 +50,6 @@ namespace Hybrid
                 Axes.Remove(name);
                 return;
             }
-            else if (typeof(T) == typeof(InputVector))
-            {
-                Vectors.Remove(name);
-                return;
-            }
             else
             {
                 throw new Exception($"Unsupported inputAction type: {typeof(T)}");
@@ -81,10 +65,6 @@ namespace Hybrid
             else if (typeof(T) == typeof(InputAxis))
             {
                 return Axes.GetValueOrDefault(name) as T;
-            }
-            else if (typeof(T) == typeof(InputVector))
-            {
-                return Vectors.GetValueOrDefault(name) as T;
             }
             else
             {
