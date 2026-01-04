@@ -6,23 +6,21 @@ namespace Hybrid
     // Internal
     public sealed partial class Input : Module<Input>
     {
-        private static readonly InputActions InputActions = new InputActions();
+        private Input() { }
+        
+        private static readonly VirtualInputs VirtualInputs = new VirtualInputs();
         
         private static readonly TouchScreenKeyboard TouchScreenKeyboard = new TouchScreenKeyboard();
-        private static readonly VirtualDevices VirtualDevices = new VirtualDevices();
         private static readonly TouchScreens TouchScreens = new TouchScreens();
         private static readonly Keyboards Keyboards = new Keyboards();
         private static readonly Gamepads Gamepads = new Gamepads();
         private static readonly Mouses Mouses = new Mouses();
-
-        private Input() { }
 
         
         // Start Of Frame
         internal override void OnStartOfFrame()
         {
             TouchScreenKeyboard.OnReset();
-            VirtualDevices.OnReset();
             TouchScreens.OnReset();
             Keyboards.OnReset();
             Gamepads.OnReset();
@@ -33,7 +31,6 @@ namespace Hybrid
         internal override void OnEvent(SDL.Event e)
         {
             TouchScreenKeyboard.OnEvent(e);
-            VirtualDevices.OnEvent(e);
             TouchScreens.OnEvent(e);
             Keyboards.OnEvent(e);
             Gamepads.OnEvent(e);
@@ -44,7 +41,6 @@ namespace Hybrid
         internal override void OnDispose()
         {
             TouchScreenKeyboard.OnDispose();
-            VirtualDevices.OnDispose();
             TouchScreens.OnDispose();
             Keyboards.OnDispose();
             Gamepads.OnDispose();
@@ -55,24 +51,39 @@ namespace Hybrid
     // Actions
     public partial class Input
     {
-        public static T GetAction<T>(string name) where T : InputAction
+        public static VirtualButton CreateVirtualButton(string name)
         {
-            return InputActions.GetAction<T>(name);
+            return VirtualInputs.CreateVirtualButton(name);
         }
         
-        public static T CreateAction<T>(string name) where T : InputAction
+        public static void DestroyVirtualButton(string name)
         {
-            return InputActions.CreateAction<T>(name);
+            VirtualInputs.DestroyVirtualButton(name);
         }
         
-        public static void DestroyAction<T>(string name) where T : InputAction
+        public static VirtualStick CreateVirtualStick(string name)
         {
-            InputActions.DestroyAction<T>(name);
+            return VirtualInputs.CreateVirtualStick(name);
         }
         
-        public static float GetAxis(string name)
+        public static void DestroyVirtualStick(string name)
         {
-            var axis = InputActions.GetAction<InputAxis>(name);
+            VirtualInputs.DestroyVirtualStick(name);
+        }
+        
+        public static VirtualAxis CreateVirtualAxis(string name)
+        {
+            return VirtualInputs.CreateVirtualAxis(name);
+        }
+        
+        public static void DestroyVirtualAxis(string name)
+        {
+            VirtualInputs.DestroyVirtualAxis(name);
+        }
+        
+        public static float GetVirtualAxis(string name)
+        {
+            var axis = VirtualInputs.CreateVirtualAxis(name);
             
             if (axis != null)
             {
@@ -87,9 +98,26 @@ namespace Hybrid
             return 0;
         }
         
-        public static bool GetButton(string name)
+        public static Vector2 GetVirtualStick(string name)
         {
-            var button = InputActions.GetAction<InputButton>(name);
+            var stick = VirtualInputs.CreateVirtualStick(name);
+            
+            if (stick != null)
+            {
+                var value = stick.Value();
+
+                if (value.X != 0 || value.Y != 0)
+                {
+                    return value;
+                }
+            }
+
+            return Vector2.Zero;
+        }
+        
+        public static bool GetVirtualButton(string name)
+        {
+            var button = VirtualInputs.CreateVirtualButton(name);
 
             if (button != null)
             {
@@ -102,9 +130,9 @@ namespace Hybrid
             return false;
         }
         
-        public static bool GetButtonUp(string name)
+        public static bool GetVirtualButtonUp(string name)
         {
-            var button = InputActions.GetAction<InputButton>(name);
+            var button = VirtualInputs.CreateVirtualButton(name);
 
             if (button != null)
             {
@@ -117,9 +145,9 @@ namespace Hybrid
             return false;
         }
         
-        public static bool GetButtonDown(string name)
+        public static bool GetVirtualButtonDown(string name)
         {
-            var button = InputActions.GetAction<InputButton>(name);
+            var button = VirtualInputs.CreateVirtualButton(name);
 
             if (button != null)
             {
@@ -393,45 +421,6 @@ namespace Hybrid
                 }
             }
             
-            return false;
-        }
-    }
-
-    // Virtual
-    public partial class Input
-    {
-        public static VirtualDevice GetVirtualDevice(Player player = Player.Any)
-        {
-            return VirtualDevices.GetByPlayer(player);
-        }
-        
-        public static VirtualDevice CreateVirtualDevice(Player player = Player.Any)
-        {
-            return VirtualDevices.Create((ulong)player);
-        }
-        
-        public static void DestroyVirtualDevice(Player player = Player.Any)
-        {
-            VirtualDevices.Destroy((ulong)player);
-        }
-        
-        public static float GetVirtualAxis(string name, Player player = Player.Any)
-        {
-            return 0;
-        }
-        
-        public static bool GetVirtualButton(string name, Player player = Player.Any)
-        {
-            return false;
-        }
-        
-        public static bool GetVirtualButtonUp(string name, Player player = Player.Any)
-        {
-            return false;
-        }
-        
-        public static bool GetVirtualButtonDown(string name, Player player = Player.Any)
-        {
             return false;
         }
     }

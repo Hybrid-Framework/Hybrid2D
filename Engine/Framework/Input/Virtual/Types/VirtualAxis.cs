@@ -3,17 +3,17 @@ using System;
 
 namespace Hybrid
 {
-    public class InputAxis : InputAction
+    public class VirtualAxis : VirtualInput
     {
         private readonly List<Func<float>> ValueFunctions = new List<Func<float>>();
         
         
-        internal InputAxis(string name)
+        internal VirtualAxis(string name)
         {
             this.Name = name;
         }
         
-        public void Add(Func<float> Value)
+        public void Bind(Func<float> Value)
         {
             if (Value != null)
             {
@@ -21,7 +21,7 @@ namespace Hybrid
             }
         }
         
-        public void Remove(Func<float> Value)
+        public void Unbind(Func<float> Value)
         {
             if (Value != null)
             {

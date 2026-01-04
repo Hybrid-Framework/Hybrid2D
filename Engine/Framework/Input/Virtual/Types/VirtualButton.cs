@@ -3,19 +3,19 @@ using System;
 
 namespace Hybrid
 {
-    public class InputButton : InputAction
+    public class VirtualButton : VirtualInput
     {
         private readonly List<Func<bool>> GetKeyDownFunctions = new List<Func<bool>>();
         private readonly List<Func<bool>> GetKeyUpFunctions = new List<Func<bool>>();
         private readonly List<Func<bool>> GetKeyFunctions = new List<Func<bool>>();
         
         
-        internal InputButton(string name)
+        internal VirtualButton(string name)
         {
             this.Name = name;
         }
         
-        public void Add(Func<bool> GetKey = null, Func<bool> GetKeyDown = null, Func<bool> GetKeyUp = null)
+        public void Bind(Func<bool> GetKey = null, Func<bool> GetKeyDown = null, Func<bool> GetKeyUp = null)
         {
             if (GetKey != null)
             {
@@ -33,7 +33,7 @@ namespace Hybrid
             }
         }
         
-        public void Remove(Func<bool> GetKey, Func<bool> GetKeyDown, Func<bool> GetKeyUp)
+        public void Unbind(Func<bool> GetKey, Func<bool> GetKeyDown, Func<bool> GetKeyUp)
         {
             if (GetKey != null)
             {

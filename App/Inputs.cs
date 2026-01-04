@@ -5,17 +5,24 @@ namespace App
 {
     public class Inputs : MonoBehaviour
     {
-        private readonly VirtualDevice device = Input.CreateVirtualDevice(Player.One);
-        
+        private readonly VirtualButton button = Input.CreateVirtualButton("jump");
 
         public override void OnAwake()
         {
-            
+            button.Bind
+            (
+                () => Input.GetKeyboardButton(KeyboardButton.Space),
+                () => Input.GetKeyboardButtonDown(KeyboardButton.Space),
+                () => Input.GetKeyboardButtonUp(KeyboardButton.Space)
+            );
         }
 
         public override void OnUpdate()
         {
-            
+            if (button.GetButtonDown())
+            {
+                Debug.Log("Down");
+            }
         }
     }
 }
