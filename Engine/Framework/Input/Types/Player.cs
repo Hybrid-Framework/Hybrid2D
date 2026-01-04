@@ -2,12 +2,12 @@
 
 namespace Hybrid
 {
-    public enum Player : int
+    public enum Player : ulong
     {
-        Any = -1,
-        One = 0,
-        Two = 1,
-        Three = 2,
-        Four = 3
+        Any = 0,
+        One = 1,
+        Two = 2,
+        Three = 3,
+        Four = 4
     }
 }
