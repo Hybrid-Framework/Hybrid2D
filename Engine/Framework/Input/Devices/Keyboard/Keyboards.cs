@@ -3,7 +3,7 @@ using System;
 
 namespace Hybrid
 {
-    internal class Keyboards : InputDevice
+    internal class Keyboards : InputDevices
     {
         internal readonly List<Keyboard> AllDevices = new List<Keyboard>();
         internal const int MaxDevices = 4;
@@ -60,7 +60,7 @@ namespace Hybrid
         }
         
         // Destroy
-        internal void Destroy(uint device)
+        internal void Destroy(ulong device)
         {
             var result = GetByDevice(device);
             
@@ -74,7 +74,7 @@ namespace Hybrid
         }
 
         // Create
-        internal Keyboard Create(uint device)
+        internal Keyboard Create(ulong device)
         {
             var result = GetByDevice(device);
             
@@ -113,7 +113,7 @@ namespace Hybrid
         }
 
         // Get By Device
-        internal Keyboard GetByDevice(uint device)
+        internal Keyboard GetByDevice(ulong device)
         {
             foreach (var keyboard in AllDevices)
             {

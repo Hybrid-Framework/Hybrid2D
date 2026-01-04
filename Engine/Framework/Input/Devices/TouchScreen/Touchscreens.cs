@@ -3,7 +3,7 @@ using System;
 
 namespace Hybrid
 {
-    internal class TouchScreens : InputDevice
+    internal class TouchScreens : InputDevices
     {
         internal readonly List<TouchScreen> AllDevices = new List<TouchScreen>();
         internal const int MaxDevices = 4;

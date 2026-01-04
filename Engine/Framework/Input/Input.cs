@@ -419,12 +419,12 @@ namespace Hybrid
     {
         public static VirtualDevice CreateVirtualDevice(Player player)
         {
-            return VirtualDevices.Create(player);
+            return VirtualDevices.Create((ulong)player);
         }
         
         public static void DestroyVirtualDevice(Player player)
         {
-            VirtualDevices.Destroy(player);
+            VirtualDevices.Destroy((ulong)player);
         }
     }
     

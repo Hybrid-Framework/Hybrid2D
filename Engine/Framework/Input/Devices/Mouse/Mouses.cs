@@ -3,7 +3,7 @@ using System;
 
 namespace Hybrid
 {
-    internal class Mouses : InputDevice
+    internal class Mouses : InputDevices
     {
         internal readonly List<Mouse> AllDevices = new List<Mouse>();
         internal const int MaxDevices = 4;
@@ -56,7 +56,7 @@ namespace Hybrid
         }
         
         // Destroy
-        internal void Destroy(uint device)
+        internal void Destroy(ulong device)
         {
             var result = GetByDevice(device);
             
@@ -70,7 +70,7 @@ namespace Hybrid
         }
 
         // Create
-        internal Mouse Create(uint device)
+        internal Mouse Create(ulong device)
         {
             var result = GetByDevice(device);
             
@@ -109,7 +109,7 @@ namespace Hybrid
         }
 
         // Get By Device
-        internal Mouse GetByDevice(uint device)
+        internal Mouse GetByDevice(ulong device)
         {
             foreach (var mouse in AllDevices)
             {

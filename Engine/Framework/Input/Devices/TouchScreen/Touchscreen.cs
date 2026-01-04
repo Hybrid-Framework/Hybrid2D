@@ -5,12 +5,11 @@ namespace Hybrid
 {
     internal class TouchScreen : InputDevice
     {
-        internal readonly List<Touch> Touches = new List<Touch>();
-        internal const int MaxTouches = 8;
-        internal Player Player;
-        internal ulong Device;
+        private readonly List<Touch> Touches = new List<Touch>();
+        private const int MaxTouches = 8;
         
         
+        // Constructor
         internal TouchScreen(ulong device, Player player)
         {
             this.Device = device;

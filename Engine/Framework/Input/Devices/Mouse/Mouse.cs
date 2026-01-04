@@ -5,16 +5,15 @@ namespace Hybrid
 {
     internal class Mouse : InputDevice
     {
-        internal readonly Dictionary<MouseButton, State> Buttons = new Dictionary<MouseButton, State>();
-        internal readonly Dictionary<MouseAxis, float> Axes = new Dictionary<MouseAxis, float>();
-        internal Vector2 PositionDelta = Vector2.Zero;
-        internal Vector2 ScrollDelta = Vector2.Zero;
-        internal Vector2 Position = Vector2.Zero;
-        internal Player Player;
-        internal uint Device;
+        private readonly Dictionary<MouseButton, State> Buttons = new Dictionary<MouseButton, State>();
+        private readonly Dictionary<MouseAxis, float> Axes = new Dictionary<MouseAxis, float>();
+        private Vector2 PositionDelta = Vector2.Zero;
+        private Vector2 ScrollDelta = Vector2.Zero;
+        private Vector2 Position = Vector2.Zero;
         
         
-        internal Mouse(uint device, Player player)
+        // Constructor
+        internal Mouse(ulong device, Player player)
         {
             this.Device = device;
             this.Player = player;

@@ -5,13 +5,12 @@ namespace Hybrid
 {
     internal class Keyboard : InputDevice
     {
-        internal readonly Dictionary<KeyboardButton, State> Buttons = new Dictionary<KeyboardButton, State>();
-        internal readonly Dictionary<KeyboardAxis, float> Axes = new Dictionary<KeyboardAxis, float>();
-        internal Player Player;
-        internal uint Device;
+        private readonly Dictionary<KeyboardButton, State> Buttons = new Dictionary<KeyboardButton, State>();
+        private readonly Dictionary<KeyboardAxis, float> Axes = new Dictionary<KeyboardAxis, float>();
         
         
-        internal Keyboard(uint device, Player player)
+        // Constructor
+        internal Keyboard(ulong device, Player player)
         {
             this.Device = device;
             this.Player = player;

@@ -3,7 +3,7 @@ using System;
 
 namespace Hybrid
 {
-    internal unsafe class Gamepads : InputDevice
+    internal unsafe class Gamepads : InputDevices
     {
         internal readonly List<Gamepad> AllDevices = new List<Gamepad>();
         internal const int MaxDevices = 4;
@@ -62,7 +62,7 @@ namespace Hybrid
         }
         
         // Destroy
-        internal void Destroy(uint device)
+        internal void Destroy(ulong device)
         {
             var result = GetByDevice(device);
             
@@ -76,7 +76,7 @@ namespace Hybrid
         }
 
         // Create
-        internal Gamepad Create(uint device)
+        internal Gamepad Create(ulong device)
         {
             var result = GetByDevice(device);
             
@@ -88,7 +88,7 @@ namespace Hybrid
                     
                     if (GetByPlayer(player) == null)
                     {
-                        var handle = SDL.OpenGamepad(device);
+                        var handle = SDL.OpenGamepad((uint)device);
 
                         if (handle != null)
                         {
@@ -120,7 +120,7 @@ namespace Hybrid
         }
 
         // Get By Device
-        internal Gamepad GetByDevice(uint device)
+        internal Gamepad GetByDevice(ulong device)
         {
             foreach (var gamepad in AllDevices)
             {

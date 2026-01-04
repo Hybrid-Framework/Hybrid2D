@@ -3,7 +3,7 @@ using System;
 
 namespace Hybrid
 {
-    internal class VirtualDevices : InputDevice
+    internal class VirtualDevices : InputDevices
     {
         internal readonly List<VirtualDevice> AllDevices = new List<VirtualDevice>();
         internal const int MaxDevices = 4;
@@ -12,29 +12,29 @@ namespace Hybrid
         // Dispose
         internal override void OnDispose()
         {
-            foreach (var device in AllDevices.ToArray())
+            foreach (var virtualDevice in AllDevices.ToArray())
             {
-                Destroy(device.Player);
+                Destroy(virtualDevice.Device);
             }
         }
 
         // Reset
         internal override void OnReset()
         {
-            foreach (var device in AllDevices)
+            foreach (var virtualDevice in AllDevices)
             {
-                device.OnReset();
+                virtualDevice.OnReset();
             }
         }
-        
+
         // Destroy
-        internal void Destroy(Player player)
+        internal void Destroy(ulong device)
         {
-            var result = GetByPlayer(player);
+            var result = GetByDevice(device);
             
             if (result != null)
             {
-                Debug.Log($"Virtual Device {result.Player} disconnected");
+                Debug.Log($"Keyboard {result.Device} {result.Player} disconnected");
                 
                 AllDevices.Remove(result);
                 result.OnDispose();
@@ -42,19 +42,21 @@ namespace Hybrid
         }
 
         // Create
-        internal VirtualDevice Create(Player player)
+        internal VirtualDevice Create(ulong device)
         {
-            var result = GetByPlayer(player);
+            var result = GetByDevice(device);
             
             if (result == null)
             {
                 for (int i = 0; i < MaxDevices; i++)
                 {
+                    var player = (Player)i;
+                    
                     if (GetByPlayer(player) == null)
                     {
-                        Debug.Log($"Virtual Device {player} connected");
+                        Debug.Log($"Virtual Device {device} {player} connected");
                         
-                        result = new VirtualDevice(player);
+                        result = new VirtualDevice(device, player);
                         AllDevices.Add(result);
                         return result;
                     }
@@ -67,11 +69,25 @@ namespace Hybrid
         // Get By Player
         internal VirtualDevice GetByPlayer(Player player)
         {
-            foreach (var device in AllDevices)
+            foreach (var virtualDevice in AllDevices)
             {
-                if (device.Player == player)
+                if (virtualDevice.Player == player)
                 {
-                    return device;
+                    return virtualDevice;
+                }
+            }
+
+            return null;
+        }
+
+        // Get By Device
+        internal VirtualDevice GetByDevice(ulong device)
+        {
+            foreach (var virtualDevice in AllDevices)
+            {
+                if (virtualDevice.Device == device)
+                {
+                    return virtualDevice;
                 }
             }
 
