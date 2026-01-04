@@ -5,23 +5,23 @@ namespace Hybrid
 {
     internal class TouchScreens : InputDevice
     {
-        internal readonly List<TouchScreen> AllTouchscreens = new List<TouchScreen>();
-        internal const int MaxTouchscreens = 4;
+        internal readonly List<TouchScreen> AllDevices = new List<TouchScreen>();
+        internal const int MaxDevices = 4;
         
 
         // Dispose
         internal override void OnDispose()
         {
-            foreach (var touchscreen in AllTouchscreens.ToArray())
+            foreach (var touchscreen in AllDevices.ToArray())
             {
-                DestroyTouchscreen(touchscreen.Device);
+                Destroy(touchscreen.Device);
             }
         }
 
         // Reset
         internal override void OnReset()
         {
-            foreach (var touchscreen in AllTouchscreens)
+            foreach (var touchscreen in AllDevices)
             {
                 touchscreen.OnReset();
             }
@@ -38,7 +38,7 @@ namespace Hybrid
                 case SDL.EventType.TouchFingerMotion:
                 case SDL.EventType.TouchFingerCancel:
                 {
-                    var touchscreen = CreateTouchscreen(e.touchFinger.touchDeviceID);
+                    var touchscreen = Create(e.touchFinger.touchDeviceID);
                     {
                         touchscreen?.OnEvent(e);
                     }
@@ -47,23 +47,36 @@ namespace Hybrid
                 }
             }
         }
-
-        private TouchScreen CreateTouchscreen(ulong device)
+        
+        internal void Destroy(ulong device)
         {
-            var found = GetTouchscreenByDevice(device);
+            var touchscreen = GetByDevice(device);
+            
+            if (touchscreen != null)
+            {
+                Debug.Log($"Touchscreen {touchscreen.Device} {touchscreen.Player} disconnected");
+                
+                AllDevices.Remove(touchscreen);
+                touchscreen.OnDispose();
+            }
+        }
+
+        internal TouchScreen Create(ulong device)
+        {
+            var found = GetByDevice(device);
             
             if (found == null)
             {
-                for (int i = 0; i < MaxTouchscreens; i++)
+                for (int i = 0; i < MaxDevices; i++)
                 {
                     var player = (Player)i;
                     
-                    if (GetTouchscreenByPlayer(player) == null)
+                    if (GetByPlayer(player) == null)
                     {
                         Debug.Log($"Touchscreen {device} {player} connected");
                         
                         var touchscreen = new TouchScreen(device, player);
-                        AllTouchscreens.Add(touchscreen);
+                        AllDevices.Add(touchscreen);
                         return touchscreen;
                     }
                 }
@@ -71,23 +84,10 @@ namespace Hybrid
             
             return found;
         }
-
-        private void DestroyTouchscreen(ulong device)
-        {
-            var touchscreen = GetTouchscreenByDevice(device);
-            
-            if (touchscreen != null)
-            {
-                Debug.Log($"Touchscreen {touchscreen.Device} {touchscreen.Player} disconnected");
-                
-                AllTouchscreens.Remove(touchscreen);
-                touchscreen.OnDispose();
-            }
-        }
         
-        internal TouchScreen GetTouchscreenByPlayer(Player player)
+        internal TouchScreen GetByPlayer(Player player)
         {
-            foreach (var touchscreen in AllTouchscreens)
+            foreach (var touchscreen in AllDevices)
             {
                 if (touchscreen.Player == player)
                 {
@@ -98,9 +98,9 @@ namespace Hybrid
             return null;
         }
 
-        internal TouchScreen GetTouchscreenByDevice(ulong device)
+        internal TouchScreen GetByDevice(ulong device)
         {
-            foreach (var touchscreen in AllTouchscreens)
+            foreach (var touchscreen in AllDevices)
             {
                 if (touchscreen.Device == device)
                 {

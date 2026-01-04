@@ -9,6 +9,7 @@ namespace Hybrid
         private static readonly InputActions InputActions = new InputActions();
         
         private static readonly TouchScreenKeyboard TouchScreenKeyboard = new TouchScreenKeyboard();
+        private static readonly VirtualDevices VirtualDevices = new VirtualDevices();
         private static readonly TouchScreens TouchScreens = new TouchScreens();
         private static readonly Keyboards Keyboards = new Keyboards();
         private static readonly Gamepads Gamepads = new Gamepads();
@@ -21,6 +22,7 @@ namespace Hybrid
         internal override void OnStartOfFrame()
         {
             TouchScreenKeyboard.OnReset();
+            VirtualDevices.OnReset();
             TouchScreens.OnReset();
             Keyboards.OnReset();
             Gamepads.OnReset();
@@ -31,6 +33,7 @@ namespace Hybrid
         internal override void OnEvent(SDL.Event e)
         {
             TouchScreenKeyboard.OnEvent(e);
+            VirtualDevices.OnEvent(e);
             TouchScreens.OnEvent(e);
             Keyboards.OnEvent(e);
             Gamepads.OnEvent(e);
@@ -41,6 +44,7 @@ namespace Hybrid
         internal override void OnDispose()
         {
             TouchScreenKeyboard.OnDispose();
+            VirtualDevices.OnDispose();
             TouchScreens.OnDispose();
             Keyboards.OnDispose();
             Gamepads.OnDispose();
@@ -151,7 +155,7 @@ namespace Hybrid
     {
         public static float GetKeyboardAxis(KeyboardAxis axis, Player player = Player.Any)
         {
-            foreach (var keyboard in Keyboards.AllKeyboards)
+            foreach (var keyboard in Keyboards.AllDevices)
             {
                 if (keyboard.Player == player || player == Player.Any)
                 {
@@ -169,7 +173,7 @@ namespace Hybrid
         
         public static bool GetKeyboardButton(KeyboardButton keyboardButton, Player player = Player.Any)
         {
-            foreach (var keyboard in Keyboards.AllKeyboards)
+            foreach (var keyboard in Keyboards.AllDevices)
             {
                 if (keyboard.Player == player || player == Player.Any)
                 {
@@ -185,7 +189,7 @@ namespace Hybrid
         
         public static bool GetKeyboardButtonUp(KeyboardButton keyboardButton, Player player = Player.Any)
         {
-            foreach (var keyboard in Keyboards.AllKeyboards)
+            foreach (var keyboard in Keyboards.AllDevices)
             {
                 if (keyboard.Player == player || player == Player.Any)
                 {
@@ -201,7 +205,7 @@ namespace Hybrid
         
         public static bool GetKeyboardButtonDown(KeyboardButton keyboardButton, Player player = Player.Any)
         {
-            foreach (var keyboard in Keyboards.AllKeyboards)
+            foreach (var keyboard in Keyboards.AllDevices)
             {
                 if (keyboard.Player == player || player == Player.Any)
                 {
@@ -221,7 +225,7 @@ namespace Hybrid
     {
         public static Vector2 GetMousePositionDelta(Player player = Player.Any)
         {
-            foreach (var mouse in Mouses.AllMouses)
+            foreach (var mouse in Mouses.AllDevices)
             {
                 if (mouse.Player == player || player == Player.Any)
                 {
@@ -239,7 +243,7 @@ namespace Hybrid
         
         public static Vector2 GetMouseScrollDelta(Player player = Player.Any)
         {
-            foreach (var mouse in Mouses.AllMouses)
+            foreach (var mouse in Mouses.AllDevices)
             {
                 if (mouse.Player == player || player == Player.Any)
                 {
@@ -257,7 +261,7 @@ namespace Hybrid
         
         public static Vector2 GetMousePosition(Player player = Player.Any)
         {
-            foreach (var mouse in Mouses.AllMouses)
+            foreach (var mouse in Mouses.AllDevices)
             {
                 if (mouse.Player == player || player == Player.Any)
                 {
@@ -275,7 +279,7 @@ namespace Hybrid
         
         public static float GetMouseAxis(MouseAxis axis, Player player = Player.Any)
         {
-            foreach (var mouse in Mouses.AllMouses)
+            foreach (var mouse in Mouses.AllDevices)
             {
                 if (mouse.Player == player || player == Player.Any)
                 {
@@ -293,7 +297,7 @@ namespace Hybrid
         
         public static bool GetMouseButton(MouseButton button, Player player = Player.Any)
         {
-            foreach (var mouse in Mouses.AllMouses)
+            foreach (var mouse in Mouses.AllDevices)
             {
                 if (mouse.Player == player || player == Player.Any)
                 {
@@ -309,7 +313,7 @@ namespace Hybrid
         
         public static bool GetMouseButtonUp(MouseButton button, Player player = Player.Any)
         {
-            foreach (var mouse in Mouses.AllMouses)
+            foreach (var mouse in Mouses.AllDevices)
             {
                 if (mouse.Player == player || player == Player.Any)
                 {
@@ -325,7 +329,7 @@ namespace Hybrid
         
         public static bool GetMouseButtonDown(MouseButton button, Player player = Player.Any)
         {
-            foreach (var mouse in Mouses.AllMouses)
+            foreach (var mouse in Mouses.AllDevices)
             {
                 if (mouse.Player == player || player == Player.Any)
                 {
@@ -345,7 +349,7 @@ namespace Hybrid
     {
         public static float GetGamepadAxis(GamepadAxis axis, Player player = Player.Any)
         {
-            foreach (var gamepad in Gamepads.AllGamepads)
+            foreach (var gamepad in Gamepads.AllDevices)
             {
                 if (gamepad.Player == player || player == Player.Any)
                 {
@@ -363,7 +367,7 @@ namespace Hybrid
         
         public static bool GetGamepadButton(GamepadButton button, Player player = Player.Any)
         {
-            foreach (var gamepad in Gamepads.AllGamepads)
+            foreach (var gamepad in Gamepads.AllDevices)
             {
                 if (gamepad.Player == player || player == Player.Any)
                 {
@@ -379,7 +383,7 @@ namespace Hybrid
         
         public static bool GetGamepadButtonUp(GamepadButton button, Player player = Player.Any)
         {
-            foreach (var gamepad in Gamepads.AllGamepads)
+            foreach (var gamepad in Gamepads.AllDevices)
             {
                 if (gamepad.Player == player || player == Player.Any)
                 {
@@ -395,7 +399,7 @@ namespace Hybrid
         
         public static bool GetGamepadButtonDown(GamepadButton button, Player player = Player.Any)
         {
-            foreach (var gamepad in Gamepads.AllGamepads)
+            foreach (var gamepad in Gamepads.AllDevices)
             {
                 if (gamepad.Player == player || player == Player.Any)
                 {
@@ -409,13 +413,27 @@ namespace Hybrid
             return false;
         }
     }
+
+    // Virtual
+    public partial class Input
+    {
+        public static VirtualDevice CreateVirtualDevice(Player player)
+        {
+            return VirtualDevices.Create(player);
+        }
+        
+        public static void DestroyVirtualDevice(Player player)
+        {
+            VirtualDevices.Destroy(player);
+        }
+    }
     
     // Touch
     public partial class Input
     {
         public static Touch GetTouch(int finger, Player player = Player.Any)
         {
-            foreach (var touchscreen in TouchScreens.AllTouchscreens)
+            foreach (var touchscreen in TouchScreens.AllDevices)
             {
                 if (touchscreen.Player == player || player == Player.Any)
                 {
@@ -428,7 +446,7 @@ namespace Hybrid
         
         public static int GetTouchCount(Player player = Player.Any)
         {
-            foreach (var touchscreen in TouchScreens.AllTouchscreens)
+            foreach (var touchscreen in TouchScreens.AllDevices)
             {
                 if (touchscreen.Player == player || player == Player.Any)
                 {

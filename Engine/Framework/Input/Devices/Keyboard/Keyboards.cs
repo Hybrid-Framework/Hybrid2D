@@ -5,23 +5,23 @@ namespace Hybrid
 {
     internal class Keyboards : InputDevice
     {
-        internal readonly List<Keyboard> AllKeyboards = new List<Keyboard>();
-        internal const int MaxKeyboards = 4;
+        internal readonly List<Keyboard> AllDevices = new List<Keyboard>();
+        internal const int MaxDevices = 4;
         
 
         // Dispose
         internal override void OnDispose()
         {
-            foreach (var keyboard in AllKeyboards.ToArray())
+            foreach (var keyboard in AllDevices.ToArray())
             {
-                DestroyKeyboard(keyboard.Device);
+                Destroy(keyboard.Device);
             }
         }
 
         // Reset
         internal override void OnReset()
         {
-            foreach (var keyboard in AllKeyboards)
+            foreach (var keyboard in AllDevices)
             {
                 keyboard.OnReset();
             }
@@ -40,7 +40,7 @@ namespace Hybrid
                     {
                         if (e.keyboard.keyCode != SDL.KeyCode.Unknown)
                         {
-                            var keyboard = CreateKeyboard(e.keyboardDevice.keyboardID);
+                            var keyboard = Create(e.keyboardDevice.keyboardID);
                             {
                                 keyboard?.OnEvent(e);
                             }
@@ -53,28 +53,41 @@ namespace Hybrid
                 // Keyboard Disconnected
                 case SDL.EventType.KeyboardDeviceRemoved:
                 {
-                    DestroyKeyboard(e.keyboardDevice.keyboardID);
+                    Destroy(e.keyboardDevice.keyboardID);
                     break;
                 }
             }
         }
-
-        private Keyboard CreateKeyboard(uint device)
+        
+        internal void Destroy(uint device)
         {
-            var found = GetKeyboardByDevice(device);
+            var keyboard = GetByDevice(device);
+            
+            if (keyboard != null)
+            {
+                Debug.Log($"Keyboard {keyboard.Device} {keyboard.Player} disconnected");
+                
+                AllDevices.Remove(keyboard);
+                keyboard.OnDispose();
+            }
+        }
+
+        internal Keyboard Create(uint device)
+        {
+            var found = GetByDevice(device);
             
             if (found == null)
             {
-                for (int i = 0; i < MaxKeyboards; i++)
+                for (int i = 0; i < MaxDevices; i++)
                 {
                     var player = (Player)i;
                     
-                    if (GetKeyboardByPlayer(player) == null)
+                    if (GetByPlayer(player) == null)
                     {
                         Debug.Log($"Keyboard {device} {player} connected");
                         
                         var keyboard = new Keyboard(device, player);
-                        AllKeyboards.Add(keyboard);
+                        AllDevices.Add(keyboard);
                         return keyboard;
                     }
                 }
@@ -82,23 +95,10 @@ namespace Hybrid
             
             return found;
         }
-
-        private void DestroyKeyboard(uint device)
-        {
-            var keyboard = GetKeyboardByDevice(device);
-            
-            if (keyboard != null)
-            {
-                Debug.Log($"Keyboard {keyboard.Device} {keyboard.Player} disconnected");
-                
-                AllKeyboards.Remove(keyboard);
-                keyboard.OnDispose();
-            }
-        }
         
-        internal Keyboard GetKeyboardByPlayer(Player player)
+        internal Keyboard GetByPlayer(Player player)
         {
-            foreach (var keyboard in AllKeyboards)
+            foreach (var keyboard in AllDevices)
             {
                 if (keyboard.Player == player)
                 {
@@ -109,9 +109,9 @@ namespace Hybrid
             return null;
         }
 
-        internal Keyboard GetKeyboardByDevice(uint device)
+        internal Keyboard GetByDevice(uint device)
         {
-            foreach (var keyboard in AllKeyboards)
+            foreach (var keyboard in AllDevices)
             {
                 if (keyboard.Device == device)
                 {

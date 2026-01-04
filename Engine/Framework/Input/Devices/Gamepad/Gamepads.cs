@@ -5,23 +5,23 @@ namespace Hybrid
 {
     internal unsafe class Gamepads : InputDevice
     {
-        internal readonly List<Gamepad> AllGamepads = new List<Gamepad>();
-        internal const int MaxGamepads = 4;
+        internal readonly List<Gamepad> AllDevices = new List<Gamepad>();
+        internal const int MaxDevices = 4;
         
 
         // Dispose
         internal override void OnDispose()
         {
-            foreach (var gamepad in AllGamepads.ToArray())
+            foreach (var gamepad in AllDevices.ToArray())
             {
-                DestroyGamepad(gamepad.Device);
+                Destroy(gamepad.Device);
             }
         }
 
         // Reset
         internal override void OnReset()
         {
-            foreach (var gamepad in AllGamepads)
+            foreach (var gamepad in AllDevices)
             {
                 gamepad.OnReset();
             }
@@ -37,7 +37,7 @@ namespace Hybrid
                 case SDL.EventType.GamepadButtonDown:
                 case SDL.EventType.GamepadAxisMotion:
                 {
-                    var gamepad = CreateGamepad(e.gamepadDevice.gamepadID);
+                    var gamepad = Create(e.gamepadDevice.gamepadID);
                     {
                         gamepad?.OnEvent(e);
                     }
@@ -48,30 +48,43 @@ namespace Hybrid
                 // Gamepad Connected
                 case SDL.EventType.GamepadDeviceAdded:
                 {
-                    CreateGamepad(e.gamepadDevice.gamepadID);
+                    Create(e.gamepadDevice.gamepadID);
                     break;
                 }
                 
                 // Gamepad Disconnected
                 case SDL.EventType.GamepadDeviceRemoved:
                 {
-                    DestroyGamepad(e.gamepadDevice.gamepadID);
+                    Destroy(e.gamepadDevice.gamepadID);
                     break;
                 }
             }
         }
-
-        internal Gamepad CreateGamepad(uint device)
+        
+        internal void Destroy(uint device)
         {
-            var found = GetGamepadByDevice(device);
+            var gamepad = GetByDevice(device);
+            
+            if (gamepad != null)
+            {
+                Debug.Log($"Gamepad {gamepad.Device} {gamepad.Player} disconnected");
+                
+                AllDevices.Remove(gamepad);
+                gamepad.OnDispose();
+            }
+        }
+
+        internal Gamepad Create(uint device)
+        {
+            var found = GetByDevice(device);
             
             if (found == null)
             {
-                for (int i = 0; i < MaxGamepads; i++)
+                for (int i = 0; i < MaxDevices; i++)
                 {
                     var player = (Player)i;
                     
-                    if (GetGamepadByPlayer(player) == null)
+                    if (GetByPlayer(player) == null)
                     {
                         var handle = SDL.OpenGamepad(device);
 
@@ -80,7 +93,7 @@ namespace Hybrid
                             Debug.Log($"Gamepad {device} {player} connected");
                             
                             var gamepad = new Gamepad(handle, device, player);
-                            AllGamepads.Add(gamepad);
+                            AllDevices.Add(gamepad);
                             return gamepad;
                         }
                     }
@@ -89,23 +102,10 @@ namespace Hybrid
 
             return found;
         }
-
-        internal void DestroyGamepad(uint device)
-        {
-            var gamepad = GetGamepadByDevice(device);
-            
-            if (gamepad != null)
-            {
-                Debug.Log($"Gamepad {gamepad.Device} {gamepad.Player} disconnected");
-                
-                AllGamepads.Remove(gamepad);
-                gamepad.OnDispose();
-            }
-        }
         
-        internal Gamepad GetGamepadByPlayer(Player player)
+        internal Gamepad GetByPlayer(Player player)
         {
-            foreach (var gamepad in AllGamepads)
+            foreach (var gamepad in AllDevices)
             {
                 if (gamepad.Player == player)
                 {
@@ -116,9 +116,9 @@ namespace Hybrid
             return null;
         }
 
-        internal Gamepad GetGamepadByDevice(uint device)
+        internal Gamepad GetByDevice(uint device)
         {
-            foreach (var gamepad in AllGamepads)
+            foreach (var gamepad in AllDevices)
             {
                 if (gamepad.Device == device)
                 {

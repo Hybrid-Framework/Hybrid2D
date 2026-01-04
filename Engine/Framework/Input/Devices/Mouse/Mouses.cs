@@ -5,23 +5,23 @@ namespace Hybrid
 {
     internal class Mouses : InputDevice
     {
-        internal readonly List<Mouse> AllMouses = new List<Mouse>();
-        internal const int MaxMice = 4;
+        internal readonly List<Mouse> AllDevices = new List<Mouse>();
+        internal const int MaxDevices = 4;
         
 
         // Dispose
         internal override void OnDispose()
         {
-            foreach (var mouse in AllMouses.ToArray())
+            foreach (var mouse in AllDevices.ToArray())
             {
-                DestroyMouse(mouse.Device);
+                Destroy(mouse.Device);
             }
         }
 
         // Reset
         internal override void OnReset()
         {
-            foreach (var mouse in AllMouses)
+            foreach (var mouse in AllDevices)
             {
                 mouse.OnReset();
             }
@@ -38,7 +38,7 @@ namespace Hybrid
                 case SDL.EventType.MouseMotion:
                 case SDL.EventType.MouseWheel:
                 {
-                    var mouse = CreateMouse(e.mouseDevice.mouseID);
+                    var mouse = Create(e.mouseDevice.mouseID);
                     {
                         mouse?.OnEvent(e);
                     }
@@ -49,28 +49,41 @@ namespace Hybrid
                 // Mouse Disconnected
                 case SDL.EventType.MouseDeviceRemoved:
                 {
-                    DestroyMouse(e.mouseDevice.mouseID);
+                    Destroy(e.mouseDevice.mouseID);
                     break;
                 }
             }
         }
-
-        private Mouse CreateMouse(uint device)
+        
+        internal void Destroy(uint device)
         {
-            var found = GetMouseByDevice(device);
+            var mouse = GetByDevice(device);
+            
+            if (mouse != null)
+            {
+                Debug.Log($"Mouse {mouse.Device} {mouse.Player} disconnected");
+                
+                AllDevices.Remove(mouse);
+                mouse.OnDispose();
+            }
+        }
+
+        internal Mouse Create(uint device)
+        {
+            var found = GetByDevice(device);
             
             if (found == null)
             {
-                for (int i = 0; i < MaxMice; i++)
+                for (int i = 0; i < MaxDevices; i++)
                 {
                     var player = (Player)i;
                     
-                    if (GetMouseByPlayer(player) == null)
+                    if (GetByPlayer(player) == null)
                     {
                         Debug.Log($"Mouse {device} {player} connected");
                         
                         var mouse = new Mouse(device, player);
-                        AllMouses.Add(mouse);
+                        AllDevices.Add(mouse);
                         return mouse;
                     }
                 }
@@ -78,23 +91,10 @@ namespace Hybrid
             
             return found;
         }
-
-        private void DestroyMouse(uint device)
-        {
-            var mouse = GetMouseByDevice(device);
-            
-            if (mouse != null)
-            {
-                Debug.Log($"Mouse {mouse.Device} {mouse.Player} disconnected");
-                
-                AllMouses.Remove(mouse);
-                mouse.OnDispose();
-            }
-        }
         
-        internal Mouse GetMouseByPlayer(Player player)
+        internal Mouse GetByPlayer(Player player)
         {
-            foreach (var mouse in AllMouses)
+            foreach (var mouse in AllDevices)
             {
                 if (mouse.Player == player)
                 {
@@ -105,9 +105,9 @@ namespace Hybrid
             return null;
         }
 
-        internal Mouse GetMouseByDevice(uint device)
+        internal Mouse GetByDevice(uint device)
         {
-            foreach (var mouse in AllMouses)
+            foreach (var mouse in AllDevices)
             {
                 if (mouse.Device == device)
                 {
