@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System;
 
 namespace Hybrid
@@ -108,6 +109,11 @@ namespace Hybrid
             }
         }
         
+        internal float GetAxis(KeyboardAxis axis)
+        {
+            return Axes.GetValueOrDefault(axis);
+        }
+        
         internal bool GetButton(KeyboardButton button)
         {
             if (Buttons.TryGetValue(button, out var state))
@@ -138,9 +144,14 @@ namespace Hybrid
             return false;
         }
         
-        internal float GetAxis(KeyboardAxis axis)
+        internal KeyboardButton[] GetDeviceButtons()
         {
-            return Axes.GetValueOrDefault(axis);
+            return Buttons.Keys.ToArray();
+        }
+
+        internal KeyboardAxis[] GetDeviceAxes()
+        {
+            return Axes.Keys.ToArray();
         }
     }
 }

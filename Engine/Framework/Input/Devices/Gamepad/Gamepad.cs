@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System;
 
 namespace Hybrid
@@ -18,14 +19,32 @@ namespace Hybrid
             this.Player = player;
             this.Handle = handle;
             
-            foreach (GamepadButton button in Enum.GetValues(typeof(GamepadButton)))
+            foreach (SDL.GamepadButton SDLButton in Enum.GetValues(typeof(SDL.GamepadButton)))
             {
-                Buttons.Add(button, State.None);
+                if (SDL.GamepadHasButton(handle, SDLButton))
+                {
+                    var button = InputMapping.GetGamepadButtonFromSDL(SDLButton);
+                    {
+                        if (button != GamepadButton.Unknown)
+                        {
+                            Buttons.Add(button, State.None);
+                        }
+                    }
+                }
             }
             
-            foreach (GamepadAxis axis in Enum.GetValues(typeof(GamepadAxis)))
+            foreach (SDL.GamepadAxis SDLAxis in Enum.GetValues(typeof(SDL.GamepadAxis)))
             {
-                Axes.Add(axis, 0);
+                if (SDL.GamepadHasAxis(handle, SDLAxis))
+                {
+                    var axis = InputMapping.GetGamepadAxisFromSDL(SDLAxis);
+                    {
+                        if (axis != GamepadAxis.Unknown)
+                        {
+                            Axes.Add(axis, 0);
+                        }
+                    }
+                }
             }
         }
         
@@ -135,6 +154,11 @@ namespace Hybrid
                 }
             }
         }
+        
+        internal float GetAxis(GamepadAxis axis)
+        {
+            return Axes.GetValueOrDefault(axis);
+        }
 
         internal bool GetButton(GamepadButton button)
         {
@@ -166,9 +190,14 @@ namespace Hybrid
             return false;
         }
         
-        internal float GetAxis(GamepadAxis axis)
+        internal GamepadButton[] GetDeviceButtons()
         {
-            return Axes.GetValueOrDefault(axis);
+            return Buttons.Keys.ToArray();
+        }
+
+        internal GamepadAxis[] GetDeviceAxes()
+        {
+            return Axes.Keys.ToArray();
         }
     }
 }

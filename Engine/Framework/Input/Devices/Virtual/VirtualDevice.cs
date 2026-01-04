@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System;
 
 namespace Hybrid
@@ -14,6 +15,16 @@ namespace Hybrid
         {
             this.Device = device;
             this.Player = player;
+        }
+        
+        internal string[] GetDeviceButtons()
+        {
+            return Buttons.Keys.ToArray();
+        }
+
+        internal string[] GetDeviceAxes()
+        {
+            return Axes.Keys.ToArray();
         }
     }
 }

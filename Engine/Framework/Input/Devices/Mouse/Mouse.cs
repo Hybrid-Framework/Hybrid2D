@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System;
 
 namespace Hybrid
@@ -126,6 +127,11 @@ namespace Hybrid
             }
         }
         
+        internal float GetAxis(MouseAxis axis)
+        {
+            return Axes.GetValueOrDefault(axis);
+        }
+        
         internal bool GetButton(MouseButton button)
         {
             if (Buttons.TryGetValue(button, out var state))
@@ -156,9 +162,14 @@ namespace Hybrid
             return false;
         }
         
-        internal float GetAxis(MouseAxis axis)
+        internal MouseButton[] GetDeviceButtons()
         {
-            return Axes.GetValueOrDefault(axis);
+            return Buttons.Keys.ToArray();
+        }
+
+        internal MouseAxis[] GetDeviceAxes()
+        {
+            return Axes.Keys.ToArray();
         }
         
         internal Vector2 GetPositonDelta()

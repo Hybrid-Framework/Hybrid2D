@@ -107,6 +107,22 @@ internal static unsafe partial class SDL
         SDL_CloseGamepad(gamepad);
     }
     
+    // Gamepad Has Axis
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool SDL_GamepadHasAxis(SDL.Gamepad* gamepad, SDL.GamepadAxis axis);
+    public static bool GamepadHasAxis(SDL.Gamepad* gamepad, SDL.GamepadAxis axis)
+    {
+        return SDL_GamepadHasAxis(gamepad, axis);
+    }
+    
+    // Gamepad Has Button
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool SDL_GamepadHasButton(SDL.Gamepad* gamepad, SDL.GamepadButton button);
+    public static bool GamepadHasButton(SDL.Gamepad* gamepad, SDL.GamepadButton button)
+    {
+        return SDL_GamepadHasButton(gamepad, button);
+    }
+    
     // Get Gamepads
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern IntPtr SDL_GetGamepads(out int count);
