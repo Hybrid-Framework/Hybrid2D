@@ -48,24 +48,26 @@ namespace Hybrid
             }
         }
         
+        // Destroy
         internal void Destroy(ulong device)
         {
-            var touchscreen = GetByDevice(device);
+            var result = GetByDevice(device);
             
-            if (touchscreen != null)
+            if (result != null)
             {
-                Debug.Log($"Touchscreen {touchscreen.Device} {touchscreen.Player} disconnected");
+                Debug.Log($"Touchscreen {result.Device} {result.Player} disconnected");
                 
-                AllDevices.Remove(touchscreen);
-                touchscreen.OnDispose();
+                AllDevices.Remove(result);
+                result.OnDispose();
             }
         }
 
+        // Create
         internal TouchScreen Create(ulong device)
         {
-            var found = GetByDevice(device);
+            var result = GetByDevice(device);
             
-            if (found == null)
+            if (result == null)
             {
                 for (int i = 0; i < MaxDevices; i++)
                 {
@@ -75,16 +77,17 @@ namespace Hybrid
                     {
                         Debug.Log($"Touchscreen {device} {player} connected");
                         
-                        var touchscreen = new TouchScreen(device, player);
-                        AllDevices.Add(touchscreen);
-                        return touchscreen;
+                        result = new TouchScreen(device, player);
+                        AllDevices.Add(result);
+                        return result;
                     }
                 }
             }
             
-            return found;
+            return result;
         }
         
+        // Get By Player
         internal TouchScreen GetByPlayer(Player player)
         {
             foreach (var touchscreen in AllDevices)
@@ -98,6 +101,7 @@ namespace Hybrid
             return null;
         }
 
+        // Get By Device
         internal TouchScreen GetByDevice(ulong device)
         {
             foreach (var touchscreen in AllDevices)

@@ -55,24 +55,26 @@ namespace Hybrid
             }
         }
         
+        // Destroy
         internal void Destroy(uint device)
         {
-            var mouse = GetByDevice(device);
+            var result = GetByDevice(device);
             
-            if (mouse != null)
+            if (result != null)
             {
-                Debug.Log($"Mouse {mouse.Device} {mouse.Player} disconnected");
+                Debug.Log($"Mouse {result.Device} {result.Player} disconnected");
                 
-                AllDevices.Remove(mouse);
-                mouse.OnDispose();
+                AllDevices.Remove(result);
+                result.OnDispose();
             }
         }
 
+        // Create
         internal Mouse Create(uint device)
         {
-            var found = GetByDevice(device);
+            var result = GetByDevice(device);
             
-            if (found == null)
+            if (result == null)
             {
                 for (int i = 0; i < MaxDevices; i++)
                 {
@@ -82,16 +84,17 @@ namespace Hybrid
                     {
                         Debug.Log($"Mouse {device} {player} connected");
                         
-                        var mouse = new Mouse(device, player);
-                        AllDevices.Add(mouse);
-                        return mouse;
+                        result = new Mouse(device, player);
+                        AllDevices.Add(result);
+                        return result;
                     }
                 }
             }
             
-            return found;
+            return result;
         }
         
+        // Get By Player
         internal Mouse GetByPlayer(Player player)
         {
             foreach (var mouse in AllDevices)
@@ -105,6 +108,7 @@ namespace Hybrid
             return null;
         }
 
+        // Get By Device
         internal Mouse GetByDevice(uint device)
         {
             foreach (var mouse in AllDevices)

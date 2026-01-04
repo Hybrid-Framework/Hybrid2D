@@ -59,24 +59,26 @@ namespace Hybrid
             }
         }
         
+        // Destroy
         internal void Destroy(uint device)
         {
-            var keyboard = GetByDevice(device);
+            var result = GetByDevice(device);
             
-            if (keyboard != null)
+            if (result != null)
             {
-                Debug.Log($"Keyboard {keyboard.Device} {keyboard.Player} disconnected");
+                Debug.Log($"Keyboard {result.Device} {result.Player} disconnected");
                 
-                AllDevices.Remove(keyboard);
-                keyboard.OnDispose();
+                AllDevices.Remove(result);
+                result.OnDispose();
             }
         }
 
+        // Create
         internal Keyboard Create(uint device)
         {
-            var found = GetByDevice(device);
+            var result = GetByDevice(device);
             
-            if (found == null)
+            if (result == null)
             {
                 for (int i = 0; i < MaxDevices; i++)
                 {
@@ -86,16 +88,17 @@ namespace Hybrid
                     {
                         Debug.Log($"Keyboard {device} {player} connected");
                         
-                        var keyboard = new Keyboard(device, player);
-                        AllDevices.Add(keyboard);
-                        return keyboard;
+                        result = new Keyboard(device, player);
+                        AllDevices.Add(result);
+                        return result;
                     }
                 }
             }
             
-            return found;
+            return result;
         }
         
+        // Get By Player
         internal Keyboard GetByPlayer(Player player)
         {
             foreach (var keyboard in AllDevices)
@@ -109,6 +112,7 @@ namespace Hybrid
             return null;
         }
 
+        // Get By Device
         internal Keyboard GetByDevice(uint device)
         {
             foreach (var keyboard in AllDevices)

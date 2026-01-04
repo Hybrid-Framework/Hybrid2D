@@ -61,24 +61,26 @@ namespace Hybrid
             }
         }
         
+        // Destroy
         internal void Destroy(uint device)
         {
-            var gamepad = GetByDevice(device);
+            var result = GetByDevice(device);
             
-            if (gamepad != null)
+            if (result != null)
             {
-                Debug.Log($"Gamepad {gamepad.Device} {gamepad.Player} disconnected");
+                Debug.Log($"Gamepad {result.Device} {result.Player} disconnected");
                 
-                AllDevices.Remove(gamepad);
-                gamepad.OnDispose();
+                AllDevices.Remove(result);
+                result.OnDispose();
             }
         }
 
+        // Create
         internal Gamepad Create(uint device)
         {
-            var found = GetByDevice(device);
+            var result = GetByDevice(device);
             
-            if (found == null)
+            if (result == null)
             {
                 for (int i = 0; i < MaxDevices; i++)
                 {
@@ -92,17 +94,18 @@ namespace Hybrid
                         {
                             Debug.Log($"Gamepad {device} {player} connected");
                             
-                            var gamepad = new Gamepad(handle, device, player);
-                            AllDevices.Add(gamepad);
-                            return gamepad;
+                            result = new Gamepad(handle, device, player);
+                            AllDevices.Add(result);
+                            return result;
                         }
                     }
                 }
             }
 
-            return found;
+            return result;
         }
         
+        // Get By Player
         internal Gamepad GetByPlayer(Player player)
         {
             foreach (var gamepad in AllDevices)
@@ -116,6 +119,7 @@ namespace Hybrid
             return null;
         }
 
+        // Get By Device
         internal Gamepad GetByDevice(uint device)
         {
             foreach (var gamepad in AllDevices)

@@ -27,24 +27,26 @@ namespace Hybrid
             }
         }
         
+        // Destroy
         internal void Destroy(Player player)
         {
-            var device = GetByPlayer(player);
+            var result = GetByPlayer(player);
             
-            if (device != null)
+            if (result != null)
             {
-                Debug.Log($"Virtual Device {device.Player} disconnected");
+                Debug.Log($"Virtual Device {result.Player} disconnected");
                 
-                AllDevices.Remove(device);
-                device.OnDispose();
+                AllDevices.Remove(result);
+                result.OnDispose();
             }
         }
 
+        // Create
         internal VirtualDevice Create(Player player)
         {
-            var found = GetByPlayer(player);
+            var result = GetByPlayer(player);
             
-            if (found == null)
+            if (result == null)
             {
                 for (int i = 0; i < MaxDevices; i++)
                 {
@@ -52,16 +54,17 @@ namespace Hybrid
                     {
                         Debug.Log($"Virtual Device {player} connected");
                         
-                        var device = new VirtualDevice(player);
-                        AllDevices.Add(device);
-                        return device;
+                        result = new VirtualDevice(player);
+                        AllDevices.Add(result);
+                        return result;
                     }
                 }
             }
             
-            return found;
+            return result;
         }
         
+        // Get By Player
         internal VirtualDevice GetByPlayer(Player player)
         {
             foreach (var device in AllDevices)
