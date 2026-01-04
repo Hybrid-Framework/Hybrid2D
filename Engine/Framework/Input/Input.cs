@@ -6,11 +6,13 @@ namespace Hybrid
     // Internal
     public sealed partial class Input : Module<Input>
     {
-        internal static TouchScreenKeyboard TouchScreenKeyboard { get; private set; } = new TouchScreenKeyboard();
-        internal static TouchScreens TouchScreens { get; private set; } = new TouchScreens();
-        internal static Keyboards Keyboards { get; private set; } = new Keyboards();
-        internal static Gamepads Gamepads { get; private set; } = new Gamepads();
-        internal static Mouses Mouses { get; private set; } = new Mouses();
+        private static readonly InputActions InputActions = new InputActions();
+        
+        private static readonly TouchScreenKeyboard TouchScreenKeyboard = new TouchScreenKeyboard();
+        private static readonly TouchScreens TouchScreens = new TouchScreens();
+        private static readonly Keyboards Keyboards = new Keyboards();
+        private static readonly Gamepads Gamepads = new Gamepads();
+        private static readonly Mouses Mouses = new Mouses();
 
         private Input() { }
 
@@ -43,6 +45,104 @@ namespace Hybrid
             Keyboards.OnDispose();
             Gamepads.OnDispose();
             Mouses.OnDispose();
+        }
+    }
+    
+    // Actions
+    public partial class Input
+    {
+        public static T GetAction<T>(string name) where T : InputAction
+        {
+            return InputActions.GetAction<T>(name);
+        }
+        
+        public static T CreateAction<T>(string name) where T : InputAction
+        {
+            return InputActions.CreateAction<T>(name);
+        }
+        
+        public static void DestroyAction<T>(string name) where T : InputAction
+        {
+            InputActions.DestroyAction<T>(name);
+        }
+        
+        public static bool GetButton(string name)
+        {
+            var button = InputActions.GetAction<InputButton>(name);
+
+            if (button != null)
+            {
+                if (button.GetButton())
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        
+        public static bool GetButtonUp(string name)
+        {
+            var button = InputActions.GetAction<InputButton>(name);
+
+            if (button != null)
+            {
+                if (button.GetButtonUp())
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        
+        public static bool GetButtonDown(string name)
+        {
+            var button = InputActions.GetAction<InputButton>(name);
+
+            if (button != null)
+            {
+                if (button.GetButtonDown())
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public static float GetAxis(string name)
+        {
+            var axis = InputActions.GetAction<InputAxis>(name);
+            
+            if (axis != null)
+            {
+                var value = axis.Value();
+
+                if (value != 0)
+                {
+                    return value;
+                }
+            }
+
+            return 0;
+        }
+        
+        public static Vector2 GetVector(string name)
+        {
+            var vector = InputActions.GetAction<InputVector>(name);
+            
+            if (vector != null)
+            {
+                var value = vector.Value();
+
+                if (value.X != 0 || value.Y != 0)
+                {
+                    return value;
+                }
+            }
+
+            return Vector2.Zero;
         }
     }
 
