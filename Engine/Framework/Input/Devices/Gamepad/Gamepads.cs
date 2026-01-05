@@ -82,21 +82,22 @@ namespace Hybrid
             
             if (result == null)
             {
-                for (int i = 0; i < MaxDevices; i++)
+                foreach (Player player in Enum.GetValues(typeof(Player)))
                 {
-                    var player = (Player)i;
-                    
-                    if (GetByPlayer(player) == null)
+                    if (player != Player.Any)
                     {
-                        var handle = SDL.OpenGamepad((uint)device);
-
-                        if (handle != null)
+                        if (GetByPlayer(player) == null)
                         {
-                            Debug.Log($"Gamepad {device} {player} connected");
+                            var handle = SDL.OpenGamepad((uint)device);
+
+                            if (handle != null)
+                            {
+                                Debug.Log($"Gamepad {device} {player} connected");
                             
-                            result = new Gamepad(handle, device, player);
-                            AllDevices.Add(result);
-                            return result;
+                                result = new Gamepad(handle, device, player);
+                                AllDevices.Add(result);
+                                return result;
+                            }
                         }
                     }
                 }

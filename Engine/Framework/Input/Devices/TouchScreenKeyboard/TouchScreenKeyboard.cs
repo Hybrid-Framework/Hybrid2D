@@ -118,7 +118,7 @@ namespace Hybrid
             return OutputText;
         }
         
-        public static void Open(TouchScreenKeyboardType type = TouchScreenKeyboardType.Default, bool autocorrect = false, int maxCharacters = 0)
+        public static void Open(TouchScreenKeyboardType type = TouchScreenKeyboardType.AlphaNumeric, bool autocorrect = false, int maxCharacters = 0)
         {
             if (IsSupported())
             {

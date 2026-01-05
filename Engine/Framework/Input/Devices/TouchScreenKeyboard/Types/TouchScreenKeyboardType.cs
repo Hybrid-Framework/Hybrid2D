@@ -4,9 +4,7 @@ namespace Hybrid
 {
     public enum TouchScreenKeyboardType : long
     {
-        Default = 0,
-        Name = 1,
-        Email = 2,
+        AlphaNumeric = 1,
         Numeric = 6,
     }
 }

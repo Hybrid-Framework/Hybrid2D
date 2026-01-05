@@ -80,17 +80,18 @@ namespace Hybrid
             
             if (result == null)
             {
-                for (int i = 0; i < MaxDevices; i++)
+                foreach (Player player in Enum.GetValues(typeof(Player)))
                 {
-                    var player = (Player)i;
-                    
-                    if (GetByPlayer(player) == null)
+                    if (player != Player.Any)
                     {
-                        Debug.Log($"Keyboard {device} {player} connected");
-                        
-                        result = new Keyboard(device, player);
-                        AllDevices.Add(result);
-                        return result;
+                        if (GetByPlayer(player) == null)
+                        {
+                            Debug.Log($"Keyboard {device} {player} connected");
+
+                            result = new Keyboard(device, player);
+                            AllDevices.Add(result);
+                            return result;
+                        }
                     }
                 }
             }
