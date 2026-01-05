@@ -15,6 +15,13 @@ namespace App
                 () => Input.GetKeyboardButtonDown(KeyboardButton.Space),
                 () => Input.GetKeyboardButtonUp(KeyboardButton.Space)
             );
+            
+            button.Bind
+            (
+                () => Input.GetMouseButton(MouseButton.Left),
+                () => Input.GetMouseButtonDown(MouseButton.Left),
+                () => Input.GetMouseButtonUp(MouseButton.Left)
+            );
         }
 
         public override void OnUpdate()

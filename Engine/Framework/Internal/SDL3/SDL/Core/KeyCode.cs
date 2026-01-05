@@ -66,8 +66,6 @@ internal static unsafe partial class SDL
         CapsLock = 0x40000039u,
         PrintScreen = 0x40000046u,
         ScrollLock = 0x40000047u,
-        Pause = 0x40000048u,
-        Insert = 0x40000049u,
         Home = 0x4000004au,
         End = 0x4000004du,
         PageUp = 0x4000004bu,

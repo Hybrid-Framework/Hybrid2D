@@ -164,6 +164,24 @@ namespace Hybrid
     // Keyboard
     public partial class Input
     {
+        public static KeyboardModifier GetKeyboardModifier(Player player = Player.Any)
+        {
+            foreach (var keyboard in Keyboards.AllDevices)
+            {
+                if (keyboard.Player == player || player == Player.Any)
+                {
+                    var value = keyboard.GetModifier();
+
+                    if (value != KeyboardModifier.None)
+                    {
+                        return value;
+                    }
+                }
+            }
+
+            return KeyboardModifier.None;
+        }
+        
         public static float GetKeyboardAxis(KeyboardAxis axis, Player player = Player.Any)
         {
             foreach (var keyboard in Keyboards.AllDevices)

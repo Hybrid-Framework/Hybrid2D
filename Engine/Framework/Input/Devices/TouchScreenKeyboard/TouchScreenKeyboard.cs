@@ -52,39 +52,70 @@ namespace Hybrid
                 }
             }
         }
+        
+        private static void Append(string input)
+        {
+            if (!string.IsNullOrEmpty(input))
+            {
+                if (MaxCharacters == 0)
+                {
+                    OutputText += input;
+                    return;
+                }
+
+                var textInfo  = new StringInfo(OutputText);
+                var inputInfo = new StringInfo(input);
+
+                int current = textInfo.LengthInTextElements;
+                int remaining = MaxCharacters - current;
+
+                if (remaining > 0)
+                {
+                    if (inputInfo.LengthInTextElements > remaining)
+                    {
+                        input = inputInfo.SubstringByTextElements(0, remaining);
+                    }
+
+                    OutputText += input;
+                }
+            }
+        }
+
+        private static void Remove()
+        {
+            if (!string.IsNullOrEmpty(OutputText))
+            {
+                var info = new StringInfo(OutputText);
+                {
+                    OutputText = info.SubstringByTextElements(0, info.LengthInTextElements - 1);
+                }
+            }
+        }
+        
+        private static void Reset()
+        {
+            OutputText = string.Empty;
+            MaxCharacters = 0;
+        }
     }
 
     public unsafe partial class TouchScreenKeyboard
     {
-        public static string DisplayText
-        {
-            get
-            {
-                if (Type == TouchScreenKeyboardType.Password)
-                {
-                    return new string('*', Text.Length);
-                }
-
-                return Text;
-            }
-        }
-        
-        public static TouchScreenKeyboardType Type
+        internal static int MaxCharacters
         {
             private set;
             get;
         }
         
-        public static int MaxCharacters
+        internal static string OutputText
         {
             private set;
             get;
         }
         
-        public static string Text
+        public static string Text()
         {
-            private set;
-            get;
+            return OutputText;
         }
         
         public static void Open(TouchScreenKeyboardType type = TouchScreenKeyboardType.Default, bool autocorrect = false, int maxCharacters = 0)
@@ -104,16 +135,15 @@ namespace Hybrid
 
                 // Settings
                 MaxCharacters = maxCharacters;
-                Type = type;
             }
         }
-
+        
         public static bool IsSupported()
         {
             return SDL.HasScreenKeyboardSupport();
         }
 
-        public static bool Visible()
+        public static bool IsVisible()
         {
             if (IsSupported())
             {
@@ -132,52 +162,6 @@ namespace Hybrid
                     Reset();
                 }
             }
-        }
-        
-        private static void Append(string input)
-        {
-            if (!string.IsNullOrEmpty(input))
-            {
-                if (MaxCharacters == 0)
-                {
-                    Text += input;
-                    return;
-                }
-
-                var textInfo  = new StringInfo(Text);
-                var inputInfo = new StringInfo(input);
-
-                int current = textInfo.LengthInTextElements;
-                int remaining = MaxCharacters - current;
-
-                if (remaining > 0)
-                {
-                    if (inputInfo.LengthInTextElements > remaining)
-                    {
-                        input = inputInfo.SubstringByTextElements(0, remaining);
-                    }
-
-                    Text += input;
-                }
-            }
-        }
-
-        private static void Remove()
-        {
-            if (!string.IsNullOrEmpty(Text))
-            {
-                var info = new StringInfo(Text);
-                {
-                    Text = info.SubstringByTextElements(0, info.LengthInTextElements - 1);
-                }
-            }
-        }
-        
-        private static void Reset()
-        {
-            Type = TouchScreenKeyboardType.Default;
-            Text = string.Empty;
-            MaxCharacters = 0;
         }
     }
 }

@@ -52,7 +52,7 @@ namespace Hybrid
                 // Keyboard Up
                 case SDL.EventType.KeyboardButtonUp:
                 {
-                    var button = InputMapping.GetKeyboardButtonFromSDL(e.keyboard.keyCode);
+                    var button = InputMapping.GetKeyboardButtonFromSDLKeyCode(e.keyboard.keyCode);
                     {
                         if (button != KeyboardButton.Unknown)
                         {
@@ -81,7 +81,7 @@ namespace Hybrid
                 // Keyboard Down
                 case SDL.EventType.KeyboardButtonDown:
                 {
-                    var button = InputMapping.GetKeyboardButtonFromSDL(e.keyboard.keyCode);
+                    var button = InputMapping.GetKeyboardButtonFromSDLKeyCode(e.keyboard.keyCode);
                     {
                         if (button != KeyboardButton.Unknown)
                         {
@@ -142,6 +142,11 @@ namespace Hybrid
             }
 
             return false;
+        }
+
+        internal KeyboardModifier GetModifier()
+        {
+            return (KeyboardModifier)SDL.GetModState();
         }
         
         internal KeyboardButton[] GetDeviceButtons()
