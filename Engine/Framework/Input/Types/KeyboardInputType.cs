@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    public enum TouchScreenKeyboardType : long
+    public enum KeyboardInputType : long
     {
         AlphaNumeric = 1,
         Numeric = 6,

@@ -13,38 +13,16 @@ namespace Hybrid
         
         
         // Constructor
-        internal Gamepad(SDL.Gamepad* handle, ulong device, Player player)
+        internal Gamepad()
         {
-            this.Device = device;
-            this.Player = player;
-            this.Handle = handle;
-            
-            foreach (SDL.GamepadButton SDLButton in Enum.GetValues(typeof(SDL.GamepadButton)))
+            foreach (GamepadButton button in Enum.GetValues(typeof(GamepadButton)))
             {
-                if (SDL.GamepadHasButton(handle, SDLButton))
-                {
-                    var button = InputMapping.GetGamepadButtonFromSDL(SDLButton);
-                    {
-                        if (button != GamepadButton.Unknown)
-                        {
-                            Buttons.Add(button, State.None);
-                        }
-                    }
-                }
+                Buttons.Add(button, State.None);
             }
             
-            foreach (SDL.GamepadAxis SDLAxis in Enum.GetValues(typeof(SDL.GamepadAxis)))
+            foreach (GamepadAxis axis in Enum.GetValues(typeof(GamepadAxis)))
             {
-                if (SDL.GamepadHasAxis(handle, SDLAxis))
-                {
-                    var axis = InputMapping.GetGamepadAxisFromSDL(SDLAxis);
-                    {
-                        if (axis != GamepadAxis.Unknown)
-                        {
-                            Axes.Add(axis, 0);
-                        }
-                    }
-                }
+                Axes.Add(axis, 0);
             }
         }
         
@@ -152,12 +130,33 @@ namespace Hybrid
                     
                     break;
                 }
+                
+                // Gamepad Connected
+                case SDL.EventType.GamepadDeviceAdded:
+                {
+                    if (Handle == null)
+                    {
+                        Handle = SDL.OpenGamepad(e.gamepadDevice.gamepadID);
+                    }
+                    
+                    break;
+                }
+                
+                // Gamepad Disconnected
+                case SDL.EventType.GamepadDeviceRemoved:
+                {
+                    if (Handle != null)
+                    {
+                        if (Handle == SDL.GetGamepadFromID(e.gamepadDevice.gamepadID))
+                        {
+                            SDL.CloseGamepad(Handle);
+                            Handle = null;
+                        }
+                    }
+                    
+                    break;
+                }
             }
-        }
-        
-        internal float GetAxis(GamepadAxis axis)
-        {
-            return Axes.GetValueOrDefault(axis);
         }
 
         internal bool GetButton(GamepadButton button)
@@ -190,14 +189,9 @@ namespace Hybrid
             return false;
         }
         
-        internal GamepadButton[] GetDeviceButtons()
+        internal float GetAxis(GamepadAxis axis)
         {
-            return Buttons.Keys.ToArray();
-        }
-
-        internal GamepadAxis[] GetDeviceAxes()
-        {
-            return Axes.Keys.ToArray();
+            return Axes.GetValueOrDefault(axis);
         }
     }
 }

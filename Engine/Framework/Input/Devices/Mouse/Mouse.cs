@@ -14,11 +14,8 @@ namespace Hybrid
         
         
         // Constructor
-        internal Mouse(ulong device, Player player)
+        internal Mouse()
         {
-            this.Device = device;
-            this.Player = player;
-
             foreach (MouseButton button in Enum.GetValues(typeof(MouseButton)))
             {
                 Buttons.Add(button, State.None);
@@ -127,9 +124,19 @@ namespace Hybrid
             }
         }
         
-        internal float GetAxis(MouseAxis axis)
+        internal Vector2 GetPositonDelta()
         {
-            return Axes.GetValueOrDefault(axis);
+            return PositionDelta;
+        }
+        
+        internal Vector2 GetScrollDelta()
+        {
+            return ScrollDelta;
+        }
+
+        internal Vector2 GetPositon()
+        {
+            return Position;
         }
         
         internal bool GetButton(MouseButton button)
@@ -162,29 +169,9 @@ namespace Hybrid
             return false;
         }
         
-        internal MouseButton[] GetDeviceButtons()
+        internal float GetAxis(MouseAxis axis)
         {
-            return Buttons.Keys.ToArray();
-        }
-
-        internal MouseAxis[] GetDeviceAxes()
-        {
-            return Axes.Keys.ToArray();
-        }
-        
-        internal Vector2 GetPositonDelta()
-        {
-            return PositionDelta;
-        }
-        
-        internal Vector2 GetScrollDelta()
-        {
-            return ScrollDelta;
-        }
-
-        internal Vector2 GetPositon()
-        {
-            return Position;
+            return Axes.GetValueOrDefault(axis);
         }
     }
 }

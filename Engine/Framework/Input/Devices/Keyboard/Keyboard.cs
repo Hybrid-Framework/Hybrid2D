@@ -4,6 +4,7 @@ using System;
 
 namespace Hybrid
 {
+    // Keyboard
     internal class Keyboard : InputDevice
     {
         private readonly Dictionary<KeyboardButton, State> Buttons = new Dictionary<KeyboardButton, State>();
@@ -11,11 +12,8 @@ namespace Hybrid
         
         
         // Constructor
-        internal Keyboard(ulong device, Player player)
+        internal Keyboard()
         {
-            this.Device = device;
-            this.Player = player;
-            
             foreach (KeyboardButton key in Enum.GetValues(typeof(KeyboardButton)))
             {
                 Buttons.Add(key, State.None);
@@ -109,9 +107,9 @@ namespace Hybrid
             }
         }
         
-        internal float GetAxis(KeyboardAxis axis)
+        internal KeyboardModifier GetModifier()
         {
-            return Axes.GetValueOrDefault(axis);
+            return (KeyboardModifier)SDL.GetModState();
         }
         
         internal bool GetButton(KeyboardButton button)
@@ -143,20 +141,10 @@ namespace Hybrid
 
             return false;
         }
-
-        internal KeyboardModifier GetModifier()
-        {
-            return (KeyboardModifier)SDL.GetModState();
-        }
         
-        internal KeyboardButton[] GetDeviceButtons()
+        internal float GetAxis(KeyboardAxis axis)
         {
-            return Buttons.Keys.ToArray();
-        }
-
-        internal KeyboardAxis[] GetDeviceAxes()
-        {
-            return Axes.Keys.ToArray();
+            return Axes.GetValueOrDefault(axis);
         }
     }
 }

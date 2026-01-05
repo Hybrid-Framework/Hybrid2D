@@ -10,11 +10,8 @@ namespace Hybrid
         
         
         // Constructor
-        internal TouchScreen(ulong device, Player player)
+        internal TouchScreen()
         {
-            this.Device = device;
-            this.Player = player;
-
             for (int i = 0; i < MaxTouches; i++)
             {
                 Touches.Add(new Touch(i));
@@ -41,7 +38,7 @@ namespace Hybrid
         {
             switch (e.type)
             {
-                // Touch Up
+                // Touch
                 case SDL.EventType.TouchFingerUp:
                 case SDL.EventType.TouchFingerDown:
                 case SDL.EventType.TouchFingerMotion:
