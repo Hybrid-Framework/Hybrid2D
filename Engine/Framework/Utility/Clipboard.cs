@@ -4,14 +4,10 @@ namespace Hybrid
 {
     public static class Clipboard
     {
-        public static void SetText(string text)
+        public static string Text
         {
-            SDL.SetClipboardText(text);
-        }
-        
-        public static string GetText()
-        {
-            return SDL.GetClipboardText();
+            get => SDL.GetClipboardText();
+            set => SDL.SetClipboardText(value);
         }
     }
 }

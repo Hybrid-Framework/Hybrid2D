@@ -11,7 +11,7 @@ namespace Hybrid
             private set;
             get;
         }
-        
+
 
         internal override void OnDispose()
         {

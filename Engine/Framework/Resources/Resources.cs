@@ -14,14 +14,10 @@ namespace Hybrid
         internal override void OnDispose()
         {
             // For Each Resource In Resources
-            foreach (var resource in AllResources.ToArray())
+            foreach (var resource in AllResources)
             {
-                // Destroy
-                Object.Destroy(resource);
+                resource.OnDispose();
             }
-            
-            // Empty
-            AllResources.Clear();
         }
     }
     
@@ -46,6 +42,15 @@ namespace Hybrid
             AllResources.Add(resource);
             resource.Path = path;
             return resource as T;
+        }
+
+        public static void Destroy(Resource resource)
+        {
+            if (resource != null)
+            {
+                resource.Path = string.Empty;
+                resource.OnDispose();
+            }
         }
     }
     

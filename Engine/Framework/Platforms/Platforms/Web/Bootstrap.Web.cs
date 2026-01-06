@@ -6,9 +6,9 @@ namespace Hybrid
 {
     internal unsafe class WebBootstrap : Bootstrap
     {
-        protected override void Execute(Config config)
+        protected override void Execute(Game game)
         {
-            Platform.SetPlatform(new WebPlatform(), config);
+            Platform.SetPlatform(new WebPlatform(), game);
             
             var assembly = typeof(SDL).Assembly;
             NativeLibrary.SetDllImportResolver(assembly, (library, asm, path) =>

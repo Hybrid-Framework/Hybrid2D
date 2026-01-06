@@ -5,9 +5,9 @@ namespace Hybrid
 {
     internal class WindowsBootstrap : Bootstrap
     {
-        protected override void Execute(Config config)
+        protected override void Execute(Game game)
         {
-            Platform.SetPlatform(new WindowsPlatform(), config);
+            Platform.SetPlatform(new WindowsPlatform(), game);
             
             var assembly = typeof(SDL).Assembly;
             NativeLibrary.SetDllImportResolver(assembly, (library, asm, path) =>

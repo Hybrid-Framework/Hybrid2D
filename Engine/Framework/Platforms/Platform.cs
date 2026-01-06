@@ -6,18 +6,16 @@ namespace Hybrid
     internal abstract partial class Platform
     {
         internal static Platform Current { get; private set; }
-        internal static Config Config { get; private set; }
         internal static Game Game { get; private set; }
         
         
-        internal static void SetPlatform(Platform platform, Config config)
+        internal static void SetPlatform(Platform platform, Game game)
         {
-            if(platform == null || config == null)
-                throw new Exception($"Invalid Platform Parameters {typeof(Platform)} {typeof(Config)} {typeof(Game)}");
+            if(platform == null || game == null)
+                throw new Exception($"Invalid Platform Parameters {typeof(Platform)} {typeof(Game)}");
             
-            Game = config.Game;
             Current = platform;
-            Config = config;
+            Game = game;
         }
 
         internal static Platform GetPlatform()
@@ -28,12 +26,12 @@ namespace Hybrid
             return Current;
         }
         
-        internal static Config GetConfig()
+        internal static Game GetGame()
         {
-            if (Config == null)
-                throw new Exception("No Config Detected");
+            if (Game == null)
+                throw new Exception("No Game Detected");
             
-            return Config;
+            return Game;
         }
     }
 

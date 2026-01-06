@@ -18,7 +18,7 @@ namespace Hybrid
 
         
         // Start Of Frame
-        internal override void OnStartOfFrame()
+        internal override void OnUpdate()
         {
             TextInput.OnReset();
             
@@ -143,16 +143,6 @@ namespace Hybrid
         public static void TextInputStop()
         {
             TextInput.TextInputStop();
-        }
-
-        public static void TextInputSetClipboardText(string text)
-        {
-            TextInput.TextInputSetClipboardText(text);
-        }
-
-        public static string TextInputGetClipboardText()
-        {
-            return TextInput.TextInputGetClipboardText();
         }
     }
 

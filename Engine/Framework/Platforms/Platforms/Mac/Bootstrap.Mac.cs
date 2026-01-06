@@ -5,9 +5,9 @@ namespace Hybrid
 {
     internal class MacBootstrap : Bootstrap
     {
-        protected override void Execute(Config config)
+        protected override void Execute(Game game)
         {
-            Platform.SetPlatform(new MacPlatform(), config);
+            Platform.SetPlatform(new MacPlatform(), game);
             
             var assembly = typeof(SDL).Assembly;
             NativeLibrary.SetDllImportResolver(assembly, (library, asm, path) =>

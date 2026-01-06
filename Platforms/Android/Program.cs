@@ -17,6 +17,6 @@ public class Program : Org.Libsdl.App.SDLActivity
     
     protected override void Main()
     {
-        Bootstrap.Android(new App.Config());
+        Bootstrap.Android(new App.Game());
     }
 }

@@ -4,6 +4,6 @@ public class Program
 {
     public static void Main()
     {
-        Bootstrap.Mac(new App.Config());
+        Bootstrap.Mac(new App.Game());
     }
 }

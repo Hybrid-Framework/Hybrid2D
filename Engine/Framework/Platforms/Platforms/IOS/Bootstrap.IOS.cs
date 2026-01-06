@@ -6,9 +6,9 @@ namespace Hybrid
 {
     internal class IOSBootstrap : Bootstrap
     {
-        protected override void Execute(Config config)
+        protected override void Execute(Game game)
         {
-            Platform.SetPlatform(new IOSPlatform(), config);
+            Platform.SetPlatform(new IOSPlatform(), game);
             
             var assembly = typeof(SDL).Assembly;
             var frameworks = Path.Combine(AppContext.BaseDirectory!, "Frameworks");

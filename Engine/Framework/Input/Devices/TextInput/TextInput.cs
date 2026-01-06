@@ -96,16 +96,6 @@ namespace Hybrid
             return SDL.TextInputActive(Window.Handle);
         }
         
-        internal void TextInputSetClipboardText(string text)
-        {
-            SDL.SetClipboardText(text);
-        }
-
-        internal string TextInputGetClipboardText()
-        {
-            return SDL.GetClipboardText();
-        }
-        
         private void AppendText(string input)
         {
             if (!string.IsNullOrEmpty(input))

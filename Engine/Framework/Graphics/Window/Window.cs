@@ -38,7 +38,6 @@ namespace Hybrid
         internal override void OnInitialize()
         {
             // Platform
-            var config = Platform.GetConfig();
             var mobile = Platform.GetSystem().GetUnderlyingDevice() == UnderlyingDevice.Mobile;
             var web = Platform.GetSystem().GetUnderlyingPlatform() == UnderlyingPlatform.Web;
             
@@ -48,21 +47,12 @@ namespace Hybrid
             
             // Window Flags
             Flags.SetFlags(SDL.WindowFlags.HighPixelDensity);
-            if ((config.Fullscreen || mobile) && !web) Flags.SetFlags(SDL.WindowFlags.Fullscreen);
-            if (config.Resizable || mobile) Flags.SetFlags(SDL.WindowFlags.Resizable);
+            if (mobile && !web) Flags.SetFlags(SDL.WindowFlags.Fullscreen);
+            if (mobile) Flags.SetFlags(SDL.WindowFlags.Resizable);
             
             // Window Creation
-            Handle = SDL.CreateWindow(config.Title, config.Width, config.Height, Flags.GetFlags());
-            Size = new Vector2(config.Width, config.Height);
-        
-            // Icon
-            if (!web)
-            {
-                // Set Window Icon (Web handled)
-                var icon = SDL_image.Load(config.Icon);
-                SDL.SetWindowIcon(Handle, icon);
-                SDL.DestroySurface(icon);
-            }
+            Handle = SDL.CreateWindow("Hybrid", 600, 480, Flags.GetFlags());
+            Size = new Vector2(600, 480);
         }
 
         // Events

@@ -5,9 +5,9 @@ namespace Hybrid
 {
     internal class AndroidBootstrap : Bootstrap
     {
-        protected override void Execute(Config config)
+        protected override void Execute(Game game)
         {
-            Platform.SetPlatform(new AndroidPlatform(), config);
+            Platform.SetPlatform(new AndroidPlatform(), game);
             
             var assembly = typeof(SDL).Assembly;
             NativeLibrary.SetDllImportResolver(assembly, (library, asm, path) =>

@@ -5,22 +5,21 @@ namespace Hybrid
     // Platform
     public abstract class Bootstrap
     {
-        public static void Windows(Config Config) => Entry(new WindowsBootstrap(), Config);
-        public static void Android(Config Config) => Entry(new AndroidBootstrap(), Config);
-        public static void Linux(Config Config) => Entry(new LinuxBootstrap(), Config);
-        public static void Mac(Config Config) => Entry(new MacBootstrap(), Config);
-        public static void IOS(Config Config) => Entry(new IOSBootstrap(), Config);
-        public static void Web(Config Config) => Entry(new WebBootstrap(), Config);
+        public static void Windows(Game game) => Entry(new WindowsBootstrap(), game);
+        public static void Android(Game game) => Entry(new AndroidBootstrap(), game);
+        public static void Linux(Game game) => Entry(new LinuxBootstrap(), game);
+        public static void Mac(Game game) => Entry(new MacBootstrap(), game);
+        public static void IOS(Game game) => Entry(new IOSBootstrap(), game);
+        public static void Web(Game game) => Entry(new WebBootstrap(), game);
         
-        
-        protected static void Entry(Bootstrap bootstrap, Config config)
+        protected static void Entry(Bootstrap bootstrap, Game game)
         {
-            bootstrap.Execute(config);
+            bootstrap.Execute(game);
         }
 
-        protected virtual void Execute(Config config)
+        protected virtual void Execute(Game game)
         {
-            // Platform specific bootstrap
+            
         }
     }
 }

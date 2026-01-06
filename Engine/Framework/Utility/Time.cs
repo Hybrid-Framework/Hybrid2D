@@ -9,34 +9,29 @@ namespace Hybrid
         public static float TimeScale { get; set; } = 1f;
         
         public static float FramesPerSecond { get; internal set; }
-        public static bool InFixedTimeStep { get; internal set; }
         public static uint FrameCount { get; internal set; }
         
-        public static float FixedUnscaledDeltaTime { get; internal set; }
         public static float UnscaledDeltaTime { get; internal set; }
         public static float SmoothDeltaTime { get; internal set; }
-        public static float FixedDeltaTime { get; set; } = 0.02f;
         public static float DeltaTime { get; internal set; }
 
-        public static float RealTimeSinceStartup => (float)Time.RealWatch.Elapsed.TotalSeconds;
-        public static float FixedUnscaledTimer { get; internal set; }
         public static float UnscaledTimer { get; internal set; }
-        public static float FixedTimer { get; internal set; }
         public static float Timer { get; internal set; }
+        
+        public static float UnscaledFrameTime { get; internal set; }
+        public static float FrameTime { get; internal set; }
+        
+        public static float RealTimeSinceStartup => (float)Time.RealWatch.Elapsed.TotalSeconds;
     }
     
     // Internal
     public static partial class Time
     {
-        private static double FrameFrequency { get; set; } = SDL.GetPerformanceFrequency();
-        private static long FramePrevious { get; set; } = SDL.GetPerformanceCounter();
-        private static long FrameStart  { get; set; } = SDL.GetPerformanceCounter();
-        private static Stopwatch RealWatch { get; set; } = Stopwatch.StartNew();
+        private static readonly Stopwatch RealWatch = Stopwatch.StartNew();
         
-        internal static float FixedUnscaledFrameTime { get; set; }
-        internal static float UnscaledFrameTime { get; set; }
-        internal static float FixedFrameTime { get; set; }
-        internal static float FrameTime { get; set; }
+        private static readonly double FrameFrequency = SDL.GetPerformanceFrequency();
+        private static long FramePrevious = SDL.GetPerformanceCounter();
+        private static long FrameStart = SDL.GetPerformanceCounter();
         
         
         internal static void BeforeFrame()
@@ -52,30 +47,16 @@ namespace Hybrid
             Time.UnscaledDeltaTime = (float)elapsed;
             Time.DeltaTime = Time.UnscaledDeltaTime * Time.TimeScale;
             Time.SmoothDeltaTime = (Time.SmoothDeltaTime * (0.9f)) + (Time.DeltaTime * 0.1f);
-            Time.FixedUnscaledDeltaTime = Time.TimeScale > 0 ? Time.FixedDeltaTime / Time.TimeScale : Time.FixedDeltaTime;
             
             // Timers
             Time.UnscaledTimer += Time.UnscaledDeltaTime;
             Time.Timer += Time.DeltaTime;
             
-            // Frame Time
-            Time.FixedFrameTime += Time.DeltaTime;
-            Time.FrameTime = Time.DeltaTime * 1000f;
-            Time.FixedUnscaledFrameTime += Time.UnscaledDeltaTime;
-            Time.UnscaledFrameTime = Time.UnscaledDeltaTime * 1000f;
-            
             // Frame
-            var fps = (Time.FramesPerSecond * 0.9f) + ((1f / Time.UnscaledDeltaTime) * 0.1f);
-            if (fps < 0) fps = 0;
-            
-            Time.FramesPerSecond = fps;
             Time.FrameCount += 1;
-            
-            // Fixed Spiral Prevention
-            if (Time.FixedFrameTime > (Time.FixedDeltaTime * 12))
-            {
-                Time.FixedFrameTime = Time.FixedDeltaTime * 12;
-            }
+            Time.FrameTime = Time.DeltaTime * 1000f;
+            Time.UnscaledFrameTime = Time.UnscaledDeltaTime * 1000f;
+            Time.FramesPerSecond = Maths.Clamp((Time.FramesPerSecond * 0.9f) + ((1f / Time.UnscaledDeltaTime) * 0.1f), 0, 10000);
         }
         
         internal static void AfterFrame()

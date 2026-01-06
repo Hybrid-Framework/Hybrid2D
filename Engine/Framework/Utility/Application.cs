@@ -23,19 +23,14 @@ namespace Hybrid
             }
         }
         
-        public static UnderlyingDevice GetUnderlyingDevice()
-        {
-            return Platform.GetSystem().GetUnderlyingDevice();
-        }
-        
-        public static UnderlyingPlatform GetUnderlyingPlatform()
+        public static UnderlyingPlatform GetPlatform()
         {
             return Platform.GetSystem().GetUnderlyingPlatform();
         }
         
-        public static Config GetConfig()
+        public static UnderlyingDevice GetDevice()
         {
-            return Platform.GetConfig();
+            return Platform.GetSystem().GetUnderlyingDevice();
         }
         
         public static void Quit()

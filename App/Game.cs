@@ -7,7 +7,7 @@ namespace App
     {
         public override void OnInitialize()
         {
-            Application.TargetFrameRate = 30;
+            Application.TargetFrameRate = 60;
         }
 
         public override void OnUpdate()

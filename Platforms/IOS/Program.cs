@@ -4,6 +4,6 @@ public class Program
 {
     public static void Main()
     {
-        Bootstrap.IOS(new App.Config());
+        Bootstrap.IOS(new App.Game());
     }
 }

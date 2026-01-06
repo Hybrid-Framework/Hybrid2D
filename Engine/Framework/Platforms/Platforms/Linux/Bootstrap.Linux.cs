@@ -5,9 +5,9 @@ namespace Hybrid
 {
     internal class LinuxBootstrap : Bootstrap
     {
-        protected override void Execute(Config config)
+        protected override void Execute(Game game)
         {
-            Platform.SetPlatform(new LinuxPlatform(), config);
+            Platform.SetPlatform(new LinuxPlatform(), game);
             
             var assembly = typeof(SDL).Assembly;
             NativeLibrary.SetDllImportResolver(assembly, (library, asm, path) =>

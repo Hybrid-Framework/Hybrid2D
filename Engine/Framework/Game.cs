@@ -7,7 +7,7 @@ namespace Hybrid
     // Game
     public abstract partial class Game
     {
-        private readonly List<Module> Modules = new List<Module>();
+        internal List<Module> Modules { get; private set; } = new List<Module>();
         internal bool Initialized { get; private set; }
         internal bool IsRunning { get; private set; }
         
@@ -36,9 +36,6 @@ namespace Hybrid
             // Frame Time
             Time.BeforeFrame();
             
-            // Start Frame
-            OnEngineStartOfFrame();
-            
             // Events
             while (Platform.GetEvents().PollEvents(out SDL.Event e))
             {
@@ -52,38 +49,17 @@ namespace Hybrid
                 OnEngineEvent(e);
             }
             
-            // Fixed Update
-            while (Time.FixedFrameTime >= Time.FixedDeltaTime)
-            {
-                Time.InFixedTimeStep = true;
-                
-                OnEngineFixedUpdate();
-                {
-                    Time.FixedUnscaledTimer += Time.FixedUnscaledDeltaTime;
-                    Time.FixedTimer += Time.FixedDeltaTime;
-                }
-                
-                Time.FixedFrameTime -= Time.FixedDeltaTime;
-                Time.InFixedTimeStep = false;
-            }
-            
             // Update
             OnEngineUpdate();
-
-            // Late Update
-            OnEngineLateUpdate();
             
             // Render
             OnEngineRender();
-            
-            // End Frame
-            OnEngineEndOfFrame();
             
             // Frame Limit
             Time.AfterFrame();
         }
         
-        internal void Quit()
+        public void Quit()
         {
             // Quit Application
             if (!IsRunning) return;
@@ -128,22 +104,6 @@ namespace Hybrid
 
         public virtual void OnInitialize() { }
     }
-    
-    // Start Of Frame
-    public partial class Game
-    {
-        internal void OnEngineStartOfFrame()
-        {
-            foreach (var module in Modules)
-            {
-                module.OnStartOfFrame();
-            }
-            
-            OnStartOfFrame();
-        }
-
-        public virtual void OnStartOfFrame() { }
-    }
 
     // Update
     public partial class Game
@@ -160,38 +120,6 @@ namespace Hybrid
 
         public virtual void OnUpdate() { }
     }
-    
-    // Fixed Update
-    public partial class Game
-    {
-        internal void OnEngineFixedUpdate()
-        {
-            foreach (var module in Modules)
-            {
-                module.OnFixedUpdate();
-            }
-
-            OnFixedUpdate();
-        }
-
-        public virtual void OnFixedUpdate() { }
-    }
-    
-    // Late Update
-    public partial class Game
-    {
-        internal void OnEngineLateUpdate()
-        {
-            foreach (var module in Modules)
-            {
-                module.OnLateUpdate();
-            }
-
-            OnLateUpdate();
-        }
-
-        public virtual void OnLateUpdate() { }
-    }
 
     // Render
     public partial class Game
@@ -207,21 +135,5 @@ namespace Hybrid
         }
 
         public virtual void OnRender() { }
-    }
-    
-    // End Of Frame
-    public partial class Game
-    {
-        internal void OnEngineEndOfFrame()
-        {
-            foreach (var module in Modules)
-            {
-                module.OnEndOfFrame();
-            }
-
-            OnEndOfFrame();
-        }
-
-        public virtual void OnEndOfFrame() { }
     }
 }

@@ -4,6 +4,6 @@ public class Program
 {
     public static void Main()
     {
-        Bootstrap.Windows(new App.Config());
+        Bootstrap.Windows(new App.Game());
     }
 }
