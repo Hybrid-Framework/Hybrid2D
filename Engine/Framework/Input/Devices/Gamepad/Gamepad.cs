@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿﻿using System.Collections.Generic;
 using System.Linq;
 using System;
 
@@ -10,11 +10,18 @@ namespace Hybrid
         private readonly Dictionary<GamepadAxis, float> Axes = new Dictionary<GamepadAxis, float>();
         private readonly float DeadZone = 0.2f;
         private SDL.Gamepad* Handle;
+
+        internal uint Device;
+        internal int Index;
         
         
         // Constructor
-        internal Gamepad()
+        internal Gamepad(SDL.Gamepad* handle, uint device, int index)
         {
+            this.Handle = handle;
+            this.Device = device;
+            this.Index = index;
+            
             foreach (GamepadButton button in Enum.GetValues(typeof(GamepadButton)))
             {
                 Buttons.Add(button, State.None);
@@ -125,32 +132,6 @@ namespace Hybrid
                         
                                 Axes[axis] = value;
                             }
-                        }
-                    }
-                    
-                    break;
-                }
-                
-                // Gamepad Connected
-                case SDL.EventType.GamepadDeviceAdded:
-                {
-                    if (Handle == null)
-                    {
-                        Handle = SDL.OpenGamepad(e.gamepadDevice.gamepadID);
-                    }
-                    
-                    break;
-                }
-                
-                // Gamepad Disconnected
-                case SDL.EventType.GamepadDeviceRemoved:
-                {
-                    if (Handle != null)
-                    {
-                        if (Handle == SDL.GetGamepadFromID(e.gamepadDevice.gamepadID))
-                        {
-                            SDL.CloseGamepad(Handle);
-                            Handle = null;
                         }
                     }
                     

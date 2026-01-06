@@ -52,7 +52,7 @@ namespace Hybrid
                 {
                     if (!e.keyboard.repeat)
                     {
-                        var button = InputMapping.GetKeyboardButtonFromSDLKeyCode(e.keyboard.keyCode);
+                        var button = InputMapping.GetKeyboardButtonFromSDLScanCode(e.keyboard.scanCode);
                         {
                             if (button != KeyboardButton.Unknown)
                             {
@@ -84,7 +84,7 @@ namespace Hybrid
                 {
                     if (!e.keyboard.repeat)
                     {
-                        var button = InputMapping.GetKeyboardButtonFromSDLKeyCode(e.keyboard.keyCode);
+                        var button = InputMapping.GetKeyboardButtonFromSDLScanCode(e.keyboard.scanCode);
                         {
                             if (button != KeyboardButton.Unknown)
                             {

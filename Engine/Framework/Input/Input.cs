@@ -12,8 +12,8 @@ namespace Hybrid
         internal static readonly TextInput TextInput = new TextInput();
         
         internal static readonly TouchScreen TouchScreen = new TouchScreen();
+        internal static readonly Gamepads Gamepads = new Gamepads();
         internal static readonly Keyboard Keyboard = new Keyboard();
-        internal static readonly Gamepad Gamepad = new Gamepad();
         internal static readonly Mouse Mouse = new Mouse();
 
         
@@ -24,7 +24,7 @@ namespace Hybrid
             
             TouchScreen.OnReset();
             Keyboard.OnReset();
-            Gamepad.OnReset();
+            Gamepads.OnReset();
             Mouse.OnReset();
         }
 
@@ -35,7 +35,7 @@ namespace Hybrid
             
             TouchScreen.OnEvent(e);
             Keyboard.OnEvent(e);
-            Gamepad.OnEvent(e);
+            Gamepads.OnEvent(e);
             Mouse.OnEvent(e);
         }
 
@@ -46,7 +46,7 @@ namespace Hybrid
             
             TouchScreen.OnDispose();
             Keyboard.OnDispose();
-            Gamepad.OnDispose();
+            Gamepads.OnDispose();
             Mouse.OnDispose();
         }
     }
@@ -57,10 +57,6 @@ namespace Hybrid
         public static VirtualButton CreateVirtualButton(string name) => VirtualInputs.CreateVirtualButton(name);
         public static VirtualStick CreateVirtualStick(string name) => VirtualInputs.CreateVirtualStick(name);
         public static VirtualAxis CreateVirtualAxis(string name) => VirtualInputs.CreateVirtualAxis(name);
-        
-        public static void DestroyVirtualButton(string name) => VirtualInputs.DestroyVirtualButton(name);
-        public static void DestroyVirtualStick(string name) => VirtualInputs.DestroyVirtualStick(name);
-        public static void DestroyVirtualAxis(string name) => VirtualInputs.DestroyVirtualAxis(name);
         
         
         public static float GetVirtualAxis(string name)
@@ -205,24 +201,70 @@ namespace Hybrid
     // Gamepad
     public partial class Input
     {
-        public static float GetGamepadAxis(GamepadAxis axis)
+        public static float GetGamepadAxis(GamepadAxis axis, int index)
         {
-            return Gamepad.GetAxis(axis);
+            foreach (var gamepad in Gamepads.AllDevices)
+            {
+                if (gamepad.Index == index)
+                {
+                    var value = gamepad.GetAxis(axis);
+
+                    if (value != 0)
+                    {
+                        return value;
+                    }
+                }
+            }
+            
+            return 0;
         }
         
-        public static bool GetGamepadButton(GamepadButton button)
+        public static bool GetGamepadButton(GamepadButton button, int index)
         {
-            return Gamepad.GetButton(button);
+            foreach (var gamepad in Gamepads.AllDevices)
+            {
+                if (gamepad.Index == index)
+                {
+                    if (gamepad.GetButton(button))
+                    {
+                        return true;
+                    }
+                }
+            }
+            
+            return false;
         }
         
-        public static bool GetGamepadButtonUp(GamepadButton button)
+        public static bool GetGamepadButtonUp(GamepadButton button, int index)
         {
-            return Gamepad.GetButtonUp(button);
+            foreach (var gamepad in Gamepads.AllDevices)
+            {
+                if (gamepad.Index == index)
+                {
+                    if (gamepad.GetButtonUp(button))
+                    {
+                        return true;
+                    }
+                }
+            }
+            
+            return false;
         }
         
-        public static bool GetGamepadButtonDown(GamepadButton button)
+        public static bool GetGamepadButtonDown(GamepadButton button, int index)
         {
-            return Gamepad.GetButtonDown(button);
+            foreach (var gamepad in Gamepads.AllDevices)
+            {
+                if (gamepad.Index == index)
+                {
+                    if (gamepad.GetButtonDown(button))
+                    {
+                        return true;
+                    }
+                }
+            }
+            
+            return false;
         }
     }
     
