@@ -3,7 +3,7 @@
 
 MIT License
 
-Copyright (c) 2025 Lloyd J Howarth
+Copyright (c) Lloyd J Howarth
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -65,7 +65,7 @@ SOFTWARE.
 # SDL LICENSE ################################################################
 
 
-Copyright (C) 1997-2025 Sam Lantinga <slouken@libsdl.org>
+Copyright (C) Sam Lantinga <slouken@libsdl.org>
   
 This software is provided 'as-is', without any express or implied
 warranty.  In no event will the authors be held liable for any damages
@@ -107,7 +107,7 @@ The full text of both licenses follows.
 
 ==============================================================================
 
-Copyright (c) 2010-2014 Emscripten authors, see AUTHORS file.
+Copyright (c) Emscripten authors, see AUTHORS file.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -129,7 +129,7 @@ THE SOFTWARE.
 
 ==============================================================================
 
-Copyright (c) 2010-2014 Emscripten authors, see AUTHORS file.
+Copyright (c) Emscripten authors, see AUTHORS file.
 All rights reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a
