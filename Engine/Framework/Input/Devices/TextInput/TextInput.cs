@@ -13,45 +13,44 @@ namespace Hybrid
 
         internal override void OnEvent(SDL.Event e)
         {
-            switch (e.type)
+            if (TextInputActive())
             {
-                // Text Input
-                case SDL.EventType.TextInput:
+                switch (e.type)
                 {
-                    AppendText(SDL.Utf8ToString(e.textInput.text));
-                    break;
-                }
-                
-                // Text Input Functions
-                case SDL.EventType.KeyboardButtonDown:
-                {
-                    switch (e.keyboard.keyCode)
+                    // Text Input
+                    case SDL.EventType.TextInput:
+                    {
+                        AppendText(SDL.Utf8ToString(e.textInput.text));
+                        break;
+                    }
+
+                    // Text Input Functions
+                    case SDL.EventType.KeyboardButtonDown:
                     {
                         // Backspace
-                        case SDL.KeyCode.Backspace:
+                        if (e.keyboard.keyCode == SDL.KeyCode.Backspace)
                         {
                             RemoveText();
                             break;
                         }
-                        
+
                         // Enter
-                        case SDL.KeyCode.Return:
+                        if (e.keyboard.keyCode == SDL.KeyCode.Return)
                         {
                             if (TouchScreenKeyboard.IsVisible())
                             {
-                                StopTextInput();
+                                TextInputStop();
+                                break;
                             }
-                            
-                            break;
                         }
+
+                        break;
                     }
-                    
-                    break;
                 }
             }
         }
         
-        internal void StartTextInput(TextInputMode mode = TextInputMode.Default, int limit = 0)
+        internal void TextInputStart(TextInputMode mode = TextInputMode.Default, int limit = 0)
         {
             // Reset
             ResetText();
@@ -84,12 +83,27 @@ namespace Hybrid
             Mode = mode;
         }
         
-        internal void StopTextInput()
+        internal void TextInputStop()
         {
             SDL.StopTextInput(Window.Handle);
             {
                 ResetText();
             }
+        }
+
+        internal bool TextInputActive()
+        {
+            return SDL.TextInputActive(Window.Handle);
+        }
+        
+        internal void TextInputSetClipboardText(string text)
+        {
+            SDL.SetClipboardText(text);
+        }
+
+        internal string TextInputGetClipboardText()
+        {
+            return SDL.GetClipboardText();
         }
         
         private void AppendText(string input)

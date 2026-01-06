@@ -7,12 +7,12 @@ namespace App
     {
         public override void OnAwake()
         {
-            Input.StartTextInput(TextInputMode.Alpha, 128);
+            Input.TextInputStart(TextInputMode.Default, 128);
         }
 
         public override void OnUpdate()
         {
-            
+            Debug.Log(Input.KeyboardModifier);
         }
     }
 }

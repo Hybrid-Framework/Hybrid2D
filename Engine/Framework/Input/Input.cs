@@ -130,14 +130,29 @@ namespace Hybrid
         public static string Text => TextInput.Text;
         
         
-        public static void StartTextInput(TextInputMode mode = TextInputMode.Default, int limit = 0)
+        public static void TextInputStart(TextInputMode mode = TextInputMode.Default, int limit = 0)
         {
-            TextInput.StartTextInput(mode, limit);
+            TextInput.TextInputStart(mode, limit);
+        }
+
+        public static void TextInputActive()
+        {
+            TextInput.TextInputActive();
         }
         
-        public static void StopTextInput()
+        public static void TextInputStop()
         {
-            TextInput.StopTextInput();
+            TextInput.TextInputStop();
+        }
+
+        public static void TextInputSetClipboardText(string text)
+        {
+            TextInput.TextInputSetClipboardText(text);
+        }
+
+        public static string TextInputGetClipboardText()
+        {
+            return TextInput.TextInputGetClipboardText();
         }
     }
 

@@ -11,7 +11,7 @@ namespace Hybrid
         {
             if (IsSupported())
             {
-                Input.TextInput.StartTextInput(mode, limit);
+                Input.TextInput.TextInputStart(mode, limit);
             }
         }
         
@@ -19,7 +19,7 @@ namespace Hybrid
         {
             if (IsSupported())
             {
-                Input.TextInput.StopTextInput();
+                Input.TextInput.TextInputStop();
             }
         }
         

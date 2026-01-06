@@ -16,9 +16,5 @@ namespace Hybrid
         NumLock = 0x1000,
         CapLock = 0x2000,
         ScrollLock = 0x8000,
-        
-        Control = LeftControl | RightControl,
-        Shift = LeftShift | RightShift,
-        Alt = LeftAlt | RightAlt,
     }
 }
