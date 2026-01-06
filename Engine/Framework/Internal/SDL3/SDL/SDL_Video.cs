@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using Hybrid;
 
 internal static unsafe partial class SDL
 {
@@ -201,8 +202,8 @@ internal static unsafe partial class SDL
     
     // Get Window Safe Area
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_GetWindowSafeArea(SDL.Window* window, out SDL.RectInt rect);
-    public static bool GetWindowSafeArea(SDL.Window* window, out SDL.RectInt rect)
+    private static extern SDL.Bool SDL_GetWindowSafeArea(SDL.Window* window, out RectInt rect);
+    public static bool GetWindowSafeArea(SDL.Window* window, out RectInt rect)
     {
         return SDL_GetWindowSafeArea(window, out rect);
     }

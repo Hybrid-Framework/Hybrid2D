@@ -11,6 +11,21 @@
         <ProjectReference Include="..\..\App\App.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Content Update="wwwroot\Internals\Canvas.js">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Update="wwwroot\Internals\Device.js">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Update="wwwroot\Internals\Events.js">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Update="wwwroot\Internals\Orientation.js">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
     <Import Project="Hybrid.props" />
     
 </Project>

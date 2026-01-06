@@ -3,7 +3,7 @@
 namespace Hybrid
 {
     // Internal
-    public sealed unsafe class Graphics : Module
+    public sealed unsafe partial class Graphics : Module
     {
         internal Graphics() { }
         
@@ -14,30 +14,11 @@ namespace Hybrid
             get;
         }
         
-        
         // Initialize
         internal override void OnInitialize()
         {
             // Render Creation
             Handle = SDL.CreateRenderer(Window.Handle, null);
-        }
-        
-        // Render
-        internal override void OnRender()
-        {
-            // TODO: PRESENTATION SUCH AS LETTERBOX, ETC
-            // THIS ALREADY WORKS BUT NO BLACK BARS
-            
-            // Clear
-            SDL.SetRenderDrawColor(Handle, 255, 128, 128, 255);
-            SDL.RenderClear(Handle);
-            
-            // Rendering
-            SDL.SetRenderDrawColor(Handle, 255, 255, 255, 255);
-            SDL.RenderDebugText(Handle, 10, 10, $"FPS: {Time.FramesPerSecond.ToString("N0")} MS: {Time.FrameTime}");
-            
-            // Present
-            SDL.RenderPresent(Handle);
         }
 
         // Dispose
@@ -48,6 +29,64 @@ namespace Hybrid
                 SDL.DestroyRenderer(Handle);
                 Handle = null;
             }
+        }
+    }
+
+    public unsafe partial class Graphics
+    {
+        public static void Color(Color32 color)
+        {
+            SDL.SetRenderDrawColor(Handle, color.R, color.G, color.B, color.A);
+        }
+        
+        public static void Clear()
+        {
+            SDL.RenderClear(Handle);
+        }
+
+        public static void DrawRect(Rect rect)
+        {
+            SDL.RenderFillRect(Handle, rect);
+        }
+
+        public static void DrawRects(Rect[] rects)
+        {
+            SDL.RenderFillRects(Handle, rects, rects.Length);
+        }
+
+        public static void DrawLine(Point start, Point end)
+        {
+            SDL.RenderLine(Handle, start.X, start.Y, end.X, end.Y);
+        }
+
+        public static void DrawLines(Point[] points)
+        {
+            SDL.RenderLines(Handle, points, points.Length);
+        }
+
+        public static void DrawPoint(Point point)
+        {
+            SDL.RenderPoint(Handle, point.X, point.Y);
+        }
+
+        public static void DrawPoints(Point[] points)
+        {
+            SDL.RenderPoints(Handle, points, points.Length);
+        }
+        
+        public static void DrawTexture(Texture texture, Rect uv, Rect position)
+        {
+            SDL.RenderTexture(Handle, texture.Handle, uv, position);
+        }
+
+        public static void DrawGeometry(Texture texture, Vertex[] vertices, int[] indices)
+        {
+            SDL.RenderGeometry(Handle, texture.Handle, vertices, vertices.Length, indices, indices.Length);
+        }
+
+        public static void Present()
+        {
+            SDL.RenderPresent(Handle);
         }
     }
 }

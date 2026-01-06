@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using Hybrid;
 using System;
 
 internal static unsafe partial class SDL
@@ -117,13 +118,13 @@ internal static unsafe partial class SDL
     
     // Render Texture
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_RenderTexture(SDL.Renderer* renderer, SDL.Texture* texture, SDL.Rect* src, SDL.Rect* dst);
-    public static bool RenderTexture(SDL.Renderer* renderer, SDL.Texture* texture, SDL.Rect? src, SDL.Rect? dst)
+    private static extern SDL.Bool SDL_RenderTexture(SDL.Renderer* renderer, SDL.Texture* texture, Rect* src, Rect* dst);
+    public static bool RenderTexture(SDL.Renderer* renderer, SDL.Texture* texture, Rect? src, Rect? dst)
     {
-        SDL.Rect s = src.GetValueOrDefault();
+        Rect s = src.GetValueOrDefault();
         var sv = (src.HasValue ? &s : null);
         
-        SDL.Rect d = dst.GetValueOrDefault();
+        Rect d = dst.GetValueOrDefault();
         var dv = (dst.HasValue ? &d : null);
         
         return SDL_RenderTexture(renderer, texture, sv, dv);
@@ -131,16 +132,16 @@ internal static unsafe partial class SDL
     
     // Render Texture Rotated
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_RenderTextureRotated(SDL.Renderer* renderer, SDL.Texture* texture, SDL.Rect* src, SDL.Rect* dst, double angle, SDL.Point* center, SDL.FlipMode flip);
-    public static bool RenderTextureRotated(SDL.Renderer* renderer, SDL.Texture* texture, SDL.Rect? src, SDL.Rect? dst, double angle, SDL.Point? center, SDL.FlipMode flip)
+    private static extern SDL.Bool SDL_RenderTextureRotated(SDL.Renderer* renderer, SDL.Texture* texture, Rect* src, Rect* dst, double angle, Point* center, SDL.FlipMode flip);
+    public static bool RenderTextureRotated(SDL.Renderer* renderer, SDL.Texture* texture, Rect? src, Rect? dst, double angle, Point? center, SDL.FlipMode flip)
     {
-        SDL.Rect s = src.GetValueOrDefault();
+        Rect s = src.GetValueOrDefault();
         var sv = (src.HasValue ? &s : null);
         
-        SDL.Rect d = dst.GetValueOrDefault();
+        Rect d = dst.GetValueOrDefault();
         var dv = (dst.HasValue ? &d : null);
         
-        SDL.Point c = center.GetValueOrDefault();
+        Point c = center.GetValueOrDefault();
         var cv = (center.HasValue ? &c : null);
         
         return SDL_RenderTextureRotated(renderer, texture, sv, dv, angle, cv, flip);
@@ -148,19 +149,19 @@ internal static unsafe partial class SDL
     
     // Render Texture Affine
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_RenderTextureAffine(SDL.Renderer* renderer, SDL.Texture* texture, SDL.Rect* src, SDL.Point* origin, SDL.Point* right, SDL.Point* down);
-    public static bool RenderTextureAffine(SDL.Renderer* renderer, SDL.Texture* texture, SDL.Rect? src, SDL.Point? origin, SDL.Point? right, SDL.Point? down)
+    private static extern SDL.Bool SDL_RenderTextureAffine(SDL.Renderer* renderer, SDL.Texture* texture, Rect* src, Point* origin, Point* right, Point* down);
+    public static bool RenderTextureAffine(SDL.Renderer* renderer, SDL.Texture* texture, Rect? src, Point? origin, Point? right, Point? down)
     {
-        SDL.Rect s = src.GetValueOrDefault();
+        Rect s = src.GetValueOrDefault();
         var sv = (src.HasValue ? &s : null);
         
-        SDL.Point o = origin.GetValueOrDefault();
+        Point o = origin.GetValueOrDefault();
         var ov = (origin.HasValue ? &o : null);
         
-        SDL.Point r = right.GetValueOrDefault();
+        Point r = right.GetValueOrDefault();
         var rv = (right.HasValue ? &r : null);
         
-        SDL.Point d = down.GetValueOrDefault();
+        Point d = down.GetValueOrDefault();
         var dv = (down.HasValue ? &d : null);
         
         return SDL_RenderTextureAffine(renderer, texture, sv, ov, rv, dv);
@@ -168,13 +169,13 @@ internal static unsafe partial class SDL
     
     // Render Texture Tiled
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_RenderTextureTiled(SDL.Renderer* renderer, SDL.Texture* texture, SDL.Rect* src, float scale, SDL.Rect* dst);
-    public static bool RenderTextureTiled(SDL.Renderer* renderer, SDL.Texture* texture, SDL.Rect? src, float scale, SDL.Rect? dst)
+    private static extern SDL.Bool SDL_RenderTextureTiled(SDL.Renderer* renderer, SDL.Texture* texture, Rect* src, float scale, Rect* dst);
+    public static bool RenderTextureTiled(SDL.Renderer* renderer, SDL.Texture* texture, Rect? src, float scale, Rect? dst)
     {
-        SDL.Rect s = src.GetValueOrDefault();
+        Rect s = src.GetValueOrDefault();
         var sv = (src.HasValue ? &s : null);
         
-        SDL.Rect d = dst.GetValueOrDefault();
+        Rect d = dst.GetValueOrDefault();
         var dv = (dst.HasValue ? &d : null);
         
         return SDL_RenderTextureTiled(renderer, texture, sv, scale, dv);
@@ -182,13 +183,13 @@ internal static unsafe partial class SDL
     
     // Render Texture 9 Grid
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_RenderTexture9Grid(SDL.Renderer* renderer, SDL.Texture* texture, SDL.Rect* src, float leftWidth, float rightWidth, float topHeight, float bottomHeight, float scale, SDL.Rect* dst);
-    public static bool RenderTexture9Grid(SDL.Renderer* renderer, SDL.Texture* texture, SDL.Rect? src, float leftWidth, float rightWidth, float topHeight, float bottomHeight, float scale, SDL.Rect? dst)
+    private static extern SDL.Bool SDL_RenderTexture9Grid(SDL.Renderer* renderer, SDL.Texture* texture, Rect* src, float leftWidth, float rightWidth, float topHeight, float bottomHeight, float scale, Rect* dst);
+    public static bool RenderTexture9Grid(SDL.Renderer* renderer, SDL.Texture* texture, Rect? src, float leftWidth, float rightWidth, float topHeight, float bottomHeight, float scale, Rect? dst)
     {
-        SDL.Rect s = src.GetValueOrDefault();
+        Rect s = src.GetValueOrDefault();
         var sv = (src.HasValue ? &s : null);
         
-        SDL.Rect d = dst.GetValueOrDefault();
+        Rect d = dst.GetValueOrDefault();
         var dv = (dst.HasValue ? &d : null);
 
         return SDL_RenderTexture9Grid(renderer, texture, sv, leftWidth, rightWidth, topHeight, bottomHeight, scale, dv);
@@ -196,13 +197,13 @@ internal static unsafe partial class SDL
     
     // Render Texture 9 Grid Tiled
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_RenderTexture9GridTiled(SDL.Renderer* renderer, SDL.Texture* texture, SDL.Rect* src, float leftWidth, float rightWidth, float topHeight, float bottomHeight, float scale, SDL.Rect* dst, float tileScale);
-    public static bool RenderTexture9GridTiled(SDL.Renderer* renderer, SDL.Texture* texture, SDL.Rect? src, float leftWidth, float rightWidth, float topHeight, float bottomHeight, float scale, SDL.Rect? dst, float tileScale)
+    private static extern SDL.Bool SDL_RenderTexture9GridTiled(SDL.Renderer* renderer, SDL.Texture* texture, Rect* src, float leftWidth, float rightWidth, float topHeight, float bottomHeight, float scale, Rect* dst, float tileScale);
+    public static bool RenderTexture9GridTiled(SDL.Renderer* renderer, SDL.Texture* texture, Rect? src, float leftWidth, float rightWidth, float topHeight, float bottomHeight, float scale, Rect? dst, float tileScale)
     {
-        SDL.Rect s = src.GetValueOrDefault();
+        Rect s = src.GetValueOrDefault();
         var sv = (src.HasValue ? &s : null);
         
-        SDL.Rect d = dst.GetValueOrDefault();
+        Rect d = dst.GetValueOrDefault();
         var dv = (dst.HasValue ? &d : null);
 
         return SDL_RenderTexture9GridTiled(renderer, texture, sv, leftWidth, rightWidth, topHeight, bottomHeight, scale, dv, tileScale);
@@ -210,10 +211,10 @@ internal static unsafe partial class SDL
     
     // Update Texture
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_UpdateTexture(SDL.Texture* texture, SDL.RectInt* rect, IntPtr pixels, int pitch);
-    public static bool UpdateTexture(SDL.Texture* texture, SDL.RectInt? rect, IntPtr pixels, int pitch)
+    private static extern SDL.Bool SDL_UpdateTexture(SDL.Texture* texture, RectInt* rect, IntPtr pixels, int pitch);
+    public static bool UpdateTexture(SDL.Texture* texture, RectInt? rect, IntPtr pixels, int pitch)
     {
-        SDL.RectInt r = rect.GetValueOrDefault();
+        RectInt r = rect.GetValueOrDefault();
         var rv = (rect.HasValue ? &r : null);
         
         return SDL_UpdateTexture(texture, rv, pixels, pitch);
@@ -221,10 +222,10 @@ internal static unsafe partial class SDL
     
     // Lock Texture
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_LockTexture(SDL.Texture* texture, SDL.RectInt* rect, out IntPtr pixels, out int pitch);
-    public static bool LockTexture(SDL.Texture* texture, SDL.RectInt? rect, out IntPtr pixels, out int pitch)
+    private static extern SDL.Bool SDL_LockTexture(SDL.Texture* texture, RectInt* rect, out IntPtr pixels, out int pitch);
+    public static bool LockTexture(SDL.Texture* texture, RectInt? rect, out IntPtr pixels, out int pitch)
     {
-        SDL.RectInt r = rect.GetValueOrDefault();
+        RectInt r = rect.GetValueOrDefault();
         var rv = (rect.HasValue ? &r : null);
         
         return SDL_LockTexture(texture, rv, out pixels, out pitch);

@@ -52,7 +52,7 @@ namespace Hybrid
             
             // Window Creation
             Handle = SDL.CreateWindow("Hybrid", 600, 480, Flags.GetFlags());
-            Size = new Vector2(600, 480);
+            Size = GetSize();
             
             // Icon
             if (!web)
@@ -362,7 +362,7 @@ namespace Hybrid
 
         public static Vector2 GetPresentationSize()
         {
-            SDL.GetRenderLogicalPresentation(Graphics.Handle, out var w, out var h, out var _);
+            SDL.GetRenderLogicalPresentation(Graphics.Handle, out var w, out var h, out var size);
             {
                 return new Vector2(w, h);
             }

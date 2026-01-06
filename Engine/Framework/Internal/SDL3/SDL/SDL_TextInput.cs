@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using Hybrid;
 
 internal static unsafe partial class SDL
 {
@@ -36,10 +37,10 @@ internal static unsafe partial class SDL
     
     // Set Text Input Area
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_SetTextInputArea(SDL.Window* window, SDL.RectInt* rect, int cursor);
-    public static bool SetTextInputArea(SDL.Window* window, SDL.RectInt? rect, int cursor)
+    private static extern SDL.Bool SDL_SetTextInputArea(SDL.Window* window, RectInt* rect, int cursor);
+    public static bool SetTextInputArea(SDL.Window* window, RectInt? rect, int cursor)
     {
-        SDL.RectInt r = rect.GetValueOrDefault();
+        RectInt r = rect.GetValueOrDefault();
         var rv = (rect.HasValue ? &r : null);
 
         return SDL_SetTextInputArea(window, rv, cursor);
@@ -47,8 +48,8 @@ internal static unsafe partial class SDL
     
     // Get Text Input Area
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_GetTextInputArea(SDL.Window* window, out SDL.RectInt rect, out int cursor);
-    public static bool GetTextInputArea(SDL.Window* window, out SDL.RectInt rect, out int cursor)
+    private static extern SDL.Bool SDL_GetTextInputArea(SDL.Window* window, out RectInt rect, out int cursor);
+    public static bool GetTextInputArea(SDL.Window* window, out RectInt rect, out int cursor)
     {
         return SDL_GetTextInputArea(window, out rect, out cursor);
     }
