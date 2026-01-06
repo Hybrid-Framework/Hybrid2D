@@ -40,7 +40,7 @@ namespace Hybrid
         
         public static void Quit()
         {
-            Engine.Instance.Quit();
+            Platform.Game.Quit();
         }
     }
 }

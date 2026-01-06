@@ -3,9 +3,9 @@
 namespace Hybrid
 {
     // Internal
-    public sealed unsafe partial class Audio : Module<Audio>
+    public sealed unsafe partial class Audio : Module
     {
-        private Audio() { }
+        internal Audio() { }
         
         // Initialize
         internal override void OnInitialize()

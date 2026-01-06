@@ -5,15 +5,17 @@ namespace Hybrid
     // Platform
     internal abstract partial class Platform
     {
-        private static Platform Current { get; set; }
-        private static Config Config { get; set; }
+        internal static Platform Current { get; private set; }
+        internal static Config Config { get; private set; }
+        internal static Game Game { get; private set; }
         
         
         internal static void SetPlatform(Platform platform, Config config)
         {
             if(platform == null || config == null)
-                throw new Exception($"Invalid Platform Parameters {typeof(Platform)} {typeof(Config)}");
+                throw new Exception($"Invalid Platform Parameters {typeof(Platform)} {typeof(Config)} {typeof(Game)}");
             
+            Game = config.Game;
             Current = platform;
             Config = config;
         }

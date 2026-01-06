@@ -3,9 +3,9 @@
 namespace Hybrid
 {
     // Internal
-    public sealed unsafe partial class Window : Module<Window>
+    public sealed unsafe partial class Window : Module
     {
-        private Window() { }
+        internal Window() { }
         
         internal static WindowEvents Events { get; private set; }
         internal static WindowFlags Flags { get; private set; }

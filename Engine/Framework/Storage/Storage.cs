@@ -3,9 +3,9 @@ using System;
 
 namespace Hybrid
 {
-    public sealed partial class Storage : Module<Storage>
+    public sealed partial class Storage : Module
     {
-        private Storage() { }
+        internal Storage() { }
 
         // Initialize
         internal override void OnInitialize()

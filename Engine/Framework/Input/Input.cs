@@ -4,9 +4,9 @@ using System;
 namespace Hybrid
 {
     // Internal
-    public sealed partial class Input : Module<Input>
+    public sealed partial class Input : Module
     {
-        private Input() { }
+        internal Input() { }
         
         internal static readonly VirtualInputs VirtualInputs = new VirtualInputs();
         internal static readonly TextInput TextInput = new TextInput();

@@ -6,9 +6,9 @@ using System;
 namespace Hybrid
 {
     // Internal API
-    public sealed partial class Resources : Module<Resources>
+    public sealed partial class Resources : Module
     {
-        private Resources() { }
+        internal Resources() { }
 
         // Dispose
         internal override void OnDispose()

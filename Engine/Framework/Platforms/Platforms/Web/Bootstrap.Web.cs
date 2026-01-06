@@ -32,12 +32,15 @@ namespace Hybrid
         {
             Emscripten.SetMainLoopTiming(Emscripten.Mode.RequestFrameAnimation, 1);
             
-            if (Engine.Instance.Run())
+            Platform.Game.StartMainLoop();
+            
+            if (Platform.Game.IsRunning)
             {
-                // Run application
+                Platform.Game.MainLoop();
                 return;
             }
             
+            Platform.Game.Quit();
             Emscripten.CancelMainLoop();
         }
     }

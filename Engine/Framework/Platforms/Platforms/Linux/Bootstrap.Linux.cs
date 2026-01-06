@@ -28,10 +28,14 @@ namespace Hybrid
 
         protected static void Run()
         {
-            while (Engine.Instance.Run())
+            Platform.Game.StartMainLoop();
+            
+            while (Platform.Game.IsRunning)
             {
-                // Run application
+                Platform.Game.MainLoop();
             }
+            
+            Platform.Game.Quit();
         }
     }
 }

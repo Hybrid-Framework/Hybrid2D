@@ -18,7 +18,6 @@ namespace Hybrid
         public static float FixedDeltaTime { get; set; } = 0.02f;
         public static float DeltaTime { get; internal set; }
 
-        public static float RealTimeSinceSceneStartup => (float)Time.SceneWatch.Elapsed.TotalSeconds;
         public static float RealTimeSinceStartup => (float)Time.RealWatch.Elapsed.TotalSeconds;
         public static float FixedUnscaledTimer { get; internal set; }
         public static float UnscaledTimer { get; internal set; }
@@ -32,9 +31,7 @@ namespace Hybrid
         private static double FrameFrequency { get; set; } = SDL.GetPerformanceFrequency();
         private static long FramePrevious { get; set; } = SDL.GetPerformanceCounter();
         private static long FrameStart  { get; set; } = SDL.GetPerformanceCounter();
-        
-        internal static Stopwatch SceneWatch { get; set; } = Stopwatch.StartNew();
-        internal static Stopwatch RealWatch { get; set; } = Stopwatch.StartNew();
+        private static Stopwatch RealWatch { get; set; } = Stopwatch.StartNew();
         
         internal static float FixedUnscaledFrameTime { get; set; }
         internal static float UnscaledFrameTime { get; set; }
@@ -68,7 +65,10 @@ namespace Hybrid
             Time.UnscaledFrameTime = Time.UnscaledDeltaTime * 1000f;
             
             // Frame
-            Time.FramesPerSecond = (Time.FramesPerSecond * 0.9f) + ((1f / Time.UnscaledDeltaTime) * 0.1f);
+            var fps = (Time.FramesPerSecond * 0.9f) + ((1f / Time.UnscaledDeltaTime) * 0.1f);
+            if (fps < 0) fps = 0;
+            
+            Time.FramesPerSecond = fps;
             Time.FrameCount += 1;
             
             // Fixed Spiral Prevention

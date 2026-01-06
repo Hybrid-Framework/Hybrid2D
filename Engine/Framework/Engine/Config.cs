@@ -5,6 +5,8 @@ namespace Hybrid
     // Config
     public class Config
     {
+        public virtual Game Game { get; set; }
+        
         public virtual string Icon { get; set; }
         public virtual string Title { get; set; }
         

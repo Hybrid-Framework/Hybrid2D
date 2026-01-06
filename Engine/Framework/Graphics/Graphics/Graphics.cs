@@ -3,9 +3,9 @@
 namespace Hybrid
 {
     // Internal
-    public sealed unsafe class Graphics : Module<Graphics>
+    public sealed unsafe class Graphics : Module
     {
-        private Graphics() { }
+        internal Graphics() { }
         
         // SDL Renderer Handle
         internal static SDL.Renderer* Handle

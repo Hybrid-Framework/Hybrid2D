@@ -31,11 +31,14 @@ namespace Hybrid
         
         protected static int Run(int argc, IntPtr argv)
         {
-            while (Engine.Instance.Run())
+            Platform.Game.StartMainLoop();
+            
+            while (Platform.Game.IsRunning)
             {
-                // Run application
+                Platform.Game.MainLoop();
             }
             
+            Platform.Game.Quit();
             return 0;
         }
     }

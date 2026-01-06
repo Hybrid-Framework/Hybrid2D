@@ -15,10 +15,6 @@ namespace Hybrid
         
         protected static void Entry(Bootstrap bootstrap, Config config)
         {
-            // Initialize
-            if (Engine.Instance.Initialized) return;
-            
-            // Bootstrap
             bootstrap.Execute(config);
         }
 
