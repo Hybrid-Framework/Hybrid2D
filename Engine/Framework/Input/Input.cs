@@ -18,7 +18,7 @@ namespace Hybrid
 
         
         // Start Of Frame
-        internal override void OnUpdate()
+        internal override void OnStartOfFrame()
         {
             TextInput.OnReset();
             

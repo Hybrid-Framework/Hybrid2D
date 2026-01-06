@@ -125,8 +125,7 @@ namespace Hybrid
         {
             if (Platform.GetDisplay().SetFullscreen(fullscreen))
             {
-                // BUG IN SDL (due to be fixed in SDL 3.6) (still fires event)
-                // Events.Push(fullscreen ? SDL.EventType.FullscreenOn : SDL.EventType.FullscreenOff);
+                Events.Push(fullscreen ? SDL.EventType.FullscreenOn : SDL.EventType.FullscreenOff);
             }
         }
 

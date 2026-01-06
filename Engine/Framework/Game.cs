@@ -36,6 +36,9 @@ namespace Hybrid
             // Frame Time
             Time.BeforeFrame();
             
+            // Start Of Frame
+            OnEngineStartOfFrame();
+            
             // Events
             while (Platform.GetEvents().PollEvents(out SDL.Event e))
             {
@@ -54,6 +57,9 @@ namespace Hybrid
             
             // Render
             OnEngineRender();
+
+            // End Of Frame
+            OnEngineEndOfFrame();
             
             // Frame Limit
             Time.AfterFrame();
@@ -73,6 +79,22 @@ namespace Hybrid
             
             SDL.Quit();
         }
+    }
+    
+    // Start of Frame
+    public partial class Game
+    {
+        internal void OnEngineStartOfFrame()
+        {
+            foreach (var module in Modules)
+            {
+                module.OnStartOfFrame();
+            }
+
+            OnStartOfFrame();
+        }
+
+        internal virtual void OnStartOfFrame() { }
     }
     
     // Events
@@ -135,5 +157,21 @@ namespace Hybrid
         }
 
         public virtual void OnRender() { }
+    }
+    
+    // End of Frame
+    public partial class Game
+    {
+        internal void OnEngineEndOfFrame()
+        {
+            foreach (var module in Modules)
+            {
+                module.OnEndOfFrame();
+            }
+
+            OnEndOfFrame();
+        }
+
+        internal virtual void OnEndOfFrame() { }
     }
 }
