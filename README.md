@@ -2,9 +2,7 @@
  
 <img width="128" src="Hybrid.png">
 
-A lightweight cross-platform game framework
-
-Inspried by Unity
+A simple cross-platform game framework
 
 ⚠️ IN DEVELOPMENT ⚠️
 
