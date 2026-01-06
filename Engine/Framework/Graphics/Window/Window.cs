@@ -53,6 +53,18 @@ namespace Hybrid
             // Window Creation
             Handle = SDL.CreateWindow("Hybrid", 600, 480, Flags.GetFlags());
             Size = new Vector2(600, 480);
+            
+            // Icon
+            if (!web)
+            {
+                var icon = SDL_image.Load("Icon.png");
+
+                if (icon != null)
+                {
+                    SDL.SetWindowIcon(Handle, icon);
+                    SDL.DestroySurface(icon);
+                }
+            }
         }
 
         // Events

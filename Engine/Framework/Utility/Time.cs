@@ -20,15 +20,11 @@ namespace Hybrid
         
         public static float UnscaledFrameTime { get; internal set; }
         public static float FrameTime { get; internal set; }
-        
-        public static float RealTimeSinceStartup => (float)Time.RealWatch.Elapsed.TotalSeconds;
     }
     
     // Internal
     public static partial class Time
     {
-        private static readonly Stopwatch RealWatch = Stopwatch.StartNew();
-        
         private static readonly double FrameFrequency = SDL.GetPerformanceFrequency();
         private static long FramePrevious = SDL.GetPerformanceCounter();
         private static long FrameStart = SDL.GetPerformanceCounter();
