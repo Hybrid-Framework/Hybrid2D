@@ -9,7 +9,7 @@ namespace Hybrid
         private Input() { }
         
         internal static readonly VirtualInputs VirtualInputs = new VirtualInputs();
-        internal static readonly InputText InputText = new InputText();
+        internal static readonly TextInput TextInput = new TextInput();
         
         internal static readonly TouchScreen TouchScreen = new TouchScreen();
         internal static readonly Keyboard Keyboard = new Keyboard();
@@ -20,7 +20,7 @@ namespace Hybrid
         // Start Of Frame
         internal override void OnStartOfFrame()
         {
-            InputText.OnReset();
+            TextInput.OnReset();
             
             TouchScreen.OnReset();
             Keyboard.OnReset();
@@ -31,7 +31,7 @@ namespace Hybrid
         // Events
         internal override void OnEvent(SDL.Event e)
         {
-            InputText.OnEvent(e);
+            TextInput.OnEvent(e);
             
             TouchScreen.OnEvent(e);
             Keyboard.OnEvent(e);
@@ -42,7 +42,7 @@ namespace Hybrid
         // Dispose
         internal override void OnDispose()
         {
-            InputText.OnDispose();
+            TextInput.OnDispose();
             
             TouchScreen.OnDispose();
             Keyboard.OnDispose();
@@ -127,17 +127,17 @@ namespace Hybrid
     // Text Input
     public partial class Input
     {
-        public static string Text => InputText.Text;
+        public static string Text => TextInput.Text;
         
         
-        public static void StartTextInput(KeyboardInputType type = KeyboardInputType.AlphaNumeric, int limit = 0)
+        public static void StartTextInput(TextInputMode mode = TextInputMode.Default, int limit = 0)
         {
-            InputText.StartTextInput(type, limit);
+            TextInput.StartTextInput(mode, limit);
         }
         
         public static void StopTextInput()
         {
-            InputText.StopTextInput();
+            TextInput.StopTextInput();
         }
     }
 

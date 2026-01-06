@@ -4,14 +4,14 @@ namespace Hybrid
 {
     public static unsafe class TouchScreenKeyboard
     {
-        public static string Text => Input.InputText.Text;
+        public static string Text => Input.TextInput.Text;
         
         
-        public static void Open(KeyboardInputType type = KeyboardInputType.AlphaNumeric, int limit = 0)
+        public static void Open(TextInputMode mode = TextInputMode.Default, int limit = 0)
         {
             if (IsSupported())
             {
-                Input.InputText.StartTextInput(type, limit);
+                Input.TextInput.StartTextInput(mode, limit);
             }
         }
         
@@ -19,7 +19,7 @@ namespace Hybrid
         {
             if (IsSupported())
             {
-                Input.InputText.StopTextInput();
+                Input.TextInput.StopTextInput();
             }
         }
         
