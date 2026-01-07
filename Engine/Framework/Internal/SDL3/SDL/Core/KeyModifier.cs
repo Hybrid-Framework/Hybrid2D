@@ -1,11 +1,12 @@
 ﻿using System.Runtime.InteropServices;
+using System;
 
 internal static unsafe partial class SDL
 {
     [Flags]
     public enum KeyModifier : ushort
     {
-        None = 0x0000,
+        None = 0,
         
         LeftShift = 0x0001,
         RightShift = 0x0002,
@@ -13,10 +14,12 @@ internal static unsafe partial class SDL
         RightControl = 0x0080,
         LeftAlt = 0x0100,
         RightAlt = 0x0200,
-        Caps = 0x2000,
+        NumLock = 0x1000,
+        CapLock = 0x2000,
+        ScrollLock = 0x8000,
         
-        Control = (LeftControl | RightControl),
-        Shift = (LeftShift | RightShift),
-        Alta = (LeftAlt | RightAlt),
+        Control = LeftControl | RightControl,
+        Shift = LeftShift | RightShift,
+        Alt = LeftAlt | RightAlt,
     }
 }

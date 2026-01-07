@@ -5,25 +5,25 @@ internal static unsafe partial class SDL
     // Get Ticks
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern ulong SDL_GetTicks();
-    public static ulong GetTicks()
+    public static long GetTicks()
     {
-        return SDL_GetTicks();
+        return (long)SDL_GetTicks();
     }
     
     // Get Performance Counter
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern ulong SDL_GetPerformanceCounter();
-    public static ulong GetPerformanceCounter()
+    public static long GetPerformanceCounter()
     {
-        return SDL_GetPerformanceCounter();
+        return (long)SDL_GetPerformanceCounter();
     }
     
     // Get Performance Frequency
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern ulong SDL_GetPerformanceFrequency();
-    public static ulong GetPerformanceFrequency()
+    public static long GetPerformanceFrequency()
     {
-        return SDL_GetPerformanceFrequency();
+        return (long)SDL_GetPerformanceFrequency();
     }
     
     // Delay Precise

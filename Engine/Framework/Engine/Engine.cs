@@ -1,150 +1,217 @@
-﻿using System;
+﻿using System.Linq;
+using System;
 
 namespace Hybrid
 {
     // Engine
-    internal partial class Engine
+    internal sealed partial class Engine : Module<Engine>
     {
-        internal static List<Module> Modules = new List<Module>(); // Populated by constructors
-        
         internal bool Initialized { get; private set; }
         internal bool IsRunning { get; private set; }
-        
-        internal static GraphicsDevice GraphicsDevice;
-        internal static AudioDevice AudioDevice;
-        internal static Content Content;
-        
-        internal Config Config { get; }
-        
+        internal bool IsQuit { get; private set; }
 
-        internal Engine(Config config)
+        
+        internal bool Run()
         {
-            Config = config;
+            try
+            {
+                StartMainLoop();
+                MainLoop();
+            }
+            catch (Exception ex)
+            {
+                Exceptions.Throw(ex, true);
+            }
+            
+            return IsRunning;
         }
-    }
-    
-    // Engine Core
-    internal partial class Engine
-    {
-        // Engine Initialize
-        internal void Initialize()
+        
+        private void StartMainLoop()
         {
             // Initialize
             if (Initialized) return;
             Initialized = true;
             IsRunning = true;
-            
-            // Create Modules
-            // Auto Added To Modules List
-            GraphicsDevice = new GraphicsDevice(Config);
-            AudioDevice = new AudioDevice(Config);
-            Content = new Content(Config);
-            
+            IsQuit = false;
+
+            // Create & Initialize Modules
+            Register(Storage.FindOrCreate());
+            Register(Audio.FindOrCreate());
+            Register(Window.FindOrCreate());
+            Register(Graphics.FindOrCreate());
+            Register(Resources.FindOrCreate());
+            Register(Coroutines.FindOrCreate());
+            Register(Invokes.FindOrCreate());
+            Register(Input.FindOrCreate());
+            Register(Objects.FindOrCreate());
+            Register(Scenes.FindOrCreate());
+
             // Initialize
             OnInitialize();
         }
         
-        // Engine Main Loop
-        internal void MainLoop()
+        private void MainLoop()
         {
-            // Calculate Time
+            // Frame Time
             Time.BeforeFrame();
             
-            // Frame
-            OnEvent();
-            OnUpdate();
-            OnRender();
+            // Start Frame
+            OnStartOfFrame();
             
-            // Calculate Time
-            Time.AfterFrame();
-        }
-        
-        // Engine Quit
-        internal void Quit()
-        {
-            // Quit Application
-            if(!IsRunning) return;
-            IsRunning = false;
-            
-            // Dispose Modules
-            foreach (var module in Modules)
-            {
-                module.Dispose();
-            }
-            
-            // Quit
-            SDL.Quit();
-        }
-    }
-    
-    // Engine Events
-    internal partial class Engine
-    {
-        internal void OnEvent()
-        {
-            // Gather SDL events
-            List<SDL.Event> events = new List<SDL.Event>();
-    
-            while (SDL.PollEvent(out SDL.Event e))
+            // Events
+            while (Platform.GetEvents().PollEvents(out SDL.Event e))
             {
                 // Quit Application
-                if (e.type == SDL.EventType.Quit)
+                if(e.type == SDL.EventType.Quit)
                 {
                     Quit();
                     return;
                 }
-        
-                // Add
-                events.Add(e);
+                
+                OnEvent(e);
             }
             
-            // Event Modules
-            foreach (var module in Modules)
+            // Fixed Update
+            while (Time.FixedFrameTime >= Time.FixedDeltaTime)
             {
-                if(events.Count > 0)
+                Time.InFixedTimeStep = true;
+                
+                OnFixedUpdate();
                 {
-                    // Send Events
-                    foreach(var e in events)
-                    {
-                        module.OnEvent(e);
-                    }
+                    Time.FixedUnscaledTimer += Time.FixedUnscaledDeltaTime;
+                    Time.FixedTimer += Time.FixedDeltaTime;
                 }
-                else
-                {
-                    // Call Per Frame
-                    module.OnEvent(default);
-                }
+                
+                Time.FixedFrameTime -= Time.FixedDeltaTime;
+                Time.InFixedTimeStep = false;
+            }
+            
+            // Update
+            OnUpdate();
+
+            // Late Update
+            OnLateUpdate();
+            
+            // Render
+            OnRender();
+            
+            // End Frame
+            OnEndOfFrame();
+            
+            // Frame Limit
+            Time.AfterFrame();
+        }
+        
+        internal void Quit()
+        {
+            // Quit Application
+            if (!IsRunning) return;
+            IsRunning = false;
+            IsQuit = true;
+            
+            // Unregister & Dispose Modules
+            foreach(var module in GetModules().Reverse())
+            {
+                UnRegister(module);
+            }
+            
+            SDL.Quit();
+        }
+    }
+    
+    // Initialize
+    internal partial class Engine
+    {
+        internal override void OnInitialize()
+        {
+            foreach (var module in GetModules())
+            {
+                module.OnInitialize();
             }
         }
     }
     
-    // Engine Initialize
+    // Start Of Frame
     internal partial class Engine
     {
-        internal void OnInitialize()
+        internal override void OnStartOfFrame()
         {
-            // Initialize Game
-            Config.Game.OnInitialize();
+            foreach (var module in GetModules())
+            {
+                module.OnStartOfFrame();
+            }
         }
     }
     
-    // Engine Update
+    // Events
     internal partial class Engine
     {
-        internal void OnUpdate()
+        internal override void OnEvent(SDL.Event e)
         {
-            // Update Game
-            Config.Game.OnUpdate();
+            foreach (var module in GetModules())
+            {
+                module.OnEvent(e);
+            }
+        }
+    }
+
+    // Update
+    internal partial class Engine
+    {
+        internal override void OnUpdate()
+        {
+            foreach (var module in GetModules())
+            {
+                module.OnUpdate();
+            }
         }
     }
     
-    // Engine Render
+    // Fixed Update
     internal partial class Engine
     {
-        internal void OnRender()
+        internal override void OnFixedUpdate()
         {
-            // Render Game
-            Config.Game.OnRender();
+            foreach (var module in GetModules())
+            {
+                module.OnFixedUpdate();
+            }
+        }
+    }
+    
+    // Late Update
+    internal partial class Engine
+    {
+        internal override void OnLateUpdate()
+        {
+            foreach (var module in GetModules())
+            {
+                module.OnLateUpdate();
+            }
+        }
+    }
+
+    // Render
+    internal partial class Engine
+    {
+        internal override void OnRender()
+        {
+            foreach (var module in GetModules())
+            {
+                module.OnRender();
+            }
+        }
+    }
+    
+    // End Of Frame
+    internal partial class Engine
+    {
+        internal override void OnEndOfFrame()
+        {
+            foreach (var module in GetModules())
+            {
+                module.OnEndOfFrame();
+            }
         }
     }
 }

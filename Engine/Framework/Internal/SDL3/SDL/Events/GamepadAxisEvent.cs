@@ -9,7 +9,7 @@ internal static unsafe partial class SDL
         public uint reserved;
         public ulong timestamp;
         public uint gamepadID;
-        public byte axis;
+        public SDL.GamepadAxis axis;
         private byte padding1;
         private byte padding2;
         private byte padding3;

@@ -5,9 +5,9 @@ namespace Hybrid
     public enum Orientation
     {
         Unknown = 0,
-        Landscape = 1,
-        LandscapeFlipped = 2,
-        Portrait = 3,
-        PortraitFlipped = 4,
+        LandscapePrimary = 1,
+        LandscapeSecondary = 2,
+        PortraitPrimary = 3,
+        PortraitSecondary = 4,
     }
 }

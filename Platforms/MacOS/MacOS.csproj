@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
@@ -12,6 +12,6 @@
         <ProjectReference Include="..\..\App\App.csproj" />
     </ItemGroup>
 
-    <Import Project="Resources/Settings.props" />
+    <Import Project="Hybrid.props" />
 
 </Project>

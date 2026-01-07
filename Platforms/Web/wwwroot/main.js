@@ -1,18 +1,18 @@
 import { dotnet } from './_framework/dotnet.js';
 
+// Settings
 const { setModuleImports, getAssemblyExports, getConfig } = await dotnet
     .withDiagnosticTracing(false)
     .withApplicationArgumentsFromQuery()
     .create();
 
+// Exports
 const config = getConfig();
 const exports = await getAssemblyExports(config.mainAssemblyName);
 
-var canvas = document.getElementById("canvas");
+// Canvas
+const canvas = HybridJS.GetCanvas();
 dotnet.instance.Module.canvas = canvas;
 
-dotnet.instance.Module.print = console.log;
-dotnet.instance.Module.printErr = console.error;
-dotnet.instance.Module.onAbort = (msg) => console.error("Exception:", msg);
-
+// Run App
 await exports.Program.Main();

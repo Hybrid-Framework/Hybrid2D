@@ -1,76 +1,99 @@
-﻿using System;
+﻿using System.Diagnostics;
+using System;
 
 namespace Hybrid
 {
-    // Time API
+    // Time
     public static partial class Time
     {
-        // Delta
-        public static float UnscaledDeltaTime { get; internal set; } = 0f;
-        public static float DeltaTime { get; internal set; } = 0f;
-        
-        // Time
-        public static float UnscaledTimer { get; internal set; } = 0f;
-        public static float Timer { get; internal set; } = 0f;
-        
-        // Frame
-        public static float FrameTime { get; internal set; } = 0f;
-        public static float Fps { get; internal set; } = 0f;
-        
-        // Timescale
         public static float TimeScale { get; set; } = 1f;
+        
+        public static float FramesPerSecond { get; internal set; }
+        public static bool InFixedTimeStep { get; internal set; }
+        public static uint FrameCount { get; internal set; }
+        
+        public static float FixedUnscaledDeltaTime { get; internal set; }
+        public static float UnscaledDeltaTime { get; internal set; }
+        public static float SmoothDeltaTime { get; internal set; }
+        public static float FixedDeltaTime { get; set; } = 0.02f;
+        public static float DeltaTime { get; internal set; }
+
+        public static float RealTimeSinceSceneStartup => (float)Time.SceneWatch.Elapsed.TotalSeconds;
+        public static float RealTimeSinceStartup => (float)Time.RealWatch.Elapsed.TotalSeconds;
+        public static float FixedUnscaledTimer { get; internal set; }
+        public static float UnscaledTimer { get; internal set; }
+        public static float FixedTimer { get; internal set; }
+        public static float Timer { get; internal set; }
     }
     
-    // Time Calculating
+    // Internal
     public static partial class Time
     {
-        private static readonly ulong _startCounter = SDL.GetPerformanceCounter();
-        private static readonly ulong _frequency = SDL.GetPerformanceFrequency();
-        private static ulong _lastCounter = _startCounter;
-        private static ulong _frameStart;
-        private static float _smoothed;
+        private static double FrameFrequency { get; set; } = SDL.GetPerformanceFrequency();
+        private static long FramePrevious { get; set; } = SDL.GetPerformanceCounter();
+        private static long FrameStart  { get; set; } = SDL.GetPerformanceCounter();
         
+        internal static Stopwatch SceneWatch { get; set; } = Stopwatch.StartNew();
+        internal static Stopwatch RealWatch { get; set; } = Stopwatch.StartNew();
+        
+        internal static float FixedUnscaledFrameTime { get; set; }
+        internal static float UnscaledFrameTime { get; set; }
+        internal static float FixedFrameTime { get; set; }
+        internal static float FrameTime { get; set; }
         
         
         internal static void BeforeFrame()
         {
-            // Elapsed calculation
-            _frameStart = SDL.GetPerformanceCounter();
-            var elapsed = (_frameStart - _lastCounter) / (double)_frequency;
-            _lastCounter = _frameStart;
-
-            // Time calculation
-            Time.UnscaledDeltaTime = (float)Math.Min(elapsed, 0.1);
+            // Start
+            Time.FrameStart = SDL.GetPerformanceCounter();
+            
+            // Elapsed
+            var elapsed = (Time.FrameStart - Time.FramePrevious) / Time.FrameFrequency;
+            Time.FramePrevious = Time.FrameStart;
+            
+            // Delta Time
+            Time.UnscaledDeltaTime = (float)elapsed;
             Time.DeltaTime = Time.UnscaledDeltaTime * Time.TimeScale;
-            Time.FrameTime = Time.UnscaledDeltaTime * 1000f;
+            Time.SmoothDeltaTime = (Time.SmoothDeltaTime * (0.9f)) + (Time.DeltaTime * 0.1f);
+            Time.FixedUnscaledDeltaTime = Time.TimeScale > 0 ? Time.FixedDeltaTime / Time.TimeScale : Time.FixedDeltaTime;
+            
+            // Timers
             Time.UnscaledTimer += Time.UnscaledDeltaTime;
             Time.Timer += Time.DeltaTime;
-
-            // FPS calculation
-            if (Time.UnscaledDeltaTime > 0f)
+            
+            // Frame Time
+            Time.FixedFrameTime += Time.DeltaTime;
+            Time.FrameTime = Time.DeltaTime * 1000f;
+            Time.FixedUnscaledFrameTime += Time.UnscaledDeltaTime;
+            Time.UnscaledFrameTime = Time.UnscaledDeltaTime * 1000f;
+            
+            // Frame
+            Time.FramesPerSecond = (Time.FramesPerSecond * 0.9f) + ((1f / Time.UnscaledDeltaTime) * 0.1f);
+            Time.FrameCount += 1;
+            
+            // Fixed Spiral Prevention
+            if (Time.FixedFrameTime > (Time.FixedDeltaTime * 12))
             {
-                var instantFps = 1f / Time.UnscaledDeltaTime;
-                _smoothed = (_smoothed * 0.9f) + (instantFps * 0.1f);
-                Time.Fps = _smoothed;
+                Time.FixedFrameTime = Time.FixedDeltaTime * 12;
             }
         }
-
         
         internal static void AfterFrame()
         {
-            // Vsync & Fps limiting
-            if (Engine.GraphicsDevice.Fps > 0 && !Engine.GraphicsDevice.VSync)
+            // Frame Limiting
+            if (Application.TargetFrameRate > 0 && !Application.VSync)
             {
-                // Calculate frame delay
+                // Calculate Remaining
+                var target = 1f / Application.TargetFrameRate;
+                
                 var frameEnd = SDL.GetPerformanceCounter();
-                var frameTarget = 1f / Engine.GraphicsDevice.Fps;
-                var frameElapsed = (frameEnd - _frameStart) / (double)_frequency;
-                var remainingTime = frameTarget - frameElapsed;
+                var frameElapsed = (frameEnd - Time.FrameStart) / Time.FrameFrequency;
+                var frameRemaining = target - frameElapsed;
 
-                if (remainingTime > 0.0)
+                if (frameRemaining > 0.0)
                 {
-                    // Delay nanoseconds
-                    SDL.DelayPrecise((ulong)(remainingTime * 1_000_000_000.0));
+                    // Sleep for (Remaining) nanoseconds
+                    SDL.DelayPrecise((ulong)(frameRemaining * 1_000_000_000.0));
                 }
             }
         }

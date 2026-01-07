@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using System;
 
 internal static unsafe partial class SDL
 {
@@ -8,14 +9,6 @@ internal static unsafe partial class SDL
     public static bool HasKeyboard()
     {
         return SDL_HasKeyboard();
-    }
-    
-    // Get Keyboards
-    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern IntPtr SDL_GetKeyboards(out int count);
-    public static IntPtr GetKeyboards(out int count)
-    {
-        return SDL_GetKeyboards(out count);
     }
     
     // Get Keyboard Name for ID
@@ -61,5 +54,21 @@ internal static unsafe partial class SDL
         {
             return SDL_GetKeyFromName(utf8);
         }
+    }
+    
+    // Get Keyboards
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern IntPtr SDL_GetKeyboards(out int count);
+    public static uint[] GetKeyboards(out int count)
+    {
+        IntPtr ptr = SDL_GetKeyboards(out count);
+
+        if (ptr == IntPtr.Zero || count == 0)
+            return Array.Empty<uint>();
+
+        uint[] ids = new uint[count];
+        Marshal.Copy(ptr, (int[])(object)ids, 0, count);
+        SDL_free(ptr);
+        return ids;
     }
 }

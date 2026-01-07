@@ -57,18 +57,18 @@ internal static unsafe partial class SDL
     
     // Get Render Logical Presentation Rect
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_GetRenderLogicalPresentationRect(SDL.Renderer* renderer, out SDL.FRect rect);
-    public static bool GetRenderLogicalPresentationRect(SDL.Renderer* renderer, out SDL.FRect rect)
+    private static extern SDL.Bool SDL_GetRenderLogicalPresentationRect(SDL.Renderer* renderer, out SDL.Rect rect);
+    public static bool GetRenderLogicalPresentationRect(SDL.Renderer* renderer, out SDL.Rect rect)
     {
         return SDL_GetRenderLogicalPresentationRect(renderer, out rect);
     }
     
     // Set Render Viewport
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_SetRenderViewport(SDL.Renderer* renderer, SDL.Rect* rect);
-    public static bool SetRenderViewport(SDL.Renderer* renderer, SDL.Rect? rect)
+    private static extern SDL.Bool SDL_SetRenderViewport(SDL.Renderer* renderer, SDL.RectInt* rect);
+    public static bool SetRenderViewport(SDL.Renderer* renderer, SDL.RectInt? rect)
     {
-        SDL.Rect r = rect.GetValueOrDefault();
+        SDL.RectInt r = rect.GetValueOrDefault();
         var rv = (rect.HasValue ? &r : null);
         
         return SDL_SetRenderViewport(renderer, rv);
@@ -76,8 +76,8 @@ internal static unsafe partial class SDL
     
     // Get Render Viewport
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_GetRenderViewport(SDL.Renderer* renderer, out SDL.Rect rect);
-    public static bool GetRenderViewport(SDL.Renderer* renderer, out SDL.Rect rect)
+    private static extern SDL.Bool SDL_GetRenderViewport(SDL.Renderer* renderer, out SDL.RectInt rect);
+    public static bool GetRenderViewport(SDL.Renderer* renderer, out SDL.RectInt rect)
     {
         return SDL_GetRenderViewport(renderer, out rect);
     }
@@ -92,10 +92,10 @@ internal static unsafe partial class SDL
     
     // Set Render Clip Rect
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_SetRenderClipRect(SDL.Renderer* renderer, SDL.Rect* rect);
-    public static bool SetRenderClipRect(SDL.Renderer* renderer, SDL.Rect? rect)
+    private static extern SDL.Bool SDL_SetRenderClipRect(SDL.Renderer* renderer, SDL.RectInt* rect);
+    public static bool SetRenderClipRect(SDL.Renderer* renderer, SDL.RectInt? rect)
     {
-        SDL.Rect r = rect.GetValueOrDefault();
+        SDL.RectInt r = rect.GetValueOrDefault();
         var rv = (rect.HasValue ? &r : null);
         
         return SDL_SetRenderClipRect(renderer, rv);
@@ -103,8 +103,8 @@ internal static unsafe partial class SDL
     
     // Get Render Clip Rect
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_GetRenderClipRect(SDL.Renderer* renderer, out SDL.Rect rect);
-    public static bool GetRenderClipRect(SDL.Renderer* renderer, out SDL.Rect rect)
+    private static extern SDL.Bool SDL_GetRenderClipRect(SDL.Renderer* renderer, out SDL.RectInt rect);
+    public static bool GetRenderClipRect(SDL.Renderer* renderer, out SDL.RectInt rect)
     {
         return SDL_GetRenderClipRect(renderer, out rect);
     }
@@ -207,8 +207,8 @@ internal static unsafe partial class SDL
 
     // Render Points
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_RenderPoints(SDL.Renderer* renderer, SDL.FPoint[] points, int count);
-    public static bool RenderPoints(SDL.Renderer* renderer, SDL.FPoint[] points, int count)
+    private static extern SDL.Bool SDL_RenderPoints(SDL.Renderer* renderer, SDL.Point[] points, int count);
+    public static bool RenderPoints(SDL.Renderer* renderer, SDL.Point[] points, int count)
     {
         return SDL_RenderPoints(renderer, points, count);
     }
@@ -223,18 +223,18 @@ internal static unsafe partial class SDL
     
     // Render Lines
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_RenderLines(SDL.Renderer* renderer, SDL.FPoint[] points, int count);
-    public static bool RenderLines(SDL.Renderer* renderer, SDL.FPoint[] points, int count)
+    private static extern SDL.Bool SDL_RenderLines(SDL.Renderer* renderer, SDL.Point[] points, int count);
+    public static bool RenderLines(SDL.Renderer* renderer, SDL.Point[] points, int count)
     {
         return SDL_RenderLines(renderer, points, count);
     }
     
     // Render Rect
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_RenderRect(SDL.Renderer* renderer, SDL.FRect* rect);
-    public static bool RenderRect(SDL.Renderer* renderer, SDL.FRect? rect)
+    private static extern SDL.Bool SDL_RenderRect(SDL.Renderer* renderer, SDL.Rect* rect);
+    public static bool RenderRect(SDL.Renderer* renderer, SDL.Rect? rect)
     {
-        SDL.FRect r = rect.GetValueOrDefault();
+        SDL.Rect r = rect.GetValueOrDefault();
         var rv = (rect.HasValue ? &r : null);
         
         return SDL_RenderRect(renderer, rv);
@@ -242,18 +242,18 @@ internal static unsafe partial class SDL
     
     // Render Rects
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_RenderRects(SDL.Renderer* renderer, SDL.FRect[] rects, int count);
-    public static bool RenderRects(SDL.Renderer* renderer, SDL.FRect[] rects, int count)
+    private static extern SDL.Bool SDL_RenderRects(SDL.Renderer* renderer, SDL.Rect[] rects, int count);
+    public static bool RenderRects(SDL.Renderer* renderer, SDL.Rect[] rects, int count)
     {
         return SDL_RenderRects(renderer, rects, count);
     }
     
     // Render Fill Rect
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_RenderFillRect(SDL.Renderer* renderer, SDL.FRect* rect);
-    public static bool RenderFillRect(SDL.Renderer* renderer, SDL.FRect? rect)
+    private static extern SDL.Bool SDL_RenderFillRect(SDL.Renderer* renderer, SDL.Rect* rect);
+    public static bool RenderFillRect(SDL.Renderer* renderer, SDL.Rect? rect)
     {
-        SDL.FRect r = rect.GetValueOrDefault();
+        SDL.Rect r = rect.GetValueOrDefault();
         var rv = (rect.HasValue ? &r : null);
         
         return SDL_RenderFillRect(renderer, rv);
@@ -261,8 +261,8 @@ internal static unsafe partial class SDL
     
     // Render Fill Rects
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_RenderFillRects(SDL.Renderer* renderer, SDL.FRect[] rects, int count);
-    public static bool RenderFillRects(SDL.Renderer* renderer, SDL.FRect[] rects, int count)
+    private static extern SDL.Bool SDL_RenderFillRects(SDL.Renderer* renderer, SDL.Rect[] rects, int count);
+    public static bool RenderFillRects(SDL.Renderer* renderer, SDL.Rect[] rects, int count)
     {
         return SDL_RenderFillRects(renderer, rects, count);
     }
@@ -277,10 +277,10 @@ internal static unsafe partial class SDL
     
     // Render Read Pixels
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Surface* SDL_RenderReadPixels(SDL.Renderer* renderer, SDL.Rect* rect);
-    public static SDL.Surface* RenderReadPixels(SDL.Renderer* renderer, SDL.Rect? rect)
+    private static extern SDL.Surface* SDL_RenderReadPixels(SDL.Renderer* renderer, SDL.RectInt* rect);
+    public static SDL.Surface* RenderReadPixels(SDL.Renderer* renderer, SDL.RectInt? rect)
     {
-        SDL.Rect r = rect.GetValueOrDefault();
+        SDL.RectInt r = rect.GetValueOrDefault();
         var rv = (rect.HasValue ? &r : null);
         
         return SDL_RenderReadPixels(renderer, rv);
@@ -304,8 +304,8 @@ internal static unsafe partial class SDL
     
     // Get Render Safe Area
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_GetRenderSafeArea(SDL.Renderer* renderer, out SDL.Rect rect);
-    public static bool GetRenderSafeArea(SDL.Renderer* renderer, out SDL.Rect rect)
+    private static extern SDL.Bool SDL_GetRenderSafeArea(SDL.Renderer* renderer, out SDL.RectInt rect);
+    public static bool GetRenderSafeArea(SDL.Renderer* renderer, out SDL.RectInt rect)
     {
         return SDL_GetRenderSafeArea(renderer, out rect);
     }
@@ -324,6 +324,14 @@ internal static unsafe partial class SDL
     public static bool RenderPresent(SDL.Renderer* renderer)
     {
         return SDL_RenderPresent(renderer);
+    }
+    
+    // Get Renderer Name
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern byte* SDL_GetRendererName(SDL.Renderer* renderer);
+    public static string GetRendererName(SDL.Renderer* renderer)
+    {
+        return Utf8ToString(SDL_GetRendererName(renderer));
     }
     
     // Render Debug Text

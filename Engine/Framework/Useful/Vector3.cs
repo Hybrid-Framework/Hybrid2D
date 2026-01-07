@@ -5,18 +5,18 @@ namespace Hybrid
     // Vector3
     public partial struct Vector3
     {
-        public static readonly Vector3 PositiveInfinity = new(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
-        public static readonly Vector3 NegativeInfinity = new(float.NegativeInfinity, float.NegativeInfinity, float.NegativeInfinity);
+        public static readonly Vector3 Positive = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
+        public static readonly Vector3 Negative = new Vector3(float.MinValue, float.MinValue, float.MinValue);
         
-        public static readonly Vector3 Zero = new(0, 0, 0);
-        public static readonly Vector3 One = new(1, 1, 1);
+        public static readonly Vector3 Zero = new Vector3(0, 0, 0);
+        public static readonly Vector3 One = new Vector3(1, 1, 1);
         
-        public static readonly Vector3 Up = new(0, 1, 0);
-        public static readonly Vector3 Down = new(0, -1, 0);
-        public static readonly Vector3 Left = new(-1, 0, 0);
-        public static readonly Vector3 Right = new(1, 0, 0);
-        public static readonly Vector3 Forward = new(0, 0, 1);
-        public static readonly Vector3 Back = new(0, 0, -1);
+        public static readonly Vector3 Up = new Vector3(0, 1, 0);
+        public static readonly Vector3 Down = new Vector3(0, -1, 0);
+        public static readonly Vector3 Right = new Vector3(1, 0, 0);
+        public static readonly Vector3 Left = new Vector3(-1, 0, 0);
+        public static readonly Vector3 Forward = new Vector3(0, 0, 1);
+        public static readonly Vector3 Back = new Vector3(0, 0, -1);
         
         public float X;
         public float Y;

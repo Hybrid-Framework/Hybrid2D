@@ -5,11 +5,11 @@ namespace Hybrid
     // Vector4
     public partial struct Vector4
     {
-        public static readonly Vector4 PositiveInfinity = new(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
-        public static readonly Vector4 NegativeInfinity = new(float.NegativeInfinity, float.NegativeInfinity, float.NegativeInfinity, float.NegativeInfinity);
+        public static readonly Vector4 Positive = new Vector4(float.MaxValue, float.MaxValue, float.MaxValue, float.MaxValue);
+        public static readonly Vector4 Negative = new Vector4(float.MinValue, float.MinValue, float.MinValue, float.MinValue);
         
-        public static readonly Vector4 Zero = new(0, 0, 0, 0);
-        public static readonly Vector4 One = new(1, 1, 1, 1);
+        public static readonly Vector4 Zero = new Vector4(0, 0, 0, 0);
+        public static readonly Vector4 One = new Vector4(1, 1, 1, 1);
         
         public float X;
         public float Y;

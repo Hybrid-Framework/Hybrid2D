@@ -1,0 +1,21 @@
+<Project>
+
+<!-- Resources -->
+    <ItemGroup>
+        <BundleResource Include="..\..\App\Resources\**\*">
+            <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+            <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+            <Visible>false</Visible>
+        </BundleResource>
+    </ItemGroup>
+    
+<!-- Natives -->
+    <ItemGroup>
+        <NativeReference Remove="Natives\**\*"/>
+        <NativeReference Include="Natives\SDL3.xcframework"/>
+        <NativeReference Include="Natives\SDL3_image.xcframework"/>
+        <NativeReference Include="Natives\SDL3_mixer.xcframework"/>
+        <NativeReference Include="Natives\SDL3_ttf.xcframework"/>
+    </ItemGroup>
+
+</Project>

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net9.0-ios</TargetFramework>
+        <TargetFramework>net10.0-ios</TargetFramework>
         <SupportedOSPlatformVersion>13.0</SupportedOSPlatformVersion>
         <CodesignKey>iPhone Developer</CodesignKey>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -14,6 +14,6 @@
         <ProjectReference Include="..\..\App\App.csproj" />
     </ItemGroup>
 
-    <Import Project="Resources/Settings.props" />
+    <Import Project="Hybrid.props" />
 
 </Project>

@@ -9,7 +9,7 @@ internal static unsafe partial class SDL
         public uint reserved;
         public ulong timestamp;
         public uint windowID;
-        public uint which;
+        public uint mouseID;
         public float x;
         public float y;
         public SDL.MouseWheelDirection direction;

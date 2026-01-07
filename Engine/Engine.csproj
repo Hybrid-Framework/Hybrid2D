@@ -1,12 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <ImplicitUsings>enable</ImplicitUsings>
         <RootNamespace>Hybrid</RootNamespace>
         <AssemblyName>Hybrid</AssemblyName>
         <Nullable>disable</Nullable>
     </PropertyGroup>
-    
+
+    <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+        <DefineConstants>DEBUG</DefineConstants>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)'=='Release'">
+        <DefineConstants>RELEASE</DefineConstants>
+    </PropertyGroup>
+
 </Project>

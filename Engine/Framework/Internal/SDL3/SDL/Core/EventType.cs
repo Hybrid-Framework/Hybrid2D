@@ -4,20 +4,26 @@ internal static unsafe partial class SDL
 {
     public enum EventType
     {
-        Shown = 514,
-        Hidden = 515,
+        Show = 514,
+        Hide = 515,
         Moved = 517,
         Resized = 518,
         Minimized = 521,
         Maximized = 522,
+        Restored = 523,
         MouseEnter = 524,
         MouseExit = 525,
         Focused = 526,
         Unfocused = 527,
         SafeArea = 533,
         Orientation = 337,
-        EnterFullscreen = 535,
-        ExitFullscreen = 536,
+        FullscreenOn = 535,
+        FullscreenOff = 536,
+        ResizableOn = (User + 1),
+        ResizableOff = (User + 2),
+        BorderlessOn = (User + 3),
+        BorderlessOff = (User + 4),
+        Raised = (User + 5),
         
         KeyboardButtonUp = 769,
         KeyboardButtonDown = 768,
@@ -27,6 +33,8 @@ internal static unsafe partial class SDL
         TextEditing = 770,
         TextInput = 771,
         TextEditingCandidates = 775,
+        OnScreenKeyboardShown = 776,
+        OnScreenKeyboardHidden = 777,
         
         MouseButtonUp = 1026,
         MouseButtonDown = 1025,
@@ -34,6 +42,14 @@ internal static unsafe partial class SDL
         MouseWheel = 1027,
         MouseDeviceAdded = 1028,
         MouseDeviceRemoved = 1029,
+        
+        JoystickAxisMotion = 1536,
+        JoystickBallMotion = 1537,
+        JoystickHatMotion = 1538,
+        JoystickButtonDown = 1539,
+        JoystickButtonUp = 1540,
+        JoystickAdded = 1541,
+        JoystickRemoved = 1542,
         
         GamepadButtonUp = 1618,
         GamepadButtonDown = 1617,
@@ -51,6 +67,7 @@ internal static unsafe partial class SDL
         
         First = 0,
         Quit = 256,
+        User = 32768,
         Last = 65535,
         Clipboard = 2304,
     }

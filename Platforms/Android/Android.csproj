@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net9.0-android</TargetFramework>
+        <TargetFramework>net10.0-android</TargetFramework>
         <SupportedOSPlatformVersion>26</SupportedOSPlatformVersion>
         <AndroidTargetSdkVersion>35</AndroidTargetSdkVersion>
         <TargetFrameworkVersion>35</TargetFrameworkVersion>
@@ -20,6 +20,6 @@
         <ProjectReference Include="..\..\App\App.csproj" />
     </ItemGroup>
 
-    <Import Project="Resources/Settings.props" />
+    <Import Project="Hybrid.props" />
     
 </Project>

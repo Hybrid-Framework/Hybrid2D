@@ -150,7 +150,14 @@ internal static unsafe partial class SDL
     private static extern SDL.Bool SDL_SetWindowResizable(SDL.Window* window, SDL.Bool resizable);
     public static bool SetWindowResizable(SDL.Window* window, bool resizable)
     {
-        return SDL_SetWindowResizable(window, resizable);
+        var current = (GetWindowFlags(window) & WindowFlags.Resizable) != 0;
+
+        if (resizable != current)
+        {
+            return SDL_SetWindowResizable(window, resizable);
+        }
+
+        return false;
     }
     
     // Set Window Fullscreen
@@ -158,7 +165,14 @@ internal static unsafe partial class SDL
     private static extern SDL.Bool SDL_SetWindowFullscreen(SDL.Window* window, SDL.Bool fullscreen);
     public static bool SetWindowFullscreen(SDL.Window* window, bool fullscreen)
     {
-        return SDL_SetWindowFullscreen(window, fullscreen);
+        var current = (GetWindowFlags(window) & WindowFlags.Fullscreen) != 0;
+
+        if (fullscreen != current)
+        {
+            return SDL_SetWindowFullscreen(window, fullscreen);
+        }
+
+        return false;
     }
     
     // Show Window
@@ -187,8 +201,8 @@ internal static unsafe partial class SDL
     
     // Get Window Safe Area
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_GetWindowSafeArea(SDL.Window* window, out SDL.Rect rect);
-    public static bool GetWindowSafeArea(SDL.Window* window, out SDL.Rect rect)
+    private static extern SDL.Bool SDL_GetWindowSafeArea(SDL.Window* window, out SDL.RectInt rect);
+    public static bool GetWindowSafeArea(SDL.Window* window, out SDL.RectInt rect)
     {
         return SDL_GetWindowSafeArea(window, out rect);
     }
@@ -227,10 +241,10 @@ internal static unsafe partial class SDL
     
     // Get Window Flags
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.WindowFlags SDL_GetWindowFlags(SDL.Window* window);
+    private static extern ulong SDL_GetWindowFlags(SDL.Window* window);
     public static SDL.WindowFlags GetWindowFlags(SDL.Window* window)
     {
-        return SDL_GetWindowFlags(window);
+        return (SDL.WindowFlags)SDL_GetWindowFlags(window);
     }
     
     // Get Window Size In Pixels
@@ -279,5 +293,13 @@ internal static unsafe partial class SDL
     public static SDL.Window* GetWindowFromID(uint windowID)
     {
         return SDL_GetWindowFromID(windowID);
+    }
+    
+    // Restore Window
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool SDL_RestoreWindow(SDL.Window* window);
+    public static bool RestoreWindow(SDL.Window* window)
+    {
+        return SDL_RestoreWindow(window);
     }
 }

@@ -10,11 +10,11 @@ internal static unsafe partial class SDL
         public ulong timestamp;
         public uint windowID;
         public uint keyboardID;
-        private int scanCode;
+        public SDL.ScanCode scanCode;
         public SDL.KeyCode keyCode;
         public SDL.KeyModifier keyModifier;
-        private ushort raw;
-        private SDL.Bool down;
-        private SDL.Bool repeat;
+        public ushort raw;
+        public SDL.Bool down;
+        public SDL.Bool repeat;
     }
 }

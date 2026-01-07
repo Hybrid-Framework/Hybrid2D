@@ -1,0 +1,29 @@
+<Project>
+    
+<!-- Resources -->
+    <ItemGroup>
+        <Content Include="..\..\App\Resources\**\*">
+            <TargetPath>%(RecursiveDir)%(Filename)%(Extension)</TargetPath>
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+            <Visible>false</Visible>
+        </Content>
+    </ItemGroup>
+    
+<!-- Natives -->
+    <PropertyGroup>
+        <Architecture Condition="'$(RuntimeIdentifier)' != ''">$(RuntimeIdentifier)</Architecture>
+        <Architecture Condition="'$(RuntimeIdentifier)' == ''">osx-$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().ToLower())</Architecture>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Content Remove="Natives\**\*"/>
+        <Content Include="Natives\$(Architecture)\**\*">
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <TargetPath>%(Filename)%(Extension)</TargetPath>
+        </Content>
+    </ItemGroup>
+
+</Project>

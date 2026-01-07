@@ -3,36 +3,47 @@
 namespace Hybrid
 {
     // Platform
-    public abstract class Platform
+    internal abstract partial class Platform
     {
-        public static void Windows(Config config) => Create(new PlatformWindows(), config);
-        public static void Android(Config config) => Create(new PlatformAndroid(), config);
-        public static void Linux(Config config) => Create(new PlatformLinux(), config);
-        public static void MacOS(Config config) => Create(new PlatformMacOS(), config);
-        public static void IOS(Config config) => Create(new PlatformIOS(), config);
-        public static void Web(Config config) => Create(new PlatformWeb(), config);
+        private static Platform Current { get; set; }
+        private static Config Config { get; set; }
         
-        public virtual PlatformDevice PlatformDevice { get; protected set; }
-        public virtual PlatformType PlatformType { get; protected set; }
         
-        public static Platform Current { get; protected set; }
-        internal static Engine Engine { get; set; }
-
-        internal abstract void Bootstrap();
-        
-
-        internal static void Create(Platform platform, Config config)
+        internal static void SetPlatform(Platform platform, Config config)
         {
-            // Check for null instances
-            if (platform == null) throw new Exception("Can not create null platform");
-            if (config == null) throw new Exception("Can not create null config");
+            if(platform == null || config == null)
+                throw new Exception($"Invalid Platform Parameters {typeof(Platform)} {typeof(Config)}");
             
-            // Create Engine
-            Engine = new Engine(config);
-            
-            // Bootstrap
             Current = platform;
-            Current.Bootstrap();
+            Config = config;
         }
+
+        internal static Platform GetPlatform()
+        {
+            if (Current == null)
+                throw new Exception("No Platform Detected");
+            
+            return Current;
+        }
+        
+        internal static Config GetConfig()
+        {
+            if (Config == null)
+                throw new Exception("No Config Detected");
+            
+            return Config;
+        }
+    }
+
+    // Backends
+    internal abstract partial class Platform
+    {
+        protected virtual IPlatformDisplay Display { get; set; }
+        protected virtual IPlatformSystem System { get; set; }
+        protected virtual IPlatformEvents Events { get; set; }
+
+        internal static IPlatformDisplay GetDisplay() => GetPlatform().Display;
+        internal static IPlatformSystem GetSystem() => GetPlatform().System;
+        internal static IPlatformEvents GetEvents() => GetPlatform().Events;
     }
 }

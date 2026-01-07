@@ -45,6 +45,21 @@ internal static unsafe partial class SDL
 		public SDL.MouseWheelEvent mouseWheel;
 		
 		[FieldOffset(0)]
+		public JoystickDeviceEvent joystickDevice;
+		
+		[FieldOffset(0)]
+		public JoystickAxisEvent joystickAxis;
+		
+		[FieldOffset(0)]
+		public JoystickBallEvent joystickBall;
+		
+		[FieldOffset(0)]
+		public JoystickHatEvent joystickHat;
+		
+		[FieldOffset(0)]
+		public JoystickButtonEvent joystickButton;
+		
+		[FieldOffset(0)]
 		public SDL.GamepadDeviceEvent gamepadDevice;
 		
 		[FieldOffset(0)]

@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using System;
 
 internal static unsafe partial class SDL_mixer
 {

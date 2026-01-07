@@ -5,6 +5,9 @@ namespace Hybrid
     // Rect
     public partial struct Rect
     {
+        public static readonly Rect Zero = new Rect(0, 0, 0, 0);
+        public static readonly Rect One = new Rect(0, 0, 1, 1);
+        
         public float X;
         public float Y;
         public float W;
@@ -24,40 +27,45 @@ namespace Hybrid
             
         }
     }
-    
+
     // SDL
     public partial struct Rect
     {
-        internal static SDL.FRect? SDLFRect(Rect? rect)
+        public static explicit operator Rect(RectInt rect)
         {
-            if (rect.HasValue)
+            return new Rect
             {
-                return new SDL.FRect()
-                {
-                    x = rect.Value.X,
-                    y = rect.Value.Y,
-                    w = rect.Value.W,
-                    h = rect.Value.H
-                };
-            }
-
-            return null;
+                X = rect.X,
+                Y = rect.Y,
+                W = rect.W,
+                H = rect.H,
+            };
         }
         
-        internal static SDL.Rect? SDLRect(Rect? rect)
+        internal static Rect FromSDL(SDL.Rect? rect)
         {
-            if (rect.HasValue)
-            {
-                return new SDL.Rect()
-                {
-                    x = (int)Maths.Round(rect.Value.X),
-                    y = (int)Maths.Round(rect.Value.Y),
-                    w = (int)Maths.Round(rect.Value.W),
-                    h = (int)Maths.Round(rect.Value.H)
-                };
-            }
+            if (!rect.HasValue) return new Rect();
 
-            return null;
+            return new Rect
+            {
+                X = rect.Value.x,
+                Y = rect.Value.y,
+                W = rect.Value.w,
+                H = rect.Value.h,
+            };
+        }
+
+        internal static SDL.Rect? ToSDL(Rect? rect)
+        {
+            if (!rect.HasValue) return new SDL.Rect();
+
+            return new SDL.Rect
+            {
+                x = rect.Value.X,
+                y = rect.Value.Y,
+                w = rect.Value.W,
+                h = rect.Value.H,
+            };
         }
     }
 }

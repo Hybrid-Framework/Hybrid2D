@@ -6,7 +6,7 @@
         <string>Hybrid</string>
         <key>CFBundleIconFiles</key>
         <array>
-            <string>Hybrid.png</string>
+            <string>Icon.png</string>
         </array>
         <key>CFBundleIdentifier</key>
         <string>com.companyname.iOS</string>

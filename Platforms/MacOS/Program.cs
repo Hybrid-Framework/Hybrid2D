@@ -4,6 +4,6 @@ public class Program
 {
     public static void Main()
     {
-        Platform.MacOS(new App.Config());
+        Bootstrap.Mac(new App.Config());
     }
 }

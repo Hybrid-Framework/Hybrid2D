@@ -2,38 +2,19 @@
 
 namespace Hybrid
 {
-    // Maths
-    public static partial class Maths
+    // Properties
+    public static class Maths
     {
-        public const float PI = MathF.PI;
-        public const float TwoPI = 2 * MathF.PI;
-        public const float HalfPI = MathF.PI / 2f;
+        public const float Pi = MathF.PI;
+        public const float TwoPi = 2f * MathF.PI;
+        public const float HalfPi = MathF.PI / 2f;
         public const float Deg2Rad = MathF.PI / 180f;
         public const float Rad2Deg = 180f / MathF.PI;
-        public const float Epsilon = 1e-5f;
-    }
-    
-    // Methods
-    public static partial class Maths
-    {
-        public static float RadiansToDegrees(float radians)
-        {
-            return radians * Rad2Deg;
-        }
-
-        public static float DegreesToRadians(float degrees)
-        {
-            return degrees * Deg2Rad;
-        }
-
+        
+        
         public static float Sin(float radians)
         {
             return MathF.Sin(radians);
-        }
-        
-        public static float Sign(float value)
-        {
-            return MathF.Sign(value);
         }
 
         public static float Cos(float radians)
@@ -71,24 +52,9 @@ namespace Hybrid
             return MathF.Sqrt(value);
         }
 
-        public static float Pow(float x, float y)
+        public static float Abs(float value)
         {
-            return MathF.Pow(x, y);
-        }
-
-        public static float Exp(float power)
-        {
-            return MathF.Exp(power);
-        }
-
-        public static float Log(float value)
-        {
-            return MathF.Log(value);
-        }
-
-        public static float Log10(float value)
-        {
-            return MathF.Log10(value);
+            return MathF.Abs(value);
         }
 
         public static float Floor(float value)
@@ -96,9 +62,19 @@ namespace Hybrid
             return MathF.Floor(value);
         }
 
+        public static int FloorToInt(float value)
+        {
+            return (int)MathF.Floor(value);
+        }
+
         public static float Ceil(float value)
         {
             return MathF.Ceiling(value);
+        }
+
+        public static int CeilToInt(float value)
+        {
+            return (int)MathF.Ceiling(value);
         }
 
         public static float Round(float value)
@@ -106,9 +82,9 @@ namespace Hybrid
             return MathF.Round(value);
         }
 
-        public static float Clamp(float value, float min, float max)
+        public static int RoundToInt(float value)
         {
-            return Math.Clamp(value, min, max);
+            return (int)MathF.Round(value);
         }
 
         public static float Min(float a, float b)
@@ -121,11 +97,46 @@ namespace Hybrid
             return MathF.Max(a, b);
         }
 
-        public static float Abs(float value)
+        public static float Clamp(float value, float min, float max)
         {
-            return MathF.Abs(value);
+            return Math.Clamp(value, min, max);
         }
 
+        public static float Sign(float value)
+        {
+            return MathF.Sign(value);
+        }
+
+        public static float Pow(float x, float y)
+        {
+            return MathF.Pow(x, y);
+        }
+
+        public static float Exp(float x)
+        {
+            return MathF.Exp(x);
+        }
+
+        public static float Log(float x)
+        {
+            return MathF.Log(x);
+        }
+
+        public static float Log10(float x)
+        {
+            return MathF.Log10(x);
+        }
+        
+        public static float DegreesToRadians(float degrees)
+        {
+            return degrees * Deg2Rad;
+        }
+
+        public static float RadiansToDegrees(float radians)
+        {
+            return radians * Rad2Deg;
+        }
+        
         public static float Lerp(float a, float b, float t)
         {
             return a + (b - a) * Clamp(t, 0f, 1f);
@@ -135,17 +146,10 @@ namespace Hybrid
         {
             return a + (b - a) * t;
         }
-
-        public static bool Approximately(float a, float b)
-        {
-            return Abs(b - a) < Epsilon;
-        }
         
-        public static float PingPong(float t, float length)
+        public static bool Approximately(float a, float b, float epsilon = 1e-5f)
         {
-            t = t % (2 * length);
-            
-            return length - Abs(t - length);
+            return Abs(a - b) < epsilon;
         }
     }
 }
