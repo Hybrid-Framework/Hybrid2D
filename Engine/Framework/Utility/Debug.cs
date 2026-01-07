@@ -5,7 +5,7 @@ namespace Hybrid
     // Debug API
     public static class Debug
     {
-        public static void SetColor(ConsoleColor color)
+        public static void Color(ConsoleColor color)
         {
             try
             {
@@ -19,7 +19,7 @@ namespace Hybrid
         
         public static void Log(object message, bool trace = false)
         {
-            SetColor(ConsoleColor.Black);
+            Color(ConsoleColor.Black);
             
             if (trace)
             {
@@ -32,7 +32,7 @@ namespace Hybrid
         
         public static void Warning(object message, bool trace = false)
         {
-            SetColor(ConsoleColor.Yellow);
+            Color(ConsoleColor.Yellow);
             
             if (trace)
             {
@@ -45,7 +45,7 @@ namespace Hybrid
         
         public static void Error(object message, bool trace = false)
         {
-            SetColor(ConsoleColor.Red);
+            Color(ConsoleColor.Red);
             
             if (trace)
             {
@@ -58,7 +58,7 @@ namespace Hybrid
         
         public static void Assert(bool condition, object message)
         {
-            SetColor(ConsoleColor.Red);
+            Color(ConsoleColor.Red);
             
             if (condition)
             {
@@ -68,7 +68,7 @@ namespace Hybrid
         
         public static void Exception(object message)
         {
-            SetColor(ConsoleColor.Red);
+            Color(ConsoleColor.Red);
             
             throw new Exception($"{message}");
         }

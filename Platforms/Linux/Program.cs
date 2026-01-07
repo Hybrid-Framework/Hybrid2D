@@ -1,9 +1,12 @@
-﻿using Hybrid;
+﻿using App;
 
 public class Program
 {
     public static void Main()
     {
-        Bootstrap.Linux(new App.Game());
+        var game = new Game();
+        {
+            game.Run();
+        }
     }
 }

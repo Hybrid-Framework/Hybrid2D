@@ -1,5 +1,5 @@
 using Android.Content.PM;
-using Hybrid;
+using App;
 
 [Activity(
     Label = "Hybrid",
@@ -17,6 +17,9 @@ public class Program : Org.Libsdl.App.SDLActivity
     
     protected override void Main()
     {
-        Bootstrap.Android(new App.Game());
+        var game = new Game();
+        {
+            game.Run();
+        }
     }
 }
