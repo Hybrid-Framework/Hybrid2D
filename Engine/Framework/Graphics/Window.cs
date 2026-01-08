@@ -10,5 +10,14 @@ namespace Hybrid
         {
             Handle = SDL.CreateWindow("Hybrid", width, height, SDL.WindowFlags.HighPixelDensity | SDL.WindowFlags.Resizable);
         }
+        
+        internal override void OnDispose()
+        {
+            if (Handle != null)
+            {
+                SDL.DestroyWindow(Handle);
+                Handle = null;
+            }
+        }
     }
 }

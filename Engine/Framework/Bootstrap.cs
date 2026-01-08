@@ -88,7 +88,6 @@ namespace Hybrid
         [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvCdecl) })]
         private static void SDLQuit(IntPtr state, SDL.AppResult result)
         {
-            App.Quit();
             AppHandle.Free();
         }
     }
