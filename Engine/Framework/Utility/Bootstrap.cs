@@ -1,6 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.IO;
 using System;
 
 namespace Hybrid
@@ -8,39 +7,27 @@ namespace Hybrid
     internal static unsafe class Bootstrap
     {
         private static GCHandle AppHandle;
-        private static Application App;
+        private static App App;
 
         
-        public static void Execute(Application app)
+        public static void Execute(App app)
         {
             AppHandle = GCHandle.Alloc(app);
             App = app;
-
-            if (OperatingSystem.IsIOS())
-            {
-                var assembly = typeof(SDL).Assembly;
-                var frameworks = Path.Combine(AppContext.BaseDirectory!, "Frameworks");
-                NativeLibrary.SetDllImportResolver(assembly, (library, asm, path) =>
-                {
-                    return library switch
-                    {
-                        "SDL3_image" => NativeLibrary.Load(Path.Combine(frameworks, "SDL3_image.framework", "SDL3_image"), asm, path),
-                        "SDL3_mixer" => NativeLibrary.Load(Path.Combine(frameworks, "SDL3_mixer.framework", "SDL3_mixer"), asm, path),
-                        "SDL3_ttf" => NativeLibrary.Load(Path.Combine(frameworks, "SDL3_ttf.framework", "SDL3_ttf"), asm,path),
-                        "SDL3" => NativeLibrary.Load(Path.Combine(frameworks, "SDL3.framework", "SDL3"), asm, path),
-                        _ => IntPtr.Zero
-                    };
-                });
-            }
             
-            SDL.Initialize();
-            SDL.SDL_RunApp(0, IntPtr.Zero, &SDLEntry, IntPtr.Zero);
+            Resolver.ResolveLibraries();
+            {
+                SDL.Initialize();
+                {
+                    SDL.RunApp(0, IntPtr.Zero, &SDLEntry, IntPtr.Zero);
+                }
+            }
         }
         
         [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvCdecl) })]
         private static int SDLEntry(int argc, IntPtr argv)
         {
-            SDL.SDL_EnterAppMainCallbacks
+            SDL.EnterAppMainCallbacks
             (
                 0,
                 IntPtr.Zero,

@@ -2,13 +2,18 @@
 
 namespace Hybrid
 {
+    // Internal
     public sealed unsafe class Window : Module
     {
-        internal static SDL.Window* Handle { get; private set; }
-        
-        internal Window(int width, int height)
+        internal static SDL.Window* Handle
         {
-            Handle = SDL.CreateWindow("Hybrid", width, height, SDL.WindowFlags.HighPixelDensity | SDL.WindowFlags.Resizable);
+            private set;
+            get;
+        }
+        
+        internal Window(string title, int width, int height)
+        {
+            Handle = SDL.CreateWindow(title, width, height, SDL.WindowFlags.HighPixelDensity);
         }
         
         internal override void OnDispose()

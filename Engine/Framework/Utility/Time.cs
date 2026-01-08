@@ -79,15 +79,15 @@ namespace Hybrid
         {
             return Timer;
         }
+        
+        public static void SetFps(int fps)
+        {
+            TargetFramesPerSecond = fps;
+        }
 
         public static float GetFps()
         {
             return FramesPerSecond;
-        }
-
-        public static void SetFPS(int fps)
-        {
-            TargetFramesPerSecond = fps;
         }
     }
 }

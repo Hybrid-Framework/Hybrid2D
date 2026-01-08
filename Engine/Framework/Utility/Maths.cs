@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    // Properties
+    // Maths API
     public static class Maths
     {
         public const float Pi = MathF.PI;

@@ -3,7 +3,7 @@ using System;
 
 namespace Hybrid
 {
-    // Color
+    // Color 32
     [StructLayout(LayoutKind.Sequential)]
     public struct Color32
     {

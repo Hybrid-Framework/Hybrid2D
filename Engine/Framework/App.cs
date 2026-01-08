@@ -3,10 +3,10 @@ using System;
 
 namespace Hybrid
 {
-    public abstract partial class Application
+    public abstract partial class App
     {
-        internal bool Initialized { get; private set; }
-        internal bool IsRunning { get; private set; }
+        internal bool Initialized { get; private set; } = false;
+        internal bool IsRunning { get; private set; } = false;
         
         internal Graphics Graphics { get; set; }
         internal Window Window { get; set; }
@@ -15,17 +15,17 @@ namespace Hybrid
         
         public void Run()
         {
+            if (Initialized) return;
+            Initialized = true;
+            IsRunning = true;
+            
             Bootstrap.Execute(this);
         }
 
         internal void StartMainLoop()
         {
-            if(Initialized) return;
-            Initialized = true;
-            IsRunning = true;
-            
-            Window = new Window(600, 400);
-            Graphics = new Graphics();
+            Window = new Window("Hybrid", 600, 400);
+            Graphics = new Graphics(true);
             Time = new Time();
             
             OnInitialize();
@@ -53,7 +53,7 @@ namespace Hybrid
 
         public void Quit()
         {
-            if(!IsRunning) return;
+            if (!IsRunning) return;
             IsRunning = false;
             
             OnEngineDispose();
@@ -61,12 +61,8 @@ namespace Hybrid
         }
     }
 
-    public partial class Application
+    public partial class App
     {
-        internal virtual void OnEvent(SDL.Event e) { }
-        internal virtual void OnStartOfFrame() { }
-        internal virtual void OnEndOfFrame() { }
-        internal virtual void OnDispose() { }
         public virtual void OnInitialize() { }
         public virtual void OnRender() { }
         public virtual void OnUpdate() { }
@@ -78,8 +74,6 @@ namespace Hybrid
             {
                 module.OnStartOfFrame();
             }
-            
-            OnStartOfFrame();
         }
         
         internal void OnEngineInitialize()
@@ -98,8 +92,6 @@ namespace Hybrid
             {
                 module.OnEvent(e);
             }
-            
-            OnEvent(e);
         }
         
         internal void OnEngineUpdate()
@@ -128,8 +120,6 @@ namespace Hybrid
             {
                 module.OnEndOfFrame();
             }
-
-            OnEndOfFrame();
         }
         
         internal void OnEngineDispose()
@@ -138,8 +128,6 @@ namespace Hybrid
             {
                 module.OnDispose();
             }
-            
-            OnDispose();
         }
     }
 }
