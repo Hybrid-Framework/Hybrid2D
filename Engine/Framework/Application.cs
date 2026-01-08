@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Hybrid
 {
     public abstract unsafe class Application
     {
+        private Stopwatch Stopwatch = new Stopwatch();
+        private static int Frames = 0;
+        
         private static double FrameFrequency { get; set; }
         private static long FramePrevious { get; set; }
         private static long FrameStart  { get; set; }
@@ -33,6 +37,7 @@ namespace Hybrid
             
             Window = new Window(600, 400);
             Graphics = new Graphics();
+            Stopwatch.Start();
         }
 
         internal void MainLoop()
@@ -42,6 +47,14 @@ namespace Hybrid
             FramePrevious = FrameStart;
 
             Fps = (Fps * 0.9f) + ((1f / elapsed) * 0.1f);
+            Frames += 1;
+
+            if (Stopwatch.Elapsed.TotalMilliseconds > 1000)
+            {
+                Debug.Log("Frames In a second: " + Frames);
+                Stopwatch.Restart();
+                Frames = 0;
+            }
 
             SDL.SetRenderDrawColor(Graphics.Handle, 255, 128, 128, 255);
             SDL.RenderClear(Graphics.Handle);
