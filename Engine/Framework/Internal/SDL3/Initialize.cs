@@ -5,6 +5,7 @@ internal static unsafe partial class SDL
     public static void Initialize()
     {
         SDL.SetHint(SDL.SDL_HINT_MAIN_CALLBACK_RATE, "0");
+        SDL.SDL_SetMainReady();
         
         if (!SDL.Init(SDL.InitFlags.Everything))
         {

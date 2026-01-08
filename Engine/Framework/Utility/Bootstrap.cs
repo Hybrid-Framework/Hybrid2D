@@ -34,6 +34,12 @@ namespace Hybrid
             }
             
             SDL.Initialize();
+            SDL.SDL_RunApp(0, IntPtr.Zero, &SDLEntry, IntPtr.Zero);
+        }
+        
+        [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvCdecl) })]
+        private static int SDLEntry(int argc, IntPtr argv)
+        {
             SDL.SDL_EnterAppMainCallbacks
             (
                 0,
@@ -43,8 +49,10 @@ namespace Hybrid
                 &SDLEvent,
                 &SDLQuit
             );
+            
+            return 0;
         }
-        
+
         [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvCdecl) })]
         private static SDL.AppResult SDLInit(IntPtr state, int argc, IntPtr argv)
         {
