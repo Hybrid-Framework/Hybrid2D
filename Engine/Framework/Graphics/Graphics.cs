@@ -77,7 +77,7 @@ namespace Hybrid
                 vertexColors[vBase + 3] = c;
             }
 
-            DrawGeometry(null, vertices, vertexColors, null, indices);
+            DrawGeometryExtended(null, vertices, vertexColors, null, indices);
         }
 
         public static void DrawLine(Point start, Point end, float thickness, Color color)
@@ -131,7 +131,7 @@ namespace Hybrid
                 vertexColors[vBase + 3] = c;
             }
 
-            DrawGeometry(null, vertices, vertexColors, null, indices);
+            DrawGeometryExtended(null, vertices, vertexColors, null, indices);
         }
         
         public static void DrawPoint(Point p, Color color)
@@ -181,7 +181,7 @@ namespace Hybrid
                 vertexColors[vBase + 3] = c;
             }
 
-            DrawGeometry(null, vertices, vertexColors, null, indices);
+            DrawGeometryExtended(null, vertices, vertexColors, null, indices);
         }
 
         public static void DrawCircle(Circle circle, Color color, int segments = 32)
@@ -234,22 +234,38 @@ namespace Hybrid
                 }
             }
 
-            DrawGeometry(null, positions, vertexColors, null, indices);
+            DrawGeometryExtended(null, positions, vertexColors, null, indices);
+        }
+
+        public static void DrawTexture(Texture texture, Rect? source, Rect? destination)
+        {
+            var textureHandle = texture == null ? null : texture.Handle;
+            {
+                SDL.RenderTexture(Handle, textureHandle, source, destination);
+            }
+        }
+        
+        public static void DrawTextureExtended(Texture texture, Rect? source, Rect? destination, double angle, Point? center, FlipMode flipMode)
+        {
+            var textureHandle = texture == null ? null : texture.Handle;
+            {
+                SDL.RenderTextureRotated(Handle, textureHandle, source, destination, angle, center, (SDL.FlipMode)flipMode);
+            }
         }
         
         public static void DrawGeometry(Texture texture, Vertex[] vertices, int[] indices)
         {
-            var handle = texture == null ? null : texture.Handle;
+            var textureHandle = texture == null ? null : texture.Handle;
             {
-                SDL.RenderGeometry(Handle, handle, vertices, vertices.Length, indices, indices.Length);
+                SDL.RenderGeometry(Handle, textureHandle, vertices, vertices.Length, indices, indices.Length);
             }
         }
 
-        public static void DrawGeometry(Texture texture, float[] positions, Color[] colors, float[] uvs, int[] indices)
+        public static void DrawGeometryExtended(Texture texture, float[] positions, Color[] colors, float[] uvs, int[] indices)
         {
-            var handle = texture == null ? null : texture.Handle;
+            var textureHandle = texture == null ? null : texture.Handle;
             {
-                SDL.RenderGeometryRaw(Handle, handle, positions, colors, uvs, indices);
+                SDL.RenderGeometryRaw(Handle, textureHandle, positions, colors, uvs, indices);
             }
         }
         

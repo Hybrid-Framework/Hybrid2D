@@ -27,6 +27,8 @@ namespace App
             
             Graphics.DrawFps(10, 10, Color.White);
             
+            Graphics.DrawTexture(texture, null, null);
+            
             Graphics.DrawEnd();
         }
     }
