@@ -31,7 +31,7 @@ namespace Hybrid
             FrameStart = SDL.GetPerformanceCounter();
 
             DeltaTime = (float)((FrameStart - FramePrevious) / FrameFrequency);
-            FramesPerSecond = (FramesPerSecond * 0.9f) + ((1f / DeltaTime) * 0.1f);
+            FramesPerSecond = Maths.Clamp((FramesPerSecond * 0.9f) + ((1f / DeltaTime) * 0.1f), 0, 10000);
             FrameTime = DeltaTime * 1000f;
             Timer += DeltaTime;
             FrameCount += 1;

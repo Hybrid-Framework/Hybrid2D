@@ -10,7 +10,6 @@ namespace Hybrid
         public int X;
         public int Y;
 
-
         public Vector2Int(int x, int y)
         {
             this.X = x;

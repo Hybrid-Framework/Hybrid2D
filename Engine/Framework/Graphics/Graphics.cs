@@ -33,44 +33,238 @@ namespace Hybrid
     // Graphics API
     public unsafe partial class Graphics
     {
-        public static void DrawRect(Rect rect)
+        public static void DrawRect(Rect rect, Color color)
         {
-            SDL.RenderFillRect(Handle, rect);
-        }
-
-        public static void DrawRects(Rect[] rects)
-        {
-            SDL.RenderFillRects(Handle, rects, rects.Length);
-        }
-
-        public static void DrawLine(Point start, Point end)
-        {
-            SDL.RenderLine(Handle, start.X, start.Y, end.X, end.Y);
-        }
-
-        public static void DrawLines(Point[] points)
-        {
-            SDL.RenderLines(Handle, points, points.Length);
-        }
-
-        public static void DrawPoint(Point point)
-        {
-            SDL.RenderPoint(Handle, point.X, point.Y);
+            DrawRects([rect], [color]);
         }
         
-        public static void DrawPoints(Point[] points)
+        public static void DrawRects(Rect[] rects, Color[] colors)
         {
-            SDL.RenderPoints(Handle, points, points.Length);
-        }
-        
-        public static void DrawTexture(Texture texture, Rect? source, Rect? destination)
-        {
-            var handle = texture == null ? null : texture.Handle;
+            if (rects.Length != colors.Length)
+                throw new ArgumentException("All arrays must have the same length.");
+            
+            int vertexCount = rects.Length * 4;
+            int[] indices = new int[rects.Length * 6];
+            float[] vertices = new float[vertexCount * 2];
+            Color[] vertexColors = new Color[vertexCount];
+
+            for (int i = 0; i < rects.Length; i++)
             {
-                SDL.RenderTexture(Handle, handle, source, destination);
+                var r = rects[i];
+                var c = colors[i];
+
+                int vBase = i * 4;
+                int iBase = i * 6;
+
+                vertices[(vBase + 0) * 2 + 0] = r.X;           // top-left x
+                vertices[(vBase + 0) * 2 + 1] = r.Y;
+
+                vertices[(vBase + 1) * 2 + 0] = r.X + r.W;     // top-right x
+                vertices[(vBase + 1) * 2 + 1] = r.Y;
+
+                vertices[(vBase + 2) * 2 + 0] = r.X + r.W;     // bottom-right x
+                vertices[(vBase + 2) * 2 + 1] = r.Y + r.H;
+
+                vertices[(vBase + 3) * 2 + 0] = r.X;           // bottom-left x
+                vertices[(vBase + 3) * 2 + 1] = r.Y + r.H;
+
+                // Vertex colors
+                vertexColors[vBase + 0] = c;
+                vertexColors[vBase + 1] = c;
+                vertexColors[vBase + 2] = c;
+                vertexColors[vBase + 3] = c;
+
+                // Indices (two triangles)
+                indices[iBase + 0] = vBase + 0;                 // top-left
+                indices[iBase + 1] = vBase + 1;                 // top-right
+                indices[iBase + 2] = vBase + 2;                 // bottom-right
+
+                indices[iBase + 3] = vBase + 2;                 // bottom-right
+                indices[iBase + 4] = vBase + 3;                 // bottom-left
+                indices[iBase + 5] = vBase + 0;                 // top-left
             }
+
+            DrawGeometry(null, vertices, vertexColors, null, indices);
         }
 
+        public static void DrawLine(Point start, Point end, float thickness, Color color)
+        {
+            DrawLines([start], [end], [thickness], [color]);
+        }
+        
+        public static void DrawLines(Point[] starts, Point[] ends, float[] thicknesses, Color[] colors)
+        {
+            if (starts.Length != ends.Length || starts.Length != thicknesses.Length || starts.Length != colors.Length)
+                throw new ArgumentException("All arrays must have the same length.");
+            
+            int count = starts.Length;
+            int vertexCount = count * 4;
+            float[] vertices = new float[vertexCount * 2];
+            Color[] vertexColors = new Color[vertexCount];
+            int[] indices = new int[count * 6];
+
+            for (int i = 0; i < count; i++)
+            {
+                var p0 = starts[i];
+                var p1 = ends[i];
+                float thickness = thicknesses[i];
+                var c = colors[i];
+
+                // TODO: USE OWN VECTOR STRUCT
+                var dir = new System.Numerics.Vector2(p1.X - p0.X, p1.Y - p0.Y);
+                var perp = System.Numerics.Vector2.Normalize(new System.Numerics.Vector2(-dir.Y, dir.X)) * (thickness / 2);
+
+                int vBase = i * 4;
+                int iBase = i * 6;
+
+                // 4 vertices for the quad
+                vertices[(vBase + 0) * 2 + 0] = p0.X + perp.X; // top-left
+                vertices[(vBase + 0) * 2 + 1] = p0.Y + perp.Y;
+
+                vertices[(vBase + 1) * 2 + 0] = p1.X + perp.X; // top-right
+                vertices[(vBase + 1) * 2 + 1] = p1.Y + perp.Y;
+
+                vertices[(vBase + 2) * 2 + 0] = p1.X - perp.X; // bottom-right
+                vertices[(vBase + 2) * 2 + 1] = p1.Y - perp.Y;
+
+                vertices[(vBase + 3) * 2 + 0] = p0.X - perp.X; // bottom-left
+                vertices[(vBase + 3) * 2 + 1] = p0.Y - perp.Y;
+
+                // Vertex colors
+                vertexColors[vBase + 0] = c;
+                vertexColors[vBase + 1] = c;
+                vertexColors[vBase + 2] = c;
+                vertexColors[vBase + 3] = c;
+
+                // Indices (two triangles)
+                indices[iBase + 0] = vBase + 0;                 // top-left
+                indices[iBase + 1] = vBase + 1;                 // top-right
+                indices[iBase + 2] = vBase + 2;                 // bottom-right
+
+                indices[iBase + 3] = vBase + 2;                 // bottom-right
+                indices[iBase + 4] = vBase + 3;                 // bottom-left
+                indices[iBase + 5] = vBase + 0;                 // top-left
+            }
+
+            DrawGeometry(null, vertices, vertexColors, null, indices);
+        }
+        
+        public static void DrawPoint(Point p, Color color)
+        {
+            DrawPoints([p], [color]);
+        }
+
+        public static void DrawPoints(Point[] points, Color[] colors, float size = 1f)
+        {
+            if (points.Length != colors.Length)
+                throw new ArgumentException("points and colors must have the same length.");
+
+            int count = points.Length;
+            int vertexCount = count * 4;
+            float[] vertices = new float[vertexCount * 2];
+            Color[] vertexColors = new Color[vertexCount];
+            int[] indices = new int[count * 6];
+
+            float half = size / 2f;
+
+            for (int i = 0; i < count; i++)
+            {
+                var p = points[i];
+                var c = colors[i];
+
+                int vBase = i * 4;
+                int iBase = i * 6;
+
+                // 4 vertices (quad)
+                vertices[(vBase + 0) * 2 + 0] = p.X - half; // top-left
+                vertices[(vBase + 0) * 2 + 1] = p.Y - half;
+
+                vertices[(vBase + 1) * 2 + 0] = p.X + half; // top-right
+                vertices[(vBase + 1) * 2 + 1] = p.Y - half;
+
+                vertices[(vBase + 2) * 2 + 0] = p.X + half; // bottom-right
+                vertices[(vBase + 2) * 2 + 1] = p.Y + half;
+
+                vertices[(vBase + 3) * 2 + 0] = p.X - half; // bottom-left
+                vertices[(vBase + 3) * 2 + 1] = p.Y + half;
+
+                // Vertex colors
+                vertexColors[vBase + 0] = c;
+                vertexColors[vBase + 1] = c;
+                vertexColors[vBase + 2] = c;
+                vertexColors[vBase + 3] = c;
+
+                // Indices (two triangles)
+                indices[iBase + 0] = vBase + 0;
+                indices[iBase + 1] = vBase + 1;
+                indices[iBase + 2] = vBase + 2;
+
+                indices[iBase + 3] = vBase + 2;
+                indices[iBase + 4] = vBase + 3;
+                indices[iBase + 5] = vBase + 0;
+            }
+
+            DrawGeometry(null, vertices, vertexColors, null, indices);
+        }
+
+        public static void DrawCircle(Circle circle, Color color, int segments = 32)
+        {
+            DrawCircles([circle], [color], segments);
+        }
+
+        public static void DrawCircles(Circle[] circles, Color[] colors, int segments = 32)
+        {
+            if (circles.Length != colors.Length)
+                throw new ArgumentException("circles and colors must have the same length.");
+
+            int count = circles.Length;
+            int vertexCountPerCircle = segments + 1;
+            int indexCountPerCircle = segments * 3;
+
+            int totalVertices = count * vertexCountPerCircle;
+            int totalIndices = count * indexCountPerCircle;
+
+            float[] positions = new float[totalVertices * 2];
+            Color[] vertexColors = new Color[totalVertices];
+            int[] indices = new int[totalIndices];
+
+            for (int i = 0; i < count; i++)
+            {
+                Circle circle = circles[i];
+                var color = colors[i];
+
+                int vBase = i * vertexCountPerCircle;
+                int iBase = i * indexCountPerCircle;
+
+                // Center vertex
+                positions[vBase * 2 + 0] = circle.X;
+                positions[vBase * 2 + 1] = circle.Y;
+                vertexColors[vBase] = color;
+
+                // Edge vertices
+                for (int j = 0; j < segments; j++)
+                {
+                    float angle = (float)(2 * Math.PI * j / segments);
+                    float x = circle.X + circle.R * (float)Math.Cos(angle);
+                    float y = circle.Y + circle.R * (float)Math.Sin(angle);
+
+                    positions[(vBase + 1 + j) * 2 + 0] = x;
+                    positions[(vBase + 1 + j) * 2 + 1] = y;
+                    vertexColors[vBase + 1 + j] = color;
+                }
+
+                // Triangle fan indices
+                for (int j = 0; j < segments; j++)
+                {
+                    indices[iBase + j * 3 + 0] = vBase;                       // center
+                    indices[iBase + j * 3 + 1] = vBase + 1 + j;               // current edge
+                    indices[iBase + j * 3 + 2] = vBase + 1 + ((j + 1) % segments); // next edge
+                }
+            }
+
+            DrawGeometry(null, positions, vertexColors, null, indices);
+        }
+        
         public static void DrawGeometry(Texture texture, Vertex[] vertices, int[] indices)
         {
             var handle = texture == null ? null : texture.Handle;
@@ -87,27 +281,34 @@ namespace Hybrid
             }
         }
         
-        public static void DrawColor(Color32 color)
+        public static void DrawDebugText(int x, int y, string text, Color color)
         {
-            SDL.SetRenderDrawColor(Handle, color.R, color.G, color.B, color.A);
+            Color32 color32 = (Color32)color;
+            {
+                SDL.SetRenderDrawColor(Handle, color32.R, color32.G, color32.B, color32.A);
+                SDL.RenderDebugText(Handle, x, y, text);
+            }
         }
         
-        public static void DrawDebugText(int x, int y, string text)
+        public static void DrawFps(int x, int y, Color color)
         {
-            SDL.RenderDebugText(Handle, x, y, text);
+            Color32 color32 = (Color32)color;
+            {
+                SDL.SetRenderDrawColor(Handle, color32.R, color32.G, color32.B, color32.A);
+                SDL.RenderDebugText(Handle, x, y, Time.GetFps().ToString("N0"));
+            }
         }
         
-        public static void DrawFps(int x, int y)
+        public static void DrawBegin(Color color)
         {
-            SDL.RenderDebugText(Handle, x, y, Time.GetFps().ToString("N0"));
-        }
-        
-        public static void DrawClear()
-        {
-            SDL.RenderClear(Handle);
+            Color32 color32 = (Color32)color;
+            {
+                SDL.SetRenderDrawColor(Handle, color32.R, color32.G, color32.B, color32.A);
+                SDL.RenderClear(Handle);
+            }
         }
 
-        public static void DrawPresent()
+        public static void DrawEnd()
         {
             SDL.RenderPresent(Handle);
         }

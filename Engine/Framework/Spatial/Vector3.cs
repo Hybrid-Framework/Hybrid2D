@@ -11,7 +11,6 @@ namespace Hybrid
         public float Y;
         public float Z;
 
-
         public Vector3(float x, float y, float z)
         {
             this.X = x;

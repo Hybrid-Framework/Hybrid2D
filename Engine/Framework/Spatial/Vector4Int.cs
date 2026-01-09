@@ -12,7 +12,6 @@ namespace Hybrid
         public int Z;
         public int W;
 
-
         public Vector4Int(int x, int y, int z, int w)
         {
             this.X = x;

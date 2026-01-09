@@ -3,21 +3,19 @@ using System;
 
 namespace Hybrid
 {
-    // Rect
+    // Circle
     [StructLayout(LayoutKind.Sequential)]
-    public struct Rect
+    public struct Circle
     {
         public float X;
         public float Y;
-        public float W;
-        public float H;
+        public float R;
         
-        public Rect(float x, float y, float w, float h)
+        public Circle(float x, float y, float r)
         {
             this.X = x;
             this.Y = y;
-            this.W = w;
-            this.H = h;
+            this.R = r;
         }
     }
 }

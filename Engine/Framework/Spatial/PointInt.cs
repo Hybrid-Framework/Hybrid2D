@@ -10,7 +10,6 @@ namespace Hybrid
         public int X;
         public int Y;
 
-
         public PointInt(int x, int y)
         {
             this.X = x;

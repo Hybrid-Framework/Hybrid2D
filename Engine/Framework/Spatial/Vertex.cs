@@ -10,7 +10,6 @@ namespace Hybrid
         public Color Color;
         public Point UV;
 
-
         public Vertex(Point position, Color color, Point uv)
         {
             this.Position = position;

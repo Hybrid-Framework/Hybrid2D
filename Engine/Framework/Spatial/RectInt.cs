@@ -12,7 +12,6 @@ namespace Hybrid
         public int W;
         public int H;
 
-
         public RectInt(int x, int y, int w, int h)
         {
             this.X = x;
