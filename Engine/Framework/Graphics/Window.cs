@@ -25,6 +25,22 @@ namespace Hybrid
         }
     }
     
+    // Icon
+    public unsafe partial class Window
+    {
+        public static void SetIcon(string path)
+        {
+            var icon = SDL_image.Load(SDL.GetBasePath() + path);
+            {
+                if (icon != null)
+                {
+                    SDL.SetWindowIcon(Handle, icon);
+                    SDL.DestroySurface(icon);
+                }
+            }
+        }
+    }
+    
     // Title
     public unsafe partial class Window
     {

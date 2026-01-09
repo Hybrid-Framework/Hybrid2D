@@ -9,9 +9,6 @@ namespace App
         
         public override void OnInitialize()
         {
-            Window.SetSize(new Vector2(800, 800));
-            Window.SetVSync(false);
-
             texture = Texture.Create("Images/Image.png");
             Texture.SetPixel(texture, 0, 0, Color.Red);
             Texture.SetPixel(texture, 1, 0, Color.Green);

@@ -15,49 +15,84 @@ namespace Hybrid
         
         public void Run()
         {
-            if (Initialized) return;
-            Initialized = true;
-            IsRunning = true;
-            
-            Bootstrap.Execute(this);
+            if (!Initialized)
+            {
+                IsRunning = true;
+                Initialized = true;
+                
+                Bootstrap.Execute(this);
+            }
+        }
+        
+        public void Quit()
+        {
+            if (IsRunning)
+            {
+                IsRunning = false;
+                
+                OnEngineDispose();
+                SDL.Quit();
+            }
         }
 
         internal void StartMainLoop()
         {
-            Window = new Window("Hybrid", 600, 400);
-            Graphics = new Graphics(true);
-            Time = new Time();
-            
-            OnInitialize();
+            if (Initialized)
+            {
+                try
+                {
+                    Window = new Window("Hybrid", 600, 400);
+                    Graphics = new Graphics(true);
+                    Time = new Time();
+
+                    OnInitialize();
+                }
+                catch (Exception ex)
+                {
+                    Exceptions.Throw(ex, this);
+                }
+            }
         }
 
         internal void MainLoop()
         {
-            OnEngineStartOfFrame();
-            
-            OnEngineUpdate();
-            OnEngineRender();
-            
-            OnEngineEndOfFrame();
+            if (IsRunning)
+            {
+                try
+                {
+                    OnEngineStartOfFrame();
+
+                    OnEngineUpdate();
+                    OnEngineRender();
+
+                    OnEngineEndOfFrame();
+                }
+                catch (Exception ex)
+                {
+                    Exceptions.Throw(ex, this);
+                }
+            }
         }
 
         internal void Events(SDL.Event e)
         {
-            if (e.type == SDL.EventType.Quit)
+            if (IsRunning)
             {
-                Quit(); return;
-            }
-            
-            OnEngineEvent(e);
-        }
+                try
+                {
+                    if (e.type == SDL.EventType.Quit)
+                    {
+                        Quit();
+                        return;
+                    }
 
-        public void Quit()
-        {
-            if (!IsRunning) return;
-            IsRunning = false;
-            
-            OnEngineDispose();
-            SDL.Quit();
+                    OnEngineEvent(e);
+                }
+                catch (Exception ex)
+                {
+                    Exceptions.Throw(ex, this);
+                }
+            }
         }
     }
 

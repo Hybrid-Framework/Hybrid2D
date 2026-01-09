@@ -40,7 +40,7 @@ namespace Hybrid
         
         public static void Assert(bool condition, object message)
         {
-            if (condition)
+            if (!condition)
             {
                 throw new Exception($"[ASSERT] {message}");
             }
