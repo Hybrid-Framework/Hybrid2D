@@ -7,8 +7,7 @@ namespace Hybrid
     {
         internal static SDL.Renderer* Handle
         {
-            private set;
-            get;
+            get; private set;
         }
         
         internal Graphics(bool vsync)
