@@ -275,6 +275,23 @@ namespace Hybrid
             }
         }
     }
+    
+    // VSync
+    public unsafe partial class Window
+    {
+        public static void SetVSync(bool vsync)
+        {
+            SDL.SetRenderVSync(Graphics.Handle, vsync ? 1 : 0);
+        }
+
+        public static bool GetVSync()
+        {
+            SDL.GetRenderVSync(Graphics.Handle, out int vsync);
+            {
+                return vsync > 0 ? true : false;
+            }
+        }
+    }
 
     // Functions
     public unsafe partial class Window
