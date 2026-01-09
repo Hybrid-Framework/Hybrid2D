@@ -106,78 +106,79 @@ namespace Hybrid
     // Pixels
     public unsafe partial class Texture
     {
-        public static void SetPixel(Texture texture, int x, int y, Color32 color32)
+        public static void SetPixel(Texture texture, int x, int y, Color color)
         {
-            if (x >= 0 && y >= 0 && x < texture.Width && y < texture.Height)
+            if (x < 0 || y < 0 || x >= texture.Width || y >= texture.Height)
             {
-                int index = (y * texture.Width + x) * 4;
+                throw new Exception($"Invalid position '({x}, {y})' in texture size: '{texture.Width}, {texture.Height}'");
+            }
+            
+            int index = (y * texture.Width + x) * 4;
+            Color32 color32 = (Color32)color;
+            
+            texture.Pixels[index + 0] = color32.R;
+            texture.Pixels[index + 1] = color32.G;
+            texture.Pixels[index + 2] = color32.B;
+            texture.Pixels[index + 3] = color32.A;
+        }
 
+        public static Color GetPixel(Texture texture, int x, int y)
+        {
+            if (x < 0 || y < 0 || x >= texture.Width || y >= texture.Height)
+            {
+                throw new Exception($"Invalid position '({x}, {y})' in texture size: '{texture.Width}, {texture.Height}'");
+            }
+            
+            int index = (y * texture.Width + x) * 4;
+            
+            Color32 color32 = new Color32
+            (
+                texture.Pixels[index + 0],
+                texture.Pixels[index + 1],
+                texture.Pixels[index + 2],
+                texture.Pixels[index + 3]
+            );
+            
+            return (Color)color32;
+        }
+
+        public static void SetPixels(Texture texture, Color[] colors)
+        {
+            if (colors.Length != texture.Width * texture.Height)
+            {
+                throw new Exception($"Array length '{colors.Length}' must match the texture size: '{texture.Width * texture.Height}'");
+            }
+
+            for (int i = 0; i < colors.Length; i++)
+            {
+                int index = i * 4;
+                Color32 color32 = (Color32)colors[i];
+            
                 texture.Pixels[index + 0] = color32.R;
                 texture.Pixels[index + 1] = color32.G;
                 texture.Pixels[index + 2] = color32.B;
                 texture.Pixels[index + 3] = color32.A;
-                return;
             }
-
-            // Invalid Position
-            throw new Exception($"Invalid position '({x}, {y})' in texture size: '{texture.Width}, {texture.Height}'");
         }
 
-        public static Color32 GetPixel(Texture texture, int x, int y)
+        public static Color[] GetPixels(Texture texture)
         {
-            if (x >= 0 && y >= 0 && x < texture.Width && y < texture.Height)
-            {
-                int index = (y * texture.Width + x) * 4;
-
-                byte r = texture.Pixels[index + 0];
-                byte g = texture.Pixels[index + 1];
-                byte b = texture.Pixels[index + 2];
-                byte a = texture.Pixels[index + 3];
-
-                return new Color32(r, g, b, a);
-            }
-
-            // Invalid Position
-            throw new Exception($"Invalid position '({x}, {y})' in texture size: '{texture.Width}, {texture.Height}'");
-        }
-
-        public static void SetPixels(Texture texture, Color32[] colors)
-        {
-            if (colors.Length == (texture.Width * texture.Height))
-            {
-                for (int i = 0; i < colors.Length; i++)
-                {
-                    int index = i * 4;
-                    Color32 c = colors[i];
-
-                    texture.Pixels[index + 0] = c.R;
-                    texture.Pixels[index + 1] = c.G;
-                    texture.Pixels[index + 2] = c.B;
-                    texture.Pixels[index + 3] = c.A;
-                }
-
-                return;
-            }
-
-            // Invalid Array Length
-            throw new Exception($"Array length '{colors.Length}' must match the texture size: '{texture.Width * texture.Height}'");
-        }
-
-        public static Color32[] GetPixels(Texture texture)
-        {
-            int count = (texture.Width * texture.Height);
-            Color32[] result = new Color32[count];
+            int count = texture.Width * texture.Height;
+            Color[] result = new Color[count];
 
             for (int i = 0; i < count; i++)
             {
                 int index = i * 4;
+                
+                Color32 color32 = new Color32
+                (
+                    texture.Pixels[index + 0],
+                    texture.Pixels[index + 1],
+                    texture.Pixels[index + 2],
+                    texture.Pixels[index + 3]
+                );
 
-                byte r = texture.Pixels[index + 0];
-                byte g = texture.Pixels[index + 1];
-                byte b = texture.Pixels[index + 2];
-                byte a = texture.Pixels[index + 3];
-
-                result[i] = new Color32(r, g, b, a);
+                result[i] = (Color)color32;
             }
 
             return result;

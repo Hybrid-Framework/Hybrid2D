@@ -5,28 +5,18 @@ namespace App
 {
     public class Game : Hybrid.App
     {
-        private const int count = 100;
-        private Circle[] Circles = new Circle[count];
-        private Color[] Colors = new Color[count];
+        private Texture texture;
         
         public override void OnInitialize()
         {
             Window.SetSize(new Vector2(800, 800));
             Window.SetVSync(false);
 
-            Random random = new Random();
-            
-            for (int i = 0; i < count; i++)
-            {
-                Circles[i] = new Circle(random.Next(0, Window.GetWidth()), random.Next(0, Window.GetHeight()), random.Next(16, 32));
-                Colors[i] = new Color
-                (
-                    (float)random.NextDouble(),
-                    (float)random.NextDouble(),
-                    (float)random.NextDouble(),
-                    1f
-                );
-            }
+            texture = Texture.Create("Images/Image.png");
+            Texture.SetPixel(texture, 0, 0, Color.Red);
+            Texture.SetPixel(texture, 1, 0, Color.Green);
+            Texture.SetPixel(texture, 2, 0, Color.Blue);
+            Texture.Apply(texture);
         }
 
         public override void OnUpdate()
@@ -37,8 +27,6 @@ namespace App
         public override void OnRender()
         {
             Graphics.DrawBegin(Color.Black);
-            
-            Graphics.DrawCircles(Circles, Colors, 256);
             
             Graphics.DrawFps(10, 10, Color.White);
             
