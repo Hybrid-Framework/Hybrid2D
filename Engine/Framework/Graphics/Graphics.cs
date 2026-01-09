@@ -52,36 +52,29 @@ namespace Hybrid
             {
                 var r = rects[i];
                 var c = colors[i];
-
                 int vBase = i * 4;
                 int iBase = i * 6;
 
-                vertices[(vBase + 0) * 2 + 0] = r.X;           // top-left x
+                vertices[(vBase + 0) * 2 + 0] = r.X;
                 vertices[(vBase + 0) * 2 + 1] = r.Y;
-
-                vertices[(vBase + 1) * 2 + 0] = r.X + r.W;     // top-right x
+                vertices[(vBase + 1) * 2 + 0] = r.X + r.W;
                 vertices[(vBase + 1) * 2 + 1] = r.Y;
-
-                vertices[(vBase + 2) * 2 + 0] = r.X + r.W;     // bottom-right x
+                vertices[(vBase + 2) * 2 + 0] = r.X + r.W;
                 vertices[(vBase + 2) * 2 + 1] = r.Y + r.H;
-
-                vertices[(vBase + 3) * 2 + 0] = r.X;           // bottom-left x
+                vertices[(vBase + 3) * 2 + 0] = r.X;
                 vertices[(vBase + 3) * 2 + 1] = r.Y + r.H;
 
-                // Vertex colors
+                indices[iBase + 0] = vBase + 0;
+                indices[iBase + 1] = vBase + 1;
+                indices[iBase + 2] = vBase + 2;
+                indices[iBase + 3] = vBase + 2;
+                indices[iBase + 4] = vBase + 3;
+                indices[iBase + 5] = vBase + 0;
+                
                 vertexColors[vBase + 0] = c;
                 vertexColors[vBase + 1] = c;
                 vertexColors[vBase + 2] = c;
                 vertexColors[vBase + 3] = c;
-
-                // Indices (two triangles)
-                indices[iBase + 0] = vBase + 0;                 // top-left
-                indices[iBase + 1] = vBase + 1;                 // top-right
-                indices[iBase + 2] = vBase + 2;                 // bottom-right
-
-                indices[iBase + 3] = vBase + 2;                 // bottom-right
-                indices[iBase + 4] = vBase + 3;                 // bottom-left
-                indices[iBase + 5] = vBase + 0;                 // top-left
             }
 
             DrawGeometry(null, vertices, vertexColors, null, indices);
@@ -105,45 +98,37 @@ namespace Hybrid
 
             for (int i = 0; i < count; i++)
             {
+                float thickness = thicknesses[i];
                 var p0 = starts[i];
                 var p1 = ends[i];
-                float thickness = thicknesses[i];
                 var c = colors[i];
 
                 // TODO: USE OWN VECTOR STRUCT
                 var dir = new System.Numerics.Vector2(p1.X - p0.X, p1.Y - p0.Y);
                 var perp = System.Numerics.Vector2.Normalize(new System.Numerics.Vector2(-dir.Y, dir.X)) * (thickness / 2);
-
                 int vBase = i * 4;
                 int iBase = i * 6;
 
-                // 4 vertices for the quad
-                vertices[(vBase + 0) * 2 + 0] = p0.X + perp.X; // top-left
+                vertices[(vBase + 0) * 2 + 0] = p0.X + perp.X;
                 vertices[(vBase + 0) * 2 + 1] = p0.Y + perp.Y;
-
-                vertices[(vBase + 1) * 2 + 0] = p1.X + perp.X; // top-right
+                vertices[(vBase + 1) * 2 + 0] = p1.X + perp.X;
                 vertices[(vBase + 1) * 2 + 1] = p1.Y + perp.Y;
-
-                vertices[(vBase + 2) * 2 + 0] = p1.X - perp.X; // bottom-right
+                vertices[(vBase + 2) * 2 + 0] = p1.X - perp.X;
                 vertices[(vBase + 2) * 2 + 1] = p1.Y - perp.Y;
-
-                vertices[(vBase + 3) * 2 + 0] = p0.X - perp.X; // bottom-left
+                vertices[(vBase + 3) * 2 + 0] = p0.X - perp.X;
                 vertices[(vBase + 3) * 2 + 1] = p0.Y - perp.Y;
 
-                // Vertex colors
+                indices[iBase + 0] = vBase + 0;
+                indices[iBase + 1] = vBase + 1;
+                indices[iBase + 2] = vBase + 2;
+                indices[iBase + 3] = vBase + 2;
+                indices[iBase + 4] = vBase + 3;
+                indices[iBase + 5] = vBase + 0;
+                
                 vertexColors[vBase + 0] = c;
                 vertexColors[vBase + 1] = c;
                 vertexColors[vBase + 2] = c;
                 vertexColors[vBase + 3] = c;
-
-                // Indices (two triangles)
-                indices[iBase + 0] = vBase + 0;                 // top-left
-                indices[iBase + 1] = vBase + 1;                 // top-right
-                indices[iBase + 2] = vBase + 2;                 // bottom-right
-
-                indices[iBase + 3] = vBase + 2;                 // bottom-right
-                indices[iBase + 4] = vBase + 3;                 // bottom-left
-                indices[iBase + 5] = vBase + 0;                 // top-left
             }
 
             DrawGeometry(null, vertices, vertexColors, null, indices);
@@ -171,37 +156,29 @@ namespace Hybrid
             {
                 var p = points[i];
                 var c = colors[i];
-
                 int vBase = i * 4;
                 int iBase = i * 6;
 
-                // 4 vertices (quad)
-                vertices[(vBase + 0) * 2 + 0] = p.X - half; // top-left
+                vertices[(vBase + 0) * 2 + 0] = p.X - half;
                 vertices[(vBase + 0) * 2 + 1] = p.Y - half;
-
-                vertices[(vBase + 1) * 2 + 0] = p.X + half; // top-right
+                vertices[(vBase + 1) * 2 + 0] = p.X + half;
                 vertices[(vBase + 1) * 2 + 1] = p.Y - half;
-
-                vertices[(vBase + 2) * 2 + 0] = p.X + half; // bottom-right
+                vertices[(vBase + 2) * 2 + 0] = p.X + half;
                 vertices[(vBase + 2) * 2 + 1] = p.Y + half;
-
-                vertices[(vBase + 3) * 2 + 0] = p.X - half; // bottom-left
+                vertices[(vBase + 3) * 2 + 0] = p.X - half;
                 vertices[(vBase + 3) * 2 + 1] = p.Y + half;
 
-                // Vertex colors
+                indices[iBase + 0] = vBase + 0;
+                indices[iBase + 1] = vBase + 1;
+                indices[iBase + 2] = vBase + 2;
+                indices[iBase + 3] = vBase + 2;
+                indices[iBase + 4] = vBase + 3;
+                indices[iBase + 5] = vBase + 0;
+                
                 vertexColors[vBase + 0] = c;
                 vertexColors[vBase + 1] = c;
                 vertexColors[vBase + 2] = c;
                 vertexColors[vBase + 3] = c;
-
-                // Indices (two triangles)
-                indices[iBase + 0] = vBase + 0;
-                indices[iBase + 1] = vBase + 1;
-                indices[iBase + 2] = vBase + 2;
-
-                indices[iBase + 3] = vBase + 2;
-                indices[iBase + 4] = vBase + 3;
-                indices[iBase + 5] = vBase + 0;
             }
 
             DrawGeometry(null, vertices, vertexColors, null, indices);
@@ -220,10 +197,8 @@ namespace Hybrid
             int count = circles.Length;
             int vertexCountPerCircle = segments + 1;
             int indexCountPerCircle = segments * 3;
-
             int totalVertices = count * vertexCountPerCircle;
             int totalIndices = count * indexCountPerCircle;
-
             float[] positions = new float[totalVertices * 2];
             Color[] vertexColors = new Color[totalVertices];
             int[] indices = new int[totalIndices];
@@ -236,12 +211,10 @@ namespace Hybrid
                 int vBase = i * vertexCountPerCircle;
                 int iBase = i * indexCountPerCircle;
 
-                // Center vertex
                 positions[vBase * 2 + 0] = circle.X;
                 positions[vBase * 2 + 1] = circle.Y;
                 vertexColors[vBase] = color;
 
-                // Edge vertices
                 for (int j = 0; j < segments; j++)
                 {
                     float angle = (float)(2 * Math.PI * j / segments);
@@ -253,12 +226,11 @@ namespace Hybrid
                     vertexColors[vBase + 1 + j] = color;
                 }
 
-                // Triangle fan indices
                 for (int j = 0; j < segments; j++)
                 {
-                    indices[iBase + j * 3 + 0] = vBase;                       // center
-                    indices[iBase + j * 3 + 1] = vBase + 1 + j;               // current edge
-                    indices[iBase + j * 3 + 2] = vBase + 1 + ((j + 1) % segments); // next edge
+                    indices[iBase + j * 3 + 0] = vBase;
+                    indices[iBase + j * 3 + 1] = vBase + 1 + j;
+                    indices[iBase + j * 3 + 2] = vBase + 1 + ((j + 1) % segments);
                 }
             }
 
