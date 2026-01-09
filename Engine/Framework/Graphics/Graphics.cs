@@ -16,6 +16,8 @@ namespace Hybrid
             {
                 SDL.SetRenderVSync(Handle, vsync ? 1 : 0);
             }
+            
+            SDL.SetDefaultTextureScaleMode(Handle, SDL.ScaleMode.Pixel);
         }
 
         internal override void OnDispose()
@@ -31,6 +33,11 @@ namespace Hybrid
     // Graphics API
     public unsafe partial class Graphics
     {
+        public static void DrawTexture(Texture texture, Rect source, Rect destination)
+        {
+            SDL.RenderTexture(Handle, texture.Handle, source, destination);
+        }
+        
         public static void DrawColor(Color32 color)
         {
             SDL.SetRenderDrawColor(Handle, color.R, color.G, color.B, color.A);
