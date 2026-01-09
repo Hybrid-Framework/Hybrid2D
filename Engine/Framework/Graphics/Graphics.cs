@@ -33,11 +33,6 @@ namespace Hybrid
     // Graphics API
     public unsafe partial class Graphics
     {
-        public static void DrawTexture(Texture texture, Rect source, Rect destination)
-        {
-            SDL.RenderTexture(Handle, texture.Handle, source, destination);
-        }
-        
         public static void DrawRect(Rect rect)
         {
             SDL.RenderFillRect(Handle, rect);
@@ -66,6 +61,30 @@ namespace Hybrid
         public static void DrawPoints(Point[] points)
         {
             SDL.RenderPoints(Handle, points, points.Length);
+        }
+        
+        public static void DrawTexture(Texture texture, Rect? source, Rect? destination)
+        {
+            var handle = texture == null ? null : texture.Handle;
+            {
+                SDL.RenderTexture(Handle, handle, source, destination);
+            }
+        }
+
+        public static void DrawGeometry(Texture texture, Vertex[] vertices, int[] indices)
+        {
+            var handle = texture == null ? null : texture.Handle;
+            {
+                SDL.RenderGeometry(Handle, handle, vertices, vertices.Length, indices, indices.Length);
+            }
+        }
+
+        public static void DrawGeometry(Texture texture, float[] positions, Color[] colors, float[] uvs, int[] indices)
+        {
+            var handle = texture == null ? null : texture.Handle;
+            {
+                SDL.RenderGeometryRaw(Handle, handle, positions, colors, uvs, indices);
+            }
         }
         
         public static void DrawColor(Color32 color)

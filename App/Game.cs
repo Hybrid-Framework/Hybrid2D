@@ -9,6 +9,7 @@ namespace App
         
         public override void OnInitialize()
         {
+            Window.SetSize(new Vector2(800, 800));
             Time.SetFps(60);
             
             Debug.Log(Device.GetPlatform());
@@ -35,8 +36,22 @@ namespace App
             Graphics.DrawColor(new Color32(255, 255, 255, 255));
             Graphics.DrawFps(10, 10);
             
-            Graphics.DrawTexture(texture, new Rect(8, 0, 8, 8), new Rect(0,0,256,256));
-            
+            Color red = new() { R = 1f, G = 0f, B = 0f, A = 1f };
+            Color green = new() { R = 0f, G = 1f, B = 0f, A = 1f };
+            Color blue = new() { R = 0f, G = 0f, B = 1f, A = 1f };
+
+            float[] positions = new float[]
+            {
+                400f, 100f,
+                100f, 700f,
+                700f, 700f
+            };
+
+            Color[] colors = new Color[] { red, green, blue };
+            int[] indices = new int[] { 0, 1, 2 };
+            float[] uvs = null;
+
+            Graphics.DrawGeometry(null, positions, colors, null, indices);
             Graphics.DrawPresent();
         }
     }

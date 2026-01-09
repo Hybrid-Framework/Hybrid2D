@@ -276,6 +276,35 @@ internal static unsafe partial class SDL
         return SDL_RenderGeometry(renderer, texture, vertices, verticesCount, indices, indicesCount);
     }
     
+    // Render Geometry Raw
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool SDL_RenderGeometryRaw(SDL.Renderer* renderer, SDL.Texture* texture, float* xy, int xy_stride, Color* color, int color_stride, float* uv, int uv_stride, int num_vertices, void* indices, int num_indices, int size_indices);
+    public static bool RenderGeometryRaw(SDL.Renderer* renderer, SDL.Texture* texture, float[] positions, Color[] colors, float[] uvs, int[] indices)
+    {
+        int numVertices = positions.Length / 2;
+        int xyStride = sizeof(float) * 2;
+        int colorStride = sizeof(Color);
+        int uvStride = sizeof(float) * 2;
+        int sizeIndices = sizeof(int);
+
+        fixed (float* xyPtr = positions)
+        fixed (Color* colorPtr = colors)
+        fixed (float* uvPtr = uvs)
+        fixed (int* indicesPtr = indices)
+        {
+            return SDL_RenderGeometryRaw
+            (
+                renderer,
+                texture,
+                xyPtr, xyStride,
+                colorPtr, colorStride,
+                uvPtr, uvStride,
+                numVertices,
+                indicesPtr, indices.Length, sizeIndices
+            );
+        }
+    }
+    
     // Render Read Pixels
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Surface* SDL_RenderReadPixels(SDL.Renderer* renderer, RectInt* rect);
