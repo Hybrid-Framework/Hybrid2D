@@ -1,24 +1,30 @@
 ﻿using Hybrid;
-using System;
 
 namespace App
 {
     public class Game : Hybrid.App
     {
-        private Texture texture;
-        
         public override void OnInitialize()
         {
-            texture = Texture.Create("Images/Image.png");
-            Texture.SetPixel(texture, 0, 0, Color.Red);
-            Texture.SetPixel(texture, 1, 0, Color.Green);
-            Texture.SetPixel(texture, 2, 0, Color.Blue);
-            Texture.Apply(texture);
+            Time.SetFps(60);
         }
 
         public override void OnUpdate()
         {
+            if (Input.GetMouseButtonDown(MouseButton.Left))
+            {
+                Debug.Log("Down");
+            }
             
+            if (Input.GetMouseButton(MouseButton.Left))
+            {
+                Debug.Log("Press");
+            }
+            
+            if (Input.GetMouseButtonUp(MouseButton.Left))
+            {
+                Debug.Log("Up");
+            }
         }
 
         public override void OnRender()
@@ -26,8 +32,6 @@ namespace App
             Graphics.DrawBegin(Color.Black);
             
             Graphics.DrawFps(10, 10, Color.White);
-            
-            Graphics.DrawTexture(texture, null, null);
             
             Graphics.DrawEnd();
         }

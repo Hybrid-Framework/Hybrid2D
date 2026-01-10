@@ -11,6 +11,7 @@ namespace Hybrid
         
         internal Graphics Graphics { get; set; }
         internal Window Window { get; set; }
+        internal Input Input { get; set; }
         internal Time Time { get; set; }
 
         
@@ -44,6 +45,7 @@ namespace Hybrid
                 {
                     Window = new Window();
                     Graphics = new Graphics();
+                    Input = new Input();
                     Time = new Time();
 
                     OnEngineInitialize();
