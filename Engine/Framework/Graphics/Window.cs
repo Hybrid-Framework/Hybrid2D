@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Hybrid
 {
@@ -309,6 +310,43 @@ namespace Hybrid
             SDL.GetRenderVSync(Graphics.Handle, out int vsync);
             {
                 return vsync > 0 ? true : false;
+            }
+        }
+    }
+    
+    // Monitor
+    public unsafe partial class Window
+    {
+        public static uint[] GetDisplays()
+        {
+            return SDL.GetDisplays(out var count);
+        }
+
+        public static uint GetCurrentDisplay()
+        {
+            return SDL.GetDisplayForWindow(Handle);
+        }
+
+        public static string GetCurrentDisplayName()
+        {
+            return GetDisplayName(GetCurrentDisplay());
+        }
+        
+        public static Vector2 GetCurrentDisplaySize()
+        {
+            return GetDisplaySize(GetCurrentDisplay());
+        }
+        
+        public static string GetDisplayName(uint displayID)
+        {
+            return SDL.GetDisplayName(displayID);
+        }
+        
+        public static Vector2 GetDisplaySize(uint displayID)
+        {
+            SDL.GetDisplayBounds(displayID, out RectInt rect);
+            {
+                return new Vector2(rect.W, rect.H);
             }
         }
     }

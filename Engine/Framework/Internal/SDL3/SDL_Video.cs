@@ -208,38 +208,6 @@ internal static unsafe partial class SDL
         return SDL_GetWindowSafeArea(window, out rect);
     }
     
-    // Get Primary Display
-    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern uint SDL_GetPrimaryDisplay();
-    public static uint GetPrimaryDisplay()
-    {
-        return SDL_GetPrimaryDisplay();
-    }
-    
-    // Get Display For Window
-    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern uint SDL_GetDisplayForWindow(SDL.Window* window);
-    public static uint GetDisplayForWindow(SDL.Window* window)
-    {
-        return SDL_GetDisplayForWindow(window);
-    }
-    
-    // Get Natural Display Orientation
-    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Orientation SDL_GetNaturalDisplayOrientation(uint displayID);
-    public static SDL.Orientation GetNaturalDisplayOrientation(uint displayID)
-    {
-        return SDL_GetNaturalDisplayOrientation(displayID);
-    }
-    
-    // Get Current Display Orientation
-    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Orientation SDL_GetCurrentDisplayOrientation(uint displayID);
-    public static SDL.Orientation GetCurrentDisplayOrientation(uint displayID)
-    {
-        return SDL_GetCurrentDisplayOrientation(displayID);
-    }
-    
     // Get Window Flags
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern ulong SDL_GetWindowFlags(SDL.Window* window);
