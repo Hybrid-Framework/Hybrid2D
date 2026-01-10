@@ -5,16 +5,20 @@ namespace Hybrid
     // Internal
     public sealed unsafe partial class Window : Module
     {
+        internal Window() { }
+        
         internal static SDL.Window* Handle
         {
             get; private set;
         }
-        
-        internal Window(string title, int width, int height)
+
+        // Initialize
+        internal override void OnInitialize()
         {
-            Handle = SDL.CreateWindow(title, width, height, SDL.WindowFlags.HighPixelDensity);
+            Handle = SDL.CreateWindow("Hybrid", 600, 400, SDL.WindowFlags.HighPixelDensity);
         }
         
+        // Dispose
         internal override void OnDispose()
         {
             if (Handle != null)

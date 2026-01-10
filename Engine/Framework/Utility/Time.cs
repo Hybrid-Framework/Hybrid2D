@@ -5,6 +5,8 @@ namespace Hybrid
     // Internal
     public sealed partial class Time : Module
     {
+        internal Time() { }
+        
         private static double FrameFrequency { get; set; } = SDL.GetPerformanceFrequency();
         private static long FramePrevious { get; set; } = SDL.GetPerformanceCounter();
         private static long FrameStart { get; set; } = SDL.GetPerformanceCounter();

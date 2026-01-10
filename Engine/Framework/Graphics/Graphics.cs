@@ -5,21 +5,24 @@ namespace Hybrid
     // Internal
     public sealed unsafe partial class Graphics : Module
     {
+        internal Graphics() { }
+        
         internal static SDL.Renderer* Handle
         {
             get; private set;
         }
-        
-        internal Graphics(bool vsync)
+
+        // Initialize
+        internal override void OnInitialize()
         {
             Handle = SDL.CreateRenderer(Window.Handle, null);
             {
-                SDL.SetRenderVSync(Handle, vsync ? 1 : 0);
+                SDL.SetDefaultTextureScaleMode(Handle, SDL.ScaleMode.Pixel);
+                SDL.SetRenderVSync(Handle, 1);
             }
-            
-            SDL.SetDefaultTextureScaleMode(Handle, SDL.ScaleMode.Pixel);
         }
 
+        // Dispose
         internal override void OnDispose()
         {
             if (Handle != null)

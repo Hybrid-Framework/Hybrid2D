@@ -41,11 +41,11 @@ namespace Hybrid
             {
                 try
                 {
-                    Window = new Window("Hybrid", 600, 400);
-                    Graphics = new Graphics(true);
+                    Window = new Window();
+                    Graphics = new Graphics();
                     Time = new Time();
 
-                    OnInitialize();
+                    OnEngineInitialize();
                 }
                 catch (Exception ex)
                 {

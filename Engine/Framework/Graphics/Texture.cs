@@ -3,7 +3,7 @@
 namespace Hybrid
 {
     // Internal
-    public unsafe partial class Texture
+    public sealed unsafe partial class Texture
     {
         internal SDL.Texture* Handle
         {
