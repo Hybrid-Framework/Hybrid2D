@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace Hybrid
 {
@@ -7,7 +8,7 @@ namespace Hybrid
     {
         internal SDL.Texture* Handle
         {
-            get; private set;
+            get; set;
         }
         
         internal int Width
@@ -30,14 +31,8 @@ namespace Hybrid
             Width = width;
             Height = height;
             Pixels = pixels;
-            Handle = SDL.CreateTexture
-            (
-                Graphics.Handle,
-                SDL.PixelFormat.RGBA32,
-                SDL.TextureAccess.Static,
-                width,
-                height
-            );
+            Handle = SDL.CreateTexture(Graphics.Handle, SDL.PixelFormat.RGBA32, SDL.TextureAccess.Static, width, height);
+            if (Handle == null) throw new Exception($"Failed to create texture: {SDL.GetError()}");
             
             Apply(this);
         }
@@ -46,50 +41,51 @@ namespace Hybrid
     // Texture Management
     public unsafe partial class Texture
     {
-        public static Texture Create(string path)
+        public static Texture LoadTexture(string path)
         {
-            path = SDL.GetBasePath() + path;
-            
-            var source = SDL_image.Load(path);
-            if (source == null) throw new Exception($"Failed to load texture '{path}'");
-
-            var surface = SDL.ConvertSurface(source, SDL.PixelFormat.RGBA32);
-            if (surface == null) throw new Exception($"Failed to load texture '{path}'");
-
-            int width = surface->width;
-            int height = surface->height;
-            int pitch = surface->pitch;
-            int length = width * height * 4;
-            byte[] pixels = new byte[length];
-            byte* src = (byte*)surface->pixels.ToPointer();
-
-            if (pitch == width * 4)
+            path = Path.Combine(SDL.GetBasePath() + path);
             {
-                fixed (byte* dst = pixels)
+                var source = SDL_image.Load(path);
+                if (source == null) throw new Exception($"Failed to load texture '{path}' {SDL.GetError()}");
+
+                var surface = SDL.ConvertSurface(source, SDL.PixelFormat.RGBA32);
+                if (surface == null) throw new Exception($"Failed to load texture '{path} {SDL.GetError()}'");
+
+                int width = surface->width;
+                int height = surface->height;
+                int pitch = surface->pitch;
+                int length = width * height * 4;
+                byte[] pixels = new byte[length];
+                byte* src = (byte*)surface->pixels.ToPointer();
+
+                if (pitch == width * 4)
                 {
-                    Buffer.MemoryCopy(src, dst, length, length);
-                }
-            }
-            else
-            {
-                fixed (byte* dstBase = pixels)
-                {
-                    for (int y = 0; y < height; y++)
+                    fixed (byte* dst = pixels)
                     {
-                        byte* srcRow = src + y * pitch;
-                        byte* dstRow = dstBase + y * width * 4;
-                        Buffer.MemoryCopy(srcRow, dstRow, width * 4, width * 4);
+                        Buffer.MemoryCopy(src, dst, length, length);
                     }
                 }
+                else
+                {
+                    fixed (byte* dstBase = pixels)
+                    {
+                        for (int y = 0; y < height; y++)
+                        {
+                            byte* srcRow = src + y * pitch;
+                            byte* dstRow = dstBase + y * width * 4;
+                            Buffer.MemoryCopy(srcRow, dstRow, width * 4, width * 4);
+                        }
+                    }
+                }
+
+                SDL.DestroySurface(surface);
+                SDL.DestroySurface(source);
+
+                return new Texture(width, height, pixels);
             }
-
-            SDL.DestroySurface(surface);
-            SDL.DestroySurface(source);
-
-            return new Texture(width, height, pixels);
         }
 
-        public static void Destroy(Texture texture)
+        public static void UnloadTexture(Texture texture)
         {
             if (texture.Handle != null)
             {

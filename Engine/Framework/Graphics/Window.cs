@@ -9,7 +9,7 @@ namespace Hybrid
         
         internal static SDL.Window* Handle
         {
-            get; private set;
+            get; set;
         }
 
         // Initialize
