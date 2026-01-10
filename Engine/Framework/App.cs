@@ -98,15 +98,6 @@ namespace Hybrid
         public virtual void OnRender() { }
         public virtual void OnUpdate() { }
         
-        
-        internal void OnEngineStartOfFrame()
-        {
-            foreach (Module module in Module.GetModules())
-            {
-                module.OnStartOfFrame();
-            }
-        }
-        
         internal void OnEngineInitialize()
         {
             foreach (Module module in Module.GetModules())
@@ -115,14 +106,6 @@ namespace Hybrid
             }
 
             OnInitialize();
-        }
-        
-        internal void OnEngineEvent(SDL.Event e)
-        {
-            foreach (Module module in Module.GetModules())
-            {
-                module.OnEvent(e);
-            }
         }
         
         internal void OnEngineUpdate()
@@ -143,6 +126,22 @@ namespace Hybrid
             }
             
             OnRender();
+        }
+        
+        internal void OnEngineStartOfFrame()
+        {
+            foreach (Module module in Module.GetModules())
+            {
+                module.OnStartOfFrame();
+            }
+        }
+        
+        internal void OnEngineEvent(SDL.Event e)
+        {
+            foreach (Module module in Module.GetModules())
+            {
+                module.OnEvent(e);
+            }
         }
         
         internal void OnEngineEndOfFrame()
