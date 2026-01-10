@@ -2,6 +2,10 @@
 
 internal static unsafe partial class SDL_mixer
 {
+    // Library
+    private const string library = "SDL3_mixer";
+    
+    
     // Init
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool MIX_Init();

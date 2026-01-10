@@ -2,6 +2,27 @@
 
 internal static unsafe partial class SDL
 {
+    // Library
+    private const string library = "SDL3";
+    
+    
+    // Init
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool SDL_Init(InitFlags flags);
+    public static bool Init(InitFlags flags)
+    {
+        return SDL_Init(flags);
+    }
+
+    // Quit
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern void SDL_Quit();
+    public static void Quit()
+    {
+        SDL_Quit();
+    }
+    
+    // Initialize
     public static void Initialize()
     {
         SDL.SetHint(SDL.SDL_HINT_MAIN_CALLBACK_RATE, "0");

@@ -2,6 +2,10 @@
 
 internal static unsafe partial class SDL_ttf
 {
+    // Library
+    private const string library = "SDL3_ttf";
+    
+    
     // Init
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool TTF_Init();
