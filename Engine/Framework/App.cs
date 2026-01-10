@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System;
 
 namespace Hybrid
@@ -35,7 +36,7 @@ namespace Hybrid
             }
         }
 
-        internal void StartMainLoop()
+        internal void MainInitialize()
         {
             if (Initialized)
             {
@@ -54,7 +55,7 @@ namespace Hybrid
             }
         }
 
-        internal void MainLoop()
+        internal void MainLoop(Queue<SDL.Event> Events)
         {
             if (IsRunning)
             {
@@ -62,31 +63,24 @@ namespace Hybrid
                 {
                     OnEngineStartOfFrame();
 
+                    while (Events.Count > 0)
+                    {
+                        var e = Events.Dequeue();
+                        {
+                            if (e.type == SDL.EventType.Quit)
+                            {
+                                Quit();
+                                return;
+                            }
+
+                            OnEngineEvent(e);
+                        }
+                    }
+
                     OnEngineUpdate();
                     OnEngineRender();
 
                     OnEngineEndOfFrame();
-                }
-                catch (Exception ex)
-                {
-                    Exceptions.Throw(ex, this);
-                }
-            }
-        }
-
-        internal void Events(SDL.Event e)
-        {
-            if (IsRunning)
-            {
-                try
-                {
-                    if (e.type == SDL.EventType.Quit)
-                    {
-                        Quit();
-                        return;
-                    }
-
-                    OnEngineEvent(e);
                 }
                 catch (Exception ex)
                 {

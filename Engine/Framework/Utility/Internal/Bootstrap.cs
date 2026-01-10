@@ -1,11 +1,15 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Collections.Generic;
+using System.Collections;
 using System;
 
 namespace Hybrid
 {
     internal static unsafe class Bootstrap
     {
+        private static Queue<SDL.Event> PendingEvents = new Queue<SDL.Event>();
+        private static Queue<SDL.Event> FrameEvents = new Queue<SDL.Event>();
         private static GCHandle AppHandle;
         private static App App;
 
@@ -43,7 +47,7 @@ namespace Hybrid
         [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvCdecl) })]
         private static SDL.AppResult SDLInit(IntPtr state, int argc, IntPtr argv)
         {
-            App.StartMainLoop();
+            App.MainInitialize();
             {
                 return SDL.AppResult.Continue;
             }
@@ -52,21 +56,24 @@ namespace Hybrid
         [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvCdecl) })]
         private static SDL.AppResult SDLIterate(IntPtr state)
         {
-            App.MainLoop();
+            (PendingEvents, FrameEvents) = (FrameEvents, PendingEvents);
             {
-                if (!App.IsRunning)
+                App.MainLoop(FrameEvents);
                 {
-                    return SDL.AppResult.Success;
-                }
+                    if (!App.IsRunning)
+                    {
+                        return SDL.AppResult.Success;
+                    }
                 
-                return SDL.AppResult.Continue;
+                    return SDL.AppResult.Continue;
+                }
             }
         }
         
         [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvCdecl) })]
         private static SDL.AppResult SDLEvent(IntPtr state, SDL.Event* e)
         {
-            App.Events(*e);
+            PendingEvents.Enqueue(*e);
             {
                 return SDL.AppResult.Continue;
             }
