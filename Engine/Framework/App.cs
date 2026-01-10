@@ -44,9 +44,9 @@ namespace Hybrid
             {
                 try
                 {
+                    Mixer = new Mixer();
                     Window = new Window();
                     Graphics = new Graphics();
-                    Mixer = new Mixer();
                     Input = new Input();
                     Time = new Time();
 

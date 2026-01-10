@@ -9,11 +9,16 @@ namespace App
         public override void OnInitialize()
         {
             Time.SetFps(60);
+            
+            Window.SetTitle("My First Game!");
 
             audio = Audio.LoadAudio("Sounds/Sound.mp3");
             Audio.SetMasterVolume(1);
             Audio.SetAudioVolume(audio, 1f);
             Audio.PlayAudio(audio);
+
+            var positon = Vector2.Zero;
+            positon.X += 10;
         }
 
         public override void OnUpdate()
