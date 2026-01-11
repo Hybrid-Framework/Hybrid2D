@@ -58,14 +58,14 @@ namespace Hybrid
                 int vBase = i * 4;
                 int iBase = i * 6;
 
-                vertices[(vBase + 0) * 2 + 0] = r.X;
-                vertices[(vBase + 0) * 2 + 1] = r.Y;
-                vertices[(vBase + 1) * 2 + 0] = r.X + r.W;
-                vertices[(vBase + 1) * 2 + 1] = r.Y;
-                vertices[(vBase + 2) * 2 + 0] = r.X + r.W;
-                vertices[(vBase + 2) * 2 + 1] = r.Y + r.H;
-                vertices[(vBase + 3) * 2 + 0] = r.X;
-                vertices[(vBase + 3) * 2 + 1] = r.Y + r.H;
+                vertices[(vBase + 0) * 2 + 0] = r.x;
+                vertices[(vBase + 0) * 2 + 1] = r.y;
+                vertices[(vBase + 1) * 2 + 0] = r.x + r.w;
+                vertices[(vBase + 1) * 2 + 1] = r.y;
+                vertices[(vBase + 2) * 2 + 0] = r.x + r.w;
+                vertices[(vBase + 2) * 2 + 1] = r.y + r.h;
+                vertices[(vBase + 3) * 2 + 0] = r.x;
+                vertices[(vBase + 3) * 2 + 1] = r.y + r.h;
 
                 indices[iBase + 0] = vBase + 0;
                 indices[iBase + 1] = vBase + 1;
@@ -80,7 +80,7 @@ namespace Hybrid
                 vertexColors[vBase + 3] = c;
             }
 
-            DrawGeometryExtended(null, vertices, vertexColors, null, indices);
+            DrawGeometry(null, vertices, vertexColors, null, indices);
         }
 
         public static void DrawLine(Point start, Point end, float thickness, Color color)
@@ -107,19 +107,19 @@ namespace Hybrid
                 var c = colors[i];
 
                 // TODO: USE OWN VECTOR STRUCT
-                var dir = new System.Numerics.Vector2(p1.X - p0.X, p1.Y - p0.Y);
+                var dir = new System.Numerics.Vector2(p1.x - p0.x, p1.y - p0.y);
                 var perp = System.Numerics.Vector2.Normalize(new System.Numerics.Vector2(-dir.Y, dir.X)) * (thickness / 2);
                 int vBase = i * 4;
                 int iBase = i * 6;
 
-                vertices[(vBase + 0) * 2 + 0] = p0.X + perp.X;
-                vertices[(vBase + 0) * 2 + 1] = p0.Y + perp.Y;
-                vertices[(vBase + 1) * 2 + 0] = p1.X + perp.X;
-                vertices[(vBase + 1) * 2 + 1] = p1.Y + perp.Y;
-                vertices[(vBase + 2) * 2 + 0] = p1.X - perp.X;
-                vertices[(vBase + 2) * 2 + 1] = p1.Y - perp.Y;
-                vertices[(vBase + 3) * 2 + 0] = p0.X - perp.X;
-                vertices[(vBase + 3) * 2 + 1] = p0.Y - perp.Y;
+                vertices[(vBase + 0) * 2 + 0] = p0.x + perp.X;
+                vertices[(vBase + 0) * 2 + 1] = p0.y + perp.Y;
+                vertices[(vBase + 1) * 2 + 0] = p1.x + perp.X;
+                vertices[(vBase + 1) * 2 + 1] = p1.y + perp.Y;
+                vertices[(vBase + 2) * 2 + 0] = p1.x - perp.X;
+                vertices[(vBase + 2) * 2 + 1] = p1.y - perp.Y;
+                vertices[(vBase + 3) * 2 + 0] = p0.x - perp.X;
+                vertices[(vBase + 3) * 2 + 1] = p0.y - perp.Y;
 
                 indices[iBase + 0] = vBase + 0;
                 indices[iBase + 1] = vBase + 1;
@@ -134,7 +134,7 @@ namespace Hybrid
                 vertexColors[vBase + 3] = c;
             }
 
-            DrawGeometryExtended(null, vertices, vertexColors, null, indices);
+            DrawGeometry(null, vertices, vertexColors, null, indices);
         }
         
         public static void DrawPoint(Point p, Color color)
@@ -162,14 +162,14 @@ namespace Hybrid
                 int vBase = i * 4;
                 int iBase = i * 6;
 
-                vertices[(vBase + 0) * 2 + 0] = p.X - half;
-                vertices[(vBase + 0) * 2 + 1] = p.Y - half;
-                vertices[(vBase + 1) * 2 + 0] = p.X + half;
-                vertices[(vBase + 1) * 2 + 1] = p.Y - half;
-                vertices[(vBase + 2) * 2 + 0] = p.X + half;
-                vertices[(vBase + 2) * 2 + 1] = p.Y + half;
-                vertices[(vBase + 3) * 2 + 0] = p.X - half;
-                vertices[(vBase + 3) * 2 + 1] = p.Y + half;
+                vertices[(vBase + 0) * 2 + 0] = p.x - half;
+                vertices[(vBase + 0) * 2 + 1] = p.y - half;
+                vertices[(vBase + 1) * 2 + 0] = p.x + half;
+                vertices[(vBase + 1) * 2 + 1] = p.y - half;
+                vertices[(vBase + 2) * 2 + 0] = p.x + half;
+                vertices[(vBase + 2) * 2 + 1] = p.y + half;
+                vertices[(vBase + 3) * 2 + 0] = p.x - half;
+                vertices[(vBase + 3) * 2 + 1] = p.y + half;
 
                 indices[iBase + 0] = vBase + 0;
                 indices[iBase + 1] = vBase + 1;
@@ -184,7 +184,7 @@ namespace Hybrid
                 vertexColors[vBase + 3] = c;
             }
 
-            DrawGeometryExtended(null, vertices, vertexColors, null, indices);
+            DrawGeometry(null, vertices, vertexColors, null, indices);
         }
 
         public static void DrawCircle(Circle circle, Color color, int segments = 32)
@@ -214,15 +214,15 @@ namespace Hybrid
                 int vBase = i * vertexCountPerCircle;
                 int iBase = i * indexCountPerCircle;
 
-                positions[vBase * 2 + 0] = circle.X;
-                positions[vBase * 2 + 1] = circle.Y;
+                positions[vBase * 2 + 0] = circle.x;
+                positions[vBase * 2 + 1] = circle.y;
                 vertexColors[vBase] = color;
 
                 for (int j = 0; j < segments; j++)
                 {
                     float angle = (float)(2 * Math.PI * j / segments);
-                    float x = circle.X + circle.R * (float)Math.Cos(angle);
-                    float y = circle.Y + circle.R * (float)Math.Sin(angle);
+                    float x = circle.x + circle.r * (float)Math.Cos(angle);
+                    float y = circle.y + circle.r * (float)Math.Sin(angle);
 
                     positions[(vBase + 1 + j) * 2 + 0] = x;
                     positions[(vBase + 1 + j) * 2 + 1] = y;
@@ -237,7 +237,7 @@ namespace Hybrid
                 }
             }
 
-            DrawGeometryExtended(null, positions, vertexColors, null, indices);
+            DrawGeometry(null, positions, vertexColors, null, indices);
         }
 
         public static void DrawTexture(Texture texture, Rect? source, Rect? destination)
@@ -247,24 +247,8 @@ namespace Hybrid
                 SDL.RenderTexture(Handle, textureHandle, source, destination);
             }
         }
-        
-        public static void DrawTextureExtended(Texture texture, Rect? source, Rect? destination, double angle, Point? center, FlipMode flipMode)
-        {
-            var textureHandle = texture == null ? null : texture.Handle;
-            {
-                SDL.RenderTextureRotated(Handle, textureHandle, source, destination, angle, center, (SDL.FlipMode)flipMode);
-            }
-        }
-        
-        public static void DrawGeometry(Texture texture, Vertex[] vertices, int[] indices)
-        {
-            var textureHandle = texture == null ? null : texture.Handle;
-            {
-                SDL.RenderGeometry(Handle, textureHandle, vertices, vertices.Length, indices, indices.Length);
-            }
-        }
 
-        public static void DrawGeometryExtended(Texture texture, float[] positions, Color[] colors, float[] uvs, int[] indices)
+        public static void DrawGeometry(Texture texture, float[] positions, Color[] colors, float[] uvs, int[] indices)
         {
             var textureHandle = texture == null ? null : texture.Handle;
             {
@@ -276,7 +260,7 @@ namespace Hybrid
         {
             Color32 color32 = (Color32)color;
             {
-                SDL.SetRenderDrawColor(Handle, color32.R, color32.G, color32.B, color32.A);
+                SDL.SetRenderDrawColor(Handle, color32.r, color32.g, color32.b, color32.a);
                 SDL.RenderDebugText(Handle, x, y, text);
             }
         }
@@ -285,7 +269,7 @@ namespace Hybrid
         {
             Color32 color32 = (Color32)color;
             {
-                SDL.SetRenderDrawColor(Handle, color32.R, color32.G, color32.B, color32.A);
+                SDL.SetRenderDrawColor(Handle, color32.r, color32.g, color32.b, color32.a);
                 SDL.RenderDebugText(Handle, x, y, Time.GetFps().ToString("N0"));
             }
         }
@@ -294,7 +278,7 @@ namespace Hybrid
         {
             Color32 color32 = (Color32)color;
             {
-                SDL.SetRenderDrawColor(Handle, color32.R, color32.G, color32.B, color32.A);
+                SDL.SetRenderDrawColor(Handle, color32.r, color32.g, color32.b, color32.a);
                 SDL.RenderClear(Handle);
             }
         }

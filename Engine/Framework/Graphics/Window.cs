@@ -147,7 +147,7 @@ namespace Hybrid
     {
         public static void SetPosition(Vector2 position)
         {
-            SDL.SetWindowPosition(Handle, (int)position.X, (int)position.Y);
+            SDL.SetWindowPosition(Handle, (int)position.x, (int)position.y);
         }
 
         public static Vector2 GetWindowPosition()
@@ -164,7 +164,7 @@ namespace Hybrid
     {
         public static void SetSize(Vector2 size)
         {
-            SDL.SetWindowSize(Handle, (int)size.X, (int)size.Y);
+            SDL.SetWindowSize(Handle, (int)size.x, (int)size.y);
         }
 
         public static Vector2 GetSize()
@@ -215,7 +215,7 @@ namespace Hybrid
     {
         public static void SetMaximumSize(Vector2 size)
         {
-            SDL.SetWindowMaximumSize(Handle, (int)size.X, (int)size.Y);
+            SDL.SetWindowMaximumSize(Handle, (int)size.x, (int)size.y);
         }
 
         public static Vector2 GetMaximumSize()
@@ -232,7 +232,7 @@ namespace Hybrid
     {
         public static void SetMinimumSize(Vector2 size)
         {
-            SDL.SetWindowMinimumSize(Handle, (int)size.X, (int)size.Y);
+            SDL.SetWindowMinimumSize(Handle, (int)size.x, (int)size.y);
         }
 
         public static Vector2 GetMinimumSize()
@@ -249,48 +249,12 @@ namespace Hybrid
     {
         public static void SetAspectRatio(Vector2 aspect)
         {
-            SDL.SetWindowAspectRatio(Handle, aspect.X, aspect.Y);
+            SDL.SetWindowAspectRatio(Handle, aspect.x, aspect.y);
         }
 
         public static Vector2 GetAspectRatio()
         {
             SDL.GetWindowAspectRatio(Handle, out float w, out float h);
-            {
-                return new Vector2(w, h);
-            }
-        }
-    }
-    
-    // Presentation
-    public unsafe partial class Window
-    {
-        public static void SetPresentationMode(Presentation mode)
-        {
-            SDL.GetRenderLogicalPresentation(Graphics.Handle, out var w, out var h, out var presentation);
-            {
-                SDL.SetRenderLogicalPresentation(Graphics.Handle, w, h, (SDL.Presentation)mode);
-            }
-        }
-
-        public static Presentation GetPresentationMode()
-        {
-            SDL.GetRenderLogicalPresentation(Graphics.Handle, out var w, out var h, out var presentation);
-            {
-                return (Presentation)presentation;
-            }
-        }
-
-        public static void SetPresentationSize(Vector2 size)
-        {
-            SDL.GetRenderLogicalPresentation(Graphics.Handle, out var w, out var h, out var presentation);
-            {
-                SDL.SetRenderLogicalPresentation(Graphics.Handle, (int)size.X, (int)size.Y, presentation);
-            }
-        }
-
-        public static Vector2 GetPresentationSize()
-        {
-            SDL.GetRenderLogicalPresentation(Graphics.Handle, out var w, out var h, out var presentation);
             {
                 return new Vector2(w, h);
             }
@@ -317,36 +281,36 @@ namespace Hybrid
     // Monitor
     public unsafe partial class Window
     {
-        public static uint[] GetDisplays()
+        public static uint[] GetMonitors()
         {
             return SDL.GetDisplays(out var count);
         }
 
-        public static uint GetCurrentDisplay()
+        public static uint GetCurrentMonitor()
         {
             return SDL.GetDisplayForWindow(Handle);
         }
 
-        public static string GetCurrentDisplayName()
+        public static string GetCurrentMonitorName()
         {
-            return GetDisplayName(GetCurrentDisplay());
+            return GetMonitorName(GetCurrentMonitor());
         }
         
-        public static Vector2 GetCurrentDisplaySize()
+        public static Vector2 GetCurrentMonitorSize()
         {
-            return GetDisplaySize(GetCurrentDisplay());
+            return GetMonitorSize(GetCurrentMonitor());
         }
         
-        public static string GetDisplayName(uint displayID)
+        public static string GetMonitorName(uint displayID)
         {
             return SDL.GetDisplayName(displayID);
         }
         
-        public static Vector2 GetDisplaySize(uint displayID)
+        public static Vector2 GetMonitorSize(uint displayID)
         {
             SDL.GetDisplayBounds(displayID, out RectInt rect);
             {
-                return new Vector2(rect.W, rect.H);
+                return new Vector2(rect.w, rect.h);
             }
         }
     }

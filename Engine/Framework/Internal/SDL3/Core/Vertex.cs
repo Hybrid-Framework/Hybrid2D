@@ -1,16 +1,16 @@
 ﻿using System.Runtime.InteropServices;
-using System;
+using Hybrid;
 
-namespace Hybrid
+internal static unsafe partial class SDL
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct Vertex
+    internal struct Vertex
     {
         public Point Position;
         public Color Color;
         public Point UV;
 
-        public Vertex(Point position, Color color, Point uv)
+        internal Vertex(Point position, Color color, Point uv)
         {
             this.Position = position;
             this.Color = color;

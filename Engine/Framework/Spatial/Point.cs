@@ -7,13 +7,18 @@ namespace Hybrid
     [StructLayout(LayoutKind.Sequential)]
     public struct Point
     {
-        public float X;
-        public float Y;
+        public float x;
+        public float y;
 
         public Point(float x, float y)
         {
-            this.X = x;
-            this.Y = y;
+            this.x = x;
+            this.y = y;
+        }
+
+        public Point()
+        {
+            
         }
     }
 }

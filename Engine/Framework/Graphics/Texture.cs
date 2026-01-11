@@ -120,10 +120,10 @@ namespace Hybrid
             int index = (y * texture.Width + x) * 4;
             Color32 color32 = (Color32)color;
             
-            texture.Pixels[index + 0] = color32.R;
-            texture.Pixels[index + 1] = color32.G;
-            texture.Pixels[index + 2] = color32.B;
-            texture.Pixels[index + 3] = color32.A;
+            texture.Pixels[index + 0] = color32.r;
+            texture.Pixels[index + 1] = color32.g;
+            texture.Pixels[index + 2] = color32.b;
+            texture.Pixels[index + 3] = color32.a;
         }
 
         public static Color GetPixel(Texture texture, int x, int y)
@@ -158,10 +158,10 @@ namespace Hybrid
                 int index = i * 4;
                 Color32 color32 = (Color32)colors[i];
             
-                texture.Pixels[index + 0] = color32.R;
-                texture.Pixels[index + 1] = color32.G;
-                texture.Pixels[index + 2] = color32.B;
-                texture.Pixels[index + 3] = color32.A;
+                texture.Pixels[index + 0] = color32.r;
+                texture.Pixels[index + 1] = color32.g;
+                texture.Pixels[index + 2] = color32.b;
+                texture.Pixels[index + 3] = color32.a;
             }
         }
 

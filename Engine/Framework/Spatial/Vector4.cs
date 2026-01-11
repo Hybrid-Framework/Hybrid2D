@@ -7,17 +7,25 @@ namespace Hybrid
     [StructLayout(LayoutKind.Sequential)]
     public struct Vector4
     {
-        public float X;
-        public float Y;
-        public float Z;
-        public float W;
+        public static readonly Vector4 Zero  = new Vector4(0, 0, 0, 0);
+        public static readonly Vector4 One  = new Vector4(1, 1, 1, 1);
+        
+        public float x;
+        public float y;
+        public float z;
+        public float w;
 
         public Vector4(float x, float y, float z, float w)
         {
-            this.X = x;
-            this.Y = y;
-            this.Z = z;
-            this.W = w;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.w = w;
+        }
+
+        public Vector4()
+        {
+            
         }
     }
 }

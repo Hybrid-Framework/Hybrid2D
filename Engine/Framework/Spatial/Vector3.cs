@@ -7,15 +7,29 @@ namespace Hybrid
     [StructLayout(LayoutKind.Sequential)]
     public struct Vector3
     {
-        public float X;
-        public float Y;
-        public float Z;
+        public static readonly Vector3 Zero  = new Vector3(0, 0, 0);
+        public static readonly Vector3 One  = new Vector3(1, 1, 1);
+        public static readonly Vector3 Forward  = new Vector3(0, 0, 1);
+        public static readonly Vector3 Back  = new Vector3(0, 0, -1);
+        public static readonly Vector3 Left  = new Vector3(-1, 0, 0);
+        public static readonly Vector3 Right  = new Vector3(1, 0, 0);
+        public static readonly Vector3 Down  = new Vector3(0, -1, 0);
+        public static readonly Vector3 Up  = new Vector3(0, 1, 0);
+        
+        public float x;
+        public float y;
+        public float z;
 
         public Vector3(float x, float y, float z)
         {
-            this.X = x;
-            this.Y = y;
-            this.Z = z;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+        }
+
+        public Vector3()
+        {
+            
         }
     }
 }

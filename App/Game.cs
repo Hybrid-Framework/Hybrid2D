@@ -6,9 +6,7 @@ namespace App
     {
         public override void OnInitialize()
         {
-            Window.SetTitle("My Game!");
-            Window.SetIcon("Icon.png");
-            Window.SetVSync(true);
+            Time.SetFps(60);
 
             var audio = Audio.CreateAudio("Sounds/Sound.mp3");
             Audio.SetMasterVolume(1);

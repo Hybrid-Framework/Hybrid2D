@@ -7,15 +7,20 @@ namespace Hybrid
     [StructLayout(LayoutKind.Sequential)]
     public struct Circle
     {
-        public float X;
-        public float Y;
-        public float R;
+        public float x;
+        public float y;
+        public float r;
         
         public Circle(float x, float y, float r)
         {
-            this.X = x;
-            this.Y = y;
-            this.R = r;
+            this.x = x;
+            this.y = y;
+            this.r = r;
+        }
+
+        public Circle()
+        {
+            
         }
     }
 }
