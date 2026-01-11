@@ -98,11 +98,11 @@ namespace Hybrid
     // Gamepad
     public partial class Input
     {
-        public static float GetGamepadAxis(GamepadAxis axis, int index)
+        public static float GetGamepadAxis(GamepadAxis axis, int index = -1)
         {
             foreach (var gamepad in Gamepads.AllDevices)
             {
-                if (gamepad.Index == index)
+                if (gamepad.Index == index || index == -1)
                 {
                     var value = gamepad.GetAxis(axis);
 
@@ -116,11 +116,11 @@ namespace Hybrid
             return 0;
         }
         
-        public static bool GetGamepadButton(GamepadButton button, int index)
+        public static bool GetGamepadButton(GamepadButton button, int index = -1)
         {
             foreach (var gamepad in Gamepads.AllDevices)
             {
-                if (gamepad.Index == index)
+                if (gamepad.Index == index || index == -1)
                 {
                     if (gamepad.GetButton(button))
                     {
@@ -132,11 +132,11 @@ namespace Hybrid
             return false;
         }
         
-        public static bool GetGamepadButtonUp(GamepadButton button, int index)
+        public static bool GetGamepadButtonUp(GamepadButton button, int index = -1)
         {
             foreach (var gamepad in Gamepads.AllDevices)
             {
-                if (gamepad.Index == index)
+                if (gamepad.Index == index || index == -1)
                 {
                     if (gamepad.GetButtonUp(button))
                     {
@@ -148,11 +148,11 @@ namespace Hybrid
             return false;
         }
         
-        public static bool GetGamepadButtonDown(GamepadButton button, int index)
+        public static bool GetGamepadButtonDown(GamepadButton button, int index = -1)
         {
             foreach (var gamepad in Gamepads.AllDevices)
             {
-                if (gamepad.Index == index)
+                if (gamepad.Index == index || index == -1)
                 {
                     if (gamepad.GetButtonDown(button))
                     {

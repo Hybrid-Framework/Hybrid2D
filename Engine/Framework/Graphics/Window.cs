@@ -16,7 +16,7 @@ namespace Hybrid
         // Initialize
         internal override void OnInitialize()
         {
-            Handle = SDL.CreateWindow("Hybrid2D", 600, 400, SDL.WindowFlags.HighPixelDensity);
+            Handle = SDL.CreateWindow("Hybrid2D", 600, 400, SDL.WindowFlags.Hidden | SDL.WindowFlags.HighPixelDensity);
         }
         
         // Dispose

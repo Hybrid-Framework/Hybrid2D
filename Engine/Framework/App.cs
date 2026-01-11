@@ -51,6 +51,9 @@ namespace Hybrid
                     Time = new Time();
 
                     OnEngineInitialize();
+                    {
+                        Window.Show();
+                    }
                 }
                 catch (Exception ex)
                 {

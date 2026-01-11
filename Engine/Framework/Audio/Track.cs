@@ -3,7 +3,7 @@ using System;
 
 namespace Hybrid
 {
-    public sealed unsafe class Track
+    internal sealed unsafe class Track
     {
         internal SDL.Track* Handle
         {

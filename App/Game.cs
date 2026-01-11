@@ -4,21 +4,16 @@ namespace App
 {
     public class Game : Hybrid.App
     {
-        private Audio audio;
-        
         public override void OnInitialize()
         {
-            Time.SetFps(60);
-            
-            Window.SetTitle("My First Game!");
+            Window.SetTitle("My Game!");
+            Window.SetIcon("Icon.png");
+            Window.SetVSync(true);
 
-            audio = Audio.LoadAudio("Sounds/Sound.mp3");
+            var audio = Audio.CreateAudio("Sounds/Sound.mp3");
             Audio.SetMasterVolume(1);
-            Audio.SetAudioVolume(audio, 1f);
-            Audio.PlayAudio(audio);
-
-            var positon = Vector2.Zero;
-            positon.X += 10;
+            Audio.SetVolume(audio, 1f);
+            Audio.Play(audio);
         }
 
         public override void OnUpdate()

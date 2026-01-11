@@ -3,14 +3,12 @@ using System;
 
 namespace Hybrid
 {
-    public sealed unsafe class Audio
+    // Internal
+    public sealed unsafe partial class Audio
     {
-        internal Track Track;
-        
-        internal SDL.Audio* Handle
-        {
-            get; set;
-        }
+        internal SDL.Audio* Handle { get; set; }
+        internal Track Track { get; set; }
+
         
         internal Audio(SDL.Audio* handle)
         {
@@ -22,13 +20,17 @@ namespace Hybrid
                 }
             }
         }
-        
-        public static Audio LoadAudio(string path)
+    }
+
+    // Create & Destroy
+    public unsafe partial class Audio
+    {
+        public static Audio CreateAudio(string path)
         {
             path = Path.Combine(SDL.GetBasePath() + path);
             {
                 var audio = SDL_mixer.LoadAudio(Mixer.Handle, path, false);
-            
+
                 if (audio == null)
                 {
                     throw new Exception($"Failed to load audio '{path}': {SDL.GetError()}");
@@ -38,57 +40,33 @@ namespace Hybrid
             }
         }
 
-        public static void UnloadAudio(Audio audio)
+        public static void DestroyAudio(Audio audio)
         {
-            if (audio.Handle != null)
+            if (audio != null)
             {
-                SDL_mixer.DestroyAudio(audio.Handle);
+                if (audio.Handle != null)
                 {
-                    audio.Handle = null;
+                    SDL_mixer.DestroyAudio(audio.Handle);
+                    {
+                        audio.Handle = null;
+                    }
                 }
-            }
 
-            if (audio.Track.Handle != null)
-            {
-                SDL_mixer.DestroyTrack(audio.Track.Handle);
+                if (audio.Track.Handle != null)
                 {
-                    audio.Track.Handle = null;
-                }
-            }
-        }
-
-        public static void SetMasterVolume(float volume)
-        {
-            SDL_mixer.SetMasterGain(Mixer.Handle, Maths.Clamp(volume, 0, 1));
-        }
-
-        public static float GetMasterVolume()
-        {
-            return SDL_mixer.GetMasterGain(Mixer.Handle);
-        }
-
-        public static void SetAudioVolume(Audio audio, float volume)
-        {
-            SDL_mixer.SetTrackGain(audio.Track.Handle, Maths.Clamp(volume, 0, 1));
-        }
-
-        public static float GetAudioVolume(Audio audio)
-        {
-            return SDL_mixer.GetTrackGain(audio.Track.Handle);
-        }
-
-        public static long GetAudioDuration(Audio audio)
-        {
-            var frames = SDL_mixer.GetAudioDuration(audio.Handle);
-            {
-                var ms = SDL_mixer.AudioFramesToMS(audio.Handle, frames);
-                {
-                    return ms;
+                    SDL_mixer.DestroyTrack(audio.Track.Handle);
+                    {
+                        audio.Track.Handle = null;
+                    }
                 }
             }
         }
-
-        public static float GetAudioRemainingDuration(Audio audio)
+    }
+    
+    // Audio API
+    public unsafe partial class Audio
+    {
+        public static long GetRemaining(Audio audio)
         {
             var frames = SDL_mixer.GetTrackRemaining(audio.Track.Handle);
             {
@@ -98,52 +76,64 @@ namespace Hybrid
                 }
             }
         }
-
-        public static void SetAudioPlaybackPosition(Audio audio, long ms)
+        
+        public static long GetDuration(Audio audio)
         {
-            var frames = SDL_mixer.TrackMSToFrames(audio.Track.Handle, ms);
+            var frames = SDL_mixer.GetAudioDuration(audio.Handle);
             {
-                SDL_mixer.SetTrackPlaybackPosition(audio.Track.Handle, frames);
-            }
-        }
-
-        public static long GetAudioPlaybackPosition(Audio audio)
-        {
-            var frames = SDL_mixer.GetTrackPlaybackPosition(audio.Track.Handle);
-            {
-                var ms = SDL_mixer.TrackFramesToMS(audio.Track.Handle, frames);
+                var ms = SDL_mixer.AudioFramesToMS(audio.Handle, frames);
                 {
                     return ms;
                 }
             }
         }
         
-        public static bool AudioPlaying(Audio audio)
+        public static void SetVolume(Audio audio, float volume)
         {
-            return SDL_mixer.TrackPlaying(audio.Track.Handle);
+            SDL_mixer.SetTrackGain(audio.Track.Handle, Maths.Clamp(volume, 0, 1));
+        }
+        
+        public static void SetMasterVolume(float volume)
+        {
+            SDL_mixer.SetMasterGain(Mixer.Handle, Maths.Clamp(volume, 0, 1));
+        }
+        
+        public static float GetVolume(Audio audio)
+        {
+            return SDL_mixer.GetTrackGain(audio.Track.Handle);
         }
 
-        public static void PlayAudio(Audio audio)
+        public static float GetMasterVolume()
+        {
+            return SDL_mixer.GetMasterGain(Mixer.Handle);
+        }
+
+        public static void Play(Audio audio)
         {
             SDL_mixer.PlayTrack(audio.Track.Handle, 0);
         }
         
-        public static void PauseAudio(Audio audio)
+        public static void Pause(Audio audio)
         {
             SDL_mixer.PauseTrack(audio.Track.Handle);
         }
 
-        public static void ResumeAudio(Audio audio)
+        public static void Resume(Audio audio)
         {
             SDL_mixer.ResumeTrack(audio.Track.Handle);
         }
 
-        public static void StopAudio(Audio audio, long ms)
+        public static void Stop(Audio audio, long fade = 0)
         {
-            var frames = SDL_mixer.TrackMSToFrames(audio.Track.Handle, ms);
+            var frames = SDL_mixer.TrackMSToFrames(audio.Track.Handle, fade);
             {
                 SDL_mixer.StopTrack(audio.Track.Handle, frames);
             }
+        }
+        
+        public static bool IsPlaying(Audio audio)
+        {
+            return SDL_mixer.TrackPlaying(audio.Track.Handle);
         }
     }
 }

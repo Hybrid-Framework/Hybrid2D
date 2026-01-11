@@ -1,5 +1,5 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
+using System;
 
 namespace Hybrid
 {
@@ -32,16 +32,21 @@ namespace Hybrid
             Height = height;
             Pixels = pixels;
             Handle = SDL.CreateTexture(Graphics.Handle, SDL.PixelFormat.RGBA32, SDL.TextureAccess.Static, width, height);
-            if (Handle == null) throw new Exception($"Failed to create texture: {SDL.GetError()}");
+            {
+                if (Handle == null)
+                {
+                    throw new Exception($"Failed to create texture: {SDL.GetError()}");
+                }
+            }
             
             Apply(this);
         }
     }
 
-    // Texture Management
+    // Create & Destroy
     public unsafe partial class Texture
     {
-        public static Texture LoadTexture(string path)
+        public static Texture CreateTexture(string path)
         {
             path = Path.Combine(SDL.GetBasePath() + path);
             {
@@ -85,21 +90,24 @@ namespace Hybrid
             }
         }
 
-        public static void UnloadTexture(Texture texture)
+        public static void DestroyTexture(Texture texture)
         {
-            if (texture.Handle != null)
+            if (texture != null)
             {
-                SDL.DestroyTexture(texture.Handle);
-                texture.Handle = null;
-            }
+                if (texture.Handle != null)
+                {
+                    SDL.DestroyTexture(texture.Handle);
+                    texture.Handle = null;
+                }
             
-            Array.Clear(texture.Pixels);
-            texture.Height = 0;
-            texture.Width = 0;
+                Array.Clear(texture.Pixels);
+                texture.Height = 0;
+                texture.Width = 0;
+            }
         }
     }
     
-    // Pixels
+    // Texture API
     public unsafe partial class Texture
     {
         public static void SetPixel(Texture texture, int x, int y, Color color)
@@ -190,11 +198,7 @@ namespace Hybrid
                 }
             }
         }
-    }
-    
-    // Properties
-    public partial class Texture
-    {
+        
         public static int GetWidth(Texture texture)
         {
             return texture.Width;
