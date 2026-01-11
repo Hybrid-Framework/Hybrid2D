@@ -7,6 +7,9 @@ namespace App
         public override void OnInitialize()
         {
             Time.SetFps(60);
+            
+            Storage.FileCreate("Test.data");
+            Storage.FileWrite("Test.data", new byte[2] { 1, 2});
         }
 
         public override void OnUpdate()
