@@ -96,6 +96,11 @@ namespace Hybrid
         {
             return MathF.Max(a, b);
         }
+        
+        public static float Clamp01(float value)
+        {
+            return Math.Clamp(value, 0, 1);
+        }
 
         public static float Clamp(float value, float min, float max)
         {
@@ -125,6 +130,24 @@ namespace Hybrid
         public static float Log10(float x)
         {
             return MathF.Log10(x);
+        }
+        
+        public static bool IsPowerOfTwo(int value)
+        {
+            return value > 0 && (value & (value - 1)) == 0;
+        }
+        
+        public static float Repeat(float t, float length)
+        {
+            return t - Floor(t / length) * length;
+        }
+
+        public static float PingPong(float t, float length)
+        {
+            t = Repeat(t, length * 2f);
+            {
+                return length - Abs(t - length);
+            }
         }
         
         public static float DegreesToRadians(float degrees)

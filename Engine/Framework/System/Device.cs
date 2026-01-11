@@ -5,18 +5,18 @@ namespace Hybrid
     // Device API
     public static class Device
     {
-        public static Platform GetPlatform()
+        public static string GetPlatform()
         {
             return SDL.GetPlatform().ToUpper() switch
             {
-                "ANDROID" => Platform.Android,
-                "WINDOWS" => Platform.Windows,
-                "EMSCRIPTEN" => Platform.Web,
-                "MACOS" => Platform.MacOS,
-                "LINUX" => Platform.Linux,
-                "IOS" => Platform.IOS,
+                "ANDROID" => "ANDROID",
+                "WINDOWS" => "WINDOWS",
+                "EMSCRIPTEN" => "WEB",
+                "MACOS" => "MACOS",
+                "LINUX" => "LINUX",
+                "IOS" => "IOS",
                 
-                _ => Platform.Unknown
+                _ => "UNKNOWN"
             };
         }
 
@@ -40,21 +40,6 @@ namespace Hybrid
             return Environment.Is64BitProcess;
         }
         
-        public static string GetDay()
-        {
-            return DateTime.Now.ToString("dd");
-        }
-        
-        public static string GetMonth()
-        {
-            return DateTime.Now.ToString("MM");
-        }
-        
-        public static string GetYear()
-        {
-            return DateTime.Now.ToString("yyyy");
-        }
-        
         public static string GetDate()
         {
             return DateTime.Now.ToString("dd-MM-yyyy");
@@ -63,6 +48,21 @@ namespace Hybrid
         public static string GetTime()
         {
             return DateTime.Now.ToString("HH:mm:ss");
+        }
+        
+        public static int GetMonth()
+        {
+            return DateTime.Now.Month;
+        }
+
+        public static int GetYear()
+        {
+            return DateTime.Now.Year;
+        }
+        
+        public static int GetDay()
+        {
+            return DateTime.Now.Day;
         }
     }
 }
