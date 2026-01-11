@@ -7,26 +7,11 @@ namespace App
         public override void OnInitialize()
         {
             Time.SetFps(60);
-            
-            Debug.Log(Device.GetOSVersion());
         }
 
         public override void OnUpdate()
         {
-            if (Input.GetMouseButtonDown(MouseButton.Left))
-            {
-                Debug.Log("Down");
-            }
             
-            if (Input.GetMouseButton(MouseButton.Left))
-            {
-                Debug.Log("Press");
-            }
-            
-            if (Input.GetMouseButtonUp(MouseButton.Left))
-            {
-                Debug.Log("Up");
-            }
         }
 
         public override void OnRender()

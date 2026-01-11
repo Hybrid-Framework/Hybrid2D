@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System;
 
 namespace Hybrid
@@ -6,12 +7,38 @@ namespace Hybrid
     // General
     public static partial class Storage
     {
+        private static string CurrentDirectory = GetBasePath();
+
+        public static string GetCurrentDirectory()
+        {
+            return CurrentDirectory;
+        }
+
+        public static bool SetCurrentDirectory(string path)
+        {
+            if (!string.IsNullOrEmpty(path))
+            {
+                string destination = Path.GetFullPath(Path.Combine(GetCurrentDirectory(), path));
+
+                if (destination.StartsWith(GetBasePath(), StringComparison.OrdinalIgnoreCase))
+                {
+                    if (Directory.Exists(destination))
+                    {
+                        CurrentDirectory = destination;
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+        
         private static string ResolvePath(string path)
         {
             return Path.Combine(GetBasePath(), path);
         }
         
-        private static string GetBasePath()
+        public static string GetBasePath()
         {
             return SDL.GetBasePath();
         }
@@ -227,6 +254,33 @@ namespace Hybrid
                 Directory.Delete(path, false);
                 {
                     return !Directory.Exists(path);
+                }
+            }
+        }
+        
+        public static string[] GetFiles(string path)
+        {
+            path = ResolvePath(path);
+            {
+                if (string.IsNullOrEmpty(path))
+                    throw new Exception($"Invalid path {path}");
+                
+                if(!Directory.Exists(path))
+                    throw new Exception($"Folder does not exist {path}");
+
+                var result = new List<string>();
+                {
+                    foreach (var folder in Directory.GetDirectories(path))
+                    {
+                        result.Add(folder);
+                    }
+
+                    foreach (var file in Directory.GetFiles(path))
+                    {
+                        result.Add(file);
+                    }
+
+                    return result.ToArray();
                 }
             }
         }
