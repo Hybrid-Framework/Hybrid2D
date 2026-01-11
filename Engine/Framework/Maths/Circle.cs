@@ -9,18 +9,13 @@ namespace Hybrid
     {
         public float x;
         public float y;
-        public float r;
+        public float radius;
         
-        public Circle(float x, float y, float r)
+        public Circle(float x, float y, float radius)
         {
             this.x = x;
             this.y = y;
-            this.r = r;
-        }
-
-        public Circle()
-        {
-            
+            this.radius = radius;
         }
     }
 }

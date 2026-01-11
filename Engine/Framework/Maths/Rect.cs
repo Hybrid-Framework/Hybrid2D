@@ -9,20 +9,15 @@ namespace Hybrid
     {
         public float x;
         public float y;
-        public float w;
-        public float h;
+        public float width;
+        public float height;
         
-        public Rect(float x, float y, float w, float h)
+        public Rect(float x, float y, float width, float height)
         {
             this.x = x;
             this.y = y;
-            this.w = w;
-            this.h = h;
-        }
-
-        public Rect()
-        {
-            
+            this.width = width;
+            this.height = height;
         }
     }
     
@@ -37,8 +32,8 @@ namespace Hybrid
                 (
                     rect.Value.x,
                     rect.Value.y,
-                    rect.Value.w,
-                    rect.Value.h
+                    rect.Value.width,
+                    rect.Value.height
                 );
             }
 
@@ -53,8 +48,8 @@ namespace Hybrid
                 (
                     Maths.RoundToInt(rect.Value.x),
                     Maths.RoundToInt(rect.Value.y),
-                    Maths.RoundToInt(rect.Value.w),
-                    Maths.RoundToInt(rect.Value.h)
+                    Maths.RoundToInt(rect.Value.width),
+                    Maths.RoundToInt(rect.Value.height)
                 );
             }
 

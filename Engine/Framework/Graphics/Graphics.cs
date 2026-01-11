@@ -60,12 +60,12 @@ namespace Hybrid
 
                 vertices[(vBase + 0) * 2 + 0] = r.x;
                 vertices[(vBase + 0) * 2 + 1] = r.y;
-                vertices[(vBase + 1) * 2 + 0] = r.x + r.w;
+                vertices[(vBase + 1) * 2 + 0] = r.x + r.width;
                 vertices[(vBase + 1) * 2 + 1] = r.y;
-                vertices[(vBase + 2) * 2 + 0] = r.x + r.w;
-                vertices[(vBase + 2) * 2 + 1] = r.y + r.h;
+                vertices[(vBase + 2) * 2 + 0] = r.x + r.width;
+                vertices[(vBase + 2) * 2 + 1] = r.y + r.height;
                 vertices[(vBase + 3) * 2 + 0] = r.x;
-                vertices[(vBase + 3) * 2 + 1] = r.y + r.h;
+                vertices[(vBase + 3) * 2 + 1] = r.y + r.height;
 
                 indices[iBase + 0] = vBase + 0;
                 indices[iBase + 1] = vBase + 1;
@@ -83,17 +83,17 @@ namespace Hybrid
             DrawGeometry(null, vertices, vertexColors, null, indices);
         }
 
-        public static void DrawLine(Point start, Point end, float thickness, Color color)
+        public static void DrawLine(Line line, Color color)
         {
-            DrawLines([start], [end], [thickness], [color]);
+            DrawLines([line], [color]);
         }
         
-        public static void DrawLines(Point[] starts, Point[] ends, float[] thicknesses, Color[] colors)
+        public static void DrawLines(Line[] lines, Color[] colors)
         {
-            if (starts.Length != ends.Length || starts.Length != thicknesses.Length || starts.Length != colors.Length)
+            if (lines.Length != colors.Length)
                 throw new ArgumentException("All arrays must have the same length.");
             
-            int count = starts.Length;
+            int count = lines.Length;
             int vertexCount = count * 4;
             float[] vertices = new float[vertexCount * 2];
             Color[] vertexColors = new Color[vertexCount];
@@ -101,9 +101,9 @@ namespace Hybrid
 
             for (int i = 0; i < count; i++)
             {
-                float thickness = thicknesses[i];
-                var p0 = starts[i];
-                var p1 = ends[i];
+                float thickness = lines[i].thickness;
+                var p0 = lines[i].start;
+                var p1 = lines[i].end;
                 var c = colors[i];
 
                 // TODO: USE OWN VECTOR STRUCT
@@ -137,9 +137,9 @@ namespace Hybrid
             DrawGeometry(null, vertices, vertexColors, null, indices);
         }
         
-        public static void DrawPoint(Point p, Color color)
+        public static void DrawPoint(Point point, Color color)
         {
-            DrawPoints([p], [color]);
+            DrawPoints([point], [color]);
         }
 
         public static void DrawPoints(Point[] points, Color[] colors, float size = 1f)
@@ -221,8 +221,8 @@ namespace Hybrid
                 for (int j = 0; j < segments; j++)
                 {
                     float angle = (float)(2 * Math.PI * j / segments);
-                    float x = circle.x + circle.r * (float)Math.Cos(angle);
-                    float y = circle.y + circle.r * (float)Math.Sin(angle);
+                    float x = circle.x + circle.radius * (float)Math.Cos(angle);
+                    float y = circle.y + circle.radius * (float)Math.Sin(angle);
 
                     positions[(vBase + 1 + j) * 2 + 0] = x;
                     positions[(vBase + 1 + j) * 2 + 1] = y;
@@ -240,11 +240,19 @@ namespace Hybrid
             DrawGeometry(null, positions, vertexColors, null, indices);
         }
 
-        public static void DrawTexture(Texture texture, Rect? source, Rect? destination)
+        public static void DrawTexture(Texture texture, Rect? position)
         {
             var textureHandle = texture == null ? null : texture.Handle;
             {
-                SDL.RenderTexture(Handle, textureHandle, Rect.ToSDLRect(source), Rect.ToSDLRect(destination));
+                SDL.RenderTexture(Handle, textureHandle, null, Rect.ToSDLRect(position));
+            }
+        }
+        
+        public static void DrawTexture(Texture texture, Rect? uv, Rect? position)
+        {
+            var textureHandle = texture == null ? null : texture.Handle;
+            {
+                SDL.RenderTexture(Handle, textureHandle, Rect.ToSDLRect(uv), Rect.ToSDLRect(position));
             }
         }
 
@@ -261,7 +269,9 @@ namespace Hybrid
             SDL.Color32 color32 = Color.ToSDLColor32(color);
             {
                 SDL.SetRenderDrawColor(Handle, color32.r, color32.g, color32.b, color32.a);
-                SDL.RenderDebugText(Handle, x, y, text);
+                {
+                    SDL.RenderDebugText(Handle, x, y, text);
+                }
             }
         }
         
@@ -270,7 +280,9 @@ namespace Hybrid
             SDL.Color32 color32 = Color.ToSDLColor32(color);
             {
                 SDL.SetRenderDrawColor(Handle, color32.r, color32.g, color32.b, color32.a);
-                SDL.RenderDebugText(Handle, x, y, Time.GetFps().ToString("N0"));
+                {
+                    SDL.RenderDebugText(Handle, x, y, Time.GetFps().ToString("N0"));
+                }
             }
         }
         
@@ -279,7 +291,9 @@ namespace Hybrid
             SDL.Color32 color32 = Color.ToSDLColor32(color);
             {
                 SDL.SetRenderDrawColor(Handle, color32.r, color32.g, color32.b, color32.a);
-                SDL.RenderClear(Handle);
+                {
+                    SDL.RenderClear(Handle);
+                }
             }
         }
 
