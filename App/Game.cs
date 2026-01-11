@@ -5,20 +5,21 @@ namespace App
     public class Game : Hybrid.App
     {
         private Audio audio;
+        private Texture texture;
         
         public override void OnInitialize()
         {
             Time.SetFps(60);
-            
-            Window.SetTitle("My First Game!");
 
-            audio = Audio.LoadAudio("Sounds/Sound.mp3");
-            Audio.SetMasterVolume(1);
-            Audio.SetAudioVolume(audio, 1f);
-            Audio.PlayAudio(audio);
+            audio = Audio.Create("Sounds/Sound.mp3");
+            audio.SetVolume(1f);
+            audio.Play();
 
-            var positon = Vector2.Zero;
-            positon.X += 10;
+            texture = Texture.Create("Images/Image.png");
+            texture.SetPixel(0, 0, new Color(1, 0, 0));
+            texture.SetPixel(1, 0, new Color(0, 1, 0));
+            texture.SetPixel(2, 0, new Color(0, 0, 1));
+            texture.Apply();
         }
 
         public override void OnUpdate()
@@ -44,6 +45,8 @@ namespace App
             Graphics.DrawBegin(Color.Black);
             
             Graphics.DrawFps(10, 10, Color.White);
+            
+            Graphics.DrawTexture(texture, null, new Rect() { X=0, Y=0, W=128, H=128 });
             
             Graphics.DrawEnd();
         }

@@ -1,5 +1,5 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
+using System;
 
 namespace Hybrid
 {
@@ -32,16 +32,21 @@ namespace Hybrid
             Height = height;
             Pixels = pixels;
             Handle = SDL.CreateTexture(Graphics.Handle, SDL.PixelFormat.RGBA32, SDL.TextureAccess.Static, width, height);
-            if (Handle == null) throw new Exception($"Failed to create texture: {SDL.GetError()}");
+            {
+                if (Handle == null)
+                {
+                    throw new Exception($"Failed to create texture: {SDL.GetError()}");
+                }
+            }
             
-            Apply(this);
+            Apply();
         }
     }
 
-    // Texture Management
+    // Static
     public unsafe partial class Texture
     {
-        public static Texture LoadTexture(string path)
+        public static Texture Create(string path)
         {
             path = Path.Combine(SDL.GetBasePath() + path);
             {
@@ -85,64 +90,67 @@ namespace Hybrid
             }
         }
 
-        public static void UnloadTexture(Texture texture)
+        public static void Destroy(Texture texture)
         {
-            if (texture.Handle != null)
+            if (texture != null)
             {
-                SDL.DestroyTexture(texture.Handle);
-                texture.Handle = null;
-            }
+                if (texture.Handle != null)
+                {
+                    SDL.DestroyTexture(texture.Handle);
+                    texture.Handle = null;
+                }
             
-            Array.Clear(texture.Pixels);
-            texture.Height = 0;
-            texture.Width = 0;
+                Array.Clear(texture.Pixels);
+                texture.Height = 0;
+                texture.Width = 0;
+            }
         }
     }
     
-    // Pixels
+    // Public
     public unsafe partial class Texture
     {
-        public static void SetPixel(Texture texture, int x, int y, Color color)
+        public void SetPixel(int x, int y, Color color)
         {
-            if (x < 0 || y < 0 || x >= texture.Width || y >= texture.Height)
+            if (x < 0 || y < 0 || x >= Width || y >= Height)
             {
-                throw new Exception($"Invalid position '({x}, {y})' in texture size: '{texture.Width}, {texture.Height}'");
+                throw new Exception($"Invalid position '({x}, {y})' in texture size: '{Width}, {Height}'");
             }
             
-            int index = (y * texture.Width + x) * 4;
+            int index = (y * Width + x) * 4;
             Color32 color32 = (Color32)color;
             
-            texture.Pixels[index + 0] = color32.R;
-            texture.Pixels[index + 1] = color32.G;
-            texture.Pixels[index + 2] = color32.B;
-            texture.Pixels[index + 3] = color32.A;
+            Pixels[index + 0] = color32.R;
+            Pixels[index + 1] = color32.G;
+            Pixels[index + 2] = color32.B;
+            Pixels[index + 3] = color32.A;
         }
 
-        public static Color GetPixel(Texture texture, int x, int y)
+        public Color GetPixel(int x, int y)
         {
-            if (x < 0 || y < 0 || x >= texture.Width || y >= texture.Height)
+            if (x < 0 || y < 0 || x >= Width || y >= Height)
             {
-                throw new Exception($"Invalid position '({x}, {y})' in texture size: '{texture.Width}, {texture.Height}'");
+                throw new Exception($"Invalid position '({x}, {y})' in texture size: '{Width}, {Height}'");
             }
             
-            int index = (y * texture.Width + x) * 4;
+            int index = (y * Width + x) * 4;
             
             Color32 color32 = new Color32
             (
-                texture.Pixels[index + 0],
-                texture.Pixels[index + 1],
-                texture.Pixels[index + 2],
-                texture.Pixels[index + 3]
+                Pixels[index + 0],
+                Pixels[index + 1],
+                Pixels[index + 2],
+                Pixels[index + 3]
             );
             
             return (Color)color32;
         }
 
-        public static void SetPixels(Texture texture, Color[] colors)
+        public void SetPixels(Color[] colors)
         {
-            if (colors.Length != texture.Width * texture.Height)
+            if (colors.Length != Width * Height)
             {
-                throw new Exception($"Array length '{colors.Length}' must match the texture size: '{texture.Width * texture.Height}'");
+                throw new Exception($"Array length '{colors.Length}' must match the texture size: '{Width * Height}'");
             }
 
             for (int i = 0; i < colors.Length; i++)
@@ -150,16 +158,16 @@ namespace Hybrid
                 int index = i * 4;
                 Color32 color32 = (Color32)colors[i];
             
-                texture.Pixels[index + 0] = color32.R;
-                texture.Pixels[index + 1] = color32.G;
-                texture.Pixels[index + 2] = color32.B;
-                texture.Pixels[index + 3] = color32.A;
+                Pixels[index + 0] = color32.R;
+                Pixels[index + 1] = color32.G;
+                Pixels[index + 2] = color32.B;
+                Pixels[index + 3] = color32.A;
             }
         }
 
-        public static Color[] GetPixels(Texture texture)
+        public Color[] GetPixels()
         {
-            int count = texture.Width * texture.Height;
+            int count = Width * Height;
             Color[] result = new Color[count];
 
             for (int i = 0; i < count; i++)
@@ -168,10 +176,10 @@ namespace Hybrid
                 
                 Color32 color32 = new Color32
                 (
-                    texture.Pixels[index + 0],
-                    texture.Pixels[index + 1],
-                    texture.Pixels[index + 2],
-                    texture.Pixels[index + 3]
+                    Pixels[index + 0],
+                    Pixels[index + 1],
+                    Pixels[index + 2],
+                    Pixels[index + 3]
                 );
 
                 result[i] = (Color)color32;
@@ -180,29 +188,25 @@ namespace Hybrid
             return result;
         }
 
-        public static void Apply(Texture texture)
+        public void Apply()
         {
-            fixed (byte* p = texture.Pixels)
+            fixed (byte* p = Pixels)
             {
-                if (!SDL.UpdateTexture(texture.Handle, null, (IntPtr)p, (texture.Width * 4)))
+                if (!SDL.UpdateTexture(Handle, null, (IntPtr)p, (Width * 4)))
                 {
                     throw new Exception($"Failed to apply texture");
                 }
             }
         }
-    }
-    
-    // Properties
-    public partial class Texture
-    {
-        public static int GetWidth(Texture texture)
+        
+        public int GetWidth()
         {
-            return texture.Width;
+            return Width;
         }
         
-        public static int GetHeight(Texture texture)
+        public int GetHeight()
         {
-            return texture.Height;
+            return Height;
         }
     }
 }
