@@ -8,8 +8,7 @@ namespace App
         {
             Time.SetFps(60);
             
-            Storage.FileCreate("Test.data");
-            Storage.FileWrite("Test.data", new byte[2] { 1, 2});
+            Debug.Log(Device.GetOSVersion());
         }
 
         public override void OnUpdate()
