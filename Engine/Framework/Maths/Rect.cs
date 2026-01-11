@@ -5,7 +5,7 @@ namespace Hybrid
 {
     // Rect
     [StructLayout(LayoutKind.Sequential)]
-    public struct Rect
+    public partial struct Rect
     {
         public float x;
         public float y;

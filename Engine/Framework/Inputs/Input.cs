@@ -64,17 +64,17 @@ namespace Hybrid
     // Mouse
     public partial class Input
     {
-        public static Vector2 GetMousePosition()
+        public static Point GetMousePosition()
         {
             return Mouse.GetPositon();
         }
         
-        public static Vector2 GetMouseScrollDelta()
+        public static Point GetMouseScrollDelta()
         {
             return Mouse.GetScrollDelta();
         }
         
-        public static Vector2 GetMousePositionDelta()
+        public static Point GetMousePositionDelta()
         {
             return Mouse.GetPositonDelta();
         }

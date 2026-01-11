@@ -7,9 +7,9 @@ namespace Hybrid
     internal class Mouse : InputDevice
     {
         private readonly Dictionary<MouseButton, State> Buttons = new Dictionary<MouseButton, State>();
-        private Vector2 PositionDelta = Vector2.Zero;
-        private Vector2 ScrollDelta = Vector2.Zero;
-        private Vector2 Position = Vector2.Zero;
+        private Point PositionDelta = Point.Zero;
+        private Point ScrollDelta = Point.Zero;
+        private Point Position = Point.Zero;
         
         
         // Constructor
@@ -27,8 +27,8 @@ namespace Hybrid
         // Reset
         internal override void OnReset()
         {
-            PositionDelta = Vector2.Zero;
-            ScrollDelta = Vector2.Zero;
+            PositionDelta = Point.Zero;
+            ScrollDelta = Point.Zero;
 
             foreach (var button in Buttons.Keys)
             {
@@ -89,7 +89,7 @@ namespace Hybrid
                     var x = Maths.Clamp(e.mouseWheel.x, -1, 1);
                     var y = Maths.Clamp(e.mouseWheel.y, -1, 1);
                     
-                    ScrollDelta = new Vector2(x, y);
+                    ScrollDelta = new Point(x, y);
                     
                     break;
                 }
@@ -102,25 +102,25 @@ namespace Hybrid
                     var deltaX = e.mouseMotion.x_relative;
                     var deltaY = e.mouseMotion.y_relative;
                     
-                    PositionDelta = new Vector2(deltaX, deltaY);
-                    Position = new Vector2(x, y);
+                    PositionDelta = new Point(deltaX, deltaY);
+                    Position = new Point(x, y);
                     
                     break;
                 }
             }
         }
         
-        internal Vector2 GetPositonDelta()
+        internal Point GetPositonDelta()
         {
             return PositionDelta;
         }
         
-        internal Vector2 GetScrollDelta()
+        internal Point GetScrollDelta()
         {
             return ScrollDelta;
         }
 
-        internal Vector2 GetPositon()
+        internal Point GetPositon()
         {
             return Position;
         }

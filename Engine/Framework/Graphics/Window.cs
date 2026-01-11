@@ -145,16 +145,16 @@ namespace Hybrid
     // Position
     public unsafe partial class Window
     {
-        public static void SetPosition(Vector2 position)
+        public static void SetPosition(Point position)
         {
             SDL.SetWindowPosition(Handle, (int)position.x, (int)position.y);
         }
 
-        public static Vector2 GetWindowPosition()
+        public static Point GetWindowPosition()
         {
             SDL.GetWindowPosition(Handle, out int x, out int y);
             {
-                return new Vector2(x, y);
+                return new Point(x, y);
             }
         }
     }
@@ -162,16 +162,16 @@ namespace Hybrid
     // Size
     public unsafe partial class Window
     {
-        public static void SetSize(Vector2 size)
+        public static void SetSize(Point size)
         {
             SDL.SetWindowSize(Handle, (int)size.x, (int)size.y);
         }
 
-        public static Vector2 GetSize()
+        public static Point GetSize()
         {
             SDL.GetWindowSize(Handle, out int w, out int h);
             {
-                return new Vector2(w, h);
+                return new Point(w, h);
             }
         }
     }
@@ -213,16 +213,16 @@ namespace Hybrid
     // Maximum Size
     public unsafe partial class Window
     {
-        public static void SetMaximumSize(Vector2 size)
+        public static void SetMaximumSize(Point size)
         {
             SDL.SetWindowMaximumSize(Handle, (int)size.x, (int)size.y);
         }
 
-        public static Vector2 GetMaximumSize()
+        public static Point GetMaximumSize()
         {
             SDL.GetWindowMaximumSize(Handle, out int w, out int h);
             {
-                return new Vector2(w, h);
+                return new Point(w, h);
             }
         }
     }
@@ -230,16 +230,16 @@ namespace Hybrid
     // Minimum Size
     public unsafe partial class Window
     {
-        public static void SetMinimumSize(Vector2 size)
+        public static void SetMinimumSize(Point size)
         {
             SDL.SetWindowMinimumSize(Handle, (int)size.x, (int)size.y);
         }
 
-        public static Vector2 GetMinimumSize()
+        public static Point GetMinimumSize()
         {
             SDL.GetWindowMinimumSize(Handle, out int w, out int h);
             {
-                return new Vector2(w, h);
+                return new Point(w, h);
             }
         }
     }
@@ -247,16 +247,16 @@ namespace Hybrid
     // Aspect Ratio
     public unsafe partial class Window
     {
-        public static void SetAspectRatio(Vector2 aspect)
+        public static void SetAspectRatio(Point aspect)
         {
             SDL.SetWindowAspectRatio(Handle, aspect.x, aspect.y);
         }
 
-        public static Vector2 GetAspectRatio()
+        public static Point GetAspectRatio()
         {
             SDL.GetWindowAspectRatio(Handle, out float w, out float h);
             {
-                return new Vector2(w, h);
+                return new Point(w, h);
             }
         }
     }
@@ -296,7 +296,7 @@ namespace Hybrid
             return GetMonitorName(GetCurrentMonitor());
         }
         
-        public static Vector2 GetCurrentMonitorSize()
+        public static Point GetCurrentMonitorSize()
         {
             return GetMonitorSize(GetCurrentMonitor());
         }
@@ -306,11 +306,11 @@ namespace Hybrid
             return SDL.GetDisplayName(displayID);
         }
         
-        public static Vector2 GetMonitorSize(uint displayID)
+        public static Point GetMonitorSize(uint displayID)
         {
             SDL.GetDisplayBounds(displayID, out RectInt rect);
             {
-                return new Vector2(rect.w, rect.h);
+                return new Point(rect.w, rect.h);
             }
         }
     }

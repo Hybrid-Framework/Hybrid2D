@@ -5,8 +5,8 @@ namespace Hybrid
     public class Touch
     {
         internal TouchPhase TouchPhase = TouchPhase.None;
-        internal Vector2 PositionDelta = Vector2.Zero;
-        internal Vector2 Position = Vector2.Zero;
+        internal Point PositionDelta = Point.Zero;
+        internal Point Position = Point.Zero;
         internal readonly int Finger;
         internal float Pressure;
         
@@ -18,11 +18,11 @@ namespace Hybrid
         
         internal void Reset()
         {
-            PositionDelta = Vector2.Zero;
+            PositionDelta = Point.Zero;
 
             if (TouchPhase == TouchPhase.Ended || TouchPhase == TouchPhase.Canceled)
             {
-                Position = Vector2.Zero;
+                Position = Point.Zero;
                 TouchPhase = TouchPhase.None;
             }
 
@@ -37,12 +37,12 @@ namespace Hybrid
             }
         }
         
-        public Vector2 GetPositionDelta()
+        public Point GetPositionDelta()
         {
             return PositionDelta;
         }
 
-        public Vector2 GetPosition()
+        public Point GetPosition()
         {
             return Position;
         }

@@ -46,8 +46,8 @@ namespace Hybrid
                 {
                     var touch = GetTouch((int)e.touchFinger.fingerID - 1);
                     {
-                        touch.PositionDelta = new Vector2(e.touchFinger.x_delta * Window.GetWidth(), e.touchFinger.y_delta * Window.GetHeight());
-                        touch.Position = new Vector2(e.touchFinger.x * Window.GetWidth(), e.touchFinger.y * Window.GetHeight());
+                        touch.PositionDelta = new Point(e.touchFinger.x_delta * Window.GetWidth(), e.touchFinger.y_delta * Window.GetHeight());
+                        touch.Position = new Point(e.touchFinger.x * Window.GetWidth(), e.touchFinger.y * Window.GetHeight());
                         touch.Pressure = e.touchFinger.pressure;
 
                         switch (e.type)
