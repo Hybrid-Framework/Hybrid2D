@@ -18,7 +18,7 @@ namespace Hybrid
         public float B;
         public float A;
 
-        public Color(float r, float g, float b, float a = 1f)
+        public Color(float r, float g, float b, float a)
         {
             this.R = r;
             this.G = g;
