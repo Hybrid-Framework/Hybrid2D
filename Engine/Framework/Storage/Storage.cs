@@ -25,9 +25,7 @@ namespace Hybrid
             path = ResolvePath(path);
             {
                 if (string.IsNullOrEmpty(path))
-                {
                     throw new Exception($"Invalid path {path}");
-                }
             
                 return File.Exists(path);
             }
@@ -38,19 +36,13 @@ namespace Hybrid
             path = ResolvePath(path);
             {
                 if (bytes == null)
-                {
                     throw new Exception($"Invalid bytes");
-                }
                 
                 if (string.IsNullOrEmpty(path))
-                {
                     throw new Exception($"Invalid path {path}");
-                }
 
                 if (File.Exists(path))
-                {
                     throw new Exception($"File already exists {path}");
-                }
 
                 string directory = Path.GetDirectoryName(path);
                 {
@@ -72,14 +64,10 @@ namespace Hybrid
             path = ResolvePath(path);
             {
                 if (string.IsNullOrEmpty(path))
-                {
                     throw new Exception($"Invalid path {path}");
-                }
                 
                 if (!File.Exists(path))
-                {
                     throw new Exception($"File does not exist {path}");
-                }
 
                 return File.ReadAllBytes(path);
             }
@@ -90,14 +78,10 @@ namespace Hybrid
             path = ResolvePath(path);
             {
                 if (string.IsNullOrEmpty(path))
-                {
                     throw new Exception($"Invalid path {path}");
-                }
                 
                 if (File.Exists(path))
-                {
                     throw new Exception($"File already exists {path}");
-                }
 
                 string directory = Path.GetDirectoryName(path);
                 {
@@ -119,18 +103,78 @@ namespace Hybrid
             path = ResolvePath(path);
             {
                 if (string.IsNullOrEmpty(path))
-                {
                     throw new Exception($"Invalid path {path}");
-                }
                 
                 if (!File.Exists(path))
-                {
                     throw new Exception($"File does not exist {path}");
-                }
 
                 File.Delete(path);
                 {
                     return !File.Exists(path);
+                }
+            }
+        }
+        
+        public static bool FileCopy(string source, string destination, bool overwrite = false)
+        {
+            destination = ResolvePath(destination);
+            source = ResolvePath(source);
+            {
+                if (string.IsNullOrEmpty(source))
+                    throw new Exception($"Invalid source path {source}");
+            
+                if (string.IsNullOrEmpty(destination))
+                    throw new Exception($"Invalid destination path {destination}");
+
+                if (!File.Exists(source))
+                    throw new Exception($"Source file does not exist {source}");
+
+                if (File.Exists(destination) && !overwrite)
+                    throw new Exception($"Destination file already exists {destination}");
+
+                string directory = Path.GetDirectoryName(destination);
+                {
+                    if (!string.IsNullOrEmpty(directory))
+                    {
+                        Directory.CreateDirectory(directory);
+                    }
+                }
+
+                File.Copy(source, destination, overwrite);
+                {
+                    return File.Exists(destination);
+                }
+            }
+        }
+        
+        public static bool FileMove(string source, string destination, bool overwrite = false)
+        {
+            destination = ResolvePath(destination);
+            source = ResolvePath(source);
+            {
+                if (string.IsNullOrEmpty(source))
+                    throw new Exception($"Invalid source path {source}");
+            
+                if (string.IsNullOrEmpty(destination))
+                    throw new Exception($"Invalid destination path {destination}");
+
+                if (!File.Exists(source))
+                    throw new Exception($"Source file does not exist {source}");
+
+                if (File.Exists(destination) && !overwrite)
+                    throw new Exception($"Destination file already exists {destination}");
+
+                string directory = Path.GetDirectoryName(destination);
+                {
+                    if (!string.IsNullOrEmpty(directory))
+                    {
+                        Directory.CreateDirectory(directory);
+                    }
+                }
+
+                File.Move(source, destination, overwrite);
+                {
+                    return File.Exists(destination);
                 }
             }
         }
@@ -144,9 +188,7 @@ namespace Hybrid
             path = ResolvePath(path);
             {
                 if (string.IsNullOrEmpty(path))
-                {
                     throw new Exception($"Invalid path {path}");
-                }
             
                 return Directory.Exists(path);
             }
@@ -157,14 +199,10 @@ namespace Hybrid
             path = ResolvePath(path);
             {
                 if (string.IsNullOrEmpty(path))
-                {
                     throw new Exception($"Invalid path {path}");
-                }
             
                 if (Directory.Exists(path))
-                {
                     throw new Exception($"Folder already exists {path}");
-                }
                 
                 Directory.CreateDirectory(path);
                 {
@@ -178,19 +216,13 @@ namespace Hybrid
             path = ResolvePath(path);
             {
                 if (string.IsNullOrEmpty(path))
-                {
                     throw new Exception($"Invalid path {path}");
-                }
                 
                 if (!Directory.Exists(path))
-                {
                     throw new Exception($"Folder does not exist {path}");
-                }
 
                 if (Directory.GetFiles(path).Length > 0)
-                {
                     throw new Exception($"Can't delete folder that contains files {path}");
-                }
 
                 Directory.Delete(path, false);
                 {
