@@ -308,7 +308,7 @@ namespace Hybrid
         
         public static Point GetMonitorSize(uint displayID)
         {
-            SDL.GetDisplayBounds(displayID, out RectInt rect);
+            SDL.GetDisplayBounds(displayID, out SDL.RectInt rect);
             {
                 return new Point(rect.w, rect.h);
             }

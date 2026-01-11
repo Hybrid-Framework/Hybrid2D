@@ -1,14 +1,13 @@
 ﻿using System.Runtime.InteropServices;
-using Hybrid;
 
 internal static unsafe partial class SDL
 {
     [StructLayout(LayoutKind.Sequential)]
     internal struct Vertex
     {
-        public Point Position;
-        public Color Color;
-        public Point UV;
+        internal Point Position;
+        internal Color Color;
+        internal Point UV;
 
         internal Vertex(Point position, Color color, Point uv)
         {

@@ -1,5 +1,4 @@
 ﻿using System.Runtime.InteropServices;
-using Hybrid;
 
 internal static unsafe partial class SDL
 {
@@ -278,8 +277,8 @@ internal static unsafe partial class SDL
     
     // Render Geometry Raw
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_RenderGeometryRaw(SDL.Renderer* renderer, SDL.Texture* texture, float* xy, int xy_stride, Color* color, int color_stride, float* uv, int uv_stride, int num_vertices, void* indices, int num_indices, int size_indices);
-    public static bool RenderGeometryRaw(SDL.Renderer* renderer, SDL.Texture* texture, float[] positions, Color[] colors, float[] uvs, int[] indices)
+    private static extern SDL.Bool SDL_RenderGeometryRaw(SDL.Renderer* renderer, SDL.Texture* texture, float* xy, int xy_stride, Hybrid.Color* color, int color_stride, float* uv, int uv_stride, int num_vertices, void* indices, int num_indices, int size_indices);
+    public static bool RenderGeometryRaw(SDL.Renderer* renderer, SDL.Texture* texture, float[] positions, Hybrid.Color[] colors, float[] uvs, int[] indices)
     {
         int numVertices = positions.Length / 2;
         int xyStride = sizeof(float) * 2;
@@ -288,7 +287,7 @@ internal static unsafe partial class SDL
         int sizeIndices = sizeof(int);
 
         fixed (float* xyPtr = positions)
-        fixed (Color* colorPtr = colors)
+        fixed (Hybrid.Color* colorPtr = colors)
         fixed (float* uvPtr = uvs)
         fixed (int* indicesPtr = indices)
         {

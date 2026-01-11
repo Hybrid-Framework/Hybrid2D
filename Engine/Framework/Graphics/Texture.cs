@@ -117,8 +117,8 @@ namespace Hybrid
                 throw new Exception($"Invalid position '({x}, {y})' in texture size: '{texture.Width}, {texture.Height}'");
             }
             
-            int index = (y * texture.Width + x) * 4;
-            Color32 color32 = (Color32)color;
+            var index = (y * texture.Width + x) * 4;
+            var color32 = Color.ToSDLColor32(color);
             
             texture.Pixels[index + 0] = color32.r;
             texture.Pixels[index + 1] = color32.g;
@@ -134,8 +134,8 @@ namespace Hybrid
             }
             
             int index = (y * texture.Width + x) * 4;
-            
-            Color32 color32 = new Color32
+
+            var color32 = new SDL.Color32
             (
                 texture.Pixels[index + 0],
                 texture.Pixels[index + 1],
@@ -143,7 +143,7 @@ namespace Hybrid
                 texture.Pixels[index + 3]
             );
             
-            return (Color)color32;
+            return Color.FromSDLColor32(color32);
         }
 
         public static void SetPixels(Texture texture, Color[] colors)
@@ -155,8 +155,8 @@ namespace Hybrid
 
             for (int i = 0; i < colors.Length; i++)
             {
-                int index = i * 4;
-                Color32 color32 = (Color32)colors[i];
+                var index = i * 4;
+                var color32 = Color.ToSDLColor32(colors[i]);
             
                 texture.Pixels[index + 0] = color32.r;
                 texture.Pixels[index + 1] = color32.g;
@@ -174,7 +174,7 @@ namespace Hybrid
             {
                 int index = i * 4;
                 
-                Color32 color32 = new Color32
+                var color32 = new SDL.Color32
                 (
                     texture.Pixels[index + 0],
                     texture.Pixels[index + 1],
@@ -182,7 +182,7 @@ namespace Hybrid
                     texture.Pixels[index + 3]
                 );
 
-                result[i] = (Color)color32;
+                result[i] = Color.FromSDLColor32(color32);
             }
 
             return result;

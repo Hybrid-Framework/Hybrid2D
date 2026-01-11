@@ -1,5 +1,4 @@
 ﻿using System.Runtime.InteropServices;
-using Hybrid;
 using System;
 
 internal static unsafe partial class SDL

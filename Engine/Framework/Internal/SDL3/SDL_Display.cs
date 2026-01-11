@@ -1,6 +1,5 @@
 ﻿using System.Runtime.InteropServices;
 using System;
-using Hybrid;
 
 internal static unsafe partial class SDL
 {

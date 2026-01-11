@@ -1,6 +1,5 @@
 ﻿using System.Runtime.InteropServices;
 using System;
-using Hybrid;
 
 internal static unsafe partial class SDL
 {
@@ -104,7 +103,7 @@ internal static unsafe partial class SDL
     private static extern SDL.Bool SDL_PlayHapticRumble(SDL.Haptic* haptic, float strength, uint ms);
     public static bool PlayHapticRumble(SDL.Haptic* haptic, float strength, uint ms)
     {
-        return SDL_PlayHapticRumble(haptic, Maths.Clamp(strength, 0, 1), ms);
+        return SDL_PlayHapticRumble(haptic, strength, ms);
     }
     
     // Get Haptics

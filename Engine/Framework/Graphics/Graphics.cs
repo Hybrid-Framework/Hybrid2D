@@ -244,7 +244,7 @@ namespace Hybrid
         {
             var textureHandle = texture == null ? null : texture.Handle;
             {
-                SDL.RenderTexture(Handle, textureHandle, source, destination);
+                SDL.RenderTexture(Handle, textureHandle, Rect.ToSDLRect(source), Rect.ToSDLRect(destination));
             }
         }
 
@@ -258,7 +258,7 @@ namespace Hybrid
         
         public static void DrawDebugText(int x, int y, string text, Color color)
         {
-            Color32 color32 = (Color32)color;
+            SDL.Color32 color32 = Color.ToSDLColor32(color);
             {
                 SDL.SetRenderDrawColor(Handle, color32.r, color32.g, color32.b, color32.a);
                 SDL.RenderDebugText(Handle, x, y, text);
@@ -267,7 +267,7 @@ namespace Hybrid
         
         public static void DrawFps(int x, int y, Color color)
         {
-            Color32 color32 = (Color32)color;
+            SDL.Color32 color32 = Color.ToSDLColor32(color);
             {
                 SDL.SetRenderDrawColor(Handle, color32.r, color32.g, color32.b, color32.a);
                 SDL.RenderDebugText(Handle, x, y, Time.GetFps().ToString("N0"));
@@ -276,7 +276,7 @@ namespace Hybrid
         
         public static void DrawBegin(Color color)
         {
-            Color32 color32 = (Color32)color;
+            SDL.Color32 color32 = Color.ToSDLColor32(color);
             {
                 SDL.SetRenderDrawColor(Handle, color32.r, color32.g, color32.b, color32.a);
                 SDL.RenderClear(Handle);
