@@ -255,6 +255,11 @@ namespace Hybrid
                 SDL.RenderTexture(Handle, textureHandle, Rect.ToSDLRect(uv), Rect.ToSDLRect(position));
             }
         }
+        
+        public static void DrawGeometry(float[] positions, Color[] colors, int[] indices)
+        {
+            SDL.RenderGeometryRaw(Handle, null, positions, colors, null, indices);
+        }
 
         public static void DrawGeometry(Texture texture, float[] positions, Color[] colors, float[] uvs, int[] indices)
         {
@@ -266,7 +271,7 @@ namespace Hybrid
         
         public static void DrawDebugText(int x, int y, string text, Color color)
         {
-            SDL.Color32 color32 = Color.ToSDLColor32(color);
+            var color32 = Color.ToSDLColor32(color);
             {
                 SDL.SetRenderDrawColor(Handle, color32.r, color32.g, color32.b, color32.a);
                 {
@@ -277,7 +282,7 @@ namespace Hybrid
         
         public static void DrawFps(int x, int y, Color color)
         {
-            SDL.Color32 color32 = Color.ToSDLColor32(color);
+            var color32 = Color.ToSDLColor32(color);
             {
                 SDL.SetRenderDrawColor(Handle, color32.r, color32.g, color32.b, color32.a);
                 {
@@ -288,7 +293,7 @@ namespace Hybrid
         
         public static void DrawBegin(Color color)
         {
-            SDL.Color32 color32 = Color.ToSDLColor32(color);
+            var color32 = Color.ToSDLColor32(color);
             {
                 SDL.SetRenderDrawColor(Handle, color32.r, color32.g, color32.b, color32.a);
                 {
