@@ -26,6 +26,18 @@ namespace Hybrid
     // Create & Destroy
     public unsafe partial class Audio
     {
+        public static Audio CreateAudio(int hz, float volume)
+        {
+            var audio = SDL_mixer.CreateSineWaveAudio(Mixer.Handle, hz, volume);
+
+            if (audio == null)
+            {
+                throw new Exception($"Failed to create audio: {SDL.GetError()}");
+            }
+
+            return new Audio(audio);
+        }
+        
         public static Audio CreateAudio(string path)
         {
             path = Path.Combine(SDL.GetBasePath() + path);
@@ -67,6 +79,25 @@ namespace Hybrid
     // Audio API
     public unsafe partial class Audio
     {
+        public static void SetPlaybackPosition(Audio audio, long ms)
+        {
+            var frames = SDL_mixer.TrackMSToFrames(audio.Track.Handle, ms);
+            {
+                SDL_mixer.SetTrackPlaybackPosition(audio.Track.Handle, frames);
+            }
+        }
+        
+        public static long GetPlaybackPosition(Audio audio)
+        {
+            var frames = SDL_mixer.GetTrackPlaybackPosition(audio.Track.Handle);
+            {
+                var ms = SDL_mixer.TrackFramesToMS(audio.Track.Handle, frames);
+                {
+                    return ms;
+                }
+            }
+        }
+        
         public static long GetRemaining(Audio audio)
         {
             var frames = SDL_mixer.GetTrackRemaining(audio.Track.Handle);

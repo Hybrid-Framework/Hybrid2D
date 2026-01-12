@@ -49,7 +49,7 @@ namespace Hybrid
                     Graphics = new Graphics();
                     Input = new Input();
                     Time = new Time();
-
+                    
                     OnEngineInitialize();
                     {
                         Window.Show();

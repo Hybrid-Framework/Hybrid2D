@@ -25,11 +25,6 @@ namespace Hybrid
             return Environment.OSVersion.ToString();
         }
 
-        public static string GetMachineName()
-        {
-            return Environment.MachineName;
-        }
-
         public static int GetProcessorCount()
         {
             return Environment.ProcessorCount;
