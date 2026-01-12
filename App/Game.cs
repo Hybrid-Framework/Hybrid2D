@@ -4,14 +4,22 @@ namespace App
 {
     public class Game : Hybrid.App
     {
+        private Audio audio;
+        
         public override void OnInitialize()
         {
             Window.SetTitle("My window");
             Window.SetIcon("Icon.png");
+
+            audio = Audio.CreateAudio(445, 0.5f);
+            Audio.SetPitch(audio, 1.2f);
+            Audio.Play(audio);
         }
 
         public override void OnUpdate()
         {
+            Audio.SetPitch(audio, Maths.PingPong(Time.GetTime(), 0.5f, 1.5f));
+            
             if (Input.GetMouseButtonDown(MouseButton.Left))
             {
                 Debug.Log("Pressed mouse");

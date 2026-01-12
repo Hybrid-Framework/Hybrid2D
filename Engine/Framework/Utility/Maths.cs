@@ -142,14 +142,20 @@ namespace Hybrid
             return t - Floor(t / length) * length;
         }
 
-        public static float PingPong(float t, float length)
+        public static float PingPong(float t, float min, float max)
         {
-            t = Repeat(t, length * 2f);
+            float length = max - min;
+
+            if (length <= 0f)
             {
-                return length - Abs(t - length);
+                return min;
             }
+
+            t = Repeat(t, length * 2f);
+
+            return min + length - Maths.Abs(t - length);
         }
-        
+
         public static float DegreesToRadians(float degrees)
         {
             return degrees * Deg2Rad;
