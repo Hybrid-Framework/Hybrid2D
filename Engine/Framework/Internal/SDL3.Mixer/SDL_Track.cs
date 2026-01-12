@@ -162,6 +162,14 @@ internal static unsafe partial class SDL_mixer
         return MIX_TrackLooping(track);
     }
     
+    // Set Track Loops
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool MIX_SetTrackLoops(SDL.Track* track, int loops);
+    public static bool SetTrackLoops(SDL.Track* track, int loops)
+    {
+        return MIX_SetTrackLoops(track, loops);
+    }
+    
     // Set Track Gain
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool MIX_SetTrackGain(SDL.Track* track, float gain);

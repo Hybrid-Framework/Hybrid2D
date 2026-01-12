@@ -6,18 +6,19 @@ namespace Hybrid
     // Internal
     public sealed unsafe partial class Audio
     {
+        internal SDL_mixer.StereoGains Stereo { get; set; }
         internal SDL.Audio* Handle { get; set; }
         internal Track Track { get; set; }
 
         
         internal Audio(SDL.Audio* handle)
         {
+            Stereo = new SDL_mixer.StereoGains();
             Handle = handle;
+            
+            Track = new Track(SDL_mixer.CreateTrack(Mixer.Handle));
             {
-                Track = new Track(SDL_mixer.CreateTrack(Mixer.Handle));
-                {
-                    SDL_mixer.SetTrackAudio(Track.Handle, Handle);
-                }
+                SDL_mixer.SetTrackAudio(Track.Handle, Handle);
             }
         }
     }
@@ -88,24 +89,53 @@ namespace Hybrid
             }
         }
         
-        public static void SetVolume(Audio audio, float volume)
-        {
-            SDL_mixer.SetTrackGain(audio.Track.Handle, Maths.Clamp(volume, 0, 1));
-        }
-        
         public static void SetMasterVolume(float volume)
         {
             SDL_mixer.SetMasterGain(Mixer.Handle, Maths.Clamp(volume, 0, 1));
+        }
+        
+        public static float GetMasterVolume()
+        {
+            return SDL_mixer.GetMasterGain(Mixer.Handle);
+        }
+        
+        public static void SetVolume(Audio audio, float volume)
+        {
+            SDL_mixer.SetTrackGain(audio.Track.Handle, Maths.Clamp(volume, 0, 1));
         }
         
         public static float GetVolume(Audio audio)
         {
             return SDL_mixer.GetTrackGain(audio.Track.Handle);
         }
-
-        public static float GetMasterVolume()
+        
+        public static void SetPitch(Audio audio, float pitch)
         {
-            return SDL_mixer.GetMasterGain(Mixer.Handle);
+            SDL_mixer.SetTrackFrequencyRatio(audio.Track.Handle, pitch);
+        }
+
+        public static float GetPitch(Audio audio)
+        {
+            return SDL_mixer.GetTrackFrequencyRatio(audio.Track.Handle);
+        }
+
+        public static void SetPan(Audio audio, float pan)
+        {
+            pan = Math.Clamp(pan, -1f, 1f);
+            
+            float left  = pan <= 0 ? 1.0f : 1.0f - pan;
+            float right = pan >= 0 ? 1.0f : 1.0f + pan;
+            audio.Stereo = new SDL_mixer.StereoGains(left, right);
+            
+            SDL_mixer.SetTrackStereo(audio.Track.Handle, audio.Stereo);
+        }
+        
+        public static float GetPan(Audio audio)
+        {
+            var stereo = audio.Stereo;
+            {
+                return stereo.right - stereo.left;
+            }
         }
 
         public static void Play(Audio audio)
@@ -129,6 +159,16 @@ namespace Hybrid
             {
                 SDL_mixer.StopTrack(audio.Track.Handle, frames);
             }
+        }
+        
+        public static void Loop(Audio audio, bool loop)
+        {
+            SDL_mixer.SetTrackLoops(audio.Track.Handle, loop ? -1 : 0);
+        }
+        
+        public static bool IsLooping(Audio audio)
+        {
+            return SDL_mixer.TrackLooping(audio.Track.Handle);
         }
         
         public static bool IsPlaying(Audio audio)

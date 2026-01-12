@@ -6,18 +6,21 @@ namespace App
     {
         public override void OnInitialize()
         {
-            Time.SetFps(60);
+            Window.SetTitle("My window");
+            Window.SetIcon("Icon.png");
         }
 
         public override void OnUpdate()
         {
-            
+            if (Input.GetMouseButtonDown(MouseButton.Left))
+            {
+                Debug.Log("Pressed mouse");
+            }
         }
 
         public override void OnRender()
         {
             Graphics.DrawBegin(Color.Black);
-            
             Graphics.DrawFps(10, 10, Color.White);
             
             float[] positions =
@@ -40,7 +43,6 @@ namespace App
             };
             
             Graphics.DrawGeometry(positions, colors, indices);
-            
             Graphics.DrawEnd();
         }
     }

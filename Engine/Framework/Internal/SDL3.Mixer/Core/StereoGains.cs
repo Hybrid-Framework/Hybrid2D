@@ -7,5 +7,11 @@ internal static unsafe partial class SDL_mixer
     {
         public float left;
         public float right;
+
+        internal StereoGains(float left, float right)
+        {
+            this.left = left;
+            this.right = right;
+        }
     }
 }
