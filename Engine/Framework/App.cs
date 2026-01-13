@@ -10,6 +10,7 @@ namespace Hybrid
         internal bool IsRunning { get; private set; } = false;
         
         internal Graphics Graphics { get; set; }
+        internal Texture Texture { get; set; }
         internal Window Window { get; set; }
         internal Audio Audio { get; set; }
         internal Input Input { get; set; }
@@ -47,6 +48,7 @@ namespace Hybrid
                     Audio = new Audio();
                     Window = new Window();
                     Graphics = new Graphics();
+                    Texture = new Texture();
                     Input = new Input();
                     Time = new Time();
                     

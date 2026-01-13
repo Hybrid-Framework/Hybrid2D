@@ -2,6 +2,7 @@
 
 namespace Hybrid
 {
+    // Mixer
     internal sealed unsafe class Mixer : Resource
     {
         internal SDL.Mixer* Handle

@@ -6,9 +6,9 @@ namespace Hybrid
     // Internal
     public sealed partial class Audio : Module
     {
-        internal static List<Sound> AllSounds { get; private set; } = new List<Sound>();
+        internal static List<Sound> AllSound { get; private set; } = new List<Sound>();
         internal static List<Music> AllMusic { get; private set; } = new List<Music>();
-        internal static List<Wave> AllWaves { get; private set; } = new List<Wave>();
+        internal static List<Wave> AllWave { get; private set; } = new List<Wave>();
         
         internal static Mixer Mixer
         {
@@ -30,9 +30,9 @@ namespace Hybrid
         // Dispose
         internal override void OnDispose()
         {
-            foreach(var sound in AllSounds) sound.Destroy();
+            foreach(var sound in AllSound) sound.Destroy();
             foreach(var music in AllMusic) music.Destroy();
-            foreach(var wave in AllWaves) wave.Destroy();
+            foreach(var wave in AllWave) wave.Destroy();
             
             if (Mixer != null)
             {
@@ -47,13 +47,13 @@ namespace Hybrid
         public static Sound CreateSound(string path)
         {
             var sound = new Sound(path);
-            AllSounds.Add(sound);
+            AllSound.Add(sound);
             return sound;
         }
 
         public static void DestroySound(Sound sound)
         {
-            AllSounds.Remove(sound);
+            AllSound.Remove(sound);
             sound.Destroy();
         }
         
@@ -73,13 +73,13 @@ namespace Hybrid
         public static Wave CreateWave(int hz, float amplitude)
         {
             var wave = new Wave(hz, amplitude);
-            AllWaves.Add(wave);
+            AllWave.Add(wave);
             return wave;
         }
 
         public static void DestroyWave(Wave wave)
         {
-            AllWaves.Remove(wave);
+            AllWave.Remove(wave);
             wave.Destroy();
         }
     }
