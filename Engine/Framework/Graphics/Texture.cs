@@ -39,7 +39,7 @@ namespace Hybrid
                 }
             }
             
-            Apply(this);
+            Apply();
         }
     }
 
@@ -188,7 +188,7 @@ namespace Hybrid
             return result;
         }
 
-        public static void Apply(Texture texture, Rect? rect)
+        public static void Apply(Texture texture, Rect? rect = null)
         {
             fixed (byte* p = texture.Pixels)
             {
@@ -253,9 +253,9 @@ namespace Hybrid
             return GetHeight(this);
         }
         
-        public void Apply()
+        public void Apply(Rect? rect = null)
         {
-            Apply(this);
+            Apply(this, rect);
         }
     }
 }
