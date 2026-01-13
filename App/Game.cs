@@ -4,21 +4,21 @@ namespace App
 {
     public class Game : Hybrid.App
     {
-        private Sound _sound;
+        private Wave wave;
         
         public override void OnInitialize()
         {
             Window.SetTitle("My window");
             Window.SetIcon("Icon.png");
 
-            _sound = Sound.CreateAudio(445, 0.5f);
-            Sound.SetPitch(_sound, 1.2f);
-            Sound.Play(_sound);
+            wave = Audio.CreateWave(200, 0.25f);
+            Audio.SetWavePitch(wave, 1.2f);
+            Audio.PlayWave(wave);
         }
 
         public override void OnUpdate()
         {
-            Sound.SetPitch(_sound, Maths.PingPong(Time.GetTime(), 0.5f, 1.5f));
+            Audio.SetWavePitch(wave, Maths.PingPong(Time.GetTime(), 0.5f, 1.5f));
             
             if (Input.GetMouseButtonDown(MouseButton.Left))
             {
