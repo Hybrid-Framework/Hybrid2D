@@ -11,7 +11,7 @@ namespace Hybrid
         
         internal Graphics Graphics { get; set; }
         internal Window Window { get; set; }
-        internal Mixer Mixer { get; set; }
+        internal Audio Audio { get; set; }
         internal Input Input { get; set; }
         internal Time Time { get; set; }
 
@@ -44,7 +44,7 @@ namespace Hybrid
             {
                 try
                 {
-                    Mixer = new Mixer();
+                    Audio = new Audio();
                     Window = new Window();
                     Graphics = new Graphics();
                     Input = new Input();

@@ -2,17 +2,14 @@
 
 namespace Hybrid
 {
-    internal sealed unsafe class Mixer : Module
+    internal sealed unsafe class Mixer : Resource
     {
-        internal Mixer() { }
-        
-        internal static SDL.Mixer* Handle
+        internal SDL.Mixer* Handle
         {
-            get; private set;
+            get; set;
         }
-
-        // Initialize
-        internal override void OnInitialize()
+        
+        internal Mixer()
         {
             Handle = SDL_mixer.CreateMixerDevice(SDL.DefaultPlaybackDevice, new SDL.AudioSpec()
             {
@@ -21,9 +18,8 @@ namespace Hybrid
                 freq = 44100
             });
         }
-        
-        // Dispose
-        internal override void OnDispose()
+
+        internal override void Destroy()
         {
             if (Handle != null)
             {
