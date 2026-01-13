@@ -12,7 +12,7 @@ namespace App
             Window.SetTitle("My window");
             Window.SetIcon("Icon.png");
 
-            wave = Audio.CreateWave(200, 0.25f);
+            wave = Audio.CreateWave(200, 0.5f, 5000);
             Audio.SetWavePitch(wave, 1.2f);
             Audio.PlayWave(wave);
 

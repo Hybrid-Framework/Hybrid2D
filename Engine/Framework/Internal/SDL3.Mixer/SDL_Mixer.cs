@@ -76,9 +76,9 @@ internal static unsafe partial class SDL_mixer
     
     // Create Sine Wave Audio
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Audio* MIX_CreateSineWaveAudio(SDL.Mixer* mixer, int hz, float gain);
-    public static SDL.Audio* CreateSineWaveAudio(SDL.Mixer* mixer, int hz, float gain)
+    private static extern SDL.Audio* MIX_CreateSineWaveAudio(SDL.Mixer* mixer, int hz, float amplitude, long ms);
+    public static SDL.Audio* CreateSineWaveAudio(SDL.Mixer* mixer, int hz, float amplitude, long ms)
     {
-        return MIX_CreateSineWaveAudio(mixer, hz, gain);
+        return MIX_CreateSineWaveAudio(mixer, hz, amplitude, ms);
     }
 }

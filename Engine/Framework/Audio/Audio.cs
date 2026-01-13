@@ -72,9 +72,9 @@ namespace Hybrid
             music.Destroy();
         }
         
-        public static Wave CreateWave(int hz, float amplitude)
+        public static Wave CreateWave(int hz, float amplitude, long ms = -1)
         {
-            var wave = new Wave(hz, amplitude);
+            var wave = new Wave(hz, amplitude, ms);
             AllWave.Add(wave);
             return wave;
         }

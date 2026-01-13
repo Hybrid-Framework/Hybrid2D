@@ -5,9 +5,9 @@ namespace Hybrid
     // Wave
     public sealed unsafe class Wave : SFX
     {
-        internal Wave(int hz, float amplitude)
+        internal Wave(int hz, float amplitude, long ms)
         {
-            Handle = SDL_mixer.CreateSineWaveAudio(Audio.Handle, hz, amplitude);
+            Handle = SDL_mixer.CreateSineWaveAudio(Audio.Handle, hz, amplitude, ms);
 
             if (Handle == null)
             {
