@@ -20,7 +20,7 @@ namespace Hybrid
         }
         
         // Dispose
-        internal override void OnDispose()
+        internal override void Destroy()
         {
             if (Handle != null)
             {

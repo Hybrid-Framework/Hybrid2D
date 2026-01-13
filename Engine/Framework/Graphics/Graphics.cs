@@ -23,7 +23,7 @@ namespace Hybrid
         }
 
         // Dispose
-        internal override void OnDispose()
+        internal override void Destroy()
         {
             if (Handle != null)
             {
@@ -240,17 +240,17 @@ namespace Hybrid
             DrawGeometry(null, positions, vertexColors, null, indices);
         }
 
-        public static void DrawTexture(Texture texture, Rect? position)
+        public static void DrawTexture(Texture2D texture2D, Rect? position)
         {
-            var textureHandle = texture == null ? null : texture.Handle;
+            var textureHandle = texture2D == null ? null : texture2D.Handle;
             {
                 SDL.RenderTexture(Handle, textureHandle, null, Rect.ToSDLRect(position));
             }
         }
         
-        public static void DrawTexture(Texture texture, Rect? uv, Rect? position)
+        public static void DrawTexture(Texture2D texture2D, Rect? uv, Rect? position)
         {
-            var textureHandle = texture == null ? null : texture.Handle;
+            var textureHandle = texture2D == null ? null : texture2D.Handle;
             {
                 SDL.RenderTexture(Handle, textureHandle, Rect.ToSDLRect(uv), Rect.ToSDLRect(position));
             }
@@ -261,9 +261,9 @@ namespace Hybrid
             SDL.RenderGeometryRaw(Handle, null, positions, colors, null, indices);
         }
 
-        public static void DrawGeometry(Texture texture, float[] positions, Color[] colors, float[] uvs, int[] indices)
+        public static void DrawGeometry(Texture2D texture2D, float[] positions, Color[] colors, float[] uvs, int[] indices)
         {
-            var textureHandle = texture == null ? null : texture.Handle;
+            var textureHandle = texture2D == null ? null : texture2D.Handle;
             {
                 SDL.RenderGeometryRaw(Handle, textureHandle, positions, colors, uvs, indices);
             }

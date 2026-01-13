@@ -5,12 +5,7 @@ namespace Hybrid
 {
     public abstract class Module
     {
-        private static List<Module> Modules { get; set; } = new List<Module>();
-        
-        internal static IReadOnlyList<Module> GetModules()
-        {
-            return Modules;
-        }
+        internal static List<Module> Modules { get; set; } = new List<Module>();
 
         internal Module()
         {
@@ -23,6 +18,6 @@ namespace Hybrid
         internal virtual void OnUpdate() { }
         internal virtual void OnRender() { }
         internal virtual void OnEndOfFrame() { }
-        internal virtual void OnDispose() { }
+        internal virtual void Destroy() { }
     }
 }

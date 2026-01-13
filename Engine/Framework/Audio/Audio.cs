@@ -28,7 +28,7 @@ namespace Hybrid
         }
         
         // Dispose
-        internal override void OnDispose()
+        internal override void Destroy()
         {
             foreach(var sound in AllSound) sound.Destroy();
             foreach(var music in AllMusic) music.Destroy();

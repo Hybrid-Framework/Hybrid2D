@@ -34,7 +34,7 @@ namespace Hybrid
             {
                 IsRunning = false;
                 
-                OnEngineDispose();
+                OnEngineDestroy();
                 SDL.Quit();
             }
         }
@@ -107,7 +107,7 @@ namespace Hybrid
         
         internal void OnEngineInitialize()
         {
-            foreach (Module module in Module.GetModules())
+            foreach (Module module in Module.Modules)
             {
                 module.OnInitialize();
             }
@@ -117,7 +117,7 @@ namespace Hybrid
         
         internal void OnEngineUpdate()
         {
-            foreach (Module module in Module.GetModules())
+            foreach (Module module in Module.Modules)
             {
                 module.OnUpdate();
             }
@@ -127,7 +127,7 @@ namespace Hybrid
         
         internal void OnEngineRender()
         {
-            foreach (Module module in Module.GetModules())
+            foreach (Module module in Module.Modules)
             {
                 module.OnRender();
             }
@@ -137,7 +137,7 @@ namespace Hybrid
         
         internal void OnEngineStartOfFrame()
         {
-            foreach (Module module in Module.GetModules())
+            foreach (Module module in Module.Modules)
             {
                 module.OnStartOfFrame();
             }
@@ -145,7 +145,7 @@ namespace Hybrid
         
         internal void OnEngineEvent(SDL.Event e)
         {
-            foreach (Module module in Module.GetModules())
+            foreach (Module module in Module.Modules)
             {
                 module.OnEvent(e);
             }
@@ -153,17 +153,17 @@ namespace Hybrid
         
         internal void OnEngineEndOfFrame()
         {
-            foreach (Module module in Module.GetModules())
+            foreach (Module module in Module.Modules)
             {
                 module.OnEndOfFrame();
             }
         }
         
-        internal void OnEngineDispose()
+        internal void OnEngineDestroy()
         {
-            foreach (Module module in Module.GetModules().Reverse())
+            foreach (Module module in Module.Modules)
             {
-                module.OnDispose();
+                module.Destroy();
             }
         }
     }

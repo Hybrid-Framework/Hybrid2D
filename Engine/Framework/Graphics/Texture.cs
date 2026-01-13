@@ -9,7 +9,7 @@ namespace Hybrid
     {
         internal static List<Texture2D> AllTexture2D { get; private set; } = new List<Texture2D>();
         
-        internal override void OnDispose()
+        internal override void Destroy()
         {
             foreach(var texture2D in AllTexture2D) texture2D.Destroy();
         }
