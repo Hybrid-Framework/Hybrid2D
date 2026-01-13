@@ -5,6 +5,7 @@ namespace App
     public class Game : Hybrid.App
     {
         private Wave wave;
+        private Texture texture;
         
         public override void OnInitialize()
         {
@@ -14,6 +15,10 @@ namespace App
             wave = Audio.CreateWave(200, 0.25f);
             Audio.SetWavePitch(wave, 1.2f);
             Audio.PlayWave(wave);
+
+            texture = Texture.CreateTexture("Images/Image.png");
+            texture.SetPixel(0, 0, new Color(1, 0, 0));
+            texture.Apply();
         }
 
         public override void OnUpdate()
@@ -51,6 +56,7 @@ namespace App
             };
             
             Graphics.DrawGeometry(positions, colors, indices);
+            Graphics.DrawTexture(texture, null);
             Graphics.DrawEnd();
         }
     }
