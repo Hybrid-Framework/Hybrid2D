@@ -4,8 +4,12 @@ using System;
 namespace Hybrid
 {
     // Internal
-    public sealed unsafe partial class Audio : Module
+    public sealed partial class Audio : Module
     {
+        internal static List<Sound> AllSounds { get; private set; } = new List<Sound>();
+        internal static List<Music> AllMusic { get; private set; } = new List<Music>();
+        internal static List<Wave> AllWaves { get; private set; } = new List<Wave>();
+        
         internal static Mixer Mixer
         {
             get; private set;
@@ -26,6 +30,10 @@ namespace Hybrid
         // Dispose
         internal override void OnDispose()
         {
+            foreach(var sound in AllSounds) sound.Destroy();
+            foreach(var music in AllMusic) music.Destroy();
+            foreach(var wave in AllWaves) wave.Destroy();
+            
             if (Mixer != null)
             {
                 Mixer.Destroy();
@@ -34,35 +42,44 @@ namespace Hybrid
     }
 
     // Management API
-    public unsafe partial class Audio
+    public partial class Audio
     {
         public static Sound CreateSound(string path)
         {
-            return new Sound(path);
+            var sound = new Sound(path);
+            AllSounds.Add(sound);
+            return sound;
         }
 
         public static void DestroySound(Sound sound)
         {
+            AllSounds.Remove(sound);
             sound.Destroy();
         }
         
         public static Music CreateMusic(string path)
         {
-            return new Music(path);
+            var music = new Music(path);
+            AllMusic.Add(music);
+            return music;
         }
 
         public static void DestroyMusic(Music music)
         {
+            AllMusic.Remove(music);
             music.Destroy();
         }
         
         public static Wave CreateWave(int hz, float amplitude)
         {
-            return new Wave(hz, amplitude);
+            var wave = new Wave(hz, amplitude);
+            AllWaves.Add(wave);
+            return wave;
         }
 
         public static void DestroyWave(Wave wave)
         {
+            AllWaves.Remove(wave);
             wave.Destroy();
         }
     }
@@ -82,7 +99,7 @@ namespace Hybrid
     }
     
     // Sound API
-    public unsafe partial class Audio
+    public partial class Audio
     {
         public static void SetSoundPlaybackPosition(Sound sound, long ms)
         {
@@ -171,7 +188,7 @@ namespace Hybrid
     }
     
     // Music API
-    public unsafe partial class Audio
+    public partial class Audio
     {
         public static void SetMusicPlaybackPosition(Music music, long ms)
         {
@@ -260,7 +277,7 @@ namespace Hybrid
     }
     
     // Wave API
-    public unsafe partial class Audio
+    public partial class Audio
     {
         public static void SetWavePlaybackPosition(Wave wave, long ms)
         {
