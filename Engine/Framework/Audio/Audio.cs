@@ -4,27 +4,28 @@ using System;
 namespace Hybrid
 {
     // Internal
-    public sealed partial class Audio : Module
+    public sealed unsafe partial class Audio : Module
     {
+        internal Audio() { }
+        
         internal static List<Sound> AllSound { get; private set; } = new List<Sound>();
         internal static List<Music> AllMusic { get; private set; } = new List<Music>();
         internal static List<Wave> AllWave { get; private set; } = new List<Wave>();
         
-        internal static Mixer Mixer
+        internal static SDL.Mixer* Handle
         {
-            get; private set;
-        }
-
-        // Constructor
-        internal Audio()
-        {
-            
+            get; set;
         }
 
         // Initialize
         internal override void OnInitialize()
         {
-            Mixer = new Mixer();
+            Handle = SDL_mixer.CreateMixerDevice(SDL.DefaultPlaybackDevice, new SDL.AudioSpec()
+            {
+                format = SDL.AudioFormat.S32,
+                channels = 2,
+                freq = 44100
+            });
         }
         
         // Dispose
@@ -34,9 +35,10 @@ namespace Hybrid
             foreach(var music in AllMusic) music.Destroy();
             foreach(var wave in AllWave) wave.Destroy();
             
-            if (Mixer != null)
+            if (Handle != null)
             {
-                Mixer.Destroy();
+                SDL_mixer.DestroyMixer(Handle);
+                Handle = null;
             }
         }
     }
@@ -89,12 +91,12 @@ namespace Hybrid
     {
         public static void SetMasterVolume(float volume)
         {
-            SDL_mixer.SetMasterGain(Mixer.Handle, volume);
+            SDL_mixer.SetMasterGain(Handle, volume);
         }
 
         public static float GetMasterVolume()
         {
-            return SDL_mixer.GetMasterGain(Mixer.Handle);
+            return SDL_mixer.GetMasterGain(Handle);
         }
     }
     

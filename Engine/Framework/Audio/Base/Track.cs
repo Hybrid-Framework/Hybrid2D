@@ -12,7 +12,7 @@ namespace Hybrid
         
         internal Track(SDL.Audio* audio)
         {
-            Handle = SDL_mixer.CreateTrack(Audio.Mixer.Handle);
+            Handle = SDL_mixer.CreateTrack(Audio.Handle);
 
             if (Handle == null)
             {
