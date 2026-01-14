@@ -5,7 +5,7 @@ using System;
 namespace Hybrid
 {
     // General
-    public static partial class Storage
+    public static partial class FileSystem
     {
         private static string CurrentDirectory = GetBasePath();
 
@@ -45,7 +45,7 @@ namespace Hybrid
     }
     
     // File
-    public static partial class Storage
+    public static partial class FileSystem
     {
         public static bool FileExists(string path)
         {
@@ -208,7 +208,7 @@ namespace Hybrid
     }
     
     // Folder
-    public static partial class Storage
+    public static partial class FileSystem
     {
         public static bool FolderExists(string path)
         {
