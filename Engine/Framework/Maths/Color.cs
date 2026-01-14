@@ -13,10 +13,33 @@ namespace Hybrid
         public static readonly Color Green  = new Color(0f, 1f, 0f, 1f);
         public static readonly Color Blue   = new Color(0f, 0f, 1f, 1f);
 
-        public float r;
-        public float g;
-        public float b;
-        public float a;
+        private float _r;
+        public float r
+        {
+            get => _r;
+            set => _r = Maths.Clamp01(value);
+        }
+        
+        private float _g;
+        public float g
+        {
+            get => _g;
+            set => _g = Maths.Clamp01(value);
+        }
+        
+        private float _b;
+        public float b
+        {
+            get => _b;
+            set => _b = Maths.Clamp01(value);
+        }
+        
+        private float _a;
+        public float a
+        {
+            get => _a;
+            set => _a = Maths.Clamp01(value);
+        }
 
         public Color(float r, float g, float b, float a = 1f)
         {
@@ -36,7 +59,7 @@ namespace Hybrid
             (
                 color.r,
                 color.g,
-                color.g,
+                color.b,
                 color.a
             );
         }
