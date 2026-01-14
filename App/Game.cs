@@ -17,8 +17,7 @@ namespace App
             Audio.PlayWave(wave);
 
             texture = Texture.CreateTexture("Images/Image.png");
-            texture.SetPixel(0, 0, new Color(1, 0, 0));
-            texture.Apply();
+            Debug.Log(texture.GetFormat());
         }
 
         public override void OnUpdate()
