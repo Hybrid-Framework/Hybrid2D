@@ -172,11 +172,11 @@ namespace Hybrid
             return result;
         }
         
-        public static void Apply(Texture texture, Rect? rect = null)
+        public static void Apply(Texture texture, Rectangle? rect = null)
         {
             fixed (byte* p = texture.Pixels)
             {
-                if (!SDL.UpdateTexture(texture.Handle, Rect.ToSDLRectInt(rect), (IntPtr)p, texture.Width * 4))
+                if (!SDL.UpdateTexture(texture.Handle, Rectangle.ToSDLRectInt(rect), (IntPtr)p, texture.Width * 4))
                 {
                     throw new Exception("Failed to apply texture");
                 }
@@ -237,7 +237,7 @@ namespace Hybrid
             return GetHeight(this);
         }
         
-        public void Apply(Rect? rect = null)
+        public void Apply(Rectangle? rect = null)
         {
             Apply(this, rect);
         }

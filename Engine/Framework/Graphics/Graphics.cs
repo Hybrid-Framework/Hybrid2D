@@ -36,12 +36,12 @@ namespace Hybrid
     // Graphics API
     public unsafe partial class Graphics
     {
-        public static void DrawRect(Rect rect, Color color)
+        public static void DrawRect(Rectangle rectangle, Color color)
         {
-            DrawRects([rect], [color]);
+            DrawRects([rectangle], [color]);
         }
         
-        public static void DrawRects(Rect[] rects, Color[] colors)
+        public static void DrawRects(Rectangle[] rects, Color[] colors)
         {
             if (rects.Length != colors.Length)
                 throw new ArgumentException("All arrays must have the same length.");
@@ -240,19 +240,19 @@ namespace Hybrid
             DrawGeometry(null, positions, vertexColors, null, indices);
         }
         
-        public static void DrawTexture(Texture texture, Rect? position)
+        public static void DrawTexture(Texture texture, Rectangle? position)
         {
             var textureHandle = texture == null ? null : texture.Handle;
             {
-                SDL.RenderTexture(Handle, textureHandle, null, Rect.ToSDLRect(position));
+                SDL.RenderTexture(Handle, textureHandle, null, Rectangle.ToSDLRect(position));
             }
         }
         
-        public static void DrawTexture(Texture texture, Rect? uv, Rect? position)
+        public static void DrawTexture(Texture texture, Rectangle? uv, Rectangle? position)
         {
             var textureHandle = texture == null ? null : texture.Handle;
             {
-                SDL.RenderTexture(Handle, textureHandle, Rect.ToSDLRect(uv), Rect.ToSDLRect(position));
+                SDL.RenderTexture(Handle, textureHandle, Rectangle.ToSDLRect(uv), Rectangle.ToSDLRect(position));
             }
         }
         
