@@ -268,14 +268,6 @@ namespace Hybrid
                 SDL.RenderGeometryRaw(Handle, textureHandle, positions, colors, uvs, indices);
             }
         }
-
-        public static void DrawMesh(Mesh mesh)
-        {
-            var textureHandle = mesh.texture == null ? null : mesh.texture.Handle;
-            {
-                SDL.RenderGeometryRaw(Handle, textureHandle, mesh.vertices, mesh.colors, mesh.uvs, mesh.indices);
-            }
-        }
         
         public static void DrawDebugText(int x, int y, string text, Color color)
         {
