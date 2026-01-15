@@ -64,7 +64,7 @@ namespace Hybrid
                         }
                     }
                 
-                    Apply();
+                    Apply(this);
                 }
             }
         }
