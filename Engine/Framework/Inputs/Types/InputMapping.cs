@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿﻿using System.Collections.Generic;
 using System;
 
 namespace Hybrid
@@ -193,13 +193,6 @@ namespace Hybrid
             [SDL.GamepadAxis.RightTrigger] = GamepadAxis.RightTrigger
         };
         
-        private static readonly Dictionary<byte, MouseButton> SDLMouseButtons = new()
-        {
-            [1] = MouseButton.Left,
-            [2] = MouseButton.Middle,
-            [3] = MouseButton.Right,
-        };
-        
         internal static KeyboardButton GetKeyboardButtonFromSDLScanCode(SDL.ScanCode scanCode)
         {
             return SDLScanCodes.GetValueOrDefault(scanCode);
@@ -220,9 +213,21 @@ namespace Hybrid
             return SDLGamepadAxes.GetValueOrDefault(axis);
         }
 
-        internal static MouseButton GetMouseButtonFromSDL(byte mouse)
+        internal static int GetMouseFromSDL(byte mouse)
         {
-            return SDLMouseButtons.GetValueOrDefault(mouse);
+            return mouse switch
+            {
+                1 => 0, // Left
+                2 => 2, // Middle
+                3 => 1, // Right
+                4 => 3,
+                5 => 4,
+                6 => 5,
+                7 => 6,
+                8 => 7,
+                
+                _ => -1
+            };
         }
     }
 }

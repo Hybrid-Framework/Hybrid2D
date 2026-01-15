@@ -11,8 +11,10 @@ namespace Hybrid
         
         internal Graphics Graphics { get; set; }
         internal Window Window { get; set; }
+        internal Keyboard Keyboard { get; set; }
+        internal Mouse Mouse { get; set; }
+        internal Touch Touch { get; set; }
         internal Audio Audio { get; set; }
-        internal Input Input { get; set; }
         internal Time Time { get; set; }
 
         
@@ -47,7 +49,9 @@ namespace Hybrid
                     Audio = new Audio();
                     Window = new Window();
                     Graphics = new Graphics();
-                    Input = new Input();
+                    Keyboard = new Keyboard();
+                    Mouse = new Mouse();
+                    Touch = new Touch();
                     Time = new Time();
                     
                     OnEngineInitialize();

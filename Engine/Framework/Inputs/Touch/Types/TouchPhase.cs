@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    public enum TouchPhase
+    internal enum TouchPhase
     {
         None,
         Began,

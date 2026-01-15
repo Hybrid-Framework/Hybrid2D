@@ -16,4 +16,8 @@
         <DefineConstants>RELEASE</DefineConstants>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Folder Include="Framework\Inputs\Mouse\Types\" />
+    </ItemGroup>
+
 </Project>

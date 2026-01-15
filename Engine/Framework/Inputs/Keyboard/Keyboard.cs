@@ -5,11 +5,10 @@ using System;
 namespace Hybrid
 {
     // Keyboard
-    internal class Keyboard : InputDevice
+    public sealed partial class Keyboard : Module
     {
-        private readonly Dictionary<KeyboardButton, State> Buttons = new Dictionary<KeyboardButton, State>();
-        
-        
+        private static readonly Dictionary<KeyboardButton, State> Buttons = new Dictionary<KeyboardButton, State>();
+
         // Constructor
         internal Keyboard()
         {
@@ -23,7 +22,7 @@ namespace Hybrid
         }
 
         // Reset
-        internal override void OnReset()
+        internal override void OnStartOfFrame()
         {
             foreach (var key in Buttons.Keys)
             {
@@ -60,10 +59,10 @@ namespace Hybrid
                             }
                         }
                     }
-                    
+
                     break;
                 }
-                
+
                 // Keyboard Down
                 case SDL.EventType.KeyboardButtonDown:
                 {
@@ -85,8 +84,11 @@ namespace Hybrid
                 }
             }
         }
-        
-        internal bool GetButton(KeyboardButton button)
+    }
+    
+    public partial class Keyboard
+    {
+        public static bool GetButton(KeyboardButton button)
         {
             if (Buttons.TryGetValue(button, out var state))
             {
@@ -96,7 +98,7 @@ namespace Hybrid
             return false;
         }
         
-        internal bool GetButtonUp(KeyboardButton button)
+        public static bool GetButtonUp(KeyboardButton button)
         {
             if (Buttons.TryGetValue(button, out var state))
             {
@@ -106,7 +108,7 @@ namespace Hybrid
             return false;
         }
         
-        internal bool GetButtonDown(KeyboardButton button)
+        public static bool GetButtonDown(KeyboardButton button)
         {
             if (Buttons.TryGetValue(button, out var state))
             {
