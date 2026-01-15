@@ -198,48 +198,4 @@ namespace Hybrid
             return texture.Height;
         }
     }
-
-    // Public Methods
-    public partial class Texture
-    {
-        public void SetPixel(int x, int y, Color color)
-        {
-            SetPixel(this, x, y, color);
-        }
-        
-        public Color GetPixel(int x, int y)
-        {
-            return GetPixel(this, x, y);
-        }
-        
-        public void SetPixels(Color[] pixels)
-        {
-            SetPixels(this, pixels);
-        }
-        
-        public Color[] GetPixels()
-        {
-            return GetPixels(this);
-        }
-        
-        public string GetFormat()
-        {
-            return GetFormat(this);
-        }
-        
-        public int GetWidth()
-        {
-            return GetWidth(this);
-        }
-        
-        public int GetHeight()
-        {
-            return GetHeight(this);
-        }
-        
-        public void Apply(Rectangle? rect = null)
-        {
-            Apply(this, rect);
-        }
-    }
 }
