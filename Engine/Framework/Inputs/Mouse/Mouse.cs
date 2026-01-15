@@ -51,7 +51,7 @@ namespace Hybrid
                 // Mouse Up
                 case SDL.EventType.MouseButtonUp:
                 {
-                    var button = InputMapping.GetMouseFromSDL(e.mouseButton.button);
+                    var button = Mapping.GetMouseFromSDL(e.mouseButton.button);
                     {
                         if (Buttons.ContainsKey(button))
                         {
@@ -65,7 +65,7 @@ namespace Hybrid
                 // Mouse Down
                 case SDL.EventType.MouseButtonDown:
                 {
-                    var button = InputMapping.GetMouseFromSDL(e.mouseButton.button);
+                    var button = Mapping.GetMouseFromSDL(e.mouseButton.button);
                     {
                         if (Buttons.ContainsKey(button))
                         {

@@ -1,9 +1,9 @@
-﻿﻿using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System;
 
 namespace Hybrid
 {
-    internal static class InputMapping
+    internal static class Mapping
     {
         private static readonly Dictionary<SDL.ScanCode, KeyboardButton> SDLScanCodes = new()
         {
