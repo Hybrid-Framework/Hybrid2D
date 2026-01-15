@@ -239,7 +239,7 @@ namespace Hybrid
 
             DrawGeometry(null, positions, vertexColors, null, indices);
         }
-
+        
         public static void DrawTexture(Texture texture, Rect? position)
         {
             var textureHandle = texture == null ? null : texture.Handle;
@@ -266,6 +266,14 @@ namespace Hybrid
             var textureHandle = texture == null ? null : texture.Handle;
             {
                 SDL.RenderGeometryRaw(Handle, textureHandle, positions, colors, uvs, indices);
+            }
+        }
+
+        public static void DrawMesh(Mesh mesh)
+        {
+            var textureHandle = mesh.texture == null ? null : mesh.texture.Handle;
+            {
+                SDL.RenderGeometryRaw(Handle, textureHandle, mesh.vertices, mesh.colors, mesh.uvs, mesh.indices);
             }
         }
         

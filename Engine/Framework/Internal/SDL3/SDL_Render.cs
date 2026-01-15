@@ -267,43 +267,6 @@ internal static unsafe partial class SDL
         return SDL_RenderFillRects(renderer, rects, count);
     }
     
-    // Render Geometry
-    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_RenderGeometry(SDL.Renderer* renderer, SDL.Texture* texture, Vertex[] vertices, int verticesCount, int[] indices, int indicesCount);
-    public static bool RenderGeometry(SDL.Renderer* renderer, SDL.Texture* texture, Vertex[] vertices, int verticesCount, int[] indices, int indicesCount)
-    {
-        return SDL_RenderGeometry(renderer, texture, vertices, verticesCount, indices, indicesCount);
-    }
-    
-    // Render Geometry Raw
-    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
-    private static extern SDL.Bool SDL_RenderGeometryRaw(SDL.Renderer* renderer, SDL.Texture* texture, float* xy, int xy_stride, Hybrid.Color* color, int color_stride, float* uv, int uv_stride, int num_vertices, void* indices, int num_indices, int size_indices);
-    public static bool RenderGeometryRaw(SDL.Renderer* renderer, SDL.Texture* texture, float[] positions, Hybrid.Color[] colors, float[] uvs, int[] indices)
-    {
-        int numVertices = positions.Length / 2;
-        int xyStride = sizeof(float) * 2;
-        int colorStride = sizeof(Color);
-        int uvStride = sizeof(float) * 2;
-        int sizeIndices = sizeof(int);
-
-        fixed (float* xyPtr = positions)
-        fixed (Hybrid.Color* colorPtr = colors)
-        fixed (float* uvPtr = uvs)
-        fixed (int* indicesPtr = indices)
-        {
-            return SDL_RenderGeometryRaw
-            (
-                renderer,
-                texture,
-                xyPtr, xyStride,
-                colorPtr, colorStride,
-                uvPtr, uvStride,
-                numVertices,
-                indicesPtr, indices.Length, sizeIndices
-            );
-        }
-    }
-    
     // Render Read Pixels
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Surface* SDL_RenderReadPixels(SDL.Renderer* renderer, RectInt* rect);
@@ -373,6 +336,52 @@ internal static unsafe partial class SDL
         fixed (byte* utf8 = bytes)
         {
             return SDL_RenderDebugText(renderer, x, y, utf8);
+        }
+    }
+    
+    // Render Geometry Raw
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool SDL_RenderGeometryRaw(SDL.Renderer* renderer, SDL.Texture* texture, float* xy, int xy_stride, Hybrid.Color* color, int color_stride, float* uv, int uv_stride, int num_vertices, void* indices, int num_indices, int size_indices);
+    
+    // Render Geometry float[]
+    public static bool RenderGeometryRaw(SDL.Renderer* renderer, SDL.Texture* texture, float[] positions, Hybrid.Color[] colors, float[] uvs, int[] indices)
+    {
+        int numVertices = positions.Length / 2;
+        int xyStride = sizeof(float) * 2;
+        int colorStride = sizeof(Color);
+        int uvStride = sizeof(float) * 2;
+        int sizeIndices = sizeof(int);
+
+        fixed (float* xyPtr = positions)
+        fixed (Hybrid.Color* colorPtr = colors)
+        fixed (float* uvPtr = uvs)
+        fixed (int* indicesPtr = indices)
+        {
+            return SDL_RenderGeometryRaw
+            (
+                renderer, texture, xyPtr, xyStride, colorPtr, colorStride, uvPtr, uvStride, numVertices, indicesPtr, indices.Length, sizeIndices
+            );
+        }
+    }
+    
+    // Render Geometry Point[]
+    public static bool RenderGeometryRaw(SDL.Renderer* renderer, SDL.Texture* texture, Hybrid.Point[] positions, Hybrid.Color[] colors, Hybrid.Point[] uvs, int[] indices)
+    {
+        int numVertices = positions.Length;
+        int xyStride = sizeof(Point);
+        int colorStride = sizeof(Hybrid.Color);
+        int uvStride = sizeof(Point);
+        int sizeIndices = sizeof(int);
+
+        fixed (Hybrid.Point* posPtr = positions)
+        fixed (Hybrid.Color* colorPtr = colors)
+        fixed (Hybrid.Point* uvPtr = uvs)
+        fixed (int* indicesPtr = indices)
+        {
+            return SDL_RenderGeometryRaw
+            (
+                renderer, texture, (float*)posPtr, xyStride, colorPtr, colorStride, (float*)uvPtr, uvStride, numVertices, indicesPtr, indices.Length, sizeIndices
+            );
         }
     }
 }
