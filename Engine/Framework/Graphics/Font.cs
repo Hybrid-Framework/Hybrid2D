@@ -7,6 +7,7 @@ namespace Hybrid
     public sealed unsafe partial class Font
     {
         internal SDL.Font* Handle { get; set; }
+        
 
         internal Font(string path)
         {

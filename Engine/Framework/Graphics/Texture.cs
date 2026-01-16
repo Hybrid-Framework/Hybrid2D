@@ -80,19 +80,16 @@ namespace Hybrid
 
         public static void DestroyTexture(Texture texture)
         {
-            if (texture != null)
+            if (texture.Handle != null)
             {
-                if (texture.Handle != null)
-                {
-                    SDL.DestroyTexture(texture.Handle);
-                    texture.Handle = null;
-                }
-            
-                Array.Clear(texture.Pixels);
-                texture.Format = "Unknown";
-                texture.Height = 0;
-                texture.Width = 0;
+                SDL.DestroyTexture(texture.Handle);
+                texture.Handle = null;
             }
+            
+            Array.Clear(texture.Pixels);
+            texture.Format = "Unknown";
+            texture.Height = 0;
+            texture.Width = 0;
         }
     }
     
