@@ -269,6 +269,31 @@ namespace Hybrid
             }
         }
         
+        public static void DrawBegin(Color color)
+        {
+            var color32 = Color.ToSDLColor32(color);
+            {
+                SDL.SetRenderDrawColor(Handle, color32.r, color32.g, color32.b, color32.a);
+                {
+                    SDL.RenderClear(Handle);
+                }
+            }
+        }
+
+        public static void DrawEnd()
+        {
+            SDL.RenderPresent(Handle);
+        }
+    }
+    
+    // Graphics Text API
+    public unsafe partial class Graphics
+    {
+        public static void DrawText(Text text, Rectangle? position)
+        {
+            SDL.RenderTexture(Handle, text.TextureHandle, null, Rectangle.ToSDLRect(position));
+        }
+        
         public static void DrawDebugText(int x, int y, string text, Color color)
         {
             var color32 = Color.ToSDLColor32(color);
@@ -289,22 +314,6 @@ namespace Hybrid
                     SDL.RenderDebugText(Handle, x, y, Time.GetFps().ToString("N0"));
                 }
             }
-        }
-        
-        public static void DrawBegin(Color color)
-        {
-            var color32 = Color.ToSDLColor32(color);
-            {
-                SDL.SetRenderDrawColor(Handle, color32.r, color32.g, color32.b, color32.a);
-                {
-                    SDL.RenderClear(Handle);
-                }
-            }
-        }
-
-        public static void DrawEnd()
-        {
-            SDL.RenderPresent(Handle);
         }
     }
 }

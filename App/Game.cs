@@ -4,10 +4,17 @@ namespace App
 {
     public class Game : Hybrid.App
     {
+        public Font font1;
+        public Font font2;
+        public Font font3;
+        public Text text;
+        
         public override void OnInitialize()
         {
-            Window.SetFullscreen(true);
-            Window.SetResizable(true);
+            font1 = Font.CreateFont("Fonts/Font1.ttf");
+            font2 = Font.CreateFont("Fonts/Font2.ttf");
+            font3 = Font.CreateFont("Fonts/Font3.ttf");
+            text = Text.CreateText(font1, "Hello World");
         }
 
         public override void OnUpdate()
@@ -21,7 +28,7 @@ namespace App
         public override void OnRender()
         {
             Graphics.DrawBegin(Color.Black);
-            Graphics.DrawFps(10, 10, Color.White);
+            Graphics.DrawText(text, new Rectangle(10, 0, 256, 48));
             Graphics.DrawEnd();
         }
     }
