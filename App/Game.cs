@@ -6,14 +6,15 @@ namespace App
     {
         public override void OnInitialize()
         {
-            
+            Window.SetFullscreen(true);
+            Window.SetResizable(true);
         }
 
         public override void OnUpdate()
         {
-            if (Touch.GetTouchCount() > 0)
+            if (Touch.GetTouch(0))
             {
-                Debug.Log("Touching!");
+                Debug.Log($"Touch 0: {Touch.GetTouchPosition(0).x}, {Touch.GetTouchPosition(0).y}");
             }
         }
 

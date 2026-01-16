@@ -5,9 +5,6 @@ namespace Hybrid
     public enum GamepadAxis
     {
         Unknown,
-        
-        DpadX,
-        DpadY,
         LeftX,
         LeftY,
         RightX,

@@ -5,7 +5,7 @@ namespace Hybrid
 {
     public sealed partial class Touch : Module
     {
-        private static readonly Dictionary<int, TouchFinger> Touches = new Dictionary<int, TouchFinger>();
+        private static readonly Dictionary<int, TouchHandle> Touches = new Dictionary<int, TouchHandle>();
         private const int MaxTouches = 10;
 
 
@@ -14,7 +14,7 @@ namespace Hybrid
         {
             for (int i = 0; i < MaxTouches; i++)
             {
-                Touches.Add(i, new TouchFinger());
+                Touches.Add(i, new TouchHandle());
             }
         }
 
@@ -37,12 +37,15 @@ namespace Hybrid
                 case SDL.EventType.TouchFingerMotion:
                 case SDL.EventType.TouchFingerCancel:
                 {
-                    var touch = FindTouch((int)e.touchFinger.fingerID - 1);
+                    if (Touches.TryGetValue((int)e.touchFinger.fingerID - 1, out var touch))
                     {
                         if (touch != null)
                         {
-                            touch.PositionDelta = new Point(e.touchFinger.x_delta * Window.GetWidth(), e.touchFinger.y_delta * Window.GetHeight());
-                            touch.Position = new Point(e.touchFinger.x * Window.GetWidth(), e.touchFinger.y * Window.GetHeight());
+                            float width = Window.GetWidth();
+                            float height = Window.GetHeight();
+                            
+                            touch.PositionDelta = new Point(Maths.Clamp(e.touchFinger.x_delta * width, 0, width), Maths.Clamp(e.touchFinger.y_delta * height, 0, height));
+                            touch.Position = new Point(Maths.Clamp(e.touchFinger.x * width, 0, width), Maths.Clamp(e.touchFinger.y * height, 0, height));
                             touch.Pressure = e.touchFinger.pressure;
 
                             switch (e.type)
@@ -58,16 +61,6 @@ namespace Hybrid
                     break;
                 }
             }
-        }
-
-        private TouchFinger FindTouch(int index)
-        {
-            if (Touches.TryGetValue(index, out var touch))
-            {
-                return Touches[index];
-            }
-
-            return null;
         }
     }
     

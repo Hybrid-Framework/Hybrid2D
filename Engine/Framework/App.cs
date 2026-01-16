@@ -9,9 +9,11 @@ namespace Hybrid
         internal bool Initialized { get; private set; } = false;
         internal bool IsRunning { get; private set; } = false;
         
-        internal Graphics Graphics { get; set; }
-        internal Window Window { get; set; }
+        internal TouchKeyboard TouchKeyboard { get; set; }
         internal Keyboard Keyboard { get; set; }
+        internal Graphics Graphics { get; set; }
+        internal Gamepad Gamepad { get; set; }
+        internal Window Window { get; set; }
         internal Mouse Mouse { get; set; }
         internal Touch Touch { get; set; }
         internal Audio Audio { get; set; }
@@ -49,7 +51,9 @@ namespace Hybrid
                     Audio = new Audio();
                     Window = new Window();
                     Graphics = new Graphics();
+                    TouchKeyboard = new TouchKeyboard();
                     Keyboard = new Keyboard();
+                    Gamepad = new Gamepad();
                     Mouse = new Mouse();
                     Touch = new Touch();
                     Time = new Time();

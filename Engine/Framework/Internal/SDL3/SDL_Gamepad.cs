@@ -131,6 +131,14 @@ internal static unsafe partial class SDL
         return SDL_GetGamepadPlayerIndexForID(gamepadID);
     }
     
+    // Get Gamepad Player Index
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern int SDL_GetGamepadPlayerIndex(SDL.Gamepad* gamepad);
+    public static int GetGamepadPlayerIndex(SDL.Gamepad* gamepad)
+    {
+        return SDL_GetGamepadPlayerIndex(gamepad);
+    }
+    
     // Get Gamepads
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern IntPtr SDL_GetGamepads(out int count);

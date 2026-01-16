@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    internal class TouchFinger
+    internal class TouchHandle
     {
         internal Point PositionDelta = Point.Zero;
         internal Point Position = Point.Zero;
