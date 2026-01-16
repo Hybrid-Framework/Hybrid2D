@@ -41,7 +41,7 @@ namespace Hybrid
                         {
                             var button = Mapping.GetGamepadButtonFromSDL(e.gamepadButton.button);
                             {
-                                if (button != GamepadButton.Unknown)
+                                if (button != Button.Unknown)
                                 {
                                     if (gamepad.Buttons.ContainsKey(button))
                                     {
@@ -64,7 +64,7 @@ namespace Hybrid
                         {
                             var button = Mapping.GetGamepadButtonFromSDL(e.gamepadButton.button);
                             {
-                                if (button != GamepadButton.Unknown)
+                                if (button != Button.Unknown)
                                 {
                                     if (gamepad.Buttons.ContainsKey(button))
                                     {
@@ -87,14 +87,14 @@ namespace Hybrid
                         {
                             var axis = Mapping.GetGamepadAxisFromSDL(e.gamepadAxis.axis);
                             {
-                                if (axis != GamepadAxis.Unknown)
+                                if (axis != Axis.Unknown)
                                 {
                                     if (gamepad.Axes.ContainsKey(axis))
                                     {
                                         float raw = e.gamepadAxis.value;
                                         float value = raw >= 0 ? raw / 32767.0f : raw / 32768.0f;
 
-                                        if (axis == GamepadAxis.LeftY || axis == GamepadAxis.RightY) value *= -1;
+                                        if (axis == Axis.LeftY || axis == Axis.RightY) value *= -1;
                                         if (Maths.Abs(value) < gamepad.DeadZone) value = 0f;
 
                                         gamepad.Axes[axis] = value;
@@ -163,7 +163,7 @@ namespace Hybrid
             }
         }
         
-        public static bool GetButton(int index, GamepadButton button)
+        public static bool GetButton(int index, Button button)
         {
             if (Gamepads.TryGetValue(index, out var gamepad))
             {
@@ -173,7 +173,7 @@ namespace Hybrid
             return false;
         }
         
-        public static bool GetButtonUp(int index, GamepadButton button)
+        public static bool GetButtonUp(int index, Button button)
         {
             if (Gamepads.TryGetValue(index, out var gamepad))
             {
@@ -183,7 +183,7 @@ namespace Hybrid
             return false;
         }
         
-        public static bool GetButtonDown(int index, GamepadButton button)
+        public static bool GetButtonDown(int index, Button button)
         {
             if (Gamepads.TryGetValue(index, out var gamepad))
             {
@@ -193,7 +193,7 @@ namespace Hybrid
             return false;
         }
         
-        public static float GetAxis(int index, GamepadAxis axis)
+        public static float GetAxis(int index, Axis axis)
         {
             if (Gamepads.TryGetValue(index, out var gamepad))
             {

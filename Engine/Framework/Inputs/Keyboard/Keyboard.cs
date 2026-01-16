@@ -7,14 +7,14 @@ namespace Hybrid
     // Keyboard
     public sealed partial class Keyboard : Module
     {
-        private static readonly Dictionary<KeyboardButton, State> Buttons = new Dictionary<KeyboardButton, State>();
+        private static readonly Dictionary<Key, State> Buttons = new Dictionary<Key, State>();
 
         // Constructor
         internal Keyboard()
         {
-            foreach (KeyboardButton button in Enum.GetValues(typeof(KeyboardButton)))
+            foreach (Key button in Enum.GetValues(typeof(Key)))
             {
-                if (button != KeyboardButton.Unknown)
+                if (button != Key.Unknown)
                 {
                     Buttons.Add(button, State.None);
                 }
@@ -50,7 +50,7 @@ namespace Hybrid
                     {
                         var button = Mapping.GetKeyboardButtonFromSDLScanCode(e.keyboard.scanCode);
                         {
-                            if (button != KeyboardButton.Unknown)
+                            if (button != Key.Unknown)
                             {
                                 if (Buttons.ContainsKey(button))
                                 {
@@ -70,7 +70,7 @@ namespace Hybrid
                     {
                         var button = Mapping.GetKeyboardButtonFromSDLScanCode(e.keyboard.scanCode);
                         {
-                            if (button != KeyboardButton.Unknown)
+                            if (button != Key.Unknown)
                             {
                                 if (Buttons.ContainsKey(button))
                                 {
@@ -88,7 +88,7 @@ namespace Hybrid
     
     public partial class Keyboard
     {
-        public static bool GetButton(KeyboardButton button)
+        public static bool GetButton(Key button)
         {
             if (Buttons.TryGetValue(button, out var state))
             {
@@ -98,7 +98,7 @@ namespace Hybrid
             return false;
         }
         
-        public static bool GetButtonUp(KeyboardButton button)
+        public static bool GetButtonUp(Key button)
         {
             if (Buttons.TryGetValue(button, out var state))
             {
@@ -108,7 +108,7 @@ namespace Hybrid
             return false;
         }
         
-        public static bool GetButtonDown(KeyboardButton button)
+        public static bool GetButtonDown(Key button)
         {
             if (Buttons.TryGetValue(button, out var state))
             {

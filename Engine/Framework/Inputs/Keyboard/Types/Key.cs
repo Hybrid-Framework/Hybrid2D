@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    public enum KeyboardButton
+    public enum Key
     {
         Unknown,
         

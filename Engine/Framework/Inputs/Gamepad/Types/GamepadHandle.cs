@@ -5,8 +5,8 @@ namespace Hybrid
 {
     internal unsafe class GamepadHandle
     {
-        internal Dictionary<GamepadButton, State> Buttons = new Dictionary<GamepadButton, State>();
-        internal Dictionary<GamepadAxis, float> Axes = new Dictionary<GamepadAxis, float>();
+        internal Dictionary<Button, State> Buttons = new Dictionary<Button, State>();
+        internal Dictionary<Axis, float> Axes = new Dictionary<Axis, float>();
         internal float DeadZone = 0.2f;
         internal SDL.Gamepad* Handle;
         internal uint Device;
@@ -21,12 +21,12 @@ namespace Hybrid
                 Index = index;
                 Device = device;
                 
-                foreach (GamepadButton button in Enum.GetValues(typeof(GamepadButton)))
+                foreach (Button button in Enum.GetValues(typeof(Button)))
                 {
                     Buttons.Add(button, State.None);
                 }
             
-                foreach (GamepadAxis axis in Enum.GetValues(typeof(GamepadAxis)))
+                foreach (Axis axis in Enum.GetValues(typeof(Axis)))
                 {
                     Axes.Add(axis, 0);
                 }
@@ -55,7 +55,7 @@ namespace Hybrid
             SDL.RumbleGamepad(Handle, (ushort)strength, (ushort)strength, (uint)ms);
         }
 
-        internal bool GetButton(GamepadButton button)
+        internal bool GetButton(Button button)
         {
             if (Buttons.TryGetValue(button, out var state))
             {
@@ -65,7 +65,7 @@ namespace Hybrid
             return false;
         }
         
-        internal bool GetButtonUp(GamepadButton button)
+        internal bool GetButtonUp(Button button)
         {
             if (Buttons.TryGetValue(button, out var state))
             {
@@ -75,7 +75,7 @@ namespace Hybrid
             return false;
         }
         
-        internal bool GetButtonDown(GamepadButton button)
+        internal bool GetButtonDown(Button button)
         {
             if (Buttons.TryGetValue(button, out var state))
             {
@@ -85,7 +85,7 @@ namespace Hybrid
             return false;
         }
         
-        internal float GetAxis(GamepadAxis axis)
+        internal float GetAxis(Axis axis)
         {
             return Axes.GetValueOrDefault(axis);
         }
