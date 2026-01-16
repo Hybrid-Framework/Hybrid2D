@@ -278,35 +278,35 @@ namespace Hybrid
         }
     }
     
-    // Monitor
+    // Display
     public unsafe partial class Window
     {
-        public static uint[] GetMonitors()
+        public static uint[] GetDisplays()
         {
             return SDL.GetDisplays(out var count);
         }
 
-        public static uint GetCurrentMonitor()
+        public static uint GetCurrentDisplay()
         {
             return SDL.GetDisplayForWindow(Handle);
         }
 
-        public static string GetCurrentMonitorName()
+        public static string GetCurrentDisplayName()
         {
-            return GetMonitorName(GetCurrentMonitor());
+            return GetDisplayName(GetCurrentDisplay());
         }
         
-        public static Point GetCurrentMonitorSize()
+        public static Point GetCurrentDisplaySize()
         {
-            return GetMonitorSize(GetCurrentMonitor());
+            return GetDisplaySize(GetCurrentDisplay());
         }
         
-        public static string GetMonitorName(uint displayID)
+        public static string GetDisplayName(uint displayID)
         {
             return SDL.GetDisplayName(displayID);
         }
         
-        public static Point GetMonitorSize(uint displayID)
+        public static Point GetDisplaySize(uint displayID)
         {
             SDL.GetDisplayBounds(displayID, out SDL.RectInt rect);
             {
