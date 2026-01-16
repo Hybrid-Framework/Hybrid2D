@@ -3,7 +3,7 @@
 namespace Hybrid
 {
     // Device API
-    public static class Platform
+    public static class Device
     {
         public static string GetPlatform()
         {

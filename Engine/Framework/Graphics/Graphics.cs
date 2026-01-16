@@ -289,11 +289,6 @@ namespace Hybrid
     // Graphics Text API
     public unsafe partial class Graphics
     {
-        public static void DrawText(Text text, Rectangle? position)
-        {
-            SDL.RenderTexture(Handle, text.TextureHandle, null, Rectangle.ToSDLRect(position));
-        }
-        
         public static void DrawDebugText(int x, int y, string text, Color color)
         {
             var color32 = Color.ToSDLColor32(color);
