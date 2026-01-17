@@ -1,10 +1,10 @@
 <div align="center">
- 
-<img width="128" src="Hybrid.png">
 
-A simple cross-platform game framework
+<img width="256" src="Hybrid.png">
 
-⚠️ IN DEVELOPMENT ⚠️
+**Hybrid2D**
+
+Created by Lloyd J Howarth
 
 ![Windows](https://custom-icon-badges.demolab.com/badge/Windows-000000?logo=windows11&logoColor=white)
 ![MacOS](https://img.shields.io/badge/MacOS-000000?logo=apple&logoColor=white)
@@ -13,16 +13,16 @@ A simple cross-platform game framework
 ![iOS](https://img.shields.io/badge/iOS-000000?logo=apple&logoColor=white)
 ![Web](https://img.shields.io/badge/Web-000000?logo=googlechrome&logoColor=white)
 
-[Overview](#overview) • 
-[Platforms](#platforms) • 
-[Dependencies](#dependencies) • 
-[Contributions](#contributions) • 
-[License](#license) 
+[Overview](#overview) •
+[Platforms](#platforms) •
+[Dependencies](#dependencies) •
+[Contributions](#contributions) •
+[License](#license)
 </div>
 
 <h2 id="overview">🔍 Overview</h2>
 
-Hybrid is a lightweight cross-platform 2D Game Framework written in C#
+Hybrid2D is a lightweight cross-platform 2D Game Framework written in C#
 
 Getting started...
 
@@ -35,29 +35,22 @@ Getting started...
 <h2 id="platforms">🖥️ Cross-platform</h2>
 
 Currently supports these platforms:
-  * **Desktop:** Windows, Mac, Linux
-  * **Mobile:** Android, iOS
-  * **Web:** Browsers
+* **Desktop:** Windows, Mac, Linux
+* **Mobile:** Android, iOS
+* **Web:** Browsers
 
 
 <h2 id="dependencies">📦 Dependencies</h2>
 
 Currently using these dependencies:
-  * [EMSCRIPTEN 3.1.56](https://github.com/emscripten-core/emscripten)
-  * [DOTNET 10.0](https://github.com/dotnet/runtime)
-  * [SDL 3.4.0](https://github.com/libsdl-org/SDL)
-
-
-<h2 id="contributions">🫂 Contributions</h2>
-
-Current community and contributors:
-  * Support and contributions are currently not being accepted.
-  * Feel free to fork the current state of the repository.
+* [EMSCRIPTEN 3.1.56](https://github.com/emscripten-core/emscripten)
+* [DOTNET 10.0](https://github.com/dotnet/runtime)
+* [SDL 3.4.0](https://github.com/libsdl-org/SDL)
 
 
 <h2 id="license">📄 License</h2>
 
- * All third-party dependencies are covered by their respective licenses.
- * This project is licensed under the [MIT LICENSE](LICENSE.txt).
+* All third-party dependencies are covered by their respective licenses.
+* This project is licensed under the [MIT LICENSE](LICENSE.txt).
 
  
