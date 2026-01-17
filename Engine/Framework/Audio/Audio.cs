@@ -47,6 +47,16 @@ namespace Hybrid
         {
             return SDL_mixer.GetMasterGain(Handle);
         }
+        
+        public static void SetAudioPitch(float pitch)
+        {
+            SDL_mixer.SetMasterFrequencyRatio(Handle, pitch);
+        }
+
+        public static float GetAudioPitch()
+        {
+            return SDL_mixer.GetMasterFrequencyRatio(Handle);
+        }
 
         public static void PauseAudio()
         {

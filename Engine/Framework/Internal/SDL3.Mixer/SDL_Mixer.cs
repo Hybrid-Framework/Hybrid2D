@@ -74,6 +74,22 @@ internal static unsafe partial class SDL_mixer
         return MIX_GetMasterGain(mixer);
     }
     
+    // Set Master Frequency Ratio
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Bool MIX_SetMasterFrequencyRatio(SDL.Mixer* mixer, float frequency);
+    public static bool SetMasterFrequencyRatio(SDL.Mixer* mixer, float frequency)
+    {
+        return MIX_SetMasterFrequencyRatio(mixer, frequency);
+    }
+    
+    // Get Master Frequency Ratio
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern float MIX_GetMasterFrequencyRatio(SDL.Mixer* mixer);
+    public static float GetMasterFrequencyRatio(SDL.Mixer* mixer)
+    {
+        return MIX_GetMasterFrequencyRatio(mixer);
+    }
+    
     // Create Sine Wave Audio
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Audio* MIX_CreateSineWaveAudio(SDL.Mixer* mixer, int hz, float amplitude, long ms);
