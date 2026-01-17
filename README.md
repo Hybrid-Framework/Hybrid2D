@@ -6,12 +6,12 @@
 
 Created by Lloyd J Howarth
 
-![Windows](https://custom-icon-badges.demolab.com/badge/Windows-000000?logo=windows11&logoColor=white)
-![MacOS](https://img.shields.io/badge/MacOS-000000?logo=apple&logoColor=white)
-![Linux](https://img.shields.io/badge/Linux-000000?logo=linux&logoColor=white)
-![Android](https://img.shields.io/badge/Android-000000?logo=android&logoColor=white)
-![iOS](https://img.shields.io/badge/iOS-000000?logo=apple&logoColor=white)
-![Web](https://img.shields.io/badge/Web-000000?logo=googlechrome&logoColor=white)
+![Windows](https://custom-icon-badges.demolab.com/badge/Windows-7400ff?logo=windows11&logoColor=white)
+![MacOS](https://img.shields.io/badge/MacOS-7400ff?logo=apple&logoColor=white)
+![Linux](https://img.shields.io/badge/Linux-7400ff?logo=linux&logoColor=white)
+![Android](https://img.shields.io/badge/Android-7400ff?logo=android&logoColor=white)
+![iOS](https://img.shields.io/badge/iOS-7400ff?logo=apple&logoColor=white)
+![Web](https://img.shields.io/badge/Web-7400ff?logo=googlechrome&logoColor=white)
 
 [Overview](#overview) •
 [Platforms](#platforms) •
