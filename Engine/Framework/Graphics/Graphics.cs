@@ -289,6 +289,37 @@ namespace Hybrid
     // Graphics Text API
     public unsafe partial class Graphics
     {
+        public static void DrawText(Font font, string text, int x, int y, float size, Color color)
+        {
+            var surface = SDL_ttf.RenderTextSolid(font.FontHandle, text, Color.ToSDLColor32(color));
+            {
+                if (surface != null)
+                {
+                    var texture = SDL.CreateTextureFromSurface(Handle, surface);
+
+                    if (texture != null)
+                    {
+                        var width = SDL.GetTextureWidth(texture);
+                        var height = SDL.GetTextureHeight(texture);
+                        var scale = size / Font.DefaultFontSize;
+                        
+                        var position = new Rectangle
+                        {
+                            x = x,
+                            y = y,
+                            width  = (int)(width * scale),
+                            height = (int)(height * scale)
+                        };
+                        
+                        SDL.RenderTexture(Handle, texture, null, Rectangle.ToSDLRect(position));
+                        SDL.DestroyTexture(texture);
+                    }
+                    
+                    SDL.DestroySurface(surface);
+                }
+            }
+        }
+        
         public static void DrawDebugText(int x, int y, string text, Color color)
         {
             var color32 = Color.ToSDLColor32(color);
