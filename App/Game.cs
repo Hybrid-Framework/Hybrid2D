@@ -1,18 +1,47 @@
-﻿using Hybrid;
+﻿using System;
+using Hybrid;
 
 namespace App
 {
     public class Game : Hybrid.App
     {
-        private Font font1;
-        private Font font2;
-        private Font font3;
+        private Triangle[] Triangles = new Triangle[Count];
+        private Color[] Colors = new Color[Count];
+        private Random RNG = new Random();
+        private const int Count = 16000;
         
         public override void OnInitialize()
         {
-            font1 = Font.CreateFont("Fonts/Font1.ttf");
-            font2 = Font.CreateFont("Fonts/Font2.ttf");
-            font3 = Font.CreateFont("Fonts/Font3.ttf");
+            int width = Window.GetWidth();
+            int height = Window.GetHeight();
+
+            for (int i = 0; i < Count; i++)
+            {
+                // Random base position
+                var basePos = new Point(RNG.Next(width), RNG.Next(height));
+
+                // Random small offsets for triangle points
+                float offset1X = RNG.Next(-20, 20);
+                float offset1Y = RNG.Next(-20, 20);
+                float offset2X = RNG.Next(-20, 20);
+                float offset2Y = RNG.Next(-20, 20);
+                float offset3X = RNG.Next(-20, 20);
+                float offset3Y = RNG.Next(-20, 20);
+
+                Triangles[i] = new Triangle
+                (
+                    new Point(basePos.x + offset1X, basePos.y + offset1Y),
+                    new Point(basePos.x + offset2X, basePos.y + offset2Y),
+                    new Point(basePos.x + offset3X, basePos.y + offset3Y)
+                );
+
+                Colors[i] = new Color
+                {
+                    r = (float)RNG.NextDouble(),
+                    g = (float)RNG.NextDouble(),
+                    b = (float)RNG.NextDouble(),
+                };
+            }
         }
 
         public override void OnUpdate()
@@ -24,7 +53,9 @@ namespace App
         {
             Graphics.DrawBegin(Color.Black);
             
-            Graphics.DrawText(font1, Time.GetFps().ToString("N0"), 10, 0, 32, Color.White);
+            Graphics.DrawTriangles(Triangles, Colors);
+            
+            Graphics.DrawFps(10, 10, Color.White);
             
             Graphics.DrawEnd();
         }

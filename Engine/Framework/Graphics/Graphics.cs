@@ -240,6 +240,112 @@ namespace Hybrid
             DrawGeometry(null, positions, vertexColors, null, indices);
         }
         
+        public static void DrawEllipse(Ellipse ellipse, Color color, int segments = 32)
+        {
+            DrawEllipses([ellipse], [color], segments);
+        }
+
+        public static void DrawEllipses(Ellipse[] ellipses, Color[] colors, int segments = 32)
+        {
+            if (ellipses.Length != colors.Length)
+                throw new ArgumentException("ellipses and colors must have the same length.");
+
+            int count = ellipses.Length;
+            int vertexCountPerEllipse = segments + 1;
+            int indexCountPerEllipse = segments * 3;
+
+            int totalVertices = count * vertexCountPerEllipse;
+            int totalIndices  = count * indexCountPerEllipse;
+
+            float[] positions = new float[totalVertices * 2];
+            Color[] vertexColors = new Color[totalVertices];
+            int[] indices = new int[totalIndices];
+
+            for (int i = 0; i < count; i++)
+            {
+                Ellipse e = ellipses[i];
+                Color color = colors[i];
+
+                int vBase = i * vertexCountPerEllipse;
+                int iBase = i * indexCountPerEllipse;
+
+                positions[vBase * 2 + 0] = e.x;
+                positions[vBase * 2 + 1] = e.y;
+                vertexColors[vBase] = color;
+
+                for (int j = 0; j < segments; j++)
+                {
+                    float angle = (float)(2 * Math.PI * j / segments);
+
+                    float x = e.x + e.radiusX * (float)Math.Cos(angle);
+                    float y = e.y + e.radiusY * (float)Math.Sin(angle);
+
+                    int v = vBase + 1 + j;
+                    positions[v * 2 + 0] = x;
+                    positions[v * 2 + 1] = y;
+                    vertexColors[v] = color;
+                }
+
+                for (int j = 0; j < segments; j++)
+                {
+                    indices[iBase + j * 3 + 0] = vBase;
+                    indices[iBase + j * 3 + 1] = vBase + 1 + j;
+                    indices[iBase + j * 3 + 2] = vBase + 1 + ((j + 1) % segments);
+                }
+            }
+
+            DrawGeometry(null, positions, vertexColors, null, indices);
+        }
+        
+        public static void DrawTriangle(Triangle triangle, Color color)
+        {
+            DrawTriangles([triangle], [color]);
+        }
+
+        public static void DrawTriangles(Triangle[] triangles, Color[] colors)
+        {
+            if (triangles.Length != colors.Length)
+                throw new ArgumentException("triangles and colors must have the same length.");
+
+            int count = triangles.Length;
+
+            int vertexCountPerTriangle = 3;
+            int indexCountPerTriangle = 3;
+
+            int totalVertices = count * vertexCountPerTriangle;
+            int totalIndices  = count * indexCountPerTriangle;
+
+            float[] positions = new float[totalVertices * 2];
+            Color[] vertexColors = new Color[totalVertices];
+            int[] indices = new int[totalIndices];
+
+            for (int i = 0; i < count; i++)
+            {
+                Triangle t = triangles[i];
+                Color color = colors[i];
+
+                int vBase = i * vertexCountPerTriangle;
+                int iBase = i * indexCountPerTriangle;
+
+                positions[(vBase + 0) * 2 + 0] = t.point1.x;
+                positions[(vBase + 0) * 2 + 1] = t.point1.y;
+                positions[(vBase + 1) * 2 + 0] = t.point2.x;
+                positions[(vBase + 1) * 2 + 1] = t.point2.y;
+                positions[(vBase + 2) * 2 + 0] = t.point3.x;
+                positions[(vBase + 2) * 2 + 1] = t.point3.y;
+                
+                vertexColors[vBase + 0] = color;
+                vertexColors[vBase + 1] = color;
+                vertexColors[vBase + 2] = color;
+                
+                indices[iBase + 0] = vBase + 0;
+                indices[iBase + 1] = vBase + 1;
+                indices[iBase + 2] = vBase + 2;
+            }
+
+            DrawGeometry(null, positions, vertexColors, null, indices);
+        }
+        
         public static void DrawTexture(Texture texture, Rectangle? position)
         {
             var textureHandle = texture == null ? null : texture.Handle;
@@ -268,7 +374,7 @@ namespace Hybrid
                 SDL.RenderGeometryRaw(Handle, textureHandle, positions, colors, uvs, indices);
             }
         }
-        
+
         public static void DrawBegin(Color color)
         {
             var color32 = Color.ToSDLColor32(color);
