@@ -38,27 +38,27 @@ namespace Hybrid
     // Audio API
     public unsafe partial class Audio
     {
-        public static void SetVolume(float volume)
+        public static void SetAudioVolume(float volume)
         {
             SDL_mixer.SetMasterGain(Handle, volume);
         }
 
-        public static float GetVolume()
+        public static float GetAudioVolume()
         {
             return SDL_mixer.GetMasterGain(Handle);
         }
 
-        public static void Pause()
+        public static void PauseAudio()
         {
             SDL_mixer.PauseAllTracks(Handle);
         }
 
-        public static void Resume()
+        public static void ResumeAudio()
         {
             SDL_mixer.ResumeAllTracks(Handle);
         }
 
-        public static void Stop(long ms)
+        public static void StopAudio(long ms)
         {
             SDL_mixer.StopAllTracks(Handle, ms);
         }
