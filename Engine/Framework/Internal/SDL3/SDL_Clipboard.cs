@@ -5,7 +5,7 @@ internal static unsafe partial class SDL
     // Set Clipboard Text
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_SetClipboardText(byte* text);
-    public static bool SetClipboardText(string text)
+    internal static bool SetClipboardText(string text)
     {
         var bytes = StringToUtf8(text);
 
@@ -18,7 +18,7 @@ internal static unsafe partial class SDL
     // Get Clipboard Text
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern byte* SDL_GetClipboardText();
-    public static string GetClipboardText()
+    internal static string GetClipboardText()
     {
         return Utf8ToString(SDL_GetClipboardText());
     }
@@ -26,7 +26,7 @@ internal static unsafe partial class SDL
     // Has Clipboard Text
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_HasClipboardText();
-    public static bool HasClipboardText()
+    internal static bool HasClipboardText()
     {
         return SDL_HasClipboardText();
     }

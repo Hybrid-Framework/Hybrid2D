@@ -209,13 +209,13 @@ namespace Hybrid
         // Convert degrees to radians
         public static float DegreesToRadians(float degrees)
         {
-            return degrees * Deg2Rad;
+            return degrees * Deg2Rad();
         }
 
         // Convert radians to degrees
         public static float RadiansToDegrees(float radians)
         {
-            return radians * Rad2Deg;
+            return radians * Rad2Deg();
         }
         
         // Linear interpolation (clamped 0-1)

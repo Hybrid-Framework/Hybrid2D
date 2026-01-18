@@ -5,7 +5,7 @@ internal static unsafe partial class SDL
     // Set Hint
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_SetHint(byte* name, byte* value);
-    public static bool SetHint(string name, string value)
+    internal static bool SetHint(string name, string value)
     {
         var nameBytes = StringToUtf8(name);
         var valueBytes = StringToUtf8(value);
@@ -20,7 +20,7 @@ internal static unsafe partial class SDL
     // Get hint
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern byte* SDL_GetHint(byte* name);
-    public static string GetHint(string name)
+    internal static string GetHint(string name)
     {
         var bytes = StringToUtf8(name);
 
@@ -33,7 +33,7 @@ internal static unsafe partial class SDL
     // Reset Hint
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_ResetHint(byte* name);
-    public static bool ResetHint(string name)
+    internal static bool ResetHint(string name)
     {
         var bytes = StringToUtf8(name);
 
@@ -46,7 +46,7 @@ internal static unsafe partial class SDL
     // Reset Hints
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern void SDL_ResetHints();
-    public static void ResetHints()
+    internal static void ResetHints()
     {
         SDL_ResetHints();
     }

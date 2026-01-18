@@ -9,7 +9,7 @@ internal static unsafe partial class SDL_ttf
     // Init
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool TTF_Init();
-    public static bool Init()
+    internal static bool Init()
     {
         return TTF_Init();
     }
@@ -17,7 +17,7 @@ internal static unsafe partial class SDL_ttf
     // Quit
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern void TTF_Quit();
-    public static void Quit()
+    internal static void Quit()
     {
         TTF_Quit();
     }

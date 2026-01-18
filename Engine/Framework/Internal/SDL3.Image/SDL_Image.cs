@@ -6,7 +6,7 @@ internal static unsafe partial class SDL_image
     // Load
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Surface* IMG_Load(byte* path);
-    public static SDL.Surface* Load(string path)
+    internal static SDL.Surface* Load(string path)
     {
         var bytes = SDL.StringToUtf8(path);
 
@@ -19,7 +19,7 @@ internal static unsafe partial class SDL_image
     // Load Texture
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Texture* IMG_LoadTexture(SDL.Renderer* renderer, byte* path);
-    public static SDL.Texture* LoadTexture(SDL.Renderer* renderer, string path)
+    internal static SDL.Texture* LoadTexture(SDL.Renderer* renderer, string path)
     {
         var bytes = SDL.StringToUtf8(path);
 
@@ -32,7 +32,7 @@ internal static unsafe partial class SDL_image
     // Save
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool IMG_Save(SDL.Surface* surface, byte* path);
-    public static bool Save(SDL.Surface* surface, string path)
+    internal static bool Save(SDL.Surface* surface, string path)
     {
         var bytes = SDL.StringToUtf8(path);
 
@@ -45,7 +45,7 @@ internal static unsafe partial class SDL_image
     // Save BMP
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool IMG_SaveBMP(SDL.Surface* surface, byte* path);
-    public static bool SaveBMP(SDL.Surface* surface, string path)
+    internal static bool SaveBMP(SDL.Surface* surface, string path)
     {
         var bytes = SDL.StringToUtf8(path);
 
@@ -58,7 +58,7 @@ internal static unsafe partial class SDL_image
     // Save PNG
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool IMG_SavePNG(SDL.Surface* surface, byte* path);
-    public static bool SavePNG(SDL.Surface* surface, string path)
+    internal static bool SavePNG(SDL.Surface* surface, string path)
     {
         var bytes = SDL.StringToUtf8(path);
 
@@ -71,7 +71,7 @@ internal static unsafe partial class SDL_image
     // Save JPG
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool IMG_SaveJPG(SDL.Surface* surface, byte* path, int quality);
-    public static bool SaveJPG(SDL.Surface* surface, string path, int quality)
+    internal static bool SaveJPG(SDL.Surface* surface, string path, int quality)
     {
         var bytes = SDL.StringToUtf8(path);
 
@@ -84,7 +84,7 @@ internal static unsafe partial class SDL_image
     // Get Clipboard Image
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Surface* IMG_GetClipboardImage();
-    public static SDL.Surface* GetClipboardImage()
+    internal static SDL.Surface* GetClipboardImage()
     {
         return IMG_GetClipboardImage();
     }

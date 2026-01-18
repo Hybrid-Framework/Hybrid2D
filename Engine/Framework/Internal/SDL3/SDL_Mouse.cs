@@ -6,7 +6,7 @@ internal static unsafe partial class SDL
     // Has Mouse
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_HasMouse();
-    public static bool HasMouse()
+    internal static bool HasMouse()
     {
         return SDL_HasMouse();
     }
@@ -14,7 +14,7 @@ internal static unsafe partial class SDL
     // Get Mouse Name For ID
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern byte* SDL_GetMouseNameForID(uint mouseID);
-    public static string GetMouseNameForID(uint mouseID)
+    internal static string GetMouseNameForID(uint mouseID)
     {
         return Utf8ToString(SDL_GetMouseNameForID(mouseID));
     }
@@ -22,7 +22,7 @@ internal static unsafe partial class SDL
     // Show Cursor
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_ShowCursor();
-    public static bool ShowCursor()
+    internal static bool ShowCursor()
     {
         return SDL_ShowCursor();
     }
@@ -30,7 +30,7 @@ internal static unsafe partial class SDL
     // Hide Cursor
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_HideCursor();
-    public static bool HideCursor()
+    internal static bool HideCursor()
     {
         return SDL_HideCursor();
     }
@@ -38,7 +38,7 @@ internal static unsafe partial class SDL
     // Get Mice
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern IntPtr SDL_GetMice(out int count);
-    public static uint[] GetMice(out int count)
+    internal static uint[] GetMice(out int count)
     {
         IntPtr ptr = SDL_GetMice(out count);
 

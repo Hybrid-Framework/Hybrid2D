@@ -6,7 +6,7 @@ internal static unsafe partial class SDL
     // Create Properties
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern uint SDL_CreateProperties();
-    public static uint CreateProperties()
+    internal static uint CreateProperties()
     {
         return SDL_CreateProperties();
     }
@@ -14,7 +14,7 @@ internal static unsafe partial class SDL
     // Destroy Properties
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern void SDL_DestroyProperties(uint props);
-    public static void DestroyProperties(uint props)
+    internal static void DestroyProperties(uint props)
     {
         SDL_DestroyProperties(props);
     }
@@ -22,7 +22,7 @@ internal static unsafe partial class SDL
     // Set Pointer Property
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_SetPointerProperty(uint property, byte* name, IntPtr value);
-    public static bool SetPointerProperty(uint property, string name, IntPtr value)
+    internal static bool SetPointerProperty(uint property, string name, IntPtr value)
     {
         var bytes = StringToUtf8(name);
 
@@ -35,7 +35,7 @@ internal static unsafe partial class SDL
     // Get Pointer Property
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern IntPtr SDL_GetPointerProperty(uint property, byte* name, IntPtr default_value);
-    public static IntPtr GetPointerProperty(uint property, string name, IntPtr default_value)
+    internal static IntPtr GetPointerProperty(uint property, string name, IntPtr default_value)
     {
         var bytes = StringToUtf8(name);
 
@@ -48,7 +48,7 @@ internal static unsafe partial class SDL
     // Set String Property
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_SetStringProperty(uint property, byte* name, byte* value);
-    public static bool SetStringProperty(uint property, string name, string value)
+    internal static bool SetStringProperty(uint property, string name, string value)
     {
         var bytes = StringToUtf8(name);
         var bytesValue = StringToUtf8(value);
@@ -63,7 +63,7 @@ internal static unsafe partial class SDL
     // Get String Property
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern byte* SDL_GetStringProperty(uint property, byte* name, byte* default_value);
-    public static string GetStringProperty(uint property, string name, string default_value)
+    internal static string GetStringProperty(uint property, string name, string default_value)
     {
         var bytes = StringToUtf8(name);
         var bytesValue = StringToUtf8(default_value);
@@ -78,7 +78,7 @@ internal static unsafe partial class SDL
     // Set Number Property
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_SetNumberProperty(uint property, byte* name, long value);
-    public static bool SetNumberProperty(uint property, string name, long value)
+    internal static bool SetNumberProperty(uint property, string name, long value)
     {
         var bytes = StringToUtf8(name);
 
@@ -91,7 +91,7 @@ internal static unsafe partial class SDL
     // Get Number Property
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern long SDL_GetNumberProperty(uint property, byte* name, long default_value);
-    public static long GetNumberProperty(uint property, string name, long default_value)
+    internal static long GetNumberProperty(uint property, string name, long default_value)
     {
         var bytes = StringToUtf8(name);
 
@@ -104,7 +104,7 @@ internal static unsafe partial class SDL
     // Set Float Property
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_SetFloatProperty(uint property, byte* name, float value);
-    public static bool SetFloatProperty(uint property, string name, float value)
+    internal static bool SetFloatProperty(uint property, string name, float value)
     {
         var bytes = StringToUtf8(name);
 
@@ -117,7 +117,7 @@ internal static unsafe partial class SDL
     // Get Float Property
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern float SDL_GetFloatProperty(uint property, byte* name, float default_value);
-    public static float GetFloatProperty(uint property, string name, float default_value)
+    internal static float GetFloatProperty(uint property, string name, float default_value)
     {
         var bytes = StringToUtf8(name);
 
@@ -130,7 +130,7 @@ internal static unsafe partial class SDL
     // Set Boolean Property
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_SetBooleanProperty(uint property, byte* name, SDL.Bool value);
-    public static bool SetBooleanProperty(uint property, string name, bool value)
+    internal static bool SetBooleanProperty(uint property, string name, bool value)
     {
         var bytes = StringToUtf8(name);
 
@@ -143,7 +143,7 @@ internal static unsafe partial class SDL
     // Get Boolean Property
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_GetBooleanProperty(uint property, byte* name, SDL.Bool default_value);
-    public static bool GetBooleanProperty(uint property, string name, bool default_value)
+    internal static bool GetBooleanProperty(uint property, string name, bool default_value)
     {
         var bytes = StringToUtf8(name);
 
@@ -156,7 +156,7 @@ internal static unsafe partial class SDL
     // Get Property Type
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.PropertyType SDL_GetPropertyType(uint property, byte* name);
-    public static SDL.PropertyType GetPropertyType(uint property, string name)
+    internal static SDL.PropertyType GetPropertyType(uint property, string name)
     {
         var bytes = StringToUtf8(name);
 
@@ -169,7 +169,7 @@ internal static unsafe partial class SDL
     // Has Property
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_HasProperty(uint property, byte* name);
-    public static bool HasProperty(uint property, string name)
+    internal static bool HasProperty(uint property, string name)
     {
         var bytes = StringToUtf8(name);
 
@@ -182,7 +182,7 @@ internal static unsafe partial class SDL
     // Lock Properties
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_LockProperties(uint properties);
-    public static bool LockProperties(uint properties)
+    internal static bool LockProperties(uint properties)
     {
         return SDL_LockProperties(properties);
     }
@@ -190,7 +190,7 @@ internal static unsafe partial class SDL
     // Unlock Properties
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern void SDL_UnlockProperties(uint properties);
-    public static void UnlockProperties(uint properties)
+    internal static void UnlockProperties(uint properties)
     {
         SDL_UnlockProperties(properties);
     }

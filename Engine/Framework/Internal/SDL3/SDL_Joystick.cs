@@ -6,7 +6,7 @@ internal static unsafe partial class SDL
     // Open Joystick
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Joystick* SDL_OpenJoystick(uint joystickID);
-    public static SDL.Joystick* OpenJoystick(uint joystickID)
+    internal static SDL.Joystick* OpenJoystick(uint joystickID)
     {
         return SDL_OpenJoystick(joystickID);
     }
@@ -14,7 +14,7 @@ internal static unsafe partial class SDL
     // Close Joystick
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern void SDL_CloseJoystick(SDL.Joystick* joystick);
-    public static void CloseJoystick(SDL.Joystick* joystick)
+    internal static void CloseJoystick(SDL.Joystick* joystick)
     {
         SDL_CloseJoystick(joystick);
     }
@@ -22,7 +22,7 @@ internal static unsafe partial class SDL
     // Joystick Connected
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_JoystickConnected(SDL.Joystick* joystick);
-    public static bool JoystickConnected(SDL.Joystick* joystick)
+    internal static bool JoystickConnected(SDL.Joystick* joystick)
     {
         return SDL_JoystickConnected(joystick);
     }
@@ -30,7 +30,7 @@ internal static unsafe partial class SDL
     // Get Gamepad Joystick
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Joystick* SDL_GetGamepadJoystick(SDL.Gamepad* gamepad);
-    public static SDL.Joystick* GetJoystickFromGamepad(SDL.Gamepad* gamepad)
+    internal static SDL.Joystick* GetJoystickFromGamepad(SDL.Gamepad* gamepad)
     {
         return SDL_GetGamepadJoystick(gamepad);
     }
@@ -38,7 +38,7 @@ internal static unsafe partial class SDL
     // Is Gamepad
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_IsGamepad(uint joystickID);
-    public static bool IsGamepad(uint joystickID)
+    internal static bool IsGamepad(uint joystickID)
     {
         return SDL_IsGamepad(joystickID);
     }
@@ -46,7 +46,7 @@ internal static unsafe partial class SDL
     // Has Joystick
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_HasJoystick();
-    public static bool HasJoystick()
+    internal static bool HasJoystick()
     {
         return SDL_HasJoystick();
     }
@@ -54,7 +54,7 @@ internal static unsafe partial class SDL
     // Get Joystick Name For ID
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern byte* SDL_GetJoystickNameForID(uint joystickID);
-    public static string GetJoystickNameForID(uint joystickID)
+    internal static string GetJoystickNameForID(uint joystickID)
     {
         return Utf8ToString(SDL_GetJoystickNameForID(joystickID));
     }
@@ -62,7 +62,7 @@ internal static unsafe partial class SDL
     // Get Joystick From ID
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Joystick* SDL_GetJoystickFromID(uint joystickID);
-    public static SDL.Joystick* GetJoystickFromID(uint joystickID)
+    internal static SDL.Joystick* GetJoystickFromID(uint joystickID)
     {
         return SDL_GetJoystickFromID(joystickID);
     }
@@ -70,7 +70,7 @@ internal static unsafe partial class SDL
     // Get Joystick ID
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern uint SDL_GetJoystickID(SDL.Joystick* joystick);
-    public static uint GetJoystickID(SDL.Joystick* joystick)
+    internal static uint GetJoystickID(SDL.Joystick* joystick)
     {
         return SDL_GetJoystickID(joystick);
     }
@@ -78,7 +78,7 @@ internal static unsafe partial class SDL
     // Get Joystick Type
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.JoystickType SDL_GetJoystickType(SDL.Joystick* joystick);
-    public static SDL.JoystickType GetJoystickType(SDL.Joystick* joystick)
+    internal static SDL.JoystickType GetJoystickType(SDL.Joystick* joystick)
     {
         return SDL_GetJoystickType(joystick);
     }
@@ -86,7 +86,7 @@ internal static unsafe partial class SDL
     // Set Joystick Events Enabled
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern void SDL_SetJoystickEventsEnabled(SDL.Bool enabled);
-    public static void SetJoystickEventsEnabled(bool enabled)
+    internal static void SetJoystickEventsEnabled(bool enabled)
     {
         SDL_SetJoystickEventsEnabled(enabled);
     }
@@ -94,7 +94,7 @@ internal static unsafe partial class SDL
     // Joystick Events Enabled
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_JoystickEventsEnabled();
-    public static bool JoystickEventsEnabled()
+    internal static bool JoystickEventsEnabled()
     {
         return SDL_JoystickEventsEnabled();
     }
@@ -102,7 +102,7 @@ internal static unsafe partial class SDL
     // Rumble Joystick
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_RumbleJoystick(SDL.Joystick* joystick, ushort low, ushort high, uint ms);
-    public static bool RumbleJoystick(SDL.Joystick* joystick, ushort low, ushort high, uint ms)
+    internal static bool RumbleJoystick(SDL.Joystick* joystick, ushort low, ushort high, uint ms)
     {
         return SDL_RumbleJoystick(joystick, low, high, ms);
     }
@@ -110,7 +110,7 @@ internal static unsafe partial class SDL
     // Rumble Joystick Triggers
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_RumbleJoystickTriggers(SDL.Joystick* joystick, ushort left, ushort right, uint ms);
-    public static bool RumbleJoystickTriggers(SDL.Joystick* joystick, ushort left, ushort right, uint ms)
+    internal static bool RumbleJoystickTriggers(SDL.Joystick* joystick, ushort left, ushort right, uint ms)
     {
         return SDL_RumbleJoystickTriggers(joystick, left, right, ms);
     }
@@ -118,7 +118,7 @@ internal static unsafe partial class SDL
     // Get Joysticks
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern IntPtr SDL_GetJoysticks(out int count);
-    public static uint[] GetJoysticks(out int count)
+    internal static uint[] GetJoysticks(out int count)
     {
         IntPtr ptr = SDL_GetJoysticks(out count);
 

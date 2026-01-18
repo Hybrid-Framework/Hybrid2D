@@ -6,7 +6,7 @@ internal static unsafe partial class SDL
     // Open Haptic
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Haptic* SDL_OpenHaptic(uint hapticID);
-    public static SDL.Haptic* OpenHaptic(uint hapticID)
+    internal static SDL.Haptic* OpenHaptic(uint hapticID)
     {
         return SDL_OpenHaptic(hapticID);
     }
@@ -14,13 +14,13 @@ internal static unsafe partial class SDL
     // Close Haptic
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern void SDL_CloseHaptic(SDL.Haptic* haptic);
-    public static void CloseHaptic(SDL.Haptic* haptic)
+    internal static void CloseHaptic(SDL.Haptic* haptic)
     {
         SDL_CloseHaptic(haptic);
     }
     
     // Has Haptic
-    public static bool HasHaptic()
+    internal static bool HasHaptic()
     {
         SDL.GetHaptics(out var count);
         {
@@ -31,7 +31,7 @@ internal static unsafe partial class SDL
     // Get Haptic Name for ID
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern byte* SDL_GetHapticNameForID(uint gamepadID);
-    public static string GetHapticNameForID(uint gamepadID)
+    internal static string GetHapticNameForID(uint gamepadID)
     {
         return Utf8ToString(SDL_GetHapticNameForID(gamepadID));
     }
@@ -39,7 +39,7 @@ internal static unsafe partial class SDL
     // Get Haptic ID
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern uint SDL_GetHapticID(SDL.Haptic* haptic);
-    public static uint GetHapticID(SDL.Haptic* haptic)
+    internal static uint GetHapticID(SDL.Haptic* haptic)
     {
         return SDL_GetHapticID(haptic);
     }
@@ -47,7 +47,7 @@ internal static unsafe partial class SDL
     // Get Haptic From ID
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Haptic* SDL_GetHapticFromID(uint hapticID);
-    public static SDL.Haptic* GetHapticFromID(uint hapticID)
+    internal static SDL.Haptic* GetHapticFromID(uint hapticID)
     {
         return SDL_GetHapticFromID(hapticID);
     }
@@ -55,7 +55,7 @@ internal static unsafe partial class SDL
     // Is Mouse Haptic
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_IsMouseHaptic();
-    public static bool IsMouseHaptic()
+    internal static bool IsMouseHaptic()
     {
         return SDL_IsMouseHaptic();
     }
@@ -63,7 +63,7 @@ internal static unsafe partial class SDL
     // Is Joystick Haptic
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_IsJoystickHaptic(SDL.Joystick* joystick);
-    public static bool IsJoystickHaptic(SDL.Joystick* joystick)
+    internal static bool IsJoystickHaptic(SDL.Joystick* joystick)
     {
         return SDL_IsJoystickHaptic(joystick);
     }
@@ -79,13 +79,13 @@ internal static unsafe partial class SDL
     // Open Haptic From Joystick
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Haptic* SDL_OpenHapticFromJoystick(SDL.Joystick* joystick);
-    public static SDL.Haptic* OpenHapticFromJoystick(SDL.Joystick* joystick)
+    internal static SDL.Haptic* OpenHapticFromJoystick(SDL.Joystick* joystick)
     {
         return SDL_OpenHapticFromJoystick(joystick);
     }
 
     // Open Haptic From Gamepad
-    public static SDL.Haptic* OpenHapticFromGamepad(SDL.Gamepad* gamepad)
+    internal static SDL.Haptic* OpenHapticFromGamepad(SDL.Gamepad* gamepad)
     {
         return SDL_OpenHapticFromJoystick(SDL.GetJoystickFromGamepad(gamepad));
     }
@@ -93,7 +93,7 @@ internal static unsafe partial class SDL
     // Haptic Rumble Supported
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_HapticRumbleSupported(SDL.Haptic* haptic);
-    public static bool HapticRumbleSupported(SDL.Haptic* haptic)
+    internal static bool HapticRumbleSupported(SDL.Haptic* haptic)
     {
         return SDL_HapticRumbleSupported(haptic);
     }
@@ -101,7 +101,7 @@ internal static unsafe partial class SDL
     // Haptic Rumble
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_PlayHapticRumble(SDL.Haptic* haptic, float strength, uint ms);
-    public static bool PlayHapticRumble(SDL.Haptic* haptic, float strength, uint ms)
+    internal static bool PlayHapticRumble(SDL.Haptic* haptic, float strength, uint ms)
     {
         return SDL_PlayHapticRumble(haptic, strength, ms);
     }
@@ -109,7 +109,7 @@ internal static unsafe partial class SDL
     // Get Haptics
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern IntPtr SDL_GetHaptics(out int count);
-    public static uint[] GetHaptics(out int count)
+    internal static uint[] GetHaptics(out int count)
     {
         IntPtr ptr = SDL_GetHaptics(out count);
 

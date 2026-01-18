@@ -26,7 +26,7 @@ internal static unsafe partial class SDL
     // Enter App Main Callbacks
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern int SDL_EnterAppMainCallbacks(int argc, IntPtr argv, delegate* unmanaged[Cdecl]<IntPtr, int, IntPtr, SDL.AppResult> init, delegate* unmanaged[Cdecl]<IntPtr, SDL.AppResult> iterate, delegate* unmanaged[Cdecl]<IntPtr, SDL.Event*, SDL.AppResult> events, delegate* unmanaged[Cdecl]<IntPtr, SDL.AppResult, void> quit);
-    public static int EnterAppMainCallbacks(int argc, IntPtr argv, delegate* unmanaged[Cdecl]<IntPtr, int, IntPtr, SDL.AppResult> init, delegate* unmanaged[Cdecl]<IntPtr, SDL.AppResult> iterate, delegate* unmanaged[Cdecl]<IntPtr, SDL.Event*, SDL.AppResult> events, delegate* unmanaged[Cdecl]<IntPtr, SDL.AppResult, void> quit)
+    internal static int EnterAppMainCallbacks(int argc, IntPtr argv, delegate* unmanaged[Cdecl]<IntPtr, int, IntPtr, SDL.AppResult> init, delegate* unmanaged[Cdecl]<IntPtr, SDL.AppResult> iterate, delegate* unmanaged[Cdecl]<IntPtr, SDL.Event*, SDL.AppResult> events, delegate* unmanaged[Cdecl]<IntPtr, SDL.AppResult, void> quit)
     {
         return SDL_EnterAppMainCallbacks(argc, argv, init, iterate, events, quit);
     }
@@ -34,7 +34,7 @@ internal static unsafe partial class SDL
     // SDL Run App
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern int SDL_RunApp(int argc, IntPtr argv, delegate* unmanaged[Cdecl]<int, IntPtr, int> main, IntPtr reserved);
-    public static int RunApp(int argc, IntPtr argv, delegate* unmanaged[Cdecl]<int, IntPtr, int> main, IntPtr reserved)
+    internal static int RunApp(int argc, IntPtr argv, delegate* unmanaged[Cdecl]<int, IntPtr, int> main, IntPtr reserved)
     {
         return SDL_RunApp(argc, argv, main, reserved);
     }
@@ -42,7 +42,7 @@ internal static unsafe partial class SDL
     // Set Main Ready
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern void SDL_SetMainReady();
-    public static void SetMainReady()
+    internal static void SetMainReady()
     {
         SDL_SetMainReady();
     }

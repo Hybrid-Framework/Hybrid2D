@@ -5,13 +5,13 @@ internal static unsafe partial class SDL
     // Create Surface
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Surface* SDL_CreateSurface(int w, int h, SDL.PixelFormat format);
-    public static SDL.Surface* CreateSurface(int w, int h, SDL.PixelFormat format)
+    internal static SDL.Surface* CreateSurface(int w, int h, SDL.PixelFormat format)
     {
         return SDL_CreateSurface(w, h, format);
     }
     
     // Create Surface From Texture
-    public static SDL.Surface* CreateSurfaceFromTexture(SDL.Renderer* renderer, SDL.Texture* texture)
+    internal static SDL.Surface* CreateSurfaceFromTexture(SDL.Renderer* renderer, SDL.Texture* texture)
     {
         var width = GetTextureWidth(texture);
         var height = GetTextureHeight(texture);
@@ -32,7 +32,7 @@ internal static unsafe partial class SDL
     // Destroy Surface
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern void SDL_DestroySurface(SDL.Surface* surface);
-    public static void DestroySurface(SDL.Surface* surface)
+    internal static void DestroySurface(SDL.Surface* surface)
     {
         SDL_DestroySurface(surface);
     }
@@ -40,7 +40,7 @@ internal static unsafe partial class SDL
     // Lock Surface
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_LockSurface(SDL.Surface* surface);
-    public static bool LockSurface(SDL.Surface* surface)
+    internal static bool LockSurface(SDL.Surface* surface)
     {
         return SDL_LockSurface(surface);
     }
@@ -48,7 +48,7 @@ internal static unsafe partial class SDL
     // Unlock Surface
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern void SDL_UnlockSurface(SDL.Surface* surface);
-    public static void UnlockSurface(SDL.Surface* surface)
+    internal static void UnlockSurface(SDL.Surface* surface)
     {
         SDL_UnlockSurface(surface);
     }
@@ -56,7 +56,7 @@ internal static unsafe partial class SDL
     // Convert Surface
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Surface* SDL_ConvertSurface(SDL.Surface* surface, SDL.PixelFormat format);
-    public static SDL.Surface* ConvertSurface(SDL.Surface* surface, SDL.PixelFormat format)
+    internal static SDL.Surface* ConvertSurface(SDL.Surface* surface, SDL.PixelFormat format)
     {
         return SDL_ConvertSurface(surface, format);
     }
@@ -64,7 +64,7 @@ internal static unsafe partial class SDL
     // Rotate Surface
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Surface* SDL_RotateSurface(SDL.Surface* surface, float angle);
-    public static SDL.Surface* RotateSurface(SDL.Surface* surface, float angle)
+    internal static SDL.Surface* RotateSurface(SDL.Surface* surface, float angle)
     {
         return SDL_RotateSurface(surface, angle);
     }

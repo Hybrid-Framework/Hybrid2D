@@ -5,7 +5,7 @@ internal static unsafe partial class SDL
     // Set Error
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_SetError(byte* error);
-    public static bool SetError(string error)
+    internal static bool SetError(string error)
     {
         var bytes = StringToUtf8(error);
 
@@ -18,7 +18,7 @@ internal static unsafe partial class SDL
     // Get Error
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern byte* SDL_GetError();
-    public static string GetError()
+    internal static string GetError()
     {
         return Utf8ToString(SDL_GetError());
     }

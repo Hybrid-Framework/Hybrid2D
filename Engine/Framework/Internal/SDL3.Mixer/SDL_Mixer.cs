@@ -5,7 +5,7 @@ internal static unsafe partial class SDL_mixer
     // Create Mixer Device
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Mixer* MIX_CreateMixerDevice(uint deviceID, SDL.AudioSpec* spec);
-    public static SDL.Mixer* CreateMixerDevice(uint deviceID, SDL.AudioSpec spec)
+    internal static SDL.Mixer* CreateMixerDevice(uint deviceID, SDL.AudioSpec spec)
     {
         return MIX_CreateMixerDevice(deviceID, &spec);
     }
@@ -13,7 +13,7 @@ internal static unsafe partial class SDL_mixer
     // Create Mixer
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Mixer* MIX_CreateMixer(SDL.AudioSpec* spec);
-    public static SDL.Mixer* CreateMixer(SDL.AudioSpec spec)
+    internal static SDL.Mixer* CreateMixer(SDL.AudioSpec spec)
     {
         return MIX_CreateMixer(&spec);
     }
@@ -21,7 +21,7 @@ internal static unsafe partial class SDL_mixer
     // Destroy Mixer
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern void MIX_DestroyMixer(SDL.Mixer* mixer);
-    public static void DestroyMixer(SDL.Mixer* mixer)
+    internal static void DestroyMixer(SDL.Mixer* mixer)
     {
         MIX_DestroyMixer(mixer);
     }
@@ -29,7 +29,7 @@ internal static unsafe partial class SDL_mixer
     // Get Mixer Format
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool MIX_GetMixerFormat(SDL.Mixer* mixer, out SDL.AudioSpec spec);
-    public static bool GetMixerFormat(SDL.Mixer* mixer, out SDL.AudioSpec spec)
+    internal static bool GetMixerFormat(SDL.Mixer* mixer, out SDL.AudioSpec spec)
     {
         return MIX_GetMixerFormat(mixer, out spec);
     }
@@ -37,7 +37,7 @@ internal static unsafe partial class SDL_mixer
     // Get Mixer Properties
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern uint MIX_GetMixerProperties(SDL.Mixer* mixer);
-    public static uint GetMixerProperties(SDL.Mixer* mixer)
+    internal static uint GetMixerProperties(SDL.Mixer* mixer)
     {
         return MIX_GetMixerProperties(mixer);
     }
@@ -45,7 +45,7 @@ internal static unsafe partial class SDL_mixer
     // MS To Frames
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern long MIX_MSToFrames(int samplerate, long ms);
-    public static long MSToFrames(int samplerate, long ms)
+    internal static long MSToFrames(int samplerate, long ms)
     {
         return MIX_MSToFrames(samplerate, ms);
     }
@@ -53,7 +53,7 @@ internal static unsafe partial class SDL_mixer
     // Frames To MS
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern long MIX_FramesToMS(int samplerate, long frames);
-    public static long FramesToMS(int samplerate, long frames)
+    internal static long FramesToMS(int samplerate, long frames)
     {
         return MIX_FramesToMS(samplerate, frames);
     }
@@ -61,7 +61,7 @@ internal static unsafe partial class SDL_mixer
     // Set Master Gain
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool MIX_SetMasterGain(SDL.Mixer* mixer, float gain);
-    public static bool SetMasterGain(SDL.Mixer* mixer, float gain)
+    internal static bool SetMasterGain(SDL.Mixer* mixer, float gain)
     {
         return MIX_SetMasterGain(mixer, gain);
     }
@@ -69,7 +69,7 @@ internal static unsafe partial class SDL_mixer
     // Get Master Gain
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern float MIX_GetMasterGain(SDL.Mixer* mixer);
-    public static float GetMasterGain(SDL.Mixer* mixer)
+    internal static float GetMasterGain(SDL.Mixer* mixer)
     {
         return MIX_GetMasterGain(mixer);
     }
@@ -77,7 +77,7 @@ internal static unsafe partial class SDL_mixer
     // Set Master Frequency Ratio
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool MIX_SetMasterFrequencyRatio(SDL.Mixer* mixer, float frequency);
-    public static bool SetMasterFrequencyRatio(SDL.Mixer* mixer, float frequency)
+    internal static bool SetMasterFrequencyRatio(SDL.Mixer* mixer, float frequency)
     {
         return MIX_SetMasterFrequencyRatio(mixer, frequency);
     }
@@ -85,7 +85,7 @@ internal static unsafe partial class SDL_mixer
     // Get Master Frequency Ratio
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern float MIX_GetMasterFrequencyRatio(SDL.Mixer* mixer);
-    public static float GetMasterFrequencyRatio(SDL.Mixer* mixer)
+    internal static float GetMasterFrequencyRatio(SDL.Mixer* mixer)
     {
         return MIX_GetMasterFrequencyRatio(mixer);
     }
@@ -93,7 +93,7 @@ internal static unsafe partial class SDL_mixer
     // Create Sine Wave Audio
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Audio* MIX_CreateSineWaveAudio(SDL.Mixer* mixer, int hz, float amplitude, long ms);
-    public static SDL.Audio* CreateSineWaveAudio(SDL.Mixer* mixer, int hz, float amplitude, long ms)
+    internal static SDL.Audio* CreateSineWaveAudio(SDL.Mixer* mixer, int hz, float amplitude, long ms)
     {
         return MIX_CreateSineWaveAudio(mixer, hz, amplitude, ms);
     }

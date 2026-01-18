@@ -5,7 +5,7 @@ internal static unsafe partial class SDL
     // Get Ticks
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern ulong SDL_GetTicks();
-    public static long GetTicks()
+    internal static long GetTicks()
     {
         return (long)SDL_GetTicks();
     }
@@ -13,7 +13,7 @@ internal static unsafe partial class SDL
     // Get Performance Counter
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern ulong SDL_GetPerformanceCounter();
-    public static long GetPerformanceCounter()
+    internal static long GetPerformanceCounter()
     {
         return (long)SDL_GetPerformanceCounter();
     }
@@ -21,7 +21,7 @@ internal static unsafe partial class SDL
     // Get Performance Frequency
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern ulong SDL_GetPerformanceFrequency();
-    public static long GetPerformanceFrequency()
+    internal static long GetPerformanceFrequency()
     {
         return (long)SDL_GetPerformanceFrequency();
     }
@@ -29,7 +29,7 @@ internal static unsafe partial class SDL
     // Delay Precise
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern void SDL_DelayPrecise(ulong ns);
-    public static void DelayPrecise(ulong ns)
+    internal static void DelayPrecise(ulong ns)
     {
         SDL_DelayPrecise(ns);
     }
@@ -37,7 +37,7 @@ internal static unsafe partial class SDL
     // Delay
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern void SDL_Delay(uint ms);
-    public static void Delay(uint ms)
+    internal static void Delay(uint ms)
     {
         SDL_Delay(ms);
     }

@@ -6,7 +6,7 @@ internal static unsafe partial class SDL
     // Get Base Path
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern byte* SDL_GetBasePath();
-    public static string GetBasePath()
+    internal static string GetBasePath()
     {
         return Utf8ToString(SDL_GetBasePath());
     }
@@ -14,7 +14,7 @@ internal static unsafe partial class SDL
     // Get User Path
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern byte* SDL_GetUserFolder(SDL.Folder folder);
-    public static string GetUserFolder(SDL.Folder folder)
+    internal static string GetUserFolder(SDL.Folder folder)
     {
         return Utf8ToString(SDL_GetUserFolder(folder));
     }
@@ -22,7 +22,7 @@ internal static unsafe partial class SDL
     // Get Current Directory
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern byte* SDL_GetCurrentDirectory();
-    public static string GetCurrentDirectory()
+    internal static string GetCurrentDirectory()
     {
         return Utf8ToString(SDL_GetCurrentDirectory());
     }
@@ -30,7 +30,7 @@ internal static unsafe partial class SDL
     // Remove Path
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_RemovePath(byte* path);
-    public static bool RemovePath(string path)
+    internal static bool RemovePath(string path)
     {
         var bytes = StringToUtf8(path);
 
@@ -43,7 +43,7 @@ internal static unsafe partial class SDL
     // Rename Path
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_RenamePath(byte* oldPath, byte* newPath);
-    public static bool RenamePath(string oldPath, string newPath)
+    internal static bool RenamePath(string oldPath, string newPath)
     {
         var bytesOld = StringToUtf8(oldPath);
         var bytesNew = StringToUtf8(newPath);
@@ -58,7 +58,7 @@ internal static unsafe partial class SDL
     // Copy File
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_CopyFile(byte* oldPath, byte* newPath);
-    public static bool CopyFile(string oldPath, string newPath)
+    internal static bool CopyFile(string oldPath, string newPath)
     {
         var bytesOld = StringToUtf8(oldPath);
         var bytesNew = StringToUtf8(newPath);
@@ -73,7 +73,7 @@ internal static unsafe partial class SDL
     // Load File
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern IntPtr SDL_LoadFile(byte* path, out UIntPtr size);
-    public static IntPtr LoadFile(string path, out UIntPtr size)
+    internal static IntPtr LoadFile(string path, out UIntPtr size)
     {
         var bytes = StringToUtf8(path);
 
@@ -86,7 +86,7 @@ internal static unsafe partial class SDL
     // Save File
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_SaveFile(byte* path, IntPtr data, UIntPtr size);
-    public static bool SaveFile(string path, IntPtr data, UIntPtr size)
+    internal static bool SaveFile(string path, IntPtr data, UIntPtr size)
     {
         var bytes = StringToUtf8(path);
 
@@ -99,7 +99,7 @@ internal static unsafe partial class SDL
     // Create Directory
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_CreateDirectory(byte* path);
-    public static bool CreateDirectory(string path)
+    internal static bool CreateDirectory(string path)
     {
         var bytes = StringToUtf8(path);
 
@@ -112,7 +112,7 @@ internal static unsafe partial class SDL
     // Get Path Info
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern SDL.Bool SDL_GetPathInfo(byte* path, out SDL.PathInfo info);
-    public static bool GetPathInfo(string path, out SDL.PathInfo info)
+    internal static bool GetPathInfo(string path, out SDL.PathInfo info)
     {
         var bytes = StringToUtf8(path);
 
@@ -125,7 +125,7 @@ internal static unsafe partial class SDL
     // Glob Directory
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern IntPtr SDL_GlobDirectory(byte* path, byte* pattern, SDL.GlobFlags flags, out int count);
-    public static IntPtr GlobDirectory(string path, string pattern, SDL.GlobFlags flags, out int count)
+    internal static IntPtr GlobDirectory(string path, string pattern, SDL.GlobFlags flags, out int count)
     {
         var bytesPath = StringToUtf8(path);
         var bytesPattern = StringToUtf8(pattern);
