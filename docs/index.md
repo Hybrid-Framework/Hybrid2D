@@ -3,15 +3,7 @@
 
   <!-- Logo -->
   <div>
-    <img width="256" src="assets/Hybrid.png" alt="Hybrid2D Logo">
-  </div>
-  <br>
-
-
-  <!-- Title & Author -->
-  <div>
-    <strong>Hybrid2D</strong><br>
-    Created by Lloyd J Howarth
+    <img width="512" src="assets/Hybrid.png" alt="Hybrid2D Logo">
   </div>
   <br>
 
