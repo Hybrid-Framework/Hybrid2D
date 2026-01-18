@@ -1,10 +1,12 @@
 <div style="text-align:center;">
 
+
   <!-- Logo -->
   <div>
     <img width="256" src="assets/Hybrid.png" alt="Hybrid2D Logo">
   </div>
   <br>
+
 
   <!-- Title & Author -->
   <div>
@@ -13,16 +15,6 @@
   </div>
   <br>
 
-  <!-- Badges -->
-  <div>
-    <img src="https://custom-icon-badges.demolab.com/badge/Windows-7400ff?logo=windows11&logoColor=white" alt="Windows">
-    <img src="https://img.shields.io/badge/MacOS-7400ff?logo=apple&logoColor=white" alt="MacOS">
-    <img src="https://img.shields.io/badge/Linux-7400ff?logo=linux&logoColor=white" alt="Linux">
-    <img src="https://img.shields.io/badge/Android-7400ff?logo=android&logoColor=white" alt="Android">
-    <img src="https://img.shields.io/badge/iOS-7400ff?logo=apple&logoColor=white" alt="iOS">
-    <img src="https://img.shields.io/badge/Web-7400ff?logo=googlechrome&logoColor=white" alt="Web">
-  </div>
-  <br>
 
   <!-- Description -->
   <div>
@@ -31,10 +23,12 @@
   </div>
   <br>
 
+
   <!-- Tagline -->
   <div>
     <strong>Write once, run everywhere.</strong>
   </div>
+
 
 </div>
 
