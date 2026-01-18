@@ -1,4 +1,8 @@
 site_name: Hybrid2D
+site_description: "C# Games made simple"
+site_author: "Lloyd J Howarth"
+favicon: "assets/Hybrid.png"
+
 nav:
   - Home: index.md
   - Introduction: Introduction.md
@@ -8,13 +12,6 @@ nav:
 
 theme:
   name: material
+  logo: "assets/Hybrid.png"
+  favicon: "assets/Hybrid.png"
   footer: "© 2026 Hybrid2D — All rights reserved"
-  palette:
-    - scheme: default
-      toggle:
-        icon: material/weather-night
-        name: Dark mode
-    - scheme: slate
-      toggle:
-        icon: material/weather-sunny
-        name: Light mode

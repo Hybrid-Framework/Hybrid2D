@@ -32,6 +32,11 @@ jobs:
         run: |
           pip install mkdocs mkdocs-material
 
+      - name: Generate Cheatsheet
+        run: |
+          chmod +x .github/scripts/Docs/Generate.sh
+          ./.github/scripts/Docs/Generate.sh
+
       - name: Build MkDocs site
         run: mkdocs build
 

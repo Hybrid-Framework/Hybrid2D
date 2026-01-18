@@ -3,7 +3,7 @@ set -e
 
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 FRAMEWORK_DIR="$BASE_DIR/../../../Engine/Framework/"
-DOC_FILE="$BASE_DIR/cheatsheet.md"
+DOC_FILE="$BASE_DIR/../../../docs/Cheatsheet.md"
 echo "Building docs..."
 
 # ------ MAIN PAGE ------------------------------------------------------------------------------------------------
