@@ -22,7 +22,7 @@ Created by Lloyd J Howarth
 
 <h2 id="overview">🔍 Overview</h2>
 
-Hybrid2D is a lightweight cross-platform 2D Game Framework written in C#
+Hybrid2D is a lightweight cross-platform Game Framework written in C#
 
 Getting started...
 
