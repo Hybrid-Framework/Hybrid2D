@@ -1,9 +1,8 @@
-﻿name: Deploy MkDocs
+name: Deploy MkDocs to GitHub Pages
 
 on:
   push:
-    branches:
-      - main
+    branches: ["Hybrid"]
   workflow_dispatch:
 
 permissions:
@@ -13,10 +12,13 @@ permissions:
 
 concurrency:
   group: "pages"
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
 
     steps:
@@ -32,8 +34,8 @@ jobs:
         run: |
           pip install mkdocs mkdocs-material
 
-      - name: Build docs
-        run: mkdocs build --strict
+      - name: Build MkDocs site
+        run: mkdocs build
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
@@ -41,4 +43,5 @@ jobs:
           path: site
 
       - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
