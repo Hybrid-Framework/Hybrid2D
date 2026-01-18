@@ -183,10 +183,18 @@ internal static unsafe partial class SDL
     
     // Set Render Draw Color
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    
+    // Set Render Draw Color (r,g,b,a)
     private static extern SDL.Bool SDL_SetRenderDrawColor(SDL.Renderer* renderer, byte r, byte g, byte b, byte a);
     public static bool SetRenderDrawColor(SDL.Renderer* renderer, byte r, byte g, byte b, byte a)
     {
         return SDL_SetRenderDrawColor(renderer, r, g, b, a);
+    }
+    
+    // Set Render Draw Color (Color32)
+    public static bool SetRenderDrawColor(SDL.Renderer* renderer, Color32 color)
+    {
+        return SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
     }
     
     // Get Render Draw Color
