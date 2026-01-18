@@ -62,31 +62,37 @@ namespace Hybrid
     // Time API
     public sealed partial class Time
     {
+        // Get frame count
         public static int GetFrameCount()
         {
             return FrameCount;
         }
         
+        // Get frame time in ms
         public static float GetFrameTime()
         {
             return FrameTime;
         }
         
+        // Get delta time
         public static float GetDeltaTime()
         {
             return DeltaTime;
         }
         
+        // Get time since startup
         public static float GetTime()
         {
             return Timer;
         }
         
+        // Set target frame rate
         public static void SetFps(int fps)
         {
             TargetFramesPerSecond = fps;
         }
 
+        // Get target frame rate
         public static float GetFps()
         {
             return FramesPerSecond;

@@ -96,6 +96,7 @@ namespace Hybrid
     
     public partial class Mouse
     {
+        // Get mouse button pressed
         public static bool GetButton(int index)
         {
             if (Buttons.TryGetValue(index, out var state))
@@ -106,6 +107,7 @@ namespace Hybrid
             return false;
         }
         
+        // Get mouse button released
         public static bool GetButtonUp(int index)
         {
             if (Buttons.TryGetValue(index, out var state))
@@ -116,6 +118,7 @@ namespace Hybrid
             return false;
         }
         
+        // Get mouse button down (single frame)
         public static bool GetButtonDown(int index)
         {
             if (Buttons.TryGetValue(index, out var state))
@@ -126,26 +129,31 @@ namespace Hybrid
             return false;
         }
         
+        // Get mouse positon delta
         public static Point GetPositonDelta()
         {
             return PositionDelta;
         }
         
+        // Get mouse scroll delta
         public static Point GetScrollDelta()
         {
             return ScrollDelta;
         }
 
+        // Get mouse positon
         public static Point GetPositon()
         {
             return Position;
         }
 
+        // Show mouse
         public static void Show()
         {
             SDL.ShowCursor();
         }
         
+        // Hide mouse
         public static void Hide()
         {
             SDL.HideCursor();

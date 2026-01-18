@@ -5,6 +5,7 @@ namespace Hybrid
     // Debug API
     public static class Debug
     {
+        // Log a message
         public static void Log(object message, bool trace = false)
         {
             if (trace)
@@ -16,6 +17,7 @@ namespace Hybrid
             Console.WriteLine($"[LOG] {message}");
         }
         
+        // Log a warning
         public static void Warning(object message, bool trace = false)
         {
             if (trace)
@@ -27,6 +29,7 @@ namespace Hybrid
             Console.WriteLine($"[WARNING] {message}");
         }
         
+        // Log an error
         public static void Error(object message, bool trace = false)
         {
             if (trace)
@@ -38,6 +41,7 @@ namespace Hybrid
             Console.WriteLine($"[ERROR] {message}");
         }
         
+        // Throw exception if condition is false
         public static void Assert(bool condition, object message)
         {
             if (!condition)
@@ -46,6 +50,7 @@ namespace Hybrid
             }
         }
         
+        // Throw exception
         public static void Exception(object message)
         {
             throw new Exception($"[EXCEPTION] {message}");

@@ -73,11 +73,13 @@ namespace Hybrid
     // Create & Destroy
     public unsafe partial class Texture
     {
+        // Create new texture instance
         public static Texture CreateTexture(string path)
         {
             return new Texture(path);
         }
 
+        // Destroy existing font instance
         public static void DestroyTexture(Texture texture)
         {
             if (texture.Handle != null)
@@ -96,6 +98,7 @@ namespace Hybrid
     // Texture API
     public unsafe partial class Texture
     {
+        // Set texture pixel color
         public static void SetPixel(Texture texture, int x, int y, Color color)
         {
             if (x < 0 || y < 0 || x >= texture.Width || y >= texture.Height)
@@ -111,6 +114,7 @@ namespace Hybrid
             texture.Pixels[index + 3] = (byte)(color.a * 255f);
         }
         
+        // Get texture pixel color
         public static Color GetPixel(Texture texture, int x, int y)
         {
             if (x < 0 || y < 0 || x >= texture.Width || y >= texture.Height)
@@ -129,6 +133,7 @@ namespace Hybrid
             );
         }
         
+        // Set all texture pixel colors
         public static void SetPixels(Texture texture, Color[] pixels)
         {
             if (pixels.Length != texture.Width * texture.Height)
@@ -148,6 +153,7 @@ namespace Hybrid
             }
         }
 
+        // Get all texture pixel colors
         public static Color[] GetPixels(Texture texture)
         {
             int count = texture.Width * texture.Height;
@@ -169,6 +175,7 @@ namespace Hybrid
             return result;
         }
         
+        // Update all texture pixels
         public static void Apply(Texture texture, Rectangle? rect = null)
         {
             fixed (byte* p = texture.Pixels)
@@ -180,16 +187,25 @@ namespace Hybrid
             }
         }
         
+        // Get texture format (Ex: RGBA32)
         public static string GetFormat(Texture texture)
         {
             return texture.Format;
         }
+        
+        // Get texture size
+        public static Point GetSize(Texture texture)
+        {
+            return new Point(texture.Width, texture.Height);
+        }
 
+        // Get texture width
         public static int GetWidth(Texture texture)
         {
             return texture.Width;
         }
         
+        // Get texture height
         public static int GetHeight(Texture texture)
         {
             return texture.Height;

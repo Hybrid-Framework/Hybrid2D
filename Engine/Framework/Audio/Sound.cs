@@ -32,11 +32,13 @@ namespace Hybrid
     // Sound Management
     public unsafe partial class Sound
     {
+        // Create new sound instance
         public static Sound CreateSound(string path)
         {
             return new Sound(path);
         }
 
+        // Destroy existing sound instance
         public static void DestroySound(Sound sound)
         {
             if (sound.Handle != null)
@@ -55,6 +57,7 @@ namespace Hybrid
     // Sound API
     public unsafe partial class Sound
     {
+        // Set sound playback position
         public static void SetPlaybackPosition(Sound sound, long ms)
         {
             var frames = SDL_mixer.TrackMSToFrames(sound.Track, ms);
@@ -63,6 +66,7 @@ namespace Hybrid
             }
         }
         
+        // Get sound playback position
         public static long GetPlaybackPosition(Sound sound)
         {
             var frames = SDL_mixer.GetTrackPlaybackPosition(sound.Track);
@@ -74,6 +78,7 @@ namespace Hybrid
             }
         }
         
+        // Get sound remaining time in ms 
         public static long GetRemaining(Sound sound)
         {
             var frames = SDL_mixer.GetTrackRemaining(sound.Track);
@@ -85,6 +90,7 @@ namespace Hybrid
             }
         }
         
+        // Get sound duration time in ms
         public static long GetDuration(Sound sound)
         {
             var frames = SDL_mixer.GetAudioDuration(sound.Handle);
@@ -96,26 +102,31 @@ namespace Hybrid
             }
         }
         
+        // Set sound volume
         public static void SetVolume(Sound sound, float volume)
         {
             SDL_mixer.SetTrackGain(sound.Track, Maths.Clamp(volume, 0, 1));
         }
         
+        // Get sound volume
         public static float GetVolume(Sound sound)
         {
             return SDL_mixer.GetTrackGain(sound.Track);
         }
         
+        // Set sound pitch
         public static void SetPitch(Sound sound, float pitch)
         {
             SDL_mixer.SetTrackFrequencyRatio(sound.Track, pitch);
         }
 
+        // Get sound pitch
         public static float GetPitch(Sound sound)
         {
             return SDL_mixer.GetTrackFrequencyRatio(sound.Track);
         }
 
+        // Set sound pan position (0 left, 0.5 center, 1 right)
         public static void SetPan(Sound sound, float pan)
         {
             pan = Math.Clamp(pan, 0f, 1f);
@@ -128,27 +139,41 @@ namespace Hybrid
             SDL_mixer.SetTrackStereo(sound.Track, sound.Stereo);
         }
         
+        // Get sound pan position
         public static float GetPan(Sound sound)
         {
             return Math.Clamp(sound.Stereo.right, 0f, 1f);
         }
 
+        // Play sound
         public static void Play(Sound sound)
         {
             SDL_mixer.PlayTrack(sound.Track, 0);
         }
         
+        // Pause sound
         public static void Pause(Sound sound)
         {
             SDL_mixer.PauseTrack(sound.Track);
         }
 
+        // Resume sound
         public static void Resume(Sound sound)
         {
             SDL_mixer.ResumeTrack(sound.Track);
         }
 
-        public static void Stop(Sound sound, long ms = 0)
+        // Stop sound
+        public static void Stop(Sound sound)
+        {
+            var frames = SDL_mixer.TrackMSToFrames(sound.Track, 0);
+            {
+                SDL_mixer.StopTrack(sound.Track, frames);
+            }
+        }
+        
+        // Stop sound with fade in ms
+        public static void Stop(Sound sound, long ms)
         {
             var frames = SDL_mixer.TrackMSToFrames(sound.Track, ms);
             {
@@ -156,16 +181,19 @@ namespace Hybrid
             }
         }
         
+        // Set sound looping
         public static void SetLoop(Sound sound, bool loop)
         {
             SDL_mixer.SetTrackLoops(sound.Track, loop ? -1 : 0);
         }
         
+        // Get sound looping
         public static bool GetLoop(Sound sound)
         {
             return SDL_mixer.TrackLooping(sound.Track);
         }
         
+        // Is sound playing
         public static bool IsPlaying(Sound sound)
         {
             return SDL_mixer.TrackPlaying(sound.Track);

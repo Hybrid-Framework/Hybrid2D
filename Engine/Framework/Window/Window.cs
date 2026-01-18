@@ -30,9 +30,10 @@ namespace Hybrid
         }
     }
     
-    // Icon
+    // Window API
     public unsafe partial class Window
     {
+        // Set window icon
         public static void SetIcon(string path)
         {
             var icon = SDL_image.Load(SDL.GetBasePath() + path);
@@ -44,67 +45,56 @@ namespace Hybrid
                 }
             }
         }
-    }
-    
-    // Title
-    public unsafe partial class Window
-    {
+        
+        // Set window title
         public static void SetTitle(string title)
         {
             SDL.SetWindowTitle(Handle, title);
         }
 
+        // Get window fullscreen
         public static string GetTitle()
         {
             return SDL.GetWindowTitle(Handle);
         }
-    }
-
-    // Fullscreen
-    public unsafe partial class Window
-    {
+        
+        // Set window fullscreen
         public static void SetFullscreen(bool fullscreen)
         {
             SDL.SetWindowFullscreen(Handle, fullscreen);
         }
 
+        // Get window fullscreen
         public static bool GetFullscreen()
         {
             return (SDL.GetWindowFlags(Handle) & SDL.WindowFlags.Fullscreen) != 0;
         }
-    }
-
-    // Resizable
-    public unsafe partial class Window
-    {
+        
+        // Set window resizable
         public static void SetResizable(bool resizable)
         {
             SDL.SetWindowResizable(Handle, resizable);
         }
 
+        // Get window resizable
         public static bool GetResizable()
         {
             return (SDL.GetWindowFlags(Handle) & SDL.WindowFlags.Resizable) != 0;
         }
-    }
-    
-    // Borderless
-    public unsafe partial class Window
-    {
+        
+        // Set window borderless
         public static void SetBorderless(bool borderless)
         {
             SDL.SetWindowBordered(Handle, !borderless);
         }
 
+        // Get window borderless
         public static bool GetBorderless()
         {
             return (SDL.GetWindowFlags(Handle) & SDL.WindowFlags.Borderless) != 0;
         }
-    }
-
-    // Maximized
-    public unsafe partial class Window
-    {
+        
+        // Set window maximized
         public static void SetMaximized(bool maximized)
         {
             if (maximized)
@@ -116,15 +106,13 @@ namespace Hybrid
             SDL.RestoreWindow(Handle);
         }
 
+        // Get window maximized
         public static bool GetMaximized()
         {
             return (SDL.GetWindowFlags(Handle) & SDL.WindowFlags.Maximized) != 0;
         }
-    }
-
-    // Minimized
-    public unsafe partial class Window
-    {
+        
+        // Set window minimized
         public static void SetMinimized(bool minimized)
         {
             if (minimized)
@@ -136,20 +124,19 @@ namespace Hybrid
             SDL.RestoreWindow(Handle);
         }
 
+        // Get window minimized
         public static bool GetMinimized()
         {
             return (SDL.GetWindowFlags(Handle) & SDL.WindowFlags.Minimized) != 0;
         }
-    }
-    
-    // Position
-    public unsafe partial class Window
-    {
+        
+        // Set window position
         public static void SetPosition(Point position)
         {
             SDL.SetWindowPosition(Handle, (int)position.x, (int)position.y);
         }
 
+        // Get window position
         public static Point GetWindowPosition()
         {
             SDL.GetWindowPosition(Handle, out int x, out int y);
@@ -157,16 +144,14 @@ namespace Hybrid
                 return new Point(x, y);
             }
         }
-    }
-    
-    // Size
-    public unsafe partial class Window
-    {
+        
+        // Set window size
         public static void SetSize(Point size)
         {
             SDL.SetWindowSize(Handle, (int)size.x, (int)size.y);
         }
 
+        // Get window size
         public static Point GetSize()
         {
             SDL.GetWindowSize(Handle, out int w, out int h);
@@ -174,16 +159,14 @@ namespace Hybrid
                 return new Point(w, h);
             }
         }
-    }
-
-    // Width
-    public unsafe partial class Window
-    {
+        
+        // Set window width
         public static void SetWidth(int width)
         {
             SDL.SetWindowSize(Handle, width, GetHeight());
         }
 
+        // Get window width
         public static int GetWidth()
         {
             SDL.GetWindowSize(Handle, out int w, out int h);
@@ -191,16 +174,14 @@ namespace Hybrid
                 return w;
             }
         }
-    }
-    
-    // Height
-    public unsafe partial class Window
-    {
+        
+        // Set window height
         public static void SetHeight(int height)
         {
             SDL.SetWindowSize(Handle, GetWidth(), height);
         }
 
+        // Get window height
         public static int GetHeight()
         {
             SDL.GetWindowSize(Handle, out int w, out int h);
@@ -208,16 +189,14 @@ namespace Hybrid
                 return h;
             }
         }
-    }
-
-    // Maximum Size
-    public unsafe partial class Window
-    {
+        
+        // Set window maximum size
         public static void SetMaximumSize(Point size)
         {
             SDL.SetWindowMaximumSize(Handle, (int)size.x, (int)size.y);
         }
 
+        // Get window maximum size
         public static Point GetMaximumSize()
         {
             SDL.GetWindowMaximumSize(Handle, out int w, out int h);
@@ -225,16 +204,14 @@ namespace Hybrid
                 return new Point(w, h);
             }
         }
-    }
-
-    // Minimum Size
-    public unsafe partial class Window
-    {
+        
+        // Set window minimum size
         public static void SetMinimumSize(Point size)
         {
             SDL.SetWindowMinimumSize(Handle, (int)size.x, (int)size.y);
         }
 
+        // Get window minimum size
         public static Point GetMinimumSize()
         {
             SDL.GetWindowMinimumSize(Handle, out int w, out int h);
@@ -242,16 +219,14 @@ namespace Hybrid
                 return new Point(w, h);
             }
         }
-    }
-    
-    // Aspect Ratio
-    public unsafe partial class Window
-    {
-        public static void SetAspectRatio(Point aspect)
+        
+        // Set window aspect ratio
+        public static void SetAspectRatio(Point ratio)
         {
-            SDL.SetWindowAspectRatio(Handle, aspect.x, aspect.y);
+            SDL.SetWindowAspectRatio(Handle, ratio.x, ratio.y);
         }
 
+        // Get window aspect ratio
         public static Point GetAspectRatio()
         {
             SDL.GetWindowAspectRatio(Handle, out float w, out float h);
@@ -259,16 +234,14 @@ namespace Hybrid
                 return new Point(w, h);
             }
         }
-    }
-    
-    // VSync
-    public unsafe partial class Window
-    {
+        
+        // Set window vsync
         public static void SetVSync(bool vsync)
         {
             SDL.SetRenderVSync(Graphics.Handle, vsync ? 1 : 0);
         }
 
+        // Get window vsync
         public static bool GetVSync()
         {
             SDL.GetRenderVSync(Graphics.Handle, out int vsync);
@@ -276,36 +249,38 @@ namespace Hybrid
                 return vsync > 0 ? true : false;
             }
         }
-    }
-    
-    // Display
-    public unsafe partial class Window
-    {
+        
+        // Get all display ids
         public static uint[] GetDisplays()
         {
             return SDL.GetDisplays(out var count);
         }
 
+        // Get current display id
         public static uint GetCurrentDisplay()
         {
             return SDL.GetDisplayForWindow(Handle);
         }
 
+        // Get current display name
         public static string GetCurrentDisplayName()
         {
             return GetDisplayName(GetCurrentDisplay());
         }
         
+        // Get current display size
         public static Point GetCurrentDisplaySize()
         {
             return GetDisplaySize(GetCurrentDisplay());
         }
         
+        // Get specific display name
         public static string GetDisplayName(uint displayID)
         {
             return SDL.GetDisplayName(displayID);
         }
         
+        // Get specific display size
         public static Point GetDisplaySize(uint displayID)
         {
             SDL.GetDisplayBounds(displayID, out SDL.RectInt rect);
@@ -313,36 +288,38 @@ namespace Hybrid
                 return new Point(rect.w, rect.h);
             }
         }
-    }
-
-    // Functions
-    public unsafe partial class Window
-    {
+        
+        // Show window
         public static void Show()
         {
             SDL.ShowWindow(Handle);
         }
 
+        // Hide window
         public static void Hide()
         {
             SDL.HideWindow(Handle);
         }
 
+        // Raise window
         public static void Raise()
         {
             SDL.RaiseWindow(Handle);
         }
 
+        // Restore window
         public static void Restore()
         {
             SDL.RestoreWindow(Handle);
         }
 
+        // Maximize window
         public static void Maximize()
         {
             SDL.MaximizeWindow(Handle);
         }
 
+        // Minimize window
         public static void Minimize()
         {
             SDL.MinimizeWindow(Handle);

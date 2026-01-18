@@ -155,6 +155,7 @@ namespace Hybrid
     // Gamepads API
     public partial class Gamepad
     {
+        // Rumble gamepad for ms
         public static void Rumble(int index, float strength, float ms)
         {
             if (Gamepads.TryGetValue(index, out var gamepad))
@@ -163,6 +164,7 @@ namespace Hybrid
             }
         }
         
+        // Get gamepad button pressed
         public static bool GetButton(int index, Button button)
         {
             if (Gamepads.TryGetValue(index, out var gamepad))
@@ -173,6 +175,7 @@ namespace Hybrid
             return false;
         }
         
+        // Get gamepad button released
         public static bool GetButtonUp(int index, Button button)
         {
             if (Gamepads.TryGetValue(index, out var gamepad))
@@ -183,6 +186,7 @@ namespace Hybrid
             return false;
         }
         
+        // Get gamepad button down (single frame)
         public static bool GetButtonDown(int index, Button button)
         {
             if (Gamepads.TryGetValue(index, out var gamepad))
@@ -193,6 +197,7 @@ namespace Hybrid
             return false;
         }
         
+        // Get gamepad axis
         public static float GetAxis(int index, Axis axis)
         {
             if (Gamepads.TryGetValue(index, out var gamepad))
@@ -203,6 +208,7 @@ namespace Hybrid
             return 0;
         }
         
+        // Set gamepad dead zone
         public static void SetDeadZone(int index, float deadZone)
         {
             if (Gamepads.TryGetValue(index, out var gamepad))
@@ -211,6 +217,7 @@ namespace Hybrid
             }
         }
 
+        // Get gamepad dead zone
         public static float GetDeadZone(int index)
         {
             if (Gamepads.TryGetValue(index, out var gamepad))

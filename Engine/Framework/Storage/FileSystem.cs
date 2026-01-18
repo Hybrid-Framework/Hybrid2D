@@ -7,20 +7,24 @@ namespace Hybrid
     // General
     public static partial class FileSystem
     {
-        private static string CurrentDirectory = GetBasePath();
+        private static string ResolvePath(string path) => Path.Combine(GetBaseDirectory(), path);
+        private static string CurrentDirectory = GetBaseDirectory();
+        
 
+        // Get current directory
         public static string GetCurrentDirectory()
         {
             return CurrentDirectory;
         }
 
+        // Set current directory
         public static bool SetCurrentDirectory(string path)
         {
             if (!string.IsNullOrEmpty(path))
             {
                 string destination = Path.GetFullPath(Path.Combine(GetCurrentDirectory(), path));
 
-                if (destination.StartsWith(GetBasePath(), StringComparison.OrdinalIgnoreCase))
+                if (destination.StartsWith(GetBaseDirectory(), StringComparison.OrdinalIgnoreCase))
                 {
                     if (Directory.Exists(destination))
                     {
@@ -33,12 +37,8 @@ namespace Hybrid
             return false;
         }
         
-        private static string ResolvePath(string path)
-        {
-            return Path.Combine(GetBasePath(), path);
-        }
-        
-        public static string GetBasePath()
+        // Get base directory
+        public static string GetBaseDirectory()
         {
             return SDL.GetBasePath();
         }
@@ -47,6 +47,7 @@ namespace Hybrid
     // File
     public static partial class FileSystem
     {
+        // Does file exist at path
         public static bool FileExists(string path)
         {
             path = ResolvePath(path);
@@ -58,6 +59,7 @@ namespace Hybrid
             }
         }
 
+        // Write bytes to a file
         public static bool FileWrite(string path, byte[] bytes)
         {
             path = ResolvePath(path);
@@ -86,6 +88,7 @@ namespace Hybrid
             }
         }
 
+        // Read bytes from a file
         public static byte[] FileRead(string path)
         {
             path = ResolvePath(path);
@@ -100,6 +103,7 @@ namespace Hybrid
             }
         }
 
+        // Create file
         public static bool FileCreate(string path)
         {
             path = ResolvePath(path);
@@ -125,6 +129,7 @@ namespace Hybrid
             }
         }
         
+        // Delete file
         public static bool FileDelete(string path)
         {
             path = ResolvePath(path);
@@ -142,6 +147,7 @@ namespace Hybrid
             }
         }
         
+        // Copy file
         public static bool FileCopy(string source, string destination, bool overwrite = false)
         {
             destination = ResolvePath(destination);
@@ -174,6 +180,7 @@ namespace Hybrid
             }
         }
         
+        // Move file
         public static bool FileMove(string source, string destination, bool overwrite = false)
         {
             destination = ResolvePath(destination);
@@ -210,6 +217,7 @@ namespace Hybrid
     // Folder
     public static partial class FileSystem
     {
+        // Does folder exist
         public static bool FolderExists(string path)
         {
             path = ResolvePath(path);
@@ -221,6 +229,7 @@ namespace Hybrid
             }
         }
         
+        // Create folder
         public static bool FolderCreate(string path)
         {
             path = ResolvePath(path);
@@ -238,6 +247,7 @@ namespace Hybrid
             }
         }
         
+        // Delete folder (empty folders only)
         public static bool FolderDelete(string path)
         {
             path = ResolvePath(path);
@@ -258,6 +268,7 @@ namespace Hybrid
             }
         }
         
+        // Get all file paths in directory
         public static string[] GetFiles(string path)
         {
             path = ResolvePath(path);

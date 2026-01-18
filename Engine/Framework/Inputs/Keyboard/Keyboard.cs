@@ -88,6 +88,7 @@ namespace Hybrid
     
     public partial class Keyboard
     {
+        // Get keyboard button pressed
         public static bool GetButton(Key button)
         {
             if (Buttons.TryGetValue(button, out var state))
@@ -98,6 +99,7 @@ namespace Hybrid
             return false;
         }
         
+        // Get keyboard button released
         public static bool GetButtonUp(Key button)
         {
             if (Buttons.TryGetValue(button, out var state))
@@ -108,6 +110,7 @@ namespace Hybrid
             return false;
         }
         
+        // Get keyboard button down (single frame)
         public static bool GetButtonDown(Key button)
         {
             if (Buttons.TryGetValue(button, out var state))

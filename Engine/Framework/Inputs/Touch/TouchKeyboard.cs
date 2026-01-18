@@ -66,27 +66,38 @@ namespace Hybrid
     // On Screen Keyboard API
     public unsafe partial class TouchKeyboard
     {
+        // Open screen keyboard
         public static void Open()
         {
             SDL.StartTextInput(Window.Handle);
         }
 
+        // Close screen keyboard
         public static void Close()
         {
             SDL.StopTextInput(Window.Handle);
         }
 
+        // Is screen keyboard visible
         public static bool Visible()
         {
             return SDL.ScreenKeyboardShown(Window.Handle);
         }
+        
+        // Is screen keyboard supported
+        public static bool Supported()
+        {
+            return SDL.HasScreenKeyboardSupport();
+        }
 
+        // Clear screen keyboard text
         public static void Clear()
         {
             SDL.ClearComposition(Window.Handle);
             TextHandle = string.Empty;
         }
         
+        // Get screen keyboard text
         public static string Text()
         {
             return TextHandle;

@@ -66,6 +66,7 @@ namespace Hybrid
     
     public partial class Touch
     {
+        // Get touch pressed
         public static bool GetTouch(int index)
         {
             if (Touches.TryGetValue(index, out var touch))
@@ -76,6 +77,7 @@ namespace Hybrid
             return false;
         }
         
+        // Get touch released
         public static bool GetTouchUp(int index)
         {
             if (Touches.TryGetValue(index, out var touch))
@@ -86,6 +88,7 @@ namespace Hybrid
             return false;
         }
         
+        // Get touch down (single frame)
         public static bool GetTouchDown(int index)
         {
             if (Touches.TryGetValue(index, out var touch))
@@ -96,6 +99,7 @@ namespace Hybrid
             return false;
         }
         
+        // Get touch position delta
         public static Point GetTouchPositionDelta(int index)
         {
             if (Touches.TryGetValue(index, out var touch))
@@ -106,6 +110,7 @@ namespace Hybrid
             return Point.Zero;
         }
         
+        // Get touch position
         public static Point GetTouchPosition(int index)
         {
             if (Touches.TryGetValue(index, out var touch))
@@ -116,6 +121,7 @@ namespace Hybrid
             return Point.Zero;
         }
         
+        // Get touch pressure
         public static float GetTouchPressure(int index)
         {
             if (Touches.TryGetValue(index, out var touch))
@@ -126,6 +132,7 @@ namespace Hybrid
             return 0;
         }
         
+        // Get touch count
         public static int GetTouchCount()
         {
             int count = 0;
