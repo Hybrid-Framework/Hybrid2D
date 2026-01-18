@@ -79,26 +79,19 @@ namespace Hybrid
         }
 
         // Is screen keyboard visible
-        public static bool Visible()
+        public static bool IsVisible()
         {
             return SDL.ScreenKeyboardShown(Window.Handle);
         }
         
         // Is screen keyboard supported
-        public static bool Supported()
+        public static bool IsSupported()
         {
             return SDL.HasScreenKeyboardSupport();
         }
-
-        // Clear screen keyboard text
-        public static void Clear()
-        {
-            SDL.ClearComposition(Window.Handle);
-            TextHandle = string.Empty;
-        }
         
         // Get screen keyboard text
-        public static string Text()
+        public static string GetText()
         {
             return TextHandle;
         }
