@@ -1,8 +1,6 @@
-name: Deploy MkDocs to GitHub Pages
+name: Build Docs
 
 on:
-  push:
-    branches: ["Hybrid"]
   workflow_dispatch:
 
 permissions:
