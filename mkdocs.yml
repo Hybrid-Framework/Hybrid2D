@@ -1,0 +1,20 @@
+site_name: Hybrid2D
+nav:
+  - Home: index.md
+  - Introduction: Introduction.md
+  - Cheatsheet: Cheatsheet.md
+  - About: About.md
+  - License: License.md
+
+theme:
+  name: material
+  footer: "© 2026 Hybrid2D — All rights reserved"
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/weather-night
+        name: Dark mode
+    - scheme: slate
+      toggle:
+        icon: material/weather-sunny
+        name: Light mode
