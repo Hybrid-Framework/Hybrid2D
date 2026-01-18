@@ -14,7 +14,7 @@ namespace Hybrid
         private static App App;
 
         
-        public static void Execute(App app)
+        internal static void Execute(App app)
         {
             AppHandle = GCHandle.Alloc(app);
             App = app;

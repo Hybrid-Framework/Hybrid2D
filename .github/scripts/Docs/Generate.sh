@@ -16,12 +16,15 @@ echo >> "$DOC_FILE"
 FIND_CMD=(find "$FRAMEWORK_DIR" -type f -name "*.cs")
 
 IGNORE_FOLDERS=(
+    "*/SDL3/*"
+    "*/SDL3.Image/*"
+    "*/SDL3.Mixer/*"
+    "*/SDL3.Ttf/*"
     "*/Internal/*"
     "*/Types/*"
 )
 IGNORE_FILES=(
     "*/App.cs"
-    "*/Example.cs"
 )
 
 for folder in "${IGNORE_FOLDERS[@]}"; do
