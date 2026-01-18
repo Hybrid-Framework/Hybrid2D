@@ -12,11 +12,13 @@ First, download and install your preferred IDE:
 * [Visual Studio](https://visualstudio.microsoft.com/downloads) – full-featured Windows IDE  
 * [Rider](https://www.jetbrains.com/rider/download) – cross-platform IDE by JetBrains  
 
+> Tip: If you're wanting to work on multiple platforms we recommend using Rider!
+
 ---
 
-## Installing .NET
+## Installing .NET 10
 
-Hybrid requires **.NET 8 or above**.  
+Hybrid currently requires **.NET 10** only however support for earlier version may be available soon:
 
 - Download the latest version from the official [.NET website](https://dotnet.microsoft.com/en-us/download).  
 - Use the command below to check which workloads you may need:
@@ -32,66 +34,64 @@ dotnet workload install packagename
 
 ## Creating A New Project
 
-1. Create a **new console application**.  
-2. Add the required NuGet packages for Hybrid2D.  
-3. (Optional) If you want a **cross-platform template**, it’s available [here](#).  
+* Create a **new console application**.
+* Add the required NuGet packages for Hybrid2D.
+> Tip: If you want a premade **cross-platform template**, it’s available [here](#).
 
 ---
 
 ## How It Works
 
-Hybrid handles the **game loop** for you. Each platform has its own implementation of the main loop, which can get complex. We abstracts this so you can focus on your game logic.  
+Simply **inherit from the `Hybrid.App` class** and override the three methods:
 
-To use Hybrid, **inherit from the `App` class** and override three methods:
-
-### OnInitialize
-- Called once at the **start** of the application.  
-- Load your resources, set up your window, and perform any initialization here.
+### OnInitialize 
+- All initialize code goes here.
 
 ### OnUpdate
-- Called once **per frame `OnInitialize`**.
-- Implement input handling, game logic, and updates here.
+- All update code goes here.
 
 ### OnRender
-- Called once **per frame after `OnUpdate`**.  
 - All rendering code goes here.
 
 ---
 
-## Example Game
+## Example
 
 ```csharp
 using Hybrid;
 
-namespace MyGame
+namespace Application
 {
-    public class Game : App
+    public class Game : Hybrid.App
     {
         public override void OnInitialize()
         {
+            // Initialize code
             Window.SetTitle("My First Game");
         }
 
         public override void OnUpdate()
         {
+            // Update code
             if(Input.GetKeyboardButtonDown(KeyboardButton.Space))
             {
-                Debug.Log("Jump!");
+                Debug.Log("You pressed space!");
             }
         }
 
         public override void OnRender()
         {
+            // Render code
             Graphics.DrawBegin(Color.Black);
-            
             Graphics.DrawFps(10, 10, Color.White);
-            
             Graphics.DrawEnd();
         }
     }
 }
 ```
 
-## Next Steps
+---
 
-For more detailed usage, check out the [cheatsheet](Cheatsheet.md) to explore!
+## Documentation
+
+For more detailed usage, check out the [documentation](Cheatsheet.md) for quick reference.

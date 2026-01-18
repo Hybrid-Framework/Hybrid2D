@@ -1,6 +1,4 @@
 
-A License can seem scary but do not worry. This is just to preserve credit and outline some usage rules. All projects allow both **free & commercial use**.
-
 ``` license
 MIT License
 
@@ -23,17 +21,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
 ```
 
-*Credit isn't required although appreciated.*
-
----
-
-## THIRD PARTY LICENSES
-
-All third-party dependencies are covered by their respective licenses.
-
-* [EMSCRIPTEN](https://github.com/emscripten-core/emscripten/blob/main/LICENSE)
-* [DOTNET](https://github.com/dotnet/runtime/blob/main/LICENSE.TXT)
-* [SDL](https://github.com/libsdl-org/SDL/blob/main/LICENSE.txt)
 

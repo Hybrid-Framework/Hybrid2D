@@ -36,38 +36,37 @@
 
 ---
 
-## Quick Example
+<h2 id="overview">🔍 Overview</h2>
 
-```csharp
-using Hybrid;
+Hybrid2D is a simple framework featuring Audio, Input, Graphics and more!
 
-namespace App
-{
-    public class Game : Hybrid.App
-    {
-        public override void OnInitialize()
-        {
-            Window.SetTitle("My First Game");
-        }
+Getting started...
 
-        public override void OnUpdate()
-        {
-            if(Input.GetKeyboardButtonDown(KeyboardButton.Space))
-            {
-                Debug.Log("Jump!");
-            }
-        }
+* 🌐 1. Clone the source: `git clone https://github.com/LloydJHowarth/Hybrid.git`
+* 📂 2. Open 'Hybrid.sln' in your favourite IDE such as [Rider](https://www.jetbrains.com/rider) or [Visual Studio](https://visualstudio.microsoft.com)
+* 🎮 3. Develop in the 'App' project provided to you
+* 🚀 4. Build & launch your game
 
-        public override void OnRender()
-        {
-            Graphics.DrawBegin(Color.Black);
-            
-            Graphics.DrawFps(10, 10, Color.White);
-            
-            Graphics.DrawEnd();
-        }
-    }
-}
-```
 
-Check out the [cheatsheet](Cheatsheet.md) to explore!
+<h2 id="platforms">🖥️ Cross-platform</h2>
+
+Currently supports these platforms:
+
+* **Desktop:** Windows, Mac, Linux
+* **Mobile:** Android, iOS
+* **Web:** Browsers
+
+
+<h2 id="dependencies">📦 Dependencies</h2>
+
+Currently using these dependencies:
+
+* [EMSCRIPTEN 3.1.56](https://github.com/emscripten-core/emscripten)
+* [DOTNET 10.0](https://github.com/dotnet/runtime)
+* [SDL 3.4.0](https://github.com/libsdl-org/SDL)
+
+
+<h2 id="license">📄 License</h2>
+
+* All third-party dependencies are covered by their respective licenses.
+* This project is licensed under the [MIT LICENSE](LICENSE.txt).
