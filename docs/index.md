@@ -1,6 +1,6 @@
 <div align="center">
 
-<img width="256" src="Hybrid.png">
+<img width="256" src="assets/Hybrid.png">
 
 **Hybrid2D**
 
