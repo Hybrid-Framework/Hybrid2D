@@ -54,7 +54,7 @@ namespace Hybrid
             SDL.SetWindowTitle(Handle, title);
         }
 
-        public static string GeTitle()
+        public static string GetTitle()
         {
             return SDL.GetWindowTitle(Handle);
         }
