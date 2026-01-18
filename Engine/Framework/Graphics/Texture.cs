@@ -176,7 +176,19 @@ namespace Hybrid
         }
         
         // Update all texture pixels
-        public static void Apply(Texture texture, Rectangle? rect = null)
+        public static void Apply(Texture texture)
+        {
+            fixed (byte* p = texture.Pixels)
+            {
+                if (!SDL.UpdateTexture(texture.Handle, null, (IntPtr)p, texture.Width * 4))
+                {
+                    throw new Exception("Failed to apply texture");
+                }
+            }
+        }
+        
+        // Update section of texture pixels
+        public static void Apply(Texture texture, Rectangle rect)
         {
             fixed (byte* p = texture.Pixels)
             {

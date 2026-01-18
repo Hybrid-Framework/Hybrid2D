@@ -56,6 +56,7 @@ for file in $CS_FILES; do
         method_line = $0
         gsub(/\{.*/, "", method_line)            # Remove opening brace
         gsub(/\s*$/, "", method_line)            # Trim trailing space
+        gsub(/^[ \t]+/, "", method_line)
         gsub(/public static\s+/, "", method_line)  # Remove "public static"
 
         # Print method + full comment
