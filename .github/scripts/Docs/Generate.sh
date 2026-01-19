@@ -1,68 +1,56 @@
 #!/usr/bin/env bash
 set -e
 
+# ------ PATHS ----------------------------------------------------------------------------------------------------
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-FRAMEWORK_DIR="$BASE_DIR/../../../Engine/Framework/"
+FRAMEWORK_DIR="$BASE_DIR/../../../Engine/Framework"
 DOC_FILE="$BASE_DIR/../../../docs/Documentation.md"
 echo "Building docs..."
+
 
 # ------ MAIN PAGE ------------------------------------------------------------------------------------------------
 echo "# Documentation" > "$DOC_FILE"
 echo "This Documentation is designed for quick reference." >> "$DOC_FILE"
+
 echo >> "$DOC_FILE"
 
 
-# ------ MODULES --------------------------------------------------------------------------------------------------
-FIND_CMD=(find "$FRAMEWORK_DIR" -type f -name "*.cs")
-
-IGNORE_FOLDERS=(
-    "*/SDL3/*"
-    "*/SDL3.Image/*"
-    "*/SDL3.Mixer/*"
-    "*/SDL3.Ttf/*"
-    "*/Internal/*"
-    "*/Types/*"
+# ------ Classes --------------------------------------------------------------------------------------------------
+CLASS_FILES=(
+    "$FRAMEWORK_DIR/Window/Window.cs"
+    "$FRAMEWORK_DIR/Graphics/Graphics.cs"
+    "$FRAMEWORK_DIR/Graphics/Texture.cs"
+    "$FRAMEWORK_DIR/Graphics/Font.cs"
+    "$FRAMEWORK_DIR/Inputs/Input.cs"
+    "$FRAMEWORK_DIR/Audio/Audio.cs"
+    "$FRAMEWORK_DIR/Storage/Storage.cs"
+    "$FRAMEWORK_DIR/System/Device.cs"
+    "$FRAMEWORK_DIR/Utility/Time.cs"
+    "$FRAMEWORK_DIR/Utility/Debug.cs"
+    "$FRAMEWORK_DIR/Utility/Maths.cs"
 )
-IGNORE_FILES=(
-    "*/App.cs"
-)
-
-for folder in "${IGNORE_FOLDERS[@]}"; do
-    FIND_CMD+=(! -path "$folder")
-done
-
-for file in "${IGNORE_FILES[@]}"; do
-    FIND_CMD+=(! -name "$(basename "$file")")
-done
-
-CS_FILES=$("${FIND_CMD[@]}")
-
-for file in $CS_FILES; do
+  
+for file in "${CLASS_FILES[@]}"; do
     class_name=$(basename "$file")
     echo "---" >> "$DOC_FILE"
     echo "### $class_name" >> "$DOC_FILE"
     echo '```csharp' >> "$DOC_FILE"
 
     awk '
-      # Capture comment lines starting with //
       /^\s*\/\/ / {
         comment = $0
-        gsub(/^\s*\/\/\s*/, "", comment)  # Remove the leading "// "
+        gsub(/^\s*\/\/\s*/, "", comment)
         next
       }
 
-      # Skip any line that declares a class
       / class / { next }
 
-      # Capture public static method lines
       /^\s*public static/ {
         method_line = $0
-        gsub(/\{.*/, "", method_line)            # Remove opening brace
-        gsub(/\s*$/, "", method_line)            # Trim trailing space
+        gsub(/\{.*/, "", method_line)
+        gsub(/\s*$/, "", method_line)
         gsub(/^[ \t]+/, "", method_line)
-        gsub(/public static\s+/, "", method_line)  # Remove "public static"
-
-        # Print method + full comment
+        gsub(/public static\s+/, "", method_line)
         printf "%s // %s\n", method_line, comment
         comment=""
       }
@@ -73,50 +61,45 @@ for file in $CS_FILES; do
 done
 
 
-# ------ Types ---------------------------------------------------------------------------------------------------
-echo "---" >> "$DOC_FILE"
-echo "## Types" >> "$DOC_FILE"
-echo >> "$DOC_FILE"
-
-# Table of folders/files to ignore inside Types (or anywhere)
-IGNORE_FOLDERS=(
-    "*/Internal/*"
-    "*/Obsolete/*"
+# ------ Structs --------------------------------------------------------------------------------------------------
+STRUCT_FILES=(
+    "$FRAMEWORK_DIR/Types/Structs/Color.cs"
+    "$FRAMEWORK_DIR/Types/Structs/Point.cs"
+    "$FRAMEWORK_DIR/Types/Structs/Rect.cs"
 )
-IGNORE_FILES=(
-    "*/App.cs"
-    "*/Example.cs"
-)
-
-# Build find command for Types folder
-FIND_CMD=(find "$FRAMEWORK_DIR" -type f -path "*/Types/*.cs")
-
-# Append ignore folders
-for folder in "${IGNORE_FOLDERS[@]}"; do
-    FIND_CMD+=(! -path "$folder")
-done
-
-# Append ignore files
-for file in "${IGNORE_FILES[@]}"; do
-    FIND_CMD+=(! -name "$(basename "$file")")
-done
-
-# Execute find
-TYPE_FILES=$("${FIND_CMD[@]}")
-
-for file in $TYPE_FILES; do
-    type_name=$(basename "$file")
-    echo "### $type_name" >> "$DOC_FILE"
+  
+for file in "${STRUCT_FILES[@]}"; do
+    class_name=$(basename "$file")
+    echo "---" >> "$DOC_FILE"
+    echo "### $class_name" >> "$DOC_FILE"
     echo '```csharp' >> "$DOC_FILE"
-
+    
     echo 'Information' >> "$DOC_FILE"
-
+    
     echo '```' >> "$DOC_FILE"
     echo >> "$DOC_FILE"
 done
 
 
+# ------ Enums --------------------------------------------------------------------------------------------------
+ENUM_FILES=(
+    "$FRAMEWORK_DIR/Types/Enums/Axis.cs"
+    "$FRAMEWORK_DIR/Types/Enums/Button.cs"
+    "$FRAMEWORK_DIR/Types/Enums/Key.cs"
+)
+  
+for file in "${ENUM_FILES[@]}"; do
+    class_name=$(basename "$file")
+    echo "---" >> "$DOC_FILE"
+    echo "### $class_name" >> "$DOC_FILE"
+    echo '```csharp' >> "$DOC_FILE"
+    
+    echo 'Information' >> "$DOC_FILE"
+    
+    echo '```' >> "$DOC_FILE"
+    echo >> "$DOC_FILE"
+done
 
-# ------ MAIN PAGE ------------------------------------------------------------------------------------------------
 
-
+# ------ Complete --------------------------------------------------------------------------------------------------
+echo "Documentation generated successfully."
