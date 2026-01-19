@@ -5,7 +5,7 @@ using System;
 namespace Hybrid
 {
     // Keyboard
-    public sealed partial class Keyboard : Module
+    internal partial class Keyboard : InputDevice
     {
         private static readonly Dictionary<Key, State> Buttons = new Dictionary<Key, State>();
 
@@ -86,10 +86,10 @@ namespace Hybrid
         }
     }
     
-    public partial class Keyboard
+    internal partial class Keyboard
     {
         // Get keyboard button pressed
-        public static bool GetButton(Key button)
+        internal bool GetButton(Key button)
         {
             if (Buttons.TryGetValue(button, out var state))
             {
@@ -100,7 +100,7 @@ namespace Hybrid
         }
         
         // Get keyboard button released
-        public static bool GetButtonUp(Key button)
+        internal bool GetButtonUp(Key button)
         {
             if (Buttons.TryGetValue(button, out var state))
             {
@@ -111,7 +111,7 @@ namespace Hybrid
         }
         
         // Get keyboard button down (single frame)
-        public static bool GetButtonDown(Key button)
+        internal bool GetButtonDown(Key button)
         {
             if (Buttons.TryGetValue(button, out var state))
             {

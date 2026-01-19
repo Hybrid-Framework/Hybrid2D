@@ -15,7 +15,15 @@ namespace App
 
         public override void OnUpdate()
         {
-            
+            if (Input.GetMouseButtonDown(1))
+            {
+                Debug.Log("Mouse");
+            }
+
+            if (Input.GetKeyboardButtonDown(Key.A))
+            {
+                Debug.Log("Keyboard");
+            }
         }
 
         public override void OnRender()

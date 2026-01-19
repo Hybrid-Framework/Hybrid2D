@@ -9,14 +9,10 @@ namespace Hybrid
         internal bool Initialized { get; private set; } = false;
         internal bool IsRunning { get; private set; } = false;
         
-        internal TouchKeyboard TouchKeyboard { get; set; }
-        internal Keyboard Keyboard { get; set; }
         internal Graphics Graphics { get; set; }
-        internal Gamepad Gamepad { get; set; }
         internal Window Window { get; set; }
-        internal Mouse Mouse { get; set; }
-        internal Touch Touch { get; set; }
         internal Mixer Mixer { get; set; }
+        internal Input Input { get; set; }
         internal Time Time { get; set; }
 
         
@@ -51,11 +47,7 @@ namespace Hybrid
                     Mixer = new Mixer();
                     Window = new Window();
                     Graphics = new Graphics();
-                    TouchKeyboard = new TouchKeyboard();
-                    Keyboard = new Keyboard();
-                    Gamepad = new Gamepad();
-                    Mouse = new Mouse();
-                    Touch = new Touch();
+                    Input = new Input();
                     Time = new Time();
                     
                     OnEngineInitialize();
