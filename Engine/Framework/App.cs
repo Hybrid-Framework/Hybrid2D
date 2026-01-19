@@ -16,7 +16,7 @@ namespace Hybrid
         internal Window Window { get; set; }
         internal Mouse Mouse { get; set; }
         internal Touch Touch { get; set; }
-        internal Audio Audio { get; set; }
+        internal Mixer Mixer { get; set; }
         internal Time Time { get; set; }
 
         
@@ -48,7 +48,7 @@ namespace Hybrid
             {
                 try
                 {
-                    Audio = new Audio();
+                    Mixer = new Mixer();
                     Window = new Window();
                     Graphics = new Graphics();
                     TouchKeyboard = new TouchKeyboard();
