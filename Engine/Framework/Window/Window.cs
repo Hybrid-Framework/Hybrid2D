@@ -34,9 +34,9 @@ namespace Hybrid
     public unsafe partial class Window
     {
         // Set window icon
-        public static void SetIcon(string path)
+        public static void SetIcon(string iconPath)
         {
-            var icon = SDL_image.Load(SDL.GetBasePath() + path);
+            var icon = SDL_image.Load(SDL.GetBasePath() + iconPath);
             {
                 if (icon != null)
                 {
@@ -59,9 +59,9 @@ namespace Hybrid
         }
         
         // Set window fullscreen
-        public static void SetFullscreen(bool fullscreen)
+        public static void SetFullscreen(bool enabled)
         {
-            SDL.SetWindowFullscreen(Handle, fullscreen);
+            SDL.SetWindowFullscreen(Handle, enabled);
         }
 
         // Get window fullscreen
@@ -71,9 +71,9 @@ namespace Hybrid
         }
         
         // Set window resizable
-        public static void SetResizable(bool resizable)
+        public static void SetResizable(bool enabled)
         {
-            SDL.SetWindowResizable(Handle, resizable);
+            SDL.SetWindowResizable(Handle, enabled);
         }
 
         // Get window resizable
@@ -83,9 +83,9 @@ namespace Hybrid
         }
         
         // Set window borderless
-        public static void SetBorderless(bool borderless)
+        public static void SetBorderless(bool enabled)
         {
-            SDL.SetWindowBordered(Handle, !borderless);
+            SDL.SetWindowBordered(Handle, !enabled);
         }
 
         // Get window borderless
@@ -95,9 +95,9 @@ namespace Hybrid
         }
         
         // Set window maximized
-        public static void SetMaximized(bool maximized)
+        public static void SetMaximized(bool enabled)
         {
-            if (maximized)
+            if (enabled)
             {
                 SDL.MaximizeWindow(Handle);
                 return;
@@ -113,9 +113,9 @@ namespace Hybrid
         }
         
         // Set window minimized
-        public static void SetMinimized(bool minimized)
+        public static void SetMinimized(bool enabled)
         {
-            if (minimized)
+            if (enabled)
             {
                 SDL.MinimizeWindow(Handle);
                 return;
@@ -221,9 +221,9 @@ namespace Hybrid
         }
         
         // Set window aspect ratio
-        public static void SetAspectRatio(Point ratio)
+        public static void SetAspectRatio(Point size)
         {
-            SDL.SetWindowAspectRatio(Handle, ratio.x, ratio.y);
+            SDL.SetWindowAspectRatio(Handle, size.x, size.y);
         }
 
         // Get window aspect ratio
@@ -236,9 +236,9 @@ namespace Hybrid
         }
         
         // Set window vsync
-        public static void SetVSync(bool vsync)
+        public static void SetVSync(bool enabled)
         {
-            SDL.SetRenderVSync(Graphics.Handle, vsync ? 1 : 0);
+            SDL.SetRenderVSync(Graphics.Handle, enabled ? 1 : 0);
         }
 
         // Get window vsync
@@ -250,43 +250,28 @@ namespace Hybrid
             }
         }
         
-        // Get all display ids
-        public static uint[] GetDisplays()
+        // Minimize window
+        public static void Minimize()
         {
-            return SDL.GetDisplays(out var count);
-        }
-
-        // Get current display id
-        public static uint GetCurrentDisplay()
-        {
-            return SDL.GetDisplayForWindow(Handle);
-        }
-
-        // Get current display name
-        public static string GetCurrentDisplayName()
-        {
-            return GetDisplayName(GetCurrentDisplay());
+            SDL.MinimizeWindow(Handle);
         }
         
-        // Get current display size
-        public static Point GetCurrentDisplaySize()
+        // Maximize window
+        public static void Maximize()
         {
-            return GetDisplaySize(GetCurrentDisplay());
+            SDL.MaximizeWindow(Handle);
         }
         
-        // Get specific display name
-        public static string GetDisplayName(uint displayID)
+        // Restore window
+        public static void Restore()
         {
-            return SDL.GetDisplayName(displayID);
+            SDL.RestoreWindow(Handle);
         }
         
-        // Get specific display size
-        public static Point GetDisplaySize(uint displayID)
+        // Raise window
+        public static void Raise()
         {
-            SDL.GetDisplayBounds(displayID, out SDL.RectInt rect);
-            {
-                return new Point(rect.w, rect.h);
-            }
+            SDL.RaiseWindow(Handle);
         }
         
         // Show window
@@ -294,35 +279,11 @@ namespace Hybrid
         {
             SDL.ShowWindow(Handle);
         }
-
+        
         // Hide window
         public static void Hide()
         {
             SDL.HideWindow(Handle);
-        }
-
-        // Raise window
-        public static void Raise()
-        {
-            SDL.RaiseWindow(Handle);
-        }
-
-        // Restore window
-        public static void Restore()
-        {
-            SDL.RestoreWindow(Handle);
-        }
-
-        // Maximize window
-        public static void Maximize()
-        {
-            SDL.MaximizeWindow(Handle);
-        }
-
-        // Minimize window
-        public static void Minimize()
-        {
-            SDL.MinimizeWindow(Handle);
         }
     }
 }
