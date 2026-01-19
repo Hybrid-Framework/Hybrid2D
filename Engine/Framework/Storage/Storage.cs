@@ -5,7 +5,7 @@ using System;
 namespace Hybrid
 {
     // General
-    public static partial class FileSystem
+    public static partial class Storage
     {
         private static string ResolvePath(string path) => Path.Combine(GetBaseDirectory(), path);
         private static string CurrentDirectory = GetBaseDirectory();
@@ -45,7 +45,7 @@ namespace Hybrid
     }
     
     // File
-    public static partial class FileSystem
+    public static partial class Storage
     {
         // Does file exist at path
         public static bool FileExists(string path)
@@ -215,7 +215,7 @@ namespace Hybrid
     }
     
     // Folder
-    public static partial class FileSystem
+    public static partial class Storage
     {
         // Does folder exist
         public static bool FolderExists(string path)
