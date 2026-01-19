@@ -5,14 +5,14 @@ namespace Hybrid
 {
     // Rect
     [StructLayout(LayoutKind.Sequential)]
-    public partial struct Rectangle
+    public partial struct Rect
     {
         public float x;
         public float y;
         public float width;
         public float height;
         
-        public Rectangle(float x, float y, float width, float height)
+        public Rect(float x, float y, float width, float height)
         {
             this.x = x;
             this.y = y;
@@ -22,9 +22,9 @@ namespace Hybrid
     }
     
     // SDL
-    public partial struct Rectangle
+    public partial struct Rect
     {
-        internal static SDL.Rect? ToSDLRect(Rectangle? rect)
+        internal static SDL.Rect? ToSDLRect(Rect? rect)
         {
             if (rect.HasValue)
             {
@@ -40,7 +40,7 @@ namespace Hybrid
             return null;
         }
 
-        internal static SDL.RectInt? ToSDLRectInt(Rectangle? rect)
+        internal static SDL.RectInt? ToSDLRectInt(Rect? rect)
         {
             if (rect.HasValue)
             {
@@ -56,11 +56,11 @@ namespace Hybrid
             return null;
         }
 
-        internal static Rectangle? FromSDLRect(SDL.Rect? rect)
+        internal static Rect? FromSDLRect(SDL.Rect? rect)
         {
             if (rect.HasValue)
             {
-                return new Rectangle
+                return new Rect
                 (
                     rect.Value.x,
                     rect.Value.x,
@@ -69,14 +69,14 @@ namespace Hybrid
                 );
             }
 
-            return new Rectangle();
+            return new Rect();
         }
         
-        internal static Rectangle? FromSDLRectInt(SDL.RectInt? rect)
+        internal static Rect? FromSDLRectInt(SDL.RectInt? rect)
         {
             if (rect.HasValue)
             {
-                return new Rectangle
+                return new Rect
                 (
                     rect.Value.x,
                     rect.Value.x,
@@ -85,7 +85,7 @@ namespace Hybrid
                 );
             }
 
-            return new Rectangle();
+            return new Rect();
         }
     }
 }
