@@ -1,8 +1,8 @@
 ﻿using App;
 
-public class Program
+public class Program : Activity
 {
-    public static void Main()
+    public override void Entry()
     {
         var game = new Game();
         {

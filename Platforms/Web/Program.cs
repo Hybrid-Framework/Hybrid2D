@@ -1,10 +1,8 @@
-using System.Runtime.InteropServices.JavaScript;
 using App;
 
-public partial class Program
+public class Program : Activity
 {
-    [JSExport]
-    public static void Main()
+    public override void Entry()
     {
         var game = new Game();
         {

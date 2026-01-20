@@ -11,15 +11,11 @@ using App;
     Theme = "@android:style/Theme.NoTitleBar.Fullscreen",
     ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize
 )]
-public class Program : Org.Libsdl.App.SDLActivity
+public class Program : Activity
 {
-    protected override string[] GetLibraries() => ["SDL3", "SDL3_image", "SDL3_mixer", "SDL3_ttf"];
-    
-    protected override void Main()
+    public override void Entry()
     {
         var game = new Game();
-        {
-            game.Run();
-        }
+        game.Run();
     }
 }

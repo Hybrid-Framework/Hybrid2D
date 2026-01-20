@@ -11,8 +11,8 @@ const config = getConfig();
 const exports = await getAssemblyExports(config.mainAssemblyName);
 
 // Canvas
-const canvas = HybridJS.GetCanvas();
+var canvas = document.getElementById("canvas");
 dotnet.instance.Module.canvas = canvas;
 
 // Run App
-await exports.Program.Main();
+await exports.Activity.Main();
