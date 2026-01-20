@@ -42,7 +42,7 @@ Hybrid2D is a simple framework featuring Audio, Input, Graphics and more!
 
 Getting started...
 
-* 🌐 1. Clone the source: `git clone https://github.com/LloydJHowarth/Hybrid.git`
+* 🌐 1. Clone the source: `git clone https://github.com/Hybrid2D/Hybrid.git`
 * 📂 2. Open 'Hybrid.sln' in your favourite IDE such as [Rider](https://www.jetbrains.com/rider) or [Visual Studio](https://visualstudio.microsoft.com)
 * 🎮 3. Develop in the 'App' project provided to you
 * 🚀 4. Build & launch your game
