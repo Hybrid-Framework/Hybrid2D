@@ -16,6 +16,14 @@ internal static unsafe partial class SDL_ttf
         }
     }
     
+    // Open Font IO
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Font* TTF_OpenFontIO(SDL.IOStream* stream, bool close, float size);
+    internal static SDL.Font* OpenFontIO(SDL.IOStream* stream, bool close, float size)
+    {
+        return TTF_OpenFontIO(stream, close, size);
+    }
+    
     // Close Font
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern void TTF_CloseFont(SDL.Font* font);

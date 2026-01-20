@@ -8,9 +8,6 @@ namespace App
         public override void OnInitialize()
         {
             Window.SetTitle("Hello");
-            
-            var sound = Audio.CreateAudio("Sounds/Sound.wav");
-            Audio.PlayAudio(sound);
         }
 
         public override void OnUpdate()
@@ -30,12 +27,6 @@ namespace App
         {
             Graphics.DrawBegin(Color.Black);
             Graphics.DrawFps(10, 10, Color.White);
-
-            var width = Window.GetWidth();
-            var height = Window.GetHeight();
-            
-            Graphics.DrawLine(new Point(0, height/2f), new Point(width, height/2f), 5, Color.Red);
-            
             Graphics.DrawEnd();
         }
     }

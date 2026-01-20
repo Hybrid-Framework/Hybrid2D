@@ -16,6 +16,14 @@ internal static unsafe partial class SDL_mixer
         }
     }
     
+    // Load Audio IO
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Audio* MIX_LoadAudio_IO(SDL.Mixer* mixer, SDL.IOStream *io, bool predecode, bool close);
+    internal static SDL.Audio* LoadAudioIO(SDL.Mixer* mixer, SDL.IOStream* stream, bool predecode, bool close)
+    {
+        return MIX_LoadAudio_IO(mixer, stream, predecode, close);
+    }
+    
     // Destroy Audio
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
     private static extern void MIX_DestroyAudio(SDL.Audio* audio);

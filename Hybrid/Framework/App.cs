@@ -4,11 +4,12 @@ using System;
 
 namespace Hybrid
 {
-    public abstract partial class App
+    public abstract unsafe partial class App
     {
         internal bool Initialized { get; private set; } = false;
         internal bool IsRunning { get; private set; } = false;
         
+        internal Resources Resources { get; set; }
         internal Graphics Graphics { get; set; }
         internal Window Window { get; set; }
         internal Mixer Mixer { get; set; }
@@ -38,6 +39,8 @@ namespace Hybrid
             }
         }
 
+        internal SDL.Texture* texture;
+
         internal void MainInitialize()
         {
             if (Initialized)
@@ -47,6 +50,7 @@ namespace Hybrid
                     Mixer = new Mixer();
                     Window = new Window();
                     Graphics = new Graphics();
+                    Resources = new Resources();
                     Input = new Input();
                     Time = new Time();
                     
@@ -60,6 +64,8 @@ namespace Hybrid
                     Exceptions.Throw(ex, this);
                 }
             }
+            
+            var file = Resources.Load("Resources/Images/Image.png");
         }
 
         internal void MainLoop(Queue<SDL.Event> Events)
@@ -129,7 +135,7 @@ namespace Hybrid
             {
                 module.OnRender();
             }
-            
+
             OnRender();
         }
         

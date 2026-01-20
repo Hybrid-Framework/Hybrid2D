@@ -6,6 +6,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <EmbeddedResource Include="Resources\**\*" />
+    </ItemGroup>
+
+    <ItemGroup>
         <ProjectReference Include="..\Hybrid\Hybrid.csproj" />
     </ItemGroup>
 

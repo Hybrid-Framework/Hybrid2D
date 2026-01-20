@@ -15,6 +15,14 @@ internal static unsafe partial class SDL_image
             return IMG_Load(utf8);
         }
     }
+    
+    // Load IO
+    [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
+    private static extern SDL.Surface* IMG_Load_IO(SDL.IOStream* stream, bool close);
+    internal static SDL.Surface* LoadIO(SDL.IOStream* stream, bool close)
+    {
+        return IMG_Load_IO(stream, close);
+    }
 
     // Load Texture
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]
