@@ -64,8 +64,6 @@ namespace Hybrid
                     Exceptions.Throw(ex, this);
                 }
             }
-            
-            var file = Resources.Load("Resources/Images/Image.png");
         }
 
         internal void MainLoop(Queue<SDL.Event> Events)
