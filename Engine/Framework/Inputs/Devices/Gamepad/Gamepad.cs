@@ -94,7 +94,7 @@ namespace Hybrid
                                         float raw = e.gamepadAxis.value;
                                         float value = raw >= 0 ? raw / 32767.0f : raw / 32768.0f;
 
-                                        if (axis == Axis.LeftY || axis == Axis.RightY) value *= -1;
+                                        if (axis == Axis.LeftStickY || axis == Axis.RightStickY) value *= -1;
                                         if (Maths.Abs(value) < gamepad.DeadZone) value = 0f;
 
                                         gamepad.Axes[axis] = value;

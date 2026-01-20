@@ -2,39 +2,43 @@
 
 namespace Hybrid
 {
-    // Maths API
-    public static class Maths
+    // Values
+    public static partial class Maths
     {
         // PI value
         public static float Pi()
         {
             return MathF.PI;
         }
-        
+
         // 2 PI value
         public static float TwoPi()
         {
             return 2f * MathF.PI;
         }
-        
+
         // Half of PI value
         public static float HalfPi()
         {
             return MathF.PI / 2f;
         }
-        
+
         // Degrees to radians value
         public static float Deg2Rad()
         {
             return MathF.PI / 180f;
         }
-        
+
         // Radians to degrees value
         public static float Rad2Deg()
         {
             return 180f / MathF.PI;
         }
-        
+    }
+    
+    // Functions
+    public static partial class Maths
+    {
         // Sine of angle in radians
         public static float Sin(float radians)
         {

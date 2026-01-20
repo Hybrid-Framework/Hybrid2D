@@ -23,7 +23,7 @@ namespace Hybrid
         }
     }
     
-    // Create & Destroy
+    // Font Management
     public unsafe partial class Font
     {
         // Create new font instance
@@ -43,7 +43,7 @@ namespace Hybrid
         }
     }
 
-    // Font API
+    // Font
     public unsafe partial class Font
     {
         // Set font character spacing
@@ -77,7 +77,7 @@ namespace Hybrid
         }
     }
     
-    // Text API
+    // Text
     public unsafe partial class Font
     {
         // Measure text size using font and size

@@ -3,16 +3,30 @@ using System;
 
 namespace Hybrid
 {
-    // Color
+    // Colors
     [StructLayout(LayoutKind.Sequential)]
     public partial struct Color
     {
-        public static readonly Color White  = new Color(1f, 1f, 1f, 1f);
-        public static readonly Color Black  = new Color(0f, 0f, 0f, 1f);
-        public static readonly Color Red    = new Color(1f, 0f, 0f, 1f);
-        public static readonly Color Green  = new Color(0f, 1f, 0f, 1f);
-        public static readonly Color Blue   = new Color(0f, 0f, 1f, 1f);
-
+        // White Color
+        public static readonly Color White = new Color(1f, 1f, 1f, 1f);
+        
+        // Black Color
+        public static readonly Color Black = new Color(0f, 0f, 0f, 1f);
+        
+        // Red Color
+        public static readonly Color Red = new Color(1f, 0f, 0f, 1f);
+        
+        // Green Color
+        public static readonly Color Green = new Color(0f, 1f, 0f, 1f);
+        
+        // Blue Color
+        public static readonly Color Blue = new Color(0f, 0f, 1f, 1f);
+    }
+    
+    // Color
+    public partial struct Color
+    {
+        // Red Value
         private float _r;
         public float r
         {
@@ -20,6 +34,7 @@ namespace Hybrid
             set => _r = Maths.Clamp01(value);
         }
         
+        // Green Value
         private float _g;
         public float g
         {
@@ -27,6 +42,7 @@ namespace Hybrid
             set => _g = Maths.Clamp01(value);
         }
         
+        // Blue Value
         private float _b;
         public float b
         {
@@ -34,6 +50,7 @@ namespace Hybrid
             set => _b = Maths.Clamp01(value);
         }
         
+        // Alpha Value
         private float _a;
         public float a
         {
@@ -41,6 +58,7 @@ namespace Hybrid
             set => _a = Maths.Clamp01(value);
         }
 
+        // Constructor
         public Color(float r, float g, float b, float a = 1f)
         {
             this.r = r;

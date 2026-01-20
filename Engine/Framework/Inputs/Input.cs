@@ -118,7 +118,7 @@ namespace Hybrid
     public sealed partial class Input
     {
         // Rumble gamepad for ms
-        public static void GamepadRumble(int index, float strength, float ms)
+        public static void SetGamepadRumble(int index, float strength, float ms)
         {
             Gamepad.Rumble(index, strength, ms);
         }
@@ -243,11 +243,13 @@ namespace Hybrid
     // Clipboard
     public sealed partial class Input
     {
+        // Set clipboard text
         public static void SetClipboardText(string text)
         {
             SDL.SetClipboardText(text);
         }
         
+        // Get clipboard text
         public static string GetClipboardText()
         {
             return SDL.GetClipboardText();

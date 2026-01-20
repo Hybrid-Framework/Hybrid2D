@@ -73,8 +73,24 @@ namespace Hybrid
             }
         }
     }
+    
+    // Master Audio
+    public unsafe partial class Audio
+    {
+        // Set master audio volume
+        public static void SetMasterAudioVolume(float volume)
+        {
+            SDL_mixer.SetMasterGain(Mixer.Handle, volume);
+        }
+       
+        // Get master audio volume
+        public static float GetMasterAudioVolume()
+        {
+            return SDL_mixer.GetMasterGain(Mixer.Handle);
+        }
+    }
 
-    // Audio API
+    // Audio
     public unsafe partial class Audio
     {
         // Set audio playback position
@@ -96,18 +112,6 @@ namespace Hybrid
                     return ms;
                 }
             }
-        }
-        
-        // Set audio audio volume
-        public static void SetMasterAudioVolume(float volume)
-        {
-            SDL_mixer.SetMasterGain(Mixer.Handle, volume);
-        }
-       
-        // Get audio audio volume
-        public static float GetMasterAudioVolume()
-        {
-            return SDL_mixer.GetMasterGain(Mixer.Handle);
         }
         
         // Set audio volume

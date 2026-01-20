@@ -4,7 +4,7 @@ using System;
 
 namespace Hybrid
 {
-    // General
+    // Directory Management
     public static partial class Storage
     {
         private static string ResolvePath(string path) => Path.Combine(GetBaseDirectory(), path);

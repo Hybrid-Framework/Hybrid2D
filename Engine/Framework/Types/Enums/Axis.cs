@@ -5,10 +5,10 @@ namespace Hybrid
     public enum Axis
     {
         Unknown,
-        LeftX,
-        LeftY,
-        RightX,
-        RightY,
+        LeftStickX,
+        LeftStickY,
+        RightStickX,
+        RightStickY,
         LeftTrigger,
         RightTrigger,
     }

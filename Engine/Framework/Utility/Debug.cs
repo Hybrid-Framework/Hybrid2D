@@ -2,7 +2,7 @@
 
 namespace Hybrid
 {
-    // Debug API
+    // Debug
     public static class Debug
     {
         // Log a message

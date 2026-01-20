@@ -7,11 +7,19 @@ namespace Hybrid
     [StructLayout(LayoutKind.Sequential)]
     public partial struct Rect
     {
+        // X Value
         public float x;
+        
+        // Y Value
         public float y;
+        
+        // Width Value
         public float width;
+        
+        // Height Value
         public float height;
         
+        // Constructor
         public Rect(float x, float y, float width, float height)
         {
             this.x = x;

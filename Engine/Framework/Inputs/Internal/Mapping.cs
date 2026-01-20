@@ -185,10 +185,10 @@ namespace Hybrid
         
         private static readonly Dictionary<SDL.GamepadAxis, Axis> SDLGamepadAxes = new()
         {
-            [SDL.GamepadAxis.LeftStickX] = Axis.LeftX,
-            [SDL.GamepadAxis.LeftStickY] = Axis.LeftY,
-            [SDL.GamepadAxis.RightStickX] = Axis.RightX,
-            [SDL.GamepadAxis.RightStickY] = Axis.RightY,
+            [SDL.GamepadAxis.LeftStickX] = Axis.LeftStickX,
+            [SDL.GamepadAxis.LeftStickY] = Axis.LeftStickY,
+            [SDL.GamepadAxis.RightStickX] = Axis.RightStickX,
+            [SDL.GamepadAxis.RightStickY] = Axis.RightStickY,
             [SDL.GamepadAxis.LeftTrigger] = Axis.LeftTrigger,
             [SDL.GamepadAxis.RightTrigger] = Axis.RightTrigger
         };

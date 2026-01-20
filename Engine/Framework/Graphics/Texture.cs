@@ -70,7 +70,7 @@ namespace Hybrid
         }
     }
 
-    // Create & Destroy
+    // Texture Management
     public unsafe partial class Texture
     {
         // Create new texture instance
@@ -95,7 +95,7 @@ namespace Hybrid
         }
     }
     
-    // Texture API
+    // Texture
     public unsafe partial class Texture
     {
         // Set texture pixel color

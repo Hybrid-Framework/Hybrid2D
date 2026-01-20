@@ -32,34 +32,10 @@ namespace Hybrid
             }
         }
     }
-
-    // Graphics API
+    
+    // General
     public unsafe partial class Graphics
     {
-        // Draw custom geometry with texture
-        public static void DrawGeometry(Texture texture, float[] positions, Color[] colors, float[] uvs, int[] indices)
-        {
-            SDL.RenderGeometryRaw(Handle, texture == null ? null : texture.Handle, positions, colors, uvs, indices);
-        }
-        
-        // Draw custom geometry without texture
-        public static void DrawGeometry(float[] positions, Color[] colors, int[] indices)
-        {
-            SDL.RenderGeometryRaw(Handle, null, positions, colors, null, indices);
-        }
-        
-        // Draw section of texture at position
-        public static void DrawTexture(Texture texture, Rect? uv, Rect? position)
-        {
-            SDL.RenderTexture(Handle, texture == null ? null : texture.Handle, Rect.ToSDLRect(uv), Rect.ToSDLRect(position));
-        }
-        
-        // Draw full texture at position
-        public static void DrawTexture(Texture texture, Rect? position)
-        {
-            SDL.RenderTexture(Handle, texture == null ? null : texture.Handle, null, Rect.ToSDLRect(position));
-        }
-
         // Draw begin (draw after this call)
         public static void DrawBegin(Color color)
         {
@@ -75,8 +51,40 @@ namespace Hybrid
             SDL.RenderPresent(Handle);
         }
     }
+
+    // Geometry
+    public unsafe partial class Graphics
+    {
+        // Draw custom geometry with texture
+        public static void DrawGeometry(Texture texture, float[] positions, Color[] colors, float[] uvs, int[] indices)
+        {
+            SDL.RenderGeometryRaw(Handle, texture == null ? null : texture.Handle, positions, colors, uvs, indices);
+        }
+        
+        // Draw custom geometry without texture
+        public static void DrawGeometry(float[] positions, Color[] colors, int[] indices)
+        {
+            SDL.RenderGeometryRaw(Handle, null, positions, colors, null, indices);
+        }
+    }
+
+    // Texture
+    public unsafe partial class Graphics
+    {
+        // Draw section of texture at position
+        public static void DrawTexture(Texture texture, Rect uv, Rect position)
+        {
+            SDL.RenderTexture(Handle, texture == null ? null : texture.Handle, Rect.ToSDLRect(uv), Rect.ToSDLRect(position));
+        }
+        
+        // Draw full texture at position
+        public static void DrawTexture(Texture texture, Rect position)
+        {
+            SDL.RenderTexture(Handle, texture == null ? null : texture.Handle, null, Rect.ToSDLRect(position));
+        }
+    }
     
-    // Graphics Text API
+    // Text
     public unsafe partial class Graphics
     {
         // Draw text with a font, position, size and color

@@ -30,7 +30,7 @@ namespace Hybrid
         }
     }
     
-    // Window API
+    // Window
     public unsafe partial class Window
     {
         // Set window icon
