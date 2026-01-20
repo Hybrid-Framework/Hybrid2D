@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine", "Engine\Engine.csproj", "{0BCEFE08-C88E-474C-B1E7-32F0457884B0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hybrid", "Hybrid\Hybrid.csproj", "{0BCEFE08-C88E-474C-B1E7-32F0457884B0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Engine", "Engine", "{F09E69BA-3F65-4A4E-98CC-F05560403CC1}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hybrid", "Hybrid", "{F09E69BA-3F65-4A4E-98CC-F05560403CC1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platforms", "Platforms", "{574E6364-206B-4DDA-8895-08F9AF815EAE}"
 EndProject
