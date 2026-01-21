@@ -52,7 +52,7 @@ SDL()
 
 IMAGE()
 {
-  Github "SDL_IMAGE" "https://github.com/libsdl-org/SDL_image.git" ""
+  Github "SDL_IMAGE" "https://github.com/libsdl-org/SDL_image.git" "release-3.2.6"
 
   cd "$MODULES_DIR/SDL_IMAGE" || exit
   BUILDPATH="$MODULES_DIR/SDL_IMAGE/build_$PLATFORM"
