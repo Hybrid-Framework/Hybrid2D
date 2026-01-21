@@ -52,7 +52,7 @@ SDL()
 
 IMAGE()
 {
-  Github "SDL_IMAGE" "https://github.com/libsdl-org/SDL_image.git" "release-3.2.6"
+  Github "SDL_IMAGE" "https://github.com/libsdl-org/SDL_image.git" ""
 
   cd "$MODULES_DIR/SDL_IMAGE" || exit
   BUILDPATH="$MODULES_DIR/SDL_IMAGE/build_$PLATFORM"
@@ -79,6 +79,8 @@ IMAGE()
     -DSDLIMAGE_XCF=OFF \
     -DSDLIMAGE_XPM=OFF \
     -DSDLIMAGE_XV=OFF \
+    -DSDLIMAGE_PNG_LIBPNG=OFF \
+    -DSDLIMAGE_ANI=OFF \
     -DSDLIMAGE_TESTS=OFF \
     -DSDLIMAGE_VENDORED=ON \
     -DSDLIMAGE_DEPS_SHARED=OFF \
