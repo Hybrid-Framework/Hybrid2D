@@ -1,15 +1,15 @@
 <Project>
 
 <!-- Resources -->
-    <ItemGroup>
-        <Content Include="..\..\App\Resources\**\*">
-            <TargetPath>%(RecursiveDir)%(Filename)%(Extension)</TargetPath>
-            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
-            <Visible>false</Visible>
-        </Content>
-    </ItemGroup>
+<!--    <ItemGroup>-->
+<!--        <Content Include="..\..\App\Resources\**\*">-->
+<!--            <TargetPath>%(RecursiveDir)%(Filename)%(Extension)</TargetPath>-->
+<!--            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>-->
+<!--            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>-->
+<!--            <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>-->
+<!--            <Visible>false</Visible>-->
+<!--        </Content>-->
+<!--    </ItemGroup>-->
     
 <!-- Natives -->
     <PropertyGroup>

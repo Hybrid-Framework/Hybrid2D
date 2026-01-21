@@ -1,4 +1,4 @@
-﻿using System.IO;
+﻿using System.Runtime.InteropServices;
 using System;
 
 namespace Hybrid
@@ -6,41 +6,30 @@ namespace Hybrid
     // Internal
     public sealed unsafe partial class Texture
     {
-        internal SDL.Texture* Handle
-        {
-            get; set;
-        }
+        internal SDL.IOStream* Stream { get; set; }
+        internal SDL.Texture* Handle { get; set; }
+        internal GCHandle GCHandle;
         
-        internal string Format
-        {
-            get; set;
-        }
+        internal string Format { get; set; }
+        internal byte[] Pixels { get; set; }
+        internal int Height { get; set; }
+        internal int Width { get; set; }
+        
 
-        internal byte[] Pixels
+        internal Texture(string texturePath)
         {
-            get; set;
-        }
-        
-        internal int Width
-        {
-            get; set;
-        }
-        
-        internal int Height
-        {
-            get; set;
-        }
-
-        internal Texture(string path)
-        {
-            path = Path.Combine(SDL.GetBasePath() + path);
+            // Create Stream
+            Stream = Resources.CreateStream(texturePath, out GCHandle);
             {
-                var surface = SDL_image.Load(path);
-                if (surface == null) throw new Exception($"Failed to load texture '{path}' {SDL.GetError()}");
+                // Load Surface From Stream
+                var surface = SDL_image.LoadIO(Stream, false);
+                if (surface == null) throw new Exception($"Failed to load texture '{texturePath}' {SDL.GetError()}");
 
+                // Convert Surface to RGBA32
                 var converted = SDL.ConvertSurface(surface, SDL.PixelFormat.RGBA32);
-                if (converted == null) throw new Exception($"Failed to load texture '{path} {SDL.GetError()}'");
+                if (converted == null) throw new Exception($"Failed to load texture '{texturePath} {SDL.GetError()}'");
 
+                // Get Surface Data
                 Width = converted->width;
                 Height = converted->height;
                 int length = Width * Height * 4;
@@ -51,21 +40,25 @@ namespace Hybrid
                         byte* src = (byte*)converted->pixels.ToPointer();
                         Buffer.MemoryCopy(src, dst, length, length);
                     }
-                
-                    SDL.DestroySurface(surface);
-                    SDL.DestroySurface(converted);
+            
+                    // Create Texture From Surface Data
                     Handle = SDL.CreateTexture(Graphics.Handle, SDL.PixelFormat.RGBA32, SDL.TextureAccess.Static, Width, Height);
                     {
                         Format = SDL.GetTextureFormat(Handle).ToString();
-                    
+                
                         if (Handle == null)
                         {
                             throw new Exception($"Failed to create texture: {SDL.GetError()}");
                         }
                     }
-                
-                    Apply(this);
                 }
+            
+                // Clean up
+                SDL.DestroySurface(converted);
+                SDL.DestroySurface(surface);
+            
+                // Apply
+                Apply(this);
             }
         }
     }
@@ -74,9 +67,9 @@ namespace Hybrid
     public unsafe partial class Texture
     {
         // Create new texture instance
-        public static Texture CreateTexture(string path)
+        public static Texture CreateTexture(string texturePath)
         {
-            return new Texture(path);
+            return new Texture(texturePath);
         }
 
         // Destroy existing font instance
@@ -86,6 +79,16 @@ namespace Hybrid
             {
                 SDL.DestroyTexture(texture.Handle);
                 texture.Handle = null;
+            }
+            
+            if (texture.GCHandle.IsAllocated)
+            {
+                texture.GCHandle.Free();
+            }
+
+            if (texture.Stream != null)
+            {
+                SDL.CloseIO(texture.Stream);
             }
             
             Array.Clear(texture.Pixels);

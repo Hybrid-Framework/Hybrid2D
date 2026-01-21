@@ -266,13 +266,13 @@ namespace Hybrid
     public unsafe partial class Graphics
     {
         // Draw section of texture at position
-        public static void DrawTexture(Texture texture, Rect uv, Rect position)
+        public static void DrawTexture(Texture texture, Rect? uv, Rect? position)
         {
             SDL.RenderTexture(Handle, texture == null ? null : texture.Handle, Rect.ToSDLRect(uv), Rect.ToSDLRect(position));
         }
         
         // Draw full texture at position
-        public static void DrawTexture(Texture texture, Rect position)
+        public static void DrawTexture(Texture texture, Rect? position)
         {
             SDL.RenderTexture(Handle, texture == null ? null : texture.Handle, null, Rect.ToSDLRect(position));
         }
@@ -284,7 +284,7 @@ namespace Hybrid
         // Draw text with a font, position, size and color
         public static void DrawText(Font font, string text, int x, int y, float size, Color color)
         {
-            var surface = SDL_ttf.RenderTextSolid(font.FontHandle, text, Color.ToSDLColor32(color));
+            var surface = SDL_ttf.RenderTextSolid(font.Handle, text, Color.ToSDLColor32(color));
             {
                 if (surface != null)
                 {
@@ -294,7 +294,7 @@ namespace Hybrid
                     {
                         var width = SDL.GetTextureWidth(texture);
                         var height = SDL.GetTextureHeight(texture);
-                        var scale = size / Font.DefaultFontSize;
+                        var scale = size / Font.DefaultSize;
                         
                         var position = new Rect
                         {

@@ -1,4 +1,4 @@
-﻿using System.IO;
+﻿using System.Runtime.InteropServices;
 using System;
 
 namespace Hybrid
@@ -6,8 +6,11 @@ namespace Hybrid
     // Internal
     public sealed unsafe partial class Audio
     {
-        internal SDL_mixer.StereoGains Stereo { get; set; }
+        internal SDL.IOStream* Stream { get; set; }
         internal SDL.Audio* Handle { get; set; }
+        internal GCHandle GCHandle;
+        
+        internal SDL_mixer.StereoGains Stereo { get; set; }
         internal SDL.Track* Track { get; set; }
         
         
@@ -27,15 +30,19 @@ namespace Hybrid
         
         internal Audio(string audioPath)
         {
-            audioPath = Path.Combine(SDL.GetBasePath() + audioPath);
+            // Create Stream
+            Stream = Resources.CreateStream(audioPath, out GCHandle);
             {
-                Handle = SDL_mixer.LoadAudio(Mixer.Handle, audioPath, false);
-
-                if (Handle == null)
+                // Load Audio From Stream
+                Handle = SDL_mixer.LoadAudioIO(Mixer.Handle, Stream, false, false);
                 {
-                    throw new Exception($"Failed to load audio '{audioPath}': {SDL.GetError()}");
+                    if (Handle == null)
+                    {
+                        throw new Exception($"Failed to load audio '{audioPath}': {SDL.GetError()}");
+                    }
                 }
 
+                // Create & Assign properties
                 Stereo = new SDL_mixer.StereoGains(1, 1);
                 Track = SDL_mixer.CreateTrack(Mixer.Handle);
                 SDL_mixer.SetTrackAudio(Track, Handle);
@@ -70,6 +77,16 @@ namespace Hybrid
             if (audio.Track != null)
             {
                 SDL_mixer.DestroyTrack(audio.Track);
+            }
+            
+            if (audio.GCHandle.IsAllocated)
+            {
+                audio.GCHandle.Free();
+            }
+
+            if (audio.Stream != null)
+            {
+                SDL.CloseIO(audio.Stream);
             }
         }
     }

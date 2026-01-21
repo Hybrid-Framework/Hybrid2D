@@ -1,4 +1,4 @@
-﻿using System.IO;
+﻿using System.Runtime.InteropServices;
 using System;
 
 namespace Hybrid
@@ -6,19 +6,29 @@ namespace Hybrid
     // Internal
     public sealed unsafe partial class Font
     {
-        internal static int DefaultFontSize { get; set; } = 64;
-
-        internal SDL.Font* FontHandle
-        {
-            get; set;
-        }
+        internal static int DefaultSize { get; set; } = 64;
+        
+        internal SDL.IOStream* Stream { get; set; }
+        internal SDL.Font* Handle { get; set; }
+        internal GCHandle GCHandle;
+        
         
         internal Font(string fontPath)
         {
-            fontPath = Path.Combine(SDL.GetBasePath() + fontPath);
+            // Create Stream
+            Stream = Resources.CreateStream(fontPath, out GCHandle);
             {
-                FontHandle = SDL_ttf.OpenFont(fontPath, DefaultFontSize);
-                SDL_ttf.SetFontSDF(FontHandle, true);
+                // Open Font From Stream
+                Handle = SDL_ttf.OpenFontIO(Stream, false, DefaultSize);
+                {
+                    if (Handle == null)
+                    {
+                        throw new Exception($"Failed to load font '{fontPath}': {SDL.GetError()}");
+                    }
+                }
+                
+                // Apply SDF for scaling
+                SDL_ttf.SetFontSDF(Handle, true);
             }
         }
     }
@@ -35,10 +45,20 @@ namespace Hybrid
         // Destroy existing font instance
         public static void DestroyFont(Font font)
         {
-            if (font.FontHandle != null)
+            if (font.Handle != null)
             {
-                SDL_ttf.CloseFont(font.FontHandle);
-                font.FontHandle = null;
+                SDL_ttf.CloseFont(font.Handle);
+                font.Handle = null;
+            }
+
+            if (font.GCHandle.IsAllocated)
+            {
+                font.GCHandle.Free();
+            }
+
+            if (font.Stream != null)
+            {
+                SDL.CloseIO(font.Stream);
             }
         }
     }
@@ -49,31 +69,31 @@ namespace Hybrid
         // Set font character spacing
         public static void SetFontSpacing(Font font, int spacing)
         {
-            SDL_ttf.SetFontCharSpacing(font.FontHandle, spacing);
+            SDL_ttf.SetFontCharSpacing(font.Handle, spacing);
         }
 
         // Get font character spacing
         public static int GetFontSpacing(Font font)
         {
-            return SDL_ttf.GetFontCharSpacing(font.FontHandle);
+            return SDL_ttf.GetFontCharSpacing(font.Handle);
         }
 
         // Get font ascent
         public static int GetFontAscent(Font font)
         {
-            return SDL_ttf.GetFontAscent(font.FontHandle);
+            return SDL_ttf.GetFontAscent(font.Handle);
         }
 
         // Get font descent
         public static int GetFontDescent(Font font)
         {
-            return SDL_ttf.GetFontDescent(font.FontHandle);
+            return SDL_ttf.GetFontDescent(font.Handle);
         }
 
         // Get font height
         public static int GetFontHeight(Font font)
         {
-            return SDL_ttf.GetFontHeight(font.FontHandle);
+            return SDL_ttf.GetFontHeight(font.Handle);
         }
     }
     
@@ -83,9 +103,9 @@ namespace Hybrid
         // Measure text size using font and size
         public static Point GetTextSize(Font font, string text, float size)
         {
-            SDL_ttf.GetStringSize(font.FontHandle, text, out int w, out int h);
+            SDL_ttf.GetStringSize(font.Handle, text, out int w, out int h);
             {
-                float scale = size / Font.DefaultFontSize;
+                float scale = size / Font.DefaultSize;
 
                 return new Point
                 (
