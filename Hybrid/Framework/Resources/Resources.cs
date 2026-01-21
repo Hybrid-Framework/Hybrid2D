@@ -39,25 +39,21 @@ namespace Hybrid
         
         internal static SDL.IOStream* CreateStream(string path, out GCHandle handle)
         {
-            path = path.Replace('\\', '.').Replace('/', '.');
-
-            if (EmbeddedResources.TryGetValue(path, out var resource))
+            // Find Resource
+            if (!EmbeddedResources.TryGetValue(path.Replace('\\', '.').Replace('/', '.'), out var resource))
             {
-                // Load bytes from resource stream
-                using Stream stream = resource.assembly.GetManifestResourceStream(resource.fullpath) ?? throw new Exception($"Failed to open '{resource.fullpath}' resource.");
-                using MemoryStream ms = new MemoryStream();
-                stream.CopyTo(ms);
-                byte[] data = ms.ToArray();
-
-                // Create Stream
-                handle = GCHandle.Alloc(data, GCHandleType.Pinned);
-                IntPtr ptr = handle.AddrOfPinnedObject();
-
-                // Return Stream
-                return SDL.OpenIO((void*)ptr, (nuint)data.Length);
+                throw new Exception($"Resource '{path}' not found.");
             }
 
-            throw new Exception($"Resource '{path}' not found.");
+            // Load bytes from resource stream
+            using Stream stream = resource.assembly.GetManifestResourceStream(resource.fullpath) ?? throw new Exception($"Failed to open '{resource.fullpath}' resource.");
+            using MemoryStream ms = new MemoryStream();
+            stream.CopyTo(ms);
+            byte[] data = ms.ToArray();
+
+            // Create Stream
+            handle = GCHandle.Alloc(data, GCHandleType.Pinned);
+            return SDL.OpenIO((void*)handle.AddrOfPinnedObject(), (nuint)data.Length);
         }
     }
 }
