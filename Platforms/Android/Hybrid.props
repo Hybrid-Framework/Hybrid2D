@@ -11,12 +11,6 @@
         <AndroidResource Include="..\..\App\Resources\Icon.png">
             <Link>Resources\drawable-v26\%(Filename)%(Extension)</Link>
         </AndroidResource>
-        
-        <AndroidAsset Include="..\..\App\Resources\**\*">
-            <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-            <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
-            <Visible>false</Visible>
-        </AndroidAsset>
     </ItemGroup>
     
 <!-- Natives -->

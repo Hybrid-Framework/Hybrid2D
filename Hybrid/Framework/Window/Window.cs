@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System;
+using System.Runtime.InteropServices;
 
 namespace Hybrid
 {
@@ -36,13 +37,23 @@ namespace Hybrid
         // Set window icon
         public static void SetIcon(string iconPath)
         {
-            var icon = SDL_image.Load(SDL.GetBasePath() + iconPath);
+            // Create Stream
+            SDL.IOStream* stream = Resources.CreateStream(iconPath, out GCHandle gcHandle);
             {
-                if (icon != null)
+                // Load Surface From Stream
+                var surface = SDL_image.LoadIO(stream, false);
                 {
-                    SDL.SetWindowIcon(Handle, icon);
-                    SDL.DestroySurface(icon);
+                    if (surface == null)
+                    {
+                        throw new Exception($"Failed to load icon '{iconPath}' {SDL.GetError()}");
+                    }
                 }
+                
+                // Set Icon & Free Resources
+                SDL.SetWindowIcon(Handle, surface);
+                SDL.DestroySurface(surface);
+                SDL.CloseIO(stream);
+                gcHandle.Free();
             }
         }
         

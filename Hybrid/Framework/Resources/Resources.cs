@@ -28,8 +28,10 @@ namespace Hybrid
                             path = path.Substring(name.Length + 1);
                         }
 
-                        Debug.Log($"Registered Embedded Resource: {path} ({assembly.GetName().Name}) {resource}");
                         EmbeddedResources[path] = (assembly, resource);
+                        {
+                            // Debug.Log($"Registered Embedded Resource: {path} ({assembly.GetName().Name}) {resource}");
+                        }
                     }
                 }
             }
@@ -37,27 +39,25 @@ namespace Hybrid
         
         internal static SDL.IOStream* CreateStream(string path, out GCHandle handle)
         {
-            // Normalize path
             path = path.Replace('\\', '.').Replace('/', '.');
 
-            // Find the embedded resource
-            if (!EmbeddedResources.TryGetValue(path, out var resource))
+            if (EmbeddedResources.TryGetValue(path, out var resource))
             {
-                throw new Exception($"Resource '{path}' not found.");
+                // Load bytes from resource stream
+                using Stream stream = resource.assembly.GetManifestResourceStream(resource.fullpath) ?? throw new Exception($"Failed to open '{resource.fullpath}' resource.");
+                using MemoryStream ms = new MemoryStream();
+                stream.CopyTo(ms);
+                byte[] data = ms.ToArray();
+
+                // Create Stream
+                handle = GCHandle.Alloc(data, GCHandleType.Pinned);
+                IntPtr ptr = handle.AddrOfPinnedObject();
+
+                // Return Stream
+                return SDL.OpenIO((void*)ptr, (nuint)data.Length);
             }
 
-            // Load bytes
-            using Stream stream = resource.assembly.GetManifestResourceStream(resource.fullpath) ?? throw new Exception($"Failed to open '{resource.fullpath}' resource.");
-            using MemoryStream ms = new MemoryStream();
-            stream.CopyTo(ms);
-            byte[] data = ms.ToArray();
-
-            // Pin and create SDL_IOStream
-            handle = GCHandle.Alloc(data, GCHandleType.Pinned);
-            IntPtr ptr = handle.AddrOfPinnedObject();
-
-            // Return Stream
-            return SDL.OpenIO((void*)ptr, (nuint)data.Length);
+            throw new Exception($"Resource '{path}' not found.");
         }
     }
 }
