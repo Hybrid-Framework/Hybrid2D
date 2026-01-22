@@ -21,4 +21,6 @@
         <EmbeddedJar Include="Jars\SDLActivity.jar"/>
     </ItemGroup>
 
+    <Import Project="Nuget.props" />
+
 </Project>
