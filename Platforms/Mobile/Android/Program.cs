@@ -1,5 +1,6 @@
 using Android.Content.PM;
 using App;
+using Org.Libsdl.App;
 
 [Activity(
     Label = "Hybrid",
@@ -11,11 +12,18 @@ using App;
     Theme = "@android:style/Theme.NoTitleBar.Fullscreen",
     ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize
 )]
-public class Program : Activity
+public class Program : SDLActivity
 {
-    public override void Entry()
+    protected override string[] GetLibraries()
+    {
+        return new[] { "SDL3", "SDL3_image", "SDL3_mixer", "SDL3_ttf" };
+    }
+    
+    protected override void Main()
     {
         var game = new Game();
-        game.Run();
+        {
+            game.Run();
+        }
     }
 }

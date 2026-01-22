@@ -26,7 +26,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Android", "Platforms\Mobile
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IOS", "Platforms\Mobile\IOS\IOS.csproj", "{882684D4-BBAF-4804-A977-C21E8D500D7F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Platforms\Web\Web\Web.csproj", "{FD74C97F-7636-413D-9919-1910A7ABDA9B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Platforms\Web\Web.csproj", "{FD74C97F-7636-413D-9919-1910A7ABDA9B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
