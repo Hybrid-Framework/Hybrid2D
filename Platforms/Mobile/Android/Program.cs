@@ -1,6 +1,6 @@
 using Android.Content.PM;
-using App;
 using Org.Libsdl.App;
+using App;
 
 [Activity(
     Label = "Hybrid",

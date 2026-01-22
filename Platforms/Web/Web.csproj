@@ -10,7 +10,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\..\App\App.csproj" />
+        <ProjectReference Include="$(SolutionDir)\App\App.csproj" />
     </ItemGroup>
     
     <ItemGroup>

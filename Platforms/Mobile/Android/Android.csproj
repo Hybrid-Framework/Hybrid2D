@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
+        <OutputType>Exe</OutputType>
         <TargetFramework>net10.0-android</TargetFramework>
         <SupportedOSPlatformVersion>26</SupportedOSPlatformVersion>
         <AndroidTargetSdkVersion>35</AndroidTargetSdkVersion>
@@ -12,42 +13,35 @@
         <ApplicationVersion>1</ApplicationVersion>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <ImplicitUsings>enable</ImplicitUsings>
-        <OutputType>Exe</OutputType>
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
         <ProjectReference Include="$(SolutionDir)\App\App.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-        <AndroidResource Include="$(SolutionDir)\App\Resources\Icon.png">
-            <Link>Resources\drawable-v26\%(Filename)%(Extension)</Link>
-        </AndroidResource>
-    </ItemGroup>
-
+    
     <ItemGroup>
         <AndroidNativeLibrary Remove="$(SolutionDir)\Natives\Mobile\Android\**\*" />
-        
+
         <AndroidNativeLibrary Include="$(SolutionDir)\Natives\Mobile\Android\armeabi-v7a\**\*">
             <Visible>false</Visible>
             <Abi>armeabi-v7a</Abi>
         </AndroidNativeLibrary>
-        
+
         <AndroidNativeLibrary Include="$(SolutionDir)\Natives\Mobile\Android\arm64-v8a\**\*">
             <Visible>false</Visible>
             <Abi>arm64-v8a</Abi>
         </AndroidNativeLibrary>
-        
+
         <AndroidNativeLibrary Include="$(SolutionDir)\Natives\Mobile\Android\x86_64\**\*">
             <Visible>false</Visible>
             <Abi>x86_64</Abi>
         </AndroidNativeLibrary>
-        
+
         <AndroidNativeLibrary Include="$(SolutionDir)\Natives\Mobile\Android\x86\**\*">
             <Visible>false</Visible>
             <Abi>x86</Abi>
         </AndroidNativeLibrary>
     </ItemGroup>
-    
+
 </Project>

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Hybrid</string>
+    <string name="app_text">Hello world!</string>
 </resources>
