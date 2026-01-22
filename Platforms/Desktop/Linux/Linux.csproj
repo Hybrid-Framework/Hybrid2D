@@ -9,7 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\App\App.csproj" />
+        <ProjectReference Include="..\..\..\App\App.csproj" />
     </ItemGroup>
 
     <PropertyGroup>
@@ -18,11 +18,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Content Remove="Natives\**\*"/>
-        <Content Include="Natives\$(Architecture)\**\*">
+        <Content Remove="$(SolutionDir)\Natives\Desktop\Linux\**\*"/>
+        <Content Include="$(SolutionDir)\Natives\Desktop\Linux\$(Architecture)\**\*">
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <TargetPath>%(Filename)%(Extension)</TargetPath>
+            <Visible>false</Visible>
         </Content>
     </ItemGroup>
 

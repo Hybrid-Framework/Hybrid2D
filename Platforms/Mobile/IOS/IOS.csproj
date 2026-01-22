@@ -15,11 +15,23 @@
     </ItemGroup>
 
     <ItemGroup>
-        <NativeReference Remove="Natives\**\*"/>
-        <NativeReference Include="Natives\SDL3.xcframework"/>
-        <NativeReference Include="Natives\SDL3_image.xcframework"/>
-        <NativeReference Include="Natives\SDL3_mixer.xcframework"/>
-        <NativeReference Include="Natives\SDL3_ttf.xcframework"/>
+        <NativeReference Remove="$(SolutionDir)\Natives\Mobile\IOS\**\*"/>
+        
+        <NativeReference Include="$(SolutionDir)\Natives\Mobile\IOS\SDL3.xcframework">
+            <Visible>false</Visible>
+        </NativeReference>
+        
+        <NativeReference Include="$(SolutionDir)\Natives\Mobile\IOS\SDL3_image.xcframework">
+            <Visible>false</Visible>
+        </NativeReference>
+        
+        <NativeReference Include="$(SolutionDir)\Natives\Mobile\IOS\SDL3_mixer.xcframework">
+            <Visible>false</Visible>
+        </NativeReference>
+        
+        <NativeReference Include="$(SolutionDir)\Natives\Mobile\IOS\SDL3_ttf.xcframework">
+            <Visible>false</Visible>
+        </NativeReference>
     </ItemGroup>
 
 </Project>

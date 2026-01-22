@@ -1,10 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net10.0</TargetFramework>
+        <TargetFrameworks>net10.0;net10.0-android;net10.0-ios</TargetFrameworks>
+        <RootNamespace>Hybrid2D.Framework</RootNamespace>
+        <AssemblyName>Hybrid2D.Framework</AssemblyName>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <RootNamespace>Hybrid</RootNamespace>
-        <AssemblyName>Hybrid</AssemblyName>
+        <OutputType>Library</OutputType>
         <Nullable>disable</Nullable>
     </PropertyGroup>
 
@@ -15,5 +16,9 @@
     <PropertyGroup Condition="'$(Configuration)'=='Release'">
         <DefineConstants>RELEASE</DefineConstants>
     </PropertyGroup>
+
+    <ItemGroup>
+        <EmbeddedJar Include="Jars\SDLActivity.jar"/>
+    </ItemGroup>
 
 </Project>

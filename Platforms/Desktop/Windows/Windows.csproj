@@ -18,11 +18,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Content Remove="Natives\**\*"/>
-        <Content Include="Natives\$(Architecture)\**\*">
+        <Content Remove="$(SolutionDir)\Natives\Desktop\Windows\**\*"/>
+        <Content Include="$(SolutionDir)\Natives\Desktop\Windows\$(Architecture)\**\*">
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <TargetPath>%(Filename)%(Extension)</TargetPath>
+            <Visible>false</Visible>
         </Content>
     </ItemGroup>
 

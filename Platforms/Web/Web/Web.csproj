@@ -2,6 +2,8 @@
 
     <PropertyGroup>
         <TargetFramework>net10.0</TargetFramework>
+        <WasmAllowUndefinedSymbols>true</WasmAllowUndefinedSymbols>
+        <WasmEmitSymbolMap>true</WasmEmitSymbolMap>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
@@ -10,27 +12,22 @@
     <ItemGroup>
         <ProjectReference Include="..\..\..\App\App.csproj" />
     </ItemGroup>
-
-    <PropertyGroup>
-        <EmccExtraLDFlags>
-            -O3
-            -ffast-math
-            -sUSE_PTHREADS=0
-            -sALLOW_MEMORY_GROWTH=1
-        </EmccExtraLDFlags>
-        <WasmAllowUndefinedSymbols>true</WasmAllowUndefinedSymbols>
-        <WasmEmitSymbolMap>true</WasmEmitSymbolMap>
-    </PropertyGroup>
-
+    
     <ItemGroup>
         <Content Update="wwwroot\index.html" CopyToOutputDirectory="PreserveNewest" />
         <Content Update="wwwroot\main.js" CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>
 
     <ItemGroup>
-        <NativeFileReference Remove="Natives\**\*"/>
-        <NativeFileReference Include="Natives\**\*"/>
-        <_WasmPInvokeModules Include="SDL" Visible="false"/>
+        <NativeFileReference Remove="$(SolutionDir)\Natives\Web\**\*"/>
+        
+        <NativeFileReference Include="$(SolutionDir)\Natives\Web\**\*">
+            <Visible>false</Visible>
+        </NativeFileReference>
+        
+        <_WasmPInvokeModules Include="SDL">
+            <Visible>false</Visible>
+        </_WasmPInvokeModules>
     </ItemGroup>
     
 </Project>

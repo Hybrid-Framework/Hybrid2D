@@ -17,22 +17,37 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\..\App\App.csproj" />
+        <ProjectReference Include="$(SolutionDir)\App\App.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <AndroidResource Include="..\..\App\Resources\Icon.png">
+        <AndroidResource Include="$(SolutionDir)\App\Resources\Icon.png">
             <Link>Resources\drawable-v26\%(Filename)%(Extension)</Link>
         </AndroidResource>
     </ItemGroup>
 
     <ItemGroup>
-        <AndroidNativeLibrary Remove="Natives\**\*" />
-        <AndroidNativeLibrary Include="Natives\armeabi-v7a\**\*" Abi="armeabi-v7a"/>
-        <AndroidNativeLibrary Include="Natives\arm64-v8a\**\*" Abi="arm64-v8a"/>
-        <AndroidNativeLibrary Include="Natives\x86_64\**\*" Abi="x86_64"/>
-        <AndroidNativeLibrary Include="Natives\x86\**\*" Abi="x86"/>
-        <EmbeddedJar Include="Jars\SDLActivity.jar"/>
+        <AndroidNativeLibrary Remove="$(SolutionDir)\Natives\Mobile\Android\**\*" />
+        
+        <AndroidNativeLibrary Include="$(SolutionDir)\Natives\Mobile\Android\armeabi-v7a\**\*">
+            <Visible>false</Visible>
+            <Abi>armeabi-v7a</Abi>
+        </AndroidNativeLibrary>
+        
+        <AndroidNativeLibrary Include="$(SolutionDir)\Natives\Mobile\Android\arm64-v8a\**\*">
+            <Visible>false</Visible>
+            <Abi>arm64-v8a</Abi>
+        </AndroidNativeLibrary>
+        
+        <AndroidNativeLibrary Include="$(SolutionDir)\Natives\Mobile\Android\x86_64\**\*">
+            <Visible>false</Visible>
+            <Abi>x86_64</Abi>
+        </AndroidNativeLibrary>
+        
+        <AndroidNativeLibrary Include="$(SolutionDir)\Natives\Mobile\Android\x86\**\*">
+            <Visible>false</Visible>
+            <Abi>x86</Abi>
+        </AndroidNativeLibrary>
     </ItemGroup>
     
 </Project>
