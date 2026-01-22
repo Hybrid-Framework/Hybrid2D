@@ -1,6 +1,16 @@
-<Project>
-    
-<!-- Settings -->
+<Project Sdk="Microsoft.NET.Sdk.WebAssembly">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\App\App.csproj" />
+    </ItemGroup>
+
     <PropertyGroup>
         <EmccExtraLDFlags>
             -O3
@@ -12,17 +22,15 @@
         <WasmEmitSymbolMap>true</WasmEmitSymbolMap>
     </PropertyGroup>
 
-<!-- Resources -->
     <ItemGroup>
         <Content Update="wwwroot\index.html" CopyToOutputDirectory="PreserveNewest" />
         <Content Update="wwwroot\main.js" CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>
 
-<!-- Natives -->
     <ItemGroup>
         <NativeFileReference Remove="Natives\**\*"/>
         <NativeFileReference Include="Natives\**\*"/>
-        <_WasmPInvokeModules Include="SDL" />
+        <_WasmPInvokeModules Include="SDL" Visible="false"/>
     </ItemGroup>
-
+    
 </Project>

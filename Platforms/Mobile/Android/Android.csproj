@@ -17,9 +17,22 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\App\App.csproj" />
+        <ProjectReference Include="..\..\..\App\App.csproj" />
     </ItemGroup>
 
-    <Import Project="Hybrid.props" />
+    <ItemGroup>
+        <AndroidResource Include="..\..\App\Resources\Icon.png">
+            <Link>Resources\drawable-v26\%(Filename)%(Extension)</Link>
+        </AndroidResource>
+    </ItemGroup>
+
+    <ItemGroup>
+        <AndroidNativeLibrary Remove="Natives\**\*" />
+        <AndroidNativeLibrary Include="Natives\armeabi-v7a\**\*" Abi="armeabi-v7a"/>
+        <AndroidNativeLibrary Include="Natives\arm64-v8a\**\*" Abi="arm64-v8a"/>
+        <AndroidNativeLibrary Include="Natives\x86_64\**\*" Abi="x86_64"/>
+        <AndroidNativeLibrary Include="Natives\x86\**\*" Abi="x86"/>
+        <EmbeddedJar Include="Jars\SDLActivity.jar"/>
+    </ItemGroup>
     
 </Project>

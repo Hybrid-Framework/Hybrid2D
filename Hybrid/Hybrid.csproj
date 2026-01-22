@@ -16,8 +16,4 @@
         <DefineConstants>RELEASE</DefineConstants>
     </PropertyGroup>
 
-    <ItemGroup>
-      <Folder Include="Framework\Inputs\Devices\" />
-    </ItemGroup>
-
 </Project>
