@@ -10,7 +10,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Hybrid\Hybrid.csproj" />
+        <ProjectReference Include="$(SolutionDir)\Hybrid\Hybrid.csproj" />
     </ItemGroup>
 
 </Project>

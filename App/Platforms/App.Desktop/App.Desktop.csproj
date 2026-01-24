@@ -9,20 +9,19 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="$(SolutionDir)\App\App.csproj" />
+        <ProjectReference Include="$(SolutionDir)\App\App\App.csproj" />
     </ItemGroup>
 
     <PropertyGroup>
+        <Architecture Condition="'$(RuntimeIdentifier)' == ''">$(NETCoreSdkRuntimeIdentifier)</Architecture>
         <Architecture Condition="'$(RuntimeIdentifier)' != ''">$(RuntimeIdentifier)</Architecture>
-        <Architecture Condition="'$(RuntimeIdentifier)' == ''">osx-$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().ToLower())</Architecture>
     </PropertyGroup>
 
     <ItemGroup>
-        <Content Remove="$(SolutionDir)\Natives\Desktop\MacOS\**\*"/>
-        <Content Include="$(SolutionDir)\Natives\Desktop\MacOS\$(Architecture)\**\*">
+        <Content Remove="$(SolutionDir)\Natives\**\*"/>
+        <Content Include="$(SolutionDir)\Natives\Desktop\$(Architecture)\**\*">
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <TargetPath>%(Filename)%(Extension)</TargetPath>
             <Visible>false</Visible>
         </Content>
     </ItemGroup>

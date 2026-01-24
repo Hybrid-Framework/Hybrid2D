@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0-ios</TargetFramework>
+        <SupportedOSPlatformVersion>13.0</SupportedOSPlatformVersion>
+        <CodesignKey>iPhone Developer</CodesignKey>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <ImplicitUsings>true</ImplicitUsings>
+        <OutputType>Exe</OutputType>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="$(SolutionDir)\App\App\App.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <NativeReference Remove="$(SolutionDir)\Natives\Mobile\IOS\**\*"/>
+        <NativeReference Include="$(SolutionDir)\Natives\Mobile\IOS\SDL3.xcframework" Visible="false"/>
+        <NativeReference Include="$(SolutionDir)\Natives\Mobile\IOS\SDL3_image.xcframework" Visible="false"/>
+        <NativeReference Include="$(SolutionDir)\Natives\Mobile\IOS\SDL3_mixer.xcframework" Visible="false"/>
+        <NativeReference Include="$(SolutionDir)\Natives\Mobile\IOS\SDL3_ttf.xcframework" Visible="false"/>
+    </ItemGroup>
+
+</Project>

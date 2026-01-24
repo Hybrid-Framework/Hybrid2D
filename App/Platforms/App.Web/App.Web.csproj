@@ -10,9 +10,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="$(SolutionDir)\App\App.csproj" />
+        <ProjectReference Include="$(SolutionDir)\App\App\App.csproj" />
     </ItemGroup>
-    
+
     <ItemGroup>
         <Content Update="wwwroot\index.html" CopyToOutputDirectory="PreserveNewest" />
         <Content Update="wwwroot\main.js" CopyToOutputDirectory="PreserveNewest" />
@@ -20,14 +20,8 @@
 
     <ItemGroup>
         <NativeFileReference Remove="$(SolutionDir)\Natives\Web\**\*"/>
-        
-        <NativeFileReference Include="$(SolutionDir)\Natives\Web\**\*">
-            <Visible>false</Visible>
-        </NativeFileReference>
-        
-        <_WasmPInvokeModules Include="SDL">
-            <Visible>false</Visible>
-        </_WasmPInvokeModules>
+        <NativeFileReference Include="$(SolutionDir)\Natives\Web\**\*" Visible="false"/>
+        <_WasmPInvokeModules Include="SDL" Visible="false"/>
     </ItemGroup>
-    
+
 </Project>

@@ -17,31 +17,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="$(SolutionDir)\App\App.csproj" />
+        <ProjectReference Include="$(SolutionDir)\App\App\App.csproj" />
     </ItemGroup>
-    
+
     <ItemGroup>
         <AndroidNativeLibrary Remove="$(SolutionDir)\Natives\Mobile\Android\**\*" />
-
-        <AndroidNativeLibrary Include="$(SolutionDir)\Natives\Mobile\Android\armeabi-v7a\**\*">
-            <Visible>false</Visible>
-            <Abi>armeabi-v7a</Abi>
-        </AndroidNativeLibrary>
-
-        <AndroidNativeLibrary Include="$(SolutionDir)\Natives\Mobile\Android\arm64-v8a\**\*">
-            <Visible>false</Visible>
-            <Abi>arm64-v8a</Abi>
-        </AndroidNativeLibrary>
-
-        <AndroidNativeLibrary Include="$(SolutionDir)\Natives\Mobile\Android\x86_64\**\*">
-            <Visible>false</Visible>
-            <Abi>x86_64</Abi>
-        </AndroidNativeLibrary>
-
-        <AndroidNativeLibrary Include="$(SolutionDir)\Natives\Mobile\Android\x86\**\*">
-            <Visible>false</Visible>
-            <Abi>x86</Abi>
-        </AndroidNativeLibrary>
+        <AndroidNativeLibrary Include="$(SolutionDir)\Natives\Mobile\Android\armeabi-v7a\**\*" Abi="armeabi-v7a" Visible="false" />
+        <AndroidNativeLibrary Include="$(SolutionDir)\Natives\Mobile\Android\arm64-v8a\**\*" Abi="arm64-v8a" Visible="false" />
+        <AndroidNativeLibrary Include="$(SolutionDir)\Natives\Mobile\Android\x86_64\**\*" Abi="x86_64" Visible="false" />
+        <AndroidNativeLibrary Include="$(SolutionDir)\Natives\Mobile\Android\x86\**\*" Abi="x86" Visible="false" />
     </ItemGroup>
 
 </Project>
