@@ -1,0 +1,25 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <PropertyGroup Condition="'$(HybridPlatform)' == 'WEB'">
+        
+        <WasmAllowUndefinedSymbols>true</WasmAllowUndefinedSymbols>
+        <WasmEmitSymbolMap>true</WasmEmitSymbolMap>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        
+    </PropertyGroup>
+
+    <ItemGroup Condition="'$(HybridPlatform)' == 'WEB'">
+
+        <NativeFileReference Remove="$(MSBuildThisFileDirectory)..\..\Natives\**\*"/>
+        
+        <NativeFileReference Include="$(MSBuildThisFileDirectory)..\..\Natives\Web\**\*">
+            <Visible>false</Visible>
+        </NativeFileReference>
+
+        <_WasmPInvokeModules Include="SDL">
+            <Visible>false</Visible>
+        </_WasmPInvokeModules>
+        
+    </ItemGroup>
+
+</Project>

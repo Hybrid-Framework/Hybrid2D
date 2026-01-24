@@ -1,0 +1,22 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <PropertyGroup Condition="'$(HybridPlatform)' == 'DESKTOP'">
+        
+        <Architecture Condition="'$(RuntimeIdentifier)' == ''">$(NETCoreSdkRuntimeIdentifier)</Architecture>
+        <Architecture Condition="'$(RuntimeIdentifier)' != ''">$(RuntimeIdentifier)</Architecture>
+        
+    </PropertyGroup>
+
+    <ItemGroup Condition="'$(HybridPlatform)' == 'DESKTOP'">
+
+        <Content Remove="$(MSBuildThisFileDirectory)..\..\Natives\**\*"/>
+        
+        <Content Include="$(MSBuildThisFileDirectory)..\..\Natives\Desktop\$(Architecture)\**\*">
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Visible>false</Visible>
+        </Content>
+        
+    </ItemGroup>
+
+</Project>

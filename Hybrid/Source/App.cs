@@ -39,8 +39,6 @@ namespace Hybrid
             }
         }
 
-        internal SDL.Texture* texture;
-
         internal void MainInitialize()
         {
             if (Initialized)
