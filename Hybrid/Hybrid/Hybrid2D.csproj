@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net10.0;net10.0-android;net10.0-ios;net10.0-browser</TargetFrameworks>
+        <TargetFramework>net10.0</TargetFramework>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <NoWarn>$(NoWarn);NU5100</NoWarn>
+        <RootNamespace>Hybrid</RootNamespace>
         <OutputType>Library</OutputType>
         <Nullable>disable</Nullable>
     </PropertyGroup>
@@ -17,30 +17,17 @@
         <Copyright>(c) 2025 - 2026 Hybrid2D</Copyright>
         <PackageTags>Hybrid2D;Game;Framework</PackageTags>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <Description>Cross-platform game framework for Windows, Mac, Linux, Android, IOS, Web.</Description>
+        <Description>Hybrid2D Framework</Description>
+        <PackageProjectUrl>https://hybrid2d.github.io/Hybrid</PackageProjectUrl>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageOutputPath>C:\Nuget</PackageOutputPath>
+        <NoWarn>$(NoWarn);NU5100</NoWarn>
         <IsPackable>true</IsPackable>
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="$(SolutionDir)\Natives\**\*" Pack="true" PackagePath="Natives" Visible="false"/>
-        <None Include="Hybrid2D.Framework.targets" Pack="true" PackagePath="buildTransitive" />
-        <None Include="Targets\**\*" Pack="true" PackagePath="buildTransitive/Targets" />
         <None Include="README.md" Pack="true" PackagePath=""/>
-    </ItemGroup>
-
-    <PropertyGroup Condition="'$(Configuration)'=='Debug'">
-        <DefineConstants>DEBUG</DefineConstants>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="'$(Configuration)'=='Release'">
-        <DefineConstants>RELEASE</DefineConstants>
-    </PropertyGroup>
-
-    <ItemGroup>
-        <EmbeddedJar Include="Jars\SDLActivity.jar"/>
     </ItemGroup>
 
 </Project>

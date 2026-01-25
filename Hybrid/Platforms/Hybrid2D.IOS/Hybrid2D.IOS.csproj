@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0-ios</TargetFramework>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <RootNamespace>Hybrid</RootNamespace>
+        <OutputType>Library</OutputType>
+        <Nullable>disable</Nullable>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <Version>0.0.0.1</Version>
+        <Authors>Hybrid2D</Authors>
+        <Company>Hybrid2D</Company>
+        <Product>Hybrid2D.Framework.IOS</Product>
+        <PackageId>Hybrid2D.Framework.IOS</PackageId>
+        <Copyright>(c) 2025 - 2026 Hybrid2D</Copyright>
+        <PackageTags>Hybrid2D;Game;Framework;IOS</PackageTags>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <Description>Hybrid2D Framework dependencies for IOS</Description>
+        <PackageProjectUrl>https://hybrid2d.github.io/Hybrid</PackageProjectUrl>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageOutputPath>C:\Nuget</PackageOutputPath>
+        <NoWarn>$(NoWarn);NU5100</NoWarn>
+        <IsPackable>true</IsPackable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="Resources\Hybrid2D.Framework.IOS.targets" Pack="true" PackagePath="buildTransitive" />
+        <None Include="Natives\**\*" Pack="true" PackagePath="Natives" />
+        <None Include="README.md" Pack="true" PackagePath=""/>
+    </ItemGroup>
+    
+    <ItemGroup>
+        <ProjectReference Include="$(SolutionDir)\Hybrid\Hybrid\Hybrid2D.csproj" />
+    </ItemGroup>
+
+</Project>
