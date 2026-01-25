@@ -3,8 +3,8 @@ set -e
 
 # ------ PATHS ----------------------------------------------------------------------------------------------------
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+FRAMEWORK_DIR="$BASE_DIR/../../../Hybrid/Hybrid/Framework"
 DOC_FILE="$BASE_DIR/../../../docs/Documentation.md"
-FRAMEWORK_DIR="$BASE_DIR/../../../Hybrid/Source"
 echo "Building docs..."
 
 # ------ MAIN PAGE ------------------------------------------------------------------------------------------------
