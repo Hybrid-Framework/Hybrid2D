@@ -1,4 +1,4 @@
-﻿name: Build & Publish NuGet Package
+﻿name: Build NuGet
 
 on:
   workflow_dispatch:
@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   publish:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
       - uses: actions/checkout@v4
