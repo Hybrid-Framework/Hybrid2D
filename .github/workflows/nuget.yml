@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   publish:
-    runs-on: macos-latest
+    runs-on: macos-15-large
 
     steps:
       - uses: actions/checkout@v4
