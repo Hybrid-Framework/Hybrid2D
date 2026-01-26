@@ -196,7 +196,7 @@ jobs:
       # Publish Changes
       - name: Publish
         run: |
-          git add Platforms/
+          git add Hybrid/Platforms/
           if git diff --cached --quiet; then
             echo "No changes to commit, skipping push."
           else
