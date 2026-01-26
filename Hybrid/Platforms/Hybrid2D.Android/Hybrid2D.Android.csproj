@@ -9,7 +9,7 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <Version>0.0.0.1</Version>
+        <Version>0.0.1</Version>
         <Authors>Hybrid2D</Authors>
         <Company>Hybrid2D</Company>
         <Product>Hybrid2D.Framework.Android</Product>
@@ -19,9 +19,7 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <Description>Hybrid2D Framework for Android</Description>
         <PackageProjectUrl>https://hybrid2d.github.io/Hybrid</PackageProjectUrl>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageOutputPath>C:\Nuget</PackageOutputPath>
         <NoWarn>$(NoWarn);NU5100</NoWarn>
         <IsPackable>true</IsPackable>
     </PropertyGroup>

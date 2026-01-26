@@ -28,4 +28,15 @@
         <AndroidNativeLibrary Include="$(SolutionDir)\Natives\Mobile\Android\x86\**\*" Abi="x86" Visible="false" />
     </ItemGroup>
 
+    <ItemGroup>
+      <AndroidLibrary Update="Jars\SDLActivity.jar">
+        <Bind>true</Bind>
+        <Pack>true</Pack>
+      </AndroidLibrary>
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedJar Include="Jars\SDLActivity.jar" />
+    </ItemGroup>
+
 </Project>

@@ -1,0 +1,32 @@
+﻿name: Build & Publish Nuget Package
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build -c Release --no-restore
+
+      - name: Pack
+        run: dotnet pack -c Release --no-build
+
+      - name: Publish to NuGet
+        run: dotnet nuget push "**/bin/Release/*.nupkg" --source https://api.nuget.org/v3/index.json --skip-duplicate
