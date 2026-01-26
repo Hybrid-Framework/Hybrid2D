@@ -18,8 +18,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Content Remove="$(SolutionDir)\Natives\**\*"/>
-        <Content Include="$(SolutionDir)\Natives\Desktop\$(Architecture)\**\*">
+        <Content Remove="$(SolutionDir)\Hybrid\Platforms\Hybrid2D.MacOS\Natives\**\*"/>
+        <Content Include="$(SolutionDir)\Hybrid\Platforms\Hybrid2D.MacOS\Natives\$(Architecture)\**\*">
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <Visible>false</Visible>

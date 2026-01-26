@@ -21,11 +21,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <AndroidNativeLibrary Remove="$(SolutionDir)\Natives\Mobile\Android\**\*" />
-        <AndroidNativeLibrary Include="$(SolutionDir)\Natives\Mobile\Android\armeabi-v7a\**\*" Abi="armeabi-v7a" Visible="false" />
-        <AndroidNativeLibrary Include="$(SolutionDir)\Natives\Mobile\Android\arm64-v8a\**\*" Abi="arm64-v8a" Visible="false" />
-        <AndroidNativeLibrary Include="$(SolutionDir)\Natives\Mobile\Android\x86_64\**\*" Abi="x86_64" Visible="false" />
-        <AndroidNativeLibrary Include="$(SolutionDir)\Natives\Mobile\Android\x86\**\*" Abi="x86" Visible="false" />
+        <AndroidNativeLibrary Remove="$(SolutionDir)\Hybrid\Platforms\Hybrid2D.Android\Natives\**\*" />
+        <AndroidNativeLibrary Include="$(SolutionDir)\Hybrid\Platforms\Hybrid2D.Android\Natives\armeabi-v7a\**\*" Abi="armeabi-v7a" Visible="false" />
+        <AndroidNativeLibrary Include="$(SolutionDir)\Hybrid\Platforms\Hybrid2D.Android\Natives\arm64-v8a\**\*" Abi="arm64-v8a" Visible="false" />
+        <AndroidNativeLibrary Include="$(SolutionDir)\Hybrid\Platforms\Hybrid2D.Android\Natives\x86_64\**\*" Abi="x86_64" Visible="false" />
+        <AndroidNativeLibrary Include="$(SolutionDir)\Hybrid\Platforms\Hybrid2D.Android\Natives\x86\**\*" Abi="x86" Visible="false" />
     </ItemGroup>
 
     <ItemGroup>

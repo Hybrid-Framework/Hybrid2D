@@ -19,8 +19,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <NativeFileReference Remove="$(SolutionDir)\Natives\Web\**\*"/>
-        <NativeFileReference Include="$(SolutionDir)\Natives\Web\**\*" Visible="false"/>
+        <NativeFileReference Remove="$(SolutionDir)\Hybrid\Platforms\Hybrid2D.Web\Natives\**\*"/>
+        <NativeFileReference Include="$(SolutionDir)\Hybrid\Platforms\Hybrid2D.Web\Natives\**\*" Visible="false"/>
         <_WasmPInvokeModules Include="SDL" Visible="false"/>
     </ItemGroup>
 
