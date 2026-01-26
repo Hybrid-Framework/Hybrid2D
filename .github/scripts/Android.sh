@@ -201,7 +201,7 @@ COMPLETE()
 {
   export PATH="$PATH:$JAVA_HOME/bin"
   
-  JAR_DIR="$BASE_DIR/../../Hybrid/Jars"
+  JAR_DIR="$BASE_DIR/../../Hybrid/Platforms/Hybrid2D.Android/Jars"
   JAVA_DIR="$MODULES_DIR/SDL/android-project/app/src/main/java"
 
   ANDROID_JAR="$ANDROID_HOME/platforms/android-$ANDROID_COMPILE/android.jar"

@@ -143,6 +143,7 @@ jobs:
           name: ${{ matrix.tag }}
           path: Platforms/${{ matrix.platform }}/Natives/**/*
           if-no-files-found: error
+          retention-days: 1
       
       # Upload JAR
       - name: Upload JAR
@@ -152,6 +153,7 @@ jobs:
           name: ${{ matrix.platform }}
           path: Platforms/${{ matrix.platform }}/Jars/*
           if-no-files-found: error
+          retention-days: 1
   
   
   # Publish
