@@ -141,7 +141,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.tag }}
-          path: Platforms/${{ matrix.platform }}/Natives/**/*
+          path: Hybrid/**/Natives/**/*
           if-no-files-found: error
           retention-days: 1
       
@@ -150,8 +150,8 @@ jobs:
         uses: actions/upload-artifact@v4
         if: ${{ matrix.tag == 'android-x86_64' }}
         with:
-          name: ${{ matrix.platform }}
-          path: Platforms/${{ matrix.platform }}/Jars/*
+          name: SDLActivity.jar
+          path: Hybrid/**/Jars/**/*
           if-no-files-found: error
           retention-days: 1
   
@@ -179,7 +179,11 @@ jobs:
       - name: Update Artifacts
         run: |
           for PLATFORM in "Windows" "Linux" "MacOS" "Android" "IOS" "Web"; do
-            DEST_DIR="Platforms/$PLATFORM/Natives"
+            if [[ "$PLATFORM" == "Windows" || "$PLATFORM" == "Linux" || "$PLATFORM" == "MacOS" ]]; then
+              DEST_DIR="Hybrid/Platforms/Hybrid2D.Desktop/Natives"
+            else
+              DEST_DIR="Hybrid/Platforms/Hybrid2D.$PLATFORM/Natives"
+            fi
             rm -rf "$DEST_DIR"
             mkdir -p "$DEST_DIR"
             for SRC_DIR in artifacts/$PLATFORM-*; do
@@ -190,15 +194,15 @@ jobs:
       # Update Jar
       - name: Update Jar
         run: |
-          JARS_DIR="Platforms/Android/Jars"
+          JARS_DIR="Hybrid/Platforms/Hybrid2D.Android/Jars"
           rm -rf "$JARS_DIR"
           mkdir -p "$JARS_DIR"
-          cp -r "artifacts/Android/SDLActivity.jar" "$JARS_DIR/" 2>/dev/null || true
+          cp -r "artifacts/SDLActivity.jar/SDLActivity.jar" "$JARS_DIR/" 2>/dev/null || true
   
       # Publish Changes
       - name: Publish
         run: |
-          git add Platforms/
+          git add Hybrid/Platforms/
           if git diff --cached --quiet; then
             echo "No changes to commit, skipping push."
           else

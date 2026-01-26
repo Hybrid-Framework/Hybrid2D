@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "Web": {
+    "App.Web": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

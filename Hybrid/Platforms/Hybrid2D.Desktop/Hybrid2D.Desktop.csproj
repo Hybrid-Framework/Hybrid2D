@@ -2,10 +2,12 @@
 
     <PropertyGroup>
         <TargetFramework>net10.0</TargetFramework>
+        <GenerateProgramFile>false</GenerateProgramFile>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <RootNamespace>Hybrid</RootNamespace>
         <OutputType>Library</OutputType>
         <Nullable>disable</Nullable>
+        <IsExe>false</IsExe>
     </PropertyGroup>
 
     <PropertyGroup>
