@@ -1,4 +1,4 @@
-﻿name: Build & Publish Nuget Package
+﻿name: Build & Publish NuGet Package
 
 on:
   workflow_dispatch:
@@ -17,16 +17,21 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: '10.0.x'
 
-      - name: Restore
+      - name: Restore workloads
+        run: dotnet workload restore
+
+      - name: Restore dependencies
         run: dotnet restore
 
-      - name: Build
+      - name: Build all projects
         run: dotnet build -c Release --no-restore
 
-      - name: Pack
+      - name: Pack all NuGet projects
         run: dotnet pack -c Release --no-build
 
-      - name: Publish to NuGet
-        run: dotnet nuget push "**/bin/Release/*.nupkg" --source https://api.nuget.org/v3/index.json --skip-duplicate
+      - name: Publish all NuGet packages
+        run: dotnet nuget push "**/bin/Release/*.nupkg" \
+          --source https://api.nuget.org/v3/index.json \
+          --skip-duplicate
