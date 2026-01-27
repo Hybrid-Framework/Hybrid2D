@@ -1,0 +1,35 @@
+<Project>
+    
+<!-- Settings -->
+    <PropertyGroup>
+        <EmccExtraLDFlags>
+            -O3
+            -ffast-math
+            -sUSE_PTHREADS=0
+            -sALLOW_MEMORY_GROWTH=1
+            --embed-file ../../App/Resources@/
+        </EmccExtraLDFlags>
+        <WasmAllowUndefinedSymbols>true</WasmAllowUndefinedSymbols>
+        <WasmEmitSymbolMap>true</WasmEmitSymbolMap>
+    </PropertyGroup>
+
+<!-- Resources -->
+    <ItemGroup>
+        <Content Update="wwwroot\index.html" CopyToOutputDirectory="PreserveNewest" />
+        <Content Update="wwwroot\main.js" CopyToOutputDirectory="PreserveNewest" />
+        
+        <None Include="..\..\App\Resources\**\*">
+            <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+            <Visible>false</Visible>
+        </None>
+    </ItemGroup>
+
+<!-- Natives -->
+    <ItemGroup>
+        <NativeFileReference Remove="Natives\**\*"/>
+        <NativeFileReference Include="Natives\**\*"/>
+        <_WasmPInvokeModules Include="__Internal_emscripten" />
+        <_WasmPInvokeModules Include="SDL" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,65 @@
+<div align="center">
+ 
+<img width="128" src="Hybrid.png">
+
+A lightweight cross-platform game framework
+
+Inspried by Unity
+
+⚠️ IN DEVELOPMENT ⚠️
+
+![Windows](https://custom-icon-badges.demolab.com/badge/Windows-000000?logo=windows11&logoColor=white)
+![MacOS](https://img.shields.io/badge/MacOS-000000?logo=apple&logoColor=white)
+![Linux](https://img.shields.io/badge/Linux-000000?logo=linux&logoColor=white)
+![Android](https://img.shields.io/badge/Android-000000?logo=android&logoColor=white)
+![iOS](https://img.shields.io/badge/iOS-000000?logo=apple&logoColor=white)
+![Web](https://img.shields.io/badge/Web-000000?logo=googlechrome&logoColor=white)
+
+[Overview](#overview) • 
+[Platforms](#platforms) • 
+[Dependencies](#dependencies) • 
+[Contributions](#contributions) • 
+[License](#license) 
+</div>
+
+<h2 id="overview">🔍 Overview</h2>
+
+Hybrid is a lightweight cross-platform 2D Game Framework written in C#
+
+Getting started...
+
+* 🌐 1. Clone the source: `git clone https://github.com/LloydJHowarth/Hybrid.git`
+* 📂 2. Open 'Hybrid.sln' in your favourite IDE such as [Rider](https://www.jetbrains.com/rider) or [Visual Studio](https://visualstudio.microsoft.com)
+* 🎮 3. Develop in the 'App' project provided to you
+* 🚀 4. Build & launch your game
+
+
+<h2 id="platforms">🖥️ Cross-platform</h2>
+
+Currently supports these platforms:
+  * **Desktop:** Windows, Mac, Linux
+  * **Mobile:** Android, iOS
+  * **Web:** Browsers
+
+
+<h2 id="dependencies">📦 Dependencies</h2>
+
+Currently using these dependencies:
+  * [EMSCRIPTEN 3.1.56](https://github.com/emscripten-core/emscripten)
+  * [DOTNET 10.0](https://github.com/dotnet/runtime)
+  * [SDL 3.3.4](https://github.com/libsdl-org/SDL)
+
+
+<h2 id="contributions">🫂 Contributions</h2>
+
+Current community and contributors:
+  * Support and contributions are currently not being accepted.
+  * Feel free to fork the current state of the repository.
+
+
+<h2 id="license">📄 License</h2>
+
+ * All third-party dependencies are covered by their respective licenses.
+ * This project is licensed under the [MIT LICENSE](LICENSE.txt).
+
+ 
