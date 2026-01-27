@@ -1,0 +1,207 @@
+name: Build Natives
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  build:
+    name: ${{ matrix.tag }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          # Windows x64
+          - platform: Windows
+            arch: x64
+            rid: win-x64
+            tag: Windows-x64
+            os: windows-latest
+
+          # Windows x86
+          - platform: Windows
+            arch: win32
+            rid: win-x86
+            tag: Windows-x86
+            os: windows-latest
+
+          # Windows Arm64
+          - platform: Windows
+            arch: arm64
+            rid: win-arm64
+            tag: Windows-arm64
+            os: windows-latest
+
+          # Linux x64
+          - platform: Linux
+            arch: x86_64
+            rid: linux-x64
+            tag: Linux-x64
+            os: ubuntu-22.04
+
+          # Linux x86
+          - platform: Linux
+            arch: i686
+            rid: linux-x86
+            tag: Linux-x86
+            os: ubuntu-22.04
+
+          # Linux Arm64
+          - platform: Linux
+            arch: aarch64
+            rid: linux-arm64
+            tag: Linux-arm64
+            os: ubuntu-22.04-arm
+
+          # Linux Arm
+          - platform: Linux
+            arch: armhf
+            rid: linux-arm
+            tag: Linux-arm
+            os: ubuntu-22.04-arm
+
+          # Mac x64
+          - platform: MacOS
+            arch: x86_64
+            rid: osx-x64
+            tag: MacOS-x64
+            os: macos-latest
+
+          # Mac Arm64
+          - platform: MacOS
+            arch: arm64
+            rid: osx-arm64
+            tag: MacOS-arm64
+            os: macos-latest
+
+          # Android x86
+          - platform: Android
+            arch: x86
+            rid: x86
+            tag: Android-x86
+            os: ubuntu-22.04
+
+          # Android x64
+          - platform: Android
+            arch: x86_64
+            rid: x86_64
+            tag: Android-x86_64
+            os: ubuntu-22.04
+
+          # Android Arm
+          - platform: Android
+            arch: armeabi-v7a
+            rid: armeabi-v7a
+            tag: Android-armeabi-v7a
+            os: ubuntu-22.04
+
+          # Android Arm64
+          - platform: Android
+            arch: arm64-v8a
+            rid: arm64-v8a
+            tag: Android-arm64-v8a
+            os: ubuntu-22.04
+
+          # iOS
+          - platform: IOS
+            arch: Universal
+            rid: Universal
+            tag: IOS-universal
+            os: macos-latest
+
+          # Web
+          - platform: Web
+            arch: Universal
+            rid: Universal
+            tag: Web-universal
+            os: windows-latest
+
+    steps:
+      # Checkout
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      # Build Artifacts
+      - name: Build ${{ matrix.platform }}
+        shell: bash
+        env:
+          PLATFORM: ${{ matrix.platform }}
+          ARCH: ${{ matrix.arch }}
+          RID: ${{ matrix.rid }}
+          OS: ${{ runner.os }}
+        run: |
+          chmod +x .github/scripts/${{ matrix.platform }}.sh
+          ./.github/scripts/${{ matrix.platform }}.sh
+      
+      # Upload Artifacts
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.tag }}
+          path: Hybrid/Platforms/Hybrid2D.${{ matrix.platform }}/Natives/**/*
+          if-no-files-found: error
+      
+      # Upload JAR
+      - name: Upload JAR
+        uses: actions/upload-artifact@v4
+        if: ${{ matrix.tag == 'android-x86_64' }}
+        with:
+          name: ${{ matrix.platform }}
+          path: Hybrid/Platforms/Hybrid2D.${{ matrix.platform }}/Jars/*
+          if-no-files-found: error
+  
+  
+  # Publish
+  publish:
+    name: Publish
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          persist-credentials: true
+      
+      # Download artifacts
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      
+      # Update Artifacts
+      - name: Update Artifacts
+        run: |
+          for PLATFORM in "Windows" "Linux" "MacOS" "Android" "IOS" "Web"; do
+            DEST_DIR="Hybrid/Platforms/Hybrid2D.$PLATFORM/Natives"
+            rm -rf "$DEST_DIR"
+            mkdir -p "$DEST_DIR"
+            for SRC_DIR in artifacts/$PLATFORM-*; do
+              cp -r "$SRC_DIR"/* "$DEST_DIR/" 2>/dev/null || true
+            done
+          done
+      
+      # Update Jar
+      - name: Update Jar
+        run: |
+          JARS_DIR="Hybrid/Platforms/Hybrid2D.Android/Jars"
+          rm -rf "$JARS_DIR"
+          mkdir -p "$JARS_DIR"
+          cp -r "artifacts/Android/SDLActivity.jar" "$JARS_DIR/" 2>/dev/null || true
+      
+      # Publish Changes
+      - name: Publish
+        run: |
+          git add Hybrid/Platforms/
+          if git diff --cached --quiet; then
+            echo "No changes to commit, skipping push."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git commit -m "Natives"
+            git push origin ${{ github.ref_name }}
+          fi

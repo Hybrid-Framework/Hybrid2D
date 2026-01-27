@@ -1,0 +1,30 @@
+site_name: Hybrid2D
+site_description: "C# Games made simple"
+site_author: "Lloyd J Howarth"
+
+
+nav:
+  - Home: index.md
+  - Introduction: Introduction.md
+  - Documentation: Documentation.md
+  - License: License.md
+  - About: About.md
+
+theme:
+  name: material
+  logo: "assets/Hybrid.png"
+  favicon: "assets/Hybrid.png"
+
+extra_css:
+  - stylesheets/extra.css
+  
+features:
+  - header.autohide
+
+hide:
+  - title
+
+extra:
+  generator: false
+
+copyright: © 2025 - 2026 Hybrid2D. All rights reserved.

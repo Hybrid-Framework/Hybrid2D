@@ -1,4 +1,4 @@
-<div align="center">
+﻿<div align="center">
 
 <img width="256" src="Hybrid.png">
 

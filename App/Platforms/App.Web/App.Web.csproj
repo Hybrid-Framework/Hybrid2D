@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk.WebAssembly">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0-browser</TargetFramework>
+        <WasmAllowUndefinedSymbols>true</WasmAllowUndefinedSymbols>
+        <WasmEmitSymbolMap>true</WasmEmitSymbolMap>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="$(SolutionDir)\App\App\App.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Update="wwwroot\index.html" CopyToOutputDirectory="PreserveNewest" />
+        <Content Update="wwwroot\main.js" CopyToOutputDirectory="PreserveNewest" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <NativeFileReference Remove="$(SolutionDir)\Hybrid\Platforms\Hybrid2D.Web\Natives\**\*"/>
+        <NativeFileReference Include="$(SolutionDir)\Hybrid\Platforms\Hybrid2D.Web\Natives\**\*" Visible="false"/>
+        <_WasmPInvokeModules Include="SDL" Visible="false"/>
+    </ItemGroup>
+
+</Project>

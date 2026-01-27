@@ -1,0 +1,14 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <PropertyGroup>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <NativeReference Include="$(MSBuildThisFileDirectory)..\Natives\SDL3_image.xcframework" Visible="false"/>
+        <NativeReference Include="$(MSBuildThisFileDirectory)..\Natives\SDL3_mixer.xcframework" Visible="false"/>
+        <NativeReference Include="$(MSBuildThisFileDirectory)..\Natives\SDL3_ttf.xcframework" Visible="false"/>
+        <NativeReference Include="$(MSBuildThisFileDirectory)..\Natives\SDL3.xcframework" Visible="false"/>
+    </ItemGroup>
+
+</Project>
