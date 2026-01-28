@@ -4,27 +4,57 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Release version'
+        description: 'Version'
         required: true
-        default: 'v1.0.0'
+        default: '0.0.1'
       description:
-        description: 'Release description'
+        description: 'Description'
         required: true
-        default: 'Release description'
+        default: '0.0.1 Release'
 
 permissions:
   contents: write
-  id-token: write
-  actions: read
   
 jobs:
-  release:
-    name: Release ${{ github.event.inputs.version }}
-    runs-on: ubuntu-latest
+  nuget:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
+      - name: .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Build Packages
+        run: |
+          dotnet workload restore
+          dotnet build -c Release
+          dotnet pack -c Release -p:Version=${{ github.event.inputs.version }}
+          ls -l .nuget/
+
+      - name: Publish Packages
+        shell: bash
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: |
+          for pkg in .nuget/*.nupkg; do
+            echo "Pushing $pkg"
+#            dotnet nuget push "$pkg" --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+          done
+          
+  github:
+    name: Release ${{ github.event.inputs.version }}
+    runs-on: windows-latest
+    needs: nuget
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          submodules: recursive
 
       - name: Zip Source
         run: |
@@ -38,6 +68,5 @@ jobs:
           tag: ${{ github.event.inputs.version }}
           name: ${{ github.event.inputs.version }}
           body: ${{ github.event.inputs.description }}
-          artifacts: ${{ env.ZIP_NAME }}
           draft: false
           prerelease: false
