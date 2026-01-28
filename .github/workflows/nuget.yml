@@ -29,10 +29,10 @@ jobs:
           dotnet build -c Release
 
       - name: Publish Packages
+        shell: bash
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
         run: |
-          # Push all nupkg files in .nuget/
           for pkg in .nuget/*.nupkg; do
             echo "Pushing $pkg"
             dotnet nuget push "$pkg" --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
