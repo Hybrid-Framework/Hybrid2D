@@ -14,9 +14,10 @@ on:
 
 permissions:
   contents: write
-  
+
 jobs:
   nuget:
+    name: Build & Publish NuGet ${{ github.event.inputs.version }}
     runs-on: windows-latest
     steps:
       - name: Checkout
@@ -24,16 +25,16 @@ jobs:
         with:
           submodules: recursive
 
-      - name: .NET
+      - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10.0.x'
 
-      - name: Build Packages
+      - name: Build & Pack
         run: |
           dotnet workload restore
           dotnet build -c Release
-          dotnet pack -c Release -p:Version=${{ github.event.inputs.version }}
+          dotnet pack -c Release -p:PackageVersion=${{ github.event.inputs.version }} -o .nuget
           ls -l .nuget/
 
       - name: Publish Packages
@@ -41,13 +42,13 @@ jobs:
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
         run: |
-          for pkg in .nuget/*.nupkg; do
-            echo "Pushing $pkg"
-#            dotnet nuget push "$pkg" --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
-          done
-          
+         for pkg in .nuget/*.nupkg; do
+         echo "Pushing $pkg"
+#          dotnet nuget push "$pkg" --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+         done
+
   github:
-    name: Release ${{ github.event.inputs.version }}
+    name: GitHub Release ${{ github.event.inputs.version }}
     runs-on: windows-latest
     needs: nuget
     steps:
@@ -55,12 +56,6 @@ jobs:
         uses: actions/checkout@v3
         with:
           submodules: recursive
-
-      - name: Zip Source
-        run: |
-          ZIP_NAME="source.zip"
-          echo "ZIP_NAME=$ZIP_NAME" >> $GITHUB_ENV
-          zip -r $ZIP_NAME .
 
       - name: Create Release
         uses: ncipollo/release-action@v1
