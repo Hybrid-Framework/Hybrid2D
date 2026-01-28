@@ -194,7 +194,7 @@ jobs:
           done
   
           mkdir -p Android/Jars
-          for JAR in artifacts/Android-*/SDLActivity.jar; do
+          for JAR in artifacts/Android/SDLActivity.jar; do
             [ -f "$JAR" ] && cp "$JAR" Android/Jars/
           done
           
