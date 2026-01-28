@@ -10,7 +10,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="$(SolutionDir)\Hybrid\Hybrid\Hybrid2D.csproj" />
+        <PackageReference Include="Hybrid2D.Framework" Version="*" />
     </ItemGroup>
 
 </Project>

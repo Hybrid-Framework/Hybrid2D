@@ -21,6 +21,8 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <Description>Hybrid2D Framework dependencies for Web</Description>
         <PackageProjectUrl>https://hybrid2d.github.io/Hybrid</PackageProjectUrl>
+        <PackageOutputPath>$(SolutionDir)\.nuget</PackageOutputPath>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <NoWarn>$(NoWarn);NU5100</NoWarn>
         <IsPackable>true</IsPackable>
@@ -28,7 +30,7 @@
 
     <ItemGroup>
         <None Include="Resources\Hybrid2D.Framework.Web.targets" Pack="true" PackagePath="buildTransitive" />
-        <None Include="Natives\**\*" Pack="true" PackagePath="Natives" />
+        <None Include="$(SolutionDir)\Hybrid\Natives\Web\**\*" Pack="true" PackagePath="Natives" />
         <None Include="README.md" Pack="true" PackagePath=""/>
     </ItemGroup>
 

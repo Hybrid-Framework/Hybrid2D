@@ -19,9 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <NativeFileReference Remove="$(SolutionDir)\Hybrid\Platforms\Hybrid2D.Web\Natives\**\*"/>
-        <NativeFileReference Include="$(SolutionDir)\Hybrid\Platforms\Hybrid2D.Web\Natives\**\*" Visible="false"/>
-        <_WasmPInvokeModules Include="SDL" Visible="false"/>
+        <PackageReference Include="Hybrid2D.Framework.Web" Version="*" />
     </ItemGroup>
 
 </Project>

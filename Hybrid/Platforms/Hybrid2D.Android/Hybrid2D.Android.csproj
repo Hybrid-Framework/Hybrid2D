@@ -21,6 +21,8 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <Description>Hybrid2D Framework for Android</Description>
         <PackageProjectUrl>https://hybrid2d.github.io/Hybrid</PackageProjectUrl>
+        <PackageOutputPath>$(SolutionDir)\.nuget</PackageOutputPath>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <NoWarn>$(NoWarn);NU5100</NoWarn>
         <IsPackable>true</IsPackable>
@@ -28,16 +30,28 @@
 
     <ItemGroup>
         <None Include="Resources\Hybrid2D.Framework.Android.targets" Pack="true" PackagePath="buildTransitive" />
-        <None Include="Natives\**\*" Pack="true" PackagePath="Natives" />
+        <None Include="$(SolutionDir)\Hybrid\Natives\Android\**\*" Pack="true" PackagePath="Natives" />
         <None Include="README.md" Pack="true" PackagePath=""/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="$(SolutionDir)\Hybrid\Hybrid\Hybrid2D.csproj" />
+        <AndroidLibrary Update="$(SolutionDir)\Hybrid\Natives\Android\Jars\SDLActivity.jar">
+            <Link>Jars\SDLActivity.jar</Link>
+            <Bind>true</Bind>
+            <Pack>true</Pack>
+        </AndroidLibrary>
     </ItemGroup>
 
     <ItemGroup>
-      <EmbeddedJar Include="Jars\SDLActivity.jar" />
+        <EmbeddedJar Include="$(SolutionDir)\Hybrid\Natives\Android\Jars\SDLActivity.jar">
+            <Link>Jars\SDLActivity.jar</Link>
+            <Pack>true</Pack>
+            <Bind>true</Bind>
+        </EmbeddedJar>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="$(SolutionDir)\Hybrid\Hybrid\Hybrid2D.csproj" />
     </ItemGroup>
 
 </Project>

@@ -19,6 +19,8 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <Description>Hybrid2D Framework</Description>
         <PackageProjectUrl>https://hybrid2d.github.io/Hybrid</PackageProjectUrl>
+        <PackageOutputPath>$(SolutionDir)\.nuget</PackageOutputPath>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <NoWarn>$(NoWarn);NU5100</NoWarn>
         <IsPackable>true</IsPackable>

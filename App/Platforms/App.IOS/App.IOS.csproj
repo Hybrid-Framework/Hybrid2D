@@ -15,11 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <NativeReference Remove="$(SolutionDir)\Hybrid\Platforms\Hybrid2D.IOS\Natives\**\*"/>
-        <NativeReference Include="$(SolutionDir)\Hybrid\Platforms\Hybrid2D.IOS\Natives\SDL3.xcframework" Visible="false"/>
-        <NativeReference Include="$(SolutionDir)\Hybrid\Platforms\Hybrid2D.IOS\Natives\SDL3_image.xcframework" Visible="false"/>
-        <NativeReference Include="$(SolutionDir)\Hybrid\Platforms\Hybrid2D.IOS\Natives\SDL3_mixer.xcframework" Visible="false"/>
-        <NativeReference Include="$(SolutionDir)\Hybrid\Platforms\Hybrid2D.IOS\Natives\SDL3_ttf.xcframework" Visible="false"/>
+        <PackageReference Include="Hybrid2D.Framework.IOS" Version="*" />
     </ItemGroup>
 
 </Project>
