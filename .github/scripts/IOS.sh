@@ -4,7 +4,7 @@ set -e
 echo "Building... OS: $OS PLATFORM: $PLATFORM ARCH: $ARCH RID: $RID"
 
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-NATIVES_DIR="$BASE_DIR/../../Hybrid/Platforms/Hybrid2D.IOS/Natives"
+NATIVES_DIR="$BASE_DIR/../../Natives/IOS"
 MODULES_DIR="$BASE_DIR/Dependencies/Modules"
 DEPENDENCIES_DIR="$BASE_DIR/Dependencies"
 source "$DEPENDENCIES_DIR/Methods.sh"

@@ -141,7 +141,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.tag }}
-          path: Hybrid/Platforms/Hybrid2D.${{ matrix.platform }}/Natives/**/*
+          path: Natives/${{ matrix.platform }}/**/*
           if-no-files-found: error
       
       # Upload JAR
@@ -150,58 +150,68 @@ jobs:
         if: ${{ matrix.tag == 'android-x86_64' }}
         with:
           name: ${{ matrix.platform }}
-          path: Hybrid/Platforms/Hybrid2D.${{ matrix.platform }}/Jars/*
+          path: Natives/${{ matrix.platform }}/Jars/**/*
           if-no-files-found: error
   
   
   # Publish
   publish:
-    name: Publish
+    name: Natives
     needs: build
     runs-on: ubuntu-latest
     steps:
-      # Checkout
       - name: Checkout
         uses: actions/checkout@v4
         with:
           ref: ${{ github.ref_name }}
           persist-credentials: true
-      
-      # Download artifacts
+          fetch-depth: 0
+
+      - name: Configure
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create Branch
+        run: |
+          git push origin --delete Natives || true
+          git checkout --orphan Natives
+          git rm -rf . || true
+          git clean -fdx || true
+          
       - name: Download Artifacts
         uses: actions/download-artifact@v4
         with:
           path: artifacts
-      
-      # Update Artifacts
-      - name: Update Artifacts
+
+      - name: Update Natives
         run: |
-          for PLATFORM in "Windows" "Linux" "MacOS" "Android" "IOS" "Web"; do
-            DEST_DIR="Hybrid/Platforms/Hybrid2D.$PLATFORM/Natives"
-            rm -rf "$DEST_DIR"
-            mkdir -p "$DEST_DIR"
-            for SRC_DIR in artifacts/$PLATFORM-*; do
-              cp -r "$SRC_DIR"/* "$DEST_DIR/" 2>/dev/null || true
+          for PLATFORM in Windows Linux MacOS Android IOS Web; do
+            mkdir -p "$PLATFORM"
+            for SRC in artifacts/$PLATFORM-*; do
+              [ -d "$SRC" ] && cp -r "$SRC/." "$PLATFORM/"
             done
           done
-      
-      # Update Jar
-      - name: Update Jar
+  
+          mkdir -p Android/Jars
+          for JAR in artifacts/Android-*/SDLActivity.jar; do
+            [ -f "$JAR" ] && cp "$JAR" Android/Jars/
+          done
+          
+          git add . ':!artifacts'
+          git commit -m "Update Natives"
+          git push origin Natives --force
+
+      - name: Update Native References
         run: |
-          JARS_DIR="Hybrid/Platforms/Hybrid2D.Android/Jars"
-          rm -rf "$JARS_DIR"
-          mkdir -p "$JARS_DIR"
-          cp -r "artifacts/Android/SDLActivity.jar" "$JARS_DIR/" 2>/dev/null || true
-      
-      # Publish Changes
-      - name: Publish
-        run: |
-          git add Hybrid/Platforms/
-          if git diff --cached --quiet; then
-            echo "No changes to commit, skipping push."
-          else
-            git config user.name "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git commit -m "Natives"
-            git push origin ${{ github.ref_name }}
-          fi
+          SUBMODULE_PATH="Hybrid/Natives"
+  
+          git checkout ${{ github.ref_name }}
+  
+          git submodule add -f -b Natives https://github.com/${{ github.repository }} $SUBMODULE_PATH || true
+          git submodule set-branch -b Natives -- $SUBMODULE_PATH
+          git submodule update --init --force --remote $SUBMODULE_PATH
+  
+          git add .gitmodules $SUBMODULE_PATH
+          git commit -m "Update Native References" || echo "No changes"
+          git push origin ${{ github.ref_name }}
