@@ -1,0 +1,4 @@
+[submodule "Hybrid/Natives"]
+	path = Hybrid/Natives
+	url = https://github.com/Hybrid2D/Hybrid
+	branch = Natives
