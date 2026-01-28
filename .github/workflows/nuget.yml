@@ -23,11 +23,38 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
-      - name: Build NuGet Packages
+      - name: Build Packages
         run: |
           dotnet workload restore
-          dotnet build Hybrid.sln -c Release
-      
-      - name: List NuGet packages
-        run: ls -l .nuget || true
-        continue-on-error: true
+          dotnet build -c Release
+        
+      - name: NuGet Setup
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: ${{ secrets.NUGET_USER }}
+          
+      - name: Verify Packages
+        run: |
+          # Fail if any package already exists
+          for nupkg in .nuget/*.nupkg; do
+          [ -f "$nupkg" ] || continue
+          
+          package_name=$(basename "$nupkg" | sed -E 's/-?[0-9].*\.nupkg$//')
+          package_version=$(basename "$nupkg" | sed -E 's/.*-([0-9].*)\.nupkg$/\1/')
+          
+          echo "Checking $package_name version $package_version..."
+          
+          if curl -sSf "https://api.nuget.org/v3-flatcontainer/${package_name,,}/$package_version/${package_name,,}.$package_version.nupkg" >/dev/null 2>&1; then
+              echo "Error: Package $package_name v$package_version already exists on NuGet.org"
+              exit 1
+          fi
+          done
+          
+      - name: Publish Packages
+        run: |
+          ls -l .nuget || true
+          for nupkg in .nuget/*.nupkg; do
+            echo "Publishing Package: $nupkg"
+            dotnet nuget push "$nupkg" --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+          done
