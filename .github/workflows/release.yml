@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   nuget:
-    name: Build & Publish NuGet ${{ github.event.inputs.version }}
+    name: Build NuGet ${{ github.event.inputs.version }}
     runs-on: windows-latest
     steps:
       - name: Checkout
@@ -37,15 +37,14 @@ jobs:
           dotnet pack -c Release -p:PackageVersion=${{ github.event.inputs.version }} -o .nuget
           ls -l .nuget/
 
-#      - name: Publish Packages
-#        shell: bash
-#        env:
-#          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-#        run: |
-#         for pkg in .nuget/*.nupkg; do
-#         echo "Pushing $pkg"
-#          dotnet nuget push "$pkg" --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
-#         done
+      - name: Publish Packages
+        shell: bash
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: |
+         for pkg in .nuget/*.nupkg; do
+          echo "Pushing $pkg"
+         done
 
   github:
     name: GitHub Release ${{ github.event.inputs.version }}

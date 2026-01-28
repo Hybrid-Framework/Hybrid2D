@@ -23,7 +23,7 @@
         <RepositoryUrl>https://github.com/Hybrid2D/hybrid</RepositoryUrl>
         <PackageOutputPath>$(SolutionDir)\.nuget</PackageOutputPath>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <NoWarn>$(NoWarn);NU5100</NoWarn>
+        <NoWarn>$(NoWarn);NU5100;NU5100;CS8766</NoWarn>
         <IsPackable>true</IsPackable>
     </PropertyGroup>
     
