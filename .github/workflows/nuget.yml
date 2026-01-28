@@ -1,32 +1,29 @@
-﻿name: Build NuGet
+﻿name: List Xcode Versions
 
 on:
   workflow_dispatch:
 
-permissions:
-  id-token: write
-  contents: read
-
 jobs:
-  publish:
-    runs-on: macos-15
+  list-xcodes:
+    runs-on: macos-26
 
     steps:
-      - uses: actions/checkout@v4
+      - name: List Xcode apps
+        run: |
+          echo "Installed Xcode versions:"
+          ls -d /Applications/Xcode*.app || true
 
-      - name: Check Xcode version
-        run: xcodebuild -version
+      - name: Show current Xcode selection
+        run: |
+          echo "Current Xcode:"
+          xcode-select -p
+          xcodebuild -version
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '10.0.x'
-
-      - name: Restore workloads
-        run: dotnet workload restore
-
-      - name: Restore dependencies
-        run: dotnet restore
-
-      - name: Build all projects
-        run: dotnet build -c Release
+      - name: Show version of each Xcode
+        run: |
+          for xcode in /Applications/Xcode*.app; do
+            echo "-----------------------------------"
+            echo "Xcode: $xcode"
+            sudo xcode-select -s "$xcode"
+            xcodebuild -version
+          done
