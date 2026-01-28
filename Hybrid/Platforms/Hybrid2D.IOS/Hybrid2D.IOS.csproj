@@ -11,7 +11,6 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <Version>0.0.1</Version>
         <Authors>Hybrid2D</Authors>
         <Company>Hybrid2D</Company>
         <Product>Hybrid2D.IOS</Product>
@@ -23,7 +22,6 @@
         <PackageProjectUrl>https://hybrid2d.github.io/Hybrid</PackageProjectUrl>
         <RepositoryUrl>https://github.com/Hybrid2D/hybrid</RepositoryUrl>
         <PackageOutputPath>$(SolutionDir)\.nuget</PackageOutputPath>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <NoWarn>$(NoWarn);NU5100</NoWarn>
         <IsPackable>true</IsPackable>
