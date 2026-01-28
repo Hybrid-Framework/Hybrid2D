@@ -21,6 +21,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>Hybrid2D Framework dependencies for Linux</Description>
     <PackageProjectUrl>https://hybrid2d.github.io/Hybrid</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Hybrid2D/hybrid</RepositoryUrl>
     <PackageOutputPath>$(SolutionDir)\.nuget</PackageOutputPath>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageReadmeFile>README.md</PackageReadmeFile>
