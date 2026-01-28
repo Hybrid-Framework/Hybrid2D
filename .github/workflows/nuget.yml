@@ -24,6 +24,11 @@ jobs:
         run: dotnet workload restore
 
       - name: Build Hybrid2D projects
-        run: dotnet build -c Release **/Hybrid2D*.csproj
-      
+        run: |
+          dotnet build -c Release Hybrid/Hybrid/Hybrid2D.csproj
+          dotnet build -c Release Hybrid/Platforms/Hybrid2D.Windows/Hybrid2D.Windows.csproj
+          dotnet build -c Release Hybrid/Platforms/Hybrid2D.MacOS/Hybrid2D.MacOS.csproj
+          dotnet build -c Release Hybrid/Platforms/Hybrid2D.Linux/Hybrid2D.Linux.csproj
+          dotnet build -c Release Hybrid/Platforms/Hybrid2D.Android/Hybrid2D.Android.csproj
+          dotnet build -c Release Hybrid/Platforms/Hybrid2D.Web/Hybrid2D.Web.csproj
       
