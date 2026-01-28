@@ -1,29 +1,34 @@
-﻿name: List Xcode Versions
+﻿name: Build NuGet
 
 on:
   workflow_dispatch:
 
 jobs:
-  list-xcodes:
+  pack:
     runs-on: macos-26
 
     steps:
-      - name: List Xcode apps
-        run: |
-          echo "Installed Xcode versions:"
-          ls -d /Applications/Xcode*.app || true
+      - uses: actions/checkout@v4
 
-      - name: Show current Xcode selection
-        run: |
-          echo "Current Xcode:"
-          xcode-select -p
-          xcodebuild -version
+      - name: Select Xcode 26.2
+        run: sudo xcode-select -s /Applications/Xcode_26.2.app
 
-      - name: Show version of each Xcode
-        run: |
-          for xcode in /Applications/Xcode*.app; do
-            echo "-----------------------------------"
-            echo "Xcode: $xcode"
-            sudo xcode-select -s "$xcode"
-            xcodebuild -version
-          done
+      - name: Verify Xcode
+        run: xcodebuild -version
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Install workloads
+        run: dotnet workload install maui ios android wasm-tools
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build (Release)
+        run: dotnet build -c Release
+
+      - name: Pack NuGet
+        run: dotnet pack -c Release --no-build
