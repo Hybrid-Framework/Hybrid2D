@@ -1,3 +1,3 @@
-﻿# Hybrid2D.Web
+﻿## **Hybrid2D: Web**
 
-* Dependencies for Web
+Please visit the [website](https://hybrid2d.github.io/Hybrid) for more information.

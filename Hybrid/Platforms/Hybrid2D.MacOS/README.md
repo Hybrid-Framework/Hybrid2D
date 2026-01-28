@@ -1,3 +1,3 @@
-﻿# Hybrid2D.MacOS
+﻿## **Hybrid2D: MacOS**
 
-* Dependencies for MacOS
+Please visit the [website](https://hybrid2d.github.io/Hybrid) for more information.

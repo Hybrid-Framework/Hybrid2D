@@ -1,3 +1,3 @@
-﻿# Hybrid2D.Linux
+﻿## **Hybrid2D: Web**
 
-* Dependencies for Linux
+Please visit the [website](https://hybrid2d.github.io/Hybrid) for more information.

@@ -1,3 +1,3 @@
-﻿# Hybrid2D
+﻿## **Hybrid2D: Framework**
 
-* Core framework
+Please visit the [website](https://hybrid2d.github.io/Hybrid) for more information.

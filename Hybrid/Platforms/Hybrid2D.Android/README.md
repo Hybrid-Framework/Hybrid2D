@@ -1,3 +1,3 @@
-﻿# Hybrid2D.Android
+﻿## **Hybrid2D: Android**
 
-* Dependencies for Android
+Please visit the [website](https://hybrid2d.github.io/Hybrid) for more information.

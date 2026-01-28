@@ -1,3 +1,3 @@
-﻿# Hybrid2D.IOS
+﻿## **Hybrid2D: IOS**
 
-* Dependencies for IOS
+Please visit the [website](https://hybrid2d.github.io/Hybrid) for more information.

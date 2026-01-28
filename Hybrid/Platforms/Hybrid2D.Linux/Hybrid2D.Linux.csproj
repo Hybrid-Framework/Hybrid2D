@@ -1,42 +1,41 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <GenerateProgramFile>false</GenerateProgramFile>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <RootNamespace>Hybrid</RootNamespace>
-    <OutputType>Library</OutputType>
-    <Nullable>disable</Nullable>
-    <IsExe>false</IsExe>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <Version>0.0.1</Version>
-    <Authors>Hybrid2D</Authors>
-    <Company>Hybrid2D</Company>
-    <Product>Hybrid2D.Linux</Product>
-    <PackageId>Hybrid2D.Linux</PackageId>
-    <Description>Hybrid2D Linux</Description>
-    <Copyright>(c) 2025 - 2026 Hybrid2D</Copyright>
-    <PackageTags>Hybrid2D;Game;Framework;Linux</PackageTags>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://hybrid2d.github.io/Hybrid</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/Hybrid2D/hybrid</RepositoryUrl>
-    <PackageOutputPath>$(SolutionDir)\.nuget</PackageOutputPath>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <NoWarn>$(NoWarn);NU5100</NoWarn>
-    <IsPackable>true</IsPackable>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <None Include="$(SolutionDir)\Hybrid\Natives\Linux\**\*" Pack="true" PackagePath="Natives" />
-    <None Include="Hybrid2D.Linux.targets" Pack="true" PackagePath="buildTransitive" />
-    <None Include="README.md" Pack="true" PackagePath=""/>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="$(SolutionDir)\Hybrid\Hybrid\Hybrid2D.csproj" />
-  </ItemGroup>
+    
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <GenerateProgramFile>false</GenerateProgramFile>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <RootNamespace>Hybrid</RootNamespace>
+        <OutputType>Library</OutputType>
+        <Nullable>disable</Nullable>
+        <IsExe>false</IsExe>
+    </PropertyGroup>
+    
+    <PropertyGroup>
+        <Authors>Hybrid2D</Authors>
+        <Company>Hybrid2D</Company>
+        <Product>Hybrid2D.Linux</Product>
+        <PackageId>Hybrid2D.Linux</PackageId>
+        <Description>Hybrid2D Linux</Description>
+        <Copyright>(c) 2025 - 2026 Hybrid2D</Copyright>
+        <PackageTags>Hybrid2D;Game;Framework;Linux</PackageTags>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://hybrid2d.github.io/Hybrid</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/Hybrid2D/hybrid</RepositoryUrl>
+        <PackageOutputPath>$(SolutionDir)\.nuget</PackageOutputPath>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <NoWarn>$(NoWarn);NU5100</NoWarn>
+        <IsPackable>true</IsPackable>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <None Include="$(SolutionDir)\Hybrid\Natives\Linux\**\*" Pack="true" PackagePath="Natives" />
+        <None Include="$(SolutionDir)\Hybrid.png" Pack="true" PackagePath="" Visible="false"/>
+        <None Include="Hybrid2D.Linux.targets" Pack="true" PackagePath="buildTransitive" />
+        <None Include="README.md" Pack="true" PackagePath=""/>
+    </ItemGroup>
+    
+    <ItemGroup>
+        <ProjectReference Include="$(SolutionDir)\Hybrid\Hybrid\Hybrid2D.csproj" />
+    </ItemGroup>
 
 </Project>

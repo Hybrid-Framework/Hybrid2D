@@ -1,3 +1,3 @@
-﻿# Hybrid2D.Windows
+﻿## **Hybrid2D: Windows**
 
-* Dependencies for Windows
+Please visit the [website](https://hybrid2d.github.io/Hybrid) for more information.
