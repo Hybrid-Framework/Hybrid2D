@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   publish:
-    runs-on: macos-15-large
+    runs-on: macos-15
 
     steps:
       - uses: actions/checkout@v4
@@ -29,12 +29,4 @@ jobs:
         run: dotnet restore
 
       - name: Build all projects
-        run: dotnet build -c Release --no-restore
-
-      - name: Pack all NuGet projects
-        run: dotnet pack -c Release --no-build
-
-      - name: Publish all NuGet packages
-        run: dotnet nuget push "**/bin/Release/*.nupkg" \
-          --source https://api.nuget.org/v3/index.json \
-          --skip-duplicate
+        run: dotnet build -c Release
