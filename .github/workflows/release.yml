@@ -13,8 +13,9 @@ on:
         default: 'Release description'
 
 permissions:
+  contents: write
   id-token: write
-  contents: read
+  actions: read
   
 jobs:
   release:
