@@ -14,8 +14,8 @@
     <Version>0.0.1</Version>
     <Authors>Hybrid2D</Authors>
     <Company>Hybrid2D</Company>
-    <Product>Hybrid2D.Framework.Linux</Product>
-    <PackageId>Hybrid2D.Framework.Linux</PackageId>
+    <Product>Hybrid2D.Linux</Product>
+    <PackageId>Hybrid2D.Linux</PackageId>
     <Copyright>(c) 2025 - 2026 Hybrid2D</Copyright>
     <PackageTags>Hybrid2D;Game;Framework;Linux</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -29,8 +29,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="Resources\Hybrid2D.Framework.Linux.targets" Pack="true" PackagePath="buildTransitive" />
     <None Include="$(SolutionDir)\Hybrid\Natives\Linux\**\*" Pack="true" PackagePath="Natives" />
+    <None Include="Hybrid2D.Linux.targets" Pack="true" PackagePath="buildTransitive" />
     <None Include="README.md" Pack="true" PackagePath=""/>
   </ItemGroup>
 

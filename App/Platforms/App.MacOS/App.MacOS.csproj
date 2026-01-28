@@ -12,8 +12,18 @@
         <ProjectReference Include="$(SolutionDir)\App\App\App.csproj" />
     </ItemGroup>
 
+    <PropertyGroup>
+        <Architecture Condition="'$(RuntimeIdentifier)' == ''">$(NETCoreSdkRuntimeIdentifier)</Architecture>
+        <Architecture Condition="'$(RuntimeIdentifier)' != ''">$(RuntimeIdentifier)</Architecture>
+    </PropertyGroup>
+
     <ItemGroup>
-        <PackageReference Include="Hybrid2D.Framework.MacOS" Version="*" />
+        <Content Remove="$(SolutionDir)\Hybrid\Natives\MacOS\**\*"/>
+        <Content Include="$(SolutionDir)\Hybrid\Natives\MacOS\$(Architecture)\**\*">
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Visible>false</Visible>
+        </Content>
     </ItemGroup>
 
 </Project>

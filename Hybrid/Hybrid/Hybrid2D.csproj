@@ -12,12 +12,12 @@
         <Version>0.0.1</Version>
         <Authors>Hybrid2D</Authors>
         <Company>Hybrid2D</Company>
-        <Product>Hybrid2D.Framework</Product>
-        <PackageId>Hybrid2D.Framework</PackageId>
+        <Product>Hybrid2D</Product>
+        <PackageId>Hybrid2D</PackageId>
         <Copyright>(c) 2025 - 2026 Hybrid2D</Copyright>
         <PackageTags>Hybrid2D;Game;Framework</PackageTags>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <Description>Hybrid2D Framework</Description>
+        <Description>Hybrid2D Game Framework</Description>
         <PackageProjectUrl>https://hybrid2d.github.io/Hybrid</PackageProjectUrl>
         <PackageOutputPath>$(SolutionDir)\.nuget</PackageOutputPath>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>

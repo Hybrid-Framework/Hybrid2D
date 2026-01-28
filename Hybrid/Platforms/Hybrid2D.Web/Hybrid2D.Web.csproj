@@ -14,8 +14,8 @@
         <Version>0.0.1</Version>
         <Authors>Hybrid2D</Authors>
         <Company>Hybrid2D</Company>
-        <Product>Hybrid2D.Framework.Web</Product>
-        <PackageId>Hybrid2D.Framework.Web</PackageId>
+        <Product>Hybrid2D.Web</Product>
+        <PackageId>Hybrid2D.Web</PackageId>
         <Copyright>(c) 2025 - 2026 Hybrid2D</Copyright>
         <PackageTags>Hybrid2D;Game;Framework;Web</PackageTags>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -29,8 +29,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="Resources\Hybrid2D.Framework.Web.targets" Pack="true" PackagePath="buildTransitive" />
         <None Include="$(SolutionDir)\Hybrid\Natives\Web\**\*" Pack="true" PackagePath="Natives" />
+        <None Include="Hybrid2D.Web.targets" Pack="true" PackagePath="buildTransitive" />
         <None Include="README.md" Pack="true" PackagePath=""/>
     </ItemGroup>
 

@@ -12,8 +12,18 @@
         <ProjectReference Include="$(SolutionDir)\App\App\App.csproj" />
     </ItemGroup>
 
+    <PropertyGroup>
+        <Architecture Condition="'$(RuntimeIdentifier)' == ''">$(NETCoreSdkRuntimeIdentifier)</Architecture>
+        <Architecture Condition="'$(RuntimeIdentifier)' != ''">$(RuntimeIdentifier)</Architecture>
+    </PropertyGroup>
+
     <ItemGroup>
-        <PackageReference Include="Hybrid2D.Framework.Linux" Version="*" />
+        <Content Remove="$(SolutionDir)\Hybrid\Natives\Linux\**\*"/>
+        <Content Include="$(SolutionDir)\Hybrid\Natives\Linux\$(Architecture)\**\*">
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Visible>false</Visible>
+        </Content>
     </ItemGroup>
 
 </Project>

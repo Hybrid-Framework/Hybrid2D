@@ -14,12 +14,12 @@
     <Version>0.0.1</Version>
     <Authors>Hybrid2D</Authors>
     <Company>Hybrid2D</Company>
-    <Product>Hybrid2D.Framework.Windows</Product>
-    <PackageId>Hybrid2D.Framework.Windows</PackageId>
+    <Product>Hybrid2D.Windows</Product>
+    <PackageId>Hybrid2D.Windows</PackageId>
     <Copyright>(c) 2025 - 2026 Hybrid2D</Copyright>
     <PackageTags>Hybrid2D;Game;Framework;Windows</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Description>Hybrid2D Framework dependencies for Windows</Description>
+    <Description>Hybrid2D dependencies for Windows</Description>
     <PackageProjectUrl>https://hybrid2d.github.io/Hybrid</PackageProjectUrl>
     <PackageOutputPath>$(SolutionDir)\.nuget</PackageOutputPath>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -29,8 +29,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="Resources\Hybrid2D.Framework.Windows.targets" Pack="true" PackagePath="buildTransitive" />
     <None Include="$(SolutionDir)\Hybrid\Natives\Windows\**\*" Pack="true" PackagePath="Natives" />
+    <None Include="Hybrid2D.Windows.targets" Pack="true" PackagePath="buildTransitive" />
     <None Include="README.md" Pack="true" PackagePath=""/>
   </ItemGroup>
 

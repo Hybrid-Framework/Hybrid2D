@@ -12,8 +12,18 @@
         <ProjectReference Include="$(SolutionDir)\App\App\App.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Hybrid2D.Framework.Windows" Version="*" />
-    </ItemGroup>
+    <PropertyGroup>
+        <Architecture Condition="'$(RuntimeIdentifier)' == ''">$(NETCoreSdkRuntimeIdentifier)</Architecture>
+        <Architecture Condition="'$(RuntimeIdentifier)' != ''">$(RuntimeIdentifier)</Architecture>
+    </PropertyGroup>
 
+    <ItemGroup>
+        <Content Remove="$(SolutionDir)\Hybrid\Natives\Windows\**\*"/>
+        <Content Include="$(SolutionDir)\Hybrid\Natives\Windows\$(Architecture)\**\*">
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Visible>false</Visible>
+        </Content>
+    </ItemGroup>
+    
 </Project>

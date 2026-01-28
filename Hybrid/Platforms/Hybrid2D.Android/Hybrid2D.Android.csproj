@@ -14,8 +14,8 @@
         <Version>0.0.1</Version>
         <Authors>Hybrid2D</Authors>
         <Company>Hybrid2D</Company>
-        <Product>Hybrid2D.Framework.Android</Product>
-        <PackageId>Hybrid2D.Framework.Android</PackageId>
+        <Product>Hybrid2D.Android</Product>
+        <PackageId>Hybrid2D.Android</PackageId>
         <Copyright>(c) 2025 - 2026 Hybrid2D</Copyright>
         <PackageTags>Hybrid2D;Game;Framework;Desktop</PackageTags>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -29,8 +29,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="Resources\Hybrid2D.Framework.Android.targets" Pack="true" PackagePath="buildTransitive" />
         <None Include="$(SolutionDir)\Hybrid\Natives\Android\**\*" Pack="true" PackagePath="Natives" />
+        <None Include="Hybrid2D.Android.targets" Pack="true" PackagePath="buildTransitive" />
         <None Include="README.md" Pack="true" PackagePath=""/>
     </ItemGroup>
 

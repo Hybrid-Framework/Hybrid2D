@@ -19,7 +19,14 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Hybrid2D.Framework.Web" Version="*" />
+        <Content Update="wwwroot\index.html" CopyToOutputDirectory="PreserveNewest" />
+        <Content Update="wwwroot\main.js" CopyToOutputDirectory="PreserveNewest" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <NativeFileReference Remove="$(SolutionDir)\Hybrid\Natives\Web\**\*"/>
+        <NativeFileReference Include="$(SolutionDir)\Hybrid\Natives\Web\**\*" Visible="false"/>
+        <_WasmPInvokeModules Include="SDL" Visible="false"/>
     </ItemGroup>
 
 </Project>

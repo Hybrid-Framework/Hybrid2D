@@ -21,8 +21,14 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Hybrid2D.Framework.Android" Version="*" />
+        <AndroidNativeLibrary Include="$(SolutionDir)\Hybrid\Natives\Android\armeabi-v7a\**\*" Abi="armeabi-v7a" Visible="false" />
+        <AndroidNativeLibrary Include="$(SolutionDir)\Hybrid\Natives\Android\arm64-v8a\**\*" Abi="arm64-v8a" Visible="false" />
+        <AndroidNativeLibrary Include="$(SolutionDir)\Hybrid\Natives\Android\x86_64\**\*" Abi="x86_64" Visible="false" />
+        <AndroidNativeLibrary Include="$(SolutionDir)\Hybrid\Natives\Android\x86\**\*" Abi="x86" Visible="false" />
     </ItemGroup>
 
+    <ItemGroup>
+        <EmbeddedJar Include="Jars\SDLActivity.jar"/>
+    </ItemGroup>
 
 </Project>
