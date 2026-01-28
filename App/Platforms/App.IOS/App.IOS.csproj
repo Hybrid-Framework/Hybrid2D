@@ -8,6 +8,8 @@
         <ImplicitUsings>true</ImplicitUsings>
         <OutputType>Exe</OutputType>
         <Nullable>enable</Nullable>
+        <NoWarn>$(NoWarn);NU5100;CS8766</NoWarn>
+        <IsPackable>false</IsPackable>
     </PropertyGroup>
 
     <ItemGroup>

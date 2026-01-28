@@ -34,7 +34,7 @@ jobs:
         run: |
           dotnet workload restore
           dotnet build -c Release
-          dotnet pack -c Release -p:PackageVersion=${{ github.event.inputs.version }} -o .nuget
+          dotnet pack -c Release -p:PackageVersion=${{ github.event.inputs.version }}
           ls -l .nuget/
 
       - name: Publish Packages
@@ -44,6 +44,7 @@ jobs:
         run: |
          for pkg in .nuget/*.nupkg; do
           echo "Pushing $pkg"
+#          dotnet nuget push "$pkg" --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
          done
 
   github:
