@@ -30,22 +30,22 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
-      - name: Build & Pack
+      - name: Build Packages
         run: |
           dotnet workload restore
           dotnet build -c Release
           dotnet pack -c Release -p:PackageVersion=${{ github.event.inputs.version }} -o .nuget
           ls -l .nuget/
 
-      - name: Publish Packages
-        shell: bash
-        env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-        run: |
-         for pkg in .nuget/*.nupkg; do
-         echo "Pushing $pkg"
+#      - name: Publish Packages
+#        shell: bash
+#        env:
+#          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+#        run: |
+#         for pkg in .nuget/*.nupkg; do
+#         echo "Pushing $pkg"
 #          dotnet nuget push "$pkg" --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
-         done
+#         done
 
   github:
     name: GitHub Release ${{ github.event.inputs.version }}
