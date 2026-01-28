@@ -1,3 +1,3 @@
-﻿# Hybrid2D.Framework.MacOS
+﻿# Hybrid2D.MacOS
 
 * Dependencies for MacOS

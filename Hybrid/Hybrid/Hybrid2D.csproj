@@ -14,21 +14,21 @@
         <Company>Hybrid2D</Company>
         <Product>Hybrid2D</Product>
         <PackageId>Hybrid2D</PackageId>
+        <Description>Hybrid2D Framework</Description>
         <Copyright>(c) 2025 - 2026 Hybrid2D</Copyright>
         <PackageTags>Hybrid2D;Game;Framework</PackageTags>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <Description>Hybrid2D Game Framework</Description>
         <PackageProjectUrl>https://hybrid2d.github.io/Hybrid</PackageProjectUrl>
         <RepositoryUrl>https://github.com/Hybrid2D/hybrid</RepositoryUrl>
         <PackageOutputPath>$(SolutionDir)\.nuget</PackageOutputPath>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageReadmeFile>NUGET.md</PackageReadmeFile>
         <NoWarn>$(NoWarn);NU5100</NoWarn>
         <IsPackable>true</IsPackable>
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="README.md" Pack="true" PackagePath=""/>
+        <None Include="NUGET.md" Pack="true" PackagePath=""/>
     </ItemGroup>
 
 </Project>

@@ -1,3 +1,3 @@
-﻿# Hybrid2D.Framework.IOS
+﻿# Hybrid2D.IOS
 
 * Dependencies for IOS

@@ -16,10 +16,10 @@
     <Company>Hybrid2D</Company>
     <Product>Hybrid2D.Linux</Product>
     <PackageId>Hybrid2D.Linux</PackageId>
+    <Description>Hybrid2D Linux</Description>
     <Copyright>(c) 2025 - 2026 Hybrid2D</Copyright>
     <PackageTags>Hybrid2D;Game;Framework;Linux</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Description>Hybrid2D Framework dependencies for Linux</Description>
     <PackageProjectUrl>https://hybrid2d.github.io/Hybrid</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Hybrid2D/hybrid</RepositoryUrl>
     <PackageOutputPath>$(SolutionDir)\.nuget</PackageOutputPath>

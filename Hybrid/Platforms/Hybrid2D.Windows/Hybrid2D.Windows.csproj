@@ -16,10 +16,10 @@
     <Company>Hybrid2D</Company>
     <Product>Hybrid2D.Windows</Product>
     <PackageId>Hybrid2D.Windows</PackageId>
+    <Description>Hybrid2D Windows</Description>
     <Copyright>(c) 2025 - 2026 Hybrid2D</Copyright>
     <PackageTags>Hybrid2D;Game;Framework;Windows</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Description>Hybrid2D dependencies for Windows</Description>
     <PackageProjectUrl>https://hybrid2d.github.io/Hybrid</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Hybrid2D/hybrid</RepositoryUrl>
     <PackageOutputPath>$(SolutionDir)\.nuget</PackageOutputPath>

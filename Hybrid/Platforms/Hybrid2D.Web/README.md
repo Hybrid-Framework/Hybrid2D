@@ -1,3 +1,3 @@
-﻿# Hybrid2D.Framework.Web
+﻿# Hybrid2D.Web
 
 * Dependencies for Web

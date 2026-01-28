@@ -1,3 +1,3 @@
-﻿# Hybrid2D.Framework.Windows
+﻿# Hybrid2D.Windows
 
 * Dependencies for Windows

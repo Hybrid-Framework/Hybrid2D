@@ -16,10 +16,10 @@
         <Company>Hybrid2D</Company>
         <Product>Hybrid2D.IOS</Product>
         <PackageId>Hybrid2D.IOS</PackageId>
+        <Description>Hybrid2D IOS</Description>
         <Copyright>(c) 2025 - 2026 Hybrid2D</Copyright>
         <PackageTags>Hybrid2D;Game;Framework;IOS</PackageTags>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <Description>Hybrid2D Framework dependencies for IOS</Description>
         <PackageProjectUrl>https://hybrid2d.github.io/Hybrid</PackageProjectUrl>
         <RepositoryUrl>https://github.com/Hybrid2D/hybrid</RepositoryUrl>
         <PackageOutputPath>$(SolutionDir)\.nuget</PackageOutputPath>

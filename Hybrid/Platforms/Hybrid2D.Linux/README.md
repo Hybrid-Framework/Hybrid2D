@@ -1,3 +1,3 @@
-﻿# Hybrid2D.Framework.Linux
+﻿# Hybrid2D.Linux
 
 * Dependencies for Linux

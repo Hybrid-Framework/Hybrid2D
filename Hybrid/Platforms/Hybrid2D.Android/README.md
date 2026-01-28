@@ -1,3 +1,3 @@
-﻿# Hybrid2D.Framework.Android
+﻿# Hybrid2D.Android
 
 * Dependencies for Android
