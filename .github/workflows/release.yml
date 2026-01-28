@@ -1,0 +1,37 @@
+﻿name: Create Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version'
+        required: true
+        default: 'v1.0.0'
+      description:
+        description: 'Release description'
+        required: true
+        default: 'Release description'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up zip file
+        run: |
+          ZIP_NAME="source.zip"
+          echo "ZIP_NAME=$ZIP_NAME" >> $GITHUB_ENV
+          zip -r $ZIP_NAME .
+
+      - name: Create GitHub Release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ github.event.inputs.version }}
+          name: ${{ github.event.inputs.version }}
+          body: ${{ github.event.inputs.description }}
+          artifacts: ${{ env.ZIP_NAME }}
+          draft: false
+          prerelease: false
