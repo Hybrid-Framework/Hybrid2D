@@ -14,21 +14,27 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
 
+      
       - name: .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10.0.x'
 
-      - name: Restore
-        run: dotnet workload restore
-
-      - name: Build Hybrid2D projects
+      - name: Build Hybrid2D NuGet Packages
         run: |
+          dotnet workload restore
           dotnet build -c Release Hybrid/Hybrid/Hybrid2D.csproj
           dotnet build -c Release Hybrid/Platforms/Hybrid2D.Windows/Hybrid2D.Windows.csproj
+          dotnet build -c Release Hybrid/Platforms/Hybrid2D.Android/Hybrid2D.Android.csproj
           dotnet build -c Release Hybrid/Platforms/Hybrid2D.MacOS/Hybrid2D.MacOS.csproj
           dotnet build -c Release Hybrid/Platforms/Hybrid2D.Linux/Hybrid2D.Linux.csproj
-          dotnet build -c Release Hybrid/Platforms/Hybrid2D.Android/Hybrid2D.Android.csproj
           dotnet build -c Release Hybrid/Platforms/Hybrid2D.Web/Hybrid2D.Web.csproj
-      
+          dotnet build -c Release Hybrid/Platforms/Hybrid2D.IOS/Hybrid2D.IOS.csproj
+          
+      - name: Check NuGet Packages
+        run: |
+          ls -l ./.nuget
