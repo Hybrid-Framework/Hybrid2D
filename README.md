@@ -16,7 +16,8 @@ Created by Lloyd J Howarth
 [Overview](#overview) •
 [Platforms](#platforms) •
 [Dependencies](#dependencies) •
-[Documentation](https://hybrid2d.github.io/Hybrid/Documentation/) •
+[Documentation](https://hybrid2d.github.io/Hybrid/Documentation) •
+[Template](https://github.com/Hybrid2D/Template) •
 [License](#license)
 </div>
 
@@ -26,10 +27,12 @@ Hybrid2D is a lightweight cross-platform Game Framework written in C#
 
 Getting started...
 
-* 🌐 1. Clone the source: `git clone https://github.com/Hybrid2D/Hybrid.git`
-* 📂 2. Open 'Hybrid.sln' in your favourite IDE such as [Rider](https://www.jetbrains.com/rider) or [Visual Studio](https://visualstudio.microsoft.com)
+* 🌐 1. Clone the official template: `git clone https://github.com/Hybrid2D/Template.git`
+* 📂 2. Open 'Template.sln' in your favourite IDE such as [Rider](https://www.jetbrains.com/rider) or [Visual Studio](https://visualstudio.microsoft.com)
 * 🎮 3. Develop in the 'App' project provided to you
 * 🚀 4. Build & launch your game
+
+> The official project template is available [here](https://github.com/Hybrid2D/Template)
 
 
 <h2 id="platforms">🖥️ Cross-platform</h2>
