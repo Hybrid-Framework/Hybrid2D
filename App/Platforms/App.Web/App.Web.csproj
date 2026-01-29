@@ -12,15 +12,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="$(SolutionDir)\App\App\App.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <Content Update="wwwroot\index.html" CopyToOutputDirectory="PreserveNewest" />
-        <Content Update="wwwroot\main.js" CopyToOutputDirectory="PreserveNewest" />
-    </ItemGroup>
-
-    <ItemGroup>
         <Content Update="wwwroot\index.html" CopyToOutputDirectory="PreserveNewest" />
         <Content Update="wwwroot\main.js" CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>
@@ -29,6 +20,10 @@
         <NativeFileReference Remove="$(SolutionDir)\Hybrid\Natives\Web\**\*"/>
         <NativeFileReference Include="$(SolutionDir)\Hybrid\Natives\Web\**\*" Visible="false"/>
         <_WasmPInvokeModules Include="SDL" Visible="false"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="$(SolutionDir)\App\App\App.csproj" />
     </ItemGroup>
 
 </Project>
