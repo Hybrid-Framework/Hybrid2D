@@ -9,7 +9,7 @@ echo "Building docs..."
 
 # ------ MAIN PAGE ------------------------------------------------------------------------------------------------
 echo "# Documentation" > "$DOC_FILE"
-echo "This Documentation is designed for quick reference." >> "$DOC_FILE"
+echo "This documentation is designed for quick reference for version: $DOCS_VERSION" >> "$DOC_FILE"
 echo >> "$DOC_FILE"
 
 # ------ CLASSES --------------------------------------------------------------------------------------------------
