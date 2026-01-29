@@ -53,22 +53,29 @@ Getting started...
 <h2 id="platforms">🖥️ Cross-platform</h2>
 
 Currently supports these platforms:
+
 * **Desktop:** Windows, Mac, Linux
+
 * **Mobile:** Android, iOS
+
 * **Web:** Browsers
 
 
 <h2 id="dependencies">📦 Dependencies</h2>
 
 Currently using these dependencies:
+
 * [EMSCRIPTEN 3.1.56](https://github.com/emscripten-core/emscripten)
+
 * [DOTNET 10.0](https://github.com/dotnet/runtime)
+
 * [SDL 3.4.0](https://github.com/libsdl-org/SDL)
 
 
 <h2 id="license">📄 License</h2>
 
 * All third-party dependencies are covered by their respective licenses.
+
 * This project is licensed under the [MIT LICENSE](https://hybrid2d.github.io/Hybrid/License).
 
  
