@@ -38,20 +38,21 @@
 
 <h2 id="overview">🔍 Overview</h2>
 
-Hybrid2D is a simple framework featuring Audio, Input, Graphics and more!
+Hybrid2D is a lightweight cross-platform Game Framework written in C#
 
 Getting started...
 
-* 🌐 1. Clone the source: `git clone https://github.com/Hybrid2D/Hybrid.git`
-* 📂 2. Open 'Hybrid.sln' in your favourite IDE such as [Rider](https://www.jetbrains.com/rider) or [Visual Studio](https://visualstudio.microsoft.com)
+* 🌐 1. Clone the official template: `git clone https://github.com/Hybrid2D/Template.git`
+* 📂 2. Open 'Template.sln' in your favourite IDE such as [Rider](https://www.jetbrains.com/rider) or [Visual Studio](https://visualstudio.microsoft.com)
 * 🎮 3. Develop in the 'App' project provided to you
 * 🚀 4. Build & launch your game
+
+> The official project template is available [here](https://github.com/Hybrid2D/Template)
 
 
 <h2 id="platforms">🖥️ Cross-platform</h2>
 
 Currently supports these platforms:
-
 * **Desktop:** Windows, Mac, Linux
 * **Mobile:** Android, iOS
 * **Web:** Browsers
@@ -60,7 +61,6 @@ Currently supports these platforms:
 <h2 id="dependencies">📦 Dependencies</h2>
 
 Currently using these dependencies:
-
 * [EMSCRIPTEN 3.1.56](https://github.com/emscripten-core/emscripten)
 * [DOTNET 10.0](https://github.com/dotnet/runtime)
 * [SDL 3.4.0](https://github.com/libsdl-org/SDL)
@@ -69,4 +69,6 @@ Currently using these dependencies:
 <h2 id="license">📄 License</h2>
 
 * All third-party dependencies are covered by their respective licenses.
-* This project is licensed under the [MIT LICENSE](LICENSE.txt).
+* This project is licensed under the [MIT LICENSE](https://hybrid2d.github.io/Hybrid/License).
+
+ 

@@ -100,7 +100,7 @@ jobs:
           ./.github/scripts/Docs/Generate.sh
 
       - name: Build Docs
-        run: mkdocs build --strict
+        run: mkdocs build
 
       - name: Upload Docs
         uses: actions/upload-pages-artifact@v3

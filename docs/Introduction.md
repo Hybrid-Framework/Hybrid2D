@@ -4,15 +4,15 @@ Before you can start developing with Hybrid, there are a few things you need to 
 
 ---
 
-## Development Environment
+## Development IDE
 
 First, download and install your preferred IDE:
 
-* [Visual Studio Code](https://code.visualstudio.com/download) – lightweight and cross-platform  
-* [Visual Studio](https://visualstudio.microsoft.com/downloads) – full-featured Windows IDE  
-* [Rider](https://www.jetbrains.com/rider/download) – cross-platform IDE by JetBrains  
+* [Visual Studio Code](https://code.visualstudio.com/download) – Lightweight and cross-platform  
+* [JetBrains Rider](https://www.jetbrains.com/rider/download) – Cross-platform IDE by JetBrains  
+* [Visual Studio](https://visualstudio.microsoft.com/downloads) – Full-featured IDE
 
-> Tip: If you're wanting to work on multiple platforms we recommend using Rider!
+> Recommended: [JetBrains Rider](https://www.jetbrains.com/rider/download) for Windows, Mac, Linux development
 
 ---
 
@@ -28,19 +28,22 @@ dotnet workload search
 dotnet workload install packagename
 ```
 
-> Tip: If you’re unsure which workloads to install, it’s safe to install all recommended workloads.
+> Recommended: 'dotnet workload install maui ios android wasm-tools'
 
 ---
 
-## Creating A New Project
+## Create a project
 
-* Create a **new console application**.
-* Add the required NuGet packages for Hybrid2D.
-> Tip: If you want a premade **cross-platform template**, it’s available [here](#).
+* Clone the official template: git clone https://github.com/Hybrid2D/Template.git
+* Open 'Template.sln' in your favourite IDE such as Rider or Visual Studio
+* Develop in the 'App' project provided to you
+* Build & launch your game
+
+> This cross-platform template is designed for minimal setup
 
 ---
 
-## How It Works
+## How it works
 
 Simply **inherit from the `Hybrid.App` class** and override the three methods:
 
