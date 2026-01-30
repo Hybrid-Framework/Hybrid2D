@@ -15,9 +15,8 @@ mkdir -p "$OUTPUT_DIR"
 {
   echo "# Samples"
   echo
-  echo "### Version: $HYBRID_VERSION"
-  echo
-  echo "These samples are designed for quick reference and can be run live in the browser."
+  echo "These samples are designed for quick reference and can be run live in the browser"
+  echo "Version: $HYBRID_VERSION"
   echo
 } > "$SAMPLE_FILE"
 
@@ -45,14 +44,14 @@ for sample_folder in "$SAMPLE_PROJECTS"/*/; do
     echo '' >> "$sample_md"
     echo "# $sample_name" >> "$sample_md"
     echo '' >> "$sample_md"
-    echo echo "<iframe src="./$sample_slug/wwwroot/index.html" width="610" height="410"></iframe>"
+    echo "<iframe src="./$sample_slug/wwwroot/index.html" width="610" height="410"></iframe>"
     echo '' >> "$sample_md"
 
     # Link sample page
     {
       echo "## $sample_name"
       echo
-      echo "[▶ Open Sample Page](Samples/$sample_slug)"
+      echo "[▶ Open](Samples/$sample_slug)"
       echo
     } >> "$SAMPLE_FILE"
     
