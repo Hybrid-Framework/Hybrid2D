@@ -12,13 +12,10 @@ echo "Building samples..."
 mkdir -p "$OUTPUT_DIR"
 
 # ------ MAIN PAGE ------------------------------------------------------------------------------------------------
-{
-  echo "# Samples"
-  echo
-  echo "These samples are designed for quick reference and can be run live in the browser"
-  echo "Version: $HYBRID_VERSION"
-  echo
-} > "$SAMPLE_FILE"
+echo "# Samples" > "$DOC_FILE"
+echo "### Version: $HYBRID_VERSION" >> "$DOC_FILE"
+echo "These samples are designed for quick reference and live preview in the browser" >> "$DOC_FILE"
+echo >> "$DOC_FILE"
 
 # ------ BUILD SAMPLES --------------------------------------------------------------------------------------------
 for sample_folder in "$SAMPLE_PROJECTS"/*/; do
@@ -46,7 +43,16 @@ for sample_folder in "$SAMPLE_PROJECTS"/*/; do
     echo '' >> "$sample_md"
     echo "<iframe src="./$sample_slug/wwwroot/index.html" width="610" height="410"></iframe>"
     echo '' >> "$sample_md"
-
+    
+    # Generate source
+    game_cs="$sample_folder/Game.cs"
+    echo '' >> "$sample_md"
+    echo '```csharp' >> "$sample_md"
+    cat "$game_cs" >> "$sample_md"
+    echo '' >> "$sample_md"
+    echo '```' >> "$sample_md"
+    echo '' >> "$sample_md"
+    
     # Link sample page
     {
       echo "## $sample_name"
@@ -54,17 +60,6 @@ for sample_folder in "$SAMPLE_PROJECTS"/*/; do
       echo "[▶ Open](Samples/$sample_slug)"
       echo
     } >> "$SAMPLE_FILE"
-    
-    # Source Code
-    game_cs="$sample_folder/Game.cs"
-    if [ -f "$game_cs" ]; then
-        echo '' >> "$sample_md"
-        echo '```csharp' >> "$sample_md"
-        cat "$game_cs" >> "$sample_md"
-        echo '' >> "$sample_md"
-        echo '```' >> "$sample_md"
-        echo '' >> "$sample_md"
-    fi
     
 done
 
