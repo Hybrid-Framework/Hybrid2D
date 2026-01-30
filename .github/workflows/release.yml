@@ -106,10 +106,9 @@ jobs:
         run: |
           pip install mkdocs mkdocs-material
           
-      - name: Build Project
+      - name: Setup .NET Workloads
         run: |
-          dotnet workload restore
-          dotnet build -c Release
+          dotnet workload install wasm-tools
 
       - name: Generate Documentation
         run: |
