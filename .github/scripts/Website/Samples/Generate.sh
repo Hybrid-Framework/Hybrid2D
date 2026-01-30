@@ -72,4 +72,3 @@ done
 
 # ------ Complete -------------------------------------------------------------------------------------------------
 echo "Samples generated successfully."
-read -p "Press Enter to continue..."
