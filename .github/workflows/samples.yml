@@ -6,7 +6,7 @@ on:
       version:
         description: 'Version'
         required: true
-        default: '0.1.1'
+        default: '0.1'
 
 permissions:
   contents: write
@@ -19,12 +19,11 @@ concurrency:
 
 jobs:
   website:
-    name: Publish Website ${{ github.event.inputs.version }}
+    name: Publish Website ${{ inputs.version }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: github
     env:
       HYBRID_VERSION: ${{ inputs.version }}
 
