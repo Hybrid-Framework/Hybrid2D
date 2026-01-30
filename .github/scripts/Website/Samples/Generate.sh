@@ -42,18 +42,17 @@ for sample_folder in "$SAMPLE_PROJECTS"/*/; do
     
     # Generate sample page
     sample_md="$OUTPUT_DIR/$sample_slug.md"
-    {
-      echo "# $sample_name"
-      echo
-      echo "<iframe src="/Samples/$sample_slug/wwwroot/index.html" width="610" height="410"></iframe>"
-      echo
-    } > "$sample_md"
+    echo '' >> "$sample_md"
+    echo "# $sample_name" >> "$sample_md"
+    echo '' >> "$sample_md"
+    echo echo "<iframe src="./$sample_slug/wwwroot/index.html" width="610" height="410"></iframe>"
+    echo '' >> "$sample_md"
 
     # Link sample page
     {
       echo "## $sample_name"
       echo
-      echo "[▶ Open Sample Page]($sample_slug.md)"
+      echo "[▶ Open Sample Page](Samples/$sample_slug)"
       echo
     } >> "$SAMPLE_FILE"
     
