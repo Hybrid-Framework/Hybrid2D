@@ -1,4 +1,6 @@
-﻿using Hybrid;
+﻿// This is a test project for Sample.Test.1
+
+using Hybrid;
 
 public class Game : App
 {
