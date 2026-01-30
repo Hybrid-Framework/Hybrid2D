@@ -45,7 +45,7 @@ for sample_folder in "$SAMPLE_PROJECTS"/*/; do
     {
       echo "# $sample_name"
       echo
-      echo "<iframe src="/Samples/$sample_slug/wwwroot/index.html" width="610" height="410"></iframe>"
+      echo "<iframe src="/$sample_slug/wwwroot/index.html" width="610" height="410"></iframe>"
       echo
     } > "$sample_md"
 
@@ -53,7 +53,7 @@ for sample_folder in "$SAMPLE_PROJECTS"/*/; do
     {
       echo "## $sample_name"
       echo
-      echo "[▶ Open Sample Page](samples/$sample_slug.md)"
+      echo "[▶ Open Sample Page](Samples/$sample_slug)"
       echo
     } >> "$SAMPLE_FILE"
     
