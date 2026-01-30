@@ -40,6 +40,11 @@ jobs:
         run: |
           pip install mkdocs mkdocs-material
 
+      - name: Generate Documentation
+        run: |
+          chmod +x .github/scripts/Website/Docs/Generate.sh
+          ./.github/scripts/Website/Docs/Generate.sh
+
       - name: Generate Samples
         run: |
           chmod +x .github/scripts/Website/Samples/Generate.sh
