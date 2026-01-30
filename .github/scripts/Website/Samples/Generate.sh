@@ -41,7 +41,7 @@ for sample_folder in "$SAMPLE_PROJECTS"/*/; do
     dotnet publish "$sample_csproj" -c Release -o "$sample_output"
     
     # Generate sample page
-    sample_md="$DOCS_DIR/$sample_slug.md"
+    sample_md="$OUTPUT_DIR/$sample_slug.md"
     {
       echo "# $sample_name"
       echo
@@ -53,7 +53,7 @@ for sample_folder in "$SAMPLE_PROJECTS"/*/; do
     {
       echo "## $sample_name"
       echo
-      echo "[▶ Open Sample Page]($sample_slug.md)"
+      echo "[▶ Open Sample Page](samples/$sample_slug.md)"
       echo
     } >> "$SAMPLE_FILE"
     
