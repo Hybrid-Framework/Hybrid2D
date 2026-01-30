@@ -1,6 +1,7 @@
 ## PROJECT
 .scripts/Dependencies/Modules/**/*
 .scripts/Dependencies/Bindings/Generated/**/*
+docs/Samples**/*
 *.DS_Store
 
 

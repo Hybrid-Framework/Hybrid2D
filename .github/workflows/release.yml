@@ -6,11 +6,11 @@ on:
       version:
         description: 'Version'
         required: true
-        default: '0.0.1'
+        default: '0.1.1'
       description:
         description: 'Description'
         required: true
-        default: '0.0.1 Release'
+        default: '0.1.1 Release'
 
 permissions:
   contents: write
@@ -40,7 +40,13 @@ jobs:
         run: |
           dotnet workload restore
           dotnet build -c Release
-          dotnet pack -c Release -p:PackageVersion=${{ github.event.inputs.version }}
+          dotnet pack Hybrid/Hybrid/Hybrid2D.csproj -c Release -p:PackageVersion=${{ github.event.inputs.version }}
+          dotnet pack Hybrid/Platforms/Hybrid2D.Windows/Hybrid2D.Windows.csproj -c Release -p:PackageVersion=${{ github.event.inputs.version }}
+          dotnet pack Hybrid/Platforms/Hybrid2D.MacOS/Hybrid2D.MacOS.csproj -c Release -p:PackageVersion=${{ github.event.inputs.version }}
+          dotnet pack Hybrid/Platforms/Hybrid2D.Linux/Hybrid2D.Linux.csproj -c Release -p:PackageVersion=${{ github.event.inputs.version }}
+          dotnet pack Hybrid/Platforms/Hybrid2D.Android/Hybrid2D.Android.csproj -c Release -p:PackageVersion=${{ github.event.inputs.version }}
+          dotnet pack Hybrid/Platforms/Hybrid2D.IOS/Hybrid2D.IOS.csproj -c Release -p:PackageVersion=${{ github.event.inputs.version }}
+          dotnet pack Hybrid/Platforms/Hybrid2D.Web/Hybrid2D.Web.csproj -c Release -p:PackageVersion=${{ github.event.inputs.version }}
           ls -l .nuget/
 
       - name: Publish Packages
@@ -91,23 +97,28 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Setup Docs
+      - name: Setup MKDocs
         run: |
           pip install mkdocs mkdocs-material
 
-      - name: Generate Docs
+      - name: Generate Documentation
         run: |
-          chmod +x .github/scripts/Docs/Generate.sh
-          ./.github/scripts/Docs/Generate.sh
+          chmod +x .github/scripts/Website/Docs/Generate.sh
+          ./.github/scripts/Website/Docs/Generate.sh
+          
+      - name: Generate Samples
+        run: |
+          chmod +x .github/scripts/Website/Samples/Generate.sh
+          ./.github/scripts/Website/Samples/Generate.sh
 
-      - name: Build Docs
+      - name: Build MKDocs
         run: mkdocs build
 
-      - name: Upload Docs
+      - name: Upload
         uses: actions/upload-pages-artifact@v3
         with:
           path: site
 
-      - name: Publish Docs
+      - name: Publish
         id: deployment
         uses: actions/deploy-pages@v4
