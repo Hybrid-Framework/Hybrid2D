@@ -8,10 +8,14 @@ DOC_FILE="$BASE_DIR/../../../../docs/Documentation.md"
 echo "Building docs..."
 
 # ------ MAIN PAGE ------------------------------------------------------------------------------------------------
-echo "# Documentation" > "$DOC_FILE"
-echo "### Version: $HYBRID_VERSION" >> "$DOC_FILE"
-echo "This documentation is designed for quick reference" >> "$DOC_FILE"
-echo >> "$DOC_FILE"
+{
+  echo "# Documentation"
+  echo
+  echo "This documentation is designed for quick reference"
+  echo
+  echo "Version: $HYBRID_VERSION"
+  echo
+} > "$DOC_FILE"
 
 # ------ CLASSES --------------------------------------------------------------------------------------------------
 source "$BASE_DIR/Class.sh"

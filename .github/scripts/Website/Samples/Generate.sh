@@ -7,15 +7,19 @@ SAMPLE_FILE="$BASE_DIR/../../../../docs/Samples.md"
 SAMPLE_PROJECTS="$BASE_DIR/../../../../Samples"
 OUTPUT_DIR="$BASE_DIR/../../../../docs/Samples"
 DOCS_DIR="$BASE_DIR/../../../../docs"
-
 echo "Building samples..."
 mkdir -p "$OUTPUT_DIR"
 
 # ------ MAIN PAGE ------------------------------------------------------------------------------------------------
-echo "# Samples" > "$DOC_FILE"
-echo "### Version: $HYBRID_VERSION" >> "$DOC_FILE"
-echo "These samples are designed for quick reference and live preview in the browser" >> "$DOC_FILE"
-echo >> "$DOC_FILE"
+{
+  echo "# Samples"
+  echo
+  echo "These samples are designed for quick reference and live preview in the browser"
+  echo
+  echo "Version: $HYBRID_VERSION"
+  echo
+} > "$SAMPLE_FILE"
+
 
 # ------ BUILD SAMPLES --------------------------------------------------------------------------------------------
 for sample_folder in "$SAMPLE_PROJECTS"/*/; do
@@ -38,26 +42,28 @@ for sample_folder in "$SAMPLE_PROJECTS"/*/; do
     
     # Generate sample page
     sample_md="$OUTPUT_DIR/$sample_slug.md"
-    echo '' >> "$sample_md"
-    echo "# $sample_name" >> "$sample_md"
-    echo '' >> "$sample_md"
-    echo "<iframe src="./$sample_slug/wwwroot/index.html" width="610" height="410"></iframe>"
-    echo '' >> "$sample_md"
-    
-    # Generate source
     game_cs="$sample_folder/Game.cs"
-    echo '' >> "$sample_md"
-    echo '```csharp' >> "$sample_md"
-    cat "$game_cs" >> "$sample_md"
-    echo '' >> "$sample_md"
-    echo '```' >> "$sample_md"
-    echo '' >> "$sample_md"
+    {
+      echo "# $sample_name"
+      echo
+      echo "<iframe src=\"./wwwroot/index.html\" width=\"610\" height=\"410\"></iframe>"
+      echo
+      if [ -f "$game_cs" ]; then
+          echo '```csharp'
+          while IFS= read -r line; do
+              echo "$line"
+          done < "$game_cs"
+          echo '```'
+          echo
+      fi
+    } > "$sample_md"
+
     
     # Link sample page
     {
       echo "## $sample_name"
       echo
-      echo "[▶ Open](Samples/$sample_slug)"
+      echo "[▶ Open](./$sample_slug)"
       echo
     } >> "$SAMPLE_FILE"
     
