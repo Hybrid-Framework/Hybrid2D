@@ -72,7 +72,7 @@ namespace Hybrid
             return new Texture(path);
         }
 
-        // Destroy existing font instance
+        // Destroy existing texture instance
         public static void DestroyTexture(Texture texture)
         {
             if (texture.Handle != null)

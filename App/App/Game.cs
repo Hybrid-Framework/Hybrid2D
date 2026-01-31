@@ -42,7 +42,6 @@ namespace App
         {
             Graphics.DrawBegin(Color.Black);
             Graphics.DrawText(font, "hello world", 10, 10, 128, Color.White);
-            Graphics.DrawFps(10, 10, Color.White);
             Graphics.DrawEnd();
         }
     }

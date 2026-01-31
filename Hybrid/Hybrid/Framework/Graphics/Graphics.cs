@@ -1,5 +1,5 @@
-﻿using System;
-using System.Numerics;
+﻿using System.Numerics;
+using System;
 
 namespace Hybrid
 {
@@ -310,6 +310,15 @@ namespace Hybrid
                     
                     SDL.DestroySurface(surface);
                 }
+            }
+        }
+        
+        // Draw debug text (doesn't require a font)
+        public static void DrawDebugText(string text, int x, int y, Color color)
+        {
+            SDL.SetRenderDrawColor(Handle, Color.ToSDLColor32(color));
+            {
+                SDL.RenderDebugText(Handle, x, y, text);
             }
         }
         

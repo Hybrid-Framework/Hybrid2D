@@ -7,7 +7,6 @@ namespace Hybrid
     public sealed unsafe partial class Font
     {
         internal static int DefaultSize { get; set; } = 64;
-        
         internal SDL.IOStream* Stream { get; set; }
         internal SDL.Font* Handle { get; set; }
         internal GCHandle GCHandle;
