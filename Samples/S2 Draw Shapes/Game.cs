@@ -5,21 +5,27 @@ namespace App
     public class Game : Hybrid.App
     {
         private Point[] velocities = new Point[count];
+        private Color[] colors = new Color[count];
         private Rect[] rects = new Rect[count];
         private const int count = 256;
-        private Texture texture;
         
 
         public override void OnInitialize()
         {
-            texture = Texture.CreateTexture("Resources/Images/Image.png");
-            
             var rng = new System.Random();
             int h = Window.GetHeight();
             int w = Window.GetWidth();
 
             for (int i = 0; i < count; i++)
             {
+                colors[i] = new Color
+                {
+                    r = (float)rng.NextDouble(),
+                    g = (float)rng.NextDouble(),
+                    b = (float)rng.NextDouble(),
+                    a = 1,
+                };
+
                 rects[i] = new Rect
                 {
                     x = rng.Next(0, w - 32),
@@ -28,7 +34,7 @@ namespace App
                     height = 32,
                 };
 
-                velocities[i] = new Point
+                velocities[i] = new Point()
                 {
                     x = (float)(rng.NextDouble() * 200 - 100),
                     y = (float)(rng.NextDouble() * 200 - 100),
@@ -77,7 +83,7 @@ namespace App
 
             for (int i = 0; i < count; i++)
             {
-                Graphics.DrawTexture(texture, rects[i]);
+                Graphics.DrawRectangle(rects[i], colors[i]);
             }
 
             Graphics.DrawFps(10, 10, Color.White);
