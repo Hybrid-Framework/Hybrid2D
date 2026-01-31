@@ -16,9 +16,9 @@ Created by Lloyd J Howarth
 [Overview](#overview) •
 [Platforms](#platforms) •
 [Dependencies](#dependencies) •
-[Documentation](https://hybrid2d.github.io/Hybrid/Documentation) •
+[Documentation](www.hybrid2d.com/Documentation) •
 [Template](https://github.com/Hybrid2D/Template) •
-[Samples](https://hybrid2d.github.io/Hybrid/Samples) •
+[Samples](www.hybrid2d.com/Samples) •
 [License](#license)
 </div>
 
