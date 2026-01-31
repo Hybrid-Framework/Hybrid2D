@@ -266,13 +266,13 @@ namespace Hybrid
     public unsafe partial class Graphics
     {
         // Draw section of texture at position
-        public static void DrawTexture(Texture texture, Rect? uv, Rect? position)
+        public static void DrawTexture(Texture texture, Rect uv, Rect position)
         {
             SDL.RenderTexture(Handle, texture == null ? null : texture.Handle, Rect.ToSDLRect(uv), Rect.ToSDLRect(position));
         }
         
         // Draw full texture at position
-        public static void DrawTexture(Texture texture, Rect? position)
+        public static void DrawTexture(Texture texture, Rect position)
         {
             SDL.RenderTexture(Handle, texture == null ? null : texture.Handle, null, Rect.ToSDLRect(position));
         }
