@@ -28,17 +28,17 @@ namespace Hybrid
             SDL_mixer.SetTrackAudio(Track, Handle);
         }
         
-        internal Audio(string audioPath)
+        internal Audio(string path)
         {
             // Create Stream
-            Stream = Resources.CreateStream(audioPath, out GCHandle);
+            Stream = Resources.CreateStream(path, out GCHandle);
             {
                 // Load Audio From Stream
                 Handle = SDL_mixer.LoadAudioIO(Mixer.Handle, Stream, false, false);
                 {
                     if (Handle == null)
                     {
-                        throw new Exception($"Failed to load audio '{audioPath}': {SDL.GetError()}");
+                        throw new Exception($"Failed to load audio '{path}': {SDL.GetError()}");
                     }
                 }
 
@@ -53,16 +53,16 @@ namespace Hybrid
     // Audio Management
     public unsafe partial class Audio
     {
-        // Create new audio instance
+        // Create new audio sine wave instance
         public static Audio CreateAudio(int hz, float amplitude, long ms)
         {
             return new Audio(hz, amplitude, ms);
         }
         
-        // Create new audio instance
-        public static Audio CreateAudio(string audioPath)
+        // Create new audio instance from file
+        public static Audio CreateAudio(string path)
         {
-            return new Audio(audioPath);
+            return new Audio(path);
         }
 
         // Destroy existing audio instance

@@ -16,18 +16,18 @@ namespace Hybrid
         internal int Width { get; set; }
         
 
-        internal Texture(string texturePath)
+        internal Texture(string path)
         {
             // Create Stream
-            Stream = Resources.CreateStream(texturePath, out GCHandle);
+            Stream = Resources.CreateStream(path, out GCHandle);
             {
                 // Load Surface From Stream
                 var surface = SDL_image.LoadIO(Stream, false);
-                if (surface == null) throw new Exception($"Failed to load texture '{texturePath}' {SDL.GetError()}");
+                if (surface == null) throw new Exception($"Failed to load texture '{path}' {SDL.GetError()}");
 
                 // Convert Surface to RGBA32
                 var converted = SDL.ConvertSurface(surface, SDL.PixelFormat.RGBA32);
-                if (converted == null) throw new Exception($"Failed to load texture '{texturePath} {SDL.GetError()}'");
+                if (converted == null) throw new Exception($"Failed to load texture '{path} {SDL.GetError()}'");
 
                 // Get Surface Data
                 Width = converted->width;
@@ -66,10 +66,10 @@ namespace Hybrid
     // Texture Management
     public unsafe partial class Texture
     {
-        // Create new texture instance
-        public static Texture CreateTexture(string texturePath)
+        // Create new texture instance from file
+        public static Texture CreateTexture(string path)
         {
-            return new Texture(texturePath);
+            return new Texture(path);
         }
 
         // Destroy existing font instance

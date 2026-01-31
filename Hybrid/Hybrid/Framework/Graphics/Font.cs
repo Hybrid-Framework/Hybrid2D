@@ -13,17 +13,17 @@ namespace Hybrid
         internal GCHandle GCHandle;
         
         
-        internal Font(string fontPath)
+        internal Font(string path)
         {
             // Create Stream
-            Stream = Resources.CreateStream(fontPath, out GCHandle);
+            Stream = Resources.CreateStream(path, out GCHandle);
             {
                 // Open Font From Stream
                 Handle = SDL_ttf.OpenFontIO(Stream, false, DefaultSize);
                 {
                     if (Handle == null)
                     {
-                        throw new Exception($"Failed to load font '{fontPath}': {SDL.GetError()}");
+                        throw new Exception($"Failed to load font '{path}': {SDL.GetError()}");
                     }
                 }
                 
@@ -36,10 +36,10 @@ namespace Hybrid
     // Font Management
     public unsafe partial class Font
     {
-        // Create new font instance
-        public static Font CreateFont(string fontPath)
+        // Create new font instance from file
+        public static Font CreateFont(string path)
         {
-            return new Font(fontPath);
+            return new Font(path);
         }
 
         // Destroy existing font instance
