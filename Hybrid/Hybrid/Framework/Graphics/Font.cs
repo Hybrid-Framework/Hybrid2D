@@ -66,31 +66,31 @@ namespace Hybrid
     public unsafe partial class Font
     {
         // Set font character spacing
-        public static void SetFontSpacing(Font font, int spacing)
+        public static void SetSpacing(Font font, int spacing)
         {
             SDL_ttf.SetFontCharSpacing(font.Handle, spacing);
         }
 
         // Get font character spacing
-        public static int GetFontSpacing(Font font)
+        public static int GetSpacing(Font font)
         {
             return SDL_ttf.GetFontCharSpacing(font.Handle);
         }
 
         // Get font ascent
-        public static int GetFontAscent(Font font)
+        public static int GetAscent(Font font)
         {
             return SDL_ttf.GetFontAscent(font.Handle);
         }
 
         // Get font descent
-        public static int GetFontDescent(Font font)
+        public static int GetDescent(Font font)
         {
             return SDL_ttf.GetFontDescent(font.Handle);
         }
 
         // Get font height
-        public static int GetFontHeight(Font font)
+        public static int GetHeight(Font font)
         {
             return SDL_ttf.GetFontHeight(font.Handle);
         }
@@ -100,7 +100,7 @@ namespace Hybrid
     public unsafe partial class Font
     {
         // Measure text size using font and size
-        public static Point GetTextSize(Font font, string text, float size)
+        public static Point MeasureSize(Font font, string text, float size)
         {
             SDL_ttf.GetStringSize(font.Handle, text, out int w, out int h);
             {
@@ -115,15 +115,15 @@ namespace Hybrid
         }
         
         // Measure text width using font and size
-        public static float GetTextWidth(Font font, string text, float size)
+        public static float MeasureWidth(Font font, string text, float size)
         {
-            return GetTextSize(font, text, size).x;
+            return MeasureSize(font, text, size).x;
         }
         
         // Measure text height using font and size
-        public static float GetTextHeight(Font font, string text, float size)
+        public static float MeasureHeight(Font font, string text, float size)
         {
-            return GetTextSize(font, text, size).y;
+            return MeasureSize(font, text, size).y;
         }
     }
 }
