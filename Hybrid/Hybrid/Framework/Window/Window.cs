@@ -34,18 +34,18 @@ namespace Hybrid
     // Window
     public unsafe partial class Window
     {
-        // Set window icon
-        public static void SetIcon(string iconPath)
+        // Set window icon from file
+        public static void SetIcon(string path)
         {
             // Create Stream
-            SDL.IOStream* stream = Resources.CreateStream(iconPath, out GCHandle gcHandle);
+            SDL.IOStream* stream = Resources.CreateStream(path, out GCHandle gcHandle);
             {
                 // Load Surface From Stream
                 var surface = SDL_image.LoadIO(stream, false);
                 {
                     if (surface == null)
                     {
-                        throw new Exception($"Failed to load icon '{iconPath}' {SDL.GetError()}");
+                        throw new Exception($"Failed to load icon '{path}' {SDL.GetError()}");
                     }
                 }
                 
