@@ -4,7 +4,7 @@ using System;
 namespace Hybrid
 {
     // Internal
-    internal unsafe partial class Gamepad : InputDevice
+    public unsafe partial class Gamepad : Module
     {
         private static readonly Dictionary<int, GamepadHandle> Gamepads = new Dictionary<int, GamepadHandle>();
         
@@ -153,10 +153,10 @@ namespace Hybrid
     }
 
     // Gamepads API
-    internal partial class Gamepad
+    public partial class Gamepad
     {
         // Rumble gamepad for ms
-        internal void Rumble(int index, float strength, float ms)
+        public static void Rumble(int index, float strength, float ms)
         {
             if (Gamepads.TryGetValue(index, out var gamepad))
             {
@@ -165,7 +165,7 @@ namespace Hybrid
         }
         
         // Get gamepad button pressed
-        internal bool GetButton(int index, Button button)
+        public static bool GetButton(int index, Button button)
         {
             if (Gamepads.TryGetValue(index, out var gamepad))
             {
@@ -176,7 +176,7 @@ namespace Hybrid
         }
         
         // Get gamepad button released
-        internal bool GetButtonUp(int index, Button button)
+        public static bool GetButtonUp(int index, Button button)
         {
             if (Gamepads.TryGetValue(index, out var gamepad))
             {
@@ -187,7 +187,7 @@ namespace Hybrid
         }
         
         // Get gamepad button down (single frame)
-        internal bool GetButtonDown(int index, Button button)
+        public static bool GetButtonDown(int index, Button button)
         {
             if (Gamepads.TryGetValue(index, out var gamepad))
             {
@@ -198,7 +198,7 @@ namespace Hybrid
         }
         
         // Get gamepad axis
-        internal float GetAxis(int index, Axis axis)
+        public static float GetAxis(int index, Axis axis)
         {
             if (Gamepads.TryGetValue(index, out var gamepad))
             {
@@ -209,7 +209,7 @@ namespace Hybrid
         }
         
         // Set gamepad dead zone
-        internal void SetDeadZone(int index, float deadZone)
+        public static void SetDeadZone(int index, float deadZone)
         {
             if (Gamepads.TryGetValue(index, out var gamepad))
             {
@@ -218,7 +218,7 @@ namespace Hybrid
         }
 
         // Get gamepad dead zone
-        internal float GetDeadZone(int index)
+        public static float GetDeadZone(int index)
         {
             if (Gamepads.TryGetValue(index, out var gamepad))
             {

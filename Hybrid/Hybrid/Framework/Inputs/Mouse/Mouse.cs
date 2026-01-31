@@ -5,7 +5,7 @@ using System;
 namespace Hybrid
 {
     // Internal
-    internal partial class Mouse : InputDevice
+    public partial class Mouse : Module
     {
         private static readonly Dictionary<int, State> Buttons = new Dictionary<int, State>();
         private static Point PositionDelta = Point.Zero;
@@ -94,10 +94,10 @@ namespace Hybrid
         }
     }
     
-    internal partial class Mouse
+    public partial class Mouse
     {
         // Get mouse button pressed
-        internal bool GetButton(int index)
+        public static bool GetButton(int index)
         {
             if (Buttons.TryGetValue(index, out var state))
             {
@@ -108,7 +108,7 @@ namespace Hybrid
         }
         
         // Get mouse button released
-        internal bool GetButtonUp(int index)
+        public static bool GetButtonUp(int index)
         {
             if (Buttons.TryGetValue(index, out var state))
             {
@@ -119,7 +119,7 @@ namespace Hybrid
         }
         
         // Get mouse button down (single frame)
-        internal bool GetButtonDown(int index)
+        public static bool GetButtonDown(int index)
         {
             if (Buttons.TryGetValue(index, out var state))
             {
@@ -130,31 +130,31 @@ namespace Hybrid
         }
         
         // Get mouse positon delta
-        internal Point GetPositonDelta()
+        public static Point GetPositonDelta()
         {
             return PositionDelta;
         }
         
         // Get mouse scroll delta
-        internal Point GetScrollDelta()
+        public static Point GetScrollDelta()
         {
             return ScrollDelta;
         }
 
         // Get mouse positon
-        internal Point GetPositon()
+        public static Point GetPositon()
         {
             return Position;
         }
 
         // Show mouse
-        internal void Show()
+        public static void ShowCursor()
         {
             SDL.ShowCursor();
         }
         
         // Hide mouse
-        internal void Hide()
+        public static void HideCursor()
         {
             SDL.HideCursor();
         }

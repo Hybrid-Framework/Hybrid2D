@@ -4,7 +4,7 @@ using System;
 namespace Hybrid
 {
     // Internal
-    internal unsafe partial class TouchKeyboard : InputDevice
+    public unsafe partial class TouchKeyboard : Module
     {
         private static string TextHandle { get; set; } = string.Empty;
         
@@ -64,34 +64,34 @@ namespace Hybrid
     }
 
     // On Screen Keyboard API
-    internal unsafe partial class TouchKeyboard
+    public unsafe partial class TouchKeyboard
     {
         // Open screen keyboard
-        internal void Open()
+        public static void Open()
         {
             SDL.StartTextInput(Window.Handle);
         }
 
         // Close screen keyboard
-        internal void Close()
+        public static void Close()
         {
             SDL.StopTextInput(Window.Handle);
         }
 
         // Is screen keyboard visible
-        internal bool IsVisible()
+        public static bool IsVisible()
         {
             return SDL.ScreenKeyboardShown(Window.Handle);
         }
         
         // Is screen keyboard supported
-        internal bool IsSupported()
+        public static bool IsSupported()
         {
             return SDL.HasScreenKeyboardSupport();
         }
         
         // Get screen keyboard text
-        internal string GetText()
+        public static string GetText()
         {
             return TextHandle;
         }

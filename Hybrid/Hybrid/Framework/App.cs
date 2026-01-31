@@ -4,16 +4,20 @@ using System;
 
 namespace Hybrid
 {
-    public abstract unsafe partial class App
+    public abstract partial class App
     {
         internal bool Initialized { get; private set; } = false;
         internal bool IsRunning { get; private set; } = false;
         
+        internal TouchKeyboard TouchKeyboard { get; set; }
         internal Resources Resources { get; set; }
         internal Graphics Graphics { get; set; }
+        internal Keyboard Keyboard { get; set; }
+        internal Gamepad Gamepad { get; set; }
+        internal Mouse Mouse { get; set; }
+        internal Touch Touch { get; set; }
         internal Window Window { get; set; }
         internal Mixer Mixer { get; set; }
-        internal Input Input { get; set; }
         internal Time Time { get; set; }
 
         
@@ -41,26 +45,19 @@ namespace Hybrid
 
         internal void MainInitialize()
         {
-            if (Initialized)
-            {
-                try
-                {
-                    Mixer = new Mixer();
-                    Window = new Window();
-                    Graphics = new Graphics();
-                    Resources = new Resources();
-                    Input = new Input();
-                    Time = new Time();
+            Mixer = new Mixer();
+            Window = new Window();
+            Graphics = new Graphics();
+            Resources = new Resources();
+            TouchKeyboard = new TouchKeyboard();
+            Keyboard = new Keyboard();
+            Mouse = new Mouse();
+            Touch = new Touch();
+            Time = new Time();
                     
-                    OnEngineInitialize();
-                    {
-                        Window.Show();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Exceptions.Throw(ex, this);
-                }
+            OnEngineInitialize();
+            {
+                Window.Show();
             }
         }
 
@@ -68,33 +65,26 @@ namespace Hybrid
         {
             if (IsRunning)
             {
-                try
-                {
-                    OnEngineStartOfFrame();
+                OnEngineStartOfFrame();
 
-                    while (Events.Count > 0)
+                while (Events.Count > 0)
+                {
+                    var e = Events.Dequeue();
                     {
-                        var e = Events.Dequeue();
+                        if (e.type == SDL.EventType.Quit)
                         {
-                            if (e.type == SDL.EventType.Quit)
-                            {
-                                Quit();
-                                return;
-                            }
-
-                            OnEngineEvent(e);
+                            Quit();
+                            return;
                         }
+
+                        OnEngineEvent(e);
                     }
-
-                    OnEngineUpdate();
-                    OnEngineRender();
-
-                    OnEngineEndOfFrame();
                 }
-                catch (Exception ex)
-                {
-                    Exceptions.Throw(ex, this);
-                }
+
+                OnEngineUpdate();
+                OnEngineRender();
+
+                OnEngineEndOfFrame();
             }
         }
     }

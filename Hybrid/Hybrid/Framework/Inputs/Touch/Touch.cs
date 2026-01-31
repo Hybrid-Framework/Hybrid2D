@@ -3,7 +3,7 @@ using System;
 
 namespace Hybrid
 {
-    internal partial class Touch : InputDevice
+    public partial class Touch : Module
     {
         private static readonly Dictionary<int, TouchHandle> Touches = new Dictionary<int, TouchHandle>();
         private const int MaxTouches = 10;
@@ -64,10 +64,10 @@ namespace Hybrid
         }
     }
     
-    internal partial class Touch
+    public partial class Touch
     {
         // Get touch pressed
-        internal bool GetTouch(int index)
+        public static bool GetTouch(int index)
         {
             if (Touches.TryGetValue(index, out var touch))
             {
@@ -78,7 +78,7 @@ namespace Hybrid
         }
         
         // Get touch released
-        internal bool GetTouchUp(int index)
+        public static bool GetTouchUp(int index)
         {
             if (Touches.TryGetValue(index, out var touch))
             {
@@ -89,7 +89,7 @@ namespace Hybrid
         }
         
         // Get touch down (single frame)
-        internal bool GetTouchDown(int index)
+        public static bool GetTouchDown(int index)
         {
             if (Touches.TryGetValue(index, out var touch))
             {
@@ -100,7 +100,7 @@ namespace Hybrid
         }
         
         // Get touch position delta
-        internal Point GetTouchPositionDelta(int index)
+        public static Point GetTouchPositionDelta(int index)
         {
             if (Touches.TryGetValue(index, out var touch))
             {
@@ -111,7 +111,7 @@ namespace Hybrid
         }
         
         // Get touch position
-        internal Point GetTouchPosition(int index)
+        public static Point GetTouchPosition(int index)
         {
             if (Touches.TryGetValue(index, out var touch))
             {
@@ -122,7 +122,7 @@ namespace Hybrid
         }
         
         // Get touch pressure
-        internal float GetTouchPressure(int index)
+        public static float GetTouchPressure(int index)
         {
             if (Touches.TryGetValue(index, out var touch))
             {
@@ -133,7 +133,7 @@ namespace Hybrid
         }
         
         // Get touch count
-        internal int GetTouchCount()
+        public static int GetTouchCount()
         {
             int count = 0;
 

@@ -22,12 +22,12 @@ namespace App
 
         public override void OnUpdate()
         {
-            if (Input.GetMouseButtonDown(1))
+            if (Mouse.GetButtonDown(1))
             {
                 Debug.Log("Mouse");
             }
 
-            if (Input.GetKeyboardButtonDown(Key.A))
+            if (Keyboard.GetButtonDown(Key.A))
             {
                 Debug.Log("Keyboard");
             }
