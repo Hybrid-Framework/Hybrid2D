@@ -1,11 +1,18 @@
 <div style="text-align:center;">
 
-
   <!-- Logo -->
   <div>
     <img width="256" src="assets/Hybrid.png" alt="Hybrid2D Logo">
   </div>
   <br>
+
+<p align="center">
+  <strong>Hybrid2D</strong>
+</p>
+
+<p align="center">
+  Created by Lloyd J Howarth
+</p>
 
 <p align="center">
   <img src="https://custom-icon-badges.demolab.com/badge/Windows-7400ff?logo=windows11&logoColor=white" alt="Windows">
@@ -31,51 +38,5 @@
     <strong>Write once, run everywhere.</strong>
   </div>
 
-
 </div>
 
----
-
-<h2 id="overview">🔍 Overview</h2>
-
-Hybrid2D is a lightweight cross-platform Game Framework written in C#
-
-Getting started...
-
-* 🌐 1. Clone the official template: `git clone https://github.com/Hybrid2D/Template.git`
-* 📂 2. Open 'Template.sln' in your favourite IDE such as [Rider](https://www.jetbrains.com/rider) or [Visual Studio](https://visualstudio.microsoft.com)
-* 🎮 3. Develop in the 'App' project provided to you
-* 🚀 4. Build & launch your game
-
-> The official project template is available [here](https://github.com/Hybrid2D/Template)
-
-
-<h2 id="platforms">🖥️ Cross-platform</h2>
-
-Currently supports these platforms:
-
-* **Desktop:** Windows, Mac, Linux
-
-* **Mobile:** Android, iOS
-
-* **Web:** Browsers
-
-
-<h2 id="dependencies">📦 Dependencies</h2>
-
-Currently using these dependencies:
-
-* [EMSCRIPTEN 3.1.56](https://github.com/emscripten-core/emscripten)
-
-* [DOTNET 10.0](https://github.com/dotnet/runtime)
-
-* [SDL 3.4.0](https://github.com/libsdl-org/SDL)
-
-
-<h2 id="license">📄 License</h2>
-
-* All third-party dependencies are covered by their respective licenses.
-
-* This project is licensed under the [MIT LICENSE](https://hybrid2d.github.io/Hybrid/License).
-
- 

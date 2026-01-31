@@ -5,4 +5,18 @@ To address this, the project has taken a new direction: simplicity. Hybrid is no
 
 This project wouldn't be possible without [SDL](https://github.com/libsdl-org/SDL), [Emscripten](https://github.com/emscripten-core/emscripten) and [.NET](https://github.com/dotnet/runtime) so a huge thank you to those teams for their dedication, hardwork and open source availability.
 
-Created by [Lloyd J Howarth](https://github.com/LloydJHowarth).
+Created by [Lloyd J Howarth](https://github.com/LloydJHowarth). (Lloyd.J.Howarth@gmail.com)
+
+<br>
+
+---
+
+<p align="center">
+  Thank you
+</p>
+
+<p align="center">
+  Sam Lantinga, Ryan C. Gordon, Ethan Lee, Aysha King, Josh Sewell, Conner Bailey, Brad Salah, Adam Carmichael, Piotr Nierobisz, SDL, .NET, Emscripten, Monogame, Raylib, FNA.
+</p>
+
+---

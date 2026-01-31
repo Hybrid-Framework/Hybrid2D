@@ -7,8 +7,8 @@ namespace Hybrid
     // Directory Management
     public static partial class Storage
     {
-        private static string ResolvePath(string path) => Path.Combine(GetBaseDirectory(), path);
-        private static string CurrentDirectory = GetBaseDirectory();
+        internal static string ResolvePath(string path) => Path.Combine(GetBaseDirectory(), path);
+        internal static string CurrentDirectory = GetBaseDirectory();
         
 
         // Get current directory

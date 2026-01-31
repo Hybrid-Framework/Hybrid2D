@@ -25,7 +25,6 @@ Hybrid currently requires **.NET 10** only however support for earlier version m
 
 ```bash
 dotnet workload search
-dotnet workload install packagename
 ```
 
 > Recommended: 'dotnet workload install maui ios android wasm-tools'
@@ -76,7 +75,7 @@ namespace Application
         public override void OnUpdate()
         {
             // Update code
-            if(Input.GetKeyboardButtonDown(KeyboardButton.Space))
+            if(Keyboard.GetButtonDown(Key.Space))
             {
                 Debug.Log("You pressed space!");
             }

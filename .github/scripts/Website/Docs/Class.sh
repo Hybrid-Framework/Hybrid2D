@@ -15,6 +15,7 @@ generate_classes()
         "$FRAMEWORK_DIR/Utility/Clipboard.cs"
         "$FRAMEWORK_DIR/Audio/Audio.cs"
         "$FRAMEWORK_DIR/Storage/Storage.cs"
+        "$FRAMEWORK_DIR/Utility/Misc.cs"
         "$FRAMEWORK_DIR/Utility/Time.cs"
         "$FRAMEWORK_DIR/Utility/Debug.cs"
         "$FRAMEWORK_DIR/Utility/Maths.cs"

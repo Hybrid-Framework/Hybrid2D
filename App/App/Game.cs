@@ -31,12 +31,16 @@ namespace App
             {
                 Debug.Log("Keyboard");
             }
+
+            if (Keyboard.GetButtonDown(Key.Space))
+            {
+                Misc.TakeScreenshot();
+            }
         }
 
         public override void OnRender()
         {
             Graphics.DrawBegin(Color.Black);
-            Graphics.DrawTexture(texture, null);
             Graphics.DrawText(font, "hello world", 10, 10, 128, Color.White);
             Graphics.DrawFps(10, 10, Color.White);
             Graphics.DrawEnd();
