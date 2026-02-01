@@ -19,6 +19,9 @@ namespace App
         public override void OnRender()
         {
             // Render logic here
+            Graphics.DrawBegin(Color.Black);
+            Graphics.DrawFps(10, 10, Color.White);
+            Graphics.DrawEnd();
         }
     }
 }
