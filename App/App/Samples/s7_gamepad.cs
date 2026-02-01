@@ -34,10 +34,10 @@ namespace App
                       Gamepad.GetAxis(0, Axis.LeftTrigger) > 0 ||
                       Gamepad.GetAxis(0, Axis.RightTrigger) > 0;
             
-            rect.x += Gamepad.GetAxis(0, Axis.LeftStickX);
-            rect.x += Gamepad.GetAxis(0, Axis.RightStickX);
-            rect.y -= Gamepad.GetAxis(0, Axis.LeftStickY);
-            rect.y -= Gamepad.GetAxis(0, Axis.RightStickY);
+            rect.x += Gamepad.GetAxis(0, Axis.LeftStickX) * speed * Time.GetDeltaTime();
+            rect.x += Gamepad.GetAxis(0, Axis.RightStickX) * speed * Time.GetDeltaTime();
+            rect.y -= Gamepad.GetAxis(0, Axis.LeftStickY) * speed * Time.GetDeltaTime();
+            rect.y -= Gamepad.GetAxis(0, Axis.RightStickY) * speed * Time.GetDeltaTime();
             
             rect.x = Maths.Clamp(rect.x, 0, Window.GetWidth() - rect.width);
             rect.y = Maths.Clamp(rect.y, 0, Window.GetHeight() - rect.height);
