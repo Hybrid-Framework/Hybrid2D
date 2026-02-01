@@ -6,7 +6,7 @@ namespace App
 {
     public class s8_touch : Hybrid.App
     {
-        private const int MaxTouches = 8;
+        private const int MaxTouches = 10;
         private Point[] positions = new Point[MaxTouches];
         private bool[] pressed = new bool[MaxTouches];
 
