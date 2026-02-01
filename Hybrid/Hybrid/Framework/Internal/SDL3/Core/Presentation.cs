@@ -1,7 +1,9 @@
 ﻿using System.Runtime.InteropServices;
+using System;
 
 internal static unsafe partial class SDL
 {
+    [Flags]
     public enum Presentation
     {
         Disabled = 0,

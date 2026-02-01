@@ -19,6 +19,7 @@ namespace Hybrid
             Handle = SDL.CreateRenderer(Window.Handle, null);
             {
                 SDL.SetDefaultTextureScaleMode(Handle, SDL.ScaleMode.Pixel);
+                SDL.SetRenderLogicalPresentation(Handle, Window.GetWidth(), Window.GetHeight(), SDL.Presentation.IntegerScaled | SDL.Presentation.Stretch);
                 SDL.SetRenderVSync(Handle, 1);
             }
         }
