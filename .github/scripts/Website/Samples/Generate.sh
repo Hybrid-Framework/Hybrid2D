@@ -22,13 +22,6 @@ mkdir -p "$OUTPUT_DIR"
   echo
 } > "$SAMPLE_FILE"
 
-
-# ------ BUILD ENTIRE SOLUTION ----------------------------------------------------------------------------------
-
-echo "Building entire solution..."
-dotnet clean "$REPO_ROOT"
-dotnet build "$REPO_ROOT" -c Release
-
 # ------ BUILD SAMPLES ------------------------------------------------------------------------------------------
 
 for sample_folder in "$SAMPLE_PROJECTS"/*/; do
