@@ -68,25 +68,17 @@ namespace Application
     {
         public override void OnInitialize()
         {
-            // Initialize code
-            Window.SetTitle("My First Game");
+            // Initialize logic
         }
 
         public override void OnUpdate()
         {
-            // Update code
-            if(Keyboard.GetButtonDown(Key.Space))
-            {
-                Debug.Log("You pressed space!");
-            }
+            // Update logic
         }
 
         public override void OnRender()
         {
-            // Render code
-            Graphics.DrawBegin(Color.Black);
-            Graphics.DrawFps(10, 10, Color.White);
-            Graphics.DrawEnd();
+            // Render logic
         }
     }
 }
