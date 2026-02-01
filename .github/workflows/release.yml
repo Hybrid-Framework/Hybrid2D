@@ -6,11 +6,11 @@ on:
       version:
         description: 'Version'
         required: true
-        default: '0.1'
+        default: '0.0.0'
       description:
         description: 'Description'
         required: true
-        default: '0.1 Release'
+        default: '0.0.0 Release'
 
 permissions:
   contents: write

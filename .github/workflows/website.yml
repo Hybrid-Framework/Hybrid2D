@@ -6,7 +6,7 @@ on:
       version:
         description: 'Version'
         required: true
-        default: '0.1'
+        default: '0.0.0'
 
 permissions:
   contents: write
@@ -19,35 +19,38 @@ concurrency:
 
 jobs:
   website:
-    name: Publish Website ${{ inputs.version }}
+    name: Publish Website ${{ github.event.inputs.version }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     env:
       HYBRID_VERSION: ${{ inputs.version }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
 
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.x'
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '10.0.x'
-      
       - name: Setup MKDocs
         run: |
           pip install mkdocs mkdocs-material
-          
-      - name: Setup .NET Workloads
+
+      - name: Setup Workloads
         run: |
-          dotnet workload install wasm-tools
+          dotnet workload restore
+          dotnet build -c Release
 
       - name: Generate Documentation
         run: |
@@ -70,3 +73,4 @@ jobs:
       - name: Publish
         id: deployment
         uses: actions/deploy-pages@v4
+  
