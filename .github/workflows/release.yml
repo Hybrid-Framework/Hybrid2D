@@ -40,13 +40,7 @@ jobs:
         run: |
           dotnet workload restore
           dotnet build -c Release
-          dotnet pack Hybrid/Hybrid/Hybrid2D.csproj -c Release -p:PackageVersion=${{ github.event.inputs.version }}
-          dotnet pack Hybrid/Platforms/Hybrid2D.Windows/Hybrid2D.Windows.csproj -c Release -p:PackageVersion=${{ github.event.inputs.version }}
-          dotnet pack Hybrid/Platforms/Hybrid2D.MacOS/Hybrid2D.MacOS.csproj -c Release -p:PackageVersion=${{ github.event.inputs.version }}
-          dotnet pack Hybrid/Platforms/Hybrid2D.Linux/Hybrid2D.Linux.csproj -c Release -p:PackageVersion=${{ github.event.inputs.version }}
-          dotnet pack Hybrid/Platforms/Hybrid2D.Android/Hybrid2D.Android.csproj -c Release -p:PackageVersion=${{ github.event.inputs.version }}
-          dotnet pack Hybrid/Platforms/Hybrid2D.IOS/Hybrid2D.IOS.csproj -c Release -p:PackageVersion=${{ github.event.inputs.version }}
-          dotnet pack Hybrid/Platforms/Hybrid2D.Web/Hybrid2D.Web.csproj -c Release -p:PackageVersion=${{ github.event.inputs.version }}
+          dotnet pack -c Release -p:PackageVersion=${{ github.event.inputs.version }}
           ls -l .nuget/
 
       - name: Publish Packages
@@ -54,7 +48,7 @@ jobs:
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
         run: |
-         for pkg in .nuget/*.nupkg; do
+         for pkg in .nuget/Hybrid2D*.nupkg; do
           echo "Pushing $pkg"
           dotnet nuget push "$pkg" --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
          done

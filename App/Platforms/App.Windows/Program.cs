@@ -4,7 +4,7 @@ public class Program
 {
     public static void Main()
     {
-        var game = new s7_gamepad();
+        var game = new Game();
         {
             game.Run();
         }
