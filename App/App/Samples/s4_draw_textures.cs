@@ -1,9 +1,8 @@
-﻿// This is a simple program to show you how to draw textures and handle resources for your application
+﻿// Assets source: https://o-lobster.itch.io/simple-dungeon-crawler-16x16-pixel-pack
+// This is a simple program to show you how to draw textures and handle resources for your application
 // Ensure you place your assets in the "Resources" folder inside the App project
 // Resources must be Embedded resources for cross-platform availability 
 // To load resource you then use "Resources/file.extension"
-
-// Assets source: https://o-lobster.itch.io/simple-dungeon-crawler-16x16-pixel-pack
 
 using Hybrid;
 

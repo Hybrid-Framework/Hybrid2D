@@ -1,4 +1,5 @@
 ﻿// This is a simple program to show you how to get input from the keyboard
+// Use WASD to move the rectangle around the window
 
 using Hybrid;
 
@@ -11,7 +12,7 @@ namespace App
 
         public override void OnInitialize()
         {
-            rect = new Rect(Window.GetWidth() / 2, Window.GetHeight() / 2, 128, 128);
+            rect = new Rect(0, 0, 128, 128);
         }
 
         public override void OnUpdate()

@@ -1,4 +1,5 @@
 ﻿// This is a simple program to show you how to get input from gamepads
+// Use the sticks to move the rectangle around or press a button to change color
 
 using Hybrid;
 

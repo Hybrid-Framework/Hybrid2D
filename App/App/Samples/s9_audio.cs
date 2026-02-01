@@ -1,5 +1,5 @@
 ﻿// This is a simple program to show you how to get load and play audio
-// Press SPACE on the keyboard to play the sound
+// Use Space, South, Touch, Mouse Left to play the sound
 
 using Hybrid;
 

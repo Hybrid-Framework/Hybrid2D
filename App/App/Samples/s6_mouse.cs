@@ -1,4 +1,5 @@
 ﻿// This is a simple program to show you how to get input from the mouse
+// Use the mouse to move the circle around and click to change the color
 
 using Hybrid;
 

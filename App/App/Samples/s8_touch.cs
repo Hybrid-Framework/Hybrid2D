@@ -1,4 +1,5 @@
 ﻿// This is a simple program to show you how to get input from multiple touches
+// Use touch to display circles on the screen
 
 using Hybrid;
 
