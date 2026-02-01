@@ -240,4 +240,37 @@ namespace Hybrid
             return Abs(a - b) < epsilon;
         }
     }
+    
+    // Random
+    public static partial class Maths
+    {
+        private static System.Random Rng = new System.Random();
+        private static int Seed;
+
+        // Set the random seed
+        public static void SetRandomSeed(int seed)
+        {
+            Seed = seed;
+            {
+                Rng = new System.Random(seed);
+            }
+        }
+
+        // Get the random seed
+        public static int GetRandomSeed()
+        {
+            return Seed;
+        }
+
+        // Get random value between min and max with seed
+        public static float GetRandomValue(float min, float max)
+        {
+            if (min > max)
+            {
+                (min, max) = (max, min);
+            }
+
+            return min + (max - min) * (float)Rng.NextDouble();
+        }
+    }
 }
