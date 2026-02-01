@@ -59,6 +59,7 @@ namespace Hybrid
             OnEngineInitialize();
             {
                 Window.Show();
+                Window.Raise();
             }
         }
 

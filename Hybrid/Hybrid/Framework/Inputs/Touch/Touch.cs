@@ -39,6 +39,8 @@ namespace Hybrid
                 {
                     if (Touches.TryGetValue((int)e.touchFinger.fingerID - 1, out var touch))
                     {
+                        Debug.Log($"Hybridtouch: {(int)e.touchFinger.fingerID - 1}");
+                        
                         if (touch != null)
                         {
                             float width = Window.GetWidth();

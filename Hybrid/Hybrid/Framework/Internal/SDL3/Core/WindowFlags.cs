@@ -11,6 +11,8 @@ internal static unsafe partial class SDL
         Borderless = 0x10,
         Resizable = 0x20,
         Minimized = 0x40,
+        InputFocus = 0x200,
+        MouseFocus = 0x400,
         Maximized = 0x080,
         HighPixelDensity = 0x2000,
     }
