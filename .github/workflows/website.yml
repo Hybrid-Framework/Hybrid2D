@@ -50,14 +50,15 @@ jobs:
       - name: Setup Workloads
         run: |
           dotnet workload restore
-          dotnet build -c Release
 
       - name: Generate Documentation
+        shell: bash
         run: |
           chmod +x .github/scripts/Website/Docs/Generate.sh
           ./.github/scripts/Website/Docs/Generate.sh
 
       - name: Generate Samples
+        shell: bash
         run: |
           chmod +x .github/scripts/Website/Samples/Generate.sh
           ./.github/scripts/Website/Samples/Generate.sh
@@ -73,4 +74,3 @@ jobs:
       - name: Publish
         id: deployment
         uses: actions/deploy-pages@v4
-  

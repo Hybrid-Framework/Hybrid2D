@@ -23,6 +23,7 @@ mkdir -p "$OUTPUT_DIR"
 } > "$SAMPLE_FILE"
 
 # ------ BUILD SAMPLES ------------------------------------------------------------------------------------------
+dotnet build "$REPO_ROOT" -c Release
 
 for sample_folder in "$SAMPLE_PROJECTS"/*/; do
     
