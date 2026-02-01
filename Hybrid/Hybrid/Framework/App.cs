@@ -97,6 +97,7 @@ namespace Hybrid
         public virtual void OnRender() { }
         public virtual void OnUpdate() { }
         
+        
         internal void OnEngineInitialize()
         {
             foreach (Module module in Module.Modules)

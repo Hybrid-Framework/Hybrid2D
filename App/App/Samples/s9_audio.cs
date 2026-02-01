@@ -16,7 +16,22 @@ namespace App
 
         public override void OnUpdate()
         {
+            if (Mouse.GetButtonDown(0))
+            {
+                Audio.Play(audio);
+            }
+            
+            if (Touch.GetTouchDown(0))
+            {
+                Audio.Play(audio);
+            }
+
             if (Keyboard.GetButtonDown(Key.Space))
+            {
+                Audio.Play(audio);
+            }
+            
+            if (Gamepad.GetButtonDown(0, Button.South))
             {
                 Audio.Play(audio);
             }
