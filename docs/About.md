@@ -16,7 +16,7 @@ Created by [Lloyd J Howarth](https://github.com/LloydJHowarth). (Lloyd.J.Howarth
 </p>
 
 <p align="center">
-  Sam Lantinga, Ryan C. Gordon, Ethan Lee, Sarah Howarth, Aysha King, Josh Sewell, Conner Bailey, Brad Salah, Adam Carmichael, Piotr Nierobisz, SDL, .NET, Emscripten, Monogame, Raylib, FNA.
+  Sam Lantinga, Ryan C. Gordon, Ethan Lee, Sarah Howarth, Aysha King, Josh Sewell, Conner Bailey, Brad Salah, Jack Sneath, Adam Carmichael, Brandon Connor, Piotr Nierobisz, SDL, .NET, Emscripten, Monogame, Raylib, FNA.
 </p>
 
 ---
