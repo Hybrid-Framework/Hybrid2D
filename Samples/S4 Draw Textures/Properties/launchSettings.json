@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "Sample.Test": {
+    "Sample": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

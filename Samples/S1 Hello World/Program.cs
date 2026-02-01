@@ -1,15 +1,12 @@
-using System;
+using App;
 
-namespace App
+public class Program
 {
-    public class Program
+    public static void Main()
     {
-        public static void Main()
+        var game = new s1_hello_world();
         {
-            var game = new Game();
-            {
-                game.Run();
-            }
+            game.Run();
         }
     }
 }
