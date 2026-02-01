@@ -51,6 +51,7 @@ namespace Hybrid
             Resources = new Resources();
             TouchKeyboard = new TouchKeyboard();
             Keyboard = new Keyboard();
+            Gamepad = new Gamepad();
             Mouse = new Mouse();
             Touch = new Touch();
             Time = new Time();

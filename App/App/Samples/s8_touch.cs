@@ -1,4 +1,4 @@
-﻿// This is a simple program to show you how to get input from a touch
+﻿// This is a simple program to show you how to get input from multiple touches
 
 using Hybrid;
 
@@ -6,20 +6,31 @@ namespace App
 {
     public class s8_touch : Hybrid.App
     {
-        public override void OnInitialize()
-        {
-            // Initialize logic here
-        }
+        private const int MaxTouches = 8;
+        private Point[] positions = new Point[MaxTouches];
+        private bool[] pressed = new bool[MaxTouches];
 
         public override void OnUpdate()
         {
-            // Update logic here
+            for (int i = 0; i < MaxTouches; i++)
+            {
+                pressed[i] = Touch.GetTouch(i);
+                positions[i] = Touch.GetTouchPosition(i);
+            }
         }
 
         public override void OnRender()
         {
-            // Render logic here
             Graphics.DrawBegin(Color.Black);
+
+            for (int i = 0; i < MaxTouches; i++)
+            {
+                if (pressed[i])
+                {
+                    Graphics.DrawCircle(positions[i], 64, Color.Green);
+                }
+            }
+            
             Graphics.DrawFps(10, 10, Color.White);
             Graphics.DrawEnd();
         }
