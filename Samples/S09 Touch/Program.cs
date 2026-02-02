@@ -4,7 +4,7 @@ public class Program
 {
     public static void Main()
     {
-        var game = new s6_keyboard();
+        var game = new s09_touch();
         {
             game.Run();
         }

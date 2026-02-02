@@ -5,7 +5,7 @@ using Hybrid;
 
 namespace App
 {
-    public class s7_gamepad : Hybrid.App
+    public class s07_gamepad : Hybrid.App
     {
         private float speed = 200;
         private bool pressed;

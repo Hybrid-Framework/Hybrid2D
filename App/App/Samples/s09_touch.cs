@@ -5,7 +5,7 @@ using Hybrid;
 
 namespace App
 {
-    public class s9_touch : Hybrid.App
+    public class s09_touch : Hybrid.App
     {
         private const int MaxTouches = 10;
         private Point[] positions = new Point[MaxTouches];

@@ -5,7 +5,7 @@ using Hybrid;
 
 namespace App
 {
-    public class s8_mouse : Hybrid.App
+    public class s08_mouse : Hybrid.App
     {
         private Point position;
         private bool pressed;

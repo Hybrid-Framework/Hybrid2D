@@ -4,7 +4,7 @@ using Hybrid;
 
 namespace App
 {
-    public class s3_shapes : Hybrid.App
+    public class s03_shapes : Hybrid.App
     {
         private Point[] velocities = new Point[count];
         private Color[] colors = new Color[count];

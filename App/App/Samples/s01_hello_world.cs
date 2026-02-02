@@ -5,7 +5,7 @@ using Hybrid;
 
 namespace App
 {
-    public class s1_hello_world : Hybrid.App
+    public class s01_hello_world : Hybrid.App
     {
         public override void OnInitialize()
         {

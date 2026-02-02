@@ -4,7 +4,7 @@ public class Program
 {
     public static void Main()
     {
-        var game = new s2_delta_time();
+        var game = new s03_shapes();
         {
             game.Run();
         }

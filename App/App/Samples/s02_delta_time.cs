@@ -4,7 +4,7 @@ using Hybrid;
 
 namespace App
 {
-    public class s2_delta_time : Hybrid.App
+    public class s02_delta_time : Hybrid.App
     {
         private float speed = 40f;
         private float size = 128f;
