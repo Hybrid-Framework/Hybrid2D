@@ -17,7 +17,14 @@ namespace Hybrid
         // Initialize
         internal override void OnInitialize()
         {
-            Handle = SDL.CreateWindow("", 600, 400, SDL.WindowFlags.Hidden | SDL.WindowFlags.InputFocus | SDL.WindowFlags.MouseFocus);
+            SDL.WindowFlags flags = SDL.WindowFlags.Hidden | SDL.WindowFlags.HighPixelDensity;
+            
+            if (OperatingSystem.IsAndroid() || OperatingSystem.IsIOS())
+            {
+                flags |= SDL.WindowFlags.Fullscreen;
+            }
+            
+            Handle = SDL.CreateWindow("", 600, 400, flags);
         }
         
         // Dispose
