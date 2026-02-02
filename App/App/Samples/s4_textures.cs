@@ -8,7 +8,7 @@ using Hybrid;
 
 namespace App
 {
-    public class s4_draw_textures : Hybrid.App
+    public class s4_textures : Hybrid.App
     {
         private Point[] velocities = new Point[count];
         private Rect[] rects = new Rect[count];

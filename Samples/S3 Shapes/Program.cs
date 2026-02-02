@@ -4,7 +4,7 @@ public class Program
 {
     public static void Main()
     {
-        var game = new s4_draw_textures();
+        var game = new s3_shapes();
         {
             game.Run();
         }
