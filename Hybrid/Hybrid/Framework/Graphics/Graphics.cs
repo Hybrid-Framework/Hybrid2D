@@ -370,8 +370,8 @@ namespace Hybrid
     // General
     public unsafe partial class Graphics
     {
-        // Draw begin (draw after this call)
-        public static void DrawBegin(Color color)
+        // Draw clear Color
+        public static void DrawClearColor(Color color)
         {
             SDL.SetRenderDrawColor(Handle, Color.ToSDLColor32(color));
             {
@@ -379,10 +379,19 @@ namespace Hybrid
             }
         }
         
-        // Draw clear (force clear drawing)
+        // Draw clear
         public static void DrawClear()
         {
             SDL.RenderClear(Handle);
+        }
+        
+        // Draw begin (draw after this call)
+        public static void DrawBegin(Color color)
+        {
+            SDL.SetRenderDrawColor(Handle, Color.ToSDLColor32(color));
+            {
+                SDL.RenderClear(Handle);
+            }
         }
 
         // Draw end (stop drawing after this call)
