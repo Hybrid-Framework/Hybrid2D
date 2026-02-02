@@ -10,6 +10,7 @@
         <NoWarn>$(NoWarn);NU5100;CS8766</NoWarn>
         <IsPackable>false</IsPackable>
         <Nullable>enable</Nullable>
+        <RootNamespace>S8_Touch</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

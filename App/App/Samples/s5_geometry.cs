@@ -5,7 +5,7 @@ using Hybrid;
 
 namespace App
 {
-    public class s10_geometry : Hybrid.App
+    public class s5_geometry : Hybrid.App
     {
         private float[] positions;
         private Color[] colors;

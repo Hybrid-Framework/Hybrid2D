@@ -74,17 +74,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S3 Shapes", "Samples\S3 Sha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S4 Textures", "Samples\S4 Textures\S4 Textures.csproj", "{00E9EBB1-E2D7-43FB-A2A1-C5D822C89A44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S5 Keyboard", "Samples\S5 Keyboard\S5 Keyboard.csproj", "{E61C42D7-CF04-4D56-9D52-A9CA7E362B36}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S6 Keyboard", "Samples\S6 Keyboard\S6 Keyboard.csproj", "{E61C42D7-CF04-4D56-9D52-A9CA7E362B36}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S6 Mouse", "Samples\S6 Mouse\S6 Mouse.csproj", "{FFE53FB7-B20E-4631-9C7C-8A8679F71550}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S8 Mouse", "Samples\S8 Mouse\S8 Mouse.csproj", "{FFE53FB7-B20E-4631-9C7C-8A8679F71550}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S7 Gamepad", "Samples\S7 Gamepad\S7 Gamepad.csproj", "{8034753F-889B-4EF8-A93A-12AC18CA929B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S8 Touch", "Samples\S8 Touch\S8 Touch.csproj", "{2FB3A653-B736-4BE7-98C0-39114DBAE3FC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S9 Touch", "Samples\S9 Touch\S9 Touch.csproj", "{2FB3A653-B736-4BE7-98C0-39114DBAE3FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S9 Audio", "Samples\S9 Audio\S9 Audio.csproj", "{BF028484-6E7A-4D73-B822-D36FC9A1EA60}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S10 Audio", "Samples\S10 Audio\S10 Audio.csproj", "{BF028484-6E7A-4D73-B822-D36FC9A1EA60}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S10 Geometry", "Samples\S10 Geometry\S10 Geometry.csproj", "{362B646E-5985-465A-AAC3-75420F630925}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S5 Geometry", "Samples\S5 Geometry\S5 Geometry.csproj", "{362B646E-5985-465A-AAC3-75420F630925}"
 EndProject
 
 Global

@@ -5,7 +5,7 @@ using Hybrid;
 
 namespace App
 {
-    public class s5_keyboard : Hybrid.App
+    public class s6_keyboard : Hybrid.App
     {
         private float speed = 100;
         private Rect rect;

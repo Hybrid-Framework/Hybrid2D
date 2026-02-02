@@ -4,7 +4,7 @@ public class Program
 {
     public static void Main()
     {
-        var game = new s9_audio();
+        var game = new s8_mouse();
         {
             game.Run();
         }
