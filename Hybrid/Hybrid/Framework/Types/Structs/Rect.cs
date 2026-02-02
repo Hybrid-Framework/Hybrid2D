@@ -27,6 +27,12 @@ namespace Hybrid
             this.width = width;
             this.height = height;
         }
+
+        // Constructor
+        public Rect()
+        {
+            
+        }
     }
     
     // SDL

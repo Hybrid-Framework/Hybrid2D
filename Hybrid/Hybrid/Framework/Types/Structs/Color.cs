@@ -3,30 +3,11 @@ using System;
 
 namespace Hybrid
 {
-    // Colors
+    // Color
     [StructLayout(LayoutKind.Sequential)]
     public partial struct Color
     {
-        // White Color
-        public static readonly Color White = new Color(1f, 1f, 1f, 1f);
-        
-        // Black Color
-        public static readonly Color Black = new Color(0f, 0f, 0f, 1f);
-        
-        // Red Color
-        public static readonly Color Red = new Color(1f, 0f, 0f, 1f);
-        
-        // Green Color
-        public static readonly Color Green = new Color(0f, 1f, 0f, 1f);
-        
-        // Blue Color
-        public static readonly Color Blue = new Color(0f, 0f, 1f, 1f);
-    }
-    
-    // Color
-    public partial struct Color
-    {
-        // Red Value
+        // Red Value (0 - 1)
         private float _r;
         public float r
         {
@@ -34,7 +15,7 @@ namespace Hybrid
             set => _r = Maths.Clamp01(value);
         }
         
-        // Green Value
+        // Green Value (0 - 1)
         private float _g;
         public float g
         {
@@ -42,7 +23,7 @@ namespace Hybrid
             set => _g = Maths.Clamp01(value);
         }
         
-        // Blue Value
+        // Blue Value (0 - 1)
         private float _b;
         public float b
         {
@@ -50,7 +31,7 @@ namespace Hybrid
             set => _b = Maths.Clamp01(value);
         }
         
-        // Alpha Value
+        // Alpha Value (0 - 1)
         private float _a;
         public float a
         {
@@ -65,6 +46,12 @@ namespace Hybrid
             this.g = g;
             this.b = b;
             this.a = a;
+        }
+        
+        // Constructor
+        public Color()
+        {
+            
         }
     }
 

@@ -13,7 +13,7 @@ namespace App
 
         public override void OnInitialize()
         {
-            rect = new Rect(Window.GetWidth() / 2, Window.GetHeight() / 2, 128, 128);
+            rect = new Rect(0, 0, 128, 128);
         }
 
         public override void OnUpdate()
@@ -46,9 +46,9 @@ namespace App
 
         public override void OnRender()
         {
-            Graphics.DrawBegin(Color.Black);
-            Graphics.DrawRectangle(rect, pressed ? Color.Green : Color.Red);
-            Graphics.DrawFps(10, 10, Color.White);
+            Graphics.DrawBegin(new Color(0, 0, 0));
+            Graphics.DrawRectangle(rect, pressed ? new Color(0, 1, 0) : new Color(1, 0, 0));
+            Graphics.DrawFps(10, 10, new Color(1, 1, 1));
             Graphics.DrawEnd();
         }
     }

@@ -109,7 +109,7 @@ namespace Hybrid
                 return touch.GetPositionDelta();
             }
 
-            return Point.Zero;
+            return new Point();
         }
         
         // Get touch position
@@ -120,7 +120,7 @@ namespace Hybrid
                 return touch.GetPosition();
             }
 
-            return Point.Zero;
+            return new Point();
         }
         
         // Get touch pressure

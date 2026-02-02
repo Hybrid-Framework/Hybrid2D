@@ -11,7 +11,7 @@ generate_structs()
     for file in "${STRUCT_FILES[@]}"; do
         struct_name=$(basename "$file")
         echo "---" >> "$DOC_FILE"
-        echo "### $struct_name" >> "$DOC_FILE"
+        echo "### $struct_name (struct)" >> "$DOC_FILE"
         echo '```csharp' >> "$DOC_FILE"
     
         awk '

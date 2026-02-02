@@ -26,7 +26,7 @@ namespace App
 
             colors = 
             [
-                Color.Red, Color.Green, Color.Blue
+                new Color(1, 0, 0), new Color(0, 1, 0), new Color(0, 0, 1)
             ];
             
             indices = [ 0, 1, 2 ];
@@ -34,9 +34,9 @@ namespace App
 
         public override void OnRender()
         {
-            Graphics.DrawBegin(Color.Black);
+            Graphics.DrawBegin(new Color(0, 0, 0));
             Graphics.DrawGeometry(positions, colors, indices);
-            Graphics.DrawFps(10, 10, Color.White);
+            Graphics.DrawFps(10, 10, new Color(1, 1, 1));
             Graphics.DrawEnd();
         }
     }

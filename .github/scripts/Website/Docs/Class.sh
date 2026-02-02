@@ -24,7 +24,7 @@ generate_classes()
     for file in "${CLASS_FILES[@]}"; do
         class_name=$(basename "$file")
         echo "---" >> "$DOC_FILE"
-        echo "### $class_name" >> "$DOC_FILE"
+        echo "### $class_name (class)" >> "$DOC_FILE"
         echo '```csharp' >> "$DOC_FILE"
     
         awk '

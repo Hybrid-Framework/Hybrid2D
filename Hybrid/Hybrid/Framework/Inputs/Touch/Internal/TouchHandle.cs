@@ -4,15 +4,15 @@ namespace Hybrid
 {
     internal class TouchHandle
     {
-        internal Point PositionDelta = Point.Zero;
-        internal Point Position = Point.Zero;
+        internal Point PositionDelta = new Point();
+        internal Point Position = new Point();
         internal State State = State.None;
         internal float Pressure;
         
         
         internal void Reset()
         {
-            PositionDelta = Point.Zero;
+            PositionDelta = new Point();
 
             if (GetTouchDown())
             {
@@ -23,8 +23,8 @@ namespace Hybrid
             {
                 State = State.None;
                 
-                PositionDelta = Point.Zero;
-                Position = Point.Zero;
+                PositionDelta = new Point();
+                Position = new Point();
                 Pressure = 0f;
             }
         }

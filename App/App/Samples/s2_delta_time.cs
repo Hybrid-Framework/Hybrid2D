@@ -29,10 +29,10 @@ namespace App
 
         public override void OnRender()
         {
-            Graphics.DrawBegin(Color.Black);
-            Graphics.DrawRectangle(deltaRect, Color.Red);
-            Graphics.DrawRectangle(frameRect, Color.Blue);
-            Graphics.DrawFps(10, 10, Color.White);
+            Graphics.DrawBegin(new Color(0, 0, 0));
+            Graphics.DrawRectangle(deltaRect, new Color(1, 0, 0));
+            Graphics.DrawRectangle(frameRect, new Color(0, 0, 1));
+            Graphics.DrawFps(10, 10, new Color(1, 1, 1));
             Graphics.DrawEnd();
         }
     }

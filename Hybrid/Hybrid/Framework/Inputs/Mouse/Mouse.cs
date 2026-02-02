@@ -8,9 +8,9 @@ namespace Hybrid
     public partial class Mouse : Module
     {
         private static readonly Dictionary<int, State> Buttons = new Dictionary<int, State>();
-        private static Point PositionDelta = Point.Zero;
-        private static Point ScrollDelta = Point.Zero;
-        private static Point Position = Point.Zero;
+        private static Point PositionDelta = new Point();
+        private static Point ScrollDelta = new Point();
+        private static Point Position = new Point();
         private const int MaxButtons = 8;
 
 
@@ -26,8 +26,8 @@ namespace Hybrid
         // Reset
         internal override void OnStartOfFrame()
         {
-            PositionDelta = Point.Zero;
-            ScrollDelta = Point.Zero;
+            PositionDelta = new Point();
+            ScrollDelta = new Point();
 
             foreach (var button in Buttons.Keys)
             {

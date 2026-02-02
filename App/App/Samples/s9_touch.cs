@@ -22,17 +22,17 @@ namespace App
 
         public override void OnRender()
         {
-            Graphics.DrawBegin(Color.Black);
+            Graphics.DrawBegin(new Color(0, 0, 0));
 
             for (int i = 0; i < MaxTouches; i++)
             {
                 if (pressed[i])
                 {
-                    Graphics.DrawCircle(positions[i], 64, Color.Green);
+                    Graphics.DrawCircle(positions[i], 64, new Color(0, 1, 0));
                 }
             }
             
-            Graphics.DrawFps(10, 10, Color.White);
+            Graphics.DrawFps(10, 10, new Color(1, 1, 1));
             Graphics.DrawEnd();
         }
     }

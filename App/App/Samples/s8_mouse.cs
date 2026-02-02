@@ -18,9 +18,9 @@ namespace App
 
         public override void OnRender()
         {
-            Graphics.DrawBegin(Color.Black);
-            Graphics.DrawCircle(position, 64, pressed ? Color.Green : Color.Red);
-            Graphics.DrawFps(10, 10, Color.White);
+            Graphics.DrawBegin(new Color(0, 0, 0));
+            Graphics.DrawCircle(position, 64, pressed ? new Color(0, 1, 0) : new Color(1, 0, 0));
+            Graphics.DrawFps(10, 10, new Color(1, 1, 1));
             Graphics.DrawEnd();
         }
     }
