@@ -2,7 +2,7 @@
 
 internal static unsafe partial class SDL
 {
-    public enum PathType
+    internal enum PathType
     {
         None = 0,
         File = 1,

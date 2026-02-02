@@ -2,7 +2,7 @@
 
 internal static unsafe partial class SDL
 {
-    public enum ScanCode
+    internal enum ScanCode
     {
         Unknown = 0,
         

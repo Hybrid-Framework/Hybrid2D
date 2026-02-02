@@ -2,7 +2,7 @@
 
 internal static unsafe partial class SDL
 {
-    public enum ColorSpace
+    internal enum ColorSpace
     {
         UNKNOWN = 0,
         SRGB = 301991328,

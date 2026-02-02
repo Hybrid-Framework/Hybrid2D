@@ -3,10 +3,10 @@
 internal static unsafe partial class SDL
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct CommonEvent
+    internal struct CommonEvent
     {
-        public uint type;
-        public uint reserved;
-        public ulong timestamp;
+        internal uint type;
+        internal uint reserved;
+        internal ulong timestamp;
     }
 }

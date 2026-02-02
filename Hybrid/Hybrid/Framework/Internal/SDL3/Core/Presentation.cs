@@ -4,7 +4,7 @@ using System;
 internal static unsafe partial class SDL
 {
     [Flags]
-    public enum Presentation
+    internal enum Presentation
     {
         Disabled = 0,
         Stretch = 1,

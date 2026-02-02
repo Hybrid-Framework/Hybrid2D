@@ -2,7 +2,7 @@
 
 internal static unsafe partial class SDL
 {
-    public enum PackedLayout
+    internal enum PackedLayout
     {
         NONE = 0,
         LAYOUT_332 = 1,

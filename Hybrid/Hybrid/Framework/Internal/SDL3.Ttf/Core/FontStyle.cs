@@ -4,7 +4,7 @@ using System;
 internal static unsafe partial class SDL_ttf
 {
     [Flags]
-    public enum FontStyle : uint
+    internal enum FontStyle : uint
     {
         Normal = 0x00,
         Bold = 0x01,

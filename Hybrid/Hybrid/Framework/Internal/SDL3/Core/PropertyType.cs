@@ -2,7 +2,7 @@
 
 internal static unsafe partial class SDL
 {
-    public enum PropertyType
+    internal enum PropertyType
     {
         Invalid = 0,
         Pointer = 1,

@@ -4,7 +4,7 @@ using System;
 internal static unsafe partial class SDL
 {
     [Flags]
-    public enum WindowFlags : ulong
+    internal enum WindowFlags : ulong
     {
         Fullscreen = 0x1,
         Hidden = 0x08,

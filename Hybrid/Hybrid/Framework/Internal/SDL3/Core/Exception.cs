@@ -2,9 +2,9 @@
 
 internal static unsafe partial class SDL
 {
-    public sealed class Exception : System.Exception
+    internal sealed class Exception : System.Exception
     {
-        public Exception() : base(SDL.GetError()) { }
-        public Exception(string message) : base($"{message}: {SDL.GetError()}") { }
+        internal Exception() : base(SDL.GetError()) { }
+        internal Exception(string message) : base($"{message}: {SDL.GetError()}") { }
     }
 }

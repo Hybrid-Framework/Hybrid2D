@@ -3,7 +3,7 @@
 internal static unsafe partial class SDL
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct Joystick
+    internal struct Joystick
     {
         
     }

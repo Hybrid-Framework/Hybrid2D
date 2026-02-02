@@ -3,10 +3,10 @@
 internal static unsafe partial class SDL_mixer
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct Point3D
+    internal struct Point3D
     {
-        public float x;
-        public float y;
-        public float z;
+        internal float x;
+        internal float y;
+        internal float z;
     }
 }

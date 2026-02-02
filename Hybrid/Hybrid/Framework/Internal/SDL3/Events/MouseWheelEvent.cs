@@ -3,19 +3,19 @@
 internal static unsafe partial class SDL
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct MouseWheelEvent
+    internal struct MouseWheelEvent
     {
-        public SDL.EventType type;
-        public uint reserved;
-        public ulong timestamp;
-        public uint windowID;
-        public uint mouseID;
-        public float x;
-        public float y;
-        public SDL.MouseWheelDirection direction;
-        public float x_mouse;
-        public float y_mouse;
-        public int x_integer;
-        public int y_integer;
+        internal SDL.EventType type;
+        internal uint reserved;
+        internal ulong timestamp;
+        internal uint windowID;
+        internal uint mouseID;
+        internal float x;
+        internal float y;
+        internal SDL.MouseWheelDirection direction;
+        internal float x_mouse;
+        internal float y_mouse;
+        internal int x_integer;
+        internal int y_integer;
     }
 }

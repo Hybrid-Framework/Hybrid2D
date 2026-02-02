@@ -3,87 +3,87 @@
 internal static unsafe partial class SDL
 {
     [StructLayout(LayoutKind.Explicit)]
-	public struct Event
+	internal struct Event
 	{
 		[FieldOffset(0)]
-		public SDL.EventType type;
+		internal SDL.EventType type;
 		
 		[FieldOffset(0)]
-		public SDL.CommonEvent common;
+		internal SDL.CommonEvent common;
 		
 		[FieldOffset(0)]
-		public SDL.DisplayEvent display;
+		internal SDL.DisplayEvent display;
 		
 		[FieldOffset(0)]
-		public SDL.WindowEvent window;
+		internal SDL.WindowEvent window;
 		
 		[FieldOffset(0)]
-		public SDL.KeyboardDeviceEvent keyboardDevice;
+		internal SDL.KeyboardDeviceEvent keyboardDevice;
 		
 		[FieldOffset(0)]
-		public SDL.KeyboardEvent keyboard;
+		internal SDL.KeyboardEvent keyboard;
 		
 		[FieldOffset(0)]
-		public SDL.TextEditingEvent textEditing;
+		internal SDL.TextEditingEvent textEditing;
 		
 		[FieldOffset(0)]
-		public SDL.TextEditingCandidatesEvent textEditingCandidates;
+		internal SDL.TextEditingCandidatesEvent textEditingCandidates;
 		
 		[FieldOffset(0)]
-		public SDL.TextInputEvent textInput;
+		internal SDL.TextInputEvent textInput;
 		
 		[FieldOffset(0)]
-		public SDL.MouseDeviceEvent mouseDevice;
+		internal SDL.MouseDeviceEvent mouseDevice;
 		
 		[FieldOffset(0)]
-		public SDL.MouseMotionEvent mouseMotion;
+		internal SDL.MouseMotionEvent mouseMotion;
 		
 		[FieldOffset(0)]
-		public SDL.MouseButtonEvent mouseButton;
+		internal SDL.MouseButtonEvent mouseButton;
 		
 		[FieldOffset(0)]
-		public SDL.MouseWheelEvent mouseWheel;
+		internal SDL.MouseWheelEvent mouseWheel;
 		
 		[FieldOffset(0)]
-		public JoystickDeviceEvent joystickDevice;
+		internal JoystickDeviceEvent joystickDevice;
 		
 		[FieldOffset(0)]
-		public JoystickAxisEvent joystickAxis;
+		internal JoystickAxisEvent joystickAxis;
 		
 		[FieldOffset(0)]
-		public JoystickBallEvent joystickBall;
+		internal JoystickBallEvent joystickBall;
 		
 		[FieldOffset(0)]
-		public JoystickHatEvent joystickHat;
+		internal JoystickHatEvent joystickHat;
 		
 		[FieldOffset(0)]
-		public JoystickButtonEvent joystickButton;
+		internal JoystickButtonEvent joystickButton;
 		
 		[FieldOffset(0)]
-		public SDL.GamepadDeviceEvent gamepadDevice;
+		internal SDL.GamepadDeviceEvent gamepadDevice;
 		
 		[FieldOffset(0)]
-		public SDL.GamepadAxisEvent gamepadAxis;
+		internal SDL.GamepadAxisEvent gamepadAxis;
 		
 		[FieldOffset(0)]
-		public SDL.GamepadButtonEvent gamepadButton;
+		internal SDL.GamepadButtonEvent gamepadButton;
 		
 		[FieldOffset(0)]
-		public SDL.AudioDeviceEvent audioDevice;
+		internal SDL.AudioDeviceEvent audioDevice;
 		
 		[FieldOffset(0)]
-		public SDL.QuitEvent quit;
+		internal SDL.QuitEvent quit;
 		
 		[FieldOffset(0)]
-		public SDL.TouchFingerEvent touchFinger;
+		internal SDL.TouchFingerEvent touchFinger;
 		
 		[FieldOffset(0)]
-		public SDL.RenderEvent render;
+		internal SDL.RenderEvent render;
 		
 		[FieldOffset(0)]
-		public SDL.ClipboardEvent clipboard;
+		internal SDL.ClipboardEvent clipboard;
 		
 		[FieldOffset(0)]
-		public fixed byte padding[128];
+		internal fixed byte padding[128];
 	}
 }

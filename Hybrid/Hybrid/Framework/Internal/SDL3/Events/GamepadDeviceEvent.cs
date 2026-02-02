@@ -3,11 +3,11 @@
 internal static unsafe partial class SDL
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct GamepadDeviceEvent
+    internal struct GamepadDeviceEvent
     {
-        public SDL.EventType type;
-        public uint reserved;
-        public ulong timestamp;
-        public uint gamepadID;
+        internal SDL.EventType type;
+        internal uint reserved;
+        internal ulong timestamp;
+        internal uint gamepadID;
     }
 }

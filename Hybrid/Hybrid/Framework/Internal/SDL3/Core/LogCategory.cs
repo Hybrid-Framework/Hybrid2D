@@ -2,7 +2,7 @@
 
 internal static unsafe partial class SDL
 {
-    public enum LogCategory
+    internal enum LogCategory
     {
         Application = 0,
         Error = 1,

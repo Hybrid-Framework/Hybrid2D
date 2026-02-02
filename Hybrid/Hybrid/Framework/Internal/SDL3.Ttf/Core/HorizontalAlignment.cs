@@ -2,7 +2,7 @@
 
 internal static unsafe partial class SDL_ttf
 {
-    public enum HorizontalAlignment
+    internal enum HorizontalAlignment
     {
         Invalid = -1,
         Left = 0,

@@ -4,7 +4,7 @@ using System;
 internal static unsafe partial class SDL
 {
     [Flags]
-    public enum InitFlags : uint
+    internal enum InitFlags : uint
     {
         Timer = 0x1,
         Audio = 0x10,

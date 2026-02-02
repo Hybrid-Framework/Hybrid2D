@@ -2,7 +2,7 @@
 
 internal static unsafe partial class SDL
 {
-    public enum KeyCode : uint
+    internal enum KeyCode : uint
     {
         Unknown = 0,
         

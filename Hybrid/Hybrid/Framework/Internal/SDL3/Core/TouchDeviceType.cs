@@ -2,7 +2,7 @@
 
 internal static unsafe partial class SDL
 {
-    public enum TouchDeviceType
+    internal enum TouchDeviceType
     {
         Invalid = -1,
         Direct = 0,

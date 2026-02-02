@@ -3,11 +3,11 @@
 internal static unsafe partial class SDL
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct Finger
+    internal struct Finger
     {
-        public ulong id;
-        public float x;
-        public float y;
-        public float pressure;
+        internal ulong id;
+        internal float x;
+        internal float y;
+        internal float pressure;
     }
 }

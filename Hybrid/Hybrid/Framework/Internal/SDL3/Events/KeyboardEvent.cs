@@ -3,18 +3,18 @@
 internal static unsafe partial class SDL
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct KeyboardEvent
+    internal struct KeyboardEvent
     {
-        public SDL.EventType type;
-        public uint reserved;
-        public ulong timestamp;
-        public uint windowID;
-        public uint keyboardID;
-        public SDL.ScanCode scanCode;
-        public SDL.KeyCode keyCode;
-        public SDL.KeyModifier keyModifier;
-        public ushort raw;
-        public SDL.Bool down;
-        public SDL.Bool repeat;
+        internal SDL.EventType type;
+        internal uint reserved;
+        internal ulong timestamp;
+        internal uint windowID;
+        internal uint keyboardID;
+        internal SDL.ScanCode scanCode;
+        internal SDL.KeyCode keyCode;
+        internal SDL.KeyModifier keyModifier;
+        internal ushort raw;
+        internal SDL.Bool down;
+        internal SDL.Bool repeat;
     }
 }

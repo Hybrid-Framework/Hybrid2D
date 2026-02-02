@@ -2,7 +2,7 @@
 
 internal static unsafe partial class SDL
 {
-    public enum MouseWheelDirection
+    internal enum MouseWheelDirection
     {
         Normal = 0,
         Flipped = 1,

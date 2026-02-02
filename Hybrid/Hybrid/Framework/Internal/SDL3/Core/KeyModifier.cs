@@ -4,7 +4,7 @@ using System;
 internal static unsafe partial class SDL
 {
     [Flags]
-    public enum KeyModifier : ushort
+    internal enum KeyModifier : ushort
     {
         None = 0,
         

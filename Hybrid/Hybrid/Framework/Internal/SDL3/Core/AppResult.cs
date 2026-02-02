@@ -2,7 +2,7 @@
 
 internal static unsafe partial class SDL
 {
-    public enum AppResult
+    internal enum AppResult
     {
         Continue = 0,
         Success = 1,

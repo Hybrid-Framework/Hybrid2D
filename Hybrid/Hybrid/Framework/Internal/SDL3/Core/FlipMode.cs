@@ -2,7 +2,7 @@
 
 internal static unsafe partial class SDL
 {
-    public enum FlipMode
+    internal enum FlipMode
     {
         None = 0,
         Horizontal = 1,

@@ -2,7 +2,7 @@
 
 internal static unsafe partial class SDL
 {
-    public enum Folder
+    internal enum Folder
     {
         Home = 0,
         Desktop = 1,

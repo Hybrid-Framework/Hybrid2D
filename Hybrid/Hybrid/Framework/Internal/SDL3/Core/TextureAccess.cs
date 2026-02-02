@@ -2,7 +2,7 @@
 
 internal static unsafe partial class SDL
 {
-    public enum TextureAccess
+    internal enum TextureAccess
     {
         Static = 0,
         Streaming = 1,

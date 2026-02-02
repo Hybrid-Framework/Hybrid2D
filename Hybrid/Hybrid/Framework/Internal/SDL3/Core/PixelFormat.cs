@@ -2,7 +2,7 @@
 
 internal static unsafe partial class SDL
 {
-    public enum PixelFormat
+    internal enum PixelFormat
     {
         UNKNOWN = 0,
         INDEX1LSB = 286261504,

@@ -2,11 +2,11 @@
 
 internal static unsafe partial class SDL
 {
-    public readonly struct Bool
+    internal readonly struct Bool
     {
         private readonly byte _value;
 
-        public Bool(bool value)
+        internal Bool(bool value)
         {
             _value = (byte)(value ? 1 : 0);
         }

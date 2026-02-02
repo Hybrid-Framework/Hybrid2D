@@ -3,18 +3,18 @@
 internal static unsafe partial class SDL
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct TouchFingerEvent
+    internal struct TouchFingerEvent
     {
-        public SDL.EventType type;
-        public uint reserved;
-        public ulong timestamp;
-        public ulong touchDeviceID;
-        public ulong fingerID;
-        public float x;
-        public float y;
-        public float x_delta;
-        public float y_delta;
-        public float pressure;
-        public uint windowID;
+        internal SDL.EventType type;
+        internal uint reserved;
+        internal ulong timestamp;
+        internal ulong touchDeviceID;
+        internal ulong fingerID;
+        internal float x;
+        internal float y;
+        internal float x_delta;
+        internal float y_delta;
+        internal float pressure;
+        internal uint windowID;
     }
 }

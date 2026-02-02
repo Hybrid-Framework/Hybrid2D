@@ -3,10 +3,10 @@
 internal static unsafe partial class SDL_mixer
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct StereoGains
+    internal struct StereoGains
     {
-        public float left;
-        public float right;
+        internal float left;
+        internal float right;
 
         internal StereoGains(float left, float right)
         {

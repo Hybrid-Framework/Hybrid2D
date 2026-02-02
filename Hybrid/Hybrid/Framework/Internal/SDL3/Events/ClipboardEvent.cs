@@ -3,13 +3,13 @@
 internal static unsafe partial class SDL
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct ClipboardEvent
+    internal struct ClipboardEvent
     {
-        public SDL.EventType type;
-        public uint reserved;
-        public ulong timestamp;
-        public SDL.Bool owner;
-        public int num_mime_types;
-        public byte** mime_types;
+        internal SDL.EventType type;
+        internal uint reserved;
+        internal ulong timestamp;
+        internal SDL.Bool owner;
+        internal int num_mime_types;
+        internal byte** mime_types;
     }
 }

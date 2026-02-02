@@ -2,7 +2,7 @@
 
 internal static unsafe partial class SDL
 {
-    public enum PixelType
+    internal enum PixelType
     {
         UNKNOWN = 0,
         INDEX1 = 1,

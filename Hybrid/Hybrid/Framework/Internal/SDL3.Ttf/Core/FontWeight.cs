@@ -2,7 +2,7 @@
 
 internal static unsafe partial class SDL_ttf
 {
-    public enum FontWeight : int
+    internal enum FontWeight : int
     {
         Thin = 100,
         ExtraLight = 200,

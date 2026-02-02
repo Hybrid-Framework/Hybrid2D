@@ -2,7 +2,7 @@
 
 internal static unsafe partial class SDL
 {
-    public enum EventType
+    internal enum EventType
     {
         Show = 514,
         Hide = 515,

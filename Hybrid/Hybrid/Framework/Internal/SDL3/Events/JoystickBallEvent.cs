@@ -3,17 +3,17 @@
 internal static unsafe partial class SDL
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct JoystickBallEvent
+    internal struct JoystickBallEvent
     {
-        public SDL.EventType type;
-        public uint reserved;
-        public ulong timestamp;
-        public uint joystickID;
-        public byte ball;
+        internal SDL.EventType type;
+        internal uint reserved;
+        internal ulong timestamp;
+        internal uint joystickID;
+        internal byte ball;
         private byte padding1;
         private byte padding2;
         private byte padding3;
-        public short x_relative;
-        public short y_relative;
+        internal short x_relative;
+        internal short y_relative;
     }
 }

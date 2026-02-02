@@ -2,7 +2,7 @@
 
 internal static unsafe partial class SDL
 {
-    public enum GamepadType
+    internal enum GamepadType
     {
         Unknown = 0,
         Generic = 1,

@@ -2,7 +2,7 @@
 
 internal static unsafe partial class SDL
 {
-    public enum BlendMode : uint
+    internal enum BlendMode : uint
     {
         None = 0x00000000,
         AlphaBlend = 0x00000001,

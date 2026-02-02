@@ -3,11 +3,11 @@
 internal static unsafe partial class SDL
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct Texture
+    internal struct Texture
     {
-        public SDL.PixelFormat format;
-        public int width;
-        public int height;
+        internal SDL.PixelFormat format;
+        internal int width;
+        internal int height;
         private int refcount;
     }
 }

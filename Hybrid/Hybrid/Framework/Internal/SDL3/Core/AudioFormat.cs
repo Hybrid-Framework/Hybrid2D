@@ -2,7 +2,7 @@
 
 internal static unsafe partial class SDL
 {
-    public enum AudioFormat
+    internal enum AudioFormat
     {
         Unknown = 0,
         U8 = 8,

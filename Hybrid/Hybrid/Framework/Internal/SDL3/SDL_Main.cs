@@ -5,23 +5,23 @@ internal static unsafe partial class SDL
 {
     // Main Function
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int MainFunction(int argc, IntPtr argv);
+    internal delegate int MainFunction(int argc, IntPtr argv);
     
     // App Init
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate SDL.AppResult SDL_AppInit(IntPtr state, int argc, IntPtr argv);
+    internal delegate SDL.AppResult SDL_AppInit(IntPtr state, int argc, IntPtr argv);
 
     // App Event
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate SDL.AppResult SDL_AppEvent(IntPtr state, SDL.Event* evt);
+    internal delegate SDL.AppResult SDL_AppEvent(IntPtr state, SDL.Event* evt);
 
     // App Quit
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void SDL_AppQuit(IntPtr state, SDL.AppResult result);
+    internal delegate void SDL_AppQuit(IntPtr state, SDL.AppResult result);
     
     // App Iterate
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate SDL.AppResult SDL_AppIterate(IntPtr state);
+    internal delegate SDL.AppResult SDL_AppIterate(IntPtr state);
 
     // Enter App Main Callbacks
     [DllImport(library, CallingConvention = CallingConvention.Cdecl)]

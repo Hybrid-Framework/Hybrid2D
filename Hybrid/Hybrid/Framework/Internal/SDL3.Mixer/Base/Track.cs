@@ -3,7 +3,7 @@
 internal static unsafe partial class SDL
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct Track
+    internal struct Track
     {
         
     }

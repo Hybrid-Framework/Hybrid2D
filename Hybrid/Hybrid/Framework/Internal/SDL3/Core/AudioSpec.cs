@@ -3,16 +3,16 @@
 internal static unsafe partial class SDL
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct AudioSpec
+    internal struct AudioSpec
     {
-        public SDL.AudioFormat format;
-        public int channels;
-        public int freq;
+        internal SDL.AudioFormat format;
+        internal int channels;
+        internal int freq;
         
-        public AudioSpec()
+        internal AudioSpec(SDL.AudioFormat format = SDL.AudioFormat.S16, int channels = 2, int frequency = 44100)
         {
             format = SDL.AudioFormat.S16;
-            channels = 1;
+            channels = 2;
             freq = 44100;
         }
     }

@@ -2,7 +2,7 @@
 
 internal static unsafe partial class SDL
 {
-    public enum JoystickConnectionState
+    internal enum JoystickConnectionState
     {
         Invalid = -1,
         Unknown = 0,

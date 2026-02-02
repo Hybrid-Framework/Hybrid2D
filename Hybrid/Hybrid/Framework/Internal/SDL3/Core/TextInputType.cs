@@ -3,7 +3,7 @@ using System;
 
 internal static unsafe partial class SDL
 {
-    public enum TextInputType : long
+    internal enum TextInputType : long
     {
         Default = 0, // Everything
         EmailOrURL = 2, // Letters, Symbols, Numbers (email or url focused)

@@ -2,7 +2,7 @@
 
 internal static unsafe partial class SDL
 {
-    public enum ArrayOrder
+    internal enum ArrayOrder
     {
         NONE = 0,
         RGB = 1,

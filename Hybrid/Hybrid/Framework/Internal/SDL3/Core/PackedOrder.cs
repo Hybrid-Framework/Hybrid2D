@@ -2,7 +2,7 @@
 
 internal static unsafe partial class SDL
 {
-    public enum PackedOrder
+    internal enum PackedOrder
     {
         NONE = 0,
         XRGB = 1,

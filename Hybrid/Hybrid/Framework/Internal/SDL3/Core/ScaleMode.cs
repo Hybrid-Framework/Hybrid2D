@@ -2,7 +2,7 @@
 
 internal static unsafe partial class SDL
 {
-    public enum ScaleMode
+    internal enum ScaleMode
     {
         Nearest = 0,
         Linear = 1,

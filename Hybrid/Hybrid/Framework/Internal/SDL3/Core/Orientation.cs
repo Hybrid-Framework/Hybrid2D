@@ -2,7 +2,7 @@
 
 internal static unsafe partial class SDL
 {
-    public enum Orientation
+    internal enum Orientation
     {
         Unknown = 0,
         Landscape = 1,

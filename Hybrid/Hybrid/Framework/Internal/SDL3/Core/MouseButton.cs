@@ -2,7 +2,7 @@
 
 internal static unsafe partial class SDL
 {
-    public enum MouseButton : uint
+    internal enum MouseButton : uint
     {
         Left   = 1,
         Middle = 2,

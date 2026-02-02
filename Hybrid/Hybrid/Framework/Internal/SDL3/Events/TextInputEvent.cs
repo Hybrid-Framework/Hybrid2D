@@ -3,12 +3,12 @@
 internal static unsafe partial class SDL
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct TextInputEvent
+    internal struct TextInputEvent
     {
-        public SDL.EventType type;
-        public uint reserved;
-        public ulong timestamp;
-        public uint windowID;
-        public byte* text;
+        internal SDL.EventType type;
+        internal uint reserved;
+        internal ulong timestamp;
+        internal uint windowID;
+        internal byte* text;
     }
 }

@@ -4,14 +4,14 @@ using System;
 internal static unsafe partial class SDL
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct Surface
+    internal struct Surface
     {
-        public SDL.SurfaceFlags flags;
-        public SDL.PixelFormat format;
-        public int width;
-        public int height;
-        public int pitch;
-        public IntPtr pixels;
+        internal SDL.SurfaceFlags flags;
+        internal SDL.PixelFormat format;
+        internal int width;
+        internal int height;
+        internal int pitch;
+        internal IntPtr pixels;
         private int refcount;
         private IntPtr reserved;
     }

@@ -2,7 +2,7 @@
 
 internal static unsafe partial class SDL_ttf
 {
-    public enum Direction : int
+    internal enum Direction : int
     {
         Invalid = 0,
         LeftToRight = 4,

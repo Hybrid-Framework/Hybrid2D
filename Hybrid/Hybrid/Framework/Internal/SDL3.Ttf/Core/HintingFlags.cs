@@ -2,7 +2,7 @@
 
 internal static unsafe partial class SDL_ttf
 {
-    public enum HintingFlags : int
+    internal enum HintingFlags : int
     {
         Invalid = -1,
         Normal = 0,
