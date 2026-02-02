@@ -17,7 +17,7 @@ namespace Hybrid
         // Initialize
         internal override void OnInitialize()
         {
-            SDL.WindowFlags flags = SDL.WindowFlags.Hidden | SDL.WindowFlags.HighPixelDensity;
+            SDL.WindowFlags flags = SDL.WindowFlags.Hidden;
             
             if (OperatingSystem.IsAndroid() || OperatingSystem.IsIOS())
             {
