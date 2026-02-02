@@ -155,15 +155,6 @@ namespace Hybrid
     // Gamepads API
     public partial class Gamepad
     {
-        // Rumble gamepad for ms
-        public static void Rumble(int index, float strength, float ms)
-        {
-            if (Gamepads.TryGetValue(index, out var gamepad))
-            {
-                gamepad.Rumble(strength, ms);
-            }
-        }
-        
         // Get gamepad button pressed
         public static bool GetButton(int index, Button button)
         {
@@ -226,6 +217,15 @@ namespace Hybrid
             }
 
             return 0;
+        }
+        
+        // Rumble gamepad for ms
+        public static void Rumble(int index, float strength, float ms)
+        {
+            if (Gamepads.TryGetValue(index, out var gamepad))
+            {
+                gamepad.Rumble(strength, ms);
+            }
         }
     }
 }

@@ -95,35 +95,4 @@ namespace Hybrid
             return SDL_ttf.GetFontHeight(font.Handle);
         }
     }
-    
-    // Text
-    public unsafe partial class Font
-    {
-        // Measure text size using font and size
-        public static Point MeasureSize(Font font, string text, float size)
-        {
-            SDL_ttf.GetStringSize(font.Handle, text, out int w, out int h);
-            {
-                float scale = size / Font.DefaultSize;
-
-                return new Point
-                (
-                    (int)(w * scale),
-                    (int)(h * scale)
-                );
-            }
-        }
-        
-        // Measure text width using font and size
-        public static float MeasureWidth(Font font, string text, float size)
-        {
-            return MeasureSize(font, text, size).x;
-        }
-        
-        // Measure text height using font and size
-        public static float MeasureHeight(Font font, string text, float size)
-        {
-            return MeasureSize(font, text, size).y;
-        }
-    }
 }

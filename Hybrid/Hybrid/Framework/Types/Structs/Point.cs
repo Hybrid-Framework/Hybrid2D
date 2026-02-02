@@ -19,12 +19,6 @@ namespace Hybrid
             this.x = x;
             this.y = y;
         }
-
-        // Constructor
-        public Point()
-        {
-            
-        }
     }
     
     // SDL

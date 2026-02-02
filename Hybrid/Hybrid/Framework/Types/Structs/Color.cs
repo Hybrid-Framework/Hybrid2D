@@ -47,12 +47,6 @@ namespace Hybrid
             this.b = b;
             this.a = a;
         }
-        
-        // Constructor
-        public Color()
-        {
-            
-        }
     }
 
     // SDL

@@ -21,7 +21,7 @@ namespace Hybrid
             
             if (OperatingSystem.IsAndroid() || OperatingSystem.IsIOS())
             {
-                flags |= SDL.WindowFlags.Fullscreen;
+                flags |= SDL.WindowFlags.Fullscreen | SDL.WindowFlags.Resizable;
             }
             
             Handle = SDL.CreateWindow("", 600, 400, flags);
@@ -41,6 +41,27 @@ namespace Hybrid
     // Window
     public unsafe partial class Window
     {
+        // Get display or monitor size
+        public static Point GetMonitorSize()
+        {
+            var display = SDL.GetDisplayForWindow(Handle);
+            {
+                SDL.GetDisplayBounds(display, out SDL.RectInt rect);
+                {
+                    return new Point(rect.w, rect.h);
+                }
+            }
+        }
+        
+        // Get display or monitor name
+        public static string GetMonitorName()
+        {
+            var display = SDL.GetDisplayForWindow(Handle);
+            {
+                return SDL.GetDisplayName(display);
+            }
+        }
+        
         // Set window icon from file
         public static void SetIcon(string path)
         {
@@ -238,21 +259,6 @@ namespace Hybrid
             }
         }
         
-        // Set window aspect ratio
-        public static void SetAspectRatio(Point size)
-        {
-            SDL.SetWindowAspectRatio(Handle, size.x, size.y);
-        }
-
-        // Get window aspect ratio
-        public static Point GetAspectRatio()
-        {
-            SDL.GetWindowAspectRatio(Handle, out float w, out float h);
-            {
-                return new Point(w, h);
-            }
-        }
-        
         // Set window vsync
         public static void SetVSync(bool enabled)
         {
@@ -264,7 +270,7 @@ namespace Hybrid
         {
             SDL.GetRenderVSync(Graphics.Handle, out int vsync);
             {
-                return vsync > 0 ? true : false;
+                return vsync > 0;
             }
         }
         

@@ -19,14 +19,9 @@ namespace Hybrid
             Handle = SDL.CreateRenderer(Window.Handle, null);
             {
                 SDL.SetDefaultTextureScaleMode(Handle, SDL.ScaleMode.Pixel);
-                SDL.SetRenderVSync(Handle, 1);
             }
-        }
-
-        // Render
-        internal override void OnRender()
-        {
-            SDL.SetRenderLogicalPresentation(Handle, Window.GetWidth(), Window.GetHeight(), SDL.Presentation.IntegerScaled | SDL.Presentation.Letterbox);
+            
+            Window.SetVSync(true);
         }
 
         // Dispose
@@ -36,6 +31,40 @@ namespace Hybrid
             {
                 SDL.DestroyRenderer(Handle);
                 Handle = null;
+            }
+        }
+    }
+
+    // Graphics
+    public unsafe partial class Graphics
+    {
+        // Set graphical resolution (set resolution with letterbox)
+        public static void SetResolution(Point size)
+        {
+            SDL.SetRenderLogicalPresentation(Handle, (int)size.x, (int)size.y, SDL.Presentation.Letterbox);
+        }
+        
+        // Get graphical resolution
+        public static Point GetResolution()
+        {
+            SDL.GetRenderLogicalPresentation(Handle, out int w, out int h, out var presentation);
+            {
+                return new Point(w, h);
+            }
+        }
+        
+        // Set graphical scale
+        public static void SetScale(Point size)
+        {
+            SDL.SetRenderScale(Handle, size.x, size.y);
+        }
+        
+        // Get graphical scale
+        public static Point GetScale()
+        {
+            SDL.GetRenderScale(Handle, out float w, out float h);
+            {
+                return new Point(w, h);
             }
         }
     }
@@ -348,6 +377,12 @@ namespace Hybrid
             {
                 SDL.RenderClear(Handle);
             }
+        }
+        
+        // Draw clear (force clear drawing)
+        public static void DrawClear()
+        {
+            SDL.RenderClear(Handle);
         }
 
         // Draw end (stop drawing after this call)
