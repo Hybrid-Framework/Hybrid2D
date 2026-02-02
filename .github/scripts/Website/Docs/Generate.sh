@@ -26,8 +26,9 @@ source "$BASE_DIR/Struct.sh"
 generate_structs
 
 # ------ ENUMS ----------------------------------------------------------------------------------------------------
-source "$BASE_DIR/Enum.sh"
-generate_enums
+# uncomment this to display enums in docs
+#source "$BASE_DIR/Enum.sh"
+#generate_enums
 
 # ------ Complete -------------------------------------------------------------------------------------------------
 echo "Documentation generated successfully."
