@@ -20,6 +20,9 @@ Created by Lloyd J Howarth
 [Template](https://github.com/Hybrid-Framework/Hybrid2D-Template) •
 [Samples](https://www.hybrid2d.com/Samples) •
 [License](#license)
+
+⚠️ **This project is no longer being maintained. Use at your own risk** ⚠️
+
 </div>
 
 <h2 id="overview">🔍 Overview</h2>
